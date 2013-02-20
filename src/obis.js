@@ -71,30 +71,30 @@ jQuery.extend( obis, {
 	/*
 		statement = {
 
-			id: String,
-			iban: String,
-			bic: String,
-			type: String,
-			name: String,
-			accountNumber: String,
-			sortCode: String,
-			date: Date,
+			"id": String,                  // Unique ID
+			"iban": String,                // International Bank Account Number
+			"bic": String,                 // Business Identifier Code
+			"type": String,                // Account type (eg; "Current Account")
+			"name": String,                // Account name (eg; "My Account")
+			"accountNumber": String,       // Account number (eg; "123456789")
+			"sortCode": String,            // Account sort-code (eg; "102030")
+			"date": Date,                  // Statement date
 
-			entries: Array of {
-				id: String,
-				date: Date,
-				type: String,
-				description: String,
-				memo: String,
+			"entries": Array of <Entry> = {
+				"id": String,              // Unique ID
+				"date": Date,              // Transaction date
+				"type": String,            // Transaction type
+				"description": String,     // Transaction description
+				"memo": String,            // Transaction memo
 
-				debit: Number,
-				credit: Number,
-				balance: Number
+				"debit": Number,           // Amount debited
+				"credit": Number,          // Amount credited
+				"balance": Number          // Bank-calculated balance
 			},
 
-			balances: Array of <Entry>,
+			"balances": Array of <Entry>,  // Start and end balances
 
-			processed: Boolean
+			"processed": Boolean           // Statement contains "complete" data
 
 		};
 	*/
