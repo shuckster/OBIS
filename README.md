@@ -19,6 +19,8 @@ naming of your Zip download.
 
 Saves a Zip of your statements in OFX, QIF, CSV, JSON, or all of them.
 
+![Screenshot of HSBC UK parser](screenshot.gif)
+
 ## Instructions
 
 Open `dist/bookmarklet.js`, copy everything, paste into a new bookmark, log in

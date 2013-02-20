@@ -70,7 +70,7 @@ to use them. Have a look at the source if you're interested.
 This method should be overloaded by the parser, and is automatically called
 after initialisation.
 
-__ Example usage: __
+##### Example usage:
 
 	jQuery.extend( obis, {
 		parse: function () {
@@ -120,7 +120,7 @@ The `processed` variable is useful in case your bank-statements need more than
 one _pass_ to get all the data. For example, HSBC UK Personal Banking requires
 you to follow a link in order to retrieve the full memo of a transaction.
 
-__ Example usage: __
+##### Example usage:
 
 	parse: function () {
 		var statement = this.myFancyStatementParser( document );
@@ -140,7 +140,7 @@ button-text.
 OBIS will take care of enabling/disabling the generated button depending on
 whether or not the model has any data in it.
 
-__ Example usage: __
+##### Example usage:
 
 	parse: function () {
 
@@ -169,7 +169,7 @@ the page.
 OBIS will take care of enabling/disabling the generated button depending on
 whether or not the model has any data in it.
 
-__ Example usage: __
+##### Example usage:
 
 	parse: function () {
 
@@ -193,7 +193,7 @@ Generate a _Generator Picker_ as a jQuery object that you can insert into the
 page. The Generator Picker is a bunch of checkboxes where the user can select
 the data formats they want in the Zip download.
 
-__ Example usage: __
+##### Example usage:
 
 	parse: function () {
 
@@ -216,7 +216,7 @@ __ Example usage: __
 See if any previously inserted _View statement(s)_ or _Download Zip_ buttons
 should be enabled or not.
 
-__ Example usage: __
+##### Example usage:
 
 	parse: function() {
 
