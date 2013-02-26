@@ -5,7 +5,7 @@ OBIS: Online Banking Is Shit
 
 Copyright (c) 2013 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
-MIT licensed: See LICENSE.md
+MIT licensed: See [LICENSE.md](LICENSE.md)
 
 ## About
 
@@ -31,7 +31,8 @@ but don't rely on it! Check back on the Github page if it breaks.
 
 ## Developers
 
-Open API.md for instructions on how to use OBIS with your own parsers.
+Open [API.md](API.md) for instructions on how to use OBIS with your own
+parsers.
 
 ## Credits
 

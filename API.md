@@ -5,7 +5,7 @@ OBIS: Online Banking Is Shit
 
 Copyright (c) 2013 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
-MIT licensed: See LICENSE.md
+MIT licensed: See [LICENSE.md](LICENSE.md)
 
 ## About
 
