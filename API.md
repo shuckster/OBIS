@@ -46,6 +46,7 @@ no excuse for not making at least a half-arsed effort at writing a parser. :)
 
 ### Public methods
 
+```javascript
 	// Entry point
 	obis.parse()
 
@@ -57,6 +58,7 @@ no excuse for not making at least a half-arsed effort at writing a parser. :)
 	obis.drawDownloadZipButton()
 	obis.drawGeneratorPicker()
 	obis.toggleViewAndDownloadButtons()
+```
 
 These are the OBIS "public" methods. There are others, but you shouldn't need
 to use them. Have a look at the source if you're interested.
@@ -72,12 +74,14 @@ after initialisation.
 
 ##### Example usage:
 
+```javascript
 	jQuery.extend( obis, {
 		parse: function () {
 			// Perform parsing on bank-statement, invoke various
 			// OBIS API methods to draw buttons, etc...
 		}
 	});
+```
 
 ### Model
 
@@ -87,6 +91,7 @@ after initialisation.
 
 Add a statement to the model. The schema should look like this:
 
+```javascript
 	statement = {
 
 		"id": String,                  // Unique ID
@@ -115,6 +120,7 @@ Add a statement to the model. The schema should look like this:
 		"processed": Boolean           // Statement contains "complete" data
 
 	};
+```
 
 The `processed` variable is useful in case your bank-statements need more than
 one _pass_ to get all the data. For example, HSBC UK Personal Banking requires
@@ -122,10 +128,12 @@ you to follow a link in order to retrieve the full memo of a transaction.
 
 ##### Example usage:
 
+```javascript
 	parse: function () {
 		var statement = this.myFancyStatementParser( document );
 		this.addStatement( statement );
 	}
+```
 
 ### Views
 
@@ -142,6 +150,7 @@ whether or not the model has any data in it.
 
 ##### Example usage:
 
+```javascript
 	parse: function () {
 
 		// Figure out how many statements we can parse on this page
@@ -156,6 +165,7 @@ whether or not the model has any data in it.
 		);
 
 	}
+```
 
 - - -
 
@@ -171,6 +181,7 @@ whether or not the model has any data in it.
 
 ##### Example usage:
 
+```javascript
 	parse: function () {
 
 		// Find a place where we can attach our button...
@@ -182,6 +193,7 @@ whether or not the model has any data in it.
 		);
 
 	}
+```
 
 - - -
 
@@ -195,6 +207,7 @@ the data formats they want in the Zip download.
 
 ##### Example usage:
 
+```javascript
 	parse: function () {
 
 		// Find a place where we can attach our picker...
@@ -206,6 +219,7 @@ the data formats they want in the Zip download.
 		);
 
 	}
+```
 
 - - -
 
@@ -218,6 +232,7 @@ should be enabled or not.
 
 ##### Example usage:
 
+```javascript
 	parse: function() {
 
 		// Pre-parse, draw buttons + pickers
@@ -239,12 +254,14 @@ should be enabled or not.
 		});
 
 	}
+```
 
 ## A pseudo-code example
 
 Lets see how we might structure a parser with some simple pseudo-code. The
 HSBC UK parser is loosely structured this way:
 
+```javascript
 	// Extend the main OBIS object
 	jQuery.extend( obis, {
 
@@ -286,6 +303,7 @@ HSBC UK parser is loosely structured this way:
 		}
 
 	});
+```
 
 Obviously the real parser is a bit more complex than this, but this gives a
 rough idea of how to structure one.
@@ -298,12 +316,14 @@ when to use it.
 
 Open `src/main.js` and look for these lines:
 
+```javascript
 	var parsers = [
 		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?hsbc\.co\.uk\//,
 			url: 'https://dl.dropbox.com/s/0cj7lq25n3m3rev/hsbc.js?dl=1' },
 		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS-tests/,
 			url: '/OBIS/src/parsers/hsbc.js' }
 	];
+```
 
 OBIS tests a Regular Expression `rx` against the current URL. If it passes,
 that parser will be loaded and its `parse()` method invoked.
