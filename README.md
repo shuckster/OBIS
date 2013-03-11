@@ -26,8 +26,9 @@ Saves a Zip of your statements in OFX, QIF, CSV, JSON, or all of them.
 Open `dist/bookmarklet.js`, copy everything, paste into a new bookmark, log in
 to your HSBC UK _Previous Statements_ page, click the new bookmark.
 
-That bookmark will load OBIS from my Dropbox share. I'll try and keep it up,
-but don't rely on it! Check back on the Github page if it breaks.
+That bookmark will load OBIS directly from the Github raw master, so if
+something breaks you shouldn't need to do anything when it gets fixed. (Except
+maybe clear your browser-cache).
 
 ## Developers
 

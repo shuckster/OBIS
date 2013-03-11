@@ -26,7 +26,7 @@
 
 	// Various bank statement parsers (and by "various" I mean "HSBC UK")
 	var parsers = [
-		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?hsbc\.co\.uk\//, url: 'https://dl.dropbox.com/s/p0rv0xsitrwdhp7/hsbc.js?dl=1' },
+		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?hsbc\.co\.uk\//, url: 'https://raw.github.com/shuckster/OBIS/master/dist/parsers/hsbc.js' },
 		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS-tests/, url: '/OBIS/dist/parsers/hsbc.js' }
 	];
 
@@ -35,7 +35,7 @@
 	 */
 
 	var loadQueue = [
-		'https://dl.dropbox.com/s/omcb1yq49nncfo0/obis.js?dl=1',
+		'https://raw.github.com/shuckster/OBIS/master/dist/obis.js',
 	];
 
 	// Load jQuery if we're missing it
