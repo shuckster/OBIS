@@ -319,7 +319,7 @@ Open `src/main.js` and look for these lines:
 ```javascript
 	var parsers = [
 		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?hsbc\.co\.uk\//,
-			url: 'https://dl.dropbox.com/s/0cj7lq25n3m3rev/hsbc.js?dl=1' },
+			url: 'https://raw.github.com/shuckster/OBIS/master/dist/parsers/hsbc.js' },
 		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS-tests/,
 			url: '/OBIS/src/parsers/hsbc.js' }
 	];
