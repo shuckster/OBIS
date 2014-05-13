@@ -1,5 +1,3 @@
-`EDIT: 12th May 2014` Just noticed Github now serve the JS as text/plain, which breaks the Bookmarklet in various browsers. Hosting the files yourself will fix the problem. Alternatively, wait a week or two while I work out a solution.
-
 OBIS: Online Banking Is Shit
 ==============================
 
