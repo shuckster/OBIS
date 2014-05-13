@@ -2,7 +2,7 @@
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2013 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: qif.js: QIF generator

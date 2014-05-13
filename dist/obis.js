@@ -1,13 +1,15 @@
 /*
 
+`EDIT: 12th May 2014` Just noticed Github now serve the JS as text/plain, which breaks the Bookmarklet in various browsers. Hosting the files yourself will fix the problem. Alternatively, wait a week or two while I work out a solution.
+
 OBIS: Online Banking Is Shit
 ==============================
 
 #### A JavaScript framework for downloading bank statements
 
-Copyright (c) 2013 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
+Copyright (c) 2014 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
-MIT licensed: See LICENSE.md
+MIT licensed: See [LICENSE.md](LICENSE.md)
 
 ## About
 
@@ -21,17 +23,21 @@ naming of your Zip download.
 
 Saves a Zip of your statements in OFX, QIF, CSV, JSON, or all of them.
 
+![Screenshot of HSBC UK parser](screenshot.gif)
+
 ## Instructions
 
 Open `dist/bookmarklet.js`, copy everything, paste into a new bookmark, log in
 to your HSBC UK _Previous Statements_ page, click the new bookmark.
 
-That bookmark will load OBIS from my Dropbox share. I'll try and keep it up,
-but don't rely on it! Check back on the Github page if it breaks.
+That bookmark will load OBIS directly from the Github raw master, so if
+something breaks you shouldn't need to do anything when it gets fixed. (Except
+maybe clear your browser-cache).
 
 ## Developers
 
-Open API.md for instructions on how to use OBIS with your own parsers.
+Open [API.md](API.md) for instructions on how to use OBIS with your own
+parsers.
 
 ## Credits
 
@@ -2956,7 +2962,7 @@ if(!JSZip.compressions["DEFLATE"]) {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2013 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: utils.js: Helper methods
@@ -3067,7 +3073,7 @@ jQuery.extend( obis, {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2013 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: obis.js: The obis object
@@ -3136,30 +3142,30 @@ jQuery.extend( obis, {
 	/*
 		statement = {
 
-			id: String,
-			iban: String,
-			bic: String,
-			type: String,
-			name: String,
-			accountNumber: String,
-			sortCode: String,
-			date: Date,
+			"id": String,                  // Unique ID
+			"iban": String,                // International Bank Account Number
+			"bic": String,                 // Business Identifier Code
+			"type": String,                // Account type (eg; "Current Account")
+			"name": String,                // Account name (eg; "My Account")
+			"accountNumber": String,       // Account number (eg; "123456789")
+			"sortCode": String,            // Account sort-code (eg; "102030")
+			"date": Date,                  // Statement date
 
-			entries: Array of {
-				id: String,
-				date: Date,
-				type: String,
-				description: String,
-				memo: String,
+			"entries": Array of <Entry> = {
+				"id": String,              // Unique ID
+				"date": Date,              // Transaction date
+				"type": String,            // Transaction type
+				"description": String,     // Transaction description
+				"memo": String,            // Transaction memo
 
-				debit: Number,
-				credit: Number,
-				balance: Number
+				"debit": Number,           // Amount debited
+				"credit": Number,          // Amount credited
+				"balance": Number          // Bank-calculated balance
 			},
 
-			balances: Array of <Entry>,
+			"balances": Array of <Entry>,  // Start and end balances
 
-			processed: Boolean
+			"processed": Boolean           // Statement contains "complete" data
 
 		};
 	*/
@@ -3564,7 +3570,7 @@ jQuery.extend( obis, {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2013 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: csv.js: CSV generator
@@ -3629,7 +3635,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2013 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: json.js: JSON generator
@@ -3668,7 +3674,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2013 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: ofx.js: OFX 1.0.2 generator
@@ -3813,7 +3819,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2013 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: qif.js: QIF generator

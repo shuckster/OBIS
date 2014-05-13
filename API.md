@@ -3,7 +3,7 @@ OBIS: Online Banking Is Shit
 
 #### A JavaScript framework for downloading bank statements
 
-Copyright (c) 2013 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
+Copyright (c) 2014 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
 MIT licensed: See [LICENSE.md](LICENSE.md)
 
@@ -319,7 +319,7 @@ Open `src/main.js` and look for these lines:
 ```javascript
 	var parsers = [
 		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?hsbc\.co\.uk\//,
-			url: 'https://raw.github.com/shuckster/OBIS/master/dist/parsers/hsbc.js' },
+			url: 'https://raw.githubusercontent.com/shuckster/OBIS/master/dist/parsers/hsbc.js' },
 		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS-tests/,
 			url: '/OBIS/src/parsers/hsbc.js' }
 	];

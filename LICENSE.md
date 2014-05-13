@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 
-Copyright (c) 2013 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
+Copyright (c) 2014 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
