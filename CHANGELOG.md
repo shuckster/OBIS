@@ -12,7 +12,7 @@ MIT licensed: See [LICENSE.md](LICENSE.md)
 28th September 2014:
 - Bugfix HSBC UK parsing of "Balance" columns
 
-13th May 2013:
+13th May 2014:
 - Use Github Pages to host dist/ files
 
 20th February 2013:
