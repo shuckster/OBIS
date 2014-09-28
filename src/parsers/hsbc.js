@@ -396,7 +396,9 @@ jQuery.extend( obis, {
 			rxBalanceCol = /Balance/,
 
 			rxIsBalanceEntry = /^Balance (brought|carried) forward$/,
-			rxTableIsStatement = /statement.*account/;
+			rxTableIsStatement = /statement.*account/,
+
+			rxBalanceWithDebitMarker = /([^D]+)(D?$)/;
 
 		// Get statement
 		var elStatementTable = ROOT.find( 'table[summary="This table contains a statement of your account"]' );
@@ -436,7 +438,8 @@ jQuery.extend( obis, {
 			statementEntries = [],
 			runningBalances = [],
 			runningBalance = null,
-			latestTransactionDate = new Date( preparse.date );
+			latestTransactionDate = new Date( preparse.date ),
+			balanceIncludesDebitColumn = false;
 
 		// Get columns
 		elStatementHeader = elStatementTable.find( 'thead' );
@@ -450,7 +453,17 @@ jQuery.extend( obis, {
 			if ( rxDescCol.test( html ) ) { columns.push( 'Description' ); }
 			if ( rxDebitCol.test( html ) ) { columns.push( 'Debit' ); }
 			if ( rxCreditCol.test( html ) ) { columns.push( 'Credit' ); }
-			if ( rxBalanceCol.test( html ) ) { columns.push( 'Balance' ); }
+
+			if ( rxBalanceCol.test( html ) ) {
+
+				columns.push( 'Balance' );
+
+				if ( 2 == el.attr( 'colspan' ) ) {
+
+					balanceIncludesDebitColumn = true;
+					columns.push( 'Marker' );
+				}
+			}
 
 		});
 
@@ -472,6 +485,7 @@ jQuery.extend( obis, {
 			elRow.find( '> td' ).each( function _forEach( colIndex ) {
 
 				var tempDate, entryDate, colType, colData, elColData,
+					matches, amount, marker,
 					elCol = jQuery( this );
 
 				if ( columns.length > colIndex ) {
@@ -535,7 +549,34 @@ jQuery.extend( obis, {
 						break;
 
 						case 'Balance':
-							entry.balance = parseFloat( '' == colData ? '0' : colData );
+
+							amount = 0;
+
+							if ( balanceIncludesDebitColumn ) {
+
+								amount = parseFloat( '' == colData ? '0' : colData );
+							}
+							else if ( matches = colData.match( rxBalanceWithDebitMarker ) ) {
+
+								amount = matches[ 1 ];
+								amount = parseFloat( '' == amount ? '0' : amount );
+								marker = matches[ 2 ];
+
+								if ( 'D' === marker ) {
+									amount = -amount;
+								}
+							}
+
+							entry.balance = amount;
+
+						break;
+
+						case 'Marker':
+
+							if ( ( 'D' === colData ) && entry.balance ) {
+								entry.balance = -entry.balance;
+							}
+
 						break;
 
 					}
