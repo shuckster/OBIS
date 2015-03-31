@@ -2,7 +2,7 @@
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: main.js: Bookmarklet loader
@@ -26,7 +26,7 @@
 
 	// Various bank statement parsers (and by "various" I mean "HSBC UK")
 	var parsers = [
-		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?hsbc\.co\.uk\//, url: 'https://dl.dropbox.com/s/0cj7lq25n3m3rev/hsbc.js?dl=1' },
+		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?(saas\.)?hsbc\.co\.uk\//, url: 'https://dl.dropbox.com/s/0cj7lq25n3m3rev/hsbc.js?dl=1' },
 		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS-tests/, url: '/OBIS/src/parsers/hsbc.js' }
 	];
 

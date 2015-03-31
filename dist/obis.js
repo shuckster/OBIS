@@ -1,13 +1,11 @@
 /*
 
-`EDIT: 12th May 2014` Just noticed Github now serve the JS as text/plain, which breaks the Bookmarklet in various browsers. Hosting the files yourself will fix the problem. Alternatively, wait a week or two while I work out a solution.
-
 OBIS: Online Banking Is Shit
 ==============================
 
 #### A JavaScript framework for downloading bank statements
 
-Copyright (c) 2014 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
+Copyright (c) 2015 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
 MIT licensed: See [LICENSE.md](LICENSE.md)
 
@@ -60,7 +58,7 @@ jQuery 1.5.2 is used because that's the version HSBC UK use.
 /* FileSaver.js
  * A saveAs() FileSaver implementation.
  * 2013-01-23
- * 
+ *
  * By Eli Grey, http://eligrey.com
  * License: X11/MIT
  *   See LICENSE.md
@@ -261,7 +259,7 @@ var saveAs = saveAs
 	FS_proto.readyState = FS_proto.INIT = 0;
 	FS_proto.WRITING = 1;
 	FS_proto.DONE = 2;
-	
+
 	FS_proto.error =
 	FS_proto.onwritestart =
 	FS_proto.onprogress =
@@ -270,7 +268,7 @@ var saveAs = saveAs
 	FS_proto.onerror =
 	FS_proto.onwriteend =
 		null;
-	
+
 	view.addEventListener("unload", process_deletion_queue, false);
 	return saveAs;
 }(self));
@@ -1264,7 +1262,7 @@ var JSZipBase64 = (function() {
 /*
  * Port of a script by Masanao Izumo.
  *
- * Only changes : wrap all the variables in a function and add the 
+ * Only changes : wrap all the variables in a function and add the
  * main function to JSZip (DEFLATE compression method).
  * Everything else was written by M. Izumo.
  *
@@ -1808,7 +1806,7 @@ var zip_fill_window = function() {
 //	System.arraycopy(window, WSIZE, window, 0, WSIZE);
 	for(n = 0; n < zip_WSIZE; n++)
 	    zip_window[n] = zip_window[n + zip_WSIZE];
-      
+
 	zip_match_start -= zip_WSIZE;
 	zip_strstart    -= zip_WSIZE; /* we now have strstart >= MAX_DIST: */
 	zip_block_start -= zip_WSIZE;
@@ -2092,7 +2090,7 @@ var zip_qcopy = function(buff, off, buff_size) {
 //      System.arraycopy(qhead.ptr, qhead.off, buff, off + n, i);
 	for(j = 0; j < i; j++)
 	    buff[off + n + j] = zip_qhead.ptr[zip_qhead.off + j];
-	
+
 	zip_qhead.off += i;
 	zip_qhead.len -= i;
 	n += i;
@@ -2962,7 +2960,7 @@ if(!JSZip.compressions["DEFLATE"]) {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: utils.js: Helper methods
@@ -3073,7 +3071,7 @@ jQuery.extend( obis, {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: obis.js: The obis object
@@ -3570,7 +3568,7 @@ jQuery.extend( obis, {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: csv.js: CSV generator
@@ -3635,7 +3633,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: json.js: JSON generator
@@ -3674,7 +3672,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: ofx.js: OFX 1.0.2 generator
@@ -3819,7 +3817,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: qif.js: QIF generator
