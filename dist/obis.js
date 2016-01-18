@@ -1,13 +1,11 @@
 /*
 
-`EDIT: 12th May 2014` Just noticed Github now serve the JS as text/plain, which breaks the Bookmarklet in various browsers. Hosting the files yourself will fix the problem. Alternatively, wait a week or two while I work out a solution.
-
 OBIS: Online Banking Is Shit
 ==============================
 
 #### A JavaScript framework for downloading bank statements
 
-Copyright (c) 2014 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
+Copyright (c) 2016 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
 MIT licensed: See [LICENSE.md](LICENSE.md)
 
@@ -60,7 +58,7 @@ jQuery 1.5.2 is used because that's the version HSBC UK use.
 /* FileSaver.js
  * A saveAs() FileSaver implementation.
  * 2013-01-23
- * 
+ *
  * By Eli Grey, http://eligrey.com
  * License: X11/MIT
  *   See LICENSE.md
@@ -75,257 +73,912 @@ jQuery 1.5.2 is used because that's the version HSBC UK use.
 var saveAs = saveAs
   || (navigator.msSaveBlob && navigator.msSaveBlob.bind(navigator))
   || (function(view) {
-	"use strict";
-	var
-		  doc = view.document
-		  // only get URL when necessary in case BlobBuilder.js hasn't overridden it yet
-		, get_URL = function() {
-			return view.URL || view.webkitURL || view;
-		}
-		, URL = view.URL || view.webkitURL || view
-		, save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
-		, can_use_save_link = "download" in save_link
-		, click = function(node) {
-			var event = doc.createEvent("MouseEvents");
-			event.initMouseEvent(
-				"click", true, false, view, 0, 0, 0, 0, 0
-				, false, false, false, false, 0, null
-			);
-			return node.dispatchEvent(event); // false if event was cancelled
-		}
-		, webkit_req_fs = view.webkitRequestFileSystem
-		, req_fs = view.requestFileSystem || webkit_req_fs || view.mozRequestFileSystem
-		, throw_outside = function (ex) {
-			(view.setImmediate || view.setTimeout)(function() {
-				throw ex;
-			}, 0);
-		}
-		, force_saveable_type = "application/octet-stream"
-		, fs_min_size = 0
-		, deletion_queue = []
-		, process_deletion_queue = function() {
-			var i = deletion_queue.length;
-			while (i--) {
-				var file = deletion_queue[i];
-				if (typeof file === "string") { // file is an object URL
-					URL.revokeObjectURL(file);
-				} else { // file is a File
-					file.remove();
-				}
-			}
-			deletion_queue.length = 0; // clear queue
-		}
-		, dispatch = function(filesaver, event_types, event) {
-			event_types = [].concat(event_types);
-			var i = event_types.length;
-			while (i--) {
-				var listener = filesaver["on" + event_types[i]];
-				if (typeof listener === "function") {
-					try {
-						listener.call(filesaver, event || filesaver);
-					} catch (ex) {
-						throw_outside(ex);
-					}
-				}
-			}
-		}
-		, FileSaver = function(blob, name) {
-			// First try a.download, then web filesystem, then object URLs
-			var
-				  filesaver = this
-				, type = blob.type
-				, blob_changed = false
-				, object_url
-				, target_view
-				, get_object_url = function() {
-					var object_url = get_URL().createObjectURL(blob);
-					deletion_queue.push(object_url);
-					return object_url;
-				}
-				, dispatch_all = function() {
-					dispatch(filesaver, "writestart progress write writeend".split(" "));
-				}
-				// on any filesys errors revert to saving with object URLs
-				, fs_error = function() {
-					// don't create more object URLs than needed
-					if (blob_changed || !object_url) {
-						object_url = get_object_url(blob);
-					}
-					if (target_view) {
-						target_view.location.href = object_url;
-					}
-					filesaver.readyState = filesaver.DONE;
-					dispatch_all();
-				}
-				, abortable = function(func) {
-					return function() {
-						if (filesaver.readyState !== filesaver.DONE) {
-							return func.apply(this, arguments);
-						}
-					};
-				}
-				, create_if_not_found = {create: true, exclusive: false}
-				, slice
-			;
-			filesaver.readyState = filesaver.INIT;
-			if (!name) {
-				name = "download";
-			}
-			if (can_use_save_link) {
-				object_url = get_object_url(blob);
-				save_link.href = object_url;
-				save_link.download = name;
-				if (click(save_link)) {
-					filesaver.readyState = filesaver.DONE;
-					dispatch_all();
-					return;
-				}
-			}
-			// Object and web filesystem URLs have a problem saving in Google Chrome when
-			// viewed in a tab, so I force save with application/octet-stream
-			// http://code.google.com/p/chromium/issues/detail?id=91158
-			if (view.chrome && type && type !== force_saveable_type) {
-				slice = blob.slice || blob.webkitSlice;
-				blob = slice.call(blob, 0, blob.size, force_saveable_type);
-				blob_changed = true;
-			}
-			// Since I can't be sure that the guessed media type will trigger a download
-			// in WebKit, I append .download to the filename.
-			// https://bugs.webkit.org/show_bug.cgi?id=65440
-			if (webkit_req_fs && name !== "download") {
-				name += ".download";
-			}
-			if (type === force_saveable_type || webkit_req_fs) {
-				target_view = view;
-			} else {
-				target_view = view.open();
-			}
-			if (!req_fs) {
-				fs_error();
-				return;
-			}
-			fs_min_size += blob.size;
-			req_fs(view.TEMPORARY, fs_min_size, abortable(function(fs) {
-				fs.root.getDirectory("saved", create_if_not_found, abortable(function(dir) {
-					var save = function() {
-						dir.getFile(name, create_if_not_found, abortable(function(file) {
-							file.createWriter(abortable(function(writer) {
-								writer.onwriteend = function(event) {
-									target_view.location.href = file.toURL();
-									deletion_queue.push(file);
-									filesaver.readyState = filesaver.DONE;
-									dispatch(filesaver, "writeend", event);
-								};
-								writer.onerror = function() {
-									var error = writer.error;
-									if (error.code !== error.ABORT_ERR) {
-										fs_error();
-									}
-								};
-								"writestart progress write abort".split(" ").forEach(function(event) {
-									writer["on" + event] = filesaver["on" + event];
-								});
-								writer.write(blob);
-								filesaver.abort = function() {
-									writer.abort();
-									filesaver.readyState = filesaver.DONE;
-								};
-								filesaver.readyState = filesaver.WRITING;
-							}), fs_error);
-						}), fs_error);
-					};
-					dir.getFile(name, {create: false}, abortable(function(file) {
-						// delete file if it already exists
-						file.remove();
-						save();
-					}), abortable(function(ex) {
-						if (ex.code === ex.NOT_FOUND_ERR) {
-							save();
-						} else {
-							fs_error();
-						}
-					}));
-				}), fs_error);
-			}), fs_error);
-		}
-		, FS_proto = FileSaver.prototype
-		, saveAs = function(blob, name) {
-			return new FileSaver(blob, name);
-		}
-	;
-	FS_proto.abort = function() {
-		var filesaver = this;
-		filesaver.readyState = filesaver.DONE;
-		dispatch(filesaver, "abort");
-	};
-	FS_proto.readyState = FS_proto.INIT = 0;
-	FS_proto.WRITING = 1;
-	FS_proto.DONE = 2;
-	
-	FS_proto.error =
-	FS_proto.onwritestart =
-	FS_proto.onprogress =
-	FS_proto.onwrite =
-	FS_proto.onabort =
-	FS_proto.onerror =
-	FS_proto.onwriteend =
-		null;
-	
-	view.addEventListener("unload", process_deletion_queue, false);
-	return saveAs;
+    "use strict";
+    var
+          doc = view.document
+          // only get URL when necessary in case BlobBuilder.js hasn't overridden it yet
+        , get_URL = function() {
+            return view.URL || view.webkitURL || view;
+        }
+        , URL = view.URL || view.webkitURL || view
+        , save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
+        , can_use_save_link = "download" in save_link
+        , click = function(node) {
+            var event = doc.createEvent("MouseEvents");
+            event.initMouseEvent(
+                "click", true, false, view, 0, 0, 0, 0, 0
+                , false, false, false, false, 0, null
+            );
+            return node.dispatchEvent(event); // false if event was cancelled
+        }
+        , webkit_req_fs = view.webkitRequestFileSystem
+        , req_fs = view.requestFileSystem || webkit_req_fs || view.mozRequestFileSystem
+        , throw_outside = function (ex) {
+            (view.setImmediate || view.setTimeout)(function() {
+                throw ex;
+            }, 0);
+        }
+        , force_saveable_type = "application/octet-stream"
+        , fs_min_size = 0
+        , deletion_queue = []
+        , process_deletion_queue = function() {
+            var i = deletion_queue.length;
+            while (i--) {
+                var file = deletion_queue[i];
+                if (typeof file === "string") { // file is an object URL
+                    URL.revokeObjectURL(file);
+                } else { // file is a File
+                    file.remove();
+                }
+            }
+            deletion_queue.length = 0; // clear queue
+        }
+        , dispatch = function(filesaver, event_types, event) {
+            event_types = [].concat(event_types);
+            var i = event_types.length;
+            while (i--) {
+                var listener = filesaver["on" + event_types[i]];
+                if (typeof listener === "function") {
+                    try {
+                        listener.call(filesaver, event || filesaver);
+                    } catch (ex) {
+                        throw_outside(ex);
+                    }
+                }
+            }
+        }
+        , FileSaver = function(blob, name) {
+            // First try a.download, then web filesystem, then object URLs
+            var
+                  filesaver = this
+                , type = blob.type
+                , blob_changed = false
+                , object_url
+                , target_view
+                , get_object_url = function() {
+                    var object_url = get_URL().createObjectURL(blob);
+                    deletion_queue.push(object_url);
+                    return object_url;
+                }
+                , dispatch_all = function() {
+                    dispatch(filesaver, "writestart progress write writeend".split(" "));
+                }
+                // on any filesys errors revert to saving with object URLs
+                , fs_error = function() {
+                    // don't create more object URLs than needed
+                    if (blob_changed || !object_url) {
+                        object_url = get_object_url(blob);
+                    }
+                    if (target_view) {
+                        target_view.location.href = object_url;
+                    }
+                    filesaver.readyState = filesaver.DONE;
+                    dispatch_all();
+                }
+                , abortable = function(func) {
+                    return function() {
+                        if (filesaver.readyState !== filesaver.DONE) {
+                            return func.apply(this, arguments);
+                        }
+                    };
+                }
+                , create_if_not_found = {create: true, exclusive: false}
+                , slice
+            ;
+            filesaver.readyState = filesaver.INIT;
+            if (!name) {
+                name = "download";
+            }
+            if (can_use_save_link) {
+                object_url = get_object_url(blob);
+                save_link.href = object_url;
+                save_link.download = name;
+                if (click(save_link)) {
+                    filesaver.readyState = filesaver.DONE;
+                    dispatch_all();
+                    return;
+                }
+            }
+            // Object and web filesystem URLs have a problem saving in Google Chrome when
+            // viewed in a tab, so I force save with application/octet-stream
+            // http://code.google.com/p/chromium/issues/detail?id=91158
+            if (view.chrome && type && type !== force_saveable_type) {
+                slice = blob.slice || blob.webkitSlice;
+                blob = slice.call(blob, 0, blob.size, force_saveable_type);
+                blob_changed = true;
+            }
+            // Since I can't be sure that the guessed media type will trigger a download
+            // in WebKit, I append .download to the filename.
+            // https://bugs.webkit.org/show_bug.cgi?id=65440
+            if (webkit_req_fs && name !== "download") {
+                name += ".download";
+            }
+            if (type === force_saveable_type || webkit_req_fs) {
+                target_view = view;
+            } else {
+                target_view = view.open();
+            }
+            if (!req_fs) {
+                fs_error();
+                return;
+            }
+            fs_min_size += blob.size;
+            req_fs(view.TEMPORARY, fs_min_size, abortable(function(fs) {
+                fs.root.getDirectory("saved", create_if_not_found, abortable(function(dir) {
+                    var save = function() {
+                        dir.getFile(name, create_if_not_found, abortable(function(file) {
+                            file.createWriter(abortable(function(writer) {
+                                writer.onwriteend = function(event) {
+                                    target_view.location.href = file.toURL();
+                                    deletion_queue.push(file);
+                                    filesaver.readyState = filesaver.DONE;
+                                    dispatch(filesaver, "writeend", event);
+                                };
+                                writer.onerror = function() {
+                                    var error = writer.error;
+                                    if (error.code !== error.ABORT_ERR) {
+                                        fs_error();
+                                    }
+                                };
+                                "writestart progress write abort".split(" ").forEach(function(event) {
+                                    writer["on" + event] = filesaver["on" + event];
+                                });
+                                writer.write(blob);
+                                filesaver.abort = function() {
+                                    writer.abort();
+                                    filesaver.readyState = filesaver.DONE;
+                                };
+                                filesaver.readyState = filesaver.WRITING;
+                            }), fs_error);
+                        }), fs_error);
+                    };
+                    dir.getFile(name, {create: false}, abortable(function(file) {
+                        // delete file if it already exists
+                        file.remove();
+                        save();
+                    }), abortable(function(ex) {
+                        if (ex.code === ex.NOT_FOUND_ERR) {
+                            save();
+                        } else {
+                            fs_error();
+                        }
+                    }));
+                }), fs_error);
+            }), fs_error);
+        }
+        , FS_proto = FileSaver.prototype
+        , saveAs = function(blob, name) {
+            return new FileSaver(blob, name);
+        }
+    ;
+    FS_proto.abort = function() {
+        var filesaver = this;
+        filesaver.readyState = filesaver.DONE;
+        dispatch(filesaver, "abort");
+    };
+    FS_proto.readyState = FS_proto.INIT = 0;
+    FS_proto.WRITING = 1;
+    FS_proto.DONE = 2;
+
+    FS_proto.error =
+    FS_proto.onwritestart =
+    FS_proto.onprogress =
+    FS_proto.onwrite =
+    FS_proto.onabort =
+    FS_proto.onerror =
+    FS_proto.onwriteend =
+        null;
+
+    view.addEventListener("unload", process_deletion_queue, false);
+    return saveAs;
 }(self));
 
-/*
- *  Javascript crc32
- *  http://www.webtoolkit.info/javascript-crc32.html
- */
+// https://github.com/satazor/SparkMD5
+// 2.0.0
 
-function crc32 (str) {
+(function (factory) {
+    if (typeof exports === 'object') {
+        // Node/CommonJS
+        module.exports = factory();
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD
+        define(factory);
+    } else {
+        // Browser globals (with support for web workers)
+        var glob;
 
-    function Utf8Encode(string) {
-    	string = string.replace(/\r\n/g,"\n");
-    	var utftext = "";
+        try {
+            glob = window;
+        } catch (e) {
+            glob = self;
+        }
 
-    	for (var n = 0; n < string.length; n++) {
+        glob.SparkMD5 = factory();
+    }
+}(function (undefined) {
 
-    		var c = string.charCodeAt(n);
+    'use strict';
 
-    		if (c < 128) {
-    			utftext += String.fromCharCode(c);
-    		}
-    		else if((c > 127) && (c < 2048)) {
-    			utftext += String.fromCharCode((c >> 6) | 192);
-    			utftext += String.fromCharCode((c & 63) | 128);
-    		}
-    		else {
-    			utftext += String.fromCharCode((c >> 12) | 224);
-    			utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-    			utftext += String.fromCharCode((c & 63) | 128);
-    		}
+    /*
+     * Fastest md5 implementation around (JKM md5).
+     * Credits: Joseph Myers
+     *
+     * @see http://www.myersdaily.org/joseph/javascript/md5-text.html
+     * @see http://jsperf.com/md5-shootout/7
+     */
 
-    	}
+    /* this function is much faster,
+      so if possible we use it. Some IEs
+      are the only ones I know of that
+      need the idiotic second function,
+      generated by an if clause.  */
+    var add32 = function (a, b) {
+        return (a + b) & 0xFFFFFFFF;
+    },
+        hex_chr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 
-    	return utftext;
-    };
 
-    str = Utf8Encode(str);
-
-    var table = "00000000 77073096 EE0E612C 990951BA 076DC419 706AF48F E963A535 9E6495A3 0EDB8832 79DCB8A4 E0D5E91E 97D2D988 09B64C2B 7EB17CBD E7B82D07 90BF1D91 1DB71064 6AB020F2 F3B97148 84BE41DE 1ADAD47D 6DDDE4EB F4D4B551 83D385C7 136C9856 646BA8C0 FD62F97A 8A65C9EC 14015C4F 63066CD9 FA0F3D63 8D080DF5 3B6E20C8 4C69105E D56041E4 A2677172 3C03E4D1 4B04D447 D20D85FD A50AB56B 35B5A8FA 42B2986C DBBBC9D6 ACBCF940 32D86CE3 45DF5C75 DCD60DCF ABD13D59 26D930AC 51DE003A C8D75180 BFD06116 21B4F4B5 56B3C423 CFBA9599 B8BDA50F 2802B89E 5F058808 C60CD9B2 B10BE924 2F6F7C87 58684C11 C1611DAB B6662D3D 76DC4190 01DB7106 98D220BC EFD5102A 71B18589 06B6B51F 9FBFE4A5 E8B8D433 7807C9A2 0F00F934 9609A88E E10E9818 7F6A0DBB 086D3D2D 91646C97 E6635C01 6B6B51F4 1C6C6162 856530D8 F262004E 6C0695ED 1B01A57B 8208F4C1 F50FC457 65B0D9C6 12B7E950 8BBEB8EA FCB9887C 62DD1DDF 15DA2D49 8CD37CF3 FBD44C65 4DB26158 3AB551CE A3BC0074 D4BB30E2 4ADFA541 3DD895D7 A4D1C46D D3D6F4FB 4369E96A 346ED9FC AD678846 DA60B8D0 44042D73 33031DE5 AA0A4C5F DD0D7CC9 5005713C 270241AA BE0B1010 C90C2086 5768B525 206F85B3 B966D409 CE61E49F 5EDEF90E 29D9C998 B0D09822 C7D7A8B4 59B33D17 2EB40D81 B7BD5C3B C0BA6CAD EDB88320 9ABFB3B6 03B6E20C 74B1D29A EAD54739 9DD277AF 04DB2615 73DC1683 E3630B12 94643B84 0D6D6A3E 7A6A5AA8 E40ECF0B 9309FF9D 0A00AE27 7D079EB1 F00F9344 8708A3D2 1E01F268 6906C2FE F762575D 806567CB 196C3671 6E6B06E7 FED41B76 89D32BE0 10DA7A5A 67DD4ACC F9B9DF6F 8EBEEFF9 17B7BE43 60B08ED5 D6D6A3E8 A1D1937E 38D8C2C4 4FDFF252 D1BB67F1 A6BC5767 3FB506DD 48B2364B D80D2BDA AF0A1B4C 36034AF6 41047A60 DF60EFC3 A867DF55 316E8EEF 4669BE79 CB61B38C BC66831A 256FD2A0 5268E236 CC0C7795 BB0B4703 220216B9 5505262F C5BA3BBE B2BD0B28 2BB45A92 5CB36A04 C2D7FFA7 B5D0CF31 2CD99E8B 5BDEAE1D 9B64C2B0 EC63F226 756AA39C 026D930A 9C0906A9 EB0E363F 72076785 05005713 95BF4A82 E2B87A14 7BB12BAE 0CB61B38 92D28E9B E5D5BE0D 7CDCEFB7 0BDBDF21 86D3D2D4 F1D4E242 68DDB3F8 1FDA836E 81BE16CD F6B9265B 6FB077E1 18B74777 88085AE6 FF0F6A70 66063BCA 11010B5C 8F659EFF F862AE69 616BFFD3 166CCF45 A00AE278 D70DD2EE 4E048354 3903B3C2 A7672661 D06016F7 4969474D 3E6E77DB AED16A4A D9D65ADC 40DF0B66 37D83BF0 A9BCAE53 DEBB9EC5 47B2CF7F 30B5FFE9 BDBDF21C CABAC28A 53B39330 24B4A3A6 BAD03605 CDD70693 54DE5729 23D967BF B3667A2E C4614AB8 5D681B02 2A6F2B94 B40BBE37 C30C8EA1 5A05DF1B 2D02EF8D";
-
-    if (typeof(crc) == "undefined") { crc = 0; }
-    var x = 0;
-    var y = 0;
-
-    crc = crc ^ (-1);
-    for( var i = 0, iTop = str.length; i < iTop; i++ ) {
-    	y = ( crc ^ str.charCodeAt( i ) ) & 0xFF;
-    	x = "0x" + table.substr( y * 9, 8 );
-    	crc = ( crc >>> 8 ) ^ x;
+    function cmn(q, a, b, x, s, t) {
+        a = add32(add32(a, q), add32(x, t));
+        return add32((a << s) | (a >>> (32 - s)), b);
     }
 
-    return crc ^ (-1);
+    function ff(a, b, c, d, x, s, t) {
+        return cmn((b & c) | ((~b) & d), a, b, x, s, t);
+    }
 
-}
+    function gg(a, b, c, d, x, s, t) {
+        return cmn((b & d) | (c & (~d)), a, b, x, s, t);
+    }
+
+    function hh(a, b, c, d, x, s, t) {
+        return cmn(b ^ c ^ d, a, b, x, s, t);
+    }
+
+    function ii(a, b, c, d, x, s, t) {
+        return cmn(c ^ (b | (~d)), a, b, x, s, t);
+    }
+
+    function md5cycle(x, k) {
+        var a = x[0],
+            b = x[1],
+            c = x[2],
+            d = x[3];
+
+        a = ff(a, b, c, d, k[0], 7, -680876936);
+        d = ff(d, a, b, c, k[1], 12, -389564586);
+        c = ff(c, d, a, b, k[2], 17, 606105819);
+        b = ff(b, c, d, a, k[3], 22, -1044525330);
+        a = ff(a, b, c, d, k[4], 7, -176418897);
+        d = ff(d, a, b, c, k[5], 12, 1200080426);
+        c = ff(c, d, a, b, k[6], 17, -1473231341);
+        b = ff(b, c, d, a, k[7], 22, -45705983);
+        a = ff(a, b, c, d, k[8], 7, 1770035416);
+        d = ff(d, a, b, c, k[9], 12, -1958414417);
+        c = ff(c, d, a, b, k[10], 17, -42063);
+        b = ff(b, c, d, a, k[11], 22, -1990404162);
+        a = ff(a, b, c, d, k[12], 7, 1804603682);
+        d = ff(d, a, b, c, k[13], 12, -40341101);
+        c = ff(c, d, a, b, k[14], 17, -1502002290);
+        b = ff(b, c, d, a, k[15], 22, 1236535329);
+
+        a = gg(a, b, c, d, k[1], 5, -165796510);
+        d = gg(d, a, b, c, k[6], 9, -1069501632);
+        c = gg(c, d, a, b, k[11], 14, 643717713);
+        b = gg(b, c, d, a, k[0], 20, -373897302);
+        a = gg(a, b, c, d, k[5], 5, -701558691);
+        d = gg(d, a, b, c, k[10], 9, 38016083);
+        c = gg(c, d, a, b, k[15], 14, -660478335);
+        b = gg(b, c, d, a, k[4], 20, -405537848);
+        a = gg(a, b, c, d, k[9], 5, 568446438);
+        d = gg(d, a, b, c, k[14], 9, -1019803690);
+        c = gg(c, d, a, b, k[3], 14, -187363961);
+        b = gg(b, c, d, a, k[8], 20, 1163531501);
+        a = gg(a, b, c, d, k[13], 5, -1444681467);
+        d = gg(d, a, b, c, k[2], 9, -51403784);
+        c = gg(c, d, a, b, k[7], 14, 1735328473);
+        b = gg(b, c, d, a, k[12], 20, -1926607734);
+
+        a = hh(a, b, c, d, k[5], 4, -378558);
+        d = hh(d, a, b, c, k[8], 11, -2022574463);
+        c = hh(c, d, a, b, k[11], 16, 1839030562);
+        b = hh(b, c, d, a, k[14], 23, -35309556);
+        a = hh(a, b, c, d, k[1], 4, -1530992060);
+        d = hh(d, a, b, c, k[4], 11, 1272893353);
+        c = hh(c, d, a, b, k[7], 16, -155497632);
+        b = hh(b, c, d, a, k[10], 23, -1094730640);
+        a = hh(a, b, c, d, k[13], 4, 681279174);
+        d = hh(d, a, b, c, k[0], 11, -358537222);
+        c = hh(c, d, a, b, k[3], 16, -722521979);
+        b = hh(b, c, d, a, k[6], 23, 76029189);
+        a = hh(a, b, c, d, k[9], 4, -640364487);
+        d = hh(d, a, b, c, k[12], 11, -421815835);
+        c = hh(c, d, a, b, k[15], 16, 530742520);
+        b = hh(b, c, d, a, k[2], 23, -995338651);
+
+        a = ii(a, b, c, d, k[0], 6, -198630844);
+        d = ii(d, a, b, c, k[7], 10, 1126891415);
+        c = ii(c, d, a, b, k[14], 15, -1416354905);
+        b = ii(b, c, d, a, k[5], 21, -57434055);
+        a = ii(a, b, c, d, k[12], 6, 1700485571);
+        d = ii(d, a, b, c, k[3], 10, -1894986606);
+        c = ii(c, d, a, b, k[10], 15, -1051523);
+        b = ii(b, c, d, a, k[1], 21, -2054922799);
+        a = ii(a, b, c, d, k[8], 6, 1873313359);
+        d = ii(d, a, b, c, k[15], 10, -30611744);
+        c = ii(c, d, a, b, k[6], 15, -1560198380);
+        b = ii(b, c, d, a, k[13], 21, 1309151649);
+        a = ii(a, b, c, d, k[4], 6, -145523070);
+        d = ii(d, a, b, c, k[11], 10, -1120210379);
+        c = ii(c, d, a, b, k[2], 15, 718787259);
+        b = ii(b, c, d, a, k[9], 21, -343485551);
+
+        x[0] = add32(a, x[0]);
+        x[1] = add32(b, x[1]);
+        x[2] = add32(c, x[2]);
+        x[3] = add32(d, x[3]);
+    }
+
+    function md5blk(s) {
+        var md5blks = [],
+            i; /* Andy King said do it this way. */
+
+        for (i = 0; i < 64; i += 4) {
+            md5blks[i >> 2] = s.charCodeAt(i) + (s.charCodeAt(i + 1) << 8) + (s.charCodeAt(i + 2) << 16) + (s.charCodeAt(i + 3) << 24);
+        }
+        return md5blks;
+    }
+
+    function md5blk_array(a) {
+        var md5blks = [],
+            i; /* Andy King said do it this way. */
+
+        for (i = 0; i < 64; i += 4) {
+            md5blks[i >> 2] = a[i] + (a[i + 1] << 8) + (a[i + 2] << 16) + (a[i + 3] << 24);
+        }
+        return md5blks;
+    }
+
+    function md51(s) {
+        var n = s.length,
+            state = [1732584193, -271733879, -1732584194, 271733878],
+            i,
+            length,
+            tail,
+            tmp,
+            lo,
+            hi;
+
+        for (i = 64; i <= n; i += 64) {
+            md5cycle(state, md5blk(s.substring(i - 64, i)));
+        }
+        s = s.substring(i - 64);
+        length = s.length;
+        tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        for (i = 0; i < length; i += 1) {
+            tail[i >> 2] |= s.charCodeAt(i) << ((i % 4) << 3);
+        }
+        tail[i >> 2] |= 0x80 << ((i % 4) << 3);
+        if (i > 55) {
+            md5cycle(state, tail);
+            for (i = 0; i < 16; i += 1) {
+                tail[i] = 0;
+            }
+        }
+
+        // Beware that the final length might not fit in 32 bits so we take care of that
+        tmp = n * 8;
+        tmp = tmp.toString(16).match(/(.*?)(.{0,8})$/);
+        lo = parseInt(tmp[2], 16);
+        hi = parseInt(tmp[1], 16) || 0;
+
+        tail[14] = lo;
+        tail[15] = hi;
+
+        md5cycle(state, tail);
+        return state;
+    }
+
+    function md51_array(a) {
+        var n = a.length,
+            state = [1732584193, -271733879, -1732584194, 271733878],
+            i,
+            length,
+            tail,
+            tmp,
+            lo,
+            hi;
+
+        for (i = 64; i <= n; i += 64) {
+            md5cycle(state, md5blk_array(a.subarray(i - 64, i)));
+        }
+
+        // Not sure if it is a bug, however IE10 will always produce a sub array of length 1
+        // containing the last element of the parent array if the sub array specified starts
+        // beyond the length of the parent array - weird.
+        // https://connect.microsoft.com/IE/feedback/details/771452/typed-array-subarray-issue
+        a = (i - 64) < n ? a.subarray(i - 64) : new Uint8Array(0);
+
+        length = a.length;
+        tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        for (i = 0; i < length; i += 1) {
+            tail[i >> 2] |= a[i] << ((i % 4) << 3);
+        }
+
+        tail[i >> 2] |= 0x80 << ((i % 4) << 3);
+        if (i > 55) {
+            md5cycle(state, tail);
+            for (i = 0; i < 16; i += 1) {
+                tail[i] = 0;
+            }
+        }
+
+        // Beware that the final length might not fit in 32 bits so we take care of that
+        tmp = n * 8;
+        tmp = tmp.toString(16).match(/(.*?)(.{0,8})$/);
+        lo = parseInt(tmp[2], 16);
+        hi = parseInt(tmp[1], 16) || 0;
+
+        tail[14] = lo;
+        tail[15] = hi;
+
+        md5cycle(state, tail);
+
+        return state;
+    }
+
+    function rhex(n) {
+        var s = '',
+            j;
+        for (j = 0; j < 4; j += 1) {
+            s += hex_chr[(n >> (j * 8 + 4)) & 0x0F] + hex_chr[(n >> (j * 8)) & 0x0F];
+        }
+        return s;
+    }
+
+    function hex(x) {
+        var i;
+        for (i = 0; i < x.length; i += 1) {
+            x[i] = rhex(x[i]);
+        }
+        return x.join('');
+    }
+
+    // In some cases the fast add32 function cannot be used..
+    if (hex(md51('hello')) !== '5d41402abc4b2a76b9719d911017c592') {
+        add32 = function (x, y) {
+            var lsw = (x & 0xFFFF) + (y & 0xFFFF),
+                msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+            return (msw << 16) | (lsw & 0xFFFF);
+        };
+    }
+
+    // ---------------------------------------------------
+
+    /**
+     * ArrayBuffer slice polyfill.
+     *
+     * @see https://github.com/ttaubert/node-arraybuffer-slice
+     */
+
+    if (typeof ArrayBuffer !== 'undefined' && !ArrayBuffer.prototype.slice) {
+        (function () {
+            function clamp(val, length) {
+                val = (val | 0) || 0;
+
+                if (val < 0) {
+                    return Math.max(val + length, 0);
+                }
+
+                return Math.min(val, length);
+            }
+
+            ArrayBuffer.prototype.slice = function (from, to) {
+                var length = this.byteLength,
+                    begin = clamp(from, length),
+                    end = length,
+                    num,
+                    target,
+                    targetArray,
+                    sourceArray;
+
+                if (to !== undefined) {
+                    end = clamp(to, length);
+                }
+
+                if (begin > end) {
+                    return new ArrayBuffer(0);
+                }
+
+                num = end - begin;
+                target = new ArrayBuffer(num);
+                targetArray = new Uint8Array(target);
+
+                sourceArray = new Uint8Array(this, begin, num);
+                targetArray.set(sourceArray);
+
+                return target;
+            };
+        })();
+    }
+
+    // ---------------------------------------------------
+
+    /**
+     * Helpers.
+     */
+
+    function toUtf8(str) {
+        if (/[\u0080-\uFFFF]/.test(str)) {
+            str = unescape(encodeURIComponent(str));
+        }
+
+        return str;
+    }
+
+    function utf8Str2ArrayBuffer(str, returnUInt8Array) {
+        var length = str.length,
+           buff = new ArrayBuffer(length),
+           arr = new Uint8Array(buff),
+           i;
+
+        for (i = 0; i < length; i += 1) {
+            arr[i] = str.charCodeAt(i);
+        }
+
+        return returnUInt8Array ? arr : buff;
+    }
+
+    function arrayBuffer2Utf8Str(buff) {
+        return String.fromCharCode.apply(null, new Uint8Array(buff));
+    }
+
+    function concatenateArrayBuffers(first, second, returnUInt8Array) {
+        var result = new Uint8Array(first.byteLength + second.byteLength);
+
+        result.set(new Uint8Array(first));
+        result.set(new Uint8Array(second), first.byteLength);
+
+        return returnUInt8Array ? result : result.buffer;
+    }
+
+    function hexToBinaryString(hex) {
+        var bytes = [],
+            length = hex.length,
+            x;
+
+        for (x = 0; x < length - 1; x += 2) {
+            bytes.push(parseInt(hex.substr(x, 2), 16));
+        }
+
+        return String.fromCharCode.apply(String, bytes);
+    }
+
+    // ---------------------------------------------------
+
+    /**
+     * SparkMD5 OOP implementation.
+     *
+     * Use this class to perform an incremental md5, otherwise use the
+     * static methods instead.
+     */
+
+    function SparkMD5() {
+        // call reset to init the instance
+        this.reset();
+    }
+
+    /**
+     * Appends a string.
+     * A conversion will be applied if an utf8 string is detected.
+     *
+     * @param {String} str The string to be appended
+     *
+     * @return {SparkMD5} The instance itself
+     */
+    SparkMD5.prototype.append = function (str) {
+        // Converts the string to utf8 bytes if necessary
+        // Then append as binary
+        this.appendBinary(toUtf8(str));
+
+        return this;
+    };
+
+    /**
+     * Appends a binary string.
+     *
+     * @param {String} contents The binary string to be appended
+     *
+     * @return {SparkMD5} The instance itself
+     */
+    SparkMD5.prototype.appendBinary = function (contents) {
+        this._buff += contents;
+        this._length += contents.length;
+
+        var length = this._buff.length,
+            i;
+
+        for (i = 64; i <= length; i += 64) {
+            md5cycle(this._hash, md5blk(this._buff.substring(i - 64, i)));
+        }
+
+        this._buff = this._buff.substring(i - 64);
+
+        return this;
+    };
+
+    /**
+     * Finishes the incremental computation, reseting the internal state and
+     * returning the result.
+     *
+     * @param {Boolean} raw True to get the raw string, false to get the hex string
+     *
+     * @return {String} The result
+     */
+    SparkMD5.prototype.end = function (raw) {
+        var buff = this._buff,
+            length = buff.length,
+            i,
+            tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ret;
+
+        for (i = 0; i < length; i += 1) {
+            tail[i >> 2] |= buff.charCodeAt(i) << ((i % 4) << 3);
+        }
+
+        this._finish(tail, length);
+        ret = hex(this._hash);
+
+        if (raw) {
+            ret = hexToBinaryString(ret);
+        }
+
+        this.reset();
+
+        return ret;
+    };
+
+    /**
+     * Resets the internal state of the computation.
+     *
+     * @return {SparkMD5} The instance itself
+     */
+    SparkMD5.prototype.reset = function () {
+        this._buff = '';
+        this._length = 0;
+        this._hash = [1732584193, -271733879, -1732584194, 271733878];
+
+        return this;
+    };
+
+    /**
+     * Gets the internal state of the computation.
+     *
+     * @return {Object} The state
+     */
+    SparkMD5.prototype.getState = function () {
+        return {
+            buff: this._buff,
+            length: this._length,
+            hash: this._hash
+        };
+    };
+
+    /**
+     * Gets the internal state of the computation.
+     *
+     * @param {Object} state The state
+     *
+     * @return {SparkMD5} The instance itself
+     */
+    SparkMD5.prototype.setState = function (state) {
+        this._buff = state.buff;
+        this._length = state.length;
+        this._hash = state.hash;
+
+        return this;
+    };
+
+    /**
+     * Releases memory used by the incremental buffer and other additional
+     * resources. If you plan to use the instance again, use reset instead.
+     */
+    SparkMD5.prototype.destroy = function () {
+        delete this._hash;
+        delete this._buff;
+        delete this._length;
+    };
+
+    /**
+     * Finish the final calculation based on the tail.
+     *
+     * @param {Array}  tail   The tail (will be modified)
+     * @param {Number} length The length of the remaining buffer
+     */
+    SparkMD5.prototype._finish = function (tail, length) {
+        var i = length,
+            tmp,
+            lo,
+            hi;
+
+        tail[i >> 2] |= 0x80 << ((i % 4) << 3);
+        if (i > 55) {
+            md5cycle(this._hash, tail);
+            for (i = 0; i < 16; i += 1) {
+                tail[i] = 0;
+            }
+        }
+
+        // Do the final computation based on the tail and length
+        // Beware that the final length may not fit in 32 bits so we take care of that
+        tmp = this._length * 8;
+        tmp = tmp.toString(16).match(/(.*?)(.{0,8})$/);
+        lo = parseInt(tmp[2], 16);
+        hi = parseInt(tmp[1], 16) || 0;
+
+        tail[14] = lo;
+        tail[15] = hi;
+        md5cycle(this._hash, tail);
+    };
+
+    /**
+     * Performs the md5 hash on a string.
+     * A conversion will be applied if utf8 string is detected.
+     *
+     * @param {String}  str The string
+     * @param {Boolean} raw True to get the raw string, false to get the hex string
+     *
+     * @return {String} The result
+     */
+    SparkMD5.hash = function (str, raw) {
+        // Converts the string to utf8 bytes if necessary
+        // Then compute it using the binary function
+        return SparkMD5.hashBinary(toUtf8(str), raw);
+    };
+
+    /**
+     * Performs the md5 hash on a binary string.
+     *
+     * @param {String}  content The binary string
+     * @param {Boolean} raw     True to get the raw string, false to get the hex string
+     *
+     * @return {String} The result
+     */
+    SparkMD5.hashBinary = function (content, raw) {
+        var hash = md51(content),
+            ret = hex(hash);
+
+        return raw ? hexToBinaryString(ret) : ret;
+    };
+
+    // ---------------------------------------------------
+
+    /**
+     * SparkMD5 OOP implementation for array buffers.
+     *
+     * Use this class to perform an incremental md5 ONLY for array buffers.
+     */
+    SparkMD5.ArrayBuffer = function () {
+        // call reset to init the instance
+        this.reset();
+    };
+
+    /**
+     * Appends an array buffer.
+     *
+     * @param {ArrayBuffer} arr The array to be appended
+     *
+     * @return {SparkMD5.ArrayBuffer} The instance itself
+     */
+    SparkMD5.ArrayBuffer.prototype.append = function (arr) {
+        var buff = concatenateArrayBuffers(this._buff.buffer, arr, true),
+            length = buff.length,
+            i;
+
+        this._length += arr.byteLength;
+
+        for (i = 64; i <= length; i += 64) {
+            md5cycle(this._hash, md5blk_array(buff.subarray(i - 64, i)));
+        }
+
+        this._buff = (i - 64) < length ? new Uint8Array(buff.buffer.slice(i - 64)) : new Uint8Array(0);
+
+        return this;
+    };
+
+    /**
+     * Finishes the incremental computation, reseting the internal state and
+     * returning the result.
+     *
+     * @param {Boolean} raw True to get the raw string, false to get the hex string
+     *
+     * @return {String} The result
+     */
+    SparkMD5.ArrayBuffer.prototype.end = function (raw) {
+        var buff = this._buff,
+            length = buff.length,
+            tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            i,
+            ret;
+
+        for (i = 0; i < length; i += 1) {
+            tail[i >> 2] |= buff[i] << ((i % 4) << 3);
+        }
+
+        this._finish(tail, length);
+        ret = hex(this._hash);
+
+        if (raw) {
+            ret = hexToBinaryString(ret);
+        }
+
+        this.reset();
+
+        return ret;
+    };
+
+    /**
+     * Resets the internal state of the computation.
+     *
+     * @return {SparkMD5.ArrayBuffer} The instance itself
+     */
+    SparkMD5.ArrayBuffer.prototype.reset = function () {
+        this._buff = new Uint8Array(0);
+        this._length = 0;
+        this._hash = [1732584193, -271733879, -1732584194, 271733878];
+
+        return this;
+    };
+
+    /**
+     * Gets the internal state of the computation.
+     *
+     * @return {Object} The state
+     */
+    SparkMD5.ArrayBuffer.prototype.getState = function () {
+        var state = SparkMD5.prototype.getState.call(this);
+
+        // Convert buffer to a string
+        state.buff = arrayBuffer2Utf8Str(state.buff);
+
+        return state;
+    };
+
+    /**
+     * Gets the internal state of the computation.
+     *
+     * @param {Object} state The state
+     *
+     * @return {SparkMD5.ArrayBuffer} The instance itself
+     */
+    SparkMD5.ArrayBuffer.prototype.setState = function (state) {
+        // Convert string to buffer
+        state.buff = utf8Str2ArrayBuffer(state.buff, true);
+
+        return SparkMD5.prototype.setState.call(this, state);
+    };
+
+    SparkMD5.ArrayBuffer.prototype.destroy = SparkMD5.prototype.destroy;
+
+    SparkMD5.ArrayBuffer.prototype._finish = SparkMD5.prototype._finish;
+
+    /**
+     * Performs the md5 hash on an array buffer.
+     *
+     * @param {ArrayBuffer} arr The array buffer
+     * @param {Boolean}     raw True to get the raw string, false to get the hex one
+     *
+     * @return {String} The result
+     */
+    SparkMD5.ArrayBuffer.hash = function (arr, raw) {
+        var hash = md51_array(new Uint8Array(arr)),
+            ret = hex(hash);
+
+        return raw ? hexToBinaryString(ret) : ret;
+    };
+
+    return SparkMD5;
+}));
 /**
 
 JSZip - A Javascript class for generating and reading zip files
@@ -1264,7 +1917,7 @@ var JSZipBase64 = (function() {
 /*
  * Port of a script by Masanao Izumo.
  *
- * Only changes : wrap all the variables in a function and add the 
+ * Only changes : wrap all the variables in a function and add the
  * main function to JSZip (DEFLATE compression method).
  * Everything else was written by M. Izumo.
  *
@@ -1292,7 +1945,7 @@ if(!JSZip) {
  */
 
 /* constant parameters */
-var zip_WSIZE = 32768;		// Sliding Window size
+var zip_WSIZE = 32768;      // Sliding Window size
 var zip_STORED_BLOCK = 0;
 var zip_STATIC_TREES = 1;
 var zip_DYN_TREES    = 2;
@@ -1300,8 +1953,8 @@ var zip_DYN_TREES    = 2;
 /* for deflate */
 var zip_DEFAULT_LEVEL = 6;
 var zip_FULL_SEARCH = true;
-var zip_INBUFSIZ = 32768;	// Input buffer size
-var zip_INBUF_EXTRA = 64;	// Extra buffer
+var zip_INBUFSIZ = 32768;   // Input buffer size
+var zip_INBUF_EXTRA = 64;   // Extra buffer
 var zip_OUTBUFSIZ = 1024 * 8;
 var zip_window_size = 2 * zip_WSIZE;
 var zip_MIN_MATCH = 3;
@@ -1346,7 +1999,7 @@ var zip_REPZ_3_10 = 17;
 var zip_REPZ_11_138 = 18;
 var zip_HEAP_SIZE = 2 * zip_L_CODES + 1;
 var zip_H_SHIFT = parseInt((zip_HASH_BITS + zip_MIN_MATCH - 1) /
-			   zip_MIN_MATCH);
+               zip_MIN_MATCH);
 
 /* variables */
 var zip_free_queue;
@@ -1413,13 +2066,13 @@ var zip_DeflateCT = function() {
 }
 
 var zip_DeflateTreeDesc = function() {
-    this.dyn_tree = null;	// the dynamic tree
-    this.static_tree = null;	// corresponding static tree or NULL
-    this.extra_bits = null;	// extra bits for each code or NULL
-    this.extra_base = 0;	// base index for extra_bits
-    this.elems = 0;		// max number of elements in the tree
-    this.max_length = 0;	// max bit length for the codes
-    this.max_code = 0;		// largest code with non zero frequency
+    this.dyn_tree = null;   // the dynamic tree
+    this.static_tree = null;    // corresponding static tree or NULL
+    this.extra_bits = null; // extra bits for each code or NULL
+    this.extra_base = 0;    // base index for extra_bits
+    this.elems = 0;     // max number of elements in the tree
+    this.max_length = 0;    // max bit length for the codes
+    this.max_code = 0;      // largest code with non zero frequency
 }
 
 /* Values for max_lazy_match, good_match and max_chain_length, depending on
@@ -1451,16 +2104,16 @@ var zip_extra_blbits = new Array(
 var zip_bl_order = new Array(
     16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15);
 var zip_configuration_table = new Array(
-	new zip_DeflateConfiguration(0,    0,   0,    0),
-	new zip_DeflateConfiguration(4,    4,   8,    4),
-	new zip_DeflateConfiguration(4,    5,  16,    8),
-	new zip_DeflateConfiguration(4,    6,  32,   32),
-	new zip_DeflateConfiguration(4,    4,  16,   16),
-	new zip_DeflateConfiguration(8,   16,  32,   32),
-	new zip_DeflateConfiguration(8,   16, 128,  128),
-	new zip_DeflateConfiguration(8,   32, 128,  256),
-	new zip_DeflateConfiguration(32, 128, 258, 1024),
-	new zip_DeflateConfiguration(32, 258, 258, 4096));
+    new zip_DeflateConfiguration(0,    0,   0,    0),
+    new zip_DeflateConfiguration(4,    4,   8,    4),
+    new zip_DeflateConfiguration(4,    5,  16,    8),
+    new zip_DeflateConfiguration(4,    6,  32,   32),
+    new zip_DeflateConfiguration(4,    4,  16,   16),
+    new zip_DeflateConfiguration(8,   16,  32,   32),
+    new zip_DeflateConfiguration(8,   16, 128,  128),
+    new zip_DeflateConfiguration(8,   32, 128,  256),
+    new zip_DeflateConfiguration(32, 128, 258, 1024),
+    new zip_DeflateConfiguration(32, 258, 258, 4096));
 
 
 /* routines (deflate) */
@@ -1469,17 +2122,17 @@ var zip_deflate_start = function(level) {
     var i;
 
     if(!level)
-	level = zip_DEFAULT_LEVEL;
+    level = zip_DEFAULT_LEVEL;
     else if(level < 1)
-	level = 1;
+    level = 1;
     else if(level > 9)
-	level = 9;
+    level = 9;
 
     zip_compr_level = level;
     zip_initflag = false;
     zip_eofile = false;
     if(zip_outbuf != null)
-	return;
+    return;
 
     zip_free_queue = zip_qhead = zip_qtail = null;
     zip_outbuf = new Array(zip_OUTBUFSIZ);
@@ -1489,19 +2142,19 @@ var zip_deflate_start = function(level) {
     zip_prev = new Array(1 << zip_BITS);
     zip_dyn_ltree = new Array(zip_HEAP_SIZE);
     for(i = 0; i < zip_HEAP_SIZE; i++)
-	zip_dyn_ltree[i] = new zip_DeflateCT();
+    zip_dyn_ltree[i] = new zip_DeflateCT();
     zip_dyn_dtree = new Array(2*zip_D_CODES+1);
     for(i = 0; i < 2*zip_D_CODES+1; i++)
-	zip_dyn_dtree[i] = new zip_DeflateCT();
+    zip_dyn_dtree[i] = new zip_DeflateCT();
     zip_static_ltree = new Array(zip_L_CODES+2);
     for(i = 0; i < zip_L_CODES+2; i++)
-	zip_static_ltree[i] = new zip_DeflateCT();
+    zip_static_ltree[i] = new zip_DeflateCT();
     zip_static_dtree = new Array(zip_D_CODES);
     for(i = 0; i < zip_D_CODES; i++)
-	zip_static_dtree[i] = new zip_DeflateCT();
+    zip_static_dtree[i] = new zip_DeflateCT();
     zip_bl_tree = new Array(2*zip_BL_CODES+1);
     for(i = 0; i < 2*zip_BL_CODES+1; i++)
-	zip_bl_tree[i] = new zip_DeflateCT();
+    zip_bl_tree[i] = new zip_DeflateCT();
     zip_l_desc = new zip_DeflateTreeDesc();
     zip_d_desc = new zip_DeflateTreeDesc();
     zip_bl_desc = new zip_DeflateTreeDesc();
@@ -1550,11 +2203,11 @@ var zip_new_queue = function() {
 
     if(zip_free_queue != null)
     {
-	p = zip_free_queue;
-	zip_free_queue = zip_free_queue.next;
+    p = zip_free_queue;
+    zip_free_queue = zip_free_queue.next;
     }
     else
-	p = new zip_DeflateBuffer();
+    p = new zip_DeflateBuffer();
     p.next = null;
     p.len = p.off = 0;
 
@@ -1577,18 +2230,18 @@ var zip_head2 = function(i, val) {
 var zip_put_byte = function(c) {
     zip_outbuf[zip_outoff + zip_outcnt++] = c;
     if(zip_outoff + zip_outcnt == zip_OUTBUFSIZ)
-	zip_qoutbuf();
+    zip_qoutbuf();
 }
 
 /* Output a 16 bit value, lsb first */
 var zip_put_short = function(w) {
     w &= 0xffff;
     if(zip_outoff + zip_outcnt < zip_OUTBUFSIZ - 2) {
-	zip_outbuf[zip_outoff + zip_outcnt++] = (w & 0xff);
-	zip_outbuf[zip_outoff + zip_outcnt++] = (w >>> 8);
+    zip_outbuf[zip_outoff + zip_outcnt++] = (w & 0xff);
+    zip_outbuf[zip_outoff + zip_outcnt++] = (w >>> 8);
     } else {
-	zip_put_byte(w & 0xff);
-	zip_put_byte(w >>> 8);
+    zip_put_byte(w & 0xff);
+    zip_put_byte(w >>> 8);
     }
 }
 
@@ -1602,8 +2255,8 @@ var zip_put_short = function(w) {
  */
 var zip_INSERT_STRING = function() {
     zip_ins_h = ((zip_ins_h << zip_H_SHIFT)
-		 ^ (zip_window[zip_strstart + zip_MIN_MATCH - 1] & 0xff))
-	& zip_HASH_MASK;
+         ^ (zip_window[zip_strstart + zip_MIN_MATCH - 1] & 0xff))
+    & zip_HASH_MASK;
     zip_hash_head = zip_head1(zip_ins_h);
     zip_prev[zip_strstart & zip_WMASK] = zip_hash_head;
     zip_head2(zip_ins_h, zip_strstart);
@@ -1620,7 +2273,7 @@ var zip_SEND_CODE = function(c, tree) {
  */
 var zip_D_CODE = function(dist) {
     return (dist < 256 ? zip_dist_code[dist]
-	    : zip_dist_code[256 + (dist>>7)]) & 0xff;
+        : zip_dist_code[256 + (dist>>7)]) & 0xff;
 }
 
 /* ==========================================================================
@@ -1638,8 +2291,8 @@ var zip_SMALLER = function(tree, n, m) {
 var zip_read_buff = function(buff, offset, n) {
     var i;
     for(i = 0; i < n && zip_deflate_pos < zip_deflate_data.length; i++)
-	buff[offset + i] =
-	    zip_deflate_data.charCodeAt(zip_deflate_pos++) & 0xff;
+    buff[offset + i] =
+        zip_deflate_data.charCodeAt(zip_deflate_pos++) & 0xff;
     return i;
 }
 
@@ -1651,8 +2304,8 @@ var zip_lm_init = function() {
 
     /* Initialize the hash table. */
     for(j = 0; j < zip_HASH_SIZE; j++)
-//	zip_head2(j, zip_NIL);
-	zip_prev[zip_WSIZE + j] = 0;
+//  zip_head2(j, zip_NIL);
+    zip_prev[zip_WSIZE + j] = 0;
     /* prev will be initialized on the fly */
 
     /* Set the default configuration parameters:
@@ -1660,7 +2313,7 @@ var zip_lm_init = function() {
     zip_max_lazy_match = zip_configuration_table[zip_compr_level].max_lazy;
     zip_good_match     = zip_configuration_table[zip_compr_level].good_length;
     if(!zip_FULL_SEARCH)
-	zip_nice_match = zip_configuration_table[zip_compr_level].nice_length;
+    zip_nice_match = zip_configuration_table[zip_compr_level].nice_length;
     zip_max_chain_length = zip_configuration_table[zip_compr_level].max_chain;
 
     zip_strstart = 0;
@@ -1668,16 +2321,16 @@ var zip_lm_init = function() {
 
     zip_lookahead = zip_read_buff(zip_window, 0, 2 * zip_WSIZE);
     if(zip_lookahead <= 0) {
-	zip_eofile = true;
-	zip_lookahead = 0;
-	return;
+    zip_eofile = true;
+    zip_lookahead = 0;
+    return;
     }
     zip_eofile = false;
     /* Make sure that we always have enough lookahead. This is important
      * if input comes from a device such as a tty.
      */
     while(zip_lookahead < zip_MIN_LOOKAHEAD && !zip_eofile)
-	zip_fill_window();
+    zip_fill_window();
 
     /* If lookahead < MIN_MATCH, ins_h is garbage, but this is
      * not important since only literal bytes will be emitted.
@@ -1685,7 +2338,7 @@ var zip_lm_init = function() {
     zip_ins_h = 0;
     for(j = 0; j < zip_MIN_MATCH - 1; j++) {
 //      UPDATE_HASH(ins_h, window[j]);
-	zip_ins_h = ((zip_ins_h << zip_H_SHIFT) ^ (zip_window[j] & 0xff)) & zip_HASH_MASK;
+    zip_ins_h = ((zip_ins_h << zip_H_SHIFT) ^ (zip_window[j] & 0xff)) & zip_HASH_MASK;
     }
 }
 
@@ -1700,9 +2353,9 @@ var zip_lm_init = function() {
 var zip_longest_match = function(cur_match) {
     var chain_length = zip_max_chain_length; // max hash chain length
     var scanp = zip_strstart; // current string
-    var matchp;		// matched string
-    var len;		// length of current match
-    var best_len = zip_prev_length;	// best match length so far
+    var matchp;     // matched string
+    var len;        // length of current match
+    var best_len = zip_prev_length; // best match length so far
 
     /* Stop when cur_match becomes <= limit. To simplify the code,
      * we prevent matches with the string of window index 0.
@@ -1715,64 +2368,64 @@ var zip_longest_match = function(cur_match) {
 
     /* Do not waste too much time if we already have a good match: */
     if(zip_prev_length >= zip_good_match)
-	chain_length >>= 2;
+    chain_length >>= 2;
 
 //  Assert(encoder->strstart <= window_size-MIN_LOOKAHEAD, "insufficient lookahead");
 
     do {
 //    Assert(cur_match < encoder->strstart, "no future");
-	matchp = cur_match;
+    matchp = cur_match;
 
-	/* Skip to next match if the match length cannot increase
-	    * or if the match length is less than 2:
-	*/
-	if(zip_window[matchp + best_len]	!= scan_end  ||
-	   zip_window[matchp + best_len - 1]	!= scan_end1 ||
-	   zip_window[matchp]			!= zip_window[scanp] ||
-	   zip_window[++matchp]			!= zip_window[scanp + 1]) {
-	    continue;
-	}
+    /* Skip to next match if the match length cannot increase
+        * or if the match length is less than 2:
+    */
+    if(zip_window[matchp + best_len]    != scan_end  ||
+       zip_window[matchp + best_len - 1]    != scan_end1 ||
+       zip_window[matchp]           != zip_window[scanp] ||
+       zip_window[++matchp]         != zip_window[scanp + 1]) {
+        continue;
+    }
 
-	/* The check at best_len-1 can be removed because it will be made
+    /* The check at best_len-1 can be removed because it will be made
          * again later. (This heuristic is not always a win.)
          * It is not necessary to compare scan[2] and match[2] since they
          * are always equal when the other bytes match, given that
          * the hash keys are equal and that HASH_BITS >= 8.
          */
-	scanp += 2;
-	matchp++;
+    scanp += 2;
+    matchp++;
 
-	/* We check for insufficient lookahead only every 8th comparison;
+    /* We check for insufficient lookahead only every 8th comparison;
          * the 256th check will be made at strstart+258.
          */
-	do {
-	} while(zip_window[++scanp] == zip_window[++matchp] &&
-		zip_window[++scanp] == zip_window[++matchp] &&
-		zip_window[++scanp] == zip_window[++matchp] &&
-		zip_window[++scanp] == zip_window[++matchp] &&
-		zip_window[++scanp] == zip_window[++matchp] &&
-		zip_window[++scanp] == zip_window[++matchp] &&
-		zip_window[++scanp] == zip_window[++matchp] &&
-		zip_window[++scanp] == zip_window[++matchp] &&
-		scanp < strendp);
+    do {
+    } while(zip_window[++scanp] == zip_window[++matchp] &&
+        zip_window[++scanp] == zip_window[++matchp] &&
+        zip_window[++scanp] == zip_window[++matchp] &&
+        zip_window[++scanp] == zip_window[++matchp] &&
+        zip_window[++scanp] == zip_window[++matchp] &&
+        zip_window[++scanp] == zip_window[++matchp] &&
+        zip_window[++scanp] == zip_window[++matchp] &&
+        zip_window[++scanp] == zip_window[++matchp] &&
+        scanp < strendp);
 
       len = zip_MAX_MATCH - (strendp - scanp);
       scanp = strendp - zip_MAX_MATCH;
 
       if(len > best_len) {
-	  zip_match_start = cur_match;
-	  best_len = len;
-	  if(zip_FULL_SEARCH) {
-	      if(len >= zip_MAX_MATCH) break;
-	  } else {
-	      if(len >= zip_nice_match) break;
-	  }
+      zip_match_start = cur_match;
+      best_len = len;
+      if(zip_FULL_SEARCH) {
+          if(len >= zip_MAX_MATCH) break;
+      } else {
+          if(len >= zip_nice_match) break;
+      }
 
-	  scan_end1  = zip_window[scanp + best_len-1];
-	  scan_end   = zip_window[scanp + best_len];
+      scan_end1  = zip_window[scanp + best_len-1];
+      scan_end   = zip_window[scanp + best_len];
       }
     } while((cur_match = zip_prev[cur_match & zip_WMASK]) > limit
-	    && --chain_length != 0);
+        && --chain_length != 0);
 
     return best_len;
 }
@@ -1795,44 +2448,44 @@ var zip_fill_window = function() {
      * move the upper half to the lower one to make room in the upper half.
      */
     if(more == -1) {
-	/* Very unlikely, but possible on 16 bit machine if strstart == 0
+    /* Very unlikely, but possible on 16 bit machine if strstart == 0
          * and lookahead == 1 (input done one byte at time)
          */
-	more--;
+    more--;
     } else if(zip_strstart >= zip_WSIZE + zip_MAX_DIST) {
-	/* By the IN assertion, the window is not empty so we can't confuse
+    /* By the IN assertion, the window is not empty so we can't confuse
          * more == 0 with more == 64K on a 16 bit machine.
          */
-//	Assert(window_size == (ulg)2*WSIZE, "no sliding with BIG_MEM");
+//  Assert(window_size == (ulg)2*WSIZE, "no sliding with BIG_MEM");
 
-//	System.arraycopy(window, WSIZE, window, 0, WSIZE);
-	for(n = 0; n < zip_WSIZE; n++)
-	    zip_window[n] = zip_window[n + zip_WSIZE];
-      
-	zip_match_start -= zip_WSIZE;
-	zip_strstart    -= zip_WSIZE; /* we now have strstart >= MAX_DIST: */
-	zip_block_start -= zip_WSIZE;
+//  System.arraycopy(window, WSIZE, window, 0, WSIZE);
+    for(n = 0; n < zip_WSIZE; n++)
+        zip_window[n] = zip_window[n + zip_WSIZE];
 
-	for(n = 0; n < zip_HASH_SIZE; n++) {
-	    m = zip_head1(n);
-	    zip_head2(n, m >= zip_WSIZE ? m - zip_WSIZE : zip_NIL);
-	}
-	for(n = 0; n < zip_WSIZE; n++) {
-	    /* If n is not on any hash chain, prev[n] is garbage but
-	     * its value will never be used.
-	     */
-	    m = zip_prev[n];
-	    zip_prev[n] = (m >= zip_WSIZE ? m - zip_WSIZE : zip_NIL);
-	}
-	more += zip_WSIZE;
+    zip_match_start -= zip_WSIZE;
+    zip_strstart    -= zip_WSIZE; /* we now have strstart >= MAX_DIST: */
+    zip_block_start -= zip_WSIZE;
+
+    for(n = 0; n < zip_HASH_SIZE; n++) {
+        m = zip_head1(n);
+        zip_head2(n, m >= zip_WSIZE ? m - zip_WSIZE : zip_NIL);
+    }
+    for(n = 0; n < zip_WSIZE; n++) {
+        /* If n is not on any hash chain, prev[n] is garbage but
+         * its value will never be used.
+         */
+        m = zip_prev[n];
+        zip_prev[n] = (m >= zip_WSIZE ? m - zip_WSIZE : zip_NIL);
+    }
+    more += zip_WSIZE;
     }
     // At this point, more >= 2
     if(!zip_eofile) {
-	n = zip_read_buff(zip_window, zip_strstart + zip_lookahead, more);
-	if(n <= 0)
-	    zip_eofile = true;
-	else
-	    zip_lookahead += n;
+    n = zip_read_buff(zip_window, zip_strstart + zip_lookahead, more);
+    if(n <= 0)
+        zip_eofile = true;
+    else
+        zip_lookahead += n;
     }
 }
 
@@ -1844,182 +2497,182 @@ var zip_fill_window = function() {
  */
 var zip_deflate_fast = function() {
     while(zip_lookahead != 0 && zip_qhead == null) {
-	var flush; // set if current block must be flushed
+    var flush; // set if current block must be flushed
 
-	/* Insert the string window[strstart .. strstart+2] in the
-	 * dictionary, and set hash_head to the head of the hash chain:
-	 */
-	zip_INSERT_STRING();
+    /* Insert the string window[strstart .. strstart+2] in the
+     * dictionary, and set hash_head to the head of the hash chain:
+     */
+    zip_INSERT_STRING();
 
-	/* Find the longest match, discarding those <= prev_length.
-	 * At this point we have always match_length < MIN_MATCH
-	 */
-	if(zip_hash_head != zip_NIL &&
-	   zip_strstart - zip_hash_head <= zip_MAX_DIST) {
-	    /* To simplify the code, we prevent matches with the string
-	     * of window index 0 (in particular we have to avoid a match
-	     * of the string with itself at the start of the input file).
-	     */
-	    zip_match_length = zip_longest_match(zip_hash_head);
-	    /* longest_match() sets match_start */
-	    if(zip_match_length > zip_lookahead)
-		zip_match_length = zip_lookahead;
-	}
-	if(zip_match_length >= zip_MIN_MATCH) {
-//	    check_match(strstart, match_start, match_length);
+    /* Find the longest match, discarding those <= prev_length.
+     * At this point we have always match_length < MIN_MATCH
+     */
+    if(zip_hash_head != zip_NIL &&
+       zip_strstart - zip_hash_head <= zip_MAX_DIST) {
+        /* To simplify the code, we prevent matches with the string
+         * of window index 0 (in particular we have to avoid a match
+         * of the string with itself at the start of the input file).
+         */
+        zip_match_length = zip_longest_match(zip_hash_head);
+        /* longest_match() sets match_start */
+        if(zip_match_length > zip_lookahead)
+        zip_match_length = zip_lookahead;
+    }
+    if(zip_match_length >= zip_MIN_MATCH) {
+//      check_match(strstart, match_start, match_length);
 
-	    flush = zip_ct_tally(zip_strstart - zip_match_start,
-				 zip_match_length - zip_MIN_MATCH);
-	    zip_lookahead -= zip_match_length;
+        flush = zip_ct_tally(zip_strstart - zip_match_start,
+                 zip_match_length - zip_MIN_MATCH);
+        zip_lookahead -= zip_match_length;
 
-	    /* Insert new strings in the hash table only if the match length
-	     * is not too large. This saves time but degrades compression.
-	     */
-	    if(zip_match_length <= zip_max_lazy_match) {
-		zip_match_length--; // string at strstart already in hash table
-		do {
-		    zip_strstart++;
-		    zip_INSERT_STRING();
-		    /* strstart never exceeds WSIZE-MAX_MATCH, so there are
-		     * always MIN_MATCH bytes ahead. If lookahead < MIN_MATCH
-		     * these bytes are garbage, but it does not matter since
-		     * the next lookahead bytes will be emitted as literals.
-		     */
-		} while(--zip_match_length != 0);
-		zip_strstart++;
-	    } else {
-		zip_strstart += zip_match_length;
-		zip_match_length = 0;
-		zip_ins_h = zip_window[zip_strstart] & 0xff;
-//		UPDATE_HASH(ins_h, window[strstart + 1]);
-		zip_ins_h = ((zip_ins_h<<zip_H_SHIFT) ^ (zip_window[zip_strstart + 1] & 0xff)) & zip_HASH_MASK;
+        /* Insert new strings in the hash table only if the match length
+         * is not too large. This saves time but degrades compression.
+         */
+        if(zip_match_length <= zip_max_lazy_match) {
+        zip_match_length--; // string at strstart already in hash table
+        do {
+            zip_strstart++;
+            zip_INSERT_STRING();
+            /* strstart never exceeds WSIZE-MAX_MATCH, so there are
+             * always MIN_MATCH bytes ahead. If lookahead < MIN_MATCH
+             * these bytes are garbage, but it does not matter since
+             * the next lookahead bytes will be emitted as literals.
+             */
+        } while(--zip_match_length != 0);
+        zip_strstart++;
+        } else {
+        zip_strstart += zip_match_length;
+        zip_match_length = 0;
+        zip_ins_h = zip_window[zip_strstart] & 0xff;
+//      UPDATE_HASH(ins_h, window[strstart + 1]);
+        zip_ins_h = ((zip_ins_h<<zip_H_SHIFT) ^ (zip_window[zip_strstart + 1] & 0xff)) & zip_HASH_MASK;
 
 //#if MIN_MATCH != 3
-//		Call UPDATE_HASH() MIN_MATCH-3 more times
+//      Call UPDATE_HASH() MIN_MATCH-3 more times
 //#endif
 
-	    }
-	} else {
-	    /* No match, output a literal byte */
-	    flush = zip_ct_tally(0, zip_window[zip_strstart] & 0xff);
-	    zip_lookahead--;
-	    zip_strstart++;
-	}
-	if(flush) {
-	    zip_flush_block(0);
-	    zip_block_start = zip_strstart;
-	}
+        }
+    } else {
+        /* No match, output a literal byte */
+        flush = zip_ct_tally(0, zip_window[zip_strstart] & 0xff);
+        zip_lookahead--;
+        zip_strstart++;
+    }
+    if(flush) {
+        zip_flush_block(0);
+        zip_block_start = zip_strstart;
+    }
 
-	/* Make sure that we always have enough lookahead, except
-	 * at the end of the input file. We need MAX_MATCH bytes
-	 * for the next match, plus MIN_MATCH bytes to insert the
-	 * string following the next match.
-	 */
-	while(zip_lookahead < zip_MIN_LOOKAHEAD && !zip_eofile)
-	    zip_fill_window();
+    /* Make sure that we always have enough lookahead, except
+     * at the end of the input file. We need MAX_MATCH bytes
+     * for the next match, plus MIN_MATCH bytes to insert the
+     * string following the next match.
+     */
+    while(zip_lookahead < zip_MIN_LOOKAHEAD && !zip_eofile)
+        zip_fill_window();
     }
 }
 
 var zip_deflate_better = function() {
     /* Process the input block. */
     while(zip_lookahead != 0 && zip_qhead == null) {
-	/* Insert the string window[strstart .. strstart+2] in the
-	 * dictionary, and set hash_head to the head of the hash chain:
-	 */
-	zip_INSERT_STRING();
+    /* Insert the string window[strstart .. strstart+2] in the
+     * dictionary, and set hash_head to the head of the hash chain:
+     */
+    zip_INSERT_STRING();
 
-	/* Find the longest match, discarding those <= prev_length.
-	 */
-	zip_prev_length = zip_match_length;
-	zip_prev_match = zip_match_start;
-	zip_match_length = zip_MIN_MATCH - 1;
+    /* Find the longest match, discarding those <= prev_length.
+     */
+    zip_prev_length = zip_match_length;
+    zip_prev_match = zip_match_start;
+    zip_match_length = zip_MIN_MATCH - 1;
 
-	if(zip_hash_head != zip_NIL &&
-	   zip_prev_length < zip_max_lazy_match &&
-	   zip_strstart - zip_hash_head <= zip_MAX_DIST) {
-	    /* To simplify the code, we prevent matches with the string
-	     * of window index 0 (in particular we have to avoid a match
-	     * of the string with itself at the start of the input file).
-	     */
-	    zip_match_length = zip_longest_match(zip_hash_head);
-	    /* longest_match() sets match_start */
-	    if(zip_match_length > zip_lookahead)
-		zip_match_length = zip_lookahead;
+    if(zip_hash_head != zip_NIL &&
+       zip_prev_length < zip_max_lazy_match &&
+       zip_strstart - zip_hash_head <= zip_MAX_DIST) {
+        /* To simplify the code, we prevent matches with the string
+         * of window index 0 (in particular we have to avoid a match
+         * of the string with itself at the start of the input file).
+         */
+        zip_match_length = zip_longest_match(zip_hash_head);
+        /* longest_match() sets match_start */
+        if(zip_match_length > zip_lookahead)
+        zip_match_length = zip_lookahead;
 
-	    /* Ignore a length 3 match if it is too distant: */
-	    if(zip_match_length == zip_MIN_MATCH &&
-	       zip_strstart - zip_match_start > zip_TOO_FAR) {
-		/* If prev_match is also MIN_MATCH, match_start is garbage
-		 * but we will ignore the current match anyway.
-		 */
-		zip_match_length--;
-	    }
-	}
-	/* If there was a match at the previous step and the current
-	 * match is not better, output the previous match:
-	 */
-	if(zip_prev_length >= zip_MIN_MATCH &&
-	   zip_match_length <= zip_prev_length) {
-	    var flush; // set if current block must be flushed
+        /* Ignore a length 3 match if it is too distant: */
+        if(zip_match_length == zip_MIN_MATCH &&
+           zip_strstart - zip_match_start > zip_TOO_FAR) {
+        /* If prev_match is also MIN_MATCH, match_start is garbage
+         * but we will ignore the current match anyway.
+         */
+        zip_match_length--;
+        }
+    }
+    /* If there was a match at the previous step and the current
+     * match is not better, output the previous match:
+     */
+    if(zip_prev_length >= zip_MIN_MATCH &&
+       zip_match_length <= zip_prev_length) {
+        var flush; // set if current block must be flushed
 
-//	    check_match(strstart - 1, prev_match, prev_length);
-	    flush = zip_ct_tally(zip_strstart - 1 - zip_prev_match,
-				 zip_prev_length - zip_MIN_MATCH);
+//      check_match(strstart - 1, prev_match, prev_length);
+        flush = zip_ct_tally(zip_strstart - 1 - zip_prev_match,
+                 zip_prev_length - zip_MIN_MATCH);
 
-	    /* Insert in hash table all strings up to the end of the match.
-	     * strstart-1 and strstart are already inserted.
-	     */
-	    zip_lookahead -= zip_prev_length - 1;
-	    zip_prev_length -= 2;
-	    do {
-		zip_strstart++;
-		zip_INSERT_STRING();
-		/* strstart never exceeds WSIZE-MAX_MATCH, so there are
-		 * always MIN_MATCH bytes ahead. If lookahead < MIN_MATCH
-		 * these bytes are garbage, but it does not matter since the
-		 * next lookahead bytes will always be emitted as literals.
-		 */
-	    } while(--zip_prev_length != 0);
-	    zip_match_available = 0;
-	    zip_match_length = zip_MIN_MATCH - 1;
-	    zip_strstart++;
-	    if(flush) {
-		zip_flush_block(0);
-		zip_block_start = zip_strstart;
-	    }
-	} else if(zip_match_available != 0) {
-	    /* If there was no match at the previous position, output a
-	     * single literal. If there was a match but the current match
-	     * is longer, truncate the previous match to a single literal.
-	     */
-	    if(zip_ct_tally(0, zip_window[zip_strstart - 1] & 0xff)) {
-		zip_flush_block(0);
-		zip_block_start = zip_strstart;
-	    }
-	    zip_strstart++;
-	    zip_lookahead--;
-	} else {
-	    /* There is no previous match to compare with, wait for
-	     * the next step to decide.
-	     */
-	    zip_match_available = 1;
-	    zip_strstart++;
-	    zip_lookahead--;
-	}
+        /* Insert in hash table all strings up to the end of the match.
+         * strstart-1 and strstart are already inserted.
+         */
+        zip_lookahead -= zip_prev_length - 1;
+        zip_prev_length -= 2;
+        do {
+        zip_strstart++;
+        zip_INSERT_STRING();
+        /* strstart never exceeds WSIZE-MAX_MATCH, so there are
+         * always MIN_MATCH bytes ahead. If lookahead < MIN_MATCH
+         * these bytes are garbage, but it does not matter since the
+         * next lookahead bytes will always be emitted as literals.
+         */
+        } while(--zip_prev_length != 0);
+        zip_match_available = 0;
+        zip_match_length = zip_MIN_MATCH - 1;
+        zip_strstart++;
+        if(flush) {
+        zip_flush_block(0);
+        zip_block_start = zip_strstart;
+        }
+    } else if(zip_match_available != 0) {
+        /* If there was no match at the previous position, output a
+         * single literal. If there was a match but the current match
+         * is longer, truncate the previous match to a single literal.
+         */
+        if(zip_ct_tally(0, zip_window[zip_strstart - 1] & 0xff)) {
+        zip_flush_block(0);
+        zip_block_start = zip_strstart;
+        }
+        zip_strstart++;
+        zip_lookahead--;
+    } else {
+        /* There is no previous match to compare with, wait for
+         * the next step to decide.
+         */
+        zip_match_available = 1;
+        zip_strstart++;
+        zip_lookahead--;
+    }
 
-	/* Make sure that we always have enough lookahead, except
-	 * at the end of the input file. We need MAX_MATCH bytes
-	 * for the next match, plus MIN_MATCH bytes to insert the
-	 * string following the next match.
-	 */
-	while(zip_lookahead < zip_MIN_LOOKAHEAD && !zip_eofile)
-	    zip_fill_window();
+    /* Make sure that we always have enough lookahead, except
+     * at the end of the input file. We need MAX_MATCH bytes
+     * for the next match, plus MIN_MATCH bytes to insert the
+     * string following the next match.
+     */
+    while(zip_lookahead < zip_MIN_LOOKAHEAD && !zip_eofile)
+        zip_fill_window();
     }
 }
 
 var zip_init_deflate = function() {
     if(zip_eofile)
-	return;
+    return;
     zip_bi_buf = 0;
     zip_bi_valid = 0;
     zip_ct_init();
@@ -2031,13 +2684,13 @@ var zip_init_deflate = function() {
 
     if(zip_compr_level <= 3)
     {
-	zip_prev_length = zip_MIN_MATCH - 1;
-	zip_match_length = 0;
+    zip_prev_length = zip_MIN_MATCH - 1;
+    zip_match_length = 0;
     }
     else
     {
-	zip_match_length = zip_MIN_MATCH - 1;
-	zip_match_available = 0;
+    zip_match_length = zip_MIN_MATCH - 1;
+    zip_match_available = 0;
     }
 
     zip_complete = false;
@@ -2053,29 +2706,29 @@ var zip_deflate_internal = function(buff, off, buff_size) {
 
     if(!zip_initflag)
     {
-	zip_init_deflate();
-	zip_initflag = true;
-	if(zip_lookahead == 0) { // empty
-	    zip_complete = true;
-	    return 0;
-	}
+    zip_init_deflate();
+    zip_initflag = true;
+    if(zip_lookahead == 0) { // empty
+        zip_complete = true;
+        return 0;
+    }
     }
 
     if((n = zip_qcopy(buff, off, buff_size)) == buff_size)
-	return buff_size;
+    return buff_size;
 
     if(zip_complete)
-	return n;
+    return n;
 
     if(zip_compr_level <= 3) // optimized for speed
-	zip_deflate_fast();
+    zip_deflate_fast();
     else
-	zip_deflate_better();
+    zip_deflate_better();
     if(zip_lookahead == 0) {
-	if(zip_match_available != 0)
-	    zip_ct_tally(0, zip_window[zip_strstart - 1] & 0xff);
-	zip_flush_block(1);
-	zip_complete = true;
+    if(zip_match_available != 0)
+        zip_ct_tally(0, zip_window[zip_strstart - 1] & 0xff);
+    zip_flush_block(1);
+    zip_complete = true;
     }
     return n + zip_qcopy(buff, n + off, buff_size - n);
 }
@@ -2086,38 +2739,38 @@ var zip_qcopy = function(buff, off, buff_size) {
     n = 0;
     while(zip_qhead != null && n < buff_size)
     {
-	i = buff_size - n;
-	if(i > zip_qhead.len)
-	    i = zip_qhead.len;
+    i = buff_size - n;
+    if(i > zip_qhead.len)
+        i = zip_qhead.len;
 //      System.arraycopy(qhead.ptr, qhead.off, buff, off + n, i);
-	for(j = 0; j < i; j++)
-	    buff[off + n + j] = zip_qhead.ptr[zip_qhead.off + j];
-	
-	zip_qhead.off += i;
-	zip_qhead.len -= i;
-	n += i;
-	if(zip_qhead.len == 0) {
-	    var p;
-	    p = zip_qhead;
-	    zip_qhead = zip_qhead.next;
-	    zip_reuse_queue(p);
-	}
+    for(j = 0; j < i; j++)
+        buff[off + n + j] = zip_qhead.ptr[zip_qhead.off + j];
+
+    zip_qhead.off += i;
+    zip_qhead.len -= i;
+    n += i;
+    if(zip_qhead.len == 0) {
+        var p;
+        p = zip_qhead;
+        zip_qhead = zip_qhead.next;
+        zip_reuse_queue(p);
+    }
     }
 
     if(n == buff_size)
-	return n;
+    return n;
 
     if(zip_outoff < zip_outcnt) {
-	i = buff_size - n;
-	if(i > zip_outcnt - zip_outoff)
-	    i = zip_outcnt - zip_outoff;
-	// System.arraycopy(outbuf, outoff, buff, off + n, i);
-	for(j = 0; j < i; j++)
-	    buff[off + n + j] = zip_outbuf[zip_outoff + j];
-	zip_outoff += i;
-	n += i;
-	if(zip_outcnt == zip_outoff)
-	    zip_outcnt = zip_outoff = 0;
+    i = buff_size - n;
+    if(i > zip_outcnt - zip_outoff)
+        i = zip_outcnt - zip_outoff;
+    // System.arraycopy(outbuf, outoff, buff, off + n, i);
+    for(j = 0; j < i; j++)
+        buff[off + n + j] = zip_outbuf[zip_outoff + j];
+    zip_outoff += i;
+    n += i;
+    if(zip_outcnt == zip_outoff)
+        zip_outcnt = zip_outoff = 0;
     }
     return n;
 }
@@ -2128,44 +2781,44 @@ var zip_qcopy = function(buff, off, buff_size) {
  * (DEFLATE/STORE).
  */
 var zip_ct_init = function() {
-    var n;	// iterates over tree elements
-    var bits;	// bit counter
-    var length;	// length value
-    var code;	// code value
-    var dist;	// distance index
+    var n;  // iterates over tree elements
+    var bits;   // bit counter
+    var length; // length value
+    var code;   // code value
+    var dist;   // distance index
 
     if(zip_static_dtree[0].dl != 0) return; // ct_init already called
 
-    zip_l_desc.dyn_tree		= zip_dyn_ltree;
-    zip_l_desc.static_tree	= zip_static_ltree;
-    zip_l_desc.extra_bits	= zip_extra_lbits;
-    zip_l_desc.extra_base	= zip_LITERALS + 1;
-    zip_l_desc.elems		= zip_L_CODES;
-    zip_l_desc.max_length	= zip_MAX_BITS;
-    zip_l_desc.max_code		= 0;
+    zip_l_desc.dyn_tree     = zip_dyn_ltree;
+    zip_l_desc.static_tree  = zip_static_ltree;
+    zip_l_desc.extra_bits   = zip_extra_lbits;
+    zip_l_desc.extra_base   = zip_LITERALS + 1;
+    zip_l_desc.elems        = zip_L_CODES;
+    zip_l_desc.max_length   = zip_MAX_BITS;
+    zip_l_desc.max_code     = 0;
 
-    zip_d_desc.dyn_tree		= zip_dyn_dtree;
-    zip_d_desc.static_tree	= zip_static_dtree;
-    zip_d_desc.extra_bits	= zip_extra_dbits;
-    zip_d_desc.extra_base	= 0;
-    zip_d_desc.elems		= zip_D_CODES;
-    zip_d_desc.max_length	= zip_MAX_BITS;
-    zip_d_desc.max_code		= 0;
+    zip_d_desc.dyn_tree     = zip_dyn_dtree;
+    zip_d_desc.static_tree  = zip_static_dtree;
+    zip_d_desc.extra_bits   = zip_extra_dbits;
+    zip_d_desc.extra_base   = 0;
+    zip_d_desc.elems        = zip_D_CODES;
+    zip_d_desc.max_length   = zip_MAX_BITS;
+    zip_d_desc.max_code     = 0;
 
-    zip_bl_desc.dyn_tree	= zip_bl_tree;
-    zip_bl_desc.static_tree	= null;
-    zip_bl_desc.extra_bits	= zip_extra_blbits;
-    zip_bl_desc.extra_base	= 0;
-    zip_bl_desc.elems		= zip_BL_CODES;
-    zip_bl_desc.max_length	= zip_MAX_BL_BITS;
-    zip_bl_desc.max_code	= 0;
+    zip_bl_desc.dyn_tree    = zip_bl_tree;
+    zip_bl_desc.static_tree = null;
+    zip_bl_desc.extra_bits  = zip_extra_blbits;
+    zip_bl_desc.extra_base  = 0;
+    zip_bl_desc.elems       = zip_BL_CODES;
+    zip_bl_desc.max_length  = zip_MAX_BL_BITS;
+    zip_bl_desc.max_code    = 0;
 
     // Initialize the mapping length (0..255) -> length code (0..28)
     length = 0;
     for(code = 0; code < zip_LENGTH_CODES-1; code++) {
-	zip_base_length[code] = length;
-	for(n = 0; n < (1<<zip_extra_lbits[code]); n++)
-	    zip_length_code[length++] = code;
+    zip_base_length[code] = length;
+    for(n = 0; n < (1<<zip_extra_lbits[code]); n++)
+        zip_length_code[length++] = code;
     }
     // Assert (length == 256, "ct_init: length != 256");
 
@@ -2178,23 +2831,23 @@ var zip_ct_init = function() {
     /* Initialize the mapping dist (0..32K) -> dist code (0..29) */
     dist = 0;
     for(code = 0 ; code < 16; code++) {
-	zip_base_dist[code] = dist;
-	for(n = 0; n < (1<<zip_extra_dbits[code]); n++) {
-	    zip_dist_code[dist++] = code;
-	}
+    zip_base_dist[code] = dist;
+    for(n = 0; n < (1<<zip_extra_dbits[code]); n++) {
+        zip_dist_code[dist++] = code;
+    }
     }
     // Assert (dist == 256, "ct_init: dist != 256");
     dist >>= 7; // from now on, all distances are divided by 128
     for( ; code < zip_D_CODES; code++) {
-	zip_base_dist[code] = dist << 7;
-	for(n = 0; n < (1<<(zip_extra_dbits[code]-7)); n++)
-	    zip_dist_code[256 + dist++] = code;
+    zip_base_dist[code] = dist << 7;
+    for(n = 0; n < (1<<(zip_extra_dbits[code]-7)); n++)
+        zip_dist_code[256 + dist++] = code;
     }
     // Assert (dist == 256, "ct_init: 256+dist != 512");
 
     // Construct the codes of the static literal tree
     for(bits = 0; bits <= zip_MAX_BITS; bits++)
-	zip_bl_count[bits] = 0;
+    zip_bl_count[bits] = 0;
     n = 0;
     while(n <= 143) { zip_static_ltree[n++].dl = 8; zip_bl_count[8]++; }
     while(n <= 255) { zip_static_ltree[n++].dl = 9; zip_bl_count[9]++; }
@@ -2208,8 +2861,8 @@ var zip_ct_init = function() {
 
     /* The static distance tree is trivial: */
     for(n = 0; n < zip_D_CODES; n++) {
-	zip_static_dtree[n].dl = 5;
-	zip_static_dtree[n].fc = zip_bi_reverse(n, 5);
+    zip_static_dtree[n].dl = 5;
+    zip_static_dtree[n].fc = zip_bi_reverse(n, 5);
     }
 
     // Initialize the first block of the first file:
@@ -2241,27 +2894,27 @@ var zip_init_block = function() {
  * two sons).
  */
 var zip_pqdownheap = function(
-    tree,	// the tree to restore
-    k) {	// node to move down
+    tree,   // the tree to restore
+    k) {    // node to move down
     var v = zip_heap[k];
-    var j = k << 1;	// left son of k
+    var j = k << 1; // left son of k
 
     while(j <= zip_heap_len) {
-	// Set j to the smallest of the two sons:
-	if(j < zip_heap_len &&
-	   zip_SMALLER(tree, zip_heap[j + 1], zip_heap[j]))
-	    j++;
+    // Set j to the smallest of the two sons:
+    if(j < zip_heap_len &&
+       zip_SMALLER(tree, zip_heap[j + 1], zip_heap[j]))
+        j++;
 
-	// Exit if v is smaller than both sons
-	if(zip_SMALLER(tree, v, zip_heap[j]))
-	    break;
+    // Exit if v is smaller than both sons
+    if(zip_SMALLER(tree, v, zip_heap[j]))
+        break;
 
-	// Exchange v with the smallest son
-	zip_heap[k] = zip_heap[j];
-	k = j;
+    // Exchange v with the smallest son
+    zip_heap[k] = zip_heap[j];
+    k = j;
 
-	// And continue down the tree, setting j to the left son of k
-	j <<= 1;
+    // And continue down the tree, setting j to the left son of k
+    j <<= 1;
     }
     zip_heap[k] = v;
 }
@@ -2277,21 +2930,21 @@ var zip_pqdownheap = function(
  *     not null.
  */
 var zip_gen_bitlen = function(desc) { // the tree descriptor
-    var tree		= desc.dyn_tree;
-    var extra		= desc.extra_bits;
-    var base		= desc.extra_base;
-    var max_code	= desc.max_code;
-    var max_length	= desc.max_length;
-    var stree		= desc.static_tree;
-    var h;		// heap index
-    var n, m;		// iterate over the tree elements
-    var bits;		// bit length
-    var xbits;		// extra bits
-    var f;		// frequency
-    var overflow = 0;	// number of elements with bit length too large
+    var tree        = desc.dyn_tree;
+    var extra       = desc.extra_bits;
+    var base        = desc.extra_base;
+    var max_code    = desc.max_code;
+    var max_length  = desc.max_length;
+    var stree       = desc.static_tree;
+    var h;      // heap index
+    var n, m;       // iterate over the tree elements
+    var bits;       // bit length
+    var xbits;      // extra bits
+    var f;      // frequency
+    var overflow = 0;   // number of elements with bit length too large
 
     for(bits = 0; bits <= zip_MAX_BITS; bits++)
-	zip_bl_count[bits] = 0;
+    zip_bl_count[bits] = 0;
 
     /* In a first pass, compute the optimal bit lengths (which may
      * overflow in the case of the bit length tree).
@@ -2299,44 +2952,44 @@ var zip_gen_bitlen = function(desc) { // the tree descriptor
     tree[zip_heap[zip_heap_max]].dl = 0; // root of the heap
 
     for(h = zip_heap_max + 1; h < zip_HEAP_SIZE; h++) {
-	n = zip_heap[h];
-	bits = tree[tree[n].dl].dl + 1;
-	if(bits > max_length) {
-	    bits = max_length;
-	    overflow++;
-	}
-	tree[n].dl = bits;
-	// We overwrite tree[n].dl which is no longer needed
+    n = zip_heap[h];
+    bits = tree[tree[n].dl].dl + 1;
+    if(bits > max_length) {
+        bits = max_length;
+        overflow++;
+    }
+    tree[n].dl = bits;
+    // We overwrite tree[n].dl which is no longer needed
 
-	if(n > max_code)
-	    continue; // not a leaf node
+    if(n > max_code)
+        continue; // not a leaf node
 
-	zip_bl_count[bits]++;
-	xbits = 0;
-	if(n >= base)
-	    xbits = extra[n - base];
-	f = tree[n].fc;
-	zip_opt_len += f * (bits + xbits);
-	if(stree != null)
-	    zip_static_len += f * (stree[n].dl + xbits);
+    zip_bl_count[bits]++;
+    xbits = 0;
+    if(n >= base)
+        xbits = extra[n - base];
+    f = tree[n].fc;
+    zip_opt_len += f * (bits + xbits);
+    if(stree != null)
+        zip_static_len += f * (stree[n].dl + xbits);
     }
     if(overflow == 0)
-	return;
+    return;
 
     // This happens for example on obj2 and pic of the Calgary corpus
 
     // Find the first bit length which could increase:
     do {
-	bits = max_length - 1;
-	while(zip_bl_count[bits] == 0)
-	    bits--;
-	zip_bl_count[bits]--;		// move one leaf down the tree
-	zip_bl_count[bits + 1] += 2;	// move one overflow item as its brother
-	zip_bl_count[max_length]--;
-	/* The brother of the overflow item also moves one step up,
-	 * but this does not affect bl_count[max_length]
-	 */
-	overflow -= 2;
+    bits = max_length - 1;
+    while(zip_bl_count[bits] == 0)
+        bits--;
+    zip_bl_count[bits]--;       // move one leaf down the tree
+    zip_bl_count[bits + 1] += 2;    // move one overflow item as its brother
+    zip_bl_count[max_length]--;
+    /* The brother of the overflow item also moves one step up,
+     * but this does not affect bl_count[max_length]
+     */
+    overflow -= 2;
     } while(overflow > 0);
 
     /* Now recompute all bit lengths, scanning in increasing frequency.
@@ -2345,17 +2998,17 @@ var zip_gen_bitlen = function(desc) { // the tree descriptor
      * from 'ar' written by Haruhiko Okumura.)
      */
     for(bits = max_length; bits != 0; bits--) {
-	n = zip_bl_count[bits];
-	while(n != 0) {
-	    m = zip_heap[--h];
-	    if(m > max_code)
-		continue;
-	    if(tree[m].dl != bits) {
-		zip_opt_len += (bits - tree[m].dl) * tree[m].fc;
-		tree[m].fc = bits;
-	    }
-	    n--;
-	}
+    n = zip_bl_count[bits];
+    while(n != 0) {
+        m = zip_heap[--h];
+        if(m > max_code)
+        continue;
+        if(tree[m].dl != bits) {
+        zip_opt_len += (bits - tree[m].dl) * tree[m].fc;
+        tree[m].fc = bits;
+        }
+        n--;
+    }
     }
 }
 
@@ -2367,37 +3020,37 @@ var zip_gen_bitlen = function(desc) { // the tree descriptor
    * OUT assertion: the field code is set for all tree elements of non
    *     zero code length.
    */
-var zip_gen_codes = function(tree,	// the tree to decorate
-		   max_code) {	// largest code with non zero frequency
+var zip_gen_codes = function(tree,  // the tree to decorate
+           max_code) {  // largest code with non zero frequency
     var next_code = new Array(zip_MAX_BITS+1); // next code value for each bit length
-    var code = 0;		// running code value
-    var bits;			// bit index
-    var n;			// code index
+    var code = 0;       // running code value
+    var bits;           // bit index
+    var n;          // code index
 
     /* The distribution counts are first used to generate the code values
      * without bit reversal.
      */
     for(bits = 1; bits <= zip_MAX_BITS; bits++) {
-	code = ((code + zip_bl_count[bits-1]) << 1);
-	next_code[bits] = code;
+    code = ((code + zip_bl_count[bits-1]) << 1);
+    next_code[bits] = code;
     }
 
     /* Check that the bit counts in bl_count are consistent. The last code
      * must be all ones.
      */
 //    Assert (code + encoder->bl_count[MAX_BITS]-1 == (1<<MAX_BITS)-1,
-//	    "inconsistent bit counts");
+//      "inconsistent bit counts");
 //    Tracev((stderr,"\ngen_codes: max_code %d ", max_code));
 
     for(n = 0; n <= max_code; n++) {
-	var len = tree[n].dl;
-	if(len == 0)
-	    continue;
-	// Now reverse the bits
-	tree[n].fc = zip_bi_reverse(next_code[len]++, len);
+    var len = tree[n].dl;
+    if(len == 0)
+        continue;
+    // Now reverse the bits
+    tree[n].fc = zip_bi_reverse(next_code[len]++, len);
 
 //      Tracec(tree != static_ltree, (stderr,"\nn %3d %c l %2d c %4x (%x) ",
-//	  n, (isgraph(n) ? n : ' '), len, tree[n].fc, next_code[len]-1));
+//    n, (isgraph(n) ? n : ' '), len, tree[n].fc, next_code[len]-1));
     }
 }
 
@@ -2410,12 +3063,12 @@ var zip_gen_codes = function(tree,	// the tree to decorate
  *     also updated if stree is not null. The field max_code is set.
  */
 var zip_build_tree = function(desc) { // the tree descriptor
-    var tree	= desc.dyn_tree;
-    var stree	= desc.static_tree;
-    var elems	= desc.elems;
-    var n, m;		// iterate over heap elements
-    var max_code = -1;	// largest code with non zero frequency
-    var node = elems;	// next internal node of the tree
+    var tree    = desc.dyn_tree;
+    var stree   = desc.static_tree;
+    var elems   = desc.elems;
+    var n, m;       // iterate over heap elements
+    var max_code = -1;  // largest code with non zero frequency
+    var node = elems;   // next internal node of the tree
 
     /* Construct the initial heap, with least frequent element in
      * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
@@ -2425,11 +3078,11 @@ var zip_build_tree = function(desc) { // the tree descriptor
     zip_heap_max = zip_HEAP_SIZE;
 
     for(n = 0; n < elems; n++) {
-	if(tree[n].fc != 0) {
-	    zip_heap[++zip_heap_len] = max_code = n;
-	    zip_depth[n] = 0;
-	} else
-	    tree[n].dl = 0;
+    if(tree[n].fc != 0) {
+        zip_heap[++zip_heap_len] = max_code = n;
+        zip_depth[n] = 0;
+    } else
+        tree[n].dl = 0;
     }
 
     /* The pkzip format requires that at least one distance code exists,
@@ -2438,13 +3091,13 @@ var zip_build_tree = function(desc) { // the tree descriptor
      * two codes of non zero frequency.
      */
     while(zip_heap_len < 2) {
-	var xnew = zip_heap[++zip_heap_len] = (max_code < 2 ? ++max_code : 0);
-	tree[xnew].fc = 1;
-	zip_depth[xnew] = 0;
-	zip_opt_len--;
-	if(stree != null)
-	    zip_static_len -= stree[xnew].dl;
-	// new is 0 or 1 so it does not have extra bits
+    var xnew = zip_heap[++zip_heap_len] = (max_code < 2 ? ++max_code : 0);
+    tree[xnew].fc = 1;
+    zip_depth[xnew] = 0;
+    zip_opt_len--;
+    if(stree != null)
+        zip_static_len -= stree[xnew].dl;
+    // new is 0 or 1 so it does not have extra bits
     }
     desc.max_code = max_code;
 
@@ -2452,34 +3105,34 @@ var zip_build_tree = function(desc) { // the tree descriptor
      * establish sub-heaps of increasing lengths:
      */
     for(n = zip_heap_len >> 1; n >= 1; n--)
-	zip_pqdownheap(tree, n);
+    zip_pqdownheap(tree, n);
 
     /* Construct the Huffman tree by repeatedly combining the least two
      * frequent nodes.
      */
     do {
-	n = zip_heap[zip_SMALLEST];
-	zip_heap[zip_SMALLEST] = zip_heap[zip_heap_len--];
-	zip_pqdownheap(tree, zip_SMALLEST);
+    n = zip_heap[zip_SMALLEST];
+    zip_heap[zip_SMALLEST] = zip_heap[zip_heap_len--];
+    zip_pqdownheap(tree, zip_SMALLEST);
 
-	m = zip_heap[zip_SMALLEST];  // m = node of next least frequency
+    m = zip_heap[zip_SMALLEST];  // m = node of next least frequency
 
-	// keep the nodes sorted by frequency
-	zip_heap[--zip_heap_max] = n;
-	zip_heap[--zip_heap_max] = m;
+    // keep the nodes sorted by frequency
+    zip_heap[--zip_heap_max] = n;
+    zip_heap[--zip_heap_max] = m;
 
-	// Create a new node father of n and m
-	tree[node].fc = tree[n].fc + tree[m].fc;
-//	depth[node] = (char)(MAX(depth[n], depth[m]) + 1);
-	if(zip_depth[n] > zip_depth[m] + 1)
-	    zip_depth[node] = zip_depth[n];
-	else
-	    zip_depth[node] = zip_depth[m] + 1;
-	tree[n].dl = tree[m].dl = node;
+    // Create a new node father of n and m
+    tree[node].fc = tree[n].fc + tree[m].fc;
+//  depth[node] = (char)(MAX(depth[n], depth[m]) + 1);
+    if(zip_depth[n] > zip_depth[m] + 1)
+        zip_depth[node] = zip_depth[n];
+    else
+        zip_depth[node] = zip_depth[m] + 1;
+    tree[n].dl = tree[m].dl = node;
 
-	// and insert the new node in the heap
-	zip_heap[zip_SMALLEST] = node++;
-	zip_pqdownheap(tree, zip_SMALLEST);
+    // and insert the new node in the heap
+    zip_heap[zip_SMALLEST] = node++;
+    zip_pqdownheap(tree, zip_SMALLEST);
 
     } while(zip_heap_len >= 2);
 
@@ -2501,47 +3154,47 @@ var zip_build_tree = function(desc) { // the tree descriptor
  * during the construction of bl_tree.)
  */
 var zip_scan_tree = function(tree,// the tree to be scanned
-		       max_code) {  // and its largest code of non zero frequency
-    var n;			// iterates over all tree elements
-    var prevlen = -1;		// last emitted length
-    var curlen;			// length of current code
-    var nextlen = tree[0].dl;	// length of next code
-    var count = 0;		// repeat count of the current code
-    var max_count = 7;		// max repeat count
-    var min_count = 4;		// min repeat count
+               max_code) {  // and its largest code of non zero frequency
+    var n;          // iterates over all tree elements
+    var prevlen = -1;       // last emitted length
+    var curlen;         // length of current code
+    var nextlen = tree[0].dl;   // length of next code
+    var count = 0;      // repeat count of the current code
+    var max_count = 7;      // max repeat count
+    var min_count = 4;      // min repeat count
 
     if(nextlen == 0) {
-	max_count = 138;
-	min_count = 3;
+    max_count = 138;
+    min_count = 3;
     }
     tree[max_code + 1].dl = 0xffff; // guard
 
     for(n = 0; n <= max_code; n++) {
-	curlen = nextlen;
-	nextlen = tree[n + 1].dl;
-	if(++count < max_count && curlen == nextlen)
-	    continue;
-	else if(count < min_count)
-	    zip_bl_tree[curlen].fc += count;
-	else if(curlen != 0) {
-	    if(curlen != prevlen)
-		zip_bl_tree[curlen].fc++;
-	    zip_bl_tree[zip_REP_3_6].fc++;
-	} else if(count <= 10)
-	    zip_bl_tree[zip_REPZ_3_10].fc++;
-	else
-	    zip_bl_tree[zip_REPZ_11_138].fc++;
-	count = 0; prevlen = curlen;
-	if(nextlen == 0) {
-	    max_count = 138;
-	    min_count = 3;
-	} else if(curlen == nextlen) {
-	    max_count = 6;
-	    min_count = 3;
-	} else {
-	    max_count = 7;
-	    min_count = 4;
-	}
+    curlen = nextlen;
+    nextlen = tree[n + 1].dl;
+    if(++count < max_count && curlen == nextlen)
+        continue;
+    else if(count < min_count)
+        zip_bl_tree[curlen].fc += count;
+    else if(curlen != 0) {
+        if(curlen != prevlen)
+        zip_bl_tree[curlen].fc++;
+        zip_bl_tree[zip_REP_3_6].fc++;
+    } else if(count <= 10)
+        zip_bl_tree[zip_REPZ_3_10].fc++;
+    else
+        zip_bl_tree[zip_REPZ_11_138].fc++;
+    count = 0; prevlen = curlen;
+    if(nextlen == 0) {
+        max_count = 138;
+        min_count = 3;
+    } else if(curlen == nextlen) {
+        max_count = 6;
+        min_count = 3;
+    } else {
+        max_count = 7;
+        min_count = 4;
+    }
     }
 }
 
@@ -2550,14 +3203,14 @@ var zip_scan_tree = function(tree,// the tree to be scanned
    * bl_tree.
    */
 var zip_send_tree = function(tree, // the tree to be scanned
-		   max_code) { // and its largest code of non zero frequency
-    var n;			// iterates over all tree elements
-    var prevlen = -1;		// last emitted length
-    var curlen;			// length of current code
-    var nextlen = tree[0].dl;	// length of next code
-    var count = 0;		// repeat count of the current code
-    var max_count = 7;		// max repeat count
-    var min_count = 4;		// min repeat count
+           max_code) { // and its largest code of non zero frequency
+    var n;          // iterates over all tree elements
+    var prevlen = -1;       // last emitted length
+    var curlen;         // length of current code
+    var nextlen = tree[0].dl;   // length of next code
+    var count = 0;      // repeat count of the current code
+    var max_count = 7;      // max repeat count
+    var min_count = 4;      // min repeat count
 
     /* tree[max_code+1].dl = -1; */  /* guard already set */
     if(nextlen == 0) {
@@ -2566,39 +3219,39 @@ var zip_send_tree = function(tree, // the tree to be scanned
     }
 
     for(n = 0; n <= max_code; n++) {
-	curlen = nextlen;
-	nextlen = tree[n+1].dl;
-	if(++count < max_count && curlen == nextlen) {
-	    continue;
-	} else if(count < min_count) {
-	    do { zip_SEND_CODE(curlen, zip_bl_tree); } while(--count != 0);
-	} else if(curlen != 0) {
-	    if(curlen != prevlen) {
-		zip_SEND_CODE(curlen, zip_bl_tree);
-		count--;
-	    }
-	    // Assert(count >= 3 && count <= 6, " 3_6?");
-	    zip_SEND_CODE(zip_REP_3_6, zip_bl_tree);
-	    zip_send_bits(count - 3, 2);
-	} else if(count <= 10) {
-	    zip_SEND_CODE(zip_REPZ_3_10, zip_bl_tree);
-	    zip_send_bits(count-3, 3);
-	} else {
-	    zip_SEND_CODE(zip_REPZ_11_138, zip_bl_tree);
-	    zip_send_bits(count-11, 7);
-	}
-	count = 0;
-	prevlen = curlen;
-	if(nextlen == 0) {
-	    max_count = 138;
-	    min_count = 3;
-	} else if(curlen == nextlen) {
-	    max_count = 6;
-	    min_count = 3;
-	} else {
-	    max_count = 7;
-	    min_count = 4;
-	}
+    curlen = nextlen;
+    nextlen = tree[n+1].dl;
+    if(++count < max_count && curlen == nextlen) {
+        continue;
+    } else if(count < min_count) {
+        do { zip_SEND_CODE(curlen, zip_bl_tree); } while(--count != 0);
+    } else if(curlen != 0) {
+        if(curlen != prevlen) {
+        zip_SEND_CODE(curlen, zip_bl_tree);
+        count--;
+        }
+        // Assert(count >= 3 && count <= 6, " 3_6?");
+        zip_SEND_CODE(zip_REP_3_6, zip_bl_tree);
+        zip_send_bits(count - 3, 2);
+    } else if(count <= 10) {
+        zip_SEND_CODE(zip_REPZ_3_10, zip_bl_tree);
+        zip_send_bits(count-3, 3);
+    } else {
+        zip_SEND_CODE(zip_REPZ_11_138, zip_bl_tree);
+        zip_send_bits(count-11, 7);
+    }
+    count = 0;
+    prevlen = curlen;
+    if(nextlen == 0) {
+        max_count = 138;
+        min_count = 3;
+    } else if(curlen == nextlen) {
+        max_count = 6;
+        min_count = 3;
+    } else {
+        max_count = 7;
+        min_count = 4;
+    }
     }
 }
 
@@ -2624,12 +3277,12 @@ var zip_build_bl_tree = function() {
      * 3 but the actual value used is 4.)
      */
     for(max_blindex = zip_BL_CODES-1; max_blindex >= 3; max_blindex--) {
-	if(zip_bl_tree[zip_bl_order[max_blindex]].dl != 0) break;
+    if(zip_bl_tree[zip_bl_order[max_blindex]].dl != 0) break;
     }
     /* Update opt_len to include the bit length tree and counts */
     zip_opt_len += 3*(max_blindex+1) + 5+5+4;
 //    Tracev((stderr, "\ndyn trees: dyn %ld, stat %ld",
-//	    encoder->opt_len, encoder->static_len));
+//      encoder->opt_len, encoder->static_len));
 
     return max_blindex;
 }
@@ -2644,14 +3297,14 @@ var zip_send_all_trees = function(lcodes, dcodes, blcodes) { // number of codes 
 
 //    Assert (lcodes >= 257 && dcodes >= 1 && blcodes >= 4, "not enough codes");
 //    Assert (lcodes <= L_CODES && dcodes <= D_CODES && blcodes <= BL_CODES,
-//	    "too many codes");
+//      "too many codes");
 //    Tracev((stderr, "\nbl counts: "));
     zip_send_bits(lcodes-257, 5); // not +255 as stated in appnote.txt
     zip_send_bits(dcodes-1,   5);
     zip_send_bits(blcodes-4,  4); // not -3 as stated in appnote.txt
     for(rank = 0; rank < blcodes; rank++) {
 //      Tracev((stderr, "\nbl code %2d ", bl_order[rank]));
-	zip_send_bits(zip_bl_tree[zip_bl_order[rank]].dl, 3);
+    zip_send_bits(zip_bl_tree[zip_bl_order[rank]].dl, 3);
     }
 
     // send the literal tree
@@ -2667,8 +3320,8 @@ var zip_send_all_trees = function(lcodes, dcodes, blcodes) { // number of codes 
  */
 var zip_flush_block = function(eof) { // true if this is the last block for a file
     var opt_lenb, static_lenb; // opt_len and static_len in bytes
-    var max_blindex;	// index of last bit length code of non zero freq
-    var stored_len;	// length of input block
+    var max_blindex;    // index of last bit length code of non zero freq
+    var stored_len; // length of input block
 
     stored_len = zip_strstart - zip_block_start;
     zip_flag_buf[zip_last_flags] = zip_flags; // Save the flags for the last 8 items
@@ -2676,11 +3329,11 @@ var zip_flush_block = function(eof) { // true if this is the last block for a fi
     // Construct the literal and distance trees
     zip_build_tree(zip_l_desc);
 //    Tracev((stderr, "\nlit data: dyn %ld, stat %ld",
-//	    encoder->opt_len, encoder->static_len));
+//      encoder->opt_len, encoder->static_len));
 
     zip_build_tree(zip_d_desc);
 //    Tracev((stderr, "\ndist data: dyn %ld, stat %ld",
-//	    encoder->opt_len, encoder->static_len));
+//      encoder->opt_len, encoder->static_len));
     /* At this point, opt_len and static_len are the total bit lengths of
      * the compressed block data, excluding the tree representations.
      */
@@ -2691,55 +3344,55 @@ var zip_flush_block = function(eof) { // true if this is the last block for a fi
     max_blindex = zip_build_bl_tree();
 
     // Determine the best encoding. Compute first the block length in bytes
-    opt_lenb	= (zip_opt_len   +3+7)>>3;
+    opt_lenb    = (zip_opt_len   +3+7)>>3;
     static_lenb = (zip_static_len+3+7)>>3;
 
 //    Trace((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u dist %u ",
-//	   opt_lenb, encoder->opt_len,
-//	   static_lenb, encoder->static_len, stored_len,
-//	   encoder->last_lit, encoder->last_dist));
+//     opt_lenb, encoder->opt_len,
+//     static_lenb, encoder->static_len, stored_len,
+//     encoder->last_lit, encoder->last_dist));
 
     if(static_lenb <= opt_lenb)
-	opt_lenb = static_lenb;
+    opt_lenb = static_lenb;
     if(stored_len + 4 <= opt_lenb // 4: two words for the lengths
        && zip_block_start >= 0) {
-	var i;
+    var i;
 
-	/* The test buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
-	 * Otherwise we can't have processed more than WSIZE input bytes since
-	 * the last block flush, because compression would have been
-	 * successful. If LIT_BUFSIZE <= WSIZE, it is never too late to
-	 * transform a block into a stored block.
-	 */
-	zip_send_bits((zip_STORED_BLOCK<<1)+eof, 3);  /* send block type */
-	zip_bi_windup();		 /* align on byte boundary */
-	zip_put_short(stored_len);
-	zip_put_short(~stored_len);
+    /* The test buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
+     * Otherwise we can't have processed more than WSIZE input bytes since
+     * the last block flush, because compression would have been
+     * successful. If LIT_BUFSIZE <= WSIZE, it is never too late to
+     * transform a block into a stored block.
+     */
+    zip_send_bits((zip_STORED_BLOCK<<1)+eof, 3);  /* send block type */
+    zip_bi_windup();         /* align on byte boundary */
+    zip_put_short(stored_len);
+    zip_put_short(~stored_len);
 
       // copy block
 /*
       p = &window[block_start];
       for(i = 0; i < stored_len; i++)
-	put_byte(p[i]);
+    put_byte(p[i]);
 */
-	for(i = 0; i < stored_len; i++)
-	    zip_put_byte(zip_window[zip_block_start + i]);
+    for(i = 0; i < stored_len; i++)
+        zip_put_byte(zip_window[zip_block_start + i]);
 
     } else if(static_lenb == opt_lenb) {
-	zip_send_bits((zip_STATIC_TREES<<1)+eof, 3);
-	zip_compress_block(zip_static_ltree, zip_static_dtree);
+    zip_send_bits((zip_STATIC_TREES<<1)+eof, 3);
+    zip_compress_block(zip_static_ltree, zip_static_dtree);
     } else {
-	zip_send_bits((zip_DYN_TREES<<1)+eof, 3);
-	zip_send_all_trees(zip_l_desc.max_code+1,
-			   zip_d_desc.max_code+1,
-			   max_blindex+1);
-	zip_compress_block(zip_dyn_ltree, zip_dyn_dtree);
+    zip_send_bits((zip_DYN_TREES<<1)+eof, 3);
+    zip_send_all_trees(zip_l_desc.max_code+1,
+               zip_d_desc.max_code+1,
+               max_blindex+1);
+    zip_compress_block(zip_dyn_ltree, zip_dyn_dtree);
     }
 
     zip_init_block();
 
     if(eof != 0)
-	zip_bi_windup();
+    zip_bi_windup();
 }
 
 /* ==========================================================================
@@ -2747,53 +3400,53 @@ var zip_flush_block = function(eof) { // true if this is the last block for a fi
  * the current block must be flushed.
  */
 var zip_ct_tally = function(
-	dist, // distance of matched string
-	lc) { // match length-MIN_MATCH or unmatched char (if dist==0)
+    dist, // distance of matched string
+    lc) { // match length-MIN_MATCH or unmatched char (if dist==0)
     zip_l_buf[zip_last_lit++] = lc;
     if(dist == 0) {
-	// lc is the unmatched char
-	zip_dyn_ltree[lc].fc++;
+    // lc is the unmatched char
+    zip_dyn_ltree[lc].fc++;
     } else {
-	// Here, lc is the match length - MIN_MATCH
-	dist--;		    // dist = match distance - 1
+    // Here, lc is the match length - MIN_MATCH
+    dist--;         // dist = match distance - 1
 //      Assert((ush)dist < (ush)MAX_DIST &&
-//	     (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
-//	     (ush)D_CODE(dist) < (ush)D_CODES,  "ct_tally: bad match");
+//       (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
+//       (ush)D_CODE(dist) < (ush)D_CODES,  "ct_tally: bad match");
 
-	zip_dyn_ltree[zip_length_code[lc]+zip_LITERALS+1].fc++;
-	zip_dyn_dtree[zip_D_CODE(dist)].fc++;
+    zip_dyn_ltree[zip_length_code[lc]+zip_LITERALS+1].fc++;
+    zip_dyn_dtree[zip_D_CODE(dist)].fc++;
 
-	zip_d_buf[zip_last_dist++] = dist;
-	zip_flags |= zip_flag_bit;
+    zip_d_buf[zip_last_dist++] = dist;
+    zip_flags |= zip_flag_bit;
     }
     zip_flag_bit <<= 1;
 
     // Output the flags if they fill a byte
     if((zip_last_lit & 7) == 0) {
-	zip_flag_buf[zip_last_flags++] = zip_flags;
-	zip_flags = 0;
-	zip_flag_bit = 1;
+    zip_flag_buf[zip_last_flags++] = zip_flags;
+    zip_flags = 0;
+    zip_flag_bit = 1;
     }
     // Try to guess if it is profitable to stop the current block here
     if(zip_compr_level > 2 && (zip_last_lit & 0xfff) == 0) {
-	// Compute an upper bound for the compressed length
-	var out_length = zip_last_lit * 8;
-	var in_length = zip_strstart - zip_block_start;
-	var dcode;
+    // Compute an upper bound for the compressed length
+    var out_length = zip_last_lit * 8;
+    var in_length = zip_strstart - zip_block_start;
+    var dcode;
 
-	for(dcode = 0; dcode < zip_D_CODES; dcode++) {
-	    out_length += zip_dyn_dtree[dcode].fc * (5 + zip_extra_dbits[dcode]);
-	}
-	out_length >>= 3;
+    for(dcode = 0; dcode < zip_D_CODES; dcode++) {
+        out_length += zip_dyn_dtree[dcode].fc * (5 + zip_extra_dbits[dcode]);
+    }
+    out_length >>= 3;
 //      Trace((stderr,"\nlast_lit %u, last_dist %u, in %ld, out ~%ld(%ld%%) ",
-//	     encoder->last_lit, encoder->last_dist, in_length, out_length,
-//	     100L - out_length*100L/in_length));
-	if(zip_last_dist < parseInt(zip_last_lit/2) &&
-	   out_length < parseInt(in_length/2))
-	    return true;
+//       encoder->last_lit, encoder->last_dist, in_length, out_length,
+//       100L - out_length*100L/in_length));
+    if(zip_last_dist < parseInt(zip_last_lit/2) &&
+       out_length < parseInt(in_length/2))
+        return true;
     }
     return (zip_last_lit == zip_LIT_BUFSIZE-1 ||
-	    zip_last_dist == zip_DIST_BUFSIZE);
+        zip_last_dist == zip_DIST_BUFSIZE);
     /* We avoid equality with LIT_BUFSIZE because of wraparound at 64K
      * on 16 bit machines and because stored blocks are restricted to
      * 64K-1 bytes.
@@ -2804,46 +3457,46 @@ var zip_ct_tally = function(
    * Send the block data compressed using the given Huffman trees
    */
 var zip_compress_block = function(
-	ltree,	// literal tree
-	dtree) {	// distance tree
-    var dist;		// distance of matched string
-    var lc;		// match length or unmatched char (if dist == 0)
-    var lx = 0;		// running index in l_buf
-    var dx = 0;		// running index in d_buf
-    var fx = 0;		// running index in flag_buf
-    var flag = 0;	// current flags
-    var code;		// the code to send
-    var extra;		// number of extra bits to send
+    ltree,  // literal tree
+    dtree) {    // distance tree
+    var dist;       // distance of matched string
+    var lc;     // match length or unmatched char (if dist == 0)
+    var lx = 0;     // running index in l_buf
+    var dx = 0;     // running index in d_buf
+    var fx = 0;     // running index in flag_buf
+    var flag = 0;   // current flags
+    var code;       // the code to send
+    var extra;      // number of extra bits to send
 
     if(zip_last_lit != 0) do {
-	if((lx & 7) == 0)
-	    flag = zip_flag_buf[fx++];
-	lc = zip_l_buf[lx++] & 0xff;
-	if((flag & 1) == 0) {
-	    zip_SEND_CODE(lc, ltree); /* send a literal byte */
-//	Tracecv(isgraph(lc), (stderr," '%c' ", lc));
-	} else {
-	    // Here, lc is the match length - MIN_MATCH
-	    code = zip_length_code[lc];
-	    zip_SEND_CODE(code+zip_LITERALS+1, ltree); // send the length code
-	    extra = zip_extra_lbits[code];
-	    if(extra != 0) {
-		lc -= zip_base_length[code];
-		zip_send_bits(lc, extra); // send the extra length bits
-	    }
-	    dist = zip_d_buf[dx++];
-	    // Here, dist is the match distance - 1
-	    code = zip_D_CODE(dist);
-//	Assert (code < D_CODES, "bad d_code");
+    if((lx & 7) == 0)
+        flag = zip_flag_buf[fx++];
+    lc = zip_l_buf[lx++] & 0xff;
+    if((flag & 1) == 0) {
+        zip_SEND_CODE(lc, ltree); /* send a literal byte */
+//  Tracecv(isgraph(lc), (stderr," '%c' ", lc));
+    } else {
+        // Here, lc is the match length - MIN_MATCH
+        code = zip_length_code[lc];
+        zip_SEND_CODE(code+zip_LITERALS+1, ltree); // send the length code
+        extra = zip_extra_lbits[code];
+        if(extra != 0) {
+        lc -= zip_base_length[code];
+        zip_send_bits(lc, extra); // send the extra length bits
+        }
+        dist = zip_d_buf[dx++];
+        // Here, dist is the match distance - 1
+        code = zip_D_CODE(dist);
+//  Assert (code < D_CODES, "bad d_code");
 
-	    zip_SEND_CODE(code, dtree);	  // send the distance code
-	    extra = zip_extra_dbits[code];
-	    if(extra != 0) {
-		dist -= zip_base_dist[code];
-		zip_send_bits(dist, extra);   // send the extra distance bits
-	    }
-	} // literal or match pair ?
-	flag >>= 1;
+        zip_SEND_CODE(code, dtree);   // send the distance code
+        extra = zip_extra_dbits[code];
+        if(extra != 0) {
+        dist -= zip_base_dist[code];
+        zip_send_bits(dist, extra);   // send the extra distance bits
+        }
+    } // literal or match pair ?
+    flag >>= 1;
     } while(lx < zip_last_lit);
 
     zip_SEND_CODE(zip_END_BLOCK, ltree);
@@ -2855,20 +3508,20 @@ var zip_compress_block = function(
  */
 var zip_Buf_size = 16; // bit size of bi_buf
 var zip_send_bits = function(
-	value,	// value to send
-	length) {	// number of bits
+    value,  // value to send
+    length) {   // number of bits
     /* If not enough room in bi_buf, use (valid) bits from bi_buf and
      * (16 - bi_valid) bits from value, leaving (width - (16-bi_valid))
      * unused bits in value.
      */
     if(zip_bi_valid > zip_Buf_size - length) {
-	zip_bi_buf |= (value << zip_bi_valid);
-	zip_put_short(zip_bi_buf);
-	zip_bi_buf = (value >> (zip_Buf_size - zip_bi_valid));
-	zip_bi_valid += length - zip_Buf_size;
+    zip_bi_buf |= (value << zip_bi_valid);
+    zip_put_short(zip_bi_buf);
+    zip_bi_buf = (value >> (zip_Buf_size - zip_bi_valid));
+    zip_bi_valid += length - zip_Buf_size;
     } else {
-	zip_bi_buf |= value << zip_bi_valid;
-	zip_bi_valid += length;
+    zip_bi_buf |= value << zip_bi_valid;
+    zip_bi_valid += length;
     }
 }
 
@@ -2878,13 +3531,13 @@ var zip_send_bits = function(
  * IN assertion: 1 <= len <= 15
  */
 var zip_bi_reverse = function(
-	code,	// the value to invert
-	len) {	// its bit length
+    code,   // the value to invert
+    len) {  // its bit length
     var res = 0;
     do {
-	res |= code & 1;
-	code >>= 1;
-	res <<= 1;
+    res |= code & 1;
+    code >>= 1;
+    res <<= 1;
     } while(--len > 0);
     return res >> 1;
 }
@@ -2894,9 +3547,9 @@ var zip_bi_reverse = function(
  */
 var zip_bi_windup = function() {
     if(zip_bi_valid > 8) {
-	zip_put_short(zip_bi_buf);
+    zip_put_short(zip_bi_buf);
     } else if(zip_bi_valid > 0) {
-	zip_put_byte(zip_bi_buf);
+    zip_put_byte(zip_bi_buf);
     }
     zip_bi_buf = 0;
     zip_bi_valid = 0;
@@ -2904,17 +3557,17 @@ var zip_bi_windup = function() {
 
 var zip_qoutbuf = function() {
     if(zip_outcnt != 0) {
-	var q, i;
-	q = zip_new_queue();
-	if(zip_qhead == null)
-	    zip_qhead = zip_qtail = q;
-	else
-	    zip_qtail = zip_qtail.next = q;
-	q.len = zip_outcnt - zip_outoff;
+    var q, i;
+    q = zip_new_queue();
+    if(zip_qhead == null)
+        zip_qhead = zip_qtail = q;
+    else
+        zip_qtail = zip_qtail.next = q;
+    q.len = zip_outcnt - zip_outoff;
 //      System.arraycopy(zip_outbuf, zip_outoff, q.ptr, 0, q.len);
-	for(i = 0; i < q.len; i++)
-	    q.ptr[i] = zip_outbuf[zip_outoff + i];
-	zip_outcnt = zip_outoff = 0;
+    for(i = 0; i < q.len; i++)
+        q.ptr[i] = zip_outbuf[zip_outoff + i];
+    zip_outcnt = zip_outoff = 0;
     }
 }
 
@@ -2924,17 +3577,17 @@ var zip_deflate = function(str, level) {
     zip_deflate_data = str;
     zip_deflate_pos = 0;
     if(typeof level == "undefined")
-	level = zip_DEFAULT_LEVEL;
+    level = zip_DEFAULT_LEVEL;
     zip_deflate_start(level);
 
     var buff = new Array(1024);
     var aout = [];
     while((i = zip_deflate_internal(buff, 0, buff.length)) > 0) {
-	var cbuf = new Array(i);
-	for(j = 0; j < i; j++){
-	    cbuf[j] = String.fromCharCode(buff[j]);
-	}
-	aout[aout.length] = cbuf.join("");
+    var cbuf = new Array(i);
+    for(j = 0; j < i; j++){
+        cbuf[j] = String.fromCharCode(buff[j]);
+    }
+    aout[aout.length] = cbuf.join("");
     }
     zip_deflate_data = null; // G.C.
     return aout.join("");
@@ -2962,118 +3615,126 @@ if(!JSZip.compressions["DEFLATE"]) {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: utils.js: Helper methods
  */
 
+// jshint unused:true
+/* globals obis,SparkMD5 */
+
 /*
 
  Methods:
-	htmlEscape( str )
-	csvEscape( string )
-	addZeros( number )
-	numberToCurrency( number )
-	simpleDate( date )
-	dateTimeString( date )
-	USDateTimeString( date )
-	arrayWithout( array, without )
+    htmlEscape( str )
+    csvEscape( string )
+    addZeros( number )
+    numberToCurrency( number )
+    simpleDate( date )
+    dateTimeString( date )
+    USDateTimeString( date )
+    arrayWithout( array, without )
 
  */
 
 jQuery.extend( obis, {
 
-	utils: {
+    utils: {
 
-		htmlEscape: function _htmlEscape( str ) {
+        htmlEscape: function _htmlEscape( str ) {
 
-			return String( str )
-				.replace( /&/g, '&amp;' )
-				.replace( /"/g, '&quot;' )
-				.replace( /'/g, '&#39;' )
-				.replace( /</g, '&lt;' )
-				.replace( />/g, '&gt;' );
+            return String( str )
+                .replace( /&/g, '&amp;' )
+                .replace( /"/g, '&quot;' )
+                .replace( /'/g, '&#39;' )
+                .replace( /</g, '&lt;' )
+                .replace( />/g, '&gt;' );
 
-		},
+        },
 
-		csvEscape: function _csvEscape( string ) {
-			return ( '' + string ).replace( /"/g, '""' );
-		},
+        csvEscape: function _csvEscape( string ) {
+            return ( '' + string ).replace( /"/g, '""' );
+        },
 
-		addZeros: function _addZeros( number ) {
-			return ( 10 > number ? ( '0' + number ) : number );
-		},
+        addZeros: function _addZeros( number ) {
+            return ( 10 > number ? ( '0' + number ) : number );
+        },
 
-		numberToCurrency: function _numberToCurrency( number ) {
+        numberToCurrency: function _numberToCurrency( number ) {
 
-			var value = number.toFixed( 2 );
+            var value = number.toFixed( 2 );
 
-			if ( !value ) {
-				value = '-';
-			}
+            if ( !value ) {
+                value = '-';
+            }
 
-			return value;
+            return value;
 
-		},
+        },
 
-		simpleDate: function _simpleDate( date ) {
+        simpleDate: function _simpleDate( date ) {
 
-			var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
+            var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
 
-			return (
-				date.getDate() + ' ' +
-				months[ date.getMonth() ] + ' ' +
-				date.getFullYear()
-			);
+            return (
+                date.getDate() + ' ' +
+                months[ date.getMonth() ] + ' ' +
+                date.getFullYear()
+            );
 
-		},
+        },
 
-		dateTimeString: function _dateTimeString( date ) {
+        dateTimeString: function _dateTimeString( date ) {
 
-			return (
-				'' +
-				date.getFullYear() +
-				obis.utils.addZeros( date.getMonth() + 1 ) +
-				obis.utils.addZeros( date.getDate() ) +
-				obis.utils.addZeros( date.getHours() ) +
-				obis.utils.addZeros( date.getMinutes() ) +
-				obis.utils.addZeros( date.getSeconds() )
-			);
+            return (
+                '' +
+                date.getFullYear() +
+                obis.utils.addZeros( date.getMonth() + 1 ) +
+                obis.utils.addZeros( date.getDate() ) +
+                obis.utils.addZeros( date.getHours() ) +
+                obis.utils.addZeros( date.getMinutes() ) +
+                obis.utils.addZeros( date.getSeconds() )
+            );
 
-		},
+        },
 
-		USDateTimeString: function _USDateTimeString( date ) {
-			return (
-				'' +
-				obis.utils.addZeros( date.getDate() ) + '/' +
-				obis.utils.addZeros( date.getMonth() + 1 ) + '/' +
-				date.getFullYear()
-			);
-		},
+        USDateTimeString: function _USDateTimeString( date ) {
 
-		arrayWithout: function _arrayWithout( array, without ) {
+            return (
+                '' +
+                obis.utils.addZeros( date.getDate() ) + '/' +
+                obis.utils.addZeros( date.getMonth() + 1 ) + '/' +
+                date.getFullYear()
+            );
+        },
 
-			var newArray = [];
+        arrayWithout: function _arrayWithout( array, without ) {
 
-			jQuery.each( array, function _forEach() {
-				if ( this !== without ) {
-					newArray.push( this );
-				}
-			});
+            var newArray = [];
 
-			return newArray;
+            jQuery.each( array, function _forEach() {
+                if ( this !== without ) {
+                    newArray.push( this );
+                }
+            });
 
-		}
+            return newArray;
 
-	}
+        },
+
+        md5: function _md5( str ) {
+            return SparkMD5.hash( str );
+        }
+
+    }
 
 });
 
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: obis.js: The obis object
@@ -3081,809 +3742,818 @@ jQuery.extend( obis, {
 
  Parsers should overwrite the following methods:
 
-	parse()
-		Parser entry point
+    parse()
+        Parser entry point
 
  */
+
+// jshint unused:true
+/* globals obis,JSZip,saveAs,alert */
 
 /*
 
  Events:
-	statements:updated
-	popup:opened
-	popup:closed
+    statements:updated
+    popup:opened
+    popup:closed
 
  Methods:
-	parse()
+    parse()
 
-	// Model
-	addStatement( statement )
-	filenameFromStatement( statement, extension )
-	zipnameFromStatement( statement )
-	downloadStatementsZip()
+    // Model
+    addStatement( statement )
+    filenameFromStatement( statement, extension )
+    zipnameFromStatement( statement )
+    downloadStatementsZip()
 
-	// Views
-	drawViewStatementsButton( count )
-	drawDownloadZipButton()
-	drawGeneratorPicker()
-	toggleViewAndDownloadButtons()
+    // Views
+    drawViewStatementsButton( count )
+    drawDownloadZipButton()
+    drawGeneratorPicker()
+    toggleViewAndDownloadButtons()
 
-	popupSelectStatement( selectBox )
-	popupRefreshStatementsPicker()
-	generateStatementPickerHTML()
-	generateStatementHTML( statement )
+    popupSelectStatement( selectBox )
+    popupRefreshStatementsPicker()
+    generateStatementPickerHTML()
+    generateStatementHTML( statement )
 
-	openStatementsPopup( statement )
+    openStatementsPopup( statement )
 
-	// Events
-	statementsPopupOpened()
-	statementsPopupClosed()
+    // Events
+    statementsPopupOpened()
+    statementsPopupClosed()
 
  */
 
 jQuery.extend( obis, {
 
-	windowRef: null,
+    windowRef: null,
 
-	generators: [],
+    generators: [],
 
-	elements: {
-		viewStatementsButton: null,
-		downloadStatementsButton: null,
-		retrieveStatementsButton: null,
-		allGeneratorsCheckbox: null,
-		allStatementsCheckbox: null,
-		generatorCheckboxes: [],
-		statementCheckboxes: []
-	},
+    elements: {
+        viewStatementsButton: null,
+        downloadStatementsButton: null,
+        retrieveStatementsButton: null,
+        allGeneratorsCheckbox: null,
+        allStatementsCheckbox: null,
+        generatorCheckboxes: [],
+        statementCheckboxes: []
+    },
 
-	statements: [],
+    statements: [],
 
-	/*
-		statement = {
+    /*
+        statement = {
 
-			"id": String,                  // Unique ID
-			"iban": String,                // International Bank Account Number
-			"bic": String,                 // Business Identifier Code
-			"type": String,                // Account type (eg; "Current Account")
-			"name": String,                // Account name (eg; "My Account")
-			"accountNumber": String,       // Account number (eg; "123456789")
-			"sortCode": String,            // Account sort-code (eg; "102030")
-			"date": Date,                  // Statement date
+            "id": String,                  // Unique ID
+            "iban": String,                // International Bank Account Number
+            "bic": String,                 // Business Identifier Code
+            "type": String,                // Account type (eg; "Current Account")
+            "name": String,                // Account name (eg; "My Account")
+            "accountNumber": String,       // Account number (eg; "123456789")
+            "sortCode": String,            // Account sort-code (eg; "102030")
+            "date": Date,                  // Statement date
 
-			"entries": Array of <Entry> = {
-				"id": String,              // Unique ID
-				"date": Date,              // Transaction date
-				"type": String,            // Transaction type
-				"description": String,     // Transaction description
-				"memo": String,            // Transaction memo
+            "entries": Array of <Entry> = {
+                "id": String,              // Unique ID
+                "date": Date,              // Transaction date
+                "type": String,            // Transaction type
+                "description": String,     // Transaction description
+                "memo": String,            // Transaction memo
 
-				"debit": Number,           // Amount debited
-				"credit": Number,          // Amount credited
-				"balance": Number          // Bank-calculated balance
-			},
+                "debit": Number,           // Amount debited
+                "credit": Number,          // Amount credited
+                "balance": Number          // Bank-calculated balance
+            },
 
-			"balances": Array of <Entry>,  // Start and end balances
+            "balances": Array of <Entry>,  // Start and end balances
 
-			"processed": Boolean           // Statement contains "complete" data
+            "processed": Boolean           // Statement contains "complete" data
 
-		};
-	*/
+        };
+    */
 
-	init: function _init() {
+    init: function _init() {
 
-		var self = this;
+        var self = this;
 
-		jQuery( document ).bind( 'statements:updated', function _statementsUpdated( count ) {
-			self.toggleViewAndDownloadButtons();
-		});
+        jQuery( document ).bind( 'statements:updated', function _statementsUpdated() {
+            self.toggleViewAndDownloadButtons();
+        });
 
-		this.parse();
+        this.parse();
 
-	},
+    },
 
-	// To be overloaded by a parser
-	parse: function _parse() {
-		console.error( 'No parser loaded.' );
-	},
+    // To be overloaded by a parser
+    parse: function _parse() {
+        console.error( 'No parser loaded.' );
+    },
 
-	/*
-	 * Add statements, generate zip file
-	 */
+    /*
+     * Add statements, generate zip file
+     */
 
-	addStatement: function _addStatement( statement ) {
+    addStatement: function _addStatement( statement ) {
 
-		var nextStatement,
-			sidx = this.statements.length - 1,
-			found = false;
+        var nextStatement,
+            sidx = this.statements.length - 1,
+            found = false;
 
-		for ( ; sidx >= 0 ; sidx -- ) {
+        for ( ; sidx >= 0 ; sidx -- ) {
 
-			nextStatement = this.statements[ sidx ];
+            nextStatement = this.statements[ sidx ];
 
-			if ( statement.date.getTime() == nextStatement.date.getTime() ) {
-				found = true;
-				break;
-			}
+            if ( statement.date.getTime() == nextStatement.date.getTime() ) {
+                found = true;
+                break;
+            }
 
-		}
+        }
 
-		if ( !found ) {
-			statement.id = obis.utils.dateTimeString( statement.date );
-			this.statements.push( statement );
+        if ( !found ) {
+            statement.id = obis.utils.dateTimeString( statement.date );
+            this.statements.push( statement );
 
-			jQuery( document ).trigger( 'statements:updated', [ this.statements.length ] );
-		}
+            jQuery( document ).trigger( 'statements:updated', [ this.statements.length ] );
+        }
 
-	},
+    },
 
-	filenameFromStatement: function _filenameFromStatement( statement, extension ) {
+    filenameFromStatement: function _filenameFromStatement( statement, extension ) {
 
-		return (
-			statement.type.replace( /[^a-zA-Z]/g, '_' ) + '-' +
-			statement.date.getFullYear() + '-' + obis.utils.addZeros( statement.date.getMonth() + 1 ) + '-' + obis.utils.addZeros( statement.date.getDate() ) + '.' + extension
-		);
+        return (
+            statement.type.replace( /[^a-zA-Z]/g, '_' ) + '-' +
+            statement.date.getFullYear() + '-' + obis.utils.addZeros( statement.date.getMonth() + 1 ) + '-' + obis.utils.addZeros( statement.date.getDate() ) + '.' + extension
+        );
 
-	},
+    },
 
-	zipnameFromStatement: function _zipnameFromStatement( statement ) {
+    zipnameFromStatement: function _zipnameFromStatement( statement ) {
 
-		return (
-			statement.type.replace( /[^a-zA-Z]/g, '_' ) + '-' +
-			statement.date.getFullYear() + '.zip'
-		);
+        return (
+            statement.type.replace( /[^a-zA-Z]/g, '_' ) + '-' +
+            statement.date.getFullYear() + '.zip'
+        );
 
-	},
+    },
 
-	downloadStatementsZip: function _downloadStatementsZip() {
+    downloadStatementsZip: function _downloadStatementsZip() {
 
-		var blob, zip, zipName,
-			zipContents = [ /* { folder: '', files: [ { name: '', content: '' }, ] } */ ],
-			self = this;
+        var blob, zip, zipName,
+            zipContents = [ /* { folder: '', files: [ { name: '', content: '' }, ] } */ ],
+            self = this;
 
-		// See which generators we want to use
-		jQuery.each( this.generators, function _forEach() {
+        // See which generators we want to use
+        jQuery.each( this.generators, function _forEach() {
 
-			var zipContent = {},
-				generator = this;
+            var zipContent = {},
+                generator = this;
 
-			if ( generator.checked ) {
+            if ( generator.checked ) {
 
-				zipContent.folder = generator.folder;
-				zipContent.files = [];
+                zipContent.folder = generator.folder;
+                zipContent.files = [];
 
-				// Generate statements with this generator
-				jQuery.each( self.statements, function _forEach( index ) {
+                // Generate statements with this generator
+                jQuery.each( self.statements, function _forEach( index ) {
 
-					var statement = this,
-						filename = self.filenameFromStatement( statement, generator.extension ),
-						content = generator.generate( statement );
+                    var statement = this,
+                        filename = self.filenameFromStatement( statement, generator.extension ),
+                        content = generator.generate( statement );
 
-					zipContent.files.push({
-						name: filename,
-						content: content
-					});
+                    zipContent.files.push({
+                        name: filename,
+                        content: content
+                    });
 
-					if ( 0 === index ) {
-						zipName = self.zipnameFromStatement( statement, 'zip' );
-					}
+                    if ( 0 === index ) {
+                        zipName = self.zipnameFromStatement( statement, 'zip' );
+                    }
 
-				});
+                });
 
-				zipContents.push( zipContent );
+                zipContents.push( zipContent );
 
-			}
+            }
 
-		});
+        });
 
-		// Got some content? Generate the Zip!
-		if ( zipContents.length ) {
+        // Got some content? Generate the Zip!
+        if ( zipContents.length ) {
 
-			zip = new JSZip();
+            zip = new JSZip();
 
-			jQuery.each( zipContents, function _forEach() {
+            jQuery.each( zipContents, function _forEach() {
 
-				var folder = zip.folder( this.folder );
+                var folder = zip.folder( this.folder );
 
-				jQuery.each( this.files, function _forEach() {
-					folder.file( this.name, this.content, { type: 'string' } );
-				});
+                jQuery.each( this.files, function _forEach() {
+                    folder.file( this.name, this.content, { type: 'string' } );
+                });
 
-			});
+            });
 
-			/*blob = new BlobBuilder();
-			blob.append( zip.generate({ base64: true }) );
-			saveAs( blob.getBlob( 'application/zip;charset=' + document.characterSet ), zipName );*/
+            /*blob = new BlobBuilder();
+            blob.append( zip.generate({ base64: true }) );
+            saveAs( blob.getBlob( 'application/zip;charset=' + document.characterSet ), zipName );*/
 
-			// Works in Chrome... nowhere else yet
-			if ( /Chrome/.test( navigator.userAgent ) ) {
-				saveAs( zip.generate({ type: 'blob', compression: 'DEFLATE' }), zipName );
-			}
-			else {
-				alert( 'OBIS: Don\'t forget to rename the file to something like "' + zipName + '" after downloading.\n\nIf you use Google Chrome the filename will be set for you.' );
-				blob = zip.generate({ type: 'base64', compression: 'DEFLATE' });
+            // Works in Chrome... nowhere else yet
+            if ( /Chrome/.test( navigator.userAgent ) ) {
+                saveAs( zip.generate({ type: 'blob', compression: 'DEFLATE' }), zipName );
+            }
+            else {
+                alert( 'OBIS: Don\'t forget to rename the file to something like "' + zipName + '" after downloading.\n\nIf you use Google Chrome the filename will be set for you.' );
+                blob = zip.generate({ type: 'base64', compression: 'DEFLATE' });
 
-				location.href = 'data:application/zip;base64,' + blob;
-			}
+                location.href = 'data:application/zip;base64,' + blob;
+            }
 
-		}
-		else {
-			console.warn( 'No statements to download: Not creating Zip file' );
-		}
+        }
+        else {
+            console.warn( 'No statements to download: Not creating Zip file' );
+        }
 
-	},
+    },
 
-	/*
-	 * Generate DOM/HTML stuff
-	 */
+    /*
+     * Generate DOM/HTML stuff
+     */
 
-	drawViewStatementsButton: function _drawViewStatementsButton( count ) {
+    drawViewStatementsButton: function _drawViewStatementsButton( count ) {
 
-		var elViewButton = jQuery( '<input type="button" value="View statement' + ( count ? 's' : '' ) + '" disabled="disabled" />' );
+        var elViewButton = jQuery( '<input type="button" value="View statement' + ( count ? 's' : '' ) + '" disabled="disabled" />' );
 
-		this.elements.viewStatementsButton = elViewButton;
+        this.elements.viewStatementsButton = elViewButton;
 
-		elViewButton.bind( 'click', function _onClick() {
-			obis.openStatementsPopup();
-		});
+        elViewButton.bind( 'click', function _onClick() {
+            obis.openStatementsPopup();
+        });
 
-		return elViewButton;
+        return elViewButton;
 
-	},
+    },
 
-	drawDownloadZipButton: function _drawDownloadZipButton() {
+    drawDownloadZipButton: function _drawDownloadZipButton() {
 
-		var elDownloadButton = jQuery( '<input type="button" value="Download Zip" style="margin-left: 5px !important;" disabled="disabled" />' );
+        var elDownloadButton = jQuery( '<input type="button" value="Download Zip" style="margin-left: 5px !important;" disabled="disabled" />' );
 
-		this.elements.downloadStatementsButton = elDownloadButton;
+        this.elements.downloadStatementsButton = elDownloadButton;
 
-		elDownloadButton.bind( 'click', function _onClick() {
-			obis.downloadStatementsZip();
-		});
+        elDownloadButton.bind( 'click', function _onClick() {
+            obis.downloadStatementsZip();
+        });
 
-		return elDownloadButton;
+        return elDownloadButton;
 
-	},
+    },
 
-	toggleViewAndDownloadButtons: function _toggleViewAndDownloadButtons() {
+    toggleViewAndDownloadButtons: function _toggleViewAndDownloadButtons() {
 
-		var generators,
-			generatorCount = 0,
-			statementsProcessed = 0,
-			statements = !!this.statements.length;
+        var generators,
+            generatorCount = 0,
+            statementsProcessed = 0,
+            statements = !!this.statements.length;
 
-		jQuery.each( this.statements, function _forEach() {
-			if ( this.processed ) {
-				statementsProcessed ++;
-			}
-		});
+        jQuery.each( this.statements, function _forEach() {
+            if ( this.processed ) {
+                statementsProcessed ++;
+            }
+        });
 
-		jQuery.each( this.generators, function _forEach() {
-			if ( this.checked ) {
-				generatorCount ++;
-			}
-		});
+        jQuery.each( this.generators, function _forEach() {
+            if ( this.checked ) {
+                generatorCount ++;
+            }
+        });
 
-		generators = !!generatorCount;
+        generators = !!generatorCount;
 
-		if ( this.elements.viewStatementsButton ) {
-			this.elements.viewStatementsButton[ 0 ].disabled = ( !statements );
-		}
+        if ( this.elements.viewStatementsButton ) {
+            this.elements.viewStatementsButton[ 0 ].disabled = ( !statements );
+        }
 
-		if ( this.elements.downloadStatementsButton ) {
-			this.elements.downloadStatementsButton[ 0 ].disabled = ( !statementsProcessed || !generators || this.alreadyProcessing );
-		}
+        if ( this.elements.downloadStatementsButton ) {
+            this.elements.downloadStatementsButton[ 0 ].disabled = ( !statementsProcessed || !generators || this.alreadyProcessing );
+        }
 
-	},
+    },
 
-	drawGeneratorPicker: function _drawGeneratorPicker() {
+    drawGeneratorPicker: function _drawGeneratorPicker() {
 
-		var el = jQuery( '<p style="color: black; padding: 10px;" />' ),
-			self = this;
+        var el = jQuery( '<p style="color: black; padding: 10px;" />' ),
+            self = this;
 
-		jQuery.each( this.generators, function _forEach() {
+        jQuery.each( this.generators, function _forEach() {
 
-			var generator = this,
-				elCheckbox = jQuery( '<input id="gen_' + obis.utils.htmlEscape( generator.id ) + '" type="checkbox" checked="checked" />' ),
-				elLabel = jQuery( '<label for="gen_' + obis.utils.htmlEscape( generator.id ) + '" style="margin-left: 5px;">' + obis.utils.htmlEscape( generator.description ) + '</label><br/>' );
+            var generator = this,
+                elCheckbox = jQuery( '<input id="gen_' + obis.utils.htmlEscape( generator.id ) + '" type="checkbox" checked="checked" />' ),
+                elLabel = jQuery( '<label for="gen_' + obis.utils.htmlEscape( generator.id ) + '" style="margin-left: 5px;">' + obis.utils.htmlEscape( generator.description ) + '</label><br/>' );
 
-			generator.checked = true;
+            generator.checked = true;
 
-			elCheckbox.bind( 'change', function _onChange() {
-				generator.checked = this.checked;
-				self.toggleViewAndDownloadButtons();
-			});
+            elCheckbox.bind( 'change', function _onChange() {
+                generator.checked = this.checked;
+                self.toggleViewAndDownloadButtons();
+            });
 
-			elCheckbox.appendTo( el );
-			elLabel.appendTo( el );
+            elCheckbox.appendTo( el );
+            elLabel.appendTo( el );
 
-			// ...
-			elCheckbox.data( 'generator', generator );
-			self.elements.generatorCheckboxes.push( elCheckbox );
+            // ...
+            elCheckbox.data( 'generator', generator );
+            self.elements.generatorCheckboxes.push( elCheckbox );
 
-		});
+        });
 
-		return el;
+        return el;
 
-	},
+    },
 
-	/*
-	 * Popup window stuff
-	 */
+    /*
+     * Popup window stuff
+     */
 
-	popupSelectStatement: function _popupSelectStatement( selectBox ) {
+    popupSelectStatement: function _popupSelectStatement( selectBox ) {
 
-		var statement, html,
-			el = jQuery( selectBox ),
-			value = el.val(),
-			self = this;
+        var statement, html,
+            el = jQuery( selectBox ),
+            value = el.val(),
+            self = this;
 
-		jQuery.each( this.statements, function _forEach() {
-			if ( this.id === value ) {
-				statement = this;
-				return false;
-			}
-		});
+        jQuery.each( this.statements, function _forEach() {
+            if ( this.id === value ) {
+                statement = this;
+                return false;
+            }
+        });
 
-		if ( statement ) {
-			html = self.generateStatementHTML( statement );
-			el.next().replaceWith( html );
-			this.selectedStatement = statement;
-		}
+        if ( statement ) {
+            html = self.generateStatementHTML( statement );
+            el.next().replaceWith( html );
+            this.selectedStatement = statement;
+        }
 
-	},
+    },
 
-	popupRefreshStatementsPicker: function _popupRefreshStatementsPicker() {
+    popupRefreshStatementsPicker: function _popupRefreshStatementsPicker() {
 
-		if ( obis.windowRef ) {
-			var el = jQuery( obis.windowRef.document ).find( 'body > select#statement-picker' );
-			el.replaceWith( obis.generateStatementPickerHTML() );
-		}
+        if ( obis.windowRef ) {
+            var el = jQuery( obis.windowRef.document ).find( 'body > select#statement-picker' );
+            el.replaceWith( obis.generateStatementPickerHTML() );
+        }
 
-	},
+    },
 
-	generateStatementPickerHTML: function _generateStatementPickerHTML() {
+    generateStatementPickerHTML: function _generateStatementPickerHTML() {
 
-		var selection = this.selectedStatement || {},
-			html = '';
+        var selection = this.selectedStatement || {},
+            html = '';
 
-		this.statements.sort( function _sortMethod( a, b ) {
-			var date1 = a.date.getTime(),
-				date2 = b.date.getTime();
+        this.statements.sort( function _sortMethod( a, b ) {
+            var date1 = a.date.getTime(),
+                date2 = b.date.getTime();
 
-			if ( date1 > date2 ) return -1;
-			if ( date1 < date2 ) return 1;
-			return 0;
-		});
+            if ( date1 > date2 ) return -1;
+            if ( date1 < date2 ) return 1;
+            return 0;
+        });
 
-		jQuery.each( this.statements, function _forEach() {
-			html += '<option value="' + this.id + '"' + ( this === selection ? ' selected="selected"' : '' )  +'>' + obis.utils.simpleDate( this.date ) + '</option>'
-		});
+        jQuery.each( this.statements, function _forEach() {
+            html += '<option value="' + this.id + '"' + ( this === selection ? ' selected="selected"' : '' )  +'>' + obis.utils.simpleDate( this.date ) + '</option>';
+        });
 
-		return '<select id="statement-picker" onchange="opener.obis.popupSelectStatement(this);">' + html + '</select>';
+        return '<select id="statement-picker" onchange="opener.obis.popupSelectStatement(this);">' + html + '</select>';
 
-	},
+    },
 
-	generateStatementHTML: function _generateStatementHTML( statement ) {
+    generateStatementHTML: function _generateStatementHTML( statement ) {
 
-		statement = statement || this.statements[ 0 ];
+        statement = statement || this.statements[ 0 ];
 
-		var self = this,
-			html =
-				'<table id="statement-viewer">' +
-					'<thead>' +
-						'<tr>' +
-							'<th>Date</th>' +
-							'<th>Type</th>' +
-							'<th>Description</th>' +
-							'<th>Memo</th>' +
-							'<th>Debit</th>' +
-							'<th>Credit</th>' +
-							'<th>Balance</th>' +
-							'<th>(Calculated)</th>' +
-						'</tr>' +
-					'</thead>' +
-					'<tbody>';
+        var html =
+                '<table id="statement-viewer">' +
+                    '<thead>' +
+                        '<tr>' +
+                            '<th>Date</th>' +
+                            '<th>Type</th>' +
+                            '<th>Description</th>' +
+                            '<th>Memo</th>' +
+                            '<th>Debit</th>' +
+                            '<th>Credit</th>' +
+                            '<th>Balance</th>' +
+                            '<th>(Calculated)</th>' +
+                        '</tr>' +
+                    '</thead>' +
+                    '<tbody>';
 
-		var runningBalance = statement.balances[ 0 ].balance;
+        var runningBalance = statement.balances[ 0 ].balance;
 
-		jQuery.each( statement.entries, function _forEach() {
+        jQuery.each( statement.entries, function _forEach() {
 
-			var balanceIssue = false;
+            var balanceIssue = false;
 
-			runningBalance += this.credit;
-			runningBalance += this.debit;
+            runningBalance += this.credit;
+            runningBalance += this.debit;
 
-			if ( 0 !== this.balance && !( Math.abs( runningBalance - this.balance ) < 0.000001 ) ) {
-				console.warn( 'Running balance issue: runningBalance = ', parseFloat( runningBalance.toFixed( 2 ) ), ', this.balance = ', this.balance );
-				balanceIssue = true;
-			}
+            if ( 0 !== this.balance && !( Math.abs( runningBalance - this.balance ) < 0.000001 ) ) { // jshint ignore:line
+                console.warn( 'Running balance issue: runningBalance = ', parseFloat( runningBalance.toFixed( 2 ) ), ', this.balance = ', this.balance );
+                balanceIssue = true;
+            }
 
-			html +=
-				'<tr id="_' + this.id + '" class="' + ( balanceIssue ? 'balance_issue' : '' ) + '">' +
-					'<td class="date">' + obis.utils.simpleDate( this.date ) + '</td>' +
-					'<td class="type">' + this.type + '</td>' +
-					'<td class="description">' + this.description + '</td>' +
-					'<td class="memo">' + ( 'memo' in this ? this.memo : ( this.memoLink ? '...' : '' ) ) + '</td>' +
-					'<td class="debit">' + obis.utils.numberToCurrency( this.debit ) + '</td>' +
-					'<td class="credit">' + obis.utils.numberToCurrency( this.credit ) + '</td>' +
-					'<td class="balance' + ( this.balance < 0 ? ' negative' : '' ) + '">' + obis.utils.numberToCurrency( this.balance ) + '</td>' +
-					'<td class="calculated' + ( runningBalance < 0 ? ' negative' : '' ) + '">' + obis.utils.numberToCurrency( runningBalance ) + '</td>' +
-				'</tr>';
+            html +=
+                '<tr id="_' + this.id + '" class="' + ( balanceIssue ? 'balance_issue' : '' ) + '">' +
+                    '<td class="date">' + obis.utils.simpleDate( this.date ) + '</td>' +
+                    '<td class="type">' + this.type + '</td>' +
+                    '<td class="description">' + this.description + '</td>' +
+                    '<td class="memo">' + ( 'memo' in this ? this.memo : ( this.memoLink ? '...' : '' ) ) + '</td>' +
+                    '<td class="debit">' + obis.utils.numberToCurrency( this.debit ) + '</td>' +
+                    '<td class="credit">' + obis.utils.numberToCurrency( this.credit ) + '</td>' +
+                    '<td class="balance' + ( this.balance < 0 ? ' negative' : '' ) + '">' + obis.utils.numberToCurrency( this.balance ) + '</td>' +
+                    '<td class="calculated' + ( runningBalance < 0 ? ' negative' : '' ) + '">' + obis.utils.numberToCurrency( runningBalance ) + '</td>' +
+                '</tr>';
 
-		});
+        });
 
-		html +=
-				'</tbody>' +
-			'</table>';
+        html +=
+                '</tbody>' +
+            '</table>';
 
-		return html;
+        return html;
 
-	},
+    },
 
-	// ...
+    // ...
 
-	openStatementsPopup: function _openStatementsPopup() {
+    openStatementsPopup: function _openStatementsPopup() {
 
-		var self = this;
+        this.windowRef = window.open( 'text/html', 'obis', 'width=1000,height=750,menubar=0,toolbar=0,status=0,scrollbars=1,resizable=1' );
+        this.windowRef.document.writeln(
+            '<html>' +
+                '<head>'+
+                    '<title>Statements</title>'+
+                    '<style type="text/css">' +
+                        'body * { font-size: 12px; } ' +
+                        '.balance_issue .balance, .balance_issue .calculated, .negative, .processing { color: #f00; font-weight: bold; } ' +
+                        '.processing { font-size: 24px; line-height: 12px; } ' +
+                        'table { border-collapse: collapse; } ' +
+                        'tr > * { padding: 5px; border-bottom: 1px solid #ddd; } ' +
+                        'tr:hover > td { background: #ffc; } ' +
+                        '.date, .debit, .credit, .balance, .calculated { text-align: right; } ' +
+                    '</style>' +
+                '</head>' +
+                '<body onload="opener.obis.statementsPopupOpened();" onunload="opener.obis.statementsPopupClosed();">' +
+                    '<input type="button" value="Close" onclick="window.close();" />' +
+                    this.generateStatementPickerHTML() +
+                    this.generateStatementHTML() +
+                '</body>' +
+            '</html>'
+        );
 
-		this.windowRef = window.open( 'text/html', 'obis', 'width=1000,height=750,menubar=0,toolbar=0,status=0,scrollbars=1,resizable=1' );
-		this.windowRef.document.writeln(
-			'<html>' +
-				'<head>'+
-					'<title>Statements</title>'+
-					'<style type="text/css">' +
-						'body * { font-size: 12px; } ' +
-						'.balance_issue .balance, .balance_issue .calculated, .negative, .processing { color: #f00; font-weight: bold; } ' +
-						'.processing { font-size: 24px; line-height: 12px; } ' +
-						'table { border-collapse: collapse; } ' +
-						'tr > * { padding: 5px; border-bottom: 1px solid #ddd; } ' +
-						'tr:hover > td { background: #ffc; } ' +
-						'.date, .debit, .credit, .balance, .calculated { text-align: right; } ' +
-					'</style>' +
-				'</head>' +
-				'<body onload="opener.obis.statementsPopupOpened();" onunload="opener.obis.statementsPopupClosed();">' +
-					'<input type="button" value="Close" onclick="window.close();" />' +
-					this.generateStatementPickerHTML() +
-					this.generateStatementHTML() +
-				'</body>' +
-			'</html>'
-		);
+        this.windowRef.document.close();
 
-		this.windowRef.document.close();
+    },
 
-	},
+    statementsPopupOpened: function _statementsPopupOpened() {
+        jQuery( document ).trigger( 'popup:opened' );
+        jQuery( document ).bind( 'statements:updated', this.popupRefreshStatementsPicker );
+    },
 
-	statementsPopupOpened: function _statementsPopupOpened() {
-		jQuery( document ).trigger( 'popup:opened' );
-		jQuery( document ).bind( 'statements:updated', this.popupRefreshStatementsPicker );
-	},
-
-	statementsPopupClosed: function _statementsPopupClosed() {
-		delete this.selectedStatement;
-		jQuery( document ).unbind( 'statements:updated', this.popupRefreshStatementsPicker );
-		jQuery( document ).trigger( 'popup:closed' );
-	}
+    statementsPopupClosed: function _statementsPopupClosed() {
+        delete this.selectedStatement;
+        jQuery( document ).unbind( 'statements:updated', this.popupRefreshStatementsPicker );
+        jQuery( document ).trigger( 'popup:closed' );
+    }
 
 });
 
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: csv.js: CSV generator
  *
 
  Based on RFC4180 specification:
- 	http://tools.ietf.org/html/rfc4180
+    http://tools.ietf.org/html/rfc4180
 
  */
+
+// jshint unused:true
+/* globals obis */
 
 /*
 
  Events:
-	None
+    None
 
  Methods:
-	generate( statement )
+    generate( statement )
 
  */
 
 obis.generators.push({
 
-	id: 'CSV',
-	folder: 'csv',
-	extension: 'csv',
-	description: 'CSV RFC4180 (Excel, Numbers)',
+    id: 'CSV',
+    folder: 'csv',
+    extension: 'csv',
+    description: 'CSV RFC4180 (Excel, Numbers)',
 
-	generate: function _generate( statement ) {
+    generate: function _generate( statement ) {
 
-		var csv,
-			self = this;
+        var csv;
 
-		csv =
-			'"Transaction ID","Date","Account type","Account number","Payee","Memo","Amount"' + '\r\n' +
-			'\r\n';
+        csv =
+            '"Transaction ID","Date","Account type","Account number","Payee","Memo","Amount"' + '\r\n' +
+            '\r\n';
 
-		jQuery.each( statement.entries, function _forEach( index ) {
+        jQuery.each( statement.entries, function _forEach() {
 
-			var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
+            var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
 
-			csv +=
-				'"' + obis.utils.csvEscape( this.id ) + '",' +
-				'"' + obis.utils.csvEscape( obis.utils.simpleDate( this.date ) ) + '",' +
-				'"' + obis.utils.csvEscape( statement.type ) + '",' +
-				'"' + obis.utils.csvEscape( statement.sortCode + ' ' + statement.accountNumber ) + '",' +
-				'"' + obis.utils.csvEscape( this.description ) + '",' +
-				'"' + obis.utils.csvEscape( ( 'memo' in this ? obis.utils.htmlEscape( this.memo ) : '' ) ) + '",' +
-				'"' + obis.utils.csvEscape( transactionAmount ) + '"' +
-				'\r\n';
+            csv +=
+                '"' + obis.utils.csvEscape( this.id ) + '",' +
+                '"' + obis.utils.csvEscape( obis.utils.simpleDate( this.date ) ) + '",' +
+                '"' + obis.utils.csvEscape( statement.type ) + '",' +
+                '"' + obis.utils.csvEscape( statement.sortCode + ' ' + statement.accountNumber ) + '",' +
+                '"' + obis.utils.csvEscape( this.description ) + '",' +
+                '"' + obis.utils.csvEscape( ( 'memo' in this ? obis.utils.htmlEscape( this.memo ) : '' ) ) + '",' +
+                '"' + obis.utils.csvEscape( transactionAmount ) + '"' +
+                '\r\n';
 
-		});
+        });
 
-		csv +=
-			'\r\n';
+        csv +=
+            '\r\n';
 
-		return csv;
+        return csv;
 
-	}
+    }
 
 });
 
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: json.js: JSON generator
  *
 
  Based on JSON specification:
- 	http://json.org/
+    http://json.org/
 
  */
+
+// jshint unused:true
+/* globals obis */
 
 /*
 
  Events:
-	None
+    None
 
  Methods:
-	generate( statement )
+    generate( statement )
 
  */
 
 obis.generators.push({
 
-	id: 'JSON',
-	folder: 'json',
-	extension: 'json',
-	description: 'JSON (JavaScript Object Notation)',
+    id: 'JSON',
+    folder: 'json',
+    extension: 'json',
+    description: 'JSON (JavaScript Object Notation)',
 
-	generate: function _generate( statement ) {
+    generate: function _generate( statement ) {
 
-		return JSON.stringify( statement );
+        return JSON.stringify( statement );
 
-	}
+    }
 
 });
 
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: ofx.js: OFX 1.0.2 generator
  *
 
  Based on output from the HSBC UK Personal Banking website.
-	http://www.hsbc.co.uk/
+    http://www.hsbc.co.uk/
 
  */
+
+// jshint unused:true
+/* globals obis */
 
 /*
 
  Events:
-	None
+    None
 
  Methods:
-	filterTransactionType( type )
-	generate( statement )
+    filterTransactionType( type )
+    generate( statement )
 
  */
 
 obis.generators.push({
 
-	id: 'OFX',
-	folder: 'ofx',
-	extension: 'ofx',
-	description: 'OFX 1.0.2 (Money, Quicken)',
+    id: 'OFX',
+    folder: 'ofx',
+    extension: 'ofx',
+    description: 'OFX 1.0.2 (Money, Quicken)',
 
-	filterTransactionType: function _filterTransactionType( type ) {
-		return type;
-	},
+    filterTransactionType: function _filterTransactionType( type ) {
+        return type;
+    },
 
-	generate: function _generate( statement ) {
+    generate: function _generate( statement ) {
 
-		var ofx,
-			self = this;
+        var ofx;
 
-		// TODO: Move into hsbc.js somehow
-		function filterTransactionType( type ) {
+        // TODO: Move into hsbc.js somehow
+        function filterTransactionType( type ) {
 
-			switch ( type ) {
-				case 'ATM': break;
-				case 'TFR': type = 'XFER'; break;
+            switch ( type ) {
+                case 'ATM': break;
+                case 'TFR': type = 'XFER'; break;
 
-				default:
-					type = 'OTHER';
-			}
+                default:
+                    type = 'OTHER';
+            }
 
-			return type;
+            return type;
 
-		};
+        }
 
-		ofx =
-			'OFXHEADER:100' + '\n' +
-			'DATA:OFXSGML' + '\n' +
-			'VERSION:102' + '\n' +
-			'SECURITY:NONE' + '\n' +
-			'ENCODING:USASCII' + '\n' +
-			'CHARSET:1252' + '\n' +
-			'COMPRESSION:NONE' + '\n' +
-			'OLDFILEUID:NONE' + '\n' +
-			'NEWFILEUID:NONE' + '\n' +
-			'\n' +
-			'<OFX>' + '\n' +
-			'\n' +
-			'\t' + '<SIGNONMSGSRSV1>' + '\n' +
-			'\t\t' + '<SONRS>' + '\n' +
-			'\t\t\t' + '<STATUS>' + '\n' +
-			'\t\t\t\t' + '<CODE>0</CODE>' + '\n' +
-			'\t\t\t\t' + '<SEVERITY>INFO</SEVERITY>' + '\n' +
-			'\t\t\t' + '</STATUS>' + '\n' +
-			'\t\t\t' + '<DTSERVER>' + obis.utils.dateTimeString( new Date() ) + '</DTSERVER>' + '\n' +
-			'\t\t\t' + '<LANGUAGE>' + obis.LANGUAGE + '</LANGUAGE>' + '\n' +
-			'\t\t\t' + '<INTU.BID>' + obis.INTU_BID + '</INTU.BID>' + '\n' +
-			'\t\t' + '</SONRS>' + '\n' +
-			'\t' + '</SIGNONMSGSRSV1>' + '\n' +
-			'\n' +
-			'\t' + '<BANKMSGSRSV1>' + '\n' +
-			'\n' +
-			'\t\t' + '<STMTTRNRS>' + '\n' +
-			'\n' +
-			'\t\t\t' + '<TRNUID>1</TRNUID>' + '\n' +
-			'\n' +
-			'\t\t\t' + '<STATUS>' + '\n' +
-			'\t\t\t\t' + '<CODE>0</CODE>' + '\n' +
-			'\t\t\t\t' + '<SEVERITY>INFO</SEVERITY>' + '\n' +
-			'\t\t\t' + '</STATUS>' + '\n' +
-			'\n' +
-			'\t\t\t' + '<STMTRS>' + '\n' +
-			'\n' +
-			'\t\t\t\t' + '<CURDEF>' + obis.CURDEF + '</CURDEF>' + '\n' +
-			'\n' +
-			'\t\t\t\t' + '<BANKACCTFROM>' + '\n' +
-			'\t\t\t\t\t' + '<BANKID>' + statement.sortCode + '</BANKID>' + '\n' +
-			'\t\t\t\t\t' + '<ACCTID>' + statement.sortCode + statement.accountNumber + '</ACCTID>' + '\n' +
-			'\t\t\t\t\t' + '<ACCTTYPE>CHECKING</ACCTTYPE>' + '\n' +
-			'\t\t\t\t' + '</BANKACCTFROM>' + '\n' +
-			'\n' +
-			'\t\t\t\t' + '<BANKTRANLIST>' + '\n' +
-			'\n' +
-			'\t\t\t\t\t' + '<DTSTART>' + obis.utils.dateTimeString( statement.balances[ 0 ].date ) + '</DTSTART>' + '\n' +
-			'\t\t\t\t\t' + '<DTEND>' + obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '</DTEND>' + '\n' +
-			'\n';
+        ofx =
+            'OFXHEADER:100' + '\n' +
+            'DATA:OFXSGML' + '\n' +
+            'VERSION:102' + '\n' +
+            'SECURITY:NONE' + '\n' +
+            'ENCODING:USASCII' + '\n' +
+            'CHARSET:1252' + '\n' +
+            'COMPRESSION:NONE' + '\n' +
+            'OLDFILEUID:NONE' + '\n' +
+            'NEWFILEUID:NONE' + '\n' +
+            '\n' +
+            '<OFX>' + '\n' +
+            '\n' +
+            '\t' + '<SIGNONMSGSRSV1>' + '\n' +
+            '\t\t' + '<SONRS>' + '\n' +
+            '\t\t\t' + '<STATUS>' + '\n' +
+            '\t\t\t\t' + '<CODE>0</CODE>' + '\n' +
+            '\t\t\t\t' + '<SEVERITY>INFO</SEVERITY>' + '\n' +
+            '\t\t\t' + '</STATUS>' + '\n' +
+            '\t\t\t' + '<DTSERVER>' + obis.utils.dateTimeString( new Date() ) + '</DTSERVER>' + '\n' +
+            '\t\t\t' + '<LANGUAGE>' + obis.LANGUAGE + '</LANGUAGE>' + '\n' +
+            '\t\t\t' + '<INTU.BID>' + obis.INTU_BID + '</INTU.BID>' + '\n' +
+            '\t\t' + '</SONRS>' + '\n' +
+            '\t' + '</SIGNONMSGSRSV1>' + '\n' +
+            '\n' +
+            '\t' + '<BANKMSGSRSV1>' + '\n' +
+            '\n' +
+            '\t\t' + '<STMTTRNRS>' + '\n' +
+            '\n' +
+            '\t\t\t' + '<TRNUID>1</TRNUID>' + '\n' +
+            '\n' +
+            '\t\t\t' + '<STATUS>' + '\n' +
+            '\t\t\t\t' + '<CODE>0</CODE>' + '\n' +
+            '\t\t\t\t' + '<SEVERITY>INFO</SEVERITY>' + '\n' +
+            '\t\t\t' + '</STATUS>' + '\n' +
+            '\n' +
+            '\t\t\t' + '<STMTRS>' + '\n' +
+            '\n' +
+            '\t\t\t\t' + '<CURDEF>' + obis.CURDEF + '</CURDEF>' + '\n' +
+            '\n' +
+            '\t\t\t\t' + '<BANKACCTFROM>' + '\n' +
+            '\t\t\t\t\t' + '<BANKID>' + statement.sortCode + '</BANKID>' + '\n' +
+            '\t\t\t\t\t' + '<ACCTID>' + statement.sortCode + statement.accountNumber + '</ACCTID>' + '\n' +
+            '\t\t\t\t\t' + '<ACCTTYPE>CHECKING</ACCTTYPE>' + '\n' +
+            '\t\t\t\t' + '</BANKACCTFROM>' + '\n' +
+            '\n' +
+            '\t\t\t\t' + '<BANKTRANLIST>' + '\n' +
+            '\n' +
+            '\t\t\t\t\t' + '<DTSTART>' + obis.utils.dateTimeString( statement.balances[ 0 ].date ) + '</DTSTART>' + '\n' +
+            '\t\t\t\t\t' + '<DTEND>' + obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '</DTEND>' + '\n' +
+            '\n';
 
-		jQuery.each( statement.entries, function _forEach( index ) {
+        jQuery.each( statement.entries, function _forEach() {
 
-			var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
+            var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
 
-			ofx +=
-				'\t\t\t\t\t' + '<STMTTRN>' + '\n' +
-				'\t\t\t\t\t\t' + '<TRNTYPE>' + filterTransactionType( this.type ) + '</TRNTYPE>' + '\n' +
-				'\t\t\t\t\t\t' + '<DTPOSTED>' + obis.utils.dateTimeString( this.date ) + '</DTPOSTED>' + '\n' +
-				'\t\t\t\t\t\t' + '<TRNAMT>' + transactionAmount + '</TRNAMT>' + '\n' +
-				'\t\t\t\t\t\t' + '<FITID>' + this.id + '</FITID>' + '\n' +
-				'\t\t\t\t\t\t' + '<NAME>' + obis.utils.htmlEscape( this.description ) + '</NAME>' + '\n' +
-				( 'memo' in this ? ( '\t\t\t\t\t\t' + '<MEMO>' + obis.utils.htmlEscape( this.memo ) + '</MEMO>' + '\n' ) : '' ) +
-				'\t\t\t\t\t' + '</STMTTRN>' + '\n' +
-				'\n';
+            ofx +=
+                '\t\t\t\t\t' + '<STMTTRN>' + '\n' +
+                '\t\t\t\t\t\t' + '<TRNTYPE>' + filterTransactionType( this.type ) + '</TRNTYPE>' + '\n' +
+                '\t\t\t\t\t\t' + '<DTPOSTED>' + obis.utils.dateTimeString( this.date ) + '</DTPOSTED>' + '\n' +
+                '\t\t\t\t\t\t' + '<TRNAMT>' + transactionAmount + '</TRNAMT>' + '\n' +
+                '\t\t\t\t\t\t' + '<FITID>' + this.id + '</FITID>' + '\n' +
+                '\t\t\t\t\t\t' + '<NAME>' + obis.utils.htmlEscape( this.description ) + '</NAME>' + '\n' +
+                ( 'memo' in this ? ( '\t\t\t\t\t\t' + '<MEMO>' + obis.utils.htmlEscape( this.memo ) + '</MEMO>' + '\n' ) : '' ) +
+                '\t\t\t\t\t' + '</STMTTRN>' + '\n' +
+                '\n';
 
-		});
+        });
 
-		ofx +=
-			'\t\t\t\t' + '</BANKTRANLIST>' + '\n' +
-			'\n' +
-			'\t\t\t\t' + '<LEDGERBAL>' + '\n' +
-			'\t\t\t\t\t' + '<BALAMT>' + statement.balances[ statement.balances.length - 1 ].balance + '</BALAMT>' + '\n' +
-			'\t\t\t\t\t' + '<DTASOF>' + obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '</DTASOF>' + '\n' +
-			'\t\t\t\t' + '</LEDGERBAL>' + '\n' +
-			'\n' +
-			'\t\t\t' + '</STMTRS>' + '\n' +
-			'\t\t' + '</STMTTRNRS>' + '\n' +
-			'\t' + '</BANKMSGSRSV1>' + '\n' +
-			'\n' +
-			'</OFX>' + '\n';
+        ofx +=
+            '\t\t\t\t' + '</BANKTRANLIST>' + '\n' +
+            '\n' +
+            '\t\t\t\t' + '<LEDGERBAL>' + '\n' +
+            '\t\t\t\t\t' + '<BALAMT>' + statement.balances[ statement.balances.length - 1 ].balance + '</BALAMT>' + '\n' +
+            '\t\t\t\t\t' + '<DTASOF>' + obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '</DTASOF>' + '\n' +
+            '\t\t\t\t' + '</LEDGERBAL>' + '\n' +
+            '\n' +
+            '\t\t\t' + '</STMTRS>' + '\n' +
+            '\t\t' + '</STMTTRNRS>' + '\n' +
+            '\t' + '</BANKMSGSRSV1>' + '\n' +
+            '\n' +
+            '</OFX>' + '\n';
 
-		return ofx;
+        return ofx;
 
-	}
+    }
 
 });
 
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2014 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: qif.js: QIF generator
  *
 
  Based on the output from MoneyWell and the specs from:
- 	http://svn.gnucash.org/trac/browser/gnucash/trunk/src/import-export/qif-import/file-format.txt
- 	http://en.wikipedia.org/wiki/Quicken_Interchange_Format
+    http://svn.gnucash.org/trac/browser/gnucash/trunk/src/import-export/qif-import/file-format.txt
+    http://en.wikipedia.org/wiki/Quicken_Interchange_Format
 
  */
+
+// jshint unused:true
+/* globals obis */
 
 /*
 
  Events:
-	None
+    None
 
  Methods:
-	generate( statement )
+    generate( statement )
 
  */
 
 obis.generators.push({
 
-	id: 'QIF',
-	folder: 'qif',
-	extension: 'qif',
-	description: 'QIF (Quicken)',
+    id: 'QIF',
+    folder: 'qif',
+    extension: 'qif',
+    description: 'QIF (Quicken)',
 
-	generate: function _generate( statement ) {
+    generate: function _generate( statement ) {
 
-		var qif,
-			self = this;
+        var qif;
 
-		qif =
-			'!Account' + '\n' +
-			'N' + statement.type + '\n' +
-			'A' + statement.sortCode + '/' + statement.sortCode + statement.accountNumber + '\n' +
-			'/' + obis.utils.USDateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '\n' +
-			'$' + statement.balances[ statement.balances.length - 1 ].balance.toFixed( 2 ) + '\n' +
-			'T' + 'Bank' + '\n' +
-			'^' + '\n' +
+        qif =
+            '!Account' + '\n' +
+            'N' + statement.type + '\n' +
+            'A' + statement.sortCode + '/' + statement.sortCode + statement.accountNumber + '\n' +
+            '/' + obis.utils.USDateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '\n' +
+            '$' + statement.balances[ statement.balances.length - 1 ].balance.toFixed( 2 ) + '\n' +
+            'T' + 'Bank' + '\n' +
+            '^' + '\n' +
 
-			'!Type:Bank' + '\n';
+            '!Type:Bank' + '\n';
 
-		jQuery.each( statement.entries, function _forEach( index ) {
+        jQuery.each( statement.entries, function _forEach() {
 
-			var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
+            var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
 
-			qif +=
-				'D' + obis.utils.USDateTimeString( this.date ) + '\n' +
-				'N' + ( ( this.debit + this.credit ) < 0 ? 'WITHD' : 'DEP' ) + '\n' +
-				'T' + transactionAmount + '\n' +
-				'C' + '\n' +
-				'P' + this.description + '\n' +
-				( 'memo' in this ? ( 'M' + this.memo + '\n' ) : '' ) +
-				'^' + '\n';
+            qif +=
+                'D' + obis.utils.USDateTimeString( this.date ) + '\n' +
+                'N' + ( ( this.debit + this.credit ) < 0 ? 'WITHD' : 'DEP' ) + '\n' +
+                'T' + transactionAmount + '\n' +
+                'C' + '\n' +
+                'P' + this.description + '\n' +
+                ( 'memo' in this ? ( 'M' + this.memo + '\n' ) : '' ) +
+                '^' + '\n';
 
-		});
+        });
 
-		qif +=
-			'\n';
+        qif +=
+            '\n';
 
-		return qif;
+        return qif;
 
-	}
+    }
 
 });
