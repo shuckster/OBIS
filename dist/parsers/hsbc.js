@@ -405,7 +405,8 @@ jQuery.extend( obis, {
 
 	parseStatement: function _parseStatement( preparse, html ) {
 
-		var ROOT = jQuery( html || document );
+		var ROOT = jQuery( html || document ),
+			self = this;
 
 		// RegEx tests
 		var rxIsDayAndMonthOnly = /^\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/,
@@ -614,7 +615,7 @@ jQuery.extend( obis, {
 
 			});
 
-			entry.id = this.generateUniqueIdForTransaction( entry, entry.memoUrl );
+			entry.id = self.generateUniqueIdForTransaction( entry, entry.memoUrl );
 			entry._id = entry.id; // memo-less id
 
 			if ( !isRunningBalance ) {
