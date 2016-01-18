@@ -2,7 +2,7 @@
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: obis.js: The obis object
@@ -14,6 +14,9 @@
 		Parser entry point
 
  */
+
+// jshint unused:true
+/* globals obis,JSZip,saveAs,alert */
 
 /*
 
@@ -103,7 +106,7 @@ jQuery.extend( obis, {
 
 		var self = this;
 
-		jQuery( document ).bind( 'statements:updated', function _statementsUpdated( count ) {
+		jQuery( document ).bind( 'statements:updated', function _statementsUpdated() {
 			self.toggleViewAndDownloadButtons();
 		});
 
@@ -386,7 +389,7 @@ jQuery.extend( obis, {
 		});
 
 		jQuery.each( this.statements, function _forEach() {
-			html += '<option value="' + this.id + '"' + ( this === selection ? ' selected="selected"' : '' )  +'>' + obis.utils.simpleDate( this.date ) + '</option>'
+			html += '<option value="' + this.id + '"' + ( this === selection ? ' selected="selected"' : '' )  +'>' + obis.utils.simpleDate( this.date ) + '</option>';
 		});
 
 		return '<select id="statement-picker" onchange="opener.obis.popupSelectStatement(this);">' + html + '</select>';
@@ -397,8 +400,7 @@ jQuery.extend( obis, {
 
 		statement = statement || this.statements[ 0 ];
 
-		var self = this,
-			html =
+		var html =
 				'<table id="statement-viewer">' +
 					'<thead>' +
 						'<tr>' +
@@ -423,7 +425,7 @@ jQuery.extend( obis, {
 			runningBalance += this.credit;
 			runningBalance += this.debit;
 
-			if ( 0 !== this.balance && !( Math.abs( runningBalance - this.balance ) < 0.000001 ) ) {
+			if ( 0 !== this.balance && !( Math.abs( runningBalance - this.balance ) < 0.000001 ) ) { // jshint ignore:line
 				console.warn( 'Running balance issue: runningBalance = ', parseFloat( runningBalance.toFixed( 2 ) ), ', this.balance = ', this.balance );
 				balanceIssue = true;
 			}
@@ -453,8 +455,6 @@ jQuery.extend( obis, {
 	// ...
 
 	openStatementsPopup: function _openStatementsPopup() {
-
-		var self = this;
 
 		this.windowRef = window.open( 'text/html', 'obis', 'width=1000,height=750,menubar=0,toolbar=0,status=0,scrollbars=1,resizable=1' );
 		this.windowRef.document.writeln(

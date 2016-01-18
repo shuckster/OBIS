@@ -2,7 +2,7 @@
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: ofx.js: OFX 1.0.2 generator
@@ -12,6 +12,9 @@
 	http://www.hsbc.co.uk/
 
  */
+
+// jshint unused:true
+/* globals obis */
 
 /*
 
@@ -37,8 +40,7 @@ obis.generators.push({
 
 	generate: function _generate( statement ) {
 
-		var ofx,
-			self = this;
+		var ofx;
 
 		// TODO: Move into hsbc.js somehow
 		function filterTransactionType( type ) {
@@ -53,7 +55,7 @@ obis.generators.push({
 
 			return type;
 
-		};
+		}
 
 		ofx =
 			'OFXHEADER:100' + '\n' +
@@ -107,7 +109,7 @@ obis.generators.push({
 			'\t\t\t\t\t' + '<DTEND>' + obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '</DTEND>' + '\n' +
 			'\n';
 
-		jQuery.each( statement.entries, function _forEach( index ) {
+		jQuery.each( statement.entries, function _forEach() {
 
 			var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
 

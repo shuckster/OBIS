@@ -2,11 +2,14 @@
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: main.js: Bookmarklet loader
  */
+
+// jshint unused:true
+/* globals obis */
 
 /*
 
@@ -53,7 +56,8 @@
 		loadQueue = [
 			//'/OBIS/src/externals/Blob.js',
 			'/OBIS/src/externals/FileSaver.js',
-			'/OBIS/src/externals/crc32.js',
+			// '/OBIS/src/externals/crc32.js',
+			'/OBIS/src/externals/spark-md5.js',
 			'/OBIS/src/externals/jszip.js',
 			'/OBIS/src/externals/jszip-deflate.js',
 			'/OBIS/src/utils.js',

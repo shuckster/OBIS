@@ -2,7 +2,7 @@
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2015 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: hsbc.js: HSBC UK Personal Banking parser. Use on a "Previous
@@ -15,11 +15,14 @@
  Automatically fetches those horrible click-through memos for transactions.
 
  Generates IDs that should be reasonably unique. Certainly any given
- statement will regenerate the same IDs. They're made by CRC32'ing
- most of the transaction data. OFX and CSV are currently the only
- generators that use the IDs.
+ statement will regenerate the same IDs. They're made by md5'ing some
+ of the transaction data. OFX and CSV are currently the only generators
+ that export the IDs.
 
  */
+
+// jshint unused:true
+/* globals obis */
 
 /*
 
@@ -142,7 +145,8 @@ jQuery.extend( obis, {
 		 */
 
 		// Get statement date, IBAN, BIC
-		var elStatementHeader, elStatementBody, timer,
+		var timer, elStatementFirstHeader, elStatementLastHeader,
+
 			elDateAndIBANAndBIC = ROOT.find( '.hsbcTextRight' ),
 			elDate = elDateAndIBANAndBIC.first(),
 			elIBAN = elDateAndIBANAndBIC.eq( 1 ),
@@ -160,7 +164,7 @@ jQuery.extend( obis, {
 
 			console.log( 'Trying to find statement links...' );
 
-			var elStatementsTable, elStatementHeader, retrieveStatementsButton, allStatementsCheckbox;
+			var elStatementsTable, retrieveStatementsButton, allStatementsCheckbox;
 
 			elStatementsTable = ROOT.find( 'table.hsbcRowSeparator' );
 
@@ -242,8 +246,7 @@ jQuery.extend( obis, {
 		}
 		else {
 
-			var statementDate,
-				statementDateString = elDate.html(),
+			var statementDateString = elDate.html(),
 				statementIBANString = elIBAN.html(),
 				statementBICString = elBIC.html(),
 				expectedDate = rxIsStatementDate.test( statementDateString );
@@ -342,9 +345,7 @@ jQuery.extend( obis, {
 			jQuery.ajax({
 				url: statementLink.href,
 				dataType : 'html',
-				complete: function _onComplete( xhr, status ) {
-
-					var response;
+				complete: function _onComplete( xhr ) {
 
 					if ( 200 === xhr.status ) {
 						statementLink.progress.text( 'Retrieving' );
@@ -382,8 +383,7 @@ jQuery.extend( obis, {
 
 	parseStatement: function _parseStatement( preparse, html ) {
 
-		var ROOT = jQuery( html || document ),
-			ids = [];
+		var ROOT = jQuery( html || document );
 
 		// RegEx tests
 		var rxIsDayAndMonthOnly = /^\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/,
@@ -431,13 +431,15 @@ jQuery.extend( obis, {
 		// ...
 
 		// Parse statement
-		var elReversedTransactions = [],
+		var elStatementHeader, elStatementBody,
+
+			elReversedTransactions = [],
 			elTransactions = [],
 			memoUrls = [],
 			columns = [],
 			statementEntries = [],
 			runningBalances = [],
-			runningBalance = null,
+			// runningBalance = null,
 			latestTransactionDate = new Date( preparse.date ),
 			balanceIncludesDebitColumn = false;
 
@@ -541,11 +543,11 @@ jQuery.extend( obis, {
 						break;
 
 						case 'Debit':
-							entry.debit = parseFloat( '' == colData ? '0' : ( '-' + colData.replace( /^\-/, '' ) ) );
+							entry.debit = parseFloat( !colData ? '0' : ( '-' + colData.replace( /^\-/, '' ) ) );
 						break;
 
 						case 'Credit':
-							entry.credit = parseFloat( '' == colData ? '0' : colData );
+							entry.credit = parseFloat( !colData ? '0' : colData );
 						break;
 
 						case 'Balance':
@@ -554,16 +556,21 @@ jQuery.extend( obis, {
 
 							if ( balanceIncludesDebitColumn ) {
 
-								amount = parseFloat( '' == colData ? '0' : colData );
+								amount = parseFloat( !colData ? '0' : colData );
 							}
-							else if ( matches = colData.match( rxBalanceWithDebitMarker ) ) {
+							else {
 
-								amount = matches[ 1 ];
-								amount = parseFloat( '' == amount ? '0' : amount );
-								marker = matches[ 2 ];
+								matches = colData.match( rxBalanceWithDebitMarker );
 
-								if ( 'D' === marker ) {
-									amount = -amount;
+								if ( matches ) {
+
+									amount = matches[ 1 ];
+									amount = parseFloat( !amount ? '0' : amount );
+									marker = matches[ 2 ];
+
+									if ( 'D' === marker ) {
+										amount = -amount;
+									}
 								}
 							}
 
@@ -586,9 +593,23 @@ jQuery.extend( obis, {
 			});
 
 			// Need a toString() to avoid octal pollution
-			var dateTime = obis.utils.dateTimeString( entry.date ),
+			var dateTime = obis.utils.dateTimeString( entry.date ) || 'UNKNOWN_DATE',
 				transactionAmount = ( entry.debit + entry.credit ).toFixed( 2 ),
-				id = dateTime + Math.abs( crc32( dateTime + entry.accountNumber + entry.sortCode + entry.type + entry.description + ( entry.memoUrl ? entry.memoUrl : '' ) + transactionAmount ) );
+
+				// Generate unique ID for this transaction
+				id = dateTime + '_' + obis.utils.md5(
+
+					dateTime +
+					( entry.accountNumber || '' ) +
+					( entry.sortCode || '' ) +
+					( entry.type || '' )  +
+					( entry.description || '' ) +
+
+					// HSBC can change the memoUrl! Don't use it
+					( entry.memo || '' ) +
+
+					transactionAmount
+				);
 
 			entry.id = id;
 
@@ -615,7 +636,9 @@ jQuery.extend( obis, {
 
 	parseStatementMemos: function _parseStatementMemos( statement, button, buttonValue ) {
 
-		var link, entry, id, elMemo, elButton, elButtonIsInput,
+		var link, entry, id, elButton, elButtonIsInput,
+			// elMemo,
+
 			windowRef = this.windowRef,
 			memoUrls = statement.memoUrls || [],
 			self = this;
@@ -649,9 +672,10 @@ jQuery.extend( obis, {
 		jQuery.ajax({
 			url: link,
 			dataType : 'html',
-			complete: function _onComplete( xhr, status ) {
+			complete: function _onComplete( xhr ) {
 
 				var response, elCols, description,
+
 					additionalDetails = null,
 					rxDescription = /Description\:/,
 					rxAdditionalDetails = /Additional details\:/;
