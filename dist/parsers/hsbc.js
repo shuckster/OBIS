@@ -377,6 +377,28 @@ jQuery.extend( obis, {
 
 	},
 
+	generateUniqueIdForTransaction: function _generateUniqueIdForTransaction( entry, memoText ) {
+
+		var dateTime = obis.utils.dateTimeString( entry.date ) || 'UNKNOWN_DATE',
+			transactionAmount = ( entry.debit + entry.credit ).toFixed( 2 );
+
+		// Generate unique ID for this transaction
+		return dateTime + '_' + obis.utils.md5(
+
+			dateTime +
+			( entry.accountNumber || '' ) +
+			( entry.sortCode || '' ) +
+			( entry.type || '' )  +
+			( entry.description || '' ) +
+
+			// HSBC can change the memoUrl! Use it only temporarily, and if specified
+			( memoText || entry.memo || '' ) +
+
+			transactionAmount
+		);
+
+	},
+
 	/*
 	 * Parse a proper statement page, passing-in the preparse info.
 	 */
@@ -592,26 +614,8 @@ jQuery.extend( obis, {
 
 			});
 
-			// Need a toString() to avoid octal pollution
-			var dateTime = obis.utils.dateTimeString( entry.date ) || 'UNKNOWN_DATE',
-				transactionAmount = ( entry.debit + entry.credit ).toFixed( 2 ),
-
-				// Generate unique ID for this transaction
-				id = dateTime + '_' + obis.utils.md5(
-
-					dateTime +
-					( entry.accountNumber || '' ) +
-					( entry.sortCode || '' ) +
-					( entry.type || '' )  +
-					( entry.description || '' ) +
-
-					// HSBC can change the memoUrl! Don't use it
-					( entry.memo || '' ) +
-
-					transactionAmount
-				);
-
-			entry.id = id;
+			entry.id = this.generateUniqueIdForTransaction( entry, entry.memoUrl );
+			entry._id = entry.id; // memo-less id
 
 			if ( !isRunningBalance ) {
 				statementEntries.unshift( entry );
@@ -659,9 +663,11 @@ jQuery.extend( obis, {
 		link = memoUrls.pop();
 
 		jQuery.each( statement.entries, function _forEach() {
+
 			if ( link === this.memoUrl ) {
+
 				entry = this;
-				id = this.id;
+				id = this._id; // memo-less id
 
 				if ( windowRef ) {
 					jQuery( windowRef.document ).find( '#_' + id + ' td.memo' ).html( '&bull;' ).addClass( 'processing' );
@@ -729,7 +735,11 @@ jQuery.extend( obis, {
 
 					// Update statement
 					if ( null !== additionalDetails ) {
+
 						entry.memo = additionalDetails;
+
+						// We have the memo now, so we should update the entry ID
+						entry.id = self.generateUniqueIdForTransaction( entry );
 
 						if ( windowRef ) {
 							jQuery( windowRef.document ).find( '#_' + id + ' td.memo' ).html( additionalDetails ).removeClass( 'processing' );
