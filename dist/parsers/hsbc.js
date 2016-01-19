@@ -581,7 +581,7 @@ jQuery.extend( obis, {
 
 								amount = parseFloat( !colData ? '0' : colData );
 							}
-							else {
+							else if ( colData ) {
 
 								matches = colData.match( rxBalanceWithDebitMarker );
 
