@@ -36,16 +36,47 @@ jQuery.extend( obis, {
 				.replace( /"/g, '&quot;' )
 				.replace( /'/g, '&#39;' )
 				.replace( /</g, '&lt;' )
-				.replace( />/g, '&gt;' );
-
+				.replace( />/g, '&gt;' )
+				.trim();
 		},
 
-		csvEscape: function _csvEscape( string ) {
-			return ( '' + string ).replace( /"/g, '""' );
+		htmlUnescape: function _htmlUnescape( str ) {
+
+			return String( str )
+				.replace( /&amp;/gi, '&' )
+				.replace( /&nbsp;/gi, ' ' )
+				.replace( /&quot;/gi, '"' )
+				.replace( /&#39;/gi, '\'' )
+				.replace( /&lt;/gi, '<' )
+				.replace( /&gt;/gi, '>' )
+				.trim();
+		},
+
+		ofxEscape: function _ofxEscape( str ) {
+
+			return String( str )
+				.replace( /</g, '&lt;' )
+				.replace( />/g, '&gt;' )
+				.trim();
+		},
+
+		csvEscape: function _csvEscape( str ) {
+
+			return String( str )
+				.replace( /"/g, '""' )
+				.replace( /\r\n|\r|\n/g, ' ' )
+				.trim();
+		},
+
+		qifEscape: function _qifEscape( str ) {
+
+			return String( str )
+				.replace( /\r\n|\r|\n/g, ' ' )
+				.trim();
 		},
 
 		addZeros: function _addZeros( number ) {
-			return ( 10 > number ? ( '0' + number ) : number );
+			return String( 10 > number ? ( '0' + number ) : number );
 		},
 
 		numberToCurrency: function _numberToCurrency( number ) {
@@ -64,7 +95,7 @@ jQuery.extend( obis, {
 
 			var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
 
-			return (
+			return String(
 				date.getDate() + ' ' +
 				months[ date.getMonth() ] + ' ' +
 				date.getFullYear()
@@ -74,7 +105,7 @@ jQuery.extend( obis, {
 
 		dateTimeString: function _dateTimeString( date ) {
 
-			return (
+			return String(
 				'' +
 				date.getFullYear() +
 				obis.utils.addZeros( date.getMonth() + 1 ) +
@@ -88,7 +119,7 @@ jQuery.extend( obis, {
 
 		USDateTimeString: function _USDateTimeString( date ) {
 
-			return (
+			return String(
 				'' +
 				obis.utils.addZeros( date.getDate() ) + '/' +
 				obis.utils.addZeros( date.getMonth() + 1 ) + '/' +
@@ -107,10 +138,10 @@ jQuery.extend( obis, {
 			});
 
 			return newArray;
-
 		},
 
 		md5: function _md5( str ) {
+
 			return SparkMD5.hash( str );
 		}
 

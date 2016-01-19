@@ -76,9 +76,9 @@ obis.generators.push({
 			'\t\t\t\t' + '<CODE>0</CODE>' + '\n' +
 			'\t\t\t\t' + '<SEVERITY>INFO</SEVERITY>' + '\n' +
 			'\t\t\t' + '</STATUS>' + '\n' +
-			'\t\t\t' + '<DTSERVER>' + obis.utils.dateTimeString( new Date() ) + '</DTSERVER>' + '\n' +
-			'\t\t\t' + '<LANGUAGE>' + obis.LANGUAGE + '</LANGUAGE>' + '\n' +
-			'\t\t\t' + '<INTU.BID>' + obis.INTU_BID + '</INTU.BID>' + '\n' +
+			'\t\t\t' + '<DTSERVER>' + obis.utils.ofxEscape( obis.utils.dateTimeString( new Date() ) ) + '</DTSERVER>' + '\n' +
+			'\t\t\t' + '<LANGUAGE>' + obis.utils.ofxEscape( obis.LANGUAGE ) + '</LANGUAGE>' + '\n' +
+			'\t\t\t' + '<INTU.BID>' + obis.utils.ofxEscape( obis.INTU_BID ) + '</INTU.BID>' + '\n' +
 			'\t\t' + '</SONRS>' + '\n' +
 			'\t' + '</SIGNONMSGSRSV1>' + '\n' +
 			'\n' +
@@ -95,18 +95,18 @@ obis.generators.push({
 			'\n' +
 			'\t\t\t' + '<STMTRS>' + '\n' +
 			'\n' +
-			'\t\t\t\t' + '<CURDEF>' + obis.CURDEF + '</CURDEF>' + '\n' +
+			'\t\t\t\t' + '<CURDEF>' + obis.utils.ofxEscape( obis.CURDEF ) + '</CURDEF>' + '\n' +
 			'\n' +
 			'\t\t\t\t' + '<BANKACCTFROM>' + '\n' +
-			'\t\t\t\t\t' + '<BANKID>' + statement.sortCode + '</BANKID>' + '\n' +
-			'\t\t\t\t\t' + '<ACCTID>' + statement.sortCode + statement.accountNumber + '</ACCTID>' + '\n' +
+			'\t\t\t\t\t' + '<BANKID>' + obis.utils.ofxEscape( statement.sortCode ) + '</BANKID>' + '\n' +
+			'\t\t\t\t\t' + '<ACCTID>' + obis.utils.ofxEscape( statement.sortCode + statement.accountNumber ) + '</ACCTID>' + '\n' +
 			'\t\t\t\t\t' + '<ACCTTYPE>CHECKING</ACCTTYPE>' + '\n' +
 			'\t\t\t\t' + '</BANKACCTFROM>' + '\n' +
 			'\n' +
 			'\t\t\t\t' + '<BANKTRANLIST>' + '\n' +
 			'\n' +
-			'\t\t\t\t\t' + '<DTSTART>' + obis.utils.dateTimeString( statement.balances[ 0 ].date ) + '</DTSTART>' + '\n' +
-			'\t\t\t\t\t' + '<DTEND>' + obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '</DTEND>' + '\n' +
+			'\t\t\t\t\t' + '<DTSTART>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ 0 ].date ) ) + '</DTSTART>' + '\n' +
+			'\t\t\t\t\t' + '<DTEND>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) ) + '</DTEND>' + '\n' +
 			'\n';
 
 		jQuery.each( statement.entries, function _forEach() {
@@ -115,12 +115,12 @@ obis.generators.push({
 
 			ofx +=
 				'\t\t\t\t\t' + '<STMTTRN>' + '\n' +
-				'\t\t\t\t\t\t' + '<TRNTYPE>' + filterTransactionType( this.type ) + '</TRNTYPE>' + '\n' +
-				'\t\t\t\t\t\t' + '<DTPOSTED>' + obis.utils.dateTimeString( this.date ) + '</DTPOSTED>' + '\n' +
-				'\t\t\t\t\t\t' + '<TRNAMT>' + transactionAmount + '</TRNAMT>' + '\n' +
-				'\t\t\t\t\t\t' + '<FITID>' + this.id + '</FITID>' + '\n' +
-				'\t\t\t\t\t\t' + '<NAME>' + obis.utils.htmlEscape( this.description ) + '</NAME>' + '\n' +
-				( 'memo' in this ? ( '\t\t\t\t\t\t' + '<MEMO>' + obis.utils.htmlEscape( this.memo ) + '</MEMO>' + '\n' ) : '' ) +
+				'\t\t\t\t\t\t' + '<TRNTYPE>' + obis.utils.ofxEscape( filterTransactionType( this.type ) ) + '</TRNTYPE>' + '\n' +
+				'\t\t\t\t\t\t' + '<DTPOSTED>' + obis.utils.ofxEscape( obis.utils.dateTimeString( this.date ) ) + '</DTPOSTED>' + '\n' +
+				'\t\t\t\t\t\t' + '<TRNAMT>' + obis.utils.ofxEscape( transactionAmount ) + '</TRNAMT>' + '\n' +
+				'\t\t\t\t\t\t' + '<FITID>' + obis.utils.ofxEscape( this.id ) + '</FITID>' + '\n' +
+				'\t\t\t\t\t\t' + '<NAME>' + obis.utils.ofxEscape( this.description ) + '</NAME>' + '\n' +
+				( 'memo' in this ? ( '\t\t\t\t\t\t' + '<MEMO>' + obis.utils.ofxEscape( this.memo ) + '</MEMO>' + '\n' ) : '' ) +
 				'\t\t\t\t\t' + '</STMTTRN>' + '\n' +
 				'\n';
 
@@ -130,8 +130,8 @@ obis.generators.push({
 			'\t\t\t\t' + '</BANKTRANLIST>' + '\n' +
 			'\n' +
 			'\t\t\t\t' + '<LEDGERBAL>' + '\n' +
-			'\t\t\t\t\t' + '<BALAMT>' + statement.balances[ statement.balances.length - 1 ].balance + '</BALAMT>' + '\n' +
-			'\t\t\t\t\t' + '<DTASOF>' + obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '</DTASOF>' + '\n' +
+			'\t\t\t\t\t' + '<BALAMT>' + obis.utils.ofxEscape( statement.balances[ statement.balances.length - 1 ].balance ) + '</BALAMT>' + '\n' +
+			'\t\t\t\t\t' + '<DTASOF>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) ) + '</DTASOF>' + '\n' +
 			'\t\t\t\t' + '</LEDGERBAL>' + '\n' +
 			'\n' +
 			'\t\t\t' + '</STMTRS>' + '\n' +

@@ -9,6 +9,9 @@ MIT licensed: See [LICENSE.md](LICENSE.md)
 
 ## Changelog
 
+19th January 2016:
+- Fix confused (un)escaping in parser and generators
+
 18th January 2016:
 - HSBC UK parser: Use MD5 for ID generation, fix (hopefully) reproducibility problem
 - General jslint'ing

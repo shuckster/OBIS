@@ -432,14 +432,55 @@ jQuery.extend( obis, {
 
 			html +=
 				'<tr id="_' + this.id + '" class="' + ( balanceIssue ? 'balance_issue' : '' ) + '">' +
-					'<td class="date">' + obis.utils.simpleDate( this.date ) + '</td>' +
-					'<td class="type">' + this.type + '</td>' +
-					'<td class="description">' + this.description + '</td>' +
-					'<td class="memo">' + ( 'memo' in this ? this.memo : ( this.memoLink ? '...' : '' ) ) + '</td>' +
-					'<td class="debit">' + obis.utils.numberToCurrency( this.debit ) + '</td>' +
-					'<td class="credit">' + obis.utils.numberToCurrency( this.credit ) + '</td>' +
-					'<td class="balance' + ( this.balance < 0 ? ' negative' : '' ) + '">' + obis.utils.numberToCurrency( this.balance ) + '</td>' +
-					'<td class="calculated' + ( runningBalance < 0 ? ' negative' : '' ) + '">' + obis.utils.numberToCurrency( runningBalance ) + '</td>' +
+
+					'<td class="date">' +
+					obis.utils.htmlEscape(
+						obis.utils.simpleDate( this.date )
+					) +
+					'</td>' +
+
+					'<td class="type">' +
+					obis.utils.htmlEscape(
+						this.type
+					) +
+					'</td>' +
+
+					'<td class="description">' +
+					obis.utils.htmlEscape(
+						this.description
+					) +
+					'</td>' +
+
+					'<td class="memo">' +
+					obis.utils.htmlEscape(
+						'memo' in this ? this.memo : ( this.memoLink ? '...' : '' )
+					) +
+					'</td>' +
+
+					'<td class="debit">' +
+					obis.utils.htmlEscape(
+						obis.utils.numberToCurrency( this.debit )
+					) +
+					'</td>' +
+
+					'<td class="credit">' +
+					obis.utils.htmlEscape(
+						obis.utils.numberToCurrency( this.credit )
+					) +
+					'</td>' +
+
+					'<td class="balance' + ( this.balance < 0 ? ' negative' : '' ) + '">' +
+					obis.utils.htmlEscape(
+						obis.utils.numberToCurrency( this.balance )
+					) +
+					'</td>' +
+
+					'<td class="calculated' + ( runningBalance < 0 ? ' negative' : '' ) + '">' +
+					obis.utils.htmlEscape(
+						obis.utils.numberToCurrency( runningBalance )
+					) +
+					'</td>' +
+
 				'</tr>';
 
 		});

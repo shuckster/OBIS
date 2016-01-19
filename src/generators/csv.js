@@ -51,7 +51,7 @@ obis.generators.push({
 				'"' + obis.utils.csvEscape( statement.type ) + '",' +
 				'"' + obis.utils.csvEscape( statement.sortCode + ' ' + statement.accountNumber ) + '",' +
 				'"' + obis.utils.csvEscape( this.description ) + '",' +
-				'"' + obis.utils.csvEscape( ( 'memo' in this ? obis.utils.htmlEscape( this.memo ) : '' ) ) + '",' +
+				'"' + obis.utils.csvEscape( 'memo' in this ? this.memo : '' ) + '",' +
 				'"' + obis.utils.csvEscape( transactionAmount ) + '"' +
 				'\r\n';
 

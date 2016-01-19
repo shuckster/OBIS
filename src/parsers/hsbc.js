@@ -519,7 +519,7 @@ jQuery.extend( obis, {
 					elColData = elCol.find( '*' ).last();
 
 					if ( elColData.length ) {
-						colData = elColData.html().replace( /\&nbsp\;/g, '' ).trim();
+						colData = obis.utils.htmlUnescape( elColData.html() );
 					}
 
 					switch ( colType ) {
