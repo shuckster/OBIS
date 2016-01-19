@@ -3649,16 +3649,47 @@ jQuery.extend( obis, {
                 .replace( /"/g, '&quot;' )
                 .replace( /'/g, '&#39;' )
                 .replace( /</g, '&lt;' )
-                .replace( />/g, '&gt;' );
-
+                .replace( />/g, '&gt;' )
+                .trim();
         },
 
-        csvEscape: function _csvEscape( string ) {
-            return ( '' + string ).replace( /"/g, '""' );
+        htmlUnescape: function _htmlUnescape( str ) {
+
+            return String( str )
+                .replace( /&amp;/gi, '&' )
+                .replace( /&nbsp;/gi, ' ' )
+                .replace( /&quot;/gi, '"' )
+                .replace( /&#39;/gi, '\'' )
+                .replace( /&lt;/gi, '<' )
+                .replace( /&gt;/gi, '>' )
+                .trim();
+        },
+
+        ofxEscape: function _ofxEscape( str ) {
+
+            return String( str )
+                .replace( /</g, '&lt;' )
+                .replace( />/g, '&gt;' )
+                .trim();
+        },
+
+        csvEscape: function _csvEscape( str ) {
+
+            return String( str )
+                .replace( /"/g, '""' )
+                .replace( /\r\n|\r|\n/g, ' ' )
+                .trim();
+        },
+
+        qifEscape: function _qifEscape( str ) {
+
+            return String( str )
+                .replace( /\r\n|\r|\n/g, ' ' )
+                .trim();
         },
 
         addZeros: function _addZeros( number ) {
-            return ( 10 > number ? ( '0' + number ) : number );
+            return String( 10 > number ? ( '0' + number ) : number );
         },
 
         numberToCurrency: function _numberToCurrency( number ) {
@@ -3677,7 +3708,7 @@ jQuery.extend( obis, {
 
             var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
 
-            return (
+            return String(
                 date.getDate() + ' ' +
                 months[ date.getMonth() ] + ' ' +
                 date.getFullYear()
@@ -3687,7 +3718,7 @@ jQuery.extend( obis, {
 
         dateTimeString: function _dateTimeString( date ) {
 
-            return (
+            return String(
                 '' +
                 date.getFullYear() +
                 obis.utils.addZeros( date.getMonth() + 1 ) +
@@ -3701,7 +3732,7 @@ jQuery.extend( obis, {
 
         USDateTimeString: function _USDateTimeString( date ) {
 
-            return (
+            return String(
                 '' +
                 obis.utils.addZeros( date.getDate() ) + '/' +
                 obis.utils.addZeros( date.getMonth() + 1 ) + '/' +
@@ -3720,10 +3751,10 @@ jQuery.extend( obis, {
             });
 
             return newArray;
-
         },
 
         md5: function _md5( str ) {
+
             return SparkMD5.hash( str );
         }
 
@@ -4164,14 +4195,55 @@ jQuery.extend( obis, {
 
             html +=
                 '<tr id="_' + this.id + '" class="' + ( balanceIssue ? 'balance_issue' : '' ) + '">' +
-                    '<td class="date">' + obis.utils.simpleDate( this.date ) + '</td>' +
-                    '<td class="type">' + this.type + '</td>' +
-                    '<td class="description">' + this.description + '</td>' +
-                    '<td class="memo">' + ( 'memo' in this ? this.memo : ( this.memoLink ? '...' : '' ) ) + '</td>' +
-                    '<td class="debit">' + obis.utils.numberToCurrency( this.debit ) + '</td>' +
-                    '<td class="credit">' + obis.utils.numberToCurrency( this.credit ) + '</td>' +
-                    '<td class="balance' + ( this.balance < 0 ? ' negative' : '' ) + '">' + obis.utils.numberToCurrency( this.balance ) + '</td>' +
-                    '<td class="calculated' + ( runningBalance < 0 ? ' negative' : '' ) + '">' + obis.utils.numberToCurrency( runningBalance ) + '</td>' +
+
+                    '<td class="date">' +
+                    obis.utils.htmlEscape(
+                        obis.utils.simpleDate( this.date )
+                    ) +
+                    '</td>' +
+
+                    '<td class="type">' +
+                    obis.utils.htmlEscape(
+                        this.type
+                    ) +
+                    '</td>' +
+
+                    '<td class="description">' +
+                    obis.utils.htmlEscape(
+                        this.description
+                    ) +
+                    '</td>' +
+
+                    '<td class="memo">' +
+                    obis.utils.htmlEscape(
+                        'memo' in this ? this.memo : ( this.memoLink ? '...' : '' )
+                    ) +
+                    '</td>' +
+
+                    '<td class="debit">' +
+                    obis.utils.htmlEscape(
+                        obis.utils.numberToCurrency( this.debit )
+                    ) +
+                    '</td>' +
+
+                    '<td class="credit">' +
+                    obis.utils.htmlEscape(
+                        obis.utils.numberToCurrency( this.credit )
+                    ) +
+                    '</td>' +
+
+                    '<td class="balance' + ( this.balance < 0 ? ' negative' : '' ) + '">' +
+                    obis.utils.htmlEscape(
+                        obis.utils.numberToCurrency( this.balance )
+                    ) +
+                    '</td>' +
+
+                    '<td class="calculated' + ( runningBalance < 0 ? ' negative' : '' ) + '">' +
+                    obis.utils.htmlEscape(
+                        obis.utils.numberToCurrency( runningBalance )
+                    ) +
+                    '</td>' +
+
                 '</tr>';
 
         });
@@ -4280,7 +4352,7 @@ obis.generators.push({
                 '"' + obis.utils.csvEscape( statement.type ) + '",' +
                 '"' + obis.utils.csvEscape( statement.sortCode + ' ' + statement.accountNumber ) + '",' +
                 '"' + obis.utils.csvEscape( this.description ) + '",' +
-                '"' + obis.utils.csvEscape( ( 'memo' in this ? obis.utils.htmlEscape( this.memo ) : '' ) ) + '",' +
+                '"' + obis.utils.csvEscape( 'memo' in this ? this.memo : '' ) + '",' +
                 '"' + obis.utils.csvEscape( transactionAmount ) + '"' +
                 '\r\n';
 
@@ -4414,9 +4486,9 @@ obis.generators.push({
             '\t\t\t\t' + '<CODE>0</CODE>' + '\n' +
             '\t\t\t\t' + '<SEVERITY>INFO</SEVERITY>' + '\n' +
             '\t\t\t' + '</STATUS>' + '\n' +
-            '\t\t\t' + '<DTSERVER>' + obis.utils.dateTimeString( new Date() ) + '</DTSERVER>' + '\n' +
-            '\t\t\t' + '<LANGUAGE>' + obis.LANGUAGE + '</LANGUAGE>' + '\n' +
-            '\t\t\t' + '<INTU.BID>' + obis.INTU_BID + '</INTU.BID>' + '\n' +
+            '\t\t\t' + '<DTSERVER>' + obis.utils.ofxEscape( obis.utils.dateTimeString( new Date() ) ) + '</DTSERVER>' + '\n' +
+            '\t\t\t' + '<LANGUAGE>' + obis.utils.ofxEscape( obis.LANGUAGE ) + '</LANGUAGE>' + '\n' +
+            '\t\t\t' + '<INTU.BID>' + obis.utils.ofxEscape( obis.INTU_BID ) + '</INTU.BID>' + '\n' +
             '\t\t' + '</SONRS>' + '\n' +
             '\t' + '</SIGNONMSGSRSV1>' + '\n' +
             '\n' +
@@ -4433,18 +4505,18 @@ obis.generators.push({
             '\n' +
             '\t\t\t' + '<STMTRS>' + '\n' +
             '\n' +
-            '\t\t\t\t' + '<CURDEF>' + obis.CURDEF + '</CURDEF>' + '\n' +
+            '\t\t\t\t' + '<CURDEF>' + obis.utils.ofxEscape( obis.CURDEF ) + '</CURDEF>' + '\n' +
             '\n' +
             '\t\t\t\t' + '<BANKACCTFROM>' + '\n' +
-            '\t\t\t\t\t' + '<BANKID>' + statement.sortCode + '</BANKID>' + '\n' +
-            '\t\t\t\t\t' + '<ACCTID>' + statement.sortCode + statement.accountNumber + '</ACCTID>' + '\n' +
+            '\t\t\t\t\t' + '<BANKID>' + obis.utils.ofxEscape( statement.sortCode ) + '</BANKID>' + '\n' +
+            '\t\t\t\t\t' + '<ACCTID>' + obis.utils.ofxEscape( statement.sortCode + statement.accountNumber ) + '</ACCTID>' + '\n' +
             '\t\t\t\t\t' + '<ACCTTYPE>CHECKING</ACCTTYPE>' + '\n' +
             '\t\t\t\t' + '</BANKACCTFROM>' + '\n' +
             '\n' +
             '\t\t\t\t' + '<BANKTRANLIST>' + '\n' +
             '\n' +
-            '\t\t\t\t\t' + '<DTSTART>' + obis.utils.dateTimeString( statement.balances[ 0 ].date ) + '</DTSTART>' + '\n' +
-            '\t\t\t\t\t' + '<DTEND>' + obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '</DTEND>' + '\n' +
+            '\t\t\t\t\t' + '<DTSTART>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ 0 ].date ) ) + '</DTSTART>' + '\n' +
+            '\t\t\t\t\t' + '<DTEND>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) ) + '</DTEND>' + '\n' +
             '\n';
 
         jQuery.each( statement.entries, function _forEach() {
@@ -4453,12 +4525,12 @@ obis.generators.push({
 
             ofx +=
                 '\t\t\t\t\t' + '<STMTTRN>' + '\n' +
-                '\t\t\t\t\t\t' + '<TRNTYPE>' + filterTransactionType( this.type ) + '</TRNTYPE>' + '\n' +
-                '\t\t\t\t\t\t' + '<DTPOSTED>' + obis.utils.dateTimeString( this.date ) + '</DTPOSTED>' + '\n' +
-                '\t\t\t\t\t\t' + '<TRNAMT>' + transactionAmount + '</TRNAMT>' + '\n' +
-                '\t\t\t\t\t\t' + '<FITID>' + this.id + '</FITID>' + '\n' +
-                '\t\t\t\t\t\t' + '<NAME>' + obis.utils.htmlEscape( this.description ) + '</NAME>' + '\n' +
-                ( 'memo' in this ? ( '\t\t\t\t\t\t' + '<MEMO>' + obis.utils.htmlEscape( this.memo ) + '</MEMO>' + '\n' ) : '' ) +
+                '\t\t\t\t\t\t' + '<TRNTYPE>' + obis.utils.ofxEscape( filterTransactionType( this.type ) ) + '</TRNTYPE>' + '\n' +
+                '\t\t\t\t\t\t' + '<DTPOSTED>' + obis.utils.ofxEscape( obis.utils.dateTimeString( this.date ) ) + '</DTPOSTED>' + '\n' +
+                '\t\t\t\t\t\t' + '<TRNAMT>' + obis.utils.ofxEscape( transactionAmount ) + '</TRNAMT>' + '\n' +
+                '\t\t\t\t\t\t' + '<FITID>' + obis.utils.ofxEscape( this.id ) + '</FITID>' + '\n' +
+                '\t\t\t\t\t\t' + '<NAME>' + obis.utils.ofxEscape( this.description ) + '</NAME>' + '\n' +
+                ( 'memo' in this ? ( '\t\t\t\t\t\t' + '<MEMO>' + obis.utils.ofxEscape( this.memo ) + '</MEMO>' + '\n' ) : '' ) +
                 '\t\t\t\t\t' + '</STMTTRN>' + '\n' +
                 '\n';
 
@@ -4468,8 +4540,8 @@ obis.generators.push({
             '\t\t\t\t' + '</BANKTRANLIST>' + '\n' +
             '\n' +
             '\t\t\t\t' + '<LEDGERBAL>' + '\n' +
-            '\t\t\t\t\t' + '<BALAMT>' + statement.balances[ statement.balances.length - 1 ].balance + '</BALAMT>' + '\n' +
-            '\t\t\t\t\t' + '<DTASOF>' + obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '</DTASOF>' + '\n' +
+            '\t\t\t\t\t' + '<BALAMT>' + obis.utils.ofxEscape( statement.balances[ statement.balances.length - 1 ].balance ) + '</BALAMT>' + '\n' +
+            '\t\t\t\t\t' + '<DTASOF>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) ) + '</DTASOF>' + '\n' +
             '\t\t\t\t' + '</LEDGERBAL>' + '\n' +
             '\n' +
             '\t\t\t' + '</STMTRS>' + '\n' +
@@ -4525,10 +4597,10 @@ obis.generators.push({
 
         qif =
             '!Account' + '\n' +
-            'N' + statement.type + '\n' +
-            'A' + statement.sortCode + '/' + statement.sortCode + statement.accountNumber + '\n' +
-            '/' + obis.utils.USDateTimeString( statement.balances[ statement.balances.length - 1 ].date ) + '\n' +
-            '$' + statement.balances[ statement.balances.length - 1 ].balance.toFixed( 2 ) + '\n' +
+            'N' + obis.utils.qifEscape( statement.type ) + '\n' +
+            'A' + obis.utils.qifEscape( statement.sortCode + '/' + statement.sortCode + statement.accountNumber ) + '\n' +
+            '/' + obis.utils.qifEscape( obis.utils.USDateTimeString( statement.balances[ statement.balances.length - 1 ].date ) ) + '\n' +
+            '$' + obis.utils.qifEscape( statement.balances[ statement.balances.length - 1 ].balance.toFixed( 2 ) ) + '\n' +
             'T' + 'Bank' + '\n' +
             '^' + '\n' +
 
@@ -4539,12 +4611,12 @@ obis.generators.push({
             var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
 
             qif +=
-                'D' + obis.utils.USDateTimeString( this.date ) + '\n' +
-                'N' + ( ( this.debit + this.credit ) < 0 ? 'WITHD' : 'DEP' ) + '\n' +
-                'T' + transactionAmount + '\n' +
+                'D' + obis.utils.qifEscape( obis.utils.USDateTimeString( this.date ) ) + '\n' +
+                'N' + obis.utils.qifEscape( ( ( this.debit + this.credit ) < 0 ? 'WITHD' : 'DEP' ) ) + '\n' +
+                'T' + obis.utils.qifEscape( transactionAmount ) + '\n' +
                 'C' + '\n' +
-                'P' + this.description + '\n' +
-                ( 'memo' in this ? ( 'M' + this.memo + '\n' ) : '' ) +
+                'P' + obis.utils.qifEscape( this.description ) + '\n' +
+                ( 'memo' in this ? ( 'M' + obis.utils.qifEscape( this.memo ) + '\n' ) : '' ) +
                 '^' + '\n';
 
         });
