@@ -50,6 +50,7 @@ Implements the fine work of these 3rd parties:
 *   http://eligrey.com/blog/post/saving-generated-files-on-the-client-side
 *   http://www.webtoolkit.info/
 *   http://jquery.com/
+*   https://github.com/satazor/SparkMD5
 
 jQuery 1.5.2 is used because that's the version HSBC UK use.
 
@@ -3615,7 +3616,7 @@ if(!JSZip.compressions["DEFLATE"]) {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: utils.js: Helper methods
