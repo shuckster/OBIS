@@ -2,7 +2,7 @@
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: hsbc.js: HSBC UK Personal Banking parser. Use on a "Previous
@@ -51,37 +51,154 @@ jQuery.extend( obis, {
 
 	memoUrls: [],
 
-	parse: function _parse( html, statusElement ) {
+	parse: function _parse( htmlOrFrag, statusElement, statementPages ) {
 
-		var statement,
-			preparse = this.preparse( html );
+		// No need to sanitize the root document
+		if ( htmlOrFrag ) {
+			htmlOrFrag = this.sanitizedDocumentFragment( htmlOrFrag );
+		}
 
-		// A statement
+		var preparse = this.preparse( htmlOrFrag ),
+			self = this;
+
+		statementPages = statementPages || [];
+
+		// No statement-links? Probably a single statement
 		if ( !preparse.statementLinks ) {
 
-			statement = this.parseStatement( preparse, html );
+			if ( !statementPages.length ) {
 
-			if ( statement ) {
+				var afterAllStatementPagesRetrieved = function _afterAllStatementPagesRetrieved() {
 
-				jQuery.extend( statement, preparse );
-				this.addStatement( statement );
+					jQuery( document ).unbind( 'pages:retrieved', afterAllStatementPagesRetrieved );
 
-				if ( statement.memoUrls.length ) {
-					this.parseStatementMemos( statement, statusElement || this.elements.downloadStatementsButton );
-				}
-				else {
-					this.finishedWithStatement( statement );
-				}
+					var statement;
 
+					if ( statementPages.length ) {
+
+						jQuery.each( statementPages, function _forEach( pageNumber ) {
+
+							var currentStatement = self.parseStatement( preparse, this, pageNumber );
+
+							if ( currentStatement ) {
+
+								if ( !statement ) {
+									statement = currentStatement;
+								}
+								else {
+									statement.entries.push.apply( statement.entries, currentStatement.entries );
+									statement.balances.push.apply( statement.balances, currentStatement.balances );
+									statement.memoUrls.push.apply( statement.memoUrls, currentStatement.memoUrls );
+								}
+							}
+						});
+
+						// Was for debugging only - real multipage statements probably
+						// won't just be copy-pastes of a single page :P
+						/*var sortByDate = obis.utils.sortByNumber( 'date' );
+						statement.entries.sort( sortByDate );
+						statement.balances.sort( sortByDate );*/
+					}
+
+					else {
+						statement = self.parseStatement( preparse, htmlOrFrag );
+					}
+
+					// All pages should have processed by now - finish off
+					statementPages.length = 0;
+
+					if ( statement ) {
+
+						jQuery.extend( statement, preparse );
+						self.addStatement( statement );
+
+						if ( statement.memoUrls.length ) {
+							self.parseStatementMemos( statement, statusElement || self.elements.downloadStatementsButton );
+						}
+						else {
+							self.finishedWithStatement( statement );
+						}
+					}
+				};
+
+				jQuery( document ).bind( 'pages:retrieved', afterAllStatementPagesRetrieved );
 			}
 
+			statementPages.push( htmlOrFrag || document );
+
+			// Another page, eh?
+			if ( preparse.nextPageUrl ) {
+
+				// Process...
+				jQuery.ajax({
+					url: preparse.nextPageUrl,
+					dataType : 'html',
+					complete: function _onComplete( xhr ) {
+
+						if ( 200 === xhr.status ) {
+
+							// Add and process
+							var responseText = xhr.responseText;
+
+							// jQuery borks when dealing with stuff that's too big,
+							// so we'll make a native document fragment, sanitize it,
+							// then pass it to jQuery
+							var nextPageFragment = obis.utils.domFragmentFromString( responseText );
+							self.parse( nextPageFragment, statusElement, statementPages );
+						}
+					}
+				});
+			}
+
+			// We have all statement pages: Start processing...
+			else {
+
+				jQuery( document ).trigger( 'pages:retrieved' );
+			}
 		}
+
 		// A bunch of statements... possibly...
 		else {
+
 			this.statementLinks = preparse.statementLinks;
 			this.toggleRetrieveStatementsButton();
 		}
 
+	},
+
+	/*
+	 * Only grab the elements we're interested in parsing
+	 */
+
+	sanitizedDocumentFragment: function _sanitizedDocumentFragment( df ) {
+
+		var grabber, selector, domElement;
+
+		var grabbers = {
+			elActiveAccount: '.hsbcActiveAccount',
+			elDateAndIBANAndBIC: '.hsbcTextRight',
+			elStatementsTable: 'table.hsbcRowSeparator',
+			elStatementTable: 'table[summary="This table contains a statement of your account"]',
+			elNextPage: 'a[title="Next page of this statement"]'
+		};
+
+		var newFrag = document.createDocumentFragment();
+		var elContainer = jQuery( '<div />' );
+
+		for ( grabber in grabbers ) {
+			if ( grabbers.hasOwnProperty( grabber ) ) {
+
+				selector = grabbers[ grabber ];
+				domElement = df.querySelectorAll( selector );
+
+				if ( domElement.length ) {
+					newFrag.append( obis.utils.domFragmentFromString( domElement[ 0 ].outerHTML ) );
+				}
+			}
+		}
+
+		elContainer.append( newFrag );
+		return elContainer;
 	},
 
 	/*
@@ -107,10 +224,12 @@ jQuery.extend( obis, {
 
 		// Get active account
 		var accountMatches, accountSortCode, accountNumber, accountFullNumber,
+
 			elActiveAccount = ROOT.find( '.hsbcActiveAccount' ),
 			elAccountName = elActiveAccount.find( '.hsbcAccountName' ),
 			elAccountNumber = elActiveAccount.find( '.hsbcAccountNumber' ).detach(),
 			elAccountType = elActiveAccount.find( '.hsbcAccountType' ),
+
 			accountName = elAccountName.html(),
 			accountType = elAccountType.html();
 
@@ -244,6 +363,8 @@ jQuery.extend( obis, {
 			object.date = new Date();
 
 		}
+
+		// Looks like a single statement
 		else {
 
 			var statementDateString = elDate.html(),
@@ -261,6 +382,14 @@ jQuery.extend( obis, {
 			if ( statementIBANString ) { object.iban = statementIBANString; }
 			if ( statementBICString ) { object.bic = statementBICString; }
 
+			// Another page?
+			var elNextPage = ROOT.find( 'a[title="Next page of this statement"]' );
+
+			if ( elNextPage ) {
+
+				var nextPageUrl = elNextPage.attr( 'href' );
+				object.nextPageUrl = nextPageUrl;
+			}
 		}
 
 		if ( !html ) {
@@ -280,6 +409,7 @@ jQuery.extend( obis, {
 	retrieveCheckedStatementLinks: function _retrieveCheckedStatementLinks( statementLinks ) {
 
 		var statementLink,
+
 			newStatementLinks = [],
 			self = this;
 
@@ -386,6 +516,7 @@ jQuery.extend( obis, {
 		return dateTime + '_' + obis.utils.md5(
 
 			dateTime +
+			( undefined !== entry.index ? entry.index : '' ) +
 			( entry.accountNumber || '' ) +
 			( entry.sortCode || '' ) +
 			( entry.type || '' )  +
@@ -403,10 +534,13 @@ jQuery.extend( obis, {
 	 * Parse a proper statement page, passing-in the preparse info.
 	 */
 
-	parseStatement: function _parseStatement( preparse, html ) {
+	parseStatement: function _parseStatement( preparse, html, pageNumber ) {
 
 		var ROOT = jQuery( html || document ),
 			self = this;
+
+		var maxEntriesPerPage = 201;
+		pageNumber = undefined !== pageNumber ? pageNumber : 0;
 
 		// RegEx tests
 		var rxIsDayAndMonthOnly = /^\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/,
@@ -440,9 +574,7 @@ jQuery.extend( obis, {
 						elStatementTable = el;
 					}
 				});
-
 			}
-
 		}
 
 		// Does it look like a statement?
@@ -462,7 +594,6 @@ jQuery.extend( obis, {
 			columns = [],
 			statementEntries = [],
 			runningBalances = [],
-			// runningBalance = null,
 			latestTransactionDate = new Date( preparse.date ),
 			balanceIncludesDebitColumn = false;
 
@@ -501,11 +632,17 @@ jQuery.extend( obis, {
 			elReversedTransactions.unshift( this );
 		});
 
-		jQuery.each( elReversedTransactions, function _forEach() {
+		jQuery.each( elReversedTransactions, function _forEach( indexInArray ) {
 
 			var elRow = jQuery( this ),
 				entry = { debit: 0, credit: 0 },
 				isRunningBalance = false;
+
+			// Only tweak entry.id's after the first page to try
+			// and keep them backwards compatible
+			if ( pageNumber && 0 < pageNumber ) {
+				entry.index = indexInArray + ( pageNumber * maxEntriesPerPage );
+			}
 
 			elRow.find( '> td' ).each( function _forEach( colIndex ) {
 
