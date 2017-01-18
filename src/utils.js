@@ -17,7 +17,8 @@
 	htmlEscape( str )
 	csvEscape( string )
 	addZeros( number )
-	numberToCurrency( number )
+	convertDecimalToCents( decimalCurrencyString )
+	convertCentsToDecimal( cents )
 	simpleDate( date )
 	dateTimeString( date )
 	USDateTimeString( date )
@@ -81,16 +82,42 @@ jQuery.extend( obis, {
 			return String( 10 > number ? ( '0' + number ) : number );
 		},
 
-		numberToCurrency: function _numberToCurrency( number ) {
+		convertDecimalToCents: function _convertDecimalToCents( decimalCurrencyString ) {
 
-			var value = number.toFixed( 2 );
+			var parts = ( decimalCurrencyString || '0.00' ).split( '.' );
+			var left = parts[ 0 ];
+			var right = parts[ 1 ] || '00';
 
-			if ( !value ) {
-				value = '-';
+			if ( 1 === right.length ) {
+				right += '0';
 			}
 
-			return value;
+			var hundreds = parseInt( left ) * 100;
+			var cents = parseInt( right );
+			var negative = hundreds < 0;
 
+			return negative ? ( hundreds - cents ) : ( hundreds + cents );
+		},
+
+		convertCentsToDecimal: function _convertCentsToDecimal( cents ) {
+
+			if ( !cents ) {
+				return '-';
+			}
+
+			var negative = cents < 0;
+			cents = Math.abs( cents );
+
+			var hundreds = cents / 100;
+			var parts = hundreds.toFixed( 2 ).split( '.' );
+			var left = parts[ 0 ];
+			var right = parts[ 1 ] || '00';
+
+			if ( 1 === right.length ) {
+				right += '0';
+			}
+
+			return ( negative ? '-' : '' ) + left + '.' + right;
 		},
 
 		simpleDate: function _simpleDate( date ) {

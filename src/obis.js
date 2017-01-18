@@ -421,13 +421,22 @@ jQuery.extend( obis, {
 		jQuery.each( statement.entries, function _forEach() {
 
 			var balanceIssue = false;
+			var discrepancy = 0;
 
 			runningBalance += this.credit;
 			runningBalance += this.debit;
 
-			if ( 0 !== this.balance && !( Math.abs( runningBalance - this.balance ) < 0.000001 ) ) { // jshint ignore:line
-				console.warn( 'Running balance issue: runningBalance = ', parseFloat( runningBalance.toFixed( 2 ) ), ', this.balance = ', this.balance );
+			if ( 0 !== this.balance && ( runningBalance !== this.balance ) ) { // jshint ignore:line
+
+				console.warn( 'Running balance discrepancy: ' +
+
+					'runningBalance = ', obis.utils.convertCentsToDecimal( runningBalance ),
+					', this.balance = ', obis.utils.convertCentsToDecimal( this.balance ),
+					', discrepancy = ', obis.utils.convertCentsToDecimal( this.balance - runningBalance )
+				);
+
 				balanceIssue = true;
+				discrepancy = this.balance - runningBalance;
 			}
 
 			html +=
@@ -459,25 +468,28 @@ jQuery.extend( obis, {
 
 					'<td class="debit">' +
 					obis.utils.htmlEscape(
-						obis.utils.numberToCurrency( this.debit )
+						obis.utils.convertCentsToDecimal( this.debit )
 					) +
 					'</td>' +
 
 					'<td class="credit">' +
 					obis.utils.htmlEscape(
-						obis.utils.numberToCurrency( this.credit )
+						obis.utils.convertCentsToDecimal( this.credit )
 					) +
 					'</td>' +
 
 					'<td class="balance' + ( this.balance < 0 ? ' negative' : '' ) + '">' +
 					obis.utils.htmlEscape(
-						obis.utils.numberToCurrency( this.balance )
+						obis.utils.convertCentsToDecimal( this.balance )
 					) +
 					'</td>' +
 
 					'<td class="calculated' + ( runningBalance < 0 ? ' negative' : '' ) + '">' +
+
+					( discrepancy ? ('(Calculation discrepancy: ' + obis.utils.convertCentsToDecimal( discrepancy ) + ')&nbsp;&nbsp;&nbsp;') : '' ) +
+
 					obis.utils.htmlEscape(
-						obis.utils.numberToCurrency( runningBalance )
+						obis.utils.convertCentsToDecimal( runningBalance )
 					) +
 					'</td>' +
 

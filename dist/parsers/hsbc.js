@@ -781,11 +781,11 @@ jQuery.extend( obis, {
 						break;
 
 						case 'Debit':
-							entry.debit = parseFloat( !colData ? '0' : ( '-' + colData.replace( /^\-/, '' ) ) );
+							entry.debit = obis.utils.convertDecimalToCents( !colData ? '0' : ( '-' + colData.replace( /^\-/, '' ) ) );
 						break;
 
 						case 'Credit':
-							entry.credit = parseFloat( !colData ? '0' : colData );
+							entry.credit = obis.utils.convertDecimalToCents( !colData ? '0' : colData );
 						break;
 
 						case 'Balance':
@@ -794,7 +794,7 @@ jQuery.extend( obis, {
 
 							if ( balanceIncludesDebitColumn ) {
 
-								amount = parseFloat( !colData ? '0' : colData );
+								amount = obis.utils.convertDecimalToCents( !colData ? '0' : colData );
 							}
 							else if ( colData ) {
 
@@ -803,7 +803,7 @@ jQuery.extend( obis, {
 								if ( matches ) {
 
 									amount = matches[ 1 ];
-									amount = parseFloat( !amount ? '0' : amount );
+									amount = obis.utils.convertDecimalToCents( !amount ? '0' : amount );
 									marker = matches[ 2 ];
 
 									if ( 'D' === marker ) {

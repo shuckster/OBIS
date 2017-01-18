@@ -10,7 +10,9 @@ MIT licensed: See [LICENSE.md](LICENSE.md)
 ## Changelog
 
 18th January 2017:
-- Support statements spanning multiple pages (untested!)
+- Support statements spanning multiple pages
+- Convert decimal to cents when working with currency
+- More clearly show any discrepancies between calculated/parsed running totals
 
 19th January 2016:
 - Fix confused (un)escaping in parser and generators
