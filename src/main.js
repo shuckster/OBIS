@@ -2,7 +2,7 @@
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: main.js: Bookmarklet loader
@@ -30,7 +30,7 @@
 	// Various bank statement parsers (and by "various" I mean "HSBC UK")
 	var parsers = [
 		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?(saas\.)?hsbc\.co\.uk\//, url: 'https://dl.dropbox.com/s/0cj7lq25n3m3rev/hsbc.js?dl=1' },
-		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS-tests/, url: '/OBIS/src/parsers/hsbc.js' }
+		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS\/_Scratch\/OBIS-tests/, url: '/OBIS/src/parsers/hsbc.js' }
 	];
 
 	/*
@@ -51,7 +51,9 @@
 		'https://dl.dropbox.com/s/32dx2bmkurk2xro/json.js?dl=1'
 	];
 
-	if ( /localhost\/OBIS-tests/.test( location.href ) ) {
+	if ( /localhost\/OBIS\/_Scratch\/OBIS-tests/.test( location.href ) ) {
+
+		console.log('localhost testing...');
 
 		loadQueue = [
 			//'/OBIS/src/externals/Blob.js',
@@ -60,6 +62,7 @@
 			'/OBIS/src/externals/spark-md5.js',
 			'/OBIS/src/externals/jszip.js',
 			'/OBIS/src/externals/jszip-deflate.js',
+			// '/OBIS/src/externals/htmlminifier.min.js',
 			'/OBIS/src/utils.js',
 			'/OBIS/src/obis.js',
 			'/OBIS/src/generators/csv.js',
