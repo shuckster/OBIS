@@ -781,7 +781,7 @@ jQuery.extend( obis, {
 						break;
 
 						case 'Debit':
-							entry.debit = obis.utils.convertDecimalToCents( !colData ? '0' : ( '-' + colData.replace( /^\-/, '' ) ) );
+							entry.debit = -Math.abs( obis.utils.convertDecimalToCents( !colData ? '0' : colData ));
 						break;
 
 						case 'Credit':
