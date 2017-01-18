@@ -478,10 +478,19 @@ jQuery.extend( obis, {
 				complete: function _onComplete( xhr ) {
 
 					if ( 200 === xhr.status ) {
-						statementLink.progress.text( 'Retrieving' );
-						self.parse( xhr.responseText, statementLink.progress );
-					}
 
+						statementLink.progress.text( 'Retrieving' );
+
+						// Add and process
+						var responseText = xhr.responseText;
+
+						// jQuery borks when dealing with stuff that's too big,
+						// so we'll make a native document fragment, sanitize it,
+						// then pass it to jQuery
+						var nextPageFragment = obis.utils.domFragmentFromString( responseText );
+
+						self.parse( nextPageFragment, statementLink.progress );
+					}
 				}
 			});
 
