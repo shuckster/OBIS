@@ -3631,7 +3631,8 @@ if(!JSZip.compressions["DEFLATE"]) {
     htmlEscape( str )
     csvEscape( string )
     addZeros( number )
-    numberToCurrency( number )
+    convertDecimalToCents( decimalCurrencyString )
+    convertCentsToDecimal( cents )
     simpleDate( date )
     dateTimeString( date )
     USDateTimeString( date )
@@ -3695,16 +3696,42 @@ jQuery.extend( obis, {
             return String( 10 > number ? ( '0' + number ) : number );
         },
 
-        numberToCurrency: function _numberToCurrency( number ) {
+        convertDecimalToCents: function _convertDecimalToCents( decimalCurrencyString ) {
 
-            var value = number.toFixed( 2 );
+            var parts = ( decimalCurrencyString || '0.00' ).split( '.' );
+            var left = parts[ 0 ];
+            var right = parts[ 1 ] || '00';
 
-            if ( !value ) {
-                value = '-';
+            if ( 1 === right.length ) {
+                right += '0';
             }
 
-            return value;
+            var hundreds = parseInt( left ) * 100;
+            var cents = parseInt( right );
+            var negative = hundreds < 0;
 
+            return negative ? ( hundreds - cents ) : ( hundreds + cents );
+        },
+
+        convertCentsToDecimal: function _convertCentsToDecimal( cents ) {
+
+            if ( !cents ) {
+                return '-';
+            }
+
+            var negative = cents < 0;
+            cents = Math.abs( cents );
+
+            var hundreds = cents / 100;
+            var parts = hundreds.toFixed( 2 ).split( '.' );
+            var left = parts[ 0 ];
+            var right = parts[ 1 ] || '00';
+
+            if ( 1 === right.length ) {
+                right += '0';
+            }
+
+            return ( negative ? '-' : '' ) + left + '.' + right;
         },
 
         simpleDate: function _simpleDate( date ) {
@@ -4206,13 +4233,22 @@ jQuery.extend( obis, {
         jQuery.each( statement.entries, function _forEach() {
 
             var balanceIssue = false;
+            var discrepancy = 0;
 
             runningBalance += this.credit;
             runningBalance += this.debit;
 
-            if ( 0 !== this.balance && !( Math.abs( runningBalance - this.balance ) < 0.000001 ) ) { // jshint ignore:line
-                console.warn( 'Running balance issue: runningBalance = ', parseFloat( runningBalance.toFixed( 2 ) ), ', this.balance = ', this.balance );
+            if ( 0 !== this.balance && ( runningBalance !== this.balance ) ) { // jshint ignore:line
+
+                console.warn( 'Running balance discrepancy: ' +
+
+                    'runningBalance = ', obis.utils.convertCentsToDecimal( runningBalance ),
+                    ', this.balance = ', obis.utils.convertCentsToDecimal( this.balance ),
+                    ', discrepancy = ', obis.utils.convertCentsToDecimal( this.balance - runningBalance )
+                );
+
                 balanceIssue = true;
+                discrepancy = this.balance - runningBalance;
             }
 
             html +=
@@ -4244,25 +4280,28 @@ jQuery.extend( obis, {
 
                     '<td class="debit">' +
                     obis.utils.htmlEscape(
-                        obis.utils.numberToCurrency( this.debit )
+                        obis.utils.convertCentsToDecimal( this.debit )
                     ) +
                     '</td>' +
 
                     '<td class="credit">' +
                     obis.utils.htmlEscape(
-                        obis.utils.numberToCurrency( this.credit )
+                        obis.utils.convertCentsToDecimal( this.credit )
                     ) +
                     '</td>' +
 
                     '<td class="balance' + ( this.balance < 0 ? ' negative' : '' ) + '">' +
                     obis.utils.htmlEscape(
-                        obis.utils.numberToCurrency( this.balance )
+                        obis.utils.convertCentsToDecimal( this.balance )
                     ) +
                     '</td>' +
 
                     '<td class="calculated' + ( runningBalance < 0 ? ' negative' : '' ) + '">' +
+
+                    ( discrepancy ? ('(Calculation discrepancy: ' + obis.utils.convertCentsToDecimal( discrepancy ) + ')&nbsp;&nbsp;&nbsp;') : '' ) +
+
                     obis.utils.htmlEscape(
-                        obis.utils.numberToCurrency( runningBalance )
+                        obis.utils.convertCentsToDecimal( runningBalance )
                     ) +
                     '</td>' +
 
