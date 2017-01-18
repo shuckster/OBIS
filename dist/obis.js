@@ -3698,8 +3698,12 @@ jQuery.extend( obis, {
 
         convertDecimalToCents: function _convertDecimalToCents( decimalCurrencyString ) {
 
-            var parts = ( decimalCurrencyString || '0.00' ).split( '.' );
-            var left = parts[ 0 ];
+            decimalCurrencyString = decimalCurrencyString || '0.00';
+            var negative = /^\-/.test( decimalCurrencyString );
+            decimalCurrencyString = decimalCurrencyString.replace( /^\-/, '' );
+
+            var parts = ( decimalCurrencyString ).split( '.' );
+            var left = parts[ 0 ] || '0';
             var right = parts[ 1 ] || '00';
 
             if ( 1 === right.length ) {
@@ -3708,9 +3712,13 @@ jQuery.extend( obis, {
 
             var hundreds = parseInt( left ) * 100;
             var cents = parseInt( right );
-            var negative = hundreds < 0;
 
-            return negative ? ( hundreds - cents ) : ( hundreds + cents );
+            if ( negative ) {
+                hundreds = -hundreds;
+                cents = -cents;
+            }
+
+            return hundreds + cents;
         },
 
         convertCentsToDecimal: function _convertCentsToDecimal( cents ) {
