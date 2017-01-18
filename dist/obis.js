@@ -50,6 +50,7 @@ Implements the fine work of these 3rd parties:
 *   http://eligrey.com/blog/post/saving-generated-files-on-the-client-side
 *   http://www.webtoolkit.info/
 *   http://jquery.com/
+*   https://github.com/satazor/SparkMD5
 
 jQuery 1.5.2 is used because that's the version HSBC UK use.
 
