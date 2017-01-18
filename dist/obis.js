@@ -3698,18 +3698,14 @@ jQuery.extend( obis, {
 
         convertDecimalToCents: function _convertDecimalToCents( decimalCurrencyString ) {
 
-            decimalCurrencyString = decimalCurrencyString || '0.00';
-            var negative = /^\-/.test( decimalCurrencyString );
-            decimalCurrencyString = decimalCurrencyString.replace( /^\-/, '' );
+            var float = parseFloat( decimalCurrencyString );
+            if ( isNaN( float ) ) { float = 0; }
+            var negative = 0 > float;
+            decimalCurrencyString = Math.abs( float ).toFixed( 2 );
 
             var parts = ( decimalCurrencyString ).split( '.' );
-            var left = parts[ 0 ] || '0';
-            var right = parts[ 1 ] || '00';
-
-            if ( 1 === right.length ) {
-                right += '0';
-            }
-
+            var left = parts[ 0 ];
+            var right = parts[ 1 ];
             var hundreds = parseInt( left ) * 100;
             var cents = parseInt( right );
 
@@ -3723,21 +3719,17 @@ jQuery.extend( obis, {
 
         convertCentsToDecimal: function _convertCentsToDecimal( cents ) {
 
-            if ( !cents ) {
+            if ( !cents || 'number' !== typeof cents ) {
                 return '-';
             }
 
-            var negative = cents < 0;
+            var negative = 0 > cents;
             cents = Math.abs( cents );
 
             var hundreds = cents / 100;
             var parts = hundreds.toFixed( 2 ).split( '.' );
             var left = parts[ 0 ];
-            var right = parts[ 1 ] || '00';
-
-            if ( 1 === right.length ) {
-                right += '0';
-            }
+            var right = parts[ 1 ];
 
             return ( negative ? '-' : '' ) + left + '.' + right;
         },
