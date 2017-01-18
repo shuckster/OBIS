@@ -28,9 +28,11 @@
 
  Events:
  	memos:processed
+ 	pages:retrieved
 
  Methods:
 	parse( html, statusElement )
+	sanitizedDocumentFragment( documentFragment )
 
 	preparse( html )
 	retrieveCheckedStatementLinks( statementLinks )
@@ -50,6 +52,18 @@ jQuery.extend( obis, {
 	CURDEF: 'GBP',
 
 	memoUrls: [],
+
+/*
+
+########     ###    ########   ######  ########
+##     ##   ## ##   ##     ## ##    ## ##
+##     ##  ##   ##  ##     ## ##       ##
+########  ##     ## ########   ######  ######
+##        ######### ##   ##         ## ##
+##        ##     ## ##    ##  ##    ## ##
+##        ##     ## ##     ##  ######  ########
+
+*/
 
 	parse: function _parse( htmlOrFrag, statusElement, statementPages ) {
 
@@ -166,13 +180,25 @@ jQuery.extend( obis, {
 
 	},
 
+/*
+
+ ######     ###    ##    ## #### ######## #### ######## ########
+##    ##   ## ##   ###   ##  ##     ##     ##       ##  ##
+##        ##   ##  ####  ##  ##     ##     ##      ##   ##
+ ######  ##     ## ## ## ##  ##     ##     ##     ##    ######
+      ## ######### ##  ####  ##     ##     ##    ##     ##
+##    ## ##     ## ##   ###  ##     ##     ##   ##      ##
+ ######  ##     ## ##    ## ####    ##    #### ######## ########
+
+*/
+
 	/*
 	 * Only grab the elements we're interested in parsing
 	 */
 
 	sanitizedDocumentFragment: function _sanitizedDocumentFragment( df ) {
 
-		var grabber, selector, domElement;
+		var grabber, selector, domElements, domElement, domKey;
 
 		var grabbers = {
 			elActiveAccount: '.hsbcActiveAccount',
@@ -189,10 +215,17 @@ jQuery.extend( obis, {
 			if ( grabbers.hasOwnProperty( grabber ) ) {
 
 				selector = grabbers[ grabber ];
-				domElement = df.querySelectorAll( selector );
+				domElements = df.querySelectorAll( selector );
 
-				if ( domElement.length ) {
-					newFrag.append( obis.utils.domFragmentFromString( domElement[ 0 ].outerHTML ) );
+				if ( domElements.length ) {
+
+					for ( domKey in domElements ) {
+						if ( domElements.hasOwnProperty( domKey ) ) {
+
+							domElement = domElements[ domKey ];
+							newFrag.append( obis.utils.domFragmentFromString( domElement.outerHTML ) );
+						}
+					}
 				}
 			}
 		}
@@ -200,6 +233,18 @@ jQuery.extend( obis, {
 		elContainer.append( newFrag );
 		return elContainer;
 	},
+
+/*
+
+########  ########  ######## ########     ###    ########   ######  ########
+##     ## ##     ## ##       ##     ##   ## ##   ##     ## ##    ## ##
+##     ## ##     ## ##       ##     ##  ##   ##  ##     ## ##       ##
+########  ########  ######   ########  ##     ## ########   ######  ######
+##        ##   ##   ##       ##        ######### ##   ##         ## ##
+##        ##    ##  ##       ##        ##     ## ##    ##  ##    ## ##
+##        ##     ## ######## ##        ##     ## ##     ##  ######  ########
+
+*/
 
 	/*
 	 * Pull account info from both a statement page and the statement-list page.
@@ -406,6 +451,36 @@ jQuery.extend( obis, {
 
 	},
 
+/*
+
+   ###    ##       ##           ######  #### ##     ## ######## ##    ## ########  ######
+  ## ##   ##       ##          ##    ## #### ###   ### ##       ###   ##    ##    ##    ##
+ ##   ##  ##       ##          ##        ##  #### #### ##       ####  ##    ##    ##
+##     ## ##       ##           ######  ##   ## ### ## ######   ## ## ##    ##     ######
+######### ##       ##                ##      ##     ## ##       ##  ####    ##          ##
+##     ## ##       ##          ##    ##      ##     ## ##       ##   ###    ##    ##    ##
+##     ## ######## ########     ######       ##     ## ######## ##    ##    ##     ######
+
+*/
+
+	toggleRetrieveStatementsButton: function _toggleRetrieveStatementsButton() {
+
+		var count = 0;
+
+		jQuery.each( this.statementLinks, function _forEach() {
+			if ( this.checked ) {
+				count ++;
+			}
+		});
+
+		var statements = !!count;
+
+		if ( this.elements.retrieveStatementsButton ) {
+			this.elements.retrieveStatementsButton[ 0 ].disabled = ( !statements || this.alreadyProcessing );
+		}
+
+	},
+
 	retrieveCheckedStatementLinks: function _retrieveCheckedStatementLinks( statementLinks ) {
 
 		var statementLink,
@@ -498,23 +573,17 @@ jQuery.extend( obis, {
 
 	},
 
-	toggleRetrieveStatementsButton: function _toggleRetrieveStatementsButton() {
+/*
 
-		var count = 0;
+ ######  #### ##    ##  ######   ##       ########     ######  #### ##     ## ######## ##    ## ########
+##    ##  ##  ###   ## ##    ##  ##       ##          ##    ## #### ###   ### ##       ###   ##    ##
+##        ##  ####  ## ##        ##       ##          ##        ##  #### #### ##       ####  ##    ##
+ ######   ##  ## ## ## ##   #### ##       ######       ######  ##   ## ### ## ######   ## ## ##    ##
+      ##  ##  ##  #### ##    ##  ##       ##                ##      ##     ## ##       ##  ####    ##
+##    ##  ##  ##   ### ##    ##  ##       ##          ##    ##      ##     ## ##       ##   ###    ##
+ ######  #### ##    ##  ######   ######## ########     ######       ##     ## ######## ##    ##    ##
 
-		jQuery.each( this.statementLinks, function _forEach() {
-			if ( this.checked ) {
-				count ++;
-			}
-		});
-
-		var statements = !!count;
-
-		if ( this.elements.retrieveStatementsButton ) {
-			this.elements.retrieveStatementsButton[ 0 ].disabled = ( !statements || this.alreadyProcessing );
-		}
-
-	},
+*/
 
 	generateUniqueIdForTransaction: function _generateUniqueIdForTransaction( entry, memoText ) {
 
@@ -781,6 +850,18 @@ jQuery.extend( obis, {
 
 	},
 
+/*
+
+##     ## ######## ##     ##  #######   ######
+###   ### ##       ###   ### ##     ## ##    ##
+#### #### ##       #### #### ##     ## ##
+## ### ## ######   ## ### ## ##     ##  ######
+##     ## ##       ##     ## ##     ##       ##
+##     ## ##       ##     ## ##     ## ##    ##
+##     ## ######## ##     ##  #######   ######
+
+*/
+
 	/*
 	 * If a transaction has a description with a link we can retrieve a memo.
 	 */
@@ -926,6 +1007,18 @@ jQuery.extend( obis, {
 		});
 
 	},
+
+/*
+
+######## #### ##    ##    ###    ##       ####  ######  ########
+##        ##  ###   ##   ## ##   ##        ##  ##    ## ##
+##        ##  ####  ##  ##   ##  ##        ##  ##       ##
+######    ##  ## ## ## ##     ## ##        ##   ######  ######
+##        ##  ##  #### ######### ##        ##        ## ##
+##        ##  ##   ### ##     ## ##        ##  ##    ## ##
+##       #### ##    ## ##     ## ######## ####  ######  ########
+
+*/
 
 	/*
 	 * Once we've got all memos for a statement we can mark it as "processed".
