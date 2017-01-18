@@ -22,6 +22,8 @@
 	dateTimeString( date )
 	USDateTimeString( date )
 	arrayWithout( array, without )
+	domFragmentFromString( str )
+	sortByNumber( str )
 
  */
 
@@ -143,8 +145,27 @@ jQuery.extend( obis, {
 		md5: function _md5( str ) {
 
 			return SparkMD5.hash( str );
+		},
+
+		// http://stackoverflow.com/a/25214113
+		domFragmentFromString: function _domFragmentFromString( str ) {
+			return document.createRange().createContextualFragment( str );
+		},
+
+		sortByNumber: function _sortByNumber( field ) {
+
+			if ( field ) {
+
+				return function _sortByNumberInObject( a, b ) {
+					return +a[ field ] - +b[ field ];
+				};
+			}
+			else {
+
+				return function _sortByNumber( a, b ) {
+					return +a - +b;
+				};
+			}
 		}
-
 	}
-
 });

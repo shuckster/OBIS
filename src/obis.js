@@ -416,7 +416,7 @@ jQuery.extend( obis, {
 					'</thead>' +
 					'<tbody>';
 
-		var runningBalance = statement.balances[ 0 ].balance;
+		var runningBalance = ( statement && statement.balances && statement.balances.length ) ? ( statement.balances[ 0 ].balance || 0 ) : 0;
 
 		jQuery.each( statement.entries, function _forEach() {
 

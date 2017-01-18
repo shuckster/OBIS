@@ -5,7 +5,7 @@ OBIS: Online Banking Is Shit
 
 #### A JavaScript framework for downloading bank statements
 
-Copyright (c) 2016 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
+Copyright (c) 2017 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
 MIT licensed: See [LICENSE.md](LICENSE.md)
 
@@ -3635,6 +3635,8 @@ if(!JSZip.compressions["DEFLATE"]) {
 	dateTimeString( date )
 	USDateTimeString( date )
 	arrayWithout( array, without )
+	domFragmentFromString( str )
+	sortByNumber( str )
 
  */
 
@@ -3756,10 +3758,29 @@ jQuery.extend( obis, {
 		md5: function _md5( str ) {
 
 			return SparkMD5.hash( str );
+		},
+
+		// http://stackoverflow.com/a/25214113
+		domFragmentFromString: function _domFragmentFromString( str ) {
+			return document.createRange().createContextualFragment( str );
+		},
+
+		sortByNumber: function _sortByNumber( field ) {
+
+			if ( field ) {
+
+				return function _sortByNumberInObject( a, b ) {
+					return +a[ field ] - +b[ field ];
+				};
+			}
+			else {
+
+				return function _sortByNumber( a, b ) {
+					return +a - +b;
+				};
+			}
 		}
-
 	}
-
 });
 
 /*
@@ -4179,7 +4200,7 @@ jQuery.extend( obis, {
 					'</thead>' +
 					'<tbody>';
 
-		var runningBalance = statement.balances[ 0 ].balance;
+		var runningBalance = ( statement && statement.balances && statement.balances.length ) ? ( statement.balances[ 0 ].balance || 0 ) : 0;
 
 		jQuery.each( statement.entries, function _forEach() {
 
@@ -4303,7 +4324,7 @@ jQuery.extend( obis, {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: csv.js: CSV generator
@@ -4370,7 +4391,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: json.js: JSON generator
@@ -4412,7 +4433,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: ofx.js: OFX 1.0.2 generator
@@ -4559,7 +4580,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2016 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: qif.js: QIF generator
