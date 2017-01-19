@@ -3701,9 +3701,8 @@ jQuery.extend( obis, {
             var float = parseFloat( decimalCurrencyString );
             if ( isNaN( float ) ) { float = 0; }
             var negative = 0 > float;
-            decimalCurrencyString = Math.abs( float ).toFixed( 2 );
 
-            var parts = ( decimalCurrencyString ).split( '.' );
+            var parts = Math.abs( float ).toFixed( 2 ).split( '.' );
             var left = parts[ 0 ];
             var right = parts[ 1 ];
             var hundreds = parseInt( left ) * 100;
@@ -3724,9 +3723,7 @@ jQuery.extend( obis, {
             }
 
             var negative = 0 > cents;
-            cents = Math.abs( cents );
-
-            var hundreds = cents / 100;
+            var hundreds = Math.abs( cents ) / 100;
             var parts = hundreds.toFixed( 2 ).split( '.' );
             var left = parts[ 0 ];
             var right = parts[ 1 ];
@@ -4349,6 +4346,367 @@ jQuery.extend( obis, {
     },
 
     statementsPopupOpened: function _statementsPopupOpened() {
+        jQuery( document ).trigger( 'popup:opened' );
+        jQuery( document ).bind( 'statements:updated', this.popupRefreshStatementsPicker );
+    },
+
+    statementsPopupClosed: function _statementsPopupClosed() {
+        delete this.selectedStatement;
+        jQuery( document ).unbind( 'statements:updated', this.popupRefreshStatementsPicker );
+        jQuery( document ).trigger( 'popup:closed' );
+    }
+
+});
+
+/*
+ * OBIS: Online Banking Is Shit
+ * A JavaScript framework for downloading bank statements
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * MIT licensed: See LICENSE.md
+ *
+ * File: csv.js: CSV generator
+ *
+
+ Based on RFC4180 specification:
+    http://tools.ietf.org/html/rfc4180
+
+ */
+
+// jshint unused:true
+/* globals obis */
+
+/*
+
+ Events:
+    None
+
+ Methods:
+    generate( statement )
+
+ */
+
+obis.generators.push({
+
+    id: 'CSV',
+    folder: 'csv',
+    extension: 'csv',
+    description: 'CSV RFC4180 (Excel, Numbers)',
+
+    generate: function _generate( statement ) {
+
+        var csv;
+
+        csv =
+            '"Transaction ID","Date","Account type","Account number","Payee","Memo","Amount"' + '\r\n' +
+            '\r\n';
+
+        jQuery.each( statement.entries, function _forEach() {
+
+            var transactionAmount = obis.utils.convertCentsToDecimal( this.debit + this.credit );
+
+            csv +=
+                '"' + obis.utils.csvEscape( this.id ) + '",' +
+                '"' + obis.utils.csvEscape( obis.utils.simpleDate( this.date ) ) + '",' +
+                '"' + obis.utils.csvEscape( statement.type ) + '",' +
+                '"' + obis.utils.csvEscape( statement.sortCode + ' ' + statement.accountNumber ) + '",' +
+                '"' + obis.utils.csvEscape( this.description ) + '",' +
+                '"' + obis.utils.csvEscape( 'memo' in this ? this.memo : '' ) + '",' +
+                '"' + obis.utils.csvEscape( transactionAmount ) + '"' +
+                '\r\n';
+
+        });
+
+        csv +=
+            '\r\n';
+
+        return csv;
+
+    }
+
+});
+
+/*
+ * OBIS: Online Banking Is Shit
+ * A JavaScript framework for downloading bank statements
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * MIT licensed: See LICENSE.md
+ *
+ * File: json.js: JSON generator
+ *
+
+ Based on JSON specification:
+    http://json.org/
+
+ */
+
+// jshint unused:true
+/* globals obis */
+
+/*
+
+ Events:
+    None
+
+ Methods:
+    generate( statement )
+
+ */
+
+obis.generators.push({
+
+    id: 'JSON',
+    folder: 'json',
+    extension: 'json',
+    description: 'JSON (JavaScript Object Notation)',
+
+    generate: function _generate( statement ) {
+
+        return JSON.stringify( statement, function _replacer( key, value ) {
+
+            var float;
+
+            if ( -1 !== [ 'debit', 'credit', 'balance' ].indexOf( key )) {
+
+                float = parseFloat( obis.utils.convertCentsToDecimal( value ));
+
+                if ( isNaN( float )) {
+                    return 'balance' === key ? undefined : 0;
+                }
+                else {
+                    return float;
+                }
+            }
+
+            return value;
+        });
+
+    }
+
+});
+
+/*
+ * OBIS: Online Banking Is Shit
+ * A JavaScript framework for downloading bank statements
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * MIT licensed: See LICENSE.md
+ *
+ * File: ofx.js: OFX 1.0.2 generator
+ *
+
+ Based on output from the HSBC UK Personal Banking website.
+    http://www.hsbc.co.uk/
+
+ */
+
+// jshint unused:true
+/* globals obis */
+
+/*
+
+ Events:
+    None
+
+ Methods:
+    filterTransactionType( type )
+    generate( statement )
+
+ */
+
+obis.generators.push({
+
+    id: 'OFX',
+    folder: 'ofx',
+    extension: 'ofx',
+    description: 'OFX 1.0.2 (Money, Quicken)',
+
+    filterTransactionType: function _filterTransactionType( type ) {
+        return type;
+    },
+
+    generate: function _generate( statement ) {
+
+        var ofx;
+        var latestBalanceIndex = statement.balances.length - 1;
+
+        // TODO: Move into hsbc.js somehow
+        function filterTransactionType( type ) {
+
+            switch ( type ) {
+                case 'ATM': break;
+                case 'TFR': type = 'XFER'; break;
+
+                default:
+                    type = 'OTHER';
+            }
+
+            return type;
+
+        }
+
+        ofx =
+            'OFXHEADER:100' + '\n' +
+            'DATA:OFXSGML' + '\n' +
+            'VERSION:102' + '\n' +
+            'SECURITY:NONE' + '\n' +
+            'ENCODING:USASCII' + '\n' +
+            'CHARSET:1252' + '\n' +
+            'COMPRESSION:NONE' + '\n' +
+            'OLDFILEUID:NONE' + '\n' +
+            'NEWFILEUID:NONE' + '\n' +
+            '\n' +
+            '<OFX>' + '\n' +
+            '\n' +
+            '\t' + '<SIGNONMSGSRSV1>' + '\n' +
+            '\t\t' + '<SONRS>' + '\n' +
+            '\t\t\t' + '<STATUS>' + '\n' +
+            '\t\t\t\t' + '<CODE>0</CODE>' + '\n' +
+            '\t\t\t\t' + '<SEVERITY>INFO</SEVERITY>' + '\n' +
+            '\t\t\t' + '</STATUS>' + '\n' +
+            '\t\t\t' + '<DTSERVER>' + obis.utils.ofxEscape( obis.utils.dateTimeString( new Date() ) ) + '</DTSERVER>' + '\n' +
+            '\t\t\t' + '<LANGUAGE>' + obis.utils.ofxEscape( obis.LANGUAGE ) + '</LANGUAGE>' + '\n' +
+            '\t\t\t' + '<INTU.BID>' + obis.utils.ofxEscape( obis.INTU_BID ) + '</INTU.BID>' + '\n' +
+            '\t\t' + '</SONRS>' + '\n' +
+            '\t' + '</SIGNONMSGSRSV1>' + '\n' +
+            '\n' +
+            '\t' + '<BANKMSGSRSV1>' + '\n' +
+            '\n' +
+            '\t\t' + '<STMTTRNRS>' + '\n' +
+            '\n' +
+            '\t\t\t' + '<TRNUID>1</TRNUID>' + '\n' +
+            '\n' +
+            '\t\t\t' + '<STATUS>' + '\n' +
+            '\t\t\t\t' + '<CODE>0</CODE>' + '\n' +
+            '\t\t\t\t' + '<SEVERITY>INFO</SEVERITY>' + '\n' +
+            '\t\t\t' + '</STATUS>' + '\n' +
+            '\n' +
+            '\t\t\t' + '<STMTRS>' + '\n' +
+            '\n' +
+            '\t\t\t\t' + '<CURDEF>' + obis.utils.ofxEscape( obis.CURDEF ) + '</CURDEF>' + '\n' +
+            '\n' +
+            '\t\t\t\t' + '<BANKACCTFROM>' + '\n' +
+            '\t\t\t\t\t' + '<BANKID>' + obis.utils.ofxEscape( statement.sortCode ) + '</BANKID>' + '\n' +
+            '\t\t\t\t\t' + '<ACCTID>' + obis.utils.ofxEscape( statement.sortCode + statement.accountNumber ) + '</ACCTID>' + '\n' +
+            '\t\t\t\t\t' + '<ACCTTYPE>CHECKING</ACCTTYPE>' + '\n' +
+            '\t\t\t\t' + '</BANKACCTFROM>' + '\n' +
+            '\n' +
+            '\t\t\t\t' + '<BANKTRANLIST>' + '\n' +
+            '\n' +
+            '\t\t\t\t\t' + '<DTSTART>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ 0 ].date ) ) + '</DTSTART>' + '\n' +
+            '\t\t\t\t\t' + '<DTEND>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ latestBalanceIndex ].date ) ) + '</DTEND>' + '\n' +
+            '\n';
+
+        jQuery.each( statement.entries, function _forEach() {
+
+            var transactionAmount = obis.utils.convertCentsToDecimal( this.debit + this.credit );
+
+            ofx +=
+                '\t\t\t\t\t' + '<STMTTRN>' + '\n' +
+                '\t\t\t\t\t\t' + '<TRNTYPE>' + obis.utils.ofxEscape( filterTransactionType( this.type ) ) + '</TRNTYPE>' + '\n' +
+                '\t\t\t\t\t\t' + '<DTPOSTED>' + obis.utils.ofxEscape( obis.utils.dateTimeString( this.date ) ) + '</DTPOSTED>' + '\n' +
+                '\t\t\t\t\t\t' + '<TRNAMT>' + obis.utils.ofxEscape( transactionAmount ) + '</TRNAMT>' + '\n' +
+                '\t\t\t\t\t\t' + '<FITID>' + obis.utils.ofxEscape( this.id ) + '</FITID>' + '\n' +
+                '\t\t\t\t\t\t' + '<NAME>' + obis.utils.ofxEscape( this.description ) + '</NAME>' + '\n' +
+                ( 'memo' in this ? ( '\t\t\t\t\t\t' + '<MEMO>' + obis.utils.ofxEscape( this.memo ) + '</MEMO>' + '\n' ) : '' ) +
+                '\t\t\t\t\t' + '</STMTTRN>' + '\n' +
+                '\n';
+
+        });
+
+        ofx +=
+            '\t\t\t\t' + '</BANKTRANLIST>' + '\n' +
+            '\n' +
+            '\t\t\t\t' + '<LEDGERBAL>' + '\n' +
+            '\t\t\t\t\t' + '<BALAMT>' + obis.utils.ofxEscape( statement.balances[ latestBalanceIndex ].balance ) + '</BALAMT>' + '\n' +
+            '\t\t\t\t\t' + '<DTASOF>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ latestBalanceIndex ].date ) ) + '</DTASOF>' + '\n' +
+            '\t\t\t\t' + '</LEDGERBAL>' + '\n' +
+            '\n' +
+            '\t\t\t' + '</STMTRS>' + '\n' +
+            '\t\t' + '</STMTTRNRS>' + '\n' +
+            '\t' + '</BANKMSGSRSV1>' + '\n' +
+            '\n' +
+            '</OFX>' + '\n';
+
+        return ofx;
+
+    }
+
+});
+
+/*
+ * OBIS: Online Banking Is Shit
+ * A JavaScript framework for downloading bank statements
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * MIT licensed: See LICENSE.md
+ *
+ * File: qif.js: QIF generator
+ *
+
+ Based on the output from MoneyWell and the specs from:
+    http://svn.gnucash.org/trac/browser/gnucash/trunk/src/import-export/qif-import/file-format.txt
+    http://en.wikipedia.org/wiki/Quicken_Interchange_Format
+
+ */
+
+// jshint unused:true
+/* globals obis */
+
+/*
+
+ Events:
+    None
+
+ Methods:
+    generate( statement )
+
+ */
+
+obis.generators.push({
+
+    id: 'QIF',
+    folder: 'qif',
+    extension: 'qif',
+    description: 'QIF (Quicken)',
+
+    generate: function _generate( statement ) {
+
+        var qif;
+        var latestBalanceIndex = statement.balances.length - 1;
+
+        qif =
+            '!Account' + '\n' +
+            'N' + obis.utils.qifEscape( statement.type ) + '\n' +
+            'A' + obis.utils.qifEscape( statement.sortCode + '/' + statement.sortCode + statement.accountNumber ) + '\n' +
+            '/' + obis.utils.qifEscape( obis.utils.USDateTimeString( statement.balances[ latestBalanceIndex ].date ) ) + '\n' +
+            '$' + obis.utils.qifEscape( obis.utils.convertCentsToDecimal( statement.balances[ latestBalanceIndex ].balance ) ) + '\n' +
+            'T' + 'Bank' + '\n' +
+            '^' + '\n' +
+
+            '!Type:Bank' + '\n';
+
+        jQuery.each( statement.entries, function _forEach() {
+
+            var transactionAmount = obis.utils.convertCentsToDecimal( this.debit + this.credit );
+
+            qif +=
+                'D' + obis.utils.qifEscape( obis.utils.USDateTimeString( this.date ) ) + '\n' +
+                'N' + obis.utils.qifEscape( (( this.debit + this.credit ) < 0 ? 'WITHD' : 'DEP') ) + '\n' +
+                'T' + obis.utils.qifEscape( transactionAmount ) + '\n' +
+                'C' + '\n' +
+                'P' + obis.utils.qifEscape( this.description ) + '\n' +
+                ( 'memo' in this ? ( 'M' + obis.utils.qifEscape( this.memo ) + '\n' ) : '' ) +
+                '^' + '\n';
+
+        });
+
+        qif +=
+            '\n';
+
+        return qif;
+
+    }
+
+});
+Opened: function _statementsPopupOpened() {
         jQuery( document ).trigger( 'popup:opened' );
         jQuery( document ).bind( 'statements:updated', this.popupRefreshStatementsPicker );
     },
