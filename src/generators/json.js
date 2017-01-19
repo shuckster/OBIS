@@ -35,7 +35,24 @@ obis.generators.push({
 
 	generate: function _generate( statement ) {
 
-		return JSON.stringify( statement );
+		return JSON.stringify( statement, function _replacer( key, value ) {
+
+			var float;
+
+			if ( -1 !== [ 'debit', 'credit', 'balance' ].indexOf( key )) {
+
+				float = parseFloat( obis.utils.convertCentsToDecimal( value ));
+
+				if ( isNaN( float )) {
+					return 'balance' === key ? undefined : 0;
+				}
+				else {
+					return float;
+				}
+			}
+
+			return value;
+		});
 
 	}
 

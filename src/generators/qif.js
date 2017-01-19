@@ -37,13 +37,14 @@ obis.generators.push({
 	generate: function _generate( statement ) {
 
 		var qif;
+		var latestBalanceIndex = statement.balances.length - 1;
 
 		qif =
 			'!Account' + '\n' +
 			'N' + obis.utils.qifEscape( statement.type ) + '\n' +
 			'A' + obis.utils.qifEscape( statement.sortCode + '/' + statement.sortCode + statement.accountNumber ) + '\n' +
-			'/' + obis.utils.qifEscape( obis.utils.USDateTimeString( statement.balances[ statement.balances.length - 1 ].date ) ) + '\n' +
-			'$' + obis.utils.qifEscape( statement.balances[ statement.balances.length - 1 ].balance.toFixed( 2 ) ) + '\n' +
+			'/' + obis.utils.qifEscape( obis.utils.USDateTimeString( statement.balances[ latestBalanceIndex ].date ) ) + '\n' +
+			'$' + obis.utils.qifEscape( obis.utils.convertCentsToDecimal( statement.balances[ latestBalanceIndex ].balance ) ) + '\n' +
 			'T' + 'Bank' + '\n' +
 			'^' + '\n' +
 
@@ -51,11 +52,11 @@ obis.generators.push({
 
 		jQuery.each( statement.entries, function _forEach() {
 
-			var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
+			var transactionAmount = obis.utils.convertCentsToDecimal( this.debit + this.credit );
 
 			qif +=
 				'D' + obis.utils.qifEscape( obis.utils.USDateTimeString( this.date ) ) + '\n' +
-				'N' + obis.utils.qifEscape( ( ( this.debit + this.credit ) < 0 ? 'WITHD' : 'DEP' ) ) + '\n' +
+				'N' + obis.utils.qifEscape( (( this.debit + this.credit ) < 0 ? 'WITHD' : 'DEP') ) + '\n' +
 				'T' + obis.utils.qifEscape( transactionAmount ) + '\n' +
 				'C' + '\n' +
 				'P' + obis.utils.qifEscape( this.description ) + '\n' +

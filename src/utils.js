@@ -87,9 +87,8 @@ jQuery.extend( obis, {
 			var float = parseFloat( decimalCurrencyString );
 			if ( isNaN( float ) ) { float = 0; }
 			var negative = 0 > float;
-			decimalCurrencyString = Math.abs( float ).toFixed( 2 );
 
-			var parts = ( decimalCurrencyString ).split( '.' );
+			var parts = Math.abs( float ).toFixed( 2 ).split( '.' );
 			var left = parts[ 0 ];
 			var right = parts[ 1 ];
 			var hundreds = parseInt( left ) * 100;
@@ -110,9 +109,7 @@ jQuery.extend( obis, {
 			}
 
 			var negative = 0 > cents;
-			cents = Math.abs( cents );
-
-			var hundreds = cents / 100;
+			var hundreds = Math.abs( cents ) / 100;
 			var parts = hundreds.toFixed( 2 ).split( '.' );
 			var left = parts[ 0 ];
 			var right = parts[ 1 ];

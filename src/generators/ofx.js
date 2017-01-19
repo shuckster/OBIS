@@ -41,6 +41,7 @@ obis.generators.push({
 	generate: function _generate( statement ) {
 
 		var ofx;
+		var latestBalanceIndex = statement.balances.length - 1;
 
 		// TODO: Move into hsbc.js somehow
 		function filterTransactionType( type ) {
@@ -106,12 +107,12 @@ obis.generators.push({
 			'\t\t\t\t' + '<BANKTRANLIST>' + '\n' +
 			'\n' +
 			'\t\t\t\t\t' + '<DTSTART>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ 0 ].date ) ) + '</DTSTART>' + '\n' +
-			'\t\t\t\t\t' + '<DTEND>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) ) + '</DTEND>' + '\n' +
+			'\t\t\t\t\t' + '<DTEND>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ latestBalanceIndex ].date ) ) + '</DTEND>' + '\n' +
 			'\n';
 
 		jQuery.each( statement.entries, function _forEach() {
 
-			var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
+			var transactionAmount = obis.utils.convertCentsToDecimal( this.debit + this.credit );
 
 			ofx +=
 				'\t\t\t\t\t' + '<STMTTRN>' + '\n' +
@@ -130,8 +131,8 @@ obis.generators.push({
 			'\t\t\t\t' + '</BANKTRANLIST>' + '\n' +
 			'\n' +
 			'\t\t\t\t' + '<LEDGERBAL>' + '\n' +
-			'\t\t\t\t\t' + '<BALAMT>' + obis.utils.ofxEscape( statement.balances[ statement.balances.length - 1 ].balance ) + '</BALAMT>' + '\n' +
-			'\t\t\t\t\t' + '<DTASOF>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ statement.balances.length - 1 ].date ) ) + '</DTASOF>' + '\n' +
+			'\t\t\t\t\t' + '<BALAMT>' + obis.utils.ofxEscape( statement.balances[ latestBalanceIndex ].balance ) + '</BALAMT>' + '\n' +
+			'\t\t\t\t\t' + '<DTASOF>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ latestBalanceIndex ].date ) ) + '</DTASOF>' + '\n' +
 			'\t\t\t\t' + '</LEDGERBAL>' + '\n' +
 			'\n' +
 			'\t\t\t' + '</STMTRS>' + '\n' +

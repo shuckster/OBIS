@@ -9,6 +9,9 @@ MIT licensed: See [LICENSE.md](LICENSE.md)
 
 ## Changelog
 
+19th January 2017:
+- Generators should convert cents to decimals (fixes Zip downloads)
+
 18th January 2017:
 - Support statements spanning multiple pages
 - Convert decimal to cents when working with currency

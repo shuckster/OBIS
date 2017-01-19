@@ -43,7 +43,7 @@ obis.generators.push({
 
 		jQuery.each( statement.entries, function _forEach() {
 
-			var transactionAmount = ( this.debit + this.credit ).toFixed( 2 );
+			var transactionAmount = obis.utils.convertCentsToDecimal( this.debit + this.credit );
 
 			csv +=
 				'"' + obis.utils.csvEscape( this.id ) + '",' +

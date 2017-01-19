@@ -588,7 +588,7 @@ jQuery.extend( obis, {
 	generateUniqueIdForTransaction: function _generateUniqueIdForTransaction( entry, memoText ) {
 
 		var dateTime = obis.utils.dateTimeString( entry.date ) || 'UNKNOWN_DATE',
-			transactionAmount = ( entry.debit + entry.credit ).toFixed( 2 );
+			transactionAmount = obis.utils.convertCentsToDecimal( entry.debit + entry.credit );
 
 		// Generate unique ID for this transaction
 		return dateTime + '_' + obis.utils.md5(
