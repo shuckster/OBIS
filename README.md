@@ -39,8 +39,8 @@ parsers.
 
 Inspired by:
 
-*   https://github.com/LTheobald/HSBCToOFX
-*   http://aralbalkan.com/3744
+*   https://github.com/LTheobald/HSBCToOFX (Removed, but [author](https://github.com/LTheobald) still active.)
+*   https://ar.al/3744/
 
 Implements the fine work of these 3rd parties:
 
