@@ -41,8 +41,8 @@ parsers.
 
 Inspired by:
 
-*   https://github.com/LTheobald/HSBCToOFX
-*   http://aralbalkan.com/3744
+*   https://github.com/LTheobald/HSBCToOFX (Removed, but [author](https://github.com/LTheobald) still active.)
+*   https://ar.al/3744/
 
 Implements the fine work of these 3rd parties:
 
@@ -3623,7 +3623,7 @@ if(!JSZip.compressions["DEFLATE"]) {
  */
 
 // jshint unused:true
-/* globals obis,SparkMD5 */
+/* globals obis,SparkMD5,jQuery */
 
 /*
 
@@ -3696,6 +3696,25 @@ jQuery.extend( obis, {
             return String( 10 > number ? ( '0' + number ) : number );
         },
 
+        addSpaces: function _addSpaces( str, len ) {
+
+            if ( !str ) {
+                return '';
+            }
+
+            str = '' + str;
+
+            while ( str.length < len ) {
+                str = str + ' ';
+            }
+
+            if ( str.length > len ) {
+                str.length = len;
+            }
+
+            return str;
+        },
+
         convertDecimalToCents: function _convertDecimalToCents( decimalCurrencyString ) {
 
             var float = parseFloat( decimalCurrencyString );
@@ -3761,6 +3780,16 @@ jQuery.extend( obis, {
 
             return String(
                 '' +
+                obis.utils.addZeros( date.getMonth() + 1 ) + '/' +
+                obis.utils.addZeros( date.getDate() ) + '/' +
+                date.getFullYear()
+            );
+        },
+
+        UKDateTimeString: function _UKDateTimeString( date ) {
+
+            return String(
+                '' +
                 obis.utils.addZeros( date.getDate() ) + '/' +
                 obis.utils.addZeros( date.getMonth() + 1 ) + '/' +
                 date.getFullYear()
@@ -3785,11 +3814,6 @@ jQuery.extend( obis, {
             return SparkMD5.hash( str );
         },
 
-        // http://stackoverflow.com/a/25214113
-        domFragmentFromString: function _domFragmentFromString( str ) {
-            return document.createRange().createContextualFragment( str );
-        },
-
         sortByNumber: function _sortByNumber( field ) {
 
             if ( field ) {
@@ -3804,7 +3828,13 @@ jQuery.extend( obis, {
                     return +a - +b;
                 };
             }
+        },
+
+        // http://stackoverflow.com/a/25214113
+        domFragmentFromString: function _domFragmentFromString( str ) {
+            return document.createRange().createContextualFragment( str );
         }
+
     }
 });
 
@@ -4373,7 +4403,7 @@ jQuery.extend( obis, {
  */
 
 // jshint unused:true
-/* globals obis */
+/* globals obis,jQuery */
 
 /*
 
@@ -4397,7 +4427,7 @@ obis.generators.push({
         var csv;
 
         csv =
-            '"Transaction ID","Date","Account type","Account number","Payee","Memo","Amount"' + '\r\n' +
+            '"Transaction ID","Date","Account type","Account number","Payee","Memo","Type","Amount"' + '\r\n' +
             '\r\n';
 
         jQuery.each( statement.entries, function _forEach() {
@@ -4411,6 +4441,73 @@ obis.generators.push({
                 '"' + obis.utils.csvEscape( statement.sortCode + ' ' + statement.accountNumber ) + '",' +
                 '"' + obis.utils.csvEscape( this.description ) + '",' +
                 '"' + obis.utils.csvEscape( 'memo' in this ? this.memo : '' ) + '",' +
+                '"' + obis.utils.csvEscape( this.type ) + '",' +
+                '"' + obis.utils.csvEscape( transactionAmount ) + '"' +
+                '\r\n';
+
+        });
+
+        csv +=
+            '\r\n';
+
+        return csv;
+
+    }
+
+});
+
+/*
+ * OBIS: Online Banking Is Shit
+ * A JavaScript framework for downloading bank statements
+ * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * MIT licensed: See LICENSE.md
+ *
+ * File: csv.js: CSV generator in the style of HSBC UK's Recent Transactions download
+ */
+
+// jshint unused:true
+/* globals obis,jQuery */
+
+/*
+
+ Events:
+    None
+
+ Methods:
+    generate( statement )
+
+ */
+
+obis.generators.push({
+
+    id: 'HSBC',
+    folder: 'hsbc',
+    extension: 'csv',
+    description: 'HSBC CSV (à la Recent Transactions)',
+
+    generate: function _generate( statement ) {
+
+        var csv;
+
+        csv = '';
+            // 'Date","Payee + Memo + Type","Amount"' + '\r\n' +
+            // '\r\n';
+
+        jQuery.each( statement.entries, function _forEach() {
+
+            var transactionAmount = obis.utils.convertCentsToDecimal( this.debit + this.credit );
+
+            csv +=
+                '"' + obis.utils.csvEscape( obis.utils.UKDateTimeString( this.date ) ) + '",' +
+
+                '"' +
+                    obis.utils.csvEscape(
+                        obis.utils.addSpaces( this.description, 25 ) +
+                        obis.utils.addSpaces( 'memo' in this ? this.memo : '', 25 ) +
+                        this.type
+                    ) +
+                '",' +
+
                 '"' + obis.utils.csvEscape( transactionAmount ) + '"' +
                 '\r\n';
 
