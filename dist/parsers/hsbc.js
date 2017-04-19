@@ -22,7 +22,7 @@
  */
 
 // jshint unused:true
-/* globals obis */
+/* globals obis,jQuery */
 
 /*
 

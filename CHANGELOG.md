@@ -9,6 +9,12 @@ MIT licensed: See [LICENSE.md](LICENSE.md)
 
 ## Changelog
 
+19th April 2017
+- Support downloading HSBC-style CSV
+- Tweak default CSV downloads to include fields for the transaction-type
+- Added a midata generator, but it’s not implemented since it does not adhere to the full standard
+- Fix QIF generator to use US-style dates
+
 19th January 2017:
 - Generators should convert cents to decimals (fixes Zip downloads)
 

@@ -9,7 +9,7 @@
  */
 
 // jshint unused:true
-/* globals obis,SparkMD5 */
+/* globals obis,SparkMD5,jQuery */
 
 /*
 
@@ -82,6 +82,25 @@ jQuery.extend( obis, {
 			return String( 10 > number ? ( '0' + number ) : number );
 		},
 
+		addSpaces: function _addSpaces( str, len ) {
+
+			if ( !str ) {
+				return '';
+			}
+
+			str = '' + str;
+
+			while ( str.length < len ) {
+				str = str + ' ';
+			}
+
+			if ( str.length > len ) {
+				str.length = len;
+			}
+
+			return str;
+		},
+
 		convertDecimalToCents: function _convertDecimalToCents( decimalCurrencyString ) {
 
 			var float = parseFloat( decimalCurrencyString );
@@ -147,6 +166,16 @@ jQuery.extend( obis, {
 
 			return String(
 				'' +
+				obis.utils.addZeros( date.getMonth() + 1 ) + '/' +
+				obis.utils.addZeros( date.getDate() ) + '/' +
+				date.getFullYear()
+			);
+		},
+
+		UKDateTimeString: function _UKDateTimeString( date ) {
+
+			return String(
+				'' +
 				obis.utils.addZeros( date.getDate() ) + '/' +
 				obis.utils.addZeros( date.getMonth() + 1 ) + '/' +
 				date.getFullYear()
@@ -171,11 +200,6 @@ jQuery.extend( obis, {
 			return SparkMD5.hash( str );
 		},
 
-		// http://stackoverflow.com/a/25214113
-		domFragmentFromString: function _domFragmentFromString( str ) {
-			return document.createRange().createContextualFragment( str );
-		},
-
 		sortByNumber: function _sortByNumber( field ) {
 
 			if ( field ) {
@@ -190,6 +214,12 @@ jQuery.extend( obis, {
 					return +a - +b;
 				};
 			}
+		},
+
+		// http://stackoverflow.com/a/25214113
+		domFragmentFromString: function _domFragmentFromString( str ) {
+			return document.createRange().createContextualFragment( str );
 		}
+
 	}
 });

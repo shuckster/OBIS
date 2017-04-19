@@ -9,7 +9,7 @@
  */
 
 // jshint unused:true
-/* globals obis */
+/* globals obis,jQuery,console */
 
 /*
 
@@ -66,9 +66,11 @@
 			'/OBIS/src/utils.js',
 			'/OBIS/src/obis.js',
 			'/OBIS/src/generators/csv.js',
+			'/OBIS/src/generators/hsbc.js',
 			'/OBIS/src/generators/json.js',
 			'/OBIS/src/generators/ofx.js',
 			'/OBIS/src/generators/qif.js'
+			// '/OBIS/src/generators/midata.js'
 		];
 
 	}

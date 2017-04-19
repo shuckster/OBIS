@@ -23,6 +23,7 @@ src/externals/jszip-deflate.js \
 src/utils.js \
 src/obis.js \
 src/generators/csv.js \
+src/generators/hsbc.js \
 src/generators/json.js \
 src/generators/ofx.js \
 src/generators/qif.js >> dist/obis.js

@@ -14,7 +14,7 @@
  */
 
 // jshint unused:true
-/* globals obis */
+/* globals obis,jQuery */
 
 /*
 
@@ -38,7 +38,7 @@ obis.generators.push({
 		var csv;
 
 		csv =
-			'"Transaction ID","Date","Account type","Account number","Payee","Memo","Amount"' + '\r\n' +
+			'"Transaction ID","Date","Account type","Account number","Payee","Memo","Type","Amount"' + '\r\n' +
 			'\r\n';
 
 		jQuery.each( statement.entries, function _forEach() {
@@ -52,6 +52,7 @@ obis.generators.push({
 				'"' + obis.utils.csvEscape( statement.sortCode + ' ' + statement.accountNumber ) + '",' +
 				'"' + obis.utils.csvEscape( this.description ) + '",' +
 				'"' + obis.utils.csvEscape( 'memo' in this ? this.memo : '' ) + '",' +
+				'"' + obis.utils.csvEscape( this.type ) + '",' +
 				'"' + obis.utils.csvEscape( transactionAmount ) + '"' +
 				'\r\n';
 
