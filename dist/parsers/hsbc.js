@@ -22,7 +22,7 @@
  */
 
 // jshint unused:true
-/* globals obis,jQuery */
+/* globals obis,jQuery,console */
 
 /*
 
@@ -585,7 +585,7 @@ jQuery.extend( obis, {
 
 */
 
-	generateUniqueIdForTransaction: function _generateUniqueIdForTransaction( entry, memoText ) {
+	generateIdForTransaction: function _generateIdForTransaction( entry, memoText ) {
 
 		var dateTime = obis.utils.dateTimeString( entry.date ) || 'UNKNOWN_DATE',
 			transactionAmount = obis.utils.convertCentsToDecimal( entry.debit + entry.credit );
@@ -830,8 +830,13 @@ jQuery.extend( obis, {
 
 			});
 
-			entry.id = self.generateUniqueIdForTransaction( entry, entry.memoUrl );
-			entry._id = entry.id; // memo-less id
+			// Memo-less, but guaranteed unique ID at this point.
+			// We regenerate the ID with the memo-text later, checking for duplicates afterwards.
+			// Duplicates can occur for transactions with the same name, memo, and amount on the same day.
+			entry.id = self.generateIdForTransaction( entry, entry.memoUrl );
+
+			// Keep unique memo-less ID around for use in the DOM
+			entry._id = entry.id;
 
 			if ( !isRunningBalance ) {
 				statementEntries.unshift( entry );
@@ -903,6 +908,8 @@ jQuery.extend( obis, {
 			}
 		});
 
+		var memoTextIds = {};
+
 		jQuery.ajax({
 			url: link,
 			dataType : 'html',
@@ -966,8 +973,20 @@ jQuery.extend( obis, {
 
 						entry.memo = additionalDetails;
 
-						// We have the memo now, so we should update the entry ID
-						entry.id = self.generateUniqueIdForTransaction( entry );
+						// We have the memo now - regenerate the ID and check for duplicates
+						var memoTextIdKey = self.generateIdForTransaction( entry );
+						var memoTextIdForTransaction = memoTextIdKey;
+
+						if ( !memoTextIds[ memoTextIdKey ] ) {
+							memoTextIds[ memoTextIdKey ] = 1;
+						}
+						else {
+							memoTextIds[ memoTextIdKey ] += 1;
+							memoTextIdForTransaction += '_' + memoTextIds[ memoTextIdKey ];
+						}
+
+						// Update entry ID
+						entry.id = memoTextIdForTransaction;
 
 						if ( windowRef ) {
 							jQuery( windowRef.document ).find( '#_' + id + ' td.memo' ).html( additionalDetails ).removeClass( 'processing' );
