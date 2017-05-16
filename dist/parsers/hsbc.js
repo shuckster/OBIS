@@ -908,8 +908,6 @@ jQuery.extend( obis, {
 			}
 		});
 
-		var memoTextIds = {};
-
 		jQuery.ajax({
 			url: link,
 			dataType : 'html',
@@ -973,20 +971,8 @@ jQuery.extend( obis, {
 
 						entry.memo = additionalDetails;
 
-						// We have the memo now - regenerate the ID and check for duplicates
-						var memoTextIdKey = self.generateIdForTransaction( entry );
-						var memoTextIdForTransaction = memoTextIdKey;
-
-						if ( !memoTextIds[ memoTextIdKey ] ) {
-							memoTextIds[ memoTextIdKey ] = 1;
-						}
-						else {
-							memoTextIds[ memoTextIdKey ] += 1;
-							memoTextIdForTransaction += '_' + memoTextIds[ memoTextIdKey ];
-						}
-
-						// Update entry ID
-						entry.id = memoTextIdForTransaction;
+						// We have the memo now - regenerate the ID
+						entry.id = self.generateIdForTransaction( entry );
 
 						if ( windowRef ) {
 							jQuery( windowRef.document ).find( '#_' + id + ' td.memo' ).html( additionalDetails ).removeClass( 'processing' );
@@ -1044,6 +1030,29 @@ jQuery.extend( obis, {
 	 */
 
 	finishedWithStatement: function _finishedWithStatement( statement ) {
+
+		// Check for duplicate IDs
+
+		var memoTextIds = {};
+
+		jQuery.each( statement.entries, function _forEach() {
+
+			var statement = this;
+			var memoId = statement.id;
+			var uniqueId = memoId;
+
+			if ( !memoTextIds[ memoId ] ) {
+				memoTextIds[ memoId ] = 1;
+			}
+			else {
+				memoTextIds[ memoId ] += 1;
+				uniqueId += '_' + memoTextIds[ memoId ];
+			}
+
+			statement.id = uniqueId;
+		});
+
+
 		statement.processed = true;
 		this.toggleViewAndDownloadButtons();
 		jQuery( document ).trigger( 'memos:processed' );
