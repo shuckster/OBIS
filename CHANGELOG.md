@@ -10,6 +10,7 @@ MIT licensed: See [LICENSE.md](LICENSE.md)
 ## Changelog
 
 16th May 2017
+- HSBC UK: Avoid duplicate IDs for transactions with the same name/memo/date
 - OFX: Balance carried forward should be converted to decimal
 
 19th April 2017
