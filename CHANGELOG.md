@@ -9,6 +9,9 @@ MIT licensed: See [LICENSE.md](LICENSE.md)
 
 ## Changelog
 
+16th May 2017
+- OFX: Balance carried forward should be converted to decimal
+
 19th April 2017
 - Support downloading HSBC-style CSV
 - Tweak default CSV downloads to include fields for the transaction-type
