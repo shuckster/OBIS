@@ -39,12 +39,12 @@ obis.generators.push({
 
 		var csv;
 
+		var initialBalanceInCents = ( statement.balances || [{ date: 0, balance: 0 }]).sort( obis.utils.sortByNumber( 'date' ))[ 0 ].balance;
+		var runningBalanceInCents = initialBalanceInCents;
+
 		csv =
 			' Date,Type,Merchant/Description,Debit/Credit,Balance' + '\r\n' +
 			'\r\n';
-
-		var initialBalanceInCents = ( statement.balances || [{ date: 0, balance: 0 }]).sort( obis.utils.sortByNumber( 'date' ))[ 0 ].balance;
-		var runningBalanceInCents = initialBalanceInCents;
 
 		jQuery.each( statement.entries, function _forEach() {
 

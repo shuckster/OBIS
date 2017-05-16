@@ -127,11 +127,13 @@ obis.generators.push({
 
 		});
 
+		var balanceCarriedForward = statement.balances[ latestBalanceIndex ].balance;
+
 		ofx +=
 			'\t\t\t\t' + '</BANKTRANLIST>' + '\n' +
 			'\n' +
 			'\t\t\t\t' + '<LEDGERBAL>' + '\n' +
-			'\t\t\t\t\t' + '<BALAMT>' + obis.utils.ofxEscape( statement.balances[ latestBalanceIndex ].balance ) + '</BALAMT>' + '\n' +
+			'\t\t\t\t\t' + '<BALAMT>' + obis.utils.ofxEscape( obis.utils.convertCentsToDecimal( balanceCarriedForward ) ) + '</BALAMT>' + '\n' +
 			'\t\t\t\t\t' + '<DTASOF>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ latestBalanceIndex ].date ) ) + '</DTASOF>' + '\n' +
 			'\t\t\t\t' + '</LEDGERBAL>' + '\n' +
 			'\n' +

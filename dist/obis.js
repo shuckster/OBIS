@@ -4462,7 +4462,7 @@ obis.generators.push({
  * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
- * File: csv.js: CSV generator in the style of HSBC UK's Recent Transactions download
+ * File: hsbc.js: CSV generator in the style of HSBC UK's Recent Transactions download
  */
 
 // jshint unused:true
@@ -4709,11 +4709,13 @@ obis.generators.push({
 
 		});
 
+		var balanceCarriedForward = statement.balances[ latestBalanceIndex ].balance;
+
 		ofx +=
 			'\t\t\t\t' + '</BANKTRANLIST>' + '\n' +
 			'\n' +
 			'\t\t\t\t' + '<LEDGERBAL>' + '\n' +
-			'\t\t\t\t\t' + '<BALAMT>' + obis.utils.ofxEscape( statement.balances[ latestBalanceIndex ].balance ) + '</BALAMT>' + '\n' +
+			'\t\t\t\t\t' + '<BALAMT>' + obis.utils.ofxEscape( obis.utils.convertCentsToDecimal( balanceCarriedForward ) ) + '</BALAMT>' + '\n' +
 			'\t\t\t\t\t' + '<DTASOF>' + obis.utils.ofxEscape( obis.utils.dateTimeString( statement.balances[ latestBalanceIndex ].date ) ) + '</DTASOF>' + '\n' +
 			'\t\t\t\t' + '</LEDGERBAL>' + '\n' +
 			'\n' +
