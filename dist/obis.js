@@ -278,24 +278,18 @@ var saveAs = saveAs
 // 2.0.0
 
 (function (factory) {
-    if (typeof exports === 'object') {
-        // Node/CommonJS
-        module.exports = factory();
-    } else if (typeof define === 'function' && define.amd) {
-        // AMD
-        define(factory);
-    } else {
-        // Browser globals (with support for web workers)
-        var glob;
 
-        try {
-            glob = window;
-        } catch (e) {
-            glob = self;
-        }
+    // Browser globals (with support for web workers)
+    var glob;
 
-        glob.SparkMD5 = factory();
+    try {
+        glob = window;
+    } catch (e) {
+        glob = self;
     }
+
+    glob.SparkMD5 = factory();
+
 }(function (undefined) {
 
     'use strict';
@@ -3717,6 +3711,9 @@ jQuery.extend( obis, {
 
 		convertDecimalToCents: function _convertDecimalToCents( decimalCurrencyString ) {
 
+			// Sanitize
+			decimalCurrencyString = ( decimalCurrencyString || '0.00' ).replace( /[^0-9\.\-]/g, '' );
+
 			var float = parseFloat( decimalCurrencyString );
 			if ( isNaN( float ) ) { float = 0; }
 			var negative = 0 > float;
@@ -4483,7 +4480,7 @@ obis.generators.push({
 	id: 'HSBC',
 	folder: 'hsbc',
 	extension: 'csv',
-	description: 'HSBC CSV (à la Recent Transactions)',
+	description: 'CSV Legacy HSBC (à la Recent Transactions)',
 
 	generate: function _generate( statement ) {
 

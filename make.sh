@@ -33,3 +33,4 @@ src/generators/qif.js >> dist/obis.js
 mkdir dist/parsers
 
 cp src/parsers/hsbc.js dist/parsers
+cp src/parsers/hsbc-new.js dist/parsers
