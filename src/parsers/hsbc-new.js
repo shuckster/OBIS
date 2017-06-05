@@ -10,9 +10,11 @@
  * "Recent Transactions" page.
  *
 
- Parses an HSBC UK statement or the statements-list page.
+ Parses an HSBC UK statement.
 
- Automatically fetches those horrible click-through memos for transactions.
+ Updated to support the new dojo-based HSBC UK web app. However, it is
+ now a more difficult job to parse all statements at once now, so for
+ now you'll have to do it one at a time.
 
  Generates IDs that should be reasonably unique. Certainly any given
  statement will regenerate the same IDs. They're made by md5'ing some
@@ -198,14 +200,12 @@ jQuery.extend( obis, {
 
 	sanitizedDocumentFragment: function _sanitizedDocumentFragment( df ) {
 
+		df = df || document;
+
 		var grabber, selector, domElements, domElement, domKey;
 
 		var grabbers = {
-			elActiveAccount: '.hsbcActiveAccount',
-			elDateAndIBANAndBIC: '.hsbcTextRight',
-			elStatementsTable: 'table.hsbcRowSeparator',
-			elStatementTable: 'table[summary="This table contains a statement of your account"]',
-			elNextPage: 'a[title="Next page of this statement"]'
+			elBorderedContent: '.borderedContent'
 		};
 
 		var newFrag = document.createDocumentFragment();
@@ -231,6 +231,7 @@ jQuery.extend( obis, {
 		}
 
 		elContainer.append( newFrag );
+
 		return elContainer;
 	},
 
@@ -254,200 +255,214 @@ jQuery.extend( obis, {
 	preparse: function _preparse( html ) {
 
 		var ROOT = jQuery( html || document ),
-			object = { error: false };
+			accountSummaryObject = { error: false, errors: [] };
 
 		// RegEx tests
 		var rxAccountSortCodeAndNumber = /(\d{2}\-\d{2}\-\d{2}).*(\d{8})/,
 			rxAccountSortCode = /(\d{2})\-(\d{2})\-(\d{2})/,
 			rxAccountNumber = /(\d{8})/,
 			rxAccountNameStrip = /[^A-Z ]/g,
-			rxIsStatementDate = /\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}/;
+			rxAccountCurrencyMatch = /(?:Currency )?([A-Z]{3})/,
+			rxMatchStatementDate = /(\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{2,4})/;
 
 		/*
 		 * Account details
 		 */
 
-		// Get active account
-		var accountMatches, accountSortCode, accountNumber, accountFullNumber,
+		var elAccountSummary, elStatementTransactions, elStatementList,
 
-			elActiveAccount = ROOT.find( '.hsbcActiveAccount' ),
-			elAccountName = elActiveAccount.find( '.hsbcAccountName' ),
-			elAccountNumber = elActiveAccount.find( '.hsbcAccountNumber' ).detach(),
-			elAccountType = elActiveAccount.find( '.hsbcAccountType' ),
-
-			accountName = elAccountName.html(),
-			accountType = elAccountType.html();
-
-		if ( !elActiveAccount.length || !elAccountName.length || !elAccountNumber.length || !elAccountType.length ) {
-			console.error( 'Error trying to find account information' );
-			return null;
-		}
+			// 0 = Account summary, 1 = Statement, or statements list
+			elBorderedContent = ROOT.find( '.borderedContent' );
 
 		// ...
 
-		accountFullNumber = elAccountNumber.html();
-		elAccountName.append( elAccountNumber );
+		var potentialAccountSummary,
+			elAccountType,
+			elAccountFullNumber,
+			elAccountName, // Holder?
+			elAccountCurrency;
 
-		// Strip out cruft from name
-		accountName = accountName.replace( rxAccountNameStrip, '' ).trim();
 
-		// Get sort-code + account number
-		if ( rxAccountSortCodeAndNumber.test( accountFullNumber ) ) {
-			accountMatches = accountFullNumber.match( rxAccountSortCode );
-			accountSortCode = accountMatches[ 1 ] + accountMatches[ 2 ] + accountMatches[ 3 ];
-			accountMatches = accountFullNumber.match( rxAccountNumber );
-			accountNumber = accountMatches[ 1 ];
+		if ( 0 < elBorderedContent.length ) {
+
+			// Contains type, name, number, and potentially a statement-list
+			elAccountSummary = jQuery( elBorderedContent[ 0 ] );
+
+			switch ( elBorderedContent.length ) {
+
+				// Single statement page, probably
+				case 2:
+
+					potentialAccountSummary = elAccountSummary.find( '.loanDetailsWrapper' ).children();
+
+					elAccountType = potentialAccountSummary.get( 0 );
+					elAccountFullNumber = potentialAccountSummary.get( 1 );
+					elAccountName = potentialAccountSummary.get( 2 );
+					elAccountCurrency = potentialAccountSummary.get( 3 );
+
+					// Contains table of transactions
+					elStatementTransactions = jQuery( elBorderedContent[ 1 ] );
+
+				break;
+
+				// Statement selection/list page, probably
+				case 1:
+
+					potentialAccountSummary = elAccountSummary.find( '.stmtCurrencyDropDown' ).children();
+
+					elAccountType = potentialAccountSummary.get( 0 );
+					elAccountFullNumber = potentialAccountSummary.find( '.accountDetails' ).get( 0 );
+					elAccountName = potentialAccountSummary.get( 1 );
+					elAccountCurrency = potentialAccountSummary.find( '.currencyDetails' ).get( 0 );
+
+					// Rest is probably a list of statements
+
+					elStatementList = elBorderedContent.find( '.statementList' );
+					// ...
+				break;
+
+				default:
+
+					console.warn( 'I don\'t know how to deal with this page!' );
+					accountSummaryObject.errors.push( 'I don\'t know how to deal with this page!' );
+					accountSummaryObject.error = true;
+			}
+
 		}
-
-		if ( accountName ) { object.name = accountName; }
-		if ( accountType ) { object.type = accountType; }
-		if ( accountNumber ) { object.accountNumber = accountNumber; }
-		if ( accountSortCode ) { object.sortCode = accountSortCode; }
 
 		/*
-		 * Statement details
+		 * Parse account summary
 		 */
 
-		// Get statement date, IBAN, BIC
-		var timer, elStatementFirstHeader, elStatementLastHeader,
+		var accountMatches, accountCurrencyMatches, accountFullNumber,
 
-			elDateAndIBANAndBIC = ROOT.find( '.hsbcTextRight' ),
-			elDate = elDateAndIBANAndBIC.first(),
-			elIBAN = elDateAndIBANAndBIC.eq( 1 ),
-			elBIC = elDateAndIBANAndBIC.eq( 2 ),
-			statementLinks = [];
+			accountType,
+			accountName,
+			accountSortCode,
+			accountNumber,
+			accountCurrency;
 
-		if ( !elDate.length || !elIBAN.length || !elBIC.length ) {
-
-			console.warn( 'Error trying to find date, IBAN, and BIC information' );
-
-			/*
-			 * If there was a problem trying to parse, see if we're on a "Statements" (plural)
-			 * page instead of just a single one.
-			 */
-
-			console.log( 'Trying to find statement links...' );
-
-			var elStatementsTable, retrieveStatementsButton, allStatementsCheckbox;
-
-			elStatementsTable = ROOT.find( 'table.hsbcRowSeparator' );
-
-			if ( elStatementsTable.length ) {
-
-				this.elements.retrieveStatementsButton = retrieveStatementsButton = jQuery( '<input type="button" value="Retrieve checked" />' );
-				this.elements.allStatementsCheckbox = allStatementsCheckbox = jQuery( '<input type="checkbox" style="margin-left: 10px;" />' );
-
-				elStatementFirstHeader = jQuery( '<th />' );
-				elStatementLastHeader = jQuery( '<th />' );
-
-				elStatementFirstHeader.append( allStatementsCheckbox );
-				elStatementLastHeader.append( retrieveStatementsButton );
-
-				elStatementsTable.find( 'thead > tr' )
-					.prepend( elStatementFirstHeader )
-					.append( elStatementLastHeader );
-
-				allStatementsCheckbox.bind( 'change', function _onChange() {
-
-					var checked = this.checked;
-
-					jQuery.each( statementLinks, function _forEach() {
-						this.checkbox[ 0 ].checked = checked;
-						this.checkbox.change();
-					});
-
-				});
-
-				retrieveStatementsButton.bind( 'click', function _onClick() {
-					obis.retrieveCheckedStatementLinks();
-				});
-
-				elStatementsTable.find( 'a' ).each( function _forEach() {
-
-					var elLink = jQuery( this ),
-						title = elLink.attr( 'title' ),
-						href = elLink.attr( 'href' ),
-						rxStatementTitle = /^\d{2} (January|February|March|April|May|June|July|August|September|October|November|December) \d{4} statement$/,
-						obj = {};
-
-					if ( rxStatementTitle.test( title ) ) {
-
-						obj.checked = false;
-						obj.href = href;
-						obj.checkbox = elLink.parent().parent().prepend( '<td><input type="checkbox" /></td>' ).find( 'input' );
-						obj.progress = elLink.parent().parent().append( '<td class="progress"></td>' ).find( 'td.progress' );
-
-						obj.checkbox.bind( 'change', function _onChange() {
-
-							clearTimeout( timer );
-							obj.checked = this.checked;
-
-							timer = setTimeout( function _timeout() {
-								obis.toggleRetrieveStatementsButton();
-							}, 0.1 );
-
-						});
-
-						statementLinks.unshift( obj );
-
-					}
-
-				});
-
-			}
-
-			if ( statementLinks.length ) {
-				console.log( 'Looks like a previous statements page!' );
-				object.statementLinks = statementLinks;
-			}
-			else {
-				console.warn( 'No statement links found: Nothing to do on this page' );
-				object.error = true;
-			}
-
-			object.date = new Date();
-
+		// Account type (BANK A/C, ONLINE SAVER, etc...)
+		if ( elAccountType ) {
+			accountType = elAccountType.innerText;
 		}
 
-		// Looks like a single statement
-		else {
+		// Account name (SURNAME INITIALS, etc...)
+		if ( elAccountName ) {
 
-			var statementDateString = elDate.html(),
-				statementIBANString = elIBAN.html(),
-				statementBICString = elBIC.html(),
-				expectedDate = rxIsStatementDate.test( statementDateString );
+			accountName = elAccountName.innerText;
 
-			if ( !expectedDate ) {
-				console.error( 'Error trying to parse statement date' );
+			// Strip out cruft from name
+			accountName = accountName.replace( rxAccountNameStrip, '' ).trim();
+		}
+
+		// Get sort-code + account number
+		if ( elAccountFullNumber ) {
+
+			accountFullNumber = elAccountFullNumber.innerText;
+
+			if ( rxAccountSortCodeAndNumber.test( accountFullNumber ) ) {
+
+				accountMatches = accountFullNumber.match( rxAccountSortCode );
+				accountSortCode = accountMatches[ 1 ] + accountMatches[ 2 ] + accountMatches[ 3 ];
+				accountMatches = accountFullNumber.match( rxAccountNumber );
+				accountNumber = accountMatches[ 1 ];
+			}
+		}
+
+		// Account currency (Currency GBP, etc...)
+		if ( elAccountCurrency ) {
+
+			accountCurrency = elAccountCurrency.innerText;
+			accountCurrencyMatches = accountCurrency.match( rxAccountCurrencyMatch );
+
+			if ( accountCurrencyMatches ) {
+				accountCurrency = accountCurrencyMatches[ 1 ];
 			}
 			else {
-				object.date = new Date( statementDateString );
+
+				console.warn( 'Unknown currency: ' + accountCurrency );
+				accountSummaryObject.errors.push( 'Unknown currency: ' + accountCurrency );
+				accountSummaryObject.error = true;
+				accountCurrency = '???';
+			}
+		}
+
+		// Finished getting summary, put into return object...
+		if ( accountName ) { accountSummaryObject.name = accountName; }
+		if ( accountType ) { accountSummaryObject.type = accountType; }
+		if ( accountNumber ) { accountSummaryObject.accountNumber = accountNumber; }
+		if ( accountSortCode ) { accountSummaryObject.sortCode = accountSortCode; }
+		if ( accountCurrency ) { accountSummaryObject.currency = accountCurrency; }
+
+		/*
+		 * Looks like a single statement
+		 */
+
+		if ( elStatementTransactions ) {
+
+			/*
+			 * Get statement date, IBAN, BIC
+			 */
+
+			var elDateAndIBANAndBIC = elAccountSummary.find( '.currencyDetails' ),
+
+				elDate = elDateAndIBANAndBIC.get( 4 ),
+				elIBAN = elDateAndIBANAndBIC.get( 3 ),
+				elBIC = elDateAndIBANAndBIC.get( 2 );
+
+			var statementDateString = elDate.innerText,
+				statementIBANString = elIBAN.innerText,
+				statementBICString = elBIC.innerText,
+				expectedDateMatch = statementDateString.match( rxMatchStatementDate );
+
+			if ( !expectedDateMatch ) {
+
+				console.warn( 'Error trying to parse statement date: ' + statementDateString );
+				accountSummaryObject.errors.push( 'Error trying to parse statement date: ' + statementDateString );
+				accountSummaryObject.error = true;
+			}
+			else {
+				accountSummaryObject.date = new Date( expectedDateMatch[ 1 ] );
 			}
 
-			if ( statementIBANString ) { object.iban = statementIBANString; }
-			if ( statementBICString ) { object.bic = statementBICString; }
+			if ( statementIBANString ) { accountSummaryObject.iban = statementIBANString.replace( /^IBAN /, '' ); }
+			if ( statementBICString ) { accountSummaryObject.bic = statementBICString.replace( /^BIC /, '' ); }
 
 			// Another page?
-			var elNextPage = ROOT.find( 'a[title="Next page of this statement"]' );
+			/*var elNextPage = ROOT.find( 'a[title="Next page of this statement"]' );
 
 			if ( elNextPage ) {
 
 				var nextPageUrl = elNextPage.attr( 'href' );
-				object.nextPageUrl = nextPageUrl;
-			}
+				accountSummaryObject.nextPageUrl = nextPageUrl;
+			}*/
 		}
+
+		/*
+		 * Looks like a list of statements
+		 */
+
+		var statementLinks;
+
+		if ( elStatementList ) {
+			statementLinks = [];
+		}
+
+		accountSummaryObject.statementLinks = statementLinks;
 
 		if ( !html ) {
 
-			elActiveAccount.prepend(
-				this.drawViewStatementsButton( object.statementLinks ),
+			// ROOT.find( 'h3.divRedVerticalBar' ).first().parent().prepend(
+			ROOT.find( '.returnToStmtsTop' ).first().parent().prepend(
+				this.drawViewStatementsButton( accountSummaryObject.statementLinks ),
 				this.drawDownloadZipButton(),
 				this.drawGeneratorPicker()
 			);
 
 		}
 
-		return object;
+		return accountSummaryObject;
 
 	},
 
@@ -614,229 +629,191 @@ jQuery.extend( obis, {
 
 	parseStatement: function _parseStatement( preparse, html, pageNumber ) {
 
+		var statementEntries = [],
+			runningBalances = [],
+
+			memoUrls = [];
+
 		var ROOT = jQuery( html || document ),
 			self = this;
 
-		var maxEntriesPerPage = 201;
-		pageNumber = undefined !== pageNumber ? pageNumber : 0;
-
-		// RegEx tests
-		var rxIsDayAndMonthOnly = /^\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/,
-
-			rxDateCol = /Date/,
-			rxTypeCol = /Type/,
-			rxDescCol = /Description/,
-			rxDebitCol = /Paid out/,
-			rxCreditCol = /Paid in/,
-			rxBalanceCol = /Balance/,
-
-			rxIsBalanceEntry = /^Balance (brought|carried) forward$/,
-			rxTableIsStatement = /statement.*account/,
-
-			rxBalanceWithDebitMarker = /([^D]+)(D?$)/;
-
-		// Get statement
-		var elStatementTable = ROOT.find( 'table[summary="This table contains a statement of your account"]' );
-
-		if ( !elStatementTable.length ) {
-
-			elStatementTable = ROOT.find( 'table > thead' ).parent();
-
-			if ( 1 < elStatementTable.length ) {
-
-				elStatementTable.each( function _forEach() {
-					var el = jQuery( this ),
-						summary = el.attr( 'summary' );
-
-					if ( rxTableIsStatement.test( summary ) ) {
-						elStatementTable = el;
-					}
-				});
-			}
-		}
-
-		// Does it look like a statement?
-		if ( !elStatementTable.length ) {
-			console.error( 'Error trying to find statement table' );
-			return false;
-		}
-
-		// ...
-
-		// Parse statement
-		var elStatementHeader, elStatementBody,
-
-			elReversedTransactions = [],
-			elTransactions = [],
-			memoUrls = [],
-			columns = [],
-			statementEntries = [],
-			runningBalances = [],
-			latestTransactionDate = new Date( preparse.date ),
-			balanceIncludesDebitColumn = false;
-
-		// Get columns
-		elStatementHeader = elStatementTable.find( 'thead' );
-		elStatementHeader.find( '> tr > th' ).each( function _forEach() {
-
-			var el = jQuery( this ),
-				html = el.html();
-
-			if ( rxDateCol.test( html ) ) { columns.push( 'Date' ); }
-			if ( rxTypeCol.test( html ) ) { columns.push( 'Type' ); }
-			if ( rxDescCol.test( html ) ) { columns.push( 'Description' ); }
-			if ( rxDebitCol.test( html ) ) { columns.push( 'Debit' ); }
-			if ( rxCreditCol.test( html ) ) { columns.push( 'Credit' ); }
-
-			if ( rxBalanceCol.test( html ) ) {
-
-				columns.push( 'Balance' );
-
-				if ( 2 == el.attr( 'colspan' ) ) {
-
-					balanceIncludesDebitColumn = true;
-					columns.push( 'Marker' );
-				}
-			}
-
-		});
-
-		// Parse statement proper
-		elStatementBody = elStatementTable.find( 'tbody' );
+		var elStatementGrid = ROOT.find( '.stmtGrid' );
+		var elStatementHeader = elStatementGrid.find( '.gridxHeader' );
+		var elStatementRows = elStatementGrid.find( '.gridxMain > .gridxBody > .gridxRow > .gridxRowTable > tbody > tr' );
 
 		// For the sake of the dodgy date-formats we loop through the transactions backwards
-		elTransactions = elStatementBody.find( '> tr' );
-		elTransactions.each( function _forEach() {
-			elReversedTransactions.unshift( this );
+		var elReversedStatementRows = [];
+		elStatementRows.each( function _jQuery_forEach() {
+			elReversedStatementRows.unshift( this );
 		});
 
-		jQuery.each( elReversedTransactions, function _forEach( indexInArray ) {
+		// date, payee, amount, balance
 
-			var elRow = jQuery( this ),
+		var rxHasBigSpacer = / {2,}/;
+		var rxSplitSpacers = /([\w\W]+?) {2,}([\w\W]+)/;
+
+		function splitBigSpacersInTwo( line ) {
+
+			var followingLines;
+			var splitBySpacers = line.match( rxSplitSpacers );
+
+			if ( !splitBySpacers ) {
+
+				return {
+					"line1": line,
+					"line2": ''
+				};
+			}
+
+			followingLines = [];
+			splitBySpacers.slice( 2 ).forEach( function _forEach( followingLine ) {
+				followingLines.push( followingLine.trim() );
+			});
+
+			return {
+				"line1": String( splitBySpacers[ 1 ] ).trim(),
+				"line2": followingLines.join( ' ' )
+			};
+		}
+
+		elReversedStatementRows.forEach( function _forEach( tr ) {
+
+			var descriptionSplit;
+
+			var elRow = jQuery( tr );
+			var elCols = elRow.find( 'td' );
+
+			var dateText, payeeText, descriptionText, creditText, debitText, balanceText,
+
 				entry = { debit: 0, credit: 0 },
 				isRunningBalance = false;
 
-			// Only tweak entry.id's after the first page to try
-			// and keep them backwards compatible
-			if ( pageNumber && 0 < pageNumber ) {
-				entry.index = indexInArray + ( pageNumber * maxEntriesPerPage );
-			}
+			elCols.each( function _jQuery_forEach_td() {
 
-			elRow.find( '> td' ).each( function _forEach( colIndex ) {
+				var line, lines, lineSplit;
 
-				var tempDate, entryDate, colType, colData, elColData,
-					matches, amount, marker,
-					elCol = jQuery( this );
+				var elCol = jQuery( this );
+				var sanitizedCol = jQuery( '<div>' + elCol.html() + '</div>' );
+				sanitizedCol.find( '.accessible' ).remove();
 
-				if ( columns.length > colIndex ) {
 
-					colType = columns[ colIndex ];
-					elColData = elCol.find( '*' ).last();
+				if ( elCol.is( '.date' ) ) {
 
-					if ( elColData.length ) {
-						colData = obis.utils.htmlUnescape( elColData.html() );
-					}
-
-					switch ( colType ) {
-
-						case 'Date':
-
-							if ( rxIsDayAndMonthOnly.test( colData ) ) {
-
-								entryDate = new Date( latestTransactionDate );
-								tempDate = new Date( colData + ' ' + preparse.date.getFullYear() );
-
-								while ( entryDate.getMonth() !== tempDate.getMonth() ) {
-									entryDate.setMonth( entryDate.getMonth() - 1 );
-								}
-
-								entryDate.setDate( tempDate.getDate() );
-								entry.date = entryDate;
-								latestTransactionDate = entryDate;
-
-							}
-							// Default: Try to calculate using Date
-							else {
-								entry.date = new Date( colData );
-							}
-
-						break;
-
-						case 'Type':
-							entry.type = colData;
-						break;
-
-						case 'Description':
-
-							// Row is "Balance brought/carried forward" ... ?
-							isRunningBalance = rxIsBalanceEntry.test( colData );
-							entry.description = colData;
-
-							// Test to see if we can get a memo too
-							if ( elColData.is( 'a' ) ) {
-								entry.memoUrl = elColData.attr( 'href' );
-								memoUrls.push( entry.memoUrl );
-							}
-
-						break;
-
-						case 'Debit':
-							entry.debit = -Math.abs( obis.utils.convertDecimalToCents( !colData ? '0' : colData ));
-						break;
-
-						case 'Credit':
-							entry.credit = obis.utils.convertDecimalToCents( !colData ? '0' : colData );
-						break;
-
-						case 'Balance':
-
-							amount = 0;
-
-							if ( balanceIncludesDebitColumn ) {
-
-								amount = obis.utils.convertDecimalToCents( !colData ? '0' : colData );
-							}
-							else if ( colData ) {
-
-								matches = colData.match( rxBalanceWithDebitMarker );
-
-								if ( matches ) {
-
-									amount = matches[ 1 ];
-									amount = obis.utils.convertDecimalToCents( !amount ? '0' : amount );
-									marker = matches[ 2 ];
-
-									if ( 'D' === marker ) {
-										amount = -amount;
-									}
-								}
-							}
-
-							entry.balance = amount;
-
-						break;
-
-						case 'Marker':
-
-							if ( ( 'D' === colData ) && entry.balance ) {
-								entry.balance = -entry.balance;
-							}
-
-						break;
-
-					}
-
+					dateText  = sanitizedCol.html();
 				}
 
+				if ( elCol.is( '.payee' ) ) {
+
+					lines = [];
+
+					sanitizedCol.find( 'span' ).each( function _jQuery_forEach_span() {
+						lines.push( String( this.innerText ).trim() );
+					});
+
+					if ( rxHasBigSpacer.test( lines[ 0 ] )) {
+
+						lineSplit = splitBigSpacersInTwo( lines[ 0 ] );
+						payeeText = lineSplit.line1;
+						descriptionText = [ lineSplit.line2 ].concat( lines.slice( 1 )).join( ' ' );
+					}
+					else {
+
+						payeeText = lines[ 0 ];
+						descriptionText = lines.slice( 1 ).join( ' ' );
+					}
+				}
+
+				if ( elCol.is( '.amount' )) {
+
+					// Ignore open/closing balances for transactions
+					if ( elCol.is( '.openCloseBal' )) {
+						isRunningBalance = true;
+					}
+					else {
+
+						line  = sanitizedCol.html();
+
+						if ( '-' === line.charAt( 0 )) {
+							debitText = line;
+						}
+						else {
+							creditText = line;
+						}
+					}
+				}
+
+				if ( elCol.is( '.balance' ) ) {
+
+					line = sanitizedCol.html();
+
+					if ( !isNaN( parseFloat( line ))) {
+						balanceText = line;
+					}
+				}
 			});
 
-			// Memo-less, but guaranteed unique ID at this point.
-			// We regenerate the ID with the memo-text later, checking for duplicates afterwards.
-			// Duplicates can occur for transactions with the same name, memo, and amount on the same day.
-			entry.id = self.generateIdForTransaction( entry, entry.memoUrl );
+			/*
+			 * If the description appears to be made of a few "columns", take the first one
+			 * out and append it to the payee. Helps to make the payee more descriptive, for
+			 * example when it is:
 
-			// Keep unique memo-less ID around for use in the DOM
-			entry._id = entry.id;
+					"INT'L 0123456789"
+
+			 * it would be transformed into:
+
+					"INT'L 0123456789 Amazon"
+
+			 */
+
+			if ( rxHasBigSpacer.test( descriptionText )) {
+
+				descriptionSplit = splitBigSpacersInTwo( descriptionText );
+				payeeText += ' ' + descriptionSplit.line1;
+				descriptionText = descriptionSplit.line2;
+			}
+
+			// Further columns should be joined by commas
+
+			descriptionSplit = descriptionText.split( '  ' );
+
+			if ( 1 < descriptionSplit.length ) {
+
+				descriptionText = [];
+				descriptionSplit.forEach( function _forEach( col ) {
+
+					col = col.trim();
+
+					if ( col ) {
+						descriptionText.push( col );
+					}
+				});
+				descriptionText = descriptionText.join( ', ' );
+			}
+
+			// Populate
+
+			entry.date = new Date( dateText );
+			entry.description = payeeText;
+			entry.memo = descriptionText;
+
+			if ( undefined !== creditText ) {
+				entry.credit = obis.utils.convertDecimalToCents( creditText );
+			}
+
+			if ( undefined !== debitText ) {
+				entry.debit = -Math.abs( obis.utils.convertDecimalToCents( debitText ));
+			}
+
+			if ( !isRunningBalance ) {
+				entry.type = ( undefined !== debitText ) ? 'WITHD' : 'DEP';
+			}
+
+			if ( undefined !== balanceText ) {
+				entry.balance = obis.utils.convertDecimalToCents( balanceText );
+			}
+
+			entry.id = self.generateIdForTransaction( entry );
+			entry._id = entry.id; // DOM version
 
 			if ( !isRunningBalance ) {
 				statementEntries.unshift( entry );
@@ -850,9 +827,8 @@ jQuery.extend( obis, {
 		return {
 			entries: statementEntries,
 			balances: runningBalances,
-			memoUrls: memoUrls
+			memoUrls: memoUrls // Not needed anymore?
 		};
-
 	},
 
 /*
