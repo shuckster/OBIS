@@ -26,8 +26,15 @@
 
 	// Various bank statement parsers (and by "various" I mean "HSBC UK")
 	var parsers = [
-		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?(saas\.)?hsbc\.co\.uk\//, url: 'https://shuckster.github.io/OBIS/dist/parsers/hsbc.js' },
-		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS-tests/, url: '/OBIS/dist/parsers/hsbc.js' }
+
+		{ name: 'HSBC UK Legacy', rx: /^https?\:\/\/(www\.)?(saas\.)?hsbc\.co\.uk\//,
+		  url: 'https://shuckster.github.io/OBIS/dist/parsers/hsbc.js' },
+
+		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?(services\.online\-banking\.)?hsbc\.co\.uk\//,
+		  url: 'https://shuckster.github.io/OBIS/dist/parsers/hsbc-new.js' },
+
+		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS-tests/,
+		  url: '/OBIS/dist/parsers/hsbc-new.js' }
 	];
 
 	/*
@@ -41,7 +48,7 @@
 	// Load jQuery if we're missing it
 	if ( !jQueryAvailable ) {
 		console.log( 'Adding jQuery to loadQueue...' );
-		loadQueue.unshift( 'http://code.jquery.com/jquery-1.5.2.min.js' );
+		loadQueue.unshift( 'https://code.jquery.com/jquery-1.5.2.min.js' );
 	}
 
 	// Load everything in loadQueue until done (or error)
