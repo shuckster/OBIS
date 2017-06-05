@@ -9,6 +9,9 @@ MIT licensed: See [LICENSE.md](LICENSE.md)
 
 ## Changelog
 
+5th June 2017
+- HSBC UK: Rewritten parser for new dojo-based HSBC web-app. Unfortunately multi-statement download is not yet working
+
 16th May 2017
 - HSBC UK: Avoid duplicate IDs for transactions with the same name/memo/date
 - OFX: Balance carried forward should be converted to decimal
