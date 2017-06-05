@@ -13,6 +13,9 @@ Right now, OBIS is for downloading statements from HSBC UK Personal Banking
 in a variety of different formats. HSBC only allows downloading of the last
 3 months of transaction data. That's shit. OBIS can download the lot.
 
+Or it used to, at least, until the great dojo-app rewrite of 2017. Now it can
+only download one statement at a time. But in a range of formats, at least.
+
 Currently supports _only_ HSBC UK, but other parsers are possible. Works best
 in Google Chrome. Other browsers will work, but won't benefit from automatic
 naming of your Zip download.
