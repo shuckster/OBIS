@@ -26,7 +26,7 @@ obis.generators.push({
 	id: 'HSBC',
 	folder: 'hsbc',
 	extension: 'csv',
-	description: 'HSBC CSV (à la Recent Transactions)',
+	description: 'CSV Legacy HSBC (à la Recent Transactions)',
 
 	generate: function _generate( statement ) {
 
