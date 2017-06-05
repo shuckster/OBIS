@@ -811,6 +811,9 @@ jQuery.extend( obis, {
 			if ( undefined !== balanceText ) {
 				entry.balance = obis.utils.convertDecimalToCents( balanceText );
 			}
+			else {
+				entry.balance = 0;
+			}
 
 			entry.id = self.generateIdForTransaction( entry );
 			entry._id = entry.id; // DOM version
