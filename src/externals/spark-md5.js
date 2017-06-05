@@ -3,24 +3,18 @@
 // 2.0.0
 
 (function (factory) {
-    if (typeof exports === 'object') {
-        // Node/CommonJS
-        module.exports = factory();
-    } else if (typeof define === 'function' && define.amd) {
-        // AMD
-        define(factory);
-    } else {
-        // Browser globals (with support for web workers)
-        var glob;
 
-        try {
-            glob = window;
-        } catch (e) {
-            glob = self;
-        }
+    // Browser globals (with support for web workers)
+    var glob;
 
-        glob.SparkMD5 = factory();
+    try {
+        glob = window;
+    } catch (e) {
+        glob = self;
     }
+
+    glob.SparkMD5 = factory();
+
 }(function (undefined) {
 
     'use strict';
