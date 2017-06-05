@@ -103,6 +103,9 @@ jQuery.extend( obis, {
 
 		convertDecimalToCents: function _convertDecimalToCents( decimalCurrencyString ) {
 
+			// Sanitize
+			decimalCurrencyString = ( decimalCurrencyString || '0.00' ).replace( /[^0-9\.\-]/g, '' );
+
 			var float = parseFloat( decimalCurrencyString );
 			if ( isNaN( float ) ) { float = 0; }
 			var negative = 0 > float;
