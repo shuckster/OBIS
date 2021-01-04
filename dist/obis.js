@@ -5,7 +5,7 @@ OBIS: Online Banking Is Shit
 
 #### A JavaScript framework for downloading bank statements
 
-Copyright (c) 2017 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
+Copyright (c) 2021 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
 MIT licensed: See [LICENSE.md](LICENSE.md)
 
@@ -41,6 +41,8 @@ Open [API.md](API.md) for instructions on how to use OBIS with your own
 parsers.
 
 ## Credits
+
+Contributors: @lesterw1
 
 Inspired by:
 
@@ -3613,7 +3615,7 @@ if(!JSZip.compressions["DEFLATE"]) {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2021 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: utils.js: Helper methods
@@ -4392,7 +4394,7 @@ jQuery.extend( obis, {
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2021 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: csv.js: CSV generator
@@ -4460,7 +4462,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2021 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: hsbc.js: CSV generator in the style of HSBC UK's Recent Transactions download
@@ -4526,7 +4528,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2021 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: json.js: JSON generator
@@ -4585,7 +4587,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2021 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: ofx.js: OFX 1.0.2 generator
@@ -4735,7 +4737,7 @@ obis.generators.push({
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2021 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: qif.js: QIF generator

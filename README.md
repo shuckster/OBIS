@@ -3,7 +3,7 @@ OBIS: Online Banking Is Shit
 
 #### A JavaScript framework for downloading bank statements
 
-Copyright (c) 2017 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
+Copyright (c) 2021 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
 MIT licensed: See [LICENSE.md](LICENSE.md)
 
@@ -39,6 +39,8 @@ Open [API.md](API.md) for instructions on how to use OBIS with your own
 parsers.
 
 ## Credits
+
+Contributors: @lesterw1
 
 Inspired by:
 

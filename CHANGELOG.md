@@ -3,11 +3,14 @@ OBIS: Online Banking Is Shit
 
 #### A JavaScript framework for downloading bank statements
 
-Copyright (c) 2017 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
+Copyright (c) 2021 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
 
 MIT licensed: See [LICENSE.md](LICENSE.md)
 
 ## Changelog
+
+4th January 2021
+- Zip filename now in YYYY-MM format, thanks @lesterw1!
 
 5th June 2017
 - HSBC UK: Rewritten parser for new dojo-based HSBC web-app. Unfortunately multi-statement download is not yet working
