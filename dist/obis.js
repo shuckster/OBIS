@@ -3998,7 +3998,8 @@ jQuery.extend( obis, {
 
 		return (
 			statement.type.replace( /[^a-zA-Z]/g, '_' ) + '-' +
-			statement.date.getFullYear() + '.zip'
+			statement.date.getFullYear() + '-' +
+			('0' + (statement.date.getMonth()+1)).slice(-2) + '.zip'
 		);
 
 	},
