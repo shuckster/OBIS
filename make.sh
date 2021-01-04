@@ -30,7 +30,7 @@ src/generators/qif.js >> dist/obis.js
 
 # cp src/main.js dist/main.js
 
-mkdir dist/parsers
+mkdir dist/parsers 2> /dev/null
 
 cp src/parsers/hsbc.js dist/parsers
 cp src/parsers/hsbc-new.js dist/parsers
