@@ -2,7 +2,7 @@
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2017 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2021 by Conan Theobald <me[at]conans[dot]co[dot]uk>
  * MIT licensed: See LICENSE.md
  *
  * File: hsbc.js: CSV generator in the style of HSBC UK's Recent Transactions download
