@@ -9,6 +9,9 @@ MIT licensed: See [LICENSE.md](LICENSE.md)
 
 ## Changelog
 
+20th February 2021
+- Updated Github user-content URLs, but I'm afraid OBIS is no longer working with the new HSBC statements page. :( Will post an update if I can get it working again. Online Banking is Still Shit
+
 4th January 2021
 - Zip filename now in YYYY-MM format, thanks @lesterw1!
 
