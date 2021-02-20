@@ -28,10 +28,10 @@
 	var parsers = [
 
 		{ name: 'HSBC UK Legacy', rx: /^https?\:\/\/(www\.)?(saas\.)?hsbc\.co\.uk\//,
-		  url: 'https://shuckster.github.io/OBIS/dist/parsers/hsbc.js' },
+		  url: 'https://raw.githubusercontent.com/shuckster/OBIS/master/dist/parsers/hsbc.js' },
 
 		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?(services\.online\-banking\.)?hsbc\.co\.uk\//,
-		  url: 'https://shuckster.github.io/OBIS/dist/parsers/hsbc-new.js' },
+		  url: 'https://raw.githubusercontent.com/shuckster/OBIS/master/dist/parsers/hsbc-new.js' },
 
 		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS-tests/,
 		  url: '/OBIS/dist/parsers/hsbc-new.js' }
@@ -42,7 +42,7 @@
 	 */
 
 	var loadQueue = [
-		'https://shuckster.github.io/OBIS/dist/obis.js',
+		'https://raw.githubusercontent.com/shuckster/OBIS/master/dist/obis.js',
 	];
 
 	// Load jQuery if we're missing it
