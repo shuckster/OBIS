@@ -1,3 +1,9 @@
+_scratch
 .DS_Store
-_Scratch
+.vscode
 node_modules
+pnpm-debug.log
+vs.code-workspace
+PUBLISH.md
+publish.sh
+src/_mock-server/public/hsbc
