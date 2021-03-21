@@ -28,6 +28,23 @@ maybe clear your browser-cache).
 **Note:** If you used OBIS before 21st March 2021, you'll need to update any
 previously created bookmarklet!
 
+## Update @ 21st March 2021
+
+CORB measures will likely render the above installation instructions useless.
+
+However, you can still run OBIS locally:
+
+```sh
+git clone https://github.com/shuckster/OBIS.git
+cd OBIS
+pnpm i
+pnpm run debug:live
+```
+
+At this point an express-server should be running, and a local bookmarklet will
+have been built in `dist/` that points to it. Click it after logging into your
+HSBC UK account.
+
 ## Is it safe?
 
 If you're concerned about security on the Internet (and you should be) feel free
