@@ -1,137 +1,155 @@
-
 /*
  * OBIS: Online Banking Is Shit
  * A JavaScript framework for downloading bank statements
- * Copyright (c) 2021 by Conan Theobald <me[at]conans[dot]co[dot]uk>
+ * Copyright (c) 2021 by Conan Theobald https://github.com/shuckster
  * MIT licensed: See LICENSE.md
  *
- * File: main.js: Bookmarklet loader
+ * File: main.js: Post-bookmarklet entry-point
  */
 
-// jshint unused:true
-/* globals obis,jQuery,console */
+import SparkMD5 from 'spark-md5'
+import jmespath from 'jmespath'
+import { zip, strToU8 } from 'fflate'
+import { saveAs } from 'file-saver'
+import { Statebot } from 'statebot'
 
-/*
+import { messages } from '@/esm/bus'
+import { addAjaxListener, AjaxRequester } from '@/esm/ajacks'
+import { actions } from '@/obis/actions'
 
- Events:
- 	None
+// Mithril.js Fragment <></> support (see build.js for implementation)
+messages.on(actions.ui.RENDERING, m => {
+  m.Fragment = {
+    view: function (vnode) {
+      return vnode.children
+    }
+  }
+})
 
- Methods:
- 	_obisLoad()
- 	loadScript( url )     // Defined in bookmarklet
- 	loadScripts()
+const obisFetchFlow = `
 
- */
+  // Happy path
+  //
+    [idle] -> getting-accounts ->
+    [found-accounts] -> getting-statements ->
+    [found-statements] -> getting-entries ->
+    [found-entries]
 
-(function _obisLoad() {
+  // Downloading Zip
+  //
+    found-entries -> [download-all] -> found-entries
 
-	var jQueryAvailable = 'jQuery' in window;
+  // Failures
+  //
+    (getting-accounts -> failed-accounts -> idle)
+    (getting-statements -> failed-statements -> found-accounts)
+    (getting-entries -> failed-entries -> found-statements)
 
-	// Various bank statement parsers (and by "various" I mean "HSBC UK")
-	var parsers = [
-		{ name: 'HSBC UK', rx: /^https?\:\/\/(www\.)?(saas\.)?hsbc\.co\.uk\//, url: 'https://dl.dropbox.com/s/0cj7lq25n3m3rev/hsbc.js?dl=1' },
-		{ name: 'HSBC UK (testing)', rx: /localhost\/OBIS\/_Scratch\/OBIS-tests/, url: '/OBIS/src/parsers/hsbc.js' }
-	];
+`
 
-	/*
-	 * JavaScript loader + callback
-	 */
+postBookmarkletOps(window.obis)
 
-	var loadQueue = [
-		//'https://dl.dropbox.com/s/esd941mx42x8ioe/Blob.js?dl=1',
-		'https://dl.dropbox.com/s/2v7rned1i3givhb/FileSaver.js?dl=1',
-		'https://dl.dropbox.com/s/6fq1vm5c9gouik7/crc32.js?dl=1',
-		'https://dl.dropbox.com/s/ikb36clu4q8emos/jszip.js?dl=1',
-		'https://dl.dropbox.com/s/4bmqek17uw1ez90/jszip-deflate.js?dl=1',
-		'https://dl.dropbox.com/s/hnp6htq4z5keqko/utils.js?dl=1',
-		'https://dl.dropbox.com/s/sf2b18fozqijne3/obis.js?dl=1',
-		'https://dl.dropbox.com/s/j7m72x3k78g2fwi/csv.js?dl=1',
-		'https://dl.dropbox.com/s/yr03r22k6u8jugd/ofx.js?dl=1',
-		'https://dl.dropbox.com/s/32dx2bmkurk2xro/qif.js?dl=1',
-		'https://dl.dropbox.com/s/32dx2bmkurk2xro/json.js?dl=1'
-	];
+function postBookmarkletOps(obis) {
+  //
+  // Dependencies that plugins have access to without import'ing them
+  //
 
-	if ( /localhost\/OBIS\/_Scratch\/OBIS-tests/.test( location.href ) ) {
+  obis.deps = {
+    addAjaxListener,
+    AjaxRequester,
+    fflate: { zip, strToU8 },
+    jmespath,
+    messages,
+    saveAs,
+    SparkMD5,
+    Statebot
+  }
 
-		console.log('localhost testing...');
+  obis.fetchMachine = Statebot('fetcher', {
+    events: messages,
+    startIn: process.env.HYDRATE === 'yes' ? 'found-entries' : 'idle',
+    chart: obisFetchFlow,
+    logLevel: 2
+  })
 
-		loadQueue = [
-			//'/OBIS/src/externals/Blob.js',
-			'/OBIS/src/externals/FileSaver.js',
-			// '/OBIS/src/externals/crc32.js',
-			'/OBIS/src/externals/spark-md5.js',
-			'/OBIS/src/externals/jszip.js',
-			'/OBIS/src/externals/jszip-deflate.js',
-			// '/OBIS/src/externals/htmlminifier.min.js',
-			'/OBIS/src/utils.js',
-			'/OBIS/src/obis.js',
-			'/OBIS/src/generators/csv.js',
-			'/OBIS/src/generators/hsbc.js',
-			'/OBIS/src/generators/json.js',
-			'/OBIS/src/generators/ofx.js',
-			'/OBIS/src/generators/qif.js'
-			// '/OBIS/src/generators/midata.js'
-		];
+  //
+  // Plugin registering/loading
+  //
 
-	}
+  const { rootPath } = obis
+  const loadQueue = [`${rootPath}/plugins.js`]
+  const loadAfterPlugin = [`${rootPath}/ui.css`, `${rootPath}/ui.js`]
 
-	// Load jQuery if we're missing it
-	if ( !jQueryAvailable ) {
-		console.log( 'Adding jQuery to loadQueue...' );
-		loadQueue.unshift( 'http://code.jquery.com/jquery-1.5.2.min.js' );
-	}
+  obis.loadPlugin = pluginLoaderFn => {
+    obis.plugin = pluginLoaderFn()
+    loadQueue.push(...loadAfterPlugin)
+  }
 
-	// Load everything in loadQueue until done (or error)
-	var loadScripts = function _loadScripts() {
+  obis.registerPlugins = plugins => {
+    const pluginDetected = plugins.find(registerPlugin)
 
-		if ( loadQueue.length ) {
+    if (!pluginDetected) {
+      console.error('No plugin detected. Nothing to do.')
+    }
+  }
 
-			obis.loadScript( loadQueue.shift(), function _complete( script, success ) {
-				if ( !success ) {
-					console.error( 'Could not load script: ' + script );
-				}
-				else {
-					loadScripts();
-				}
-			});
+  function registerPlugin(plugin) {
+    const { name, description, urls } = plugin
+    const usePlugin = urls.some(url => location.href.includes(url))
+    if (usePlugin) {
+      console.log('Detected ' + description + ': Adding plugin')
+      loadQueue.push(`${rootPath}/plugins/${name}.js`)
+      return true
+    }
+  }
 
-		}
-		else {
+  //
+  // loadScript() defined in bookmarklet. Add one for styles, too
+  //
 
-			console.log( 'Done loading scripts' );
+  obis.loadStyle = (url, cb) => {
+    const el = document.createElement('link')
+    el.href = url
+    el.rel = 'stylesheet'
+    el.type = 'text/css'
+    console.log('Loading: ' + url)
+    if (cb instanceof Function) {
+      el.onload = () => cb(url, true)
+      el.onerror = () => cb(url, false)
+    }
+    document.getElementsByTagName('head')[0].appendChild(el)
+  }
 
-			jQuery( function _onReady() {
-				obis.init();
-			});
+  //
+  // Load everything in the queue; plugin -> styles -> ui
+  //
 
-		}
+  const loadQueuedFiles = () => {
+    if (!loadQueue.length) {
+      console.log('Done loading scripts')
+      return
+    }
 
-	};
+    const nextFile = loadQueue.shift()
 
-	// Detect the parser to use and add it to the loadQueue
-	var parser,
-		parserDetected = false,
-		parserIndex = parsers.length - 1;
+    if (/\.css$/.test(nextFile)) {
+      obis.loadStyle(nextFile, (style, success) => {
+        if (!success) {
+          console.error('Could not load style: ' + style)
+        } else {
+          loadQueuedFiles()
+        }
+      })
+    } else {
+      obis.loadScript(nextFile, (script, success) => {
+        if (!success) {
+          console.error('Could not load script: ' + script)
+        } else {
+          loadQueuedFiles()
+        }
+      })
+    }
+  }
 
-	for ( ; parserIndex >= 0 ; parserIndex -- ) {
-
-		parser = parsers[ parserIndex ];
-
-		if ( parser.rx.test( location.href ) ) {
-			console.log( 'Detected ' + parser.name + ': Adding parser' );
-
-			loadQueue.push( parser.url );
-			parserDetected = true;
-			break;
-		}
-
-	}
-
-	if ( !parserDetected ) {
-		console.error( 'No parser detected. Nothing to do.' );
-	}
-	else {
-		loadScripts();
-	}
-
-})();
+  loadQueuedFiles()
+}

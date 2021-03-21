@@ -1,0 +1,231 @@
+require('module-alias/register')
+
+const fs = require('fs')
+const path = require('path')
+const glob = require('glob')
+const esbuild = require('esbuild')
+const sassPlugin = require('esbuild-plugin-sass')
+
+const { makePromise } = require('@/cjs/promises')
+const { composePaths } = require('@/cjs/compose-paths')
+const { loadTextFile, fileOnly } = require('@/cjs/files')
+
+const paths = composePaths(`
+  ${__dirname}
+    /src                 = SRC
+      /plugins           = SRC_PLUGINS
+      /ui
+        /index.js        = SRC_UI
+        /styles/statements-browser/
+          /all.scss      = SRC_CSS
+
+      /bookmarklet.js    = SRC_BOOKMARKLET
+      /main.js           = SRC_MAIN
+
+      /_mock-server
+        /index.js        = SERVER_SCRIPT
+
+    /dist                = DIST
+      /plugins           = DIST_PLUGINS
+      /ui.js             = DIST_UI
+      /bookmarklet.js    = DIST_BOOKMARKLET
+      /main.js           = DIST_MAIN
+      /statement.css     = DIST_CSS
+`)
+
+// Require plugins folder before moving on...
+
+if (!fs.statSync(paths.DIST_PLUGINS).isDirectory()) {
+  process.exit(255)
+}
+
+const RUN_MOCK_SERVER = process.argv.some(arg => arg === '--mock-server')
+const IS_LOCAL = (process.env.NODE_ENV || 'local') === 'local'
+const BUILD_REPLACEMENTS = {
+  'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
+  'process.env.HYDRATE': `"${process.env.HYDRATE}"`
+}
+
+console.log('IS_LOCAL', IS_LOCAL)
+
+function main() {
+  return buildBookmarklet()
+    .then(buildMain)
+    .then(buildPlugins)
+    .then(buildUi)
+    .then(buildCss)
+    .then(maybeRunMockServer)
+}
+
+function maybeRunMockServer() {
+  if (RUN_MOCK_SERVER) {
+    const nodemon = require('nodemon')
+    nodemon({ script: paths.SERVER_SCRIPT, ext: 'js,jsx,json,scss' })
+      .on('start', () => {
+        console.log('nodemon started')
+      })
+      .on('crash', error => {
+        console.log('script crashed for some reason')
+        console.error(error)
+      })
+
+    process.on('SIGINT', function () {
+      console.log('Caught interrupt signal')
+      nodemon.emit('quit')
+      process.exit()
+    })
+  }
+}
+
+//
+// Builders
+//
+
+function buildBookmarklet() {
+  return esbuild
+    .build({
+      define: BUILD_REPLACEMENTS,
+      entryPoints: [paths.SRC_BOOKMARKLET],
+      bundle: true,
+      minify: true,
+      platform: 'browser',
+      sourcemap: IS_LOCAL,
+      banner: 'javascript:',
+      outfile: paths.DIST_BOOKMARKLET
+    })
+    .then(() => loadTextFile(paths.DIST_BOOKMARKLET))
+    .then(bookmarkletContent =>
+      fs.writeFileSync(
+        paths.DIST_BOOKMARKLET,
+        bookmarkletContent.toString().replace('\n', '')
+      )
+    )
+}
+
+function buildMain() {
+  return esbuild.build({
+    define: BUILD_REPLACEMENTS,
+    entryPoints: [paths.SRC_MAIN],
+    bundle: true,
+    minify: true,
+    platform: 'browser',
+    sourcemap: IS_LOCAL,
+    outfile: paths.DIST_MAIN
+  })
+}
+
+function buildUi() {
+  return esbuild.build({
+    define: BUILD_REPLACEMENTS,
+    entryPoints: [paths.SRC_UI],
+    bundle: true,
+    minify: true,
+    platform: 'browser',
+    jsxFactory: 'm',
+    jsxFragment: 'm.Fragment',
+    plugins: [sassPlugin()],
+    sourcemap: IS_LOCAL,
+    outfile: paths.DIST_UI
+  })
+}
+
+function buildCss() {
+  return esbuild.build({
+    entryPoints: [paths.SRC_CSS],
+    bundle: true,
+    minify: true,
+    loader: { '.scss': 'css' },
+    plugins: [sassPlugin()],
+    sourcemap: IS_LOCAL,
+    outfile: paths.DIST_CSS
+  })
+}
+
+function buildPlugins() {
+  return (
+    allPluginFileNames()
+      // Load all plugins
+      .then(pluginsFiles =>
+        Promise.allSettled(
+          pluginsFiles.map(fileName =>
+            loadTextFile(fileName).then(src => ({ fileName, src }))
+          )
+        )
+      )
+      // Build plugins.js output (but don't write it yet)
+      .then(results =>
+        results
+          .filter(result => result.status === 'fulfilled')
+          .map(result => result.value)
+          .map(details => {
+            const { fileName, src } = details
+            const { name, description, urls } = JSON.parse(src)
+            const { dir } = path.parse(fileName)
+            const srcJs = path.join(dir, 'plugin.js')
+            const distJs = path.join(paths.DIST_PLUGINS, `${name}.js`)
+            return {
+              src: srcJs,
+              dist: distJs,
+              name,
+              description,
+              urls
+            }
+          })
+      )
+      // Bundle/minify plugins
+      .then(pluginInfo =>
+        Promise.allSettled(
+          pluginInfo.map(info => {
+            const { src, dist } = info
+            return esbuild
+              .build({
+                define: BUILD_REPLACEMENTS,
+                entryPoints: [src],
+                bundle: true,
+                minify: true,
+                platform: 'browser',
+                sourcemap: IS_LOCAL,
+                outfile: dist
+              })
+              .then(() => info)
+          })
+        )
+      )
+      // Plugins built successfully, so write-out plugins.js now
+      .then(results => {
+        const pluginInfo = results
+          .filter(result => result.status === 'fulfilled')
+          .map(result => {
+            // eslint-disable-next-line no-unused-vars
+            const { src, dist, ...restValue } = result.value
+            return restValue
+          })
+
+        const [promise, resolve, reject] = makePromise()
+
+        fs.writeFile(
+          'dist/plugins.js',
+          `obis.registerPlugins(${JSON.stringify(pluginInfo, null, 2)})`,
+          err => (err ? reject(err) : resolve())
+        )
+        return promise
+      })
+      .catch(err => console.log('err = ', err))
+  )
+}
+
+function allPluginFileNames() {
+  const [promise, resolve, reject] = makePromise()
+
+  glob(path.join(paths.SRC_PLUGINS, '**/plugin.json'), {}, (err, files) => {
+    if (err) {
+      return reject(err)
+    }
+
+    Promise.all(files.map(fileOnly)).then(resolve, reject)
+  })
+
+  return promise
+}
+
+main()

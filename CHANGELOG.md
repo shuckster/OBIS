@@ -3,11 +3,14 @@ OBIS: Online Banking Is Shit
 
 #### A JavaScript framework for downloading bank statements
 
-Copyright (c) 2021 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk)
+Copyright (c) 2021 by [Conan Theobald](https://github.com/shuckster/)
 
-MIT licensed: See [LICENSE.md](LICENSE.md)
+MIT licensed: See [LICENSE](LICENSE)
 
 ## Changelog
+
+21st March 2021
+- Complete rewrite
 
 20th February 2021
 - Updated Github user-content URLs, but I'm afraid OBIS is no longer working with the new HSBC statements page. :( Will post an update if I can get it working again. Online Banking is Still Shit

@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/common/*"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}

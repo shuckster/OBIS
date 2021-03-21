@@ -42,28 +42,29 @@
       </div>
       <h2>
         <a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
-      <p>Right now, OBIS is for downloading statements
-        from HSBC UK Personal Banking in a variety
-        of different formats. HSBC only allows
-        downloading of the last 3 months of transaction
-        data. That's shit. OBIS can download
-        the lot.</p>
-      <p>Or it used to, at least, until the great dojo-app rewrite of 2017. Now it can only download one statement at a time. But in a range of formats, at least.</p>
-      <p>Currently supports <em>only</em> HSBC
-        UK, but other parsers are possible. Works
-        best in Google Chrome. Other browsers
-        will work, but won't benefit from automatic
-        naming of your Zip download.</p>
-      <p>Saves a Zip of your statements in OFX,
-        QIF, CSV, JSON, or all of them.</p>
+
+      <p>OBIS can download statements from HSBC UK Personal Banking in a variety of
+        formats. HSBC has historically been very limiting with its download options,
+        and since 2021 only allows PDF downloads of historical statements.</p>
+
+      <p>That's shit. OBIS can generate a Zip of your statements in OFX, QIF, CSV,
+        and JSON.</p>
+
+      <p>OBIS currently supports <em>only</em> HSBC UK, but other parsers are possible.</p>
+
+      <p>Works best in Google Chrome. Other browsers will probably work, too.</p>
+
       <p>
         <img src="https://github.com/shuckster/OBIS/raw/master/screenshot.gif"
           alt="Screenshot of HSBC UK parser"></p>
+
       <h2>
         <a name="instructions" class="anchor" href="#instructions"><span class="octicon octicon-link"></span></a>Instructions</h2>
+
       <p>Open <a href="https://github.com/shuckster/OBIS/raw/master/dist/bookmarklet.js">dist/bookmarklet.js</a>,
         copy everything, paste into a new bookmark,
-        log in to your HSBC UK <em>Previous Statements</em>       page, click the new bookmark.</p>
+        log in to your HSBC UK account, click the new bookmark.</p>
+
       <p>That bookmark will load OBIS directly
         from the Github raw master, so if something
         breaks you shouldn't need to do anything
@@ -73,6 +74,12 @@
       <h2><a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog</h2>
 
       <ul>
+
+        <li>21st March 2021:
+          <ul>
+            <li>Complete rewrite.</li>
+          </ul>
+        </li>
 
         <li>20th February 2021:
           <ul>
@@ -170,7 +177,7 @@
           href="#license--credits"><span class="octicon octicon-link"></span></a>License
           &amp; credits</h2>
       <p>Copyright (c) 2021 by <a href="mailto:me%5Bat%5Dconans%5Bdot%5Dco%5Bdot%5Duk">Conan Theobald</a></p>
-      <p>MIT licensed: See <a href="https://github.com/shuckster/OBIS/raw/master/LICENSE.md">LICENSE.md</a></p>
+      <p>MIT licensed: See <a href="https://github.com/shuckster/OBIS/raw/master/LICENSE">LICENSE</a></p>
       <p>Contributors: @lesterw1</p>
       <p>Inspired by:</p>
       <ul>

@@ -1,0 +1,44 @@
+{
+  "name": "obis",
+  "version": "2.0.0",
+  "description": "A JavaScript framework for downloading bank statements",
+  "author": "Conan Theobald",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/bookmarklet.js",
+  "scripts": {
+    "debug": "pnpm run build:clean ; cross-env NODE_ENV=local HYDRATE=yes nodemon -e js,jsx,json,scss node build.js --mock-server",
+    "debug:live": "pnpm run build:clean ; cross-env NODE_ENV=local nodemon -e js,jsx,json,scss node build.js --mock-server",
+    "build": "cross-env NODE_ENV=production node build.js",
+    "build:clean": "rimraf dist/*; mkdir -p dist/plugins",
+    "build:all": "pnpm run build:clean ; cross-env NODE_ENV=production pnpm run build"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "esbuild": "^0.8.53",
+    "esbuild-plugin-sass": "^0.3.3",
+    "eslint": "^7.21.0",
+    "eslint-plugin-mithril": "^0.2.0",
+    "express": "^4.17.1",
+    "glob": "^7.1.6",
+    "nodemon": "^2.0.7",
+    "rimraf": "^3.0.2",
+    "socket.io": "^3.1.2"
+  },
+  "dependencies": {
+    "clsx": "^1.1.1",
+    "fflate": "^0.6.7",
+    "file-saver": "^2.0.5",
+    "immer": "^8.0.1",
+    "jmespath": "^0.15.0",
+    "mithril": "^2.0.4",
+    "mithril-hooks": "^0.6.2",
+    "module-alias": "^2.2.2",
+    "spark-md5": "^3.0.1",
+    "statebot": "^2.7.2",
+    "statebot-mithril-hooks": "^1.2.0"
+  },
+  "_moduleAliases": {
+    "@": "src/common/"
+  }
+}

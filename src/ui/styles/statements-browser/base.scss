@@ -1,0 +1,58 @@
+@import 'colours.scss';
+
+body {
+  font-size: 13px;
+  font-family: sans-serif;
+  text-align: left;
+
+  margin: 2rem 3rem 0 2rem;
+  // padding: 2rem;
+
+  background: $body-background;
+}
+
+body * {
+  color: $text-on-dark-background;
+  font-family: sans-serif;
+}
+
+/* Table corners */
+
+table {
+  width: 100%;
+  border-radius: $table-border-radius;
+  border-collapse: collapse;
+}
+
+thead,
+.year {
+  text-align: center;
+}
+
+table .currency {
+  text-align: right;
+}
+
+thead > tr > th:first-child {
+  border-top-left-radius: $table-border-radius;
+}
+
+thead > tr > th:last-child {
+  border-top-right-radius: $table-border-radius;
+}
+
+tfoot > tr > th:first-child {
+  border-bottom-left-radius: $table-border-radius;
+}
+
+tfoot > tr > th:last-child {
+  border-bottom-right-radius: $table-border-radius;
+}
+
+/* Table */
+
+td,
+th {
+  padding: 0.5rem 0.6rem;
+  font-size: 0.75rem;
+}

@@ -1,0 +1,208 @@
+/*
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+*/
+
+@media screen and (min-width: 352px) {
+  #obis-root {
+    margin: 1rem;
+  }
+}
+
+#obis-root {
+  z-index: 1000;
+  position: fixed;
+  top: 1rem;
+  right: 0px;
+  width: 24rem;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#obis-root * {
+  color: #f5f5ee;
+  font-family: sans-serif;
+}
+
+#obis-root {
+  .dialog {
+    padding: 1.5rem;
+    background: #1a1a1a;
+    box-shadow: #222 0.5em 0.5em 2em;
+    border-radius: 1.3rem;
+    width: 20rem;
+
+    &.hidden {
+      display: none;
+    }
+
+    .toggle-button {
+      float: right;
+      font-size: 1rem;
+
+      margin-left: 0.5rem;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 1.5em;
+
+      &.closed {
+        transform: rotate(-180deg);
+      }
+    }
+
+    // Header
+    //
+    h1 {
+      margin: 0 0 0.8rem 0;
+      padding: 0;
+      font-size: 1.5em;
+      font-weight: 400;
+      letter-spacing: -0.5;
+      text-align: left;
+    }
+
+    h2 {
+      font-size: 0.75em;
+      font-weight: 100;
+      text-align: left;
+    }
+
+    progress {
+      width: 100%;
+    }
+
+    button {
+      padding: 0.75rem 0.7rem;
+
+      font-style: normal;
+      font-weight: bold;
+      font-size: 0.8rem;
+
+      border: none;
+      border-radius: 0.5rem;
+      text-align: center;
+
+      background: rgba(72, 72, 72, 0.6);
+      color: #fff;
+
+      &:disabled {
+        color: #888;
+      }
+    }
+
+    // Accounts
+    //
+    .accounts {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto;
+
+      column-gap: 0.5rem;
+
+      .account {
+        border: none;
+        border-radius: 0.75rem;
+
+        min-height: 6rem;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+
+        background: #484848;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-content: flex-end;
+
+        // Accounts info
+        //
+        .statements-loaded {
+          font-size: 0.575rem;
+          font-weight: 600;
+          text-align: right;
+        }
+
+        .years-loaded {
+          font-size: 0.7rem;
+          font-weight: 600;
+          text-align: right;
+          color: #aaa;
+          flex: 2;
+        }
+
+        .account-name {
+          font-size: 0.9rem;
+          font-weight: 800;
+          text-align: left;
+          margin-bottom: auto;
+        }
+      }
+    }
+
+    // Buttons
+    //
+    .actions {
+      display: grid;
+      margin-top: 0.5rem;
+
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        'slider fetch'
+        'view download';
+
+      column-gap: 0.5rem;
+      row-gap: 0.5rem;
+
+      .fetch-slider {
+        grid-area: slider;
+      }
+
+      .fetch-everything {
+        grid-area: fetch;
+      }
+    }
+  }
+
+  .vertical-animation-container {
+    max-height: 0rem;
+    overflow: hidden;
+    transition-property: max-height opacity;
+    transition-duration: 0ms;
+
+    &.opening {
+      overflow: hidden;
+      transition-duration: 250ms;
+      opacity: 1;
+    }
+
+    &.closing {
+      overflow: hidden;
+      opacity: 0;
+      max-height: 0rem !important;
+      transition-duration: 250ms;
+    }
+
+    &.opened {
+      overflow: inherit;
+      opacity: 1;
+    }
+
+    &.closed {
+      overflow: hidden;
+      max-height: 0rem !important;
+      opacity: 0;
+    }
+  }
+}

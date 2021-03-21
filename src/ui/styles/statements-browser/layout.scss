@@ -1,0 +1,73 @@
+// Thanks, https://grid.layoutit.com/ !
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto min-content;
+  grid-template-rows: min-content auto;
+  gap: 1rem 1rem;
+  grid-template-areas:
+    'header spacing'
+    'main years';
+}
+
+.header {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto;
+  gap: 0px 0px;
+  grid-template-areas:
+    'info-and-accounts'
+    'cursor-and-months';
+  grid-area: header;
+}
+
+.main {
+  grid-area: main;
+}
+
+.years {
+  grid-area: years;
+}
+
+.spacing {
+  grid-area: spacing;
+}
+
+.info-and-accounts {
+  height: 8rem;
+  margin-bottom: 1rem;
+
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto;
+  gap: 0px 0px;
+  grid-template-areas: 'info accounts';
+  grid-area: info-and-accounts;
+
+  .info {
+    grid-area: info;
+  }
+
+  .accounts {
+    grid-area: accounts;
+  }
+}
+
+.cursor-and-months {
+  height: 2rem;
+
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-template-rows: auto;
+  gap: 0px 0px;
+  grid-template-areas: 'months cursor';
+  grid-area: cursor-and-months;
+
+  .months {
+    grid-area: months;
+  }
+
+  .cursor {
+    grid-area: cursor;
+  }
+}
