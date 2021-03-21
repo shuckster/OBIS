@@ -1,0 +1,16 @@
+{
+  "extends": ["eslint:recommended","plugin:mithril/recommended"],
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true,
+    "node": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 12,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  }
+}
