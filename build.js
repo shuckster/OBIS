@@ -90,14 +90,13 @@ function buildBookmarklet() {
       minify: true,
       platform: 'browser',
       sourcemap: IS_LOCAL,
-      banner: 'javascript:',
       outfile: paths.DIST_BOOKMARKLET
     })
     .then(() => loadTextFile(paths.DIST_BOOKMARKLET))
     .then(bookmarkletContent =>
       fs.writeFileSync(
         paths.DIST_BOOKMARKLET,
-        bookmarkletContent.toString().replace('\n', '')
+        'javascript:' + bookmarkletContent.toString()
       )
     )
 }
