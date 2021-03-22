@@ -94,9 +94,8 @@ function isThisValue(value) {
 const typeErrorStringIfFnReturnsFalse = (argName, argTypeFn, arg) => {
   return argTypeFn(arg)
     ? undefined
-    : `${
-        argTypeFn.displayName || argTypeFn.name
-      }(${argName}) did not return true`
+    : (argTypeFn.displayName || argTypeFn.name) +
+        `(${argName}) did not return true`
 }
 
 const typeErrorStringIfTypeOfFails = (argName, argType, arg) => {
@@ -127,9 +126,10 @@ const typeErrorStringFromArgument = (argMap, arg, index) => {
     : errorDescs.length
 
   if (shouldError) {
-    return `${errorDescs.join(
-      '\n| '
-    )}\n> typeof ${argName} === ${typeof arg}(${JSON.stringify(arg)})`
+    return (
+      errorDescs.join('\n| ') +
+      `\n> typeof ${argName} === ${typeof arg}(${JSON.stringify(arg)})`
+    )
   }
 }
 
