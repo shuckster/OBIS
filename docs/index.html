@@ -1,212 +1,115 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="chrome=1">
-  <title>OBIS: Online Banking Is Shit by shuckster</title>
-  <link rel="stylesheet" href="stylesheets/styles.css">
-  <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script src="javascripts/respond.js"></script>
-  <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <title>OBIS: Online Banking Is Shit by shuckster</title>
+    <link rel="stylesheet" href="stylesheets/styles.css" />
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
+    <!--[if lt IE 8]>
+      <link rel="stylesheet" href="stylesheets/ie.css" />
     <![endif]-->
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-</head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+  </head>
 
-<body>
-  <div id="header">
-    <nav>
-      <li class="fork"><a href="https://github.com/shuckster/OBIS">View On GitHub</a></li>
-      <li class="downloads"><a href="https://github.com/shuckster/OBIS/zipball/master">ZIP</a></li>
-      <li class="downloads"><a href="https://github.com/shuckster/OBIS/tarball/master">TAR</a></li>
-      <li class="title">DOWNLOADS</li>
-    </nav>
-  </div>
-  <!-- end header -->
-  <div class="wrapper">
-    <section>
-      <div id="title">
-        <h1>OBIS: Online Banking Is Shit</h1>
-        <p>A JavaScript framework for downloading
-          bank statements in OFX, QIF, CSV, and
-          JSON. Currently supports HSBC UK Personal
-          Banking.</p>
-        <hr>
-        <span class="credits left">Project maintained by <a href="https://github.com/shuckster">shuckster</a></span>
-        <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-      </div>
-      <h2>
-        <a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
-
-      <p>OBIS can download statements from HSBC UK Personal Banking in a variety of
-        formats. HSBC has historically been very limiting with its download options,
-        and since 2021 only allows PDF downloads of historical statements.</p>
-
-      <p>That's shit. OBIS can generate a Zip of your statements in OFX, QIF, CSV,
-        and JSON.</p>
-
-      <p>OBIS currently supports <em>only</em> HSBC UK, but other parsers are possible.</p>
-
-      <p>Works best in Google Chrome. Other browsers will probably work, too.</p>
-
-      <p>
-        <img src="https://github.com/shuckster/OBIS/raw/master/screenshot.gif"
-          alt="Screenshot of HSBC UK parser"></p>
-
-      <h2>
-        <a name="instructions" class="anchor" href="#instructions"><span class="octicon octicon-link"></span></a>Instructions</h2>
-
-      <p>Open <a href="https://github.com/shuckster/OBIS/raw/master/dist/bookmarklet.js">dist/bookmarklet.js</a>,
-        copy everything, paste into a new bookmark,
-        log in to your HSBC UK account, click the new bookmark.</p>
-
-      <p>That bookmark will load OBIS directly
-        from the Github raw master, so if something
-        breaks you shouldn't need to do anything
-        when it gets fixed. (Except maybe clear
-        your browser-cache).</p>
-
-      <h2><a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog</h2>
-
-      <ul>
-
-        <li>21st March 2021:
-          <ul>
-            <li>Complete rewrite.</li>
-          </ul>
+  <body>
+    <div id="header">
+      <nav>
+        <li class="fork">
+          <a href="https://github.com/shuckster/OBIS">View On GitHub</a>
         </li>
+      </nav>
+    </div>
+    <!-- end header -->
+    <div class="wrapper">
+      <section>
+        <div id="title">
+          <h1>OBIS: Online Banking Is Shit</h1>
+          <p>
+            A JavaScript framework for downloading bank statements in OFX, QIF,
+            CSV, and JSON. Currently supports HSBC UK Personal Banking.
+          </p>
+          <hr />
+          <span class="credits left"
+            >Project maintained by
+            <a href="https://github.com/shuckster">shuckster</a></span
+          >
+          <span class="credits right"
+            >Hosted on GitHub Pages &mdash; Theme by
+            <a href="https://twitter.com/michigangraham">mattgraham</a></span
+          >
+        </div>
 
-        <li>20th February 2021:
-          <ul>
-            <li>Updated Github user-content URLs, but I'm afraid OBIS is no longer working with the new HSBC statements page. :( Will post an update if I can get it working again. Online Banking is Still Shit</li>
-          </ul>
-        </li>
+        <p>
+          <img
+            src="https://github.com/shuckster/OBIS/raw/master/screenshot.gif"
+            alt="Screenshot of HSBC UK parser"
+          />
+        </p>
 
-        <li>4th January 2021:
-          <ul>
-            <li>Zip filename now in YYYY-MM format, thanks @lesterw1!</li>
-          </ul>
-        </li>
+        <h2>Installation / Usage</h2>
 
-        <li>5th June 2017:
-          <ul>
-            <li>HSBC UK: Rewritten parser for new dojo-based HSBC web-app. Unfortunately multi-statement download is not yet working</li>
-          </ul>
-        </li>
+        <p>
+          [
+          <a href="https://github.com/shuckster/OBIS"
+            >Installation instructions are available (and kept updated!) on the
+            Github page.</a
+          >
+          ]
+        </p>
 
-        <li>16th May 2017:
-          <ul>
-            <li>HSBC UK: Avoid duplicate IDs for transactions with the same name/memo/date</li>
-            <li>OFX: Balance carried forward should be converted to decimal</li>
-          </ul>
-        </li>
+        <p>
+          OBIS can download statements from HSBC UK Personal Banking in a
+          variety of formats. HSBC has historically been very limiting with its
+          download options, and since 2021 only allows PDF downloads of
+          historical statements.
+        </p>
 
-        <li>19th April 2017:
-          <ul>
-            <li>Support downloading HSBC-style CSV</li>
-            <li>Tweak default CSV downloads to include fields for the transaction-type</li>
-            <li>Added a midata generator, but it’s not implemented since it does not adhere to the full standard</li>
-            <li>Fix QIF generator to use US-style dates</li>
-          </ul>
-        </li>
+        <p>
+          That's shit. OBIS can generate a Zip of your statements in OFX, QIF,
+          CSV, and JSON.
+        </p>
 
-        <li>19th January 2017:
-          <ul>
-            <li>Generators should convert cents to decimals (fixes Zip downloads)</li>
-          </ul>
-        </li>
+        <p>
+          OBIS currently supports <em>only</em> HSBC UK, but other parsers are
+          possible.
+        </p>
 
-        <li>18th January 2017:
-          <ul>
-            <li>Support statements spanning multiple pages</li>
-            <li>Convert decimal to cents when working with currency</li>
-            <li>More clearly show any discrepancies between calculated/parsed running totals</li>
-          </ul>
-        </li>
+        <h2>Author / License</h2>
 
-        <li>19th January 2016:
-          <ul>
-            <li>Fix confused (un)escaping in parser and generators</li>
-          </ul>
-        </li>
+        <p>
+          Copyright (c) 2021 by
+          <a href="https://github.com/shuckster/">Conan Theobald</a>
+        </p>
 
-        <li>18th January 2016:
-          <ul>
-            <li>HSBC UK parser: Use MD5 for ID generation, fix (hopefully) reproducibility problem</li>
-            <li>General jslint'ing</li>
-          </ul>
-        </li>
+        <p>
+          MIT licensed: See
+          <a href="https://github.com/shuckster/OBIS/raw/master/LICENSE"
+            >LICENSE</a
+          >
+        </p>
 
-        <li>31st March 2015:
-          <ul>
-            <li>HSBC UK domain changed from www.hsbc.co.uk -> www.saas.hsbc.co.uk</li>
-          </ul>
-        </li>
-
-        <li>28th September 2014:
-          <ul>
-            <li>Bugfix HSBC UK parsing of "Balance" columns</li>
-          </ul>
-        </li>
-
-        <li>13th May 2014:
-          <ul>
-            <li>Use Github Pages to host dist/ files</li>
-          </ul>
-        </li>
-
-        <li>20th February 2013:
-          <ul>
-            <li>Initial release</li>
-          </ul>
-        </li>
-      </ul>
-
-      <h2><a name="developers" class="anchor" href="#developers"><span class="octicon octicon-link"></span></a>Developers</h2>
-
-      <p>Open <a href="https://github.com/shuckster/OBIS/raw/master/API.md">API.md</a>        for instructions on how to use OBIS with
-        your own parsers.
-      </p>
-      <h2>
-        <a name="license--credits" class="anchor"
-          href="#license--credits"><span class="octicon octicon-link"></span></a>License
-          &amp; credits</h2>
-      <p>Copyright (c) 2021 by <a href="mailto:me%5Bat%5Dconans%5Bdot%5Dco%5Bdot%5Duk">Conan Theobald</a></p>
-      <p>MIT licensed: See <a href="https://github.com/shuckster/OBIS/raw/master/LICENSE">LICENSE</a></p>
-      <p>Contributors: @lesterw1</p>
-      <p>Inspired by:</p>
-      <ul>
-        <li> <a href="https://github.com/LTheobald/HSBCToOFX">https://github.com/LTheobald/HSBCToOFX</a>
-        (Removed, but <a href="https://github.com/LTheobald">author</a> still active.)
-        </li>
-        <li> <a href="https://ar.al/3744/">https://ar.al/3744/</a>
-        </li>
-      </ul>
-      <p>Implements the fine work of these 3rd
-        parties:</p>
-      <ul>
-        <li> <a href="http://stuartk.com/jszip">http://stuartk.com/jszip</a>
-        </li>
-        <li> <a href="http://eligrey.com/blog/post/saving-generated-files-on-the-client-side">http://eligrey.com/blog/post/saving-generated-files-on-the-client-side</a>
-        </li>
-        <li> <a href="http://www.webtoolkit.info/">http://www.webtoolkit.info/</a>
-        </li>
-        <li> <a href="http://jquery.com/">http://jquery.com/</a>
-        </li>
-        <li> <a href="https://github.com/satazor/SparkMD5">https://github.com/satazor/SparkMD5</a>
-        </li>
-      </ul>
-      <p>jQuery 1.5.2 is used because that's the
-        version HSBC UK use.</p>
-    </section>
-  </div>
-  <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-</body>
-
+        <p>
+          [
+          <a href="https://github.com/shuckster/OBIS"
+            >Contributors kept updated on Github page</a
+          >
+          ]
+        </p>
+      </section>
+    </div>
+    <!--[if !IE
+      ]><script>
+        fixScale(document)
+      </script><!
+    [endif]-->
+  </body>
 </html>
-
