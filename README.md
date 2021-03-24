@@ -1,5 +1,4 @@
-OBIS: Online Banking Is Shit
-==============================
+# OBIS: Online Banking Is Shit
 
 ## A JavaScript framework for downloading bank statements
 
@@ -32,7 +31,7 @@ previously created bookmarklet!
 
 CORB measures will likely render the above installation instructions useless.
 
-However, you can still run OBIS locally:
+However, you can still use OBIS with your account if you host it locally:
 
 ```sh
 git clone https://github.com/shuckster/OBIS.git
@@ -41,9 +40,11 @@ pnpm i
 pnpm run debug:live
 ```
 
-At this point an express-server should be running, and a local bookmarklet will
-have been built in `dist/` that points to it. Click it after logging into your
-HSBC UK account.
+At this point a server should be running, and a bookmarklet that points to it
+will have been built in `dist/`. Create a bookmark based on this bookmarklet,
+and click it after logging into your HSBC UK account.
+
+As the procedure hosts OBIS via localhost it should bypass the CORB check.
 
 ## Is it safe?
 
@@ -70,8 +71,8 @@ Contributors: @lesterw1
 
 Inspired by:
 
-*   https://github.com/LTheobald/HSBCToOFX (Removed, but [author](https://github.com/LTheobald) still active.)
-*   https://ar.al/3744/
+- https://github.com/LTheobald/HSBCToOFX (Removed, but [author](https://github.com/LTheobald) still active.)
+- https://ar.al/3744/
 
 ## License
 
