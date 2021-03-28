@@ -127,7 +127,11 @@ const typeErrorStringIfTypeOfFails = (argName, argType, arg) => {
     : `Argument "${argName}" should be a ${argType}`
 }
 
-const typeErrorStringFromArgument = (argMap, arg, index) => {
+const typeErrorStringFromArgument = argMap => (arg, index) => {
+  if (index >= argMap.length) {
+    return
+  }
+
   const { argName, argType } = argMap[index]
   if (arg === undefined) {
     return `Argument undefined: "${argName}"`
@@ -160,52 +164,60 @@ const typeErrorStringFromArgument = (argMap, arg, index) => {
  * Helper for enforcing correct argument-types.
  *
  * @private
- * @param {string} errPrefix
+ * @param {string} namespace
  *
  * @example
  * const argTypeError = ArgTypeError('namespace#')
  *
  * function myFn (myArg1, myArg2) {
- *   const err = argTypeError('myFn',
- *     { myArg1: isString, myArg2: Boolean },
- *     myArg1, myArg2
- *   )
+ *   const err = argTypeError({
+ *     myArg1: isString,
+ *     myArg2: Boolean
+ *   })('myFn')(myArg1, myArg2)
  *   if (err) {
  *     throw new TypeError(err)
  *   }
  * }
  */
 
-function ArgTypeError(errPrefix) {
-  return (fnName, typeMap, ...args) => {
+function ArgTypeError(namespace) {
+  return typeMap => {
     const argMap = Object.entries(typeMap).map(([argName, argType]) => ({
       argName,
       argType
     }))
 
-    const err = args
-      .map((...args) => typeErrorStringFromArgument(argMap, ...args))
-      .filter(isString)
+    return fnName => (...args) => {
+      const processedArgs = Array.from(args, x =>
+        isArguments(x) ? Array.from(x) : x
+      ).flat(1)
 
-    if (!err.length) {
-      return
+      const err = processedArgs
+        .map(typeErrorStringFromArgument(argMap))
+        .filter(isString)
+
+      if (!err.length) {
+        return
+      }
+
+      const signature = Object.keys(typeMap).join(', ')
+      return (
+        `\n${namespace || ''}${fnName}(${signature}):\n` +
+        `${err.map(err => `| ${err}`).join('\n')}`
+      )
     }
-
-    const signature = Object.keys(typeMap).join(', ')
-    return (
-      `\n${errPrefix || ''}${fnName}(${signature}):\n` +
-      `${err.map(err => `| ${err}`).join('\n')}`
-    )
   }
 }
 
-function ObjTypeError(errPrefix) {
-  const objTypeError = ArgTypeError(errPrefix)
-  return (fnName, typeMap, obj) => {
+function ObjTypeError(namespace) {
+  return typeMap => {
     const keys = Object.keys(typeMap)
-    const values = valuesOf(obj, { keys })
-    const err = objTypeError(fnName, typeMap, ...values)
-    return err
+    const objTypeError = ArgTypeError(namespace)(typeMap)
+    return fnName => obj => {
+      const values = valuesOf(obj, { keys })
+      const err = objTypeError(fnName)(...values)
+      return err
+    }
   }
 }
 
