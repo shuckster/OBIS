@@ -40,25 +40,17 @@ function addAccountsInterceptor() {
       `
 
       const validateEntry = entry =>
-        !checkSchema(
-          'validateEntry',
-          {
-            id: isString,
-            accountHolderName: isString,
-            sortCodeAndAccountNumber: isString
-          },
-          entry
-        )
+        !checkSchema({
+          id: isString,
+          accountHolderName: isString,
+          sortCodeAndAccountNumber: isString
+        })('validateEntry')(entry)
 
       const validateEntity = entity =>
-        !checkSchema(
-          'validateEntry',
-          {
-            ctryCde: isString,
-            grpMmbr: isString
-          },
-          entity
-        )
+        !checkSchema({
+          ctryCde: isString,
+          grpMmbr: isString
+        })('validateEntity')(entity)
 
       const entries = jmespath.search(json, entriesPath)
       const entity = jmespath.search(json, entityPath)
@@ -99,14 +91,11 @@ function addAccountsInterceptor() {
     url: '/gpib/channel/proxy/accountDataSvc/rtrvAcctSumm',
     setHeaders: hsbcCommonHeaders,
     setPayload: options => {
-      const err = checkSchema(
-        'AjaxRequester',
-        {
-          ctryCde: isString,
-          grpMmbr: isString
-        },
-        options
-      )
+      const err = checkSchema({
+        ctryCde: isString,
+        grpMmbr: isString
+      })('AjaxRequester')(options)
+
       if (err) {
         const reason = `rtrvAcctSumm :: Invalid options: ${err}`
         messages.emit(actions.error.ACCOUNTS, new TypeError(reason))

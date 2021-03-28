@@ -40,14 +40,12 @@ function addStatementDetailInterceptor() {
         }
       `
       const ids = jmespath.search(postData, idsPath)
-      const idsErr = checkSchema(
-        'ids',
-        {
-          accountId: isString,
-          statementId: isString
-        },
-        ids
-      )
+
+      const idsErr = checkSchema({
+        accountId: isString,
+        statementId: isString
+      })('ids')(ids)
+
       if (idsErr) {
         const reason = `rtrvStmtDetl :: Validation failed: ${idsErr}`
         messages.emit(actions.error.ENTRIES, new TypeError(reason))
@@ -70,16 +68,14 @@ function addStatementDetailInterceptor() {
       // FIXME: Why has HSBC swapped around the start/end balances? o_O
 
       const balances = jmespath.search(json, balancesPath)
-      const balancesErr = checkSchema(
-        'balances',
-        {
-          startDate: isString,
-          startBalance: isNumber,
-          endDate: isString,
-          endBalance: isNumber
-        },
-        balances
-      )
+
+      const balancesErr = checkSchema({
+        startDate: isString,
+        startBalance: isNumber,
+        endDate: isString,
+        endBalance: isNumber
+      })('balances')(balances)
+
       if (balancesErr) {
         const reason = `rtrvStmtDetl :: Validation failed: ${balancesErr}`
         messages.emit(actions.error.ENTRIES, new TypeError(reason))
@@ -98,16 +94,12 @@ function addStatementDetailInterceptor() {
         }
       `
       const validateEntry = entry =>
-        !checkSchema(
-          'validateEntry',
-          {
-            date: isString,
-            fullDescription: isString,
-            amount: isNumber,
-            runningBalance: [isNumber, isThisValue(null)]
-          },
-          entry
-        )
+        !checkSchema({
+          date: isString,
+          fullDescription: isString,
+          amount: isNumber,
+          runningBalance: [isNumber, isThisValue(null)]
+        })('validateEntry')(entry)
 
       const entries = jmespath.search(json, entriesPath)
       const entriesValid = entries.every(validateEntry)
@@ -164,17 +156,14 @@ function addStatementDetailInterceptor() {
     url: '/gpib/channel/proxy/accountDataSvc/rtrvStmtDetl',
     setHeaders: hsbcCommonHeaders,
     setPayload: options => {
-      const err = checkSchema(
-        'AjaxRequester',
-        {
-          entProdTypCde: isString,
-          acctIndex: isString,
-          startSheet: isNumber,
-          stmtId: isString,
-          stmtDt: isString
-        },
-        options
-      )
+      const err = checkSchema({
+        entProdTypCde: isString,
+        acctIndex: isString,
+        startSheet: isNumber,
+        stmtId: isString,
+        stmtDt: isString
+      })('AjaxRequester')(options)
+
       if (err) {
         const reason = `rtrvStmtDetl :: Invalid options: ${err}`
         messages.emit(actions.error.ENTRIES, new TypeError(reason))

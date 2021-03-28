@@ -42,19 +42,16 @@ function addAccountStatementsInterceptor() {
         }
       `
       const validateEntries = entry =>
-        !checkSchema(
-          'validateEntries',
-          {
-            id: isString,
-            bic: isString,
-            iban: isString,
-            entProdCatCde: isString,
-            entProdTypCde: isString,
-            startSheet: isNumber,
-            statementIds: isValidStatementIds
-          },
-          entry
-        )
+        !checkSchema({
+          id: isString,
+          bic: isString,
+          iban: isString,
+          entProdCatCde: isString,
+          entProdTypCde: isString,
+          startSheet: isNumber,
+          statementIds: isValidStatementIds
+        })('validateEntries')(entry)
+
       const entries = jmespath.search(json, entriesPath)
       const entriesValid = validateEntries(entries)
 
@@ -75,18 +72,15 @@ function addAccountStatementsInterceptor() {
     url: '/gpib/channel/proxy/accountDataSvc/rtrvStmtAcctList',
     setHeaders: hsbcCommonHeaders,
     setPayload: options => {
-      const err = checkSchema(
-        'AjaxRequester',
-        {
-          ctryCde: isString,
-          grpMmbr: isString,
-          year: [isThisValue('Latest'), isString],
-          acctIndex: isString,
-          entProdTypCde: isString,
-          entProdCatCde: isString
-        },
-        options
-      )
+      const err = checkSchema({
+        ctryCde: isString,
+        grpMmbr: isString,
+        year: [isThisValue('Latest'), isString],
+        acctIndex: isString,
+        entProdTypCde: isString,
+        entProdCatCde: isString
+      })('AjaxRequester')(options)
+
       if (err) {
         const reason = `rtrvStmtAcctList :: Invalid options: ${err}`
         messages.emit(actions.error.STATEMENTS, new TypeError(reason))
@@ -125,7 +119,7 @@ function addAccountStatementsInterceptor() {
   })
 }
 
-function isValidStatementIds(statementIds) {
+function isValidStatementIds(...statementIds) {
   return statementIds.every(({ id, endDate }) => {
     return typeof id === 'string' && typeof endDate === 'string'
   })
