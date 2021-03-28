@@ -24,7 +24,7 @@ function addAccountsInterceptor() {
       const { responseText } = payload
       const json = JSON.parse(responseText)
 
-      // ...
+      // Use JMESPath to map response onto something a bit easier to deal with
       const entriesPath = `
         countriesAccountList[].acctLiteWrapper[].{
           id:                         acctIndex,
