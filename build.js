@@ -10,27 +10,33 @@ const { makePromise } = require('@/cjs/promises')
 const { composePaths } = require('@/cjs/compose-paths')
 const { loadTextFile, fileOnly } = require('@/cjs/files')
 
+const PLUGIN_SOURCE_NAME = 'plugin.js'
+
 const paths = composePaths(`
   ${__dirname}
-    /src                 = SRC
-      /plugins           = SRC_PLUGINS
-      /ui
-        /index.js        = SRC_UI
-        /styles/statements-browser/
-          /all.scss      = SRC_CSS
+    /src                               = SRC
+      /plugins
+        /**/plugin.json                = SRC_PLUGINS
 
-      /bookmarklet.js    = SRC_BOOKMARKLET
-      /main.js           = SRC_MAIN
+      /ui
+        /index.js                      = SRC_UI
+        /styles
+          /statements-browser/
+            /all.scss                  = SRC_STATEMENTS_CSS
+
+      /bookmarklet.js                  = SRC_BOOKMARKLET
+      /main.js                         = SRC_MAIN
 
       /_mock-server
-        /index.js        = SERVER_SCRIPT
+        /index.js                      = SERVER_SCRIPT
 
-    /dist                = DIST
-      /plugins           = DIST_PLUGINS
-      /ui.js             = DIST_UI
-      /bookmarklet.js    = DIST_BOOKMARKLET
-      /main.js           = DIST_MAIN
-      /statement.css     = DIST_CSS
+    /dist                              = DIST
+      /plugins                         = DIST_PLUGINS
+      /plugins.js                      = DIST_PLUGIN_JS
+      /ui.js                           = DIST_UI
+      /bookmarklet.js                  = DIST_BOOKMARKLET
+      /main.js                         = DIST_MAIN
+      /statement.css                   = DIST_STATEMENTS_CSS
 `)
 
 // Require plugins folder before moving on...
@@ -53,7 +59,7 @@ function main() {
     .then(buildMain)
     .then(buildPlugins)
     .then(buildUi)
-    .then(buildCss)
+    .then(buildStatementsCss)
     .then(maybeRunMockServer)
 }
 
@@ -128,28 +134,27 @@ function buildUi() {
   })
 }
 
-function buildCss() {
+function buildStatementsCss() {
   return esbuild.build({
-    entryPoints: [paths.SRC_CSS],
+    entryPoints: [paths.SRC_STATEMENTS_CSS],
     bundle: true,
     minify: true,
     loader: { '.scss': 'css' },
     plugins: [sassPlugin()],
     sourcemap: IS_LOCAL,
-    outfile: paths.DIST_CSS
+    outfile: paths.DIST_STATEMENTS_CSS
   })
 }
 
 function buildPlugins() {
+  const loadPluginFile = fileName =>
+    loadTextFile(fileName).then(src => ({ fileName, src }))
+
   return (
     allPluginFileNames()
       // Load all plugins
       .then(pluginsFiles =>
-        Promise.allSettled(
-          pluginsFiles.map(fileName =>
-            loadTextFile(fileName).then(src => ({ fileName, src }))
-          )
-        )
+        Promise.allSettled(pluginsFiles.map(loadPluginFile))
       )
       // Build plugins.js output (but don't write it yet)
       .then(results =>
@@ -160,7 +165,7 @@ function buildPlugins() {
             const { fileName, src } = details
             const { name, description, urls } = JSON.parse(src)
             const { dir } = path.parse(fileName)
-            const srcJs = path.join(dir, 'plugin.js')
+            const srcJs = path.join(dir, PLUGIN_SOURCE_NAME)
             const distJs = path.join(paths.DIST_PLUGINS, `${name}.js`)
             return {
               src: srcJs,
@@ -203,7 +208,7 @@ function buildPlugins() {
         const [promise, resolve, reject] = makePromise()
 
         fs.writeFile(
-          'dist/plugins.js',
+          paths.DIST_PLUGIN_JS,
           `obis.registerPlugins(${JSON.stringify(pluginInfo, null, 2)})`,
           err => (err ? reject(err) : resolve())
         )
@@ -216,7 +221,7 @@ function buildPlugins() {
 function allPluginFileNames() {
   const [promise, resolve, reject] = makePromise()
 
-  glob(path.join(paths.SRC_PLUGINS, '**/plugin.json'), {}, (err, files) => {
+  glob(paths.SRC_PLUGINS, {}, (err, files) => {
     if (err) {
       return reject(err)
     }
