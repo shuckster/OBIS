@@ -29,16 +29,19 @@ function isEventEmitter(obj) {
     (isFunction(obj.removeListener) || isFunction(obj.off))
   )
 }
+
 isEventEmitter.displayName = 'isEventEmitter'
 
 function isUnset(obj) {
   return obj === null || obj === undefined
 }
+
 isArray.displayName = 'isUnset'
 
 function isArray(obj) {
   return Array.isArray(obj)
 }
+
 isArray.displayName = 'isArray'
 
 function isArguments(obj) {
@@ -51,26 +54,31 @@ function isArguments(obj) {
   const hasObjectPrototype = obj.__proto__ === Object.prototype
   return hasObjectPrototype && isObject && hasLength && !hasMap
 }
+
 isArguments.displayName = 'isArguments'
 
 function isFunction(obj) {
   return typeof obj === 'function'
 }
+
 isFunction.displayName = 'isFunction'
 
 function isString(obj) {
   return typeof obj === 'string'
 }
+
 isString.displayName = 'isString'
 
 function isNumber(obj) {
   return typeof obj === 'number'
 }
+
 isNumber.displayName = 'isNumber'
 
 function isObject(obj) {
   return typeof obj === 'object'
 }
+
 isObject.displayName = 'isObject'
 
 function isPojo(obj) {
@@ -79,6 +87,7 @@ function isPojo(obj) {
   }
   return Object.getPrototypeOf(obj) === Object.prototype
 }
+
 isPojo.displayName = 'isPojo'
 
 function isTemplateLiteral(obj) {
@@ -90,6 +99,7 @@ function isTemplateLiteral(obj) {
   }
   return obj.every(isString)
 }
+
 isTemplateLiteral.displayName = 'isTemplateLiteral'
 
 function isThisValue(value) {
