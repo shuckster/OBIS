@@ -30,21 +30,19 @@ function composePaths(linesOfPaths) {
   const aliases = props.filter(prop => !!prop?.name).map(prop => prop.name)
 
   const output = props.reduce((paths, prop, index) => {
-    if (prop) {
-      Object.defineProperty(paths, prop.name, {
-        value: justPaths[index],
-        enumerable: false
-      })
+    if (!prop) {
+      return paths
     }
-    return paths
+    return Object.defineProperty(paths, prop.name, {
+      value: justPaths[index],
+      enumerable: false
+    })
   }, justPaths)
 
-  Object.defineProperty(output, 'aliases', {
+  return Object.defineProperty(output, 'aliases', {
     value: aliases,
     enumerable: false
   })
-
-  return output
 }
 
 //
