@@ -4,6 +4,7 @@
 
 export {
   isArray,
+  isArguments,
   isEventEmitter,
   isFunction,
   isPojo,
@@ -39,6 +40,18 @@ function isArray(obj) {
   return Array.isArray(obj)
 }
 isArray.displayName = 'isArray'
+
+function isArguments(obj) {
+  const isObject = typeof obj === 'object'
+  if (!isObject || obj === null) {
+    return false
+  }
+  const hasMap = typeof obj.map === 'function'
+  const hasLength = typeof obj.length === 'number'
+  const hasObjectPrototype = obj.__proto__ === Object.prototype
+  return hasObjectPrototype && isObject && hasLength && !hasMap
+}
+isArguments.displayName = 'isArguments'
 
 function isFunction(obj) {
   return typeof obj === 'function'
