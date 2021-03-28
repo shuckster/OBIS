@@ -64,23 +64,25 @@ function main() {
 }
 
 function maybeRunMockServer() {
-  if (RUN_MOCK_SERVER) {
-    const nodemon = require('nodemon')
-    nodemon({ script: paths.SERVER_SCRIPT, ext: 'js,jsx,json,scss' })
-      .on('start', () => {
-        console.log('nodemon started')
-      })
-      .on('crash', error => {
-        console.log('script crashed for some reason')
-        console.error(error)
-      })
-
-    process.on('SIGINT', function () {
-      console.log('Caught interrupt signal')
-      nodemon.emit('quit')
-      process.exit()
-    })
+  if (!RUN_MOCK_SERVER) {
+    return
   }
+
+  const nodemon = require('nodemon')
+  nodemon({ script: paths.SERVER_SCRIPT, ext: 'js,jsx,json,scss' })
+    .on('start', () => {
+      console.log('nodemon started')
+    })
+    .on('crash', error => {
+      console.log('script crashed for some reason')
+      console.error(error)
+    })
+
+  process.on('SIGINT', function () {
+    console.log('Caught interrupt signal')
+    nodemon.emit('quit')
+    process.exit()
+  })
 }
 
 //
