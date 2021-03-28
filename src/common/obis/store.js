@@ -53,24 +53,33 @@ export const LEAVE_UNCHANGED = null
 // Accounts
 //
 
+const checkAddAccountSchema = checkSchema({
+  id: isString,
+
+  accountNumber: isString,
+  sortCode: isString,
+  name: [isString, isUnset],
+  type: [isString, isUnset],
+  iban: [isString, isUnset],
+  bic: [isString, isUnset]
+})(actions.add.ACCOUNTS)
+
+const checkUpdateAccountSchema = checkSchema({
+  id: isString,
+
+  accountNumber: [isString, isUnset],
+  sortCode: [isString, isUnset],
+  name: [isString, isUnset],
+  type: [isString, isUnset],
+  iban: [isString, isUnset],
+  bic: [isString, isUnset]
+})(actions.update.ACCOUNTS)
+
 messages.on(actions.add.ACCOUNTS, accounts => {
   const currentStore = store()
   const nextStore = produce(currentStore, draftState => {
     accounts.forEach(account => {
-      const err = checkSchema(
-        actions.add.ACCOUNTS,
-        {
-          id: isString,
-
-          accountNumber: isString,
-          sortCode: isString,
-          name: [isString, isUnset],
-          type: [isString, isUnset],
-          iban: [isString, isUnset],
-          bic: [isString, isUnset]
-        },
-        account
-      )
+      const err = checkAddAccountSchema(account)
       if (err) {
         throw TypeError(err)
       }
@@ -95,20 +104,7 @@ messages.on(actions.update.ACCOUNTS, accounts => {
   const currentStore = store()
   const nextStore = produce(currentStore, draftState => {
     accounts.forEach(account => {
-      const err = checkSchema(
-        actions.update.ACCOUNTS,
-        {
-          id: isString,
-
-          accountNumber: [isString, isUnset],
-          sortCode: [isString, isUnset],
-          name: [isString, isUnset],
-          type: [isString, isUnset],
-          iban: [isString, isUnset],
-          bic: [isString, isUnset]
-        },
-        account
-      )
+      const err = checkUpdateAccountSchema(account)
       if (err) {
         throw TypeError(err)
       }
@@ -141,24 +137,32 @@ messages.on(actions.update.ACCOUNTS, accounts => {
 // Statements
 //
 
+const checkAddStatementSchema = checkSchema({
+  id: isString,
+  accountId: isString,
+
+  endDate: isNumber,
+  startDate: [isNumber, isUnset],
+  startBalance: [isNumber, isUnset],
+  endBalance: [isNumber, isUnset]
+})(actions.add.STATEMENTS)
+
+const checkUpdateStatementSchema = checkSchema({
+  id: isString,
+  accountId: [isString, isUnset],
+
+  endDate: isNumber,
+  startDate: isNumber,
+  startBalance: isNumber,
+  endBalance: isNumber
+})(actions.update.STATEMENTS)
+
 messages.on(actions.add.STATEMENTS, statements => {
   const existingStatements = []
   const currentStore = store()
   const nextStore = produce(currentStore, draftState => {
     statements.forEach(statement => {
-      const err = checkSchema(
-        actions.add.STATEMENTS,
-        {
-          id: isString,
-          accountId: isString,
-
-          endDate: isNumber,
-          startDate: [isNumber, isUnset],
-          startBalance: [isNumber, isUnset],
-          endBalance: [isNumber, isUnset]
-        },
-        statement
-      )
+      const err = checkAddStatementSchema(statement)
       if (err) {
         throw TypeError(err)
       }
@@ -189,19 +193,7 @@ messages.on(actions.update.STATEMENTS, statements => {
   const currentStore = store()
   const nextStore = produce(currentStore, draftState => {
     statements.forEach(statement => {
-      const err = checkSchema(
-        actions.update.STATEMENTS,
-        {
-          id: isString,
-          accountId: [isString, isUnset],
-
-          endDate: isNumber,
-          startDate: isNumber,
-          startBalance: isNumber,
-          endBalance: isNumber
-        },
-        statement
-      )
+      const err = checkUpdateStatementSchema(statement)
       if (err) {
         throw TypeError(err)
       }
@@ -236,28 +228,26 @@ messages.on(actions.update.STATEMENTS, statements => {
 // Entries
 //
 
+const checkAddEntrySchema = checkSchema({
+  id: isString,
+  accountId: isString,
+  statementId: isString,
+
+  date: isNumber,
+  type: isString,
+  payee: isString,
+  note: isString,
+  debit: isNumber,
+  credit: isNumber,
+  balance: isNumber
+})(actions.add.ENTRIES)
+
 messages.on(actions.add.ENTRIES, entries => {
   const existingEntries = []
   const currentStore = store()
   const nextStore = produce(currentStore, draftState => {
     entries.forEach(entry => {
-      const err = checkSchema(
-        actions.add.ENTRIES,
-        {
-          id: isString,
-          accountId: isString,
-          statementId: isString,
-
-          date: isNumber,
-          type: isString,
-          payee: isString,
-          note: isString,
-          debit: isNumber,
-          credit: isNumber,
-          balance: isNumber
-        },
-        entry
-      )
+      const err = checkAddEntrySchema(entry)
       if (err) {
         throw TypeError(err)
       }
