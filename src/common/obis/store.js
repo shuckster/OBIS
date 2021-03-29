@@ -53,7 +53,7 @@ export const LEAVE_UNCHANGED = null
 // Accounts
 //
 
-const checkAddAccountSchema = checkSchema({
+const checkSchemaForAddingAnAccount = checkSchema({
   id: isString,
 
   accountNumber: isString,
@@ -64,7 +64,7 @@ const checkAddAccountSchema = checkSchema({
   bic: [isString, isUnset]
 })(actions.add.ACCOUNTS)
 
-const checkUpdateAccountSchema = checkSchema({
+const checkSchemaForUpdatingAnAccount = checkSchema({
   id: isString,
 
   accountNumber: [isString, isUnset],
@@ -79,7 +79,7 @@ messages.on(actions.add.ACCOUNTS, accounts => {
   const currentStore = store()
   const nextStore = produce(currentStore, draftState => {
     accounts.forEach(account => {
-      const err = checkAddAccountSchema(account)
+      const err = checkSchemaForAddingAnAccount(account)
       if (err) {
         throw TypeError(err)
       }
@@ -104,7 +104,7 @@ messages.on(actions.update.ACCOUNTS, accounts => {
   const currentStore = store()
   const nextStore = produce(currentStore, draftState => {
     accounts.forEach(account => {
-      const err = checkUpdateAccountSchema(account)
+      const err = checkSchemaForUpdatingAnAccount(account)
       if (err) {
         throw TypeError(err)
       }
@@ -137,7 +137,7 @@ messages.on(actions.update.ACCOUNTS, accounts => {
 // Statements
 //
 
-const checkAddStatementSchema = checkSchema({
+const checkSchemaForAddingAStatement = checkSchema({
   id: isString,
   accountId: isString,
 
@@ -147,7 +147,7 @@ const checkAddStatementSchema = checkSchema({
   endBalance: [isNumber, isUnset]
 })(actions.add.STATEMENTS)
 
-const checkUpdateStatementSchema = checkSchema({
+const checkSchemaForUpdatingAStatement = checkSchema({
   id: isString,
   accountId: [isString, isUnset],
 
@@ -162,7 +162,7 @@ messages.on(actions.add.STATEMENTS, statements => {
   const currentStore = store()
   const nextStore = produce(currentStore, draftState => {
     statements.forEach(statement => {
-      const err = checkAddStatementSchema(statement)
+      const err = checkSchemaForAddingAStatement(statement)
       if (err) {
         throw TypeError(err)
       }
@@ -193,7 +193,7 @@ messages.on(actions.update.STATEMENTS, statements => {
   const currentStore = store()
   const nextStore = produce(currentStore, draftState => {
     statements.forEach(statement => {
-      const err = checkUpdateStatementSchema(statement)
+      const err = checkSchemaForUpdatingAStatement(statement)
       if (err) {
         throw TypeError(err)
       }
@@ -228,7 +228,7 @@ messages.on(actions.update.STATEMENTS, statements => {
 // Entries
 //
 
-const checkAddEntrySchema = checkSchema({
+const checkSchemaForAddingAnEntry = checkSchema({
   id: isString,
   accountId: isString,
   statementId: isString,
@@ -247,7 +247,7 @@ messages.on(actions.add.ENTRIES, entries => {
   const currentStore = store()
   const nextStore = produce(currentStore, draftState => {
     entries.forEach(entry => {
-      const err = checkAddEntrySchema(entry)
+      const err = checkSchemaForAddingAnEntry(entry)
       if (err) {
         throw TypeError(err)
       }
