@@ -166,6 +166,17 @@ function main() {
 
   io.on('connection', socket => {
     socket.on('message-bus', detail => {
+      if (
+        detail?.eventName === 'ui/rendered' &&
+        process.env.HYDRATE === 'yes'
+      ) {
+        io.emit('message-bus', {
+          eventName: 'debug/hydrate',
+          args: [],
+          timestamp: Date.now()
+        })
+      }
+
       socket.broadcast.emit('message-bus', detail)
     })
   })

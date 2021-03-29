@@ -69,7 +69,11 @@ function maybeRunMockServer() {
   }
 
   const nodemon = require('nodemon')
-  nodemon({ script: paths.SERVER_SCRIPT, ext: 'js,jsx,json,scss' })
+  nodemon({
+    script: paths.SERVER_SCRIPT,
+    ext: 'js,jsx,json,scss',
+    env: { HYDRATE: process.env.HYDRATE }
+  })
     .on('start', () => {
       console.log('nodemon started')
     })

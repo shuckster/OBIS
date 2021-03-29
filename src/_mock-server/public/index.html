@@ -177,8 +177,10 @@
           .then(store.hydrate)
       }
 
-      window.addEventListener('load', () => {
-        setTimeout(() => hydrate(), 0)
+      socket.on('message-bus', detail => {
+        if (detail?.eventName === 'debug/hydrate') {
+          setTimeout(() => hydrate(), 0)
+        }
       })
     </script>
     <!-- Load bookmarklet automatically -->
