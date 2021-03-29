@@ -15,15 +15,15 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "esbuild": "^0.9.6",
-    "esbuild-plugin-sass": "^0.3.4",
-    "eslint": "^7.22.0",
+    "esbuild": "^0.11.0",
+    "esbuild-plugin-sass": "^0.4.1",
+    "eslint": "^7.23.0",
     "eslint-plugin-mithril": "^0.2.0",
     "express": "^4.17.1",
     "glob": "^7.1.6",
     "nodemon": "^2.0.7",
     "rimraf": "^3.0.2",
-    "socket.io": "^3.1.2"
+    "socket.io": "^4.0.0"
   },
   "dependencies": {
     "clsx": "^1.1.1",
