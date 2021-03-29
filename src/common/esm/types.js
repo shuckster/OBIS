@@ -45,14 +45,13 @@ function isArray(obj) {
 isArray.displayName = 'isArray'
 
 function isArguments(obj) {
-  const isObject = typeof obj === 'object'
-  if (!isObject || obj === null) {
+  if (!isObject(obj)) {
     return false
   }
-  const hasMap = typeof obj.map === 'function'
-  const hasLength = typeof obj.length === 'number'
+  const hasMap = isFunction(obj.map)
+  const hasLength = isNumber(obj.length)
   const hasObjectPrototype = obj.__proto__ === Object.prototype
-  return hasObjectPrototype && isObject && hasLength && !hasMap
+  return hasObjectPrototype && hasLength && !hasMap
 }
 
 isArguments.displayName = 'isArguments'
@@ -76,7 +75,7 @@ function isNumber(obj) {
 isNumber.displayName = 'isNumber'
 
 function isObject(obj) {
-  return typeof obj === 'object'
+  return typeof obj === 'object' && obj !== null
 }
 
 isObject.displayName = 'isObject'
