@@ -114,7 +114,7 @@ const headers = {
 
 function detectHeader(_path) {
   const found = Object.entries(headers).find(([pattern]) => {
-    const matcher = rxFromString(pattern)
+    const matcher = makeRegExpFromWildcardString(pattern)
     return matcher.test(_path)
   })
   return found && found[1]
@@ -222,31 +222,42 @@ function sendText(textPromise, headers = {}) {
       })
 }
 
-function rxFromString(str) {
+function memoize(fn, cache = new Map()) {
+  return x => (cache.has(x) ? cache.get(x) : cache.set(x, fn(x)).get(x))
+}
+
+const makeRegExpFromWildcardString = memoize(str => {
   if (!str.length) {
     throw new Error('String should not be empty')
   }
   const sanitized = str
     .split('*')
     .map(x => x.trim())
-    .map(escapeRegExp)
+    .map(escapeStringForRegExp)
 
-  let rxString = sanitized.join('.*')
+  // Allow matching of wildcards
+  let rxString = sanitized.join('(.*)')
 
   if (sanitized.length === 1) {
+    // No wildcards? Match string exactly
     rxString = `^${rxString}$`
   } else {
+    // No wildcard at the start? Match string-start exactly
     if (sanitized[0] !== '') {
       rxString = `^${rxString}`
     }
+    // No wildcard at the end? Match string-end exactly
     if (sanitized[sanitized.length - 1] !== '') {
       rxString = `${rxString}$`
     }
   }
   return new RegExp(rxString)
-}
+})
 
-function escapeRegExp(string) {
+function escapeStringForRegExp(string) {
+  if (typeof string !== 'string') {
+    throw new TypeError('Expected string to be passed-in')
+  }
   // $& means the whole matched string
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
