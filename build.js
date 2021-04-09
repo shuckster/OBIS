@@ -10,6 +10,7 @@ const { makePromise } = require('@/cjs/promises')
 const { composePaths } = require('@/cjs/compose-paths')
 const { loadTextFile, fileOnly } = require('@/cjs/files')
 
+const MINIFY_DISTRIBUTION = false
 const PLUGIN_SOURCE_NAME = 'plugin.js'
 
 const paths = composePaths(`
@@ -99,7 +100,7 @@ function buildBookmarklet() {
       define: BUILD_REPLACEMENTS,
       entryPoints: [paths.SRC_BOOKMARKLET],
       bundle: true,
-      minify: true,
+      minify: MINIFY_DISTRIBUTION,
       platform: 'browser',
       sourcemap: IS_LOCAL,
       outfile: paths.DIST_BOOKMARKLET
@@ -118,7 +119,7 @@ function buildMain() {
     define: BUILD_REPLACEMENTS,
     entryPoints: [paths.SRC_MAIN],
     bundle: true,
-    minify: true,
+    minify: MINIFY_DISTRIBUTION,
     platform: 'browser',
     sourcemap: IS_LOCAL,
     outfile: paths.DIST_MAIN
@@ -130,7 +131,7 @@ function buildUi() {
     define: BUILD_REPLACEMENTS,
     entryPoints: [paths.SRC_UI],
     bundle: true,
-    minify: true,
+    minify: MINIFY_DISTRIBUTION,
     platform: 'browser',
     jsxFactory: 'm',
     jsxFragment: 'm.Fragment',
@@ -144,7 +145,7 @@ function buildStatementsCss() {
   return esbuild.build({
     entryPoints: [paths.SRC_STATEMENTS_CSS],
     bundle: true,
-    minify: true,
+    minify: MINIFY_DISTRIBUTION,
     loader: { '.scss': 'css' },
     plugins: [sassPlugin()],
     sourcemap: IS_LOCAL,
@@ -192,7 +193,7 @@ function buildPlugins() {
                 define: BUILD_REPLACEMENTS,
                 entryPoints: [src],
                 bundle: true,
-                minify: true,
+                minify: MINIFY_DISTRIBUTION,
                 platform: 'browser',
                 sourcemap: IS_LOCAL,
                 outfile: dist
