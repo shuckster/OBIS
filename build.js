@@ -100,7 +100,7 @@ function buildBookmarklet() {
       define: BUILD_REPLACEMENTS,
       entryPoints: [paths.SRC_BOOKMARKLET],
       bundle: true,
-      minify: MINIFY_DISTRIBUTION,
+      minify: true, // Always minify bookmarklet
       platform: 'browser',
       sourcemap: IS_LOCAL,
       outfile: paths.DIST_BOOKMARKLET
