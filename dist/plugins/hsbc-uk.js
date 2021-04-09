@@ -1,14 +1,1161 @@
-(()=>{var Te=Object.create,dt=Object.defineProperty,Ee=Object.getPrototypeOf,ye=Object.prototype.hasOwnProperty,be=Object.getOwnPropertyNames,ve=Object.getOwnPropertyDescriptor;var Ae=t=>dt(t,"__esModule",{value:!0});var wt=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports);var Ne=(t,e,n)=>{if(e&&typeof e=="object"||typeof e=="function")for(let r of be(e))!ye.call(t,r)&&r!=="default"&&dt(t,r,{get:()=>e[r],enumerable:!(n=ve(e,r))||n.enumerable});return t},Mt=t=>Ne(Ae(dt(t!=null?Te(Ee(t)):{},"default",t&&t.__esModule&&"default"in t?{get:()=>t.default,enumerable:!0}:{value:t,enumerable:!0})),t);var Qt=wt((sr,Wt)=>{Wt.exports={seconds:tn,makeDebouncer:at,makeThrottler:nn,runAfter:rn,runOnce:on,runFnPeriodically:Xt,makeValueChangeDetector:Pt,makeValueInPredicateDetector:an,runFnWhenValueChanges:sn,Delay:en};function tn(t){return t*1e3}function en(t,e){let[n]=at(e,t);return(...r)=>n(...r)}function at(t,e){let n,r=()=>clearTimeout(n);return[(...a)=>{r(),n=setTimeout(e,t,...a)},r]}function nn(t,e){let n=!0,[r,o]=at(e,()=>n=!0);return[(...s)=>{n&&(n=!1,r(),t(...s))},o]}function rn(t,e){let[n,r]=at(t,e);return n(),r}function on(t){let e=!0,n=()=>!0,r=(...o)=>{e&&n()&&(e=!1,t(...o))};return r.when=o=>(n=o,r),r}function Xt(t,e=16){let n=()=>clearInterval(r),r=setInterval(t,e,{cleanup:n});return n}function Pt({onChange:t=()=>{},getValueFn:e=()=>NaN,equalityFn:n=(r,o)=>r===o}){let r=e();return(...a)=>{let s=e();if(!n(s,r)){let i=r;r=s,t(s,i,...a)}}}function an({onChange:t=()=>{},getValueFn:e=()=>NaN,predicateFn:n=()=>!0}){return Pt({getValueFn:e,onChange:o=>n(o)&&t()})}function sn({fn:t,getValueFn:e}){let n=Pt({getValueFn:e,onChange:t});return Xt(n,16)}});var Rt=wt((ir,Zt)=>{Zt.exports={isThennable:un,makePromise:K,delay:dn,unzip:cn,makeIdleDetectorWithTimeout:ln,poolPromises:fn,runPromisesInSequence:pn};var{seconds:mn,runOnce:hn,makeDebouncer:te}=Qt();function ee(){return[(t,[e,n])=>[[...t[0],e],[...t[1],n]],[[],[]]]}function cn(t){return t.reduce(...ee())}function un(t){return t&&typeof t.then=="function"}function K(){let t,e;return[new Promise((r,o)=>{t=r,e=o}),t,e]}function dn(t){let[e,n]=K();return setTimeout(n,t||0),e}function ln(t=()=>{},{withinMs:e=500,timeoutInMs:n=mn(5)}){let[r,o,a]=K(),[s,i]=te(o,e),[c,u]=te(a,n),f=t(s);return s(),c(),r.finally(()=>{f&&f(),i(),u()})}function fn(t,...e){let n=()=>a.forEach(s=>s()),r=gn(t,n),[o,a]=e.map(s=>Sn(r,s)).reduce(...ee());return n(),Promise.allSettled(o)}function Sn(t,e){let{allowedToStartNext:n,bumpRunCount:r,unbump:o}=t,[a,s,i]=K();return[a,hn(()=>{r(),e().then(s,i).finally(o)}).when(n)]}function gn(t,e){let n=0;return{allowedToStartNext:()=>n<Math.max(1,t),bumpRunCount:()=>e(++n),unbump:()=>e(--n)}}function pn(t,...e){let[n,r,o]=K();return e.reduce(Tn(o),Promise.resolve(t)).then(r).catch(o),n}function Tn(t){return(e,n)=>e.then(n,t)}});var l={FIRST_RUN:"first-run",STORE_HYDRATED:"ui/store-hydrated",STORE_UPDATED:"ui/store-updated",ui:{RENDERING:"ui/rendering",RENDERED:"ui/rendered",TOGGLE_OPEN:"ui/toggle-open",FIND_ACCOUNTS:"ui/find-accounts",FIND_STATEMENTS:"ui/find-statements",VIEW_STATEMENTS:"ui/view-statements",DOWNLOAD_STATEMENTS:"ui/download-statements",DOWNLOADED_STATEMENTS:"ui/downloaded-statements",UPDATE_PROGRESS_BAR:"ui/update-progress-bar",STATEMENTS_WINDOW_READY:"ui/statements-window-ready",STATEMENTS_WINDOW_CLOSED:"ui/statements-window-closed",CLOSE_STATEMENTS_WINDOW:"ui/close-statements-window",CHANGE_STATEMENT:"ui/change-statement"},get:{ACCOUNTS:"get/accounts",STATEMENTS:"get/statements",ENTRIES:"get/entries"},error:{ACCOUNTS:"error/accounts",STATEMENTS:"error/statements",ENTRIES:"error/entries"},got:{ACCOUNTS:"got/accounts",STATEMENTS:"got/statements",ENTRIES:"got/entries"},add:{ACCOUNTS:"add/accounts",STATEMENTS:"add/statements",ENTRIES:"add/entries"},update:{ACCOUNTS:"update/accounts",STATEMENTS:"update/statements",ENTRIES:"update/entries"}};function O(t){for(var e=arguments.length,n=Array(e>1?e-1:0),r=1;r<e;r++)n[r-1]=arguments[r];if(!1)var o,a;throw Error("[Immer] minified error nr: "+t+(n.length?" "+n.map(function(s){return"'"+s+"'"}).join(","):"")+". Find the full error at: https://bit.ly/3cXEKWf")}function B(t){return!!t&&!!t[N]}function k(t){return!!t&&(function(e){if(!e||typeof e!="object")return!1;var n=Object.getPrototypeOf(e);if(n===null)return!0;var r=Object.hasOwnProperty.call(n,"constructor")&&n.constructor;return typeof r=="function"&&Function.toString.call(r)===De}(t)||Array.isArray(t)||!!t[_t]||!!t.constructor[_t]||lt(t)||ft(t))}function Y(t,e,n){n===void 0&&(n=!1),L(t)===0?(n?Object.keys:pt)(t).forEach(function(r){n&&typeof r=="symbol"||e(r,t[r],t)}):t.forEach(function(r,o){return e(o,r,t)})}function L(t){var e=t[N];return e?e.i>3?e.i-4:e.i:Array.isArray(t)?1:lt(t)?2:ft(t)?3:0}function mt(t,e){return L(t)===2?t.has(e):Object.prototype.hasOwnProperty.call(t,e)}function Ce(t,e){return L(t)===2?t.get(e):t[e]}function jt(t,e,n){var r=L(t);r===2?t.set(e,n):r===3?(t.delete(e),t.add(n)):t[e]=n}function Ie(t,e){return t===e?t!==0||1/t==1/e:t!=t&&e!=e}function lt(t){return Oe&&t instanceof Map}function ft(t){return Pe&&t instanceof Set}function U(t){return t.o||t.t}function ht(t){if(Array.isArray(t))return Array.prototype.slice.call(t);var e=Re(t);delete e[N];for(var n=pt(e),r=0;r<n.length;r++){var o=n[r],a=e[o];a.writable===!1&&(a.writable=!0,a.configurable=!0),(a.get||a.set)&&(e[o]={configurable:!0,writable:!0,enumerable:a.enumerable,value:t[o]})}return Object.create(Object.getPrototypeOf(t),e)}function St(t,e){return e===void 0&&(e=!1),gt(t)||B(t)||!k(t)||(L(t)>1&&(t.set=t.add=t.clear=t.delete=xe),Object.freeze(t),e&&Y(t,function(n,r){return St(r,!0)},!0)),t}function xe(){O(2)}function gt(t){return t==null||typeof t!="object"||Object.isFrozen(t)}function P(t){var e=we[t];return e||O(18,t),e}function kt(){return z}function Tt(t,e){e&&(P("Patches"),t.u=[],t.s=[],t.v=e)}function X(t){Et(t),t.p.forEach(Me),t.p=null}function Et(t){t===z&&(z=t.l)}function Ut(t){return z={p:[],l:z,h:t,m:!0,_:0}}function Me(t){var e=t[N];e.i===0||e.i===1?e.j():e.g=!0}function yt(t,e){e._=e.p.length;var n=e.p[0],r=t!==void 0&&t!==n;return e.h.O||P("ES5").S(e,t,r),r?(n[N].P&&(X(e),O(4)),k(t)&&(t=Q(e,t),e.l||Z(e,t)),e.u&&P("Patches").M(n[N],t,e.u,e.s)):t=Q(e,n,[]),X(e),e.u&&e.v(e.u,e.s),t!==Ft?t:void 0}function Q(t,e,n){if(gt(e))return e;var r=e[N];if(!r)return Y(e,function(a,s){return Bt(t,r,e,a,s,n)},!0),e;if(r.A!==t)return e;if(!r.P)return Z(t,r.t,!0),r.t;if(!r.I){r.I=!0,r.A._--;var o=r.i===4||r.i===5?r.o=ht(r.k):r.o;Y(r.i===3?new Set(o):o,function(a,s){return Bt(t,r,o,a,s,n)}),Z(t,o,!1),n&&t.u&&P("Patches").R(r,n,t.u,t.s)}return r.o}function Bt(t,e,n,r,o,a){if(B(o)){var s=Q(t,o,a&&e&&e.i!==3&&!mt(e.D,r)?a.concat(r):void 0);if(jt(n,r,s),!B(s))return;t.m=!1}if(k(o)&&!gt(o)){if(!t.h.F&&t._<1)return;Q(t,o),e&&e.A.l||Z(t,o)}}function Z(t,e,n){n===void 0&&(n=!1),t.h.F&&t.m&&St(e,n)}function bt(t,e){var n=t[N];return(n?U(n):t)[e]}function Lt(t,e){if(e in t)for(var n=Object.getPrototypeOf(t);n;){var r=Object.getOwnPropertyDescriptor(n,e);if(r)return r;n=Object.getPrototypeOf(n)}}function vt(t){t.P||(t.P=!0,t.l&&vt(t.l))}function At(t){t.o||(t.o=ht(t.t))}function Nt(t,e,n){var r=lt(e)?P("MapSet").N(e,n):ft(e)?P("MapSet").T(e,n):t.O?function(o,a){var s=Array.isArray(o),i={i:s?1:0,A:a?a.A:kt(),P:!1,I:!1,D:{},l:a,t:o,k:null,o:null,j:null,C:!1},c=i,u=tt;s&&(c=[i],u=et);var f=Proxy.revocable(c,u),m=f.revoke,S=f.proxy;return i.k=S,i.j=m,S}(e,n):P("ES5").J(e,n);return(n?n.A:kt()).p.push(r),r}function _e(t){return B(t)||O(22,t),function e(n){if(!k(n))return n;var r,o=n[N],a=L(n);if(o){if(!o.P&&(o.i<4||!P("ES5").K(o)))return o.t;o.I=!0,r=Gt(n,a),o.I=!1}else r=Gt(n,a);return Y(r,function(s,i){o&&Ce(o.t,s)===i||jt(r,s,e(i))}),a===3?new Set(r):r}(t)}function Gt(t,e){switch(e){case 2:return new Map(t);case 3:return Array.from(t)}return ht(t)}var Vt,z,Dt=typeof Symbol!="undefined"&&typeof Symbol("x")=="symbol",Oe=typeof Map!="undefined",Pe=typeof Set!="undefined",qt=typeof Proxy!="undefined"&&Proxy.revocable!==void 0&&typeof Reflect!="undefined",Ft=Dt?Symbol.for("immer-nothing"):((Vt={})["immer-nothing"]=!0,Vt),_t=Dt?Symbol.for("immer-draftable"):"__$immer_draftable",N=Dt?Symbol.for("immer-state"):"__$immer_state",Pn=typeof Symbol!="undefined"&&Symbol.iterator||"@@iterator";var De=""+Object.prototype.constructor,pt=typeof Reflect!="undefined"&&Reflect.ownKeys?Reflect.ownKeys:Object.getOwnPropertySymbols!==void 0?function(t){return Object.getOwnPropertyNames(t).concat(Object.getOwnPropertySymbols(t))}:Object.getOwnPropertyNames,Re=Object.getOwnPropertyDescriptors||function(t){var e={};return pt(t).forEach(function(n){e[n]=Object.getOwnPropertyDescriptor(t,n)}),e},we={},tt={get:function(t,e){if(e===N)return t;var n=U(t);if(!mt(n,e))return function(o,a,s){var i,c=Lt(a,s);return c?"value"in c?c.value:(i=c.get)===null||i===void 0?void 0:i.call(o.k):void 0}(t,n,e);var r=n[e];return t.I||!k(r)?r:r===bt(t.t,e)?(At(t),t.o[e]=Nt(t.A.h,r,t)):r},has:function(t,e){return e in U(t)},ownKeys:function(t){return Reflect.ownKeys(U(t))},set:function(t,e,n){var r=Lt(U(t),e);if(r==null?void 0:r.set)return r.set.call(t.k,n),!0;if(!t.P){var o=bt(U(t),e),a=o==null?void 0:o[N];if(a&&a.t===n)return t.o[e]=n,t.D[e]=!1,!0;if(Ie(n,o)&&(n!==void 0||mt(t.t,e)))return!0;At(t),vt(t)}return t.o[e]===n&&typeof n!="number"||(t.o[e]=n,t.D[e]=!0,!0)},deleteProperty:function(t,e){return bt(t.t,e)!==void 0||e in t.t?(t.D[e]=!1,At(t),vt(t)):delete t.D[e],t.o&&delete t.o[e],!0},getOwnPropertyDescriptor:function(t,e){var n=U(t),r=Reflect.getOwnPropertyDescriptor(n,e);return r&&{writable:!0,configurable:t.i!==1||e!=="length",enumerable:r.enumerable,value:n[e]}},defineProperty:function(){O(11)},getPrototypeOf:function(t){return Object.getPrototypeOf(t.t)},setPrototypeOf:function(){O(12)}},et={};Y(tt,function(t,e){et[t]=function(){return arguments[0]=arguments[0][0],e.apply(this,arguments)}}),et.deleteProperty=function(t,e){return tt.deleteProperty.call(this,t[0],e)},et.set=function(t,e,n){return tt.set.call(this,t[0],e,n,t[0])};var je=function(){function t(n){var r=this;this.O=qt,this.F=!0,this.produce=function(o,a,s){if(typeof o=="function"&&typeof a!="function"){var i=a;a=o;var c=r;return function(g){var E=this;g===void 0&&(g=i);for(var h=arguments.length,p=Array(h>1?h-1:0),y=1;y<h;y++)p[y-1]=arguments[y];return c.produce(g,function(R){var v;return(v=a).call.apply(v,[E,R].concat(p))})}}var u;if(typeof a!="function"&&O(6),s!==void 0&&typeof s!="function"&&O(7),k(o)){var f=Ut(r),m=Nt(r,o,void 0),S=!0;try{u=a(m),S=!1}finally{S?X(f):Et(f)}return typeof Promise!="undefined"&&u instanceof Promise?u.then(function(g){return Tt(f,s),yt(g,f)},function(g){throw X(f),g}):(Tt(f,s),yt(u,f))}if(!o||typeof o!="object")return(u=a(o))===Ft?void 0:(u===void 0&&(u=o),r.F&&St(u,!0),u);O(21,o)},this.produceWithPatches=function(o,a){return typeof o=="function"?function(c){for(var u=arguments.length,f=Array(u>1?u-1:0),m=1;m<u;m++)f[m-1]=arguments[m];return r.produceWithPatches(c,function(S){return o.apply(void 0,[S].concat(f))})}:[r.produce(o,a,function(c,u){s=c,i=u}),s,i];var s,i},typeof(n==null?void 0:n.useProxies)=="boolean"&&this.setUseProxies(n.useProxies),typeof(n==null?void 0:n.autoFreeze)=="boolean"&&this.setAutoFreeze(n.autoFreeze)}var e=t.prototype;return e.createDraft=function(n){k(n)||O(8),B(n)&&(n=_e(n));var r=Ut(this),o=Nt(this,n,void 0);return o[N].C=!0,Et(r),o},e.finishDraft=function(n,r){var o=n&&n[N],a=o.A;return Tt(a,r),yt(void 0,a)},e.setAutoFreeze=function(n){this.F=n},e.setUseProxies=function(n){n&&!qt&&O(20),this.O=n},e.applyPatches=function(n,r){var o;for(o=r.length-1;o>=0;o--){var a=r[o];if(a.path.length===0&&a.op==="replace"){n=a.value;break}}var s=P("Patches").$;return B(n)?s(n,r):this.produce(n,function(i){return s(i,r.slice(o+1))})},t}(),D=new je,G=D.produce,Rn=D.produceWithPatches.bind(D),xn=D.setAutoFreeze.bind(D),wn=D.setUseProxies.bind(D),Mn=D.applyPatches.bind(D),_n=D.createDraft.bind(D),jn=D.finishDraft.bind(D);(function(){if(typeof window.CustomEvent=="function")return!1;function t(e,n){n=n||{bubbles:!1,cancelable:!1,detail:null};let r=document.createEvent("CustomEvent");return r.initCustomEvent(e,n.bubbles,n.cancelable,n.detail),r}window.CustomEvent=t})();var x=function(){let t;try{t=window}catch(c){t=self}let e="message-bus",n=new Map;function r(c,...u){let f={eventName:c,args:u,timestamp:Date.now()},m=new CustomEvent(e,{detail:f});t.dispatchEvent(m)}function o(c,u){if(typeof u!="function")throw new TypeError("Callback is not a function");let f=n.has(c)?n.get(c):n.set(c,new Map).get(c);if(f.has(u))throw new Error("Callback already deals with this event");let m=typeof c=="string"&&c.indexOf("*")===-1,S=typeof c=="string"?s(c):c instanceof RegExp?c:null;if(S===null){let E="Could not figure-out eventNameOrPattern";throw new Error(`${E} = ${c}`)}let g=E=>{let{eventName:h,args:p}=E.detail;S.test(h)&&(m?u(...p):u(h,...p))};return f.set(u,g),t.addEventListener(e,g),()=>a(c,u)}function a(c,u){if(typeof u!="function")throw new TypeError("Callback is not a function");if(!n.has(c))throw new Error("No event-listener for that name/pattern");let f=n.get(c);if(!f.has(u))throw new Error("Event callback not found for name/pattern");let m=f.get(u);t.removeEventListener(e,m),f.delete(u)}function s(c){if(!c.length)throw new Error("String should not be empty");let u=c.split("*").map(m=>m.trim()).map(i),f=u.join(".*");return u.length===1?f=`^${f}$`:(u[0]!==""&&(f=`^${f}`),u[u.length-1]!==""&&(f=`${f}$`)),new RegExp(f)}function i(c){return c.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}return{emit:r,on:o,off:a}}();function ke(t){return nt(t)&&w(t.emit)&&(w(t.addListener)||w(t.on))&&(w(t.removeListener)||w(t.off))}ke.displayName="isEventEmitter";function b(t){return t==null}Ct.displayName="isUnset";function Ct(t){return Array.isArray(t)}Ct.displayName="isArray";function Ht(t){if(!nt(t))return!1;let e=w(t.map),n=T(t.length);return t.__proto__===Object.prototype&&n&&!e}Ht.displayName="isArguments";function w(t){return typeof t=="function"}w.displayName="isFunction";function d(t){return typeof t=="string"}d.displayName="isString";function T(t){return typeof t=="number"}T.displayName="isNumber";function nt(t){return typeof t=="object"&&t!==null}nt.displayName="isObject";function Ue(t){return t===null||!nt(t)?!1:Object.getPrototypeOf(t)===Object.prototype}Ue.displayName="isPojo";function Fe(t){return d(t)?!0:Ct(t)?t.every(d):!1}Fe.displayName="isTemplateLiteral";function rt(t){function e(n){return n===t}return e.displayName=`isThisValue(${t})`,e}var Be=(t,e,n)=>e(n)?void 0:(e.displayName||e.name)+`(${t}) did not return true`,Le=(t,e,n)=>typeof n===e?void 0:`Argument "${t}" should be a ${e}`,Ge=t=>(e,n)=>{if(n>=t.length)return;let{argName:r,argType:o}=t[n];if(e===void 0)return`Argument undefined: "${r}"`;let a=Array.isArray(o)?o:[o],s=a.map(u=>w(u)?Be(r,u,e):Le(r,u,e)).filter(d);if(a.length>1?s.length>1:s.length)return s.join(`
-| `)+`
-> typeof ${r} === ${typeof e}(${JSON.stringify(e)})`};function Ve(t){return e=>{let n=Object.entries(e).map(([r,o])=>({argName:r,argType:o}));return r=>(...o)=>{let s=Array.from(o,c=>Ht(c)?Array.from(c):c).flat(1).map(Ge(n)).filter(d);if(!s.length)return;let i=Object.keys(e).join(", ");return`
-${t||""}${r}(${i}):
-${s.map(c=>`| ${c}`).join(`
-`)}`}}}function M(t){return e=>{let n=Object.keys(e),r=Ve(t)(e);return o=>a=>{let s=qe(a,{keys:n});return r(o)(...s)}}}function qe(t,e){let{keys:n}=e;return Array.isArray(n)?n.reduce((r,o)=>[...r,t[o]],[]):Object.values(t)}var He=10,V=[{accounts:[],statements:[],entries:[]}];function $e(t){q(t),x.emit(l.STORE_HYDRATED)}function F(){return V[V.length-1]}F.history=V;F.hydrate=$e;function q(t){V.push(t),V.length>He&&V.shift(),x.emit(l.STORE_UPDATED)}var J=M("store#"),C=null,Ye=J({id:d,accountNumber:d,sortCode:d,name:[d,b],type:[d,b],iban:[d,b],bic:[d,b]})(l.add.ACCOUNTS),ze=J({id:d,accountNumber:[d,b],sortCode:[d,b],name:[d,b],type:[d,b],iban:[d,b],bic:[d,b]})(l.update.ACCOUNTS);x.on(l.add.ACCOUNTS,t=>{let e=F(),n=G(e,r=>{t.forEach(o=>{let a=Ye(o);if(a)throw TypeError(a);let s=r.accounts.find(i=>i.id===o.id);if(s){console.log("Account exists",s);return}r.accounts.push({...o})})});n!==e&&q(n)});x.on(l.update.ACCOUNTS,t=>{let e=[],n=F(),r=G(n,o=>{t.forEach(a=>{let s=ze(a);if(s)throw TypeError(s);let i=o.accounts.find(c=>c.id===a.id);if(!i){e.push(a);return}Object.entries(a).forEach(([c,u])=>{b(u)||(i[c]=u)})})});e.length&&console.log("Not updating unseen accounts: ",e),r!==n&&q(r)});var Je=J({id:d,accountId:d,endDate:T,startDate:[T,b],startBalance:[T,b],endBalance:[T,b]})(l.add.STATEMENTS),Ke=J({id:d,accountId:[d,b],endDate:T,startDate:T,startBalance:T,endBalance:T})(l.update.STATEMENTS);x.on(l.add.STATEMENTS,t=>{let e=[],n=F(),r=G(n,o=>{t.forEach(a=>{let s=Je(a);if(s)throw TypeError(s);let i=o.statements.find(c=>c.id===a.id);if(i){e.push(i);return}o.statements.push({...a})})});e.length&&console.log("Not overwriting existing statements: ",e),r!==n&&q(r)});x.on(l.update.STATEMENTS,t=>{let e=[],n=F(),r=G(n,o=>{t.forEach(a=>{let s=Ke(a);if(s)throw TypeError(s);let i=o.statements.find(c=>c.id===a.id);if(!i){e.push(a);return}Object.entries(a).forEach(([c,u])=>{b(u)||(i[c]=u)})})});e.length&&console.log("Not updating unseen statements: ",e),r!==n&&q(r)});var We=J({id:d,accountId:d,statementId:d,date:T,type:d,payee:d,note:d,debit:T,credit:T,balance:T})(l.add.ENTRIES);x.on(l.add.ENTRIES,t=>{let e=[],n=F(),r=G(n,o=>{t.forEach(a=>{let s=We(a);if(s)throw TypeError(s);let i=o.entries.find(c=>c.id===a.id);if(i){e.push(i);return}o.entries.push({...a})})});e.length&&console.log("Not overwriting existing entries: ",e),r!==n&&q(r)});var I={received:{ACCOUNTS_LIST:"received/hsbc:accounts-list",STATEMENTS_LIST:"received/hsbc:statements-list",STATEMENT_DETAILS:"received/hsbc:statement-details"}};function It(t,e=""){let n=new Date(t);return[n.getFullYear(),_(n.getMonth()+1),_(n.getDate()),_(n.getHours()),_(n.getMinutes()),_(n.getSeconds())].join(e)}function _(t){return t<10?"0"+t:""+t}function $t(t){return document.cookie.split(";").reduce((n,r)=>{let o=r.indexOf("="),a=r.slice(0,o).trim(),s=r.slice(o+1).trim();return{...n,[a]:s}},{})[t]}function Yt(t){let e=t.split(/\s{3,}/),[n,...r]=e.map(o=>o.trim().replace(/ +/g," "));return[n,r.join(" ")]}function ot(t){let e=/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/,n=t.match(e);if(!n){let u=`dateTimeString does not match expected pattern: ${e.toString()}`;throw new TypeError(u)}let[,r,o,a,s,i,c]=n;return Date.UTC(r,o-1,a,s,i,c)}function Xe(){let t=new Date;return t.getMonth()+1+"/"+t.getDate()+"/"+t.getFullYear()+" "+t.getHours()+":"+_(t.getMinutes())+":"+_(t.getSeconds())}function Qe(){let{getJSCDataTimeStamp:t,HSBCGLBL:e}=window;return typeof t=="function"?t():e&&typeof e.hsbcglblform=="function"?e.hsbcglblform()+":"+Xe():null}function H(){return{"Content-type":"application/json","X-HDR-Synchronizer-Token":$t("SYNC_TOKEN"),"X-HDR-jscData":Qe()}}function zt(t=sessionStorage){let{jmespath:e}=obis.deps,{accountselected:n="{}"}=t,r=JSON.parse(n),o=`
+(() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
+  var __commonJS = (cb, mod) => () => (mod || cb((mod = {exports: {}}).exports, mod), mod.exports);
+  var __reExport = (target, module, desc) => {
+    if (module && typeof module === "object" || typeof module === "function") {
+      for (let key of __getOwnPropNames(module))
+        if (!__hasOwnProp.call(target, key) && key !== "default")
+          __defProp(target, key, {get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable});
+    }
+    return target;
+  };
+  var __toModule = (module) => {
+    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? {get: () => module.default, enumerable: true} : {value: module, enumerable: true})), module);
+  };
+
+  // src/common/cjs/timers.js
+  var require_timers = __commonJS((exports, module) => {
+    module.exports = {
+      seconds,
+      makeDebouncer,
+      makeThrottler,
+      runAfter,
+      runOnce,
+      runFnPeriodically,
+      makeValueChangeDetector,
+      makeValueInPredicateDetector,
+      runFnWhenValueChanges,
+      Delay
+    };
+    function seconds(n2) {
+      const ms = n2 * 1e3;
+      return ms;
+    }
+    function Delay(fn2, forMs) {
+      const [_fn] = makeDebouncer(forMs, fn2);
+      return (...args) => _fn(...args);
+    }
+    function makeDebouncer(ms, fn2) {
+      let timerId;
+      const cancel = () => clearTimeout(timerId);
+      const debouncedFn = (...args) => {
+        cancel();
+        timerId = setTimeout(fn2, ms, ...args);
+      };
+      return [debouncedFn, cancel];
+    }
+    function makeThrottler(fn2, ms) {
+      let canRun = true;
+      const [reset, clear] = makeDebouncer(ms, () => canRun = true);
+      const throttledFn = (...args) => {
+        if (canRun) {
+          canRun = false;
+          reset();
+          fn2(...args);
+        }
+      };
+      return [throttledFn, clear];
+    }
+    function runAfter(delayInMs, fn2) {
+      const [runSoon, cancel] = makeDebouncer(delayInMs, fn2);
+      runSoon();
+      return cancel;
+    }
+    function runOnce(fn2) {
+      let run = true;
+      let predicateFn = () => true;
+      const onceFn = (...args) => {
+        if (run && predicateFn()) {
+          run = false;
+          fn2(...args);
+        }
+      };
+      onceFn.when = (fn3) => {
+        predicateFn = fn3;
+        return onceFn;
+      };
+      return onceFn;
+    }
+    function runFnPeriodically(fn2, ms = 16) {
+      const cleanup = () => clearInterval(timerId);
+      const timerId = setInterval(fn2, ms, {cleanup});
+      return cleanup;
+    }
+    function makeValueChangeDetector({
+      onChange = () => {
+      },
+      getValueFn = () => NaN,
+      equalityFn = (a2, b2) => a2 === b2
+    }) {
+      let currentValue = getValueFn();
+      const performCheck = (...checkArgs) => {
+        const newValue = getValueFn();
+        if (!equalityFn(newValue, currentValue)) {
+          const oldValue = currentValue;
+          currentValue = newValue;
+          onChange(newValue, oldValue, ...checkArgs);
+        }
+      };
+      return performCheck;
+    }
+    function makeValueInPredicateDetector({
+      onChange = () => {
+      },
+      getValueFn = () => NaN,
+      predicateFn = () => true
+    }) {
+      const performCheck = makeValueChangeDetector({
+        getValueFn,
+        onChange: (newValue) => predicateFn(newValue) && onChange()
+      });
+      return performCheck;
+    }
+    function runFnWhenValueChanges({fn: fn2, getValueFn}) {
+      const performCheck = makeValueChangeDetector({getValueFn, onChange: fn2});
+      const checkPeriodInMs = 16;
+      const cleanup = runFnPeriodically(performCheck, checkPeriodInMs);
+      return cleanup;
+    }
+  });
+
+  // src/common/cjs/promises.js
+  var require_promises = __commonJS((exports, module) => {
+    module.exports = {
+      isThennable,
+      makePromise: makePromise3,
+      delay,
+      unzip,
+      makeIdleDetectorWithTimeout,
+      poolPromises: poolPromises3,
+      runPromisesInSequence
+    };
+    var {seconds, runOnce, makeDebouncer} = require_timers();
+    function makeUnzipReducer() {
+      return [
+        (acc, [first, second]) => [
+          [...acc[0], first],
+          [...acc[1], second]
+        ],
+        [[], []]
+      ];
+    }
+    function unzip(arr) {
+      return arr.reduce(...makeUnzipReducer());
+    }
+    function isThennable(obj) {
+      return obj && typeof obj.then === "function";
+    }
+    function makePromise3() {
+      let _resolve;
+      let _reject;
+      const promise = new Promise((resolve, reject) => {
+        _resolve = resolve;
+        _reject = reject;
+      });
+      return [promise, _resolve, _reject];
+    }
+    function delay(ms) {
+      const [promise, resolve] = makePromise3();
+      setTimeout(resolve, ms || 0);
+      return promise;
+    }
+    function makeIdleDetectorWithTimeout(initBouncer = () => {
+    }, {withinMs = 500, timeoutInMs = seconds(5)}) {
+      const [promise, resolve, reject] = makePromise3();
+      const [resolveSoon, dontResolve] = makeDebouncer(resolve, withinMs);
+      const [rejectLater, dontReject] = makeDebouncer(reject, timeoutInMs);
+      const cleanup = initBouncer(resolveSoon);
+      resolveSoon();
+      rejectLater();
+      return promise.finally(() => {
+        cleanup && cleanup();
+        dontResolve();
+        dontReject();
+      });
+    }
+    function poolPromises3(limit, ...promiseMakerFns) {
+      const checkAll = () => canPromisesRun.forEach((check) => check());
+      const context = makePoolCounter(limit, checkAll);
+      const [pooledPromises, canPromisesRun] = promiseMakerFns.map((fn2) => makePoolAwarePromise(context, fn2)).reduce(...makeUnzipReducer());
+      checkAll();
+      return Promise.allSettled(pooledPromises);
+    }
+    function makePoolAwarePromise(context, promiseMakerFn) {
+      const {allowedToStartNext, bumpRunCount, unbump} = context;
+      const [promise, resolve, reject] = makePromise3();
+      const startPromise = () => {
+        bumpRunCount();
+        promiseMakerFn().then(resolve, reject).finally(unbump);
+      };
+      return [promise, runOnce(startPromise).when(allowedToStartNext)];
+    }
+    function makePoolCounter(limit, onChange) {
+      let running = 0;
+      return {
+        allowedToStartNext: () => running < Math.max(1, limit),
+        bumpRunCount: () => onChange(++running),
+        unbump: () => onChange(--running)
+      };
+    }
+    function runPromisesInSequence(initialState, ...promiseMakerFns) {
+      const [promise, resolve, reject] = makePromise3();
+      promiseMakerFns.reduce(promiseSequenceReducer(reject), Promise.resolve(initialState)).then(resolve).catch(reject);
+      return promise;
+    }
+    function promiseSequenceReducer(reject) {
+      return (lastPromise, createNextPromise) => {
+        return lastPromise.then(createNextPromise, reject);
+      };
+    }
+  });
+
+  // src/common/obis/actions.js
+  var actions = {
+    FIRST_RUN: "first-run",
+    STORE_HYDRATED: "ui/store-hydrated",
+    STORE_UPDATED: "ui/store-updated",
+    ui: {
+      RENDERING: "ui/rendering",
+      RENDERED: "ui/rendered",
+      TOGGLE_OPEN: "ui/toggle-open",
+      FIND_ACCOUNTS: "ui/find-accounts",
+      FIND_STATEMENTS: "ui/find-statements",
+      VIEW_STATEMENTS: "ui/view-statements",
+      DOWNLOAD_STATEMENTS: "ui/download-statements",
+      DOWNLOADED_STATEMENTS: "ui/downloaded-statements",
+      UPDATE_PROGRESS_BAR: "ui/update-progress-bar",
+      STATEMENTS_WINDOW_READY: "ui/statements-window-ready",
+      STATEMENTS_WINDOW_CLOSED: "ui/statements-window-closed",
+      CLOSE_STATEMENTS_WINDOW: "ui/close-statements-window",
+      CHANGE_STATEMENT: "ui/change-statement"
+    },
+    get: {
+      ACCOUNTS: "get/accounts",
+      STATEMENTS: "get/statements",
+      ENTRIES: "get/entries"
+    },
+    error: {
+      ACCOUNTS: "error/accounts",
+      STATEMENTS: "error/statements",
+      ENTRIES: "error/entries"
+    },
+    got: {
+      ACCOUNTS: "got/accounts",
+      STATEMENTS: "got/statements",
+      ENTRIES: "got/entries"
+    },
+    add: {
+      ACCOUNTS: "add/accounts",
+      STATEMENTS: "add/statements",
+      ENTRIES: "add/entries"
+    },
+    update: {
+      ACCOUNTS: "update/accounts",
+      STATEMENTS: "update/statements",
+      ENTRIES: "update/entries"
+    }
+  };
+
+  // node_modules/.pnpm/immer@9.0.1/node_modules/immer/dist/immer.esm.js
+  function n(n2) {
+    for (var r2 = arguments.length, t2 = Array(r2 > 1 ? r2 - 1 : 0), e = 1; e < r2; e++)
+      t2[e - 1] = arguments[e];
+    if (false) {
+      var i2 = Y[n2], o2 = i2 ? typeof i2 == "function" ? i2.apply(null, t2) : i2 : "unknown error nr: " + n2;
+      throw Error("[Immer] " + o2);
+    }
+    throw Error("[Immer] minified error nr: " + n2 + (t2.length ? " " + t2.map(function(n3) {
+      return "'" + n3 + "'";
+    }).join(",") : "") + ". Find the full error at: https://bit.ly/3cXEKWf");
+  }
+  function r(n2) {
+    return !!n2 && !!n2[Q];
+  }
+  function t(n2) {
+    return !!n2 && (function(n3) {
+      if (!n3 || typeof n3 != "object")
+        return false;
+      var r2 = Object.getPrototypeOf(n3);
+      if (r2 === null)
+        return true;
+      var t2 = Object.hasOwnProperty.call(r2, "constructor") && r2.constructor;
+      return typeof t2 == "function" && Function.toString.call(t2) === Z;
+    }(n2) || Array.isArray(n2) || !!n2[L] || !!n2.constructor[L] || s(n2) || v(n2));
+  }
+  function i(n2, r2, t2) {
+    t2 === void 0 && (t2 = false), o(n2) === 0 ? (t2 ? Object.keys : nn)(n2).forEach(function(e) {
+      t2 && typeof e == "symbol" || r2(e, n2[e], n2);
+    }) : n2.forEach(function(t3, e) {
+      return r2(e, t3, n2);
+    });
+  }
+  function o(n2) {
+    var r2 = n2[Q];
+    return r2 ? r2.i > 3 ? r2.i - 4 : r2.i : Array.isArray(n2) ? 1 : s(n2) ? 2 : v(n2) ? 3 : 0;
+  }
+  function u(n2, r2) {
+    return o(n2) === 2 ? n2.has(r2) : Object.prototype.hasOwnProperty.call(n2, r2);
+  }
+  function a(n2, r2) {
+    return o(n2) === 2 ? n2.get(r2) : n2[r2];
+  }
+  function f(n2, r2, t2) {
+    var e = o(n2);
+    e === 2 ? n2.set(r2, t2) : e === 3 ? (n2.delete(r2), n2.add(t2)) : n2[r2] = t2;
+  }
+  function c(n2, r2) {
+    return n2 === r2 ? n2 !== 0 || 1 / n2 == 1 / r2 : n2 != n2 && r2 != r2;
+  }
+  function s(n2) {
+    return X && n2 instanceof Map;
+  }
+  function v(n2) {
+    return q && n2 instanceof Set;
+  }
+  function p(n2) {
+    return n2.o || n2.t;
+  }
+  function l(n2) {
+    if (Array.isArray(n2))
+      return Array.prototype.slice.call(n2);
+    var r2 = rn(n2);
+    delete r2[Q];
+    for (var t2 = nn(r2), e = 0; e < t2.length; e++) {
+      var i2 = t2[e], o2 = r2[i2];
+      o2.writable === false && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (r2[i2] = {configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i2]});
+    }
+    return Object.create(Object.getPrototypeOf(n2), r2);
+  }
+  function d(n2, e) {
+    return e === void 0 && (e = false), y(n2) || r(n2) || !t(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e && i(n2, function(n3, r2) {
+      return d(r2, true);
+    }, true), n2);
+  }
+  function h() {
+    n(2);
+  }
+  function y(n2) {
+    return n2 == null || typeof n2 != "object" || Object.isFrozen(n2);
+  }
+  function b(r2) {
+    var t2 = tn[r2];
+    return t2 || n(18, r2), t2;
+  }
+  function _() {
+    return true, U;
+  }
+  function j(n2, r2) {
+    r2 && (b("Patches"), n2.u = [], n2.s = [], n2.v = r2);
+  }
+  function g(n2) {
+    O(n2), n2.p.forEach(S), n2.p = null;
+  }
+  function O(n2) {
+    n2 === U && (U = n2.l);
+  }
+  function w(n2) {
+    return U = {p: [], l: U, h: n2, m: true, _: 0};
+  }
+  function S(n2) {
+    var r2 = n2[Q];
+    r2.i === 0 || r2.i === 1 ? r2.j() : r2.g = true;
+  }
+  function P(r2, e) {
+    e._ = e.p.length;
+    var i2 = e.p[0], o2 = r2 !== void 0 && r2 !== i2;
+    return e.h.O || b("ES5").S(e, r2, o2), o2 ? (i2[Q].P && (g(e), n(4)), t(r2) && (r2 = M(e, r2), e.l || x(e, r2)), e.u && b("Patches").M(i2[Q], r2, e.u, e.s)) : r2 = M(e, i2, []), g(e), e.u && e.v(e.u, e.s), r2 !== H ? r2 : void 0;
+  }
+  function M(n2, r2, t2) {
+    if (y(r2))
+      return r2;
+    var e = r2[Q];
+    if (!e)
+      return i(r2, function(i2, o3) {
+        return A(n2, e, r2, i2, o3, t2);
+      }, true), r2;
+    if (e.A !== n2)
+      return r2;
+    if (!e.P)
+      return x(n2, e.t, true), e.t;
+    if (!e.I) {
+      e.I = true, e.A._--;
+      var o2 = e.i === 4 || e.i === 5 ? e.o = l(e.k) : e.o;
+      i(e.i === 3 ? new Set(o2) : o2, function(r3, i2) {
+        return A(n2, e, o2, r3, i2, t2);
+      }), x(n2, o2, false), t2 && n2.u && b("Patches").R(e, t2, n2.u, n2.s);
+    }
+    return e.o;
+  }
+  function A(e, i2, o2, a2, c2, s2) {
+    if (false, r(c2)) {
+      var v2 = M(e, c2, s2 && i2 && i2.i !== 3 && !u(i2.D, a2) ? s2.concat(a2) : void 0);
+      if (f(o2, a2, v2), !r(v2))
+        return;
+      e.m = false;
+    }
+    if (t(c2) && !y(c2)) {
+      if (!e.h.F && e._ < 1)
+        return;
+      M(e, c2), i2 && i2.A.l || x(e, c2);
+    }
+  }
+  function x(n2, r2, t2) {
+    t2 === void 0 && (t2 = false), n2.h.F && n2.m && d(r2, t2);
+  }
+  function z(n2, r2) {
+    var t2 = n2[Q];
+    return (t2 ? p(t2) : n2)[r2];
+  }
+  function I(n2, r2) {
+    if (r2 in n2)
+      for (var t2 = Object.getPrototypeOf(n2); t2; ) {
+        var e = Object.getOwnPropertyDescriptor(t2, r2);
+        if (e)
+          return e;
+        t2 = Object.getPrototypeOf(t2);
+      }
+  }
+  function k(n2) {
+    n2.P || (n2.P = true, n2.l && k(n2.l));
+  }
+  function E(n2) {
+    n2.o || (n2.o = l(n2.t));
+  }
+  function R(n2, r2, t2) {
+    var e = s(r2) ? b("MapSet").N(r2, t2) : v(r2) ? b("MapSet").T(r2, t2) : n2.O ? function(n3, r3) {
+      var t3 = Array.isArray(n3), e2 = {i: t3 ? 1 : 0, A: r3 ? r3.A : _(), P: false, I: false, D: {}, l: r3, t: n3, k: null, o: null, j: null, C: false}, i2 = e2, o2 = en;
+      t3 && (i2 = [e2], o2 = on);
+      var u2 = Proxy.revocable(i2, o2), a2 = u2.revoke, f2 = u2.proxy;
+      return e2.k = f2, e2.j = a2, f2;
+    }(r2, t2) : b("ES5").J(r2, t2);
+    return (t2 ? t2.A : _()).p.push(e), e;
+  }
+  function D(e) {
+    return r(e) || n(22, e), function n2(r2) {
+      if (!t(r2))
+        return r2;
+      var e2, u2 = r2[Q], c2 = o(r2);
+      if (u2) {
+        if (!u2.P && (u2.i < 4 || !b("ES5").K(u2)))
+          return u2.t;
+        u2.I = true, e2 = F(r2, c2), u2.I = false;
+      } else
+        e2 = F(r2, c2);
+      return i(e2, function(r3, t2) {
+        u2 && a(u2.t, r3) === t2 || f(e2, r3, n2(t2));
+      }), c2 === 3 ? new Set(e2) : e2;
+    }(e);
+  }
+  function F(n2, r2) {
+    switch (r2) {
+      case 2:
+        return new Map(n2);
+      case 3:
+        return Array.from(n2);
+    }
+    return l(n2);
+  }
+  var G;
+  var U;
+  var W = typeof Symbol != "undefined" && typeof Symbol("x") == "symbol";
+  var X = typeof Map != "undefined";
+  var q = typeof Set != "undefined";
+  var B = typeof Proxy != "undefined" && Proxy.revocable !== void 0 && typeof Reflect != "undefined";
+  var H = W ? Symbol.for("immer-nothing") : ((G = {})["immer-nothing"] = true, G);
+  var L = W ? Symbol.for("immer-draftable") : "__$immer_draftable";
+  var Q = W ? Symbol.for("immer-state") : "__$immer_state";
+  var V = typeof Symbol != "undefined" && Symbol.iterator || "@@iterator";
+  var Z = "" + Object.prototype.constructor;
+  var nn = typeof Reflect != "undefined" && Reflect.ownKeys ? Reflect.ownKeys : Object.getOwnPropertySymbols !== void 0 ? function(n2) {
+    return Object.getOwnPropertyNames(n2).concat(Object.getOwnPropertySymbols(n2));
+  } : Object.getOwnPropertyNames;
+  var rn = Object.getOwnPropertyDescriptors || function(n2) {
+    var r2 = {};
+    return nn(n2).forEach(function(t2) {
+      r2[t2] = Object.getOwnPropertyDescriptor(n2, t2);
+    }), r2;
+  };
+  var tn = {};
+  var en = {get: function(n2, r2) {
+    if (r2 === Q)
+      return n2;
+    var e = p(n2);
+    if (!u(e, r2))
+      return function(n3, r3, t2) {
+        var e2, i3 = I(r3, t2);
+        return i3 ? "value" in i3 ? i3.value : (e2 = i3.get) === null || e2 === void 0 ? void 0 : e2.call(n3.k) : void 0;
+      }(n2, e, r2);
+    var i2 = e[r2];
+    return n2.I || !t(i2) ? i2 : i2 === z(n2.t, r2) ? (E(n2), n2.o[r2] = R(n2.A.h, i2, n2)) : i2;
+  }, has: function(n2, r2) {
+    return r2 in p(n2);
+  }, ownKeys: function(n2) {
+    return Reflect.ownKeys(p(n2));
+  }, set: function(n2, r2, t2) {
+    var e = I(p(n2), r2);
+    if (e == null ? void 0 : e.set)
+      return e.set.call(n2.k, t2), true;
+    if (!n2.P) {
+      var i2 = z(p(n2), r2), o2 = i2 == null ? void 0 : i2[Q];
+      if (o2 && o2.t === t2)
+        return n2.o[r2] = t2, n2.D[r2] = false, true;
+      if (c(t2, i2) && (t2 !== void 0 || u(n2.t, r2)))
+        return true;
+      E(n2), k(n2);
+    }
+    return n2.o[r2] === t2 && typeof t2 != "number" || (n2.o[r2] = t2, n2.D[r2] = true, true);
+  }, deleteProperty: function(n2, r2) {
+    return z(n2.t, r2) !== void 0 || r2 in n2.t ? (n2.D[r2] = false, E(n2), k(n2)) : delete n2.D[r2], n2.o && delete n2.o[r2], true;
+  }, getOwnPropertyDescriptor: function(n2, r2) {
+    var t2 = p(n2), e = Reflect.getOwnPropertyDescriptor(t2, r2);
+    return e ? {writable: true, configurable: n2.i !== 1 || r2 !== "length", enumerable: e.enumerable, value: t2[r2]} : e;
+  }, defineProperty: function() {
+    n(11);
+  }, getPrototypeOf: function(n2) {
+    return Object.getPrototypeOf(n2.t);
+  }, setPrototypeOf: function() {
+    n(12);
+  }};
+  var on = {};
+  i(en, function(n2, r2) {
+    on[n2] = function() {
+      return arguments[0] = arguments[0][0], r2.apply(this, arguments);
+    };
+  }), on.deleteProperty = function(r2, t2) {
+    return false, en.deleteProperty.call(this, r2[0], t2);
+  }, on.set = function(r2, t2, e) {
+    return false, en.set.call(this, r2[0], t2, e, r2[0]);
+  };
+  var un = function() {
+    function e(r2) {
+      var e2 = this;
+      this.O = B, this.F = true, this.produce = function(r3, i3, o2) {
+        if (typeof r3 == "function" && typeof i3 != "function") {
+          var u2 = i3;
+          i3 = r3;
+          var a2 = e2;
+          return function(n2) {
+            var r4 = this;
+            n2 === void 0 && (n2 = u2);
+            for (var t2 = arguments.length, e3 = Array(t2 > 1 ? t2 - 1 : 0), o3 = 1; o3 < t2; o3++)
+              e3[o3 - 1] = arguments[o3];
+            return a2.produce(n2, function(n3) {
+              var t3;
+              return (t3 = i3).call.apply(t3, [r4, n3].concat(e3));
+            });
+          };
+        }
+        var f2;
+        if (typeof i3 != "function" && n(6), o2 !== void 0 && typeof o2 != "function" && n(7), t(r3)) {
+          var c2 = w(e2), s2 = R(e2, r3, void 0), v2 = true;
+          try {
+            f2 = i3(s2), v2 = false;
+          } finally {
+            v2 ? g(c2) : O(c2);
+          }
+          return typeof Promise != "undefined" && f2 instanceof Promise ? f2.then(function(n2) {
+            return j(c2, o2), P(n2, c2);
+          }, function(n2) {
+            throw g(c2), n2;
+          }) : (j(c2, o2), P(f2, c2));
+        }
+        if (!r3 || typeof r3 != "object") {
+          if ((f2 = i3(r3)) === H)
+            return;
+          return f2 === void 0 && (f2 = r3), e2.F && d(f2, true), f2;
+        }
+        n(21, r3);
+      }, this.produceWithPatches = function(n2, r3) {
+        return typeof n2 == "function" ? function(r4) {
+          for (var t3 = arguments.length, i4 = Array(t3 > 1 ? t3 - 1 : 0), o2 = 1; o2 < t3; o2++)
+            i4[o2 - 1] = arguments[o2];
+          return e2.produceWithPatches(r4, function(r5) {
+            return n2.apply(void 0, [r5].concat(i4));
+          });
+        } : [e2.produce(n2, r3, function(n3, r4) {
+          t2 = n3, i3 = r4;
+        }), t2, i3];
+        var t2, i3;
+      }, typeof (r2 == null ? void 0 : r2.useProxies) == "boolean" && this.setUseProxies(r2.useProxies), typeof (r2 == null ? void 0 : r2.autoFreeze) == "boolean" && this.setAutoFreeze(r2.autoFreeze);
+    }
+    var i2 = e.prototype;
+    return i2.createDraft = function(e2) {
+      t(e2) || n(8), r(e2) && (e2 = D(e2));
+      var i3 = w(this), o2 = R(this, e2, void 0);
+      return o2[Q].C = true, O(i3), o2;
+    }, i2.finishDraft = function(r2, t2) {
+      var e2 = r2 && r2[Q];
+      false;
+      var i3 = e2.A;
+      return j(i3, t2), P(void 0, i3);
+    }, i2.setAutoFreeze = function(n2) {
+      this.F = n2;
+    }, i2.setUseProxies = function(r2) {
+      r2 && !B && n(20), this.O = r2;
+    }, i2.applyPatches = function(n2, t2) {
+      var e2;
+      for (e2 = t2.length - 1; e2 >= 0; e2--) {
+        var i3 = t2[e2];
+        if (i3.path.length === 0 && i3.op === "replace") {
+          n2 = i3.value;
+          break;
+        }
+      }
+      var o2 = b("Patches").$;
+      return r(n2) ? o2(n2, t2) : this.produce(n2, function(n3) {
+        return o2(n3, t2.slice(e2 + 1));
+      });
+    }, e;
+  }();
+  var an = new un();
+  var fn = an.produce;
+  var cn = an.produceWithPatches.bind(an);
+  var sn = an.setAutoFreeze.bind(an);
+  var vn = an.setUseProxies.bind(an);
+  var pn = an.applyPatches.bind(an);
+  var ln = an.createDraft.bind(an);
+  var dn = an.finishDraft.bind(an);
+
+  // src/common/esm/bus.js
+  (function() {
+    if (typeof window.CustomEvent === "function")
+      return false;
+    function CustomEvent2(event, params) {
+      params = params || {bubbles: false, cancelable: false, detail: null};
+      const evt = document.createEvent("CustomEvent");
+      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+      return evt;
+    }
+    window.CustomEvent = CustomEvent2;
+  })();
+  var messages = function() {
+    let global;
+    try {
+      global = window;
+    } catch (e) {
+      global = self;
+    }
+    const BUS = "message-bus";
+    const eventMap = new Map();
+    function emit(eventName, ...args) {
+      const detail = {eventName, args, timestamp: Date.now()};
+      const event = new CustomEvent(BUS, {detail});
+      global.dispatchEvent(event);
+    }
+    function on2(eventNameOrPattern, cb) {
+      if (typeof cb !== "function") {
+        throw new TypeError("Callback is not a function");
+      }
+      const cbMap = eventMap.has(eventNameOrPattern) ? eventMap.get(eventNameOrPattern) : eventMap.set(eventNameOrPattern, new Map()).get(eventNameOrPattern);
+      if (cbMap.has(cb)) {
+        throw new Error("Callback already deals with this event");
+      }
+      const isPlainMatcher = typeof eventNameOrPattern === "string" && eventNameOrPattern.indexOf("*") === -1;
+      const rx = typeof eventNameOrPattern === "string" ? rxFromString(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
+      if (rx === null) {
+        const reason = `Could not figure-out eventNameOrPattern`;
+        throw new Error(`${reason} = ${eventNameOrPattern}`);
+      }
+      const eventHandler = (event) => {
+        const {eventName, args} = event.detail;
+        const runCallback = rx.test(eventName);
+        if (runCallback) {
+          if (isPlainMatcher) {
+            cb(...args);
+          } else {
+            cb(eventName, ...args);
+          }
+        }
+      };
+      cbMap.set(cb, eventHandler);
+      global.addEventListener(BUS, eventHandler);
+      return () => off(eventNameOrPattern, cb);
+    }
+    function off(eventNameOrPattern, cb) {
+      if (typeof cb !== "function") {
+        throw new TypeError("Callback is not a function");
+      }
+      if (!eventMap.has(eventNameOrPattern)) {
+        throw new Error("No event-listener for that name/pattern");
+      }
+      const cbMap = eventMap.get(eventNameOrPattern);
+      if (!cbMap.has(cb)) {
+        throw new Error("Event callback not found for name/pattern");
+      }
+      const eventHandler = cbMap.get(cb);
+      global.removeEventListener(BUS, eventHandler);
+      cbMap.delete(cb);
+    }
+    function rxFromString(str) {
+      if (!str.length) {
+        throw new Error("String should not be empty");
+      }
+      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeRegExp);
+      let rxString = sanitized.join(".*");
+      if (sanitized.length === 1) {
+        rxString = `^${rxString}$`;
+      } else {
+        if (sanitized[0] !== "") {
+          rxString = `^${rxString}`;
+        }
+        if (sanitized[sanitized.length - 1] !== "") {
+          rxString = `${rxString}$`;
+        }
+      }
+      return new RegExp(rxString);
+    }
+    function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+    return {
+      emit,
+      on: on2,
+      off
+    };
+  }();
+
+  // src/common/esm/types.js
+  function isEventEmitter(obj) {
+    return isObject(obj) && isFunction(obj.emit) && (isFunction(obj.addListener) || isFunction(obj.on)) && (isFunction(obj.removeListener) || isFunction(obj.off));
+  }
+  isEventEmitter.displayName = "isEventEmitter";
+  function isUnset(obj) {
+    return obj === null || obj === void 0;
+  }
+  isArray.displayName = "isUnset";
+  function isArray(obj) {
+    return Array.isArray(obj);
+  }
+  isArray.displayName = "isArray";
+  function isArguments(obj) {
+    if (!isObject(obj)) {
+      return false;
+    }
+    const hasMap = isFunction(obj.map);
+    const hasLength = isNumber(obj.length);
+    const hasObjectPrototype = obj.__proto__ === Object.prototype;
+    return hasObjectPrototype && hasLength && !hasMap;
+  }
+  isArguments.displayName = "isArguments";
+  function isFunction(obj) {
+    return typeof obj === "function";
+  }
+  isFunction.displayName = "isFunction";
+  function isString(obj) {
+    return typeof obj === "string";
+  }
+  isString.displayName = "isString";
+  function isNumber(obj) {
+    return typeof obj === "number";
+  }
+  isNumber.displayName = "isNumber";
+  function isObject(obj) {
+    return typeof obj === "object" && obj !== null;
+  }
+  isObject.displayName = "isObject";
+  function isPojo(obj) {
+    if (obj === null || !isObject(obj)) {
+      return false;
+    }
+    return Object.getPrototypeOf(obj) === Object.prototype;
+  }
+  isPojo.displayName = "isPojo";
+  function isTemplateLiteral(obj) {
+    if (isString(obj)) {
+      return true;
+    }
+    if (!isArray(obj)) {
+      return false;
+    }
+    return obj.every(isString);
+  }
+  isTemplateLiteral.displayName = "isTemplateLiteral";
+  function isThisValue(value) {
+    function inObject(obj) {
+      return obj === value;
+    }
+    inObject.displayName = `isThisValue(${value})`;
+    return inObject;
+  }
+  var typeErrorStringIfFnReturnsFalse = (argName, argTypeFn, arg) => {
+    return argTypeFn(arg) ? void 0 : (argTypeFn.displayName || argTypeFn.name) + `(${argName}) did not return true`;
+  };
+  var typeErrorStringIfTypeOfFails = (argName, argType, arg) => {
+    return typeof arg === argType ? void 0 : `Argument "${argName}" should be a ${argType}`;
+  };
+  var typeErrorStringFromArgument = (argMap) => (arg, index) => {
+    if (index >= argMap.length) {
+      return;
+    }
+    const {argName, argType} = argMap[index];
+    if (arg === void 0) {
+      return `Argument undefined: "${argName}"`;
+    }
+    const permittedArgTypes = Array.isArray(argType) ? argType : [argType];
+    const errorDescs = permittedArgTypes.map((argType2) => isFunction(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)).filter(isString);
+    const multipleTypesSpecified = permittedArgTypes.length > 1;
+    const shouldError = multipleTypesSpecified ? errorDescs.length > 1 : errorDescs.length;
+    if (shouldError) {
+      return errorDescs.join("\n| ") + `
+> typeof ${argName} === ${typeof arg}(${JSON.stringify(arg)})`;
+    }
+  };
+  function ArgTypeError(namespace) {
+    return (typeMap) => {
+      const argMap = Object.entries(typeMap).map(([argName, argType]) => ({
+        argName,
+        argType
+      }));
+      return (fnName) => (...args) => {
+        const processedArgs = Array.from(args, (x2) => isArguments(x2) ? Array.from(x2) : x2).flat(1);
+        const err = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString);
+        if (!err.length) {
+          return;
+        }
+        const signature = Object.keys(typeMap).join(", ");
+        return `
+${namespace || ""}${fnName}(${signature}):
+${err.map((err2) => `| ${err2}`).join("\n")}`;
+      };
+    };
+  }
+  function ObjTypeError(namespace) {
+    return (typeMap) => {
+      const keys = Object.keys(typeMap);
+      const objTypeError = ArgTypeError(namespace)(typeMap);
+      return (fnName) => (obj) => {
+        const values = valuesOf(obj, {keys});
+        const err = objTypeError(fnName)(...values);
+        return err;
+      };
+    };
+  }
+  function valuesOf(obj, options) {
+    const {keys} = options;
+    if (!Array.isArray(keys)) {
+      return Object.values(obj);
+    }
+    return keys.reduce((acc, key) => {
+      return [...acc, obj[key]];
+    }, []);
+  }
+
+  // src/common/obis/store.js
+  var HISTORY_LIMIT = 10;
+  var storeHistory = [
+    {
+      accounts: [],
+      statements: [],
+      entries: []
+    }
+  ];
+  function hydrate(payload) {
+    pushStore(payload);
+    messages.emit(actions.STORE_HYDRATED);
+  }
+  function store() {
+    return storeHistory[storeHistory.length - 1];
+  }
+  store.history = storeHistory;
+  store.hydrate = hydrate;
+  function pushStore(nextStore) {
+    storeHistory.push(nextStore);
+    if (storeHistory.length > HISTORY_LIMIT) {
+      storeHistory.shift();
+    }
+    messages.emit(actions.STORE_UPDATED);
+  }
+  var checkSchema = ObjTypeError("store#");
+  var LEAVE_UNCHANGED = null;
+  var checkSchemaForAddingAnAccount = checkSchema({
+    id: isString,
+    accountNumber: isString,
+    sortCode: isString,
+    name: [isString, isUnset],
+    type: [isString, isUnset],
+    iban: [isString, isUnset],
+    bic: [isString, isUnset]
+  })(actions.add.ACCOUNTS);
+  var checkSchemaForUpdatingAnAccount = checkSchema({
+    id: isString,
+    accountNumber: [isString, isUnset],
+    sortCode: [isString, isUnset],
+    name: [isString, isUnset],
+    type: [isString, isUnset],
+    iban: [isString, isUnset],
+    bic: [isString, isUnset]
+  })(actions.update.ACCOUNTS);
+  messages.on(actions.add.ACCOUNTS, (accounts) => {
+    const currentStore = store();
+    const nextStore = fn(currentStore, (draftState) => {
+      accounts.forEach((account) => {
+        const err = checkSchemaForAddingAnAccount(account);
+        if (err) {
+          throw TypeError(err);
+        }
+        const existingAccount = draftState.accounts.find((x2) => x2.id === account.id);
+        if (existingAccount) {
+          console.log("Account exists", existingAccount);
+          return;
+        }
+        draftState.accounts.push({...account});
+      });
+    });
+    if (nextStore !== currentStore) {
+      pushStore(nextStore);
+    }
+  });
+  messages.on(actions.update.ACCOUNTS, (accounts) => {
+    const unseenAccounts = [];
+    const currentStore = store();
+    const nextStore = fn(currentStore, (draftState) => {
+      accounts.forEach((account) => {
+        const err = checkSchemaForUpdatingAnAccount(account);
+        if (err) {
+          throw TypeError(err);
+        }
+        const existingAccount = draftState.accounts.find((x2) => x2.id === account.id);
+        if (!existingAccount) {
+          unseenAccounts.push(account);
+          return;
+        }
+        Object.entries(account).forEach(([key, value]) => {
+          if (isUnset(value)) {
+            return;
+          }
+          existingAccount[key] = value;
+        });
+      });
+    });
+    if (unseenAccounts.length) {
+      console.log("Not updating unseen accounts: ", unseenAccounts);
+    }
+    if (nextStore !== currentStore) {
+      pushStore(nextStore);
+    }
+  });
+  var checkSchemaForAddingAStatement = checkSchema({
+    id: isString,
+    accountId: isString,
+    endDate: isNumber,
+    startDate: [isNumber, isUnset],
+    startBalance: [isNumber, isUnset],
+    endBalance: [isNumber, isUnset]
+  })(actions.add.STATEMENTS);
+  var checkSchemaForUpdatingAStatement = checkSchema({
+    id: isString,
+    accountId: [isString, isUnset],
+    endDate: isNumber,
+    startDate: isNumber,
+    startBalance: isNumber,
+    endBalance: isNumber
+  })(actions.update.STATEMENTS);
+  messages.on(actions.add.STATEMENTS, (statements) => {
+    const existingStatements = [];
+    const currentStore = store();
+    const nextStore = fn(currentStore, (draftState) => {
+      statements.forEach((statement) => {
+        const err = checkSchemaForAddingAStatement(statement);
+        if (err) {
+          throw TypeError(err);
+        }
+        const existingStatement = draftState.statements.find((x2) => x2.id === statement.id);
+        if (existingStatement) {
+          existingStatements.push(existingStatement);
+          return;
+        }
+        draftState.statements.push({...statement});
+      });
+    });
+    if (existingStatements.length) {
+      console.log("Not overwriting existing statements: ", existingStatements);
+    }
+    if (nextStore !== currentStore) {
+      pushStore(nextStore);
+    }
+  });
+  messages.on(actions.update.STATEMENTS, (statements) => {
+    const unseenStatements = [];
+    const currentStore = store();
+    const nextStore = fn(currentStore, (draftState) => {
+      statements.forEach((statement) => {
+        const err = checkSchemaForUpdatingAStatement(statement);
+        if (err) {
+          throw TypeError(err);
+        }
+        const existingStatement = draftState.statements.find((x2) => x2.id === statement.id);
+        if (!existingStatement) {
+          unseenStatements.push(statement);
+          return;
+        }
+        Object.entries(statement).forEach(([key, value]) => {
+          if (isUnset(value)) {
+            return;
+          }
+          existingStatement[key] = value;
+        });
+      });
+    });
+    if (unseenStatements.length) {
+      console.log("Not updating unseen statements: ", unseenStatements);
+    }
+    if (nextStore !== currentStore) {
+      pushStore(nextStore);
+    }
+  });
+  var checkSchemaForAddingAnEntry = checkSchema({
+    id: isString,
+    accountId: isString,
+    statementId: isString,
+    date: isNumber,
+    type: isString,
+    payee: isString,
+    note: isString,
+    debit: isNumber,
+    credit: isNumber,
+    balance: isNumber
+  })(actions.add.ENTRIES);
+  messages.on(actions.add.ENTRIES, (entries) => {
+    const existingEntries = [];
+    const currentStore = store();
+    const nextStore = fn(currentStore, (draftState) => {
+      entries.forEach((entry) => {
+        const err = checkSchemaForAddingAnEntry(entry);
+        if (err) {
+          throw TypeError(err);
+        }
+        const existingEntry = draftState.entries.find((x2) => x2.id === entry.id);
+        if (existingEntry) {
+          existingEntries.push(existingEntry);
+          return;
+        }
+        draftState.entries.push({...entry});
+      });
+    });
+    if (existingEntries.length) {
+      console.log("Not overwriting existing entries: ", existingEntries);
+    }
+    if (nextStore !== currentStore) {
+      pushStore(nextStore);
+    }
+  });
+
+  // src/plugins/hsbc/actions.js
+  var actions2 = {
+    received: {
+      ACCOUNTS_LIST: "received/hsbc:accounts-list",
+      STATEMENTS_LIST: "received/hsbc:statements-list",
+      STATEMENT_DETAILS: "received/hsbc:statement-details"
+    }
+  };
+
+  // src/common/obis/utils/dates.js
+  function dateTimeString(timestampOrDate, delim = "") {
+    const date = new Date(timestampOrDate);
+    return [
+      date.getFullYear(),
+      zeroPad(date.getMonth() + 1),
+      zeroPad(date.getDate()),
+      zeroPad(date.getHours()),
+      zeroPad(date.getMinutes()),
+      zeroPad(date.getSeconds())
+    ].join(delim);
+  }
+  function zeroPad(num) {
+    if (num < 10) {
+      return "0" + num;
+    }
+    return "" + num;
+  }
+
+  // src/common/obis/utils/cookie.js
+  function getCookie(name) {
+    const cookie = document.cookie.split(";").reduce((acc, keyValueStr) => {
+      const equalsPos = keyValueStr.indexOf("=");
+      const key = keyValueStr.slice(0, equalsPos).trim();
+      const value = keyValueStr.slice(equalsPos + 1).trim();
+      return {
+        ...acc,
+        [key]: value
+      };
+    }, {});
+    return cookie[name];
+  }
+
+  // src/plugins/hsbc/helpers.js
+  function parseDescriptionIntoPayeeAndNote(payeeAndNote) {
+    const matches = payeeAndNote.split(/\s{3,}/);
+    const [payee, ...notes] = matches.map((x2) => x2.trim().replace(/ +/g, " "));
+    return [payee, notes.join(" ")];
+  }
+  function parseHsbcDateTimeString(dateTimeString2) {
+    const rxDateTime = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
+    const matches = dateTimeString2.match(rxDateTime);
+    if (!matches) {
+      const reason = `dateTimeString does not match expected pattern: ${rxDateTime.toString()}`;
+      throw new TypeError(reason);
+    }
+    const [, year, month, day, hours, minutes, seconds] = matches;
+    return Date.UTC(year, month - 1, day, hours, minutes, seconds);
+  }
+  function hsbcBrowserTimeStamp() {
+    const now = new Date();
+    return now.getMonth() + 1 + "/" + now.getDate() + "/" + now.getFullYear() + " " + now.getHours() + ":" + zeroPad(now.getMinutes()) + ":" + zeroPad(now.getSeconds());
+  }
+  function hsbcGetJSCDataTimeStamp() {
+    const {getJSCDataTimeStamp, HSBCGLBL} = window;
+    if (typeof getJSCDataTimeStamp === "function") {
+      return getJSCDataTimeStamp();
+    }
+    if (HSBCGLBL && typeof HSBCGLBL.hsbcglblform === "function") {
+      const JSCData = HSBCGLBL.hsbcglblform();
+      return JSCData + ":" + hsbcBrowserTimeStamp();
+    }
+    return null;
+  }
+  function hsbcCommonHeaders() {
+    const headers = {
+      "Content-type": "application/json",
+      "X-HDR-Synchronizer-Token": getCookie("SYNC_TOKEN"),
+      "X-HDR-jscData": hsbcGetJSCDataTimeStamp()
+    };
+    return headers;
+  }
+  function hsbcCodes(storage = sessionStorage) {
+    const {jmespath} = obis.deps;
+    const {accountselected = "{}"} = storage;
+    const json = JSON.parse(accountselected);
+    const codesPath = `
     {
       ctryCde: entityIdentifier.ctryCde,
       grpMmbr: entityIdentifier.grpMmbr
     }
-  `,{ctryCde:a,grpMmbr:s}=e.search(r,o);return{ctryCde:a||"GB",grpMmbr:s||"HBEU"}}var Ot=M("addStatementDetailInterceptor#");function Jt(){let{addAjaxListener:t,AjaxRequester:e,jmespath:n,messages:r}=obis.deps;return t({name:"rtrvAcctSumm",description:"Parse a list of accounts",rx:/\/accountDataSvc\/rtrvAcctSumm/,onFullResponse:o=>{let{responseText:a}=o,s=JSON.parse(a),i=`
+  `;
+    const {ctryCde, grpMmbr} = jmespath.search(json, codesPath);
+    return {
+      ctryCde: ctryCde || "GB",
+      grpMmbr: grpMmbr || "HBEU"
+    };
+  }
+
+  // src/plugins/hsbc/hijack/accounts.js
+  var checkSchema2 = ObjTypeError("addStatementDetailInterceptor#");
+  function addAccountsInterceptor() {
+    const {addAjaxListener, AjaxRequester, jmespath, messages: messages2} = obis.deps;
+    addAjaxListener({
+      name: "rtrvAcctSumm",
+      description: "Parse a list of accounts",
+      rx: /\/accountDataSvc\/rtrvAcctSumm/,
+      onFullResponse: (payload) => {
+        const {responseText} = payload;
+        const json = JSON.parse(responseText);
+        const entriesPath = `
         countriesAccountList[].acctLiteWrapper[].{
           id:                         acctIndex,
           accountHolderName:          acctHldrFulName[0],
@@ -17,9 +1164,123 @@ ${s.map(c=>`| ${c}`).join(`
           entProdTypCde: entProdTypCde,
           entProdCatCde: entProdCatCde
         }
-      `,c=`
+      `;
+        const entityPath = `
         countriesAccountList[].entityID
-      `,u=v=>!Ot({id:d,accountHolderName:d,sortCodeAndAccountNumber:d})("validateEntry")(v),f=v=>!Ot({ctryCde:d,grpMmbr:d})("validateEntity")(v),m=n.search(s,i),S=n.search(s,c),g=m.every(u),E=S.every(f);if(!g||!E){let v=`rtrvAcctSumm :: Validation failed: ${m} + ${S}`;r.emit(l.error.ACCOUNTS,new TypeError(v));return}let{ctryCde:h,grpMmbr:p}=S[0],y={ctryCde:h.toLowerCase(),grpMmbr:p},R=m.map(v=>{let{sortCodeAndAccountNumber:$,...A}=v,[ut,W]=$.split(" ");return{...y,...A,sortCode:ut,accountNumber:W}});r.emit(I.received.ACCOUNTS_LIST,R)}}),e({name:"rtrvAcctSumm",description:"Request a list of accounts",method:"post",url:"/gpib/channel/proxy/accountDataSvc/rtrvAcctSumm",setHeaders:H,setPayload:o=>{let a=Ot({ctryCde:d,grpMmbr:d})("AjaxRequester")(o);if(a){let i=`rtrvAcctSumm :: Invalid options: ${a}`;r.emit(l.error.ACCOUNTS,new TypeError(i));return}let s={accountSummaryFilter:{txnTypCdes:[],entityCdes:[{ctryCde:o.ctryCde,grpMmbr:o.grpMmbr}]}};return JSON.stringify(s)}})}var Kt=Ze;function Ze(){let{messages:t}=obis.deps,{on:e,emit:n}=t,r=Jt();function o(){r(zt())}return e(I.received.ACCOUNTS_LIST,a=>{let s=a.map(i=>({id:i.id,accountNumber:i.accountNumber,sortCode:i.sortCode,name:i.accountHolderName,type:i.entProdTypCde,iban:C,bic:C}));n(l.add.ACCOUNTS,s),n(l.got.ACCOUNTS,a)}),{canRequestAccounts:()=>!0,requestAccounts:o}}var st=Mt(Rt());var ne=M("addAccountStatementsInterceptor#");function oe(){let{addAjaxListener:t,AjaxRequester:e,jmespath:n,messages:r}=obis.deps;return t({name:"rtrvStmtAcctList",description:"Parse a list of available statements in an account",rx:/\/accountDataSvc\/rtrvStmtAcctList/,onFullResponse:o=>{let{responseText:a}=o,s=JSON.parse(a),i=`
+      `;
+        const validateEntry = (entry) => !checkSchema2({
+          id: isString,
+          accountHolderName: isString,
+          sortCodeAndAccountNumber: isString
+        })("validateEntry")(entry);
+        const validateEntity = (entity2) => !checkSchema2({
+          ctryCde: isString,
+          grpMmbr: isString
+        })("validateEntity")(entity2);
+        const entries = jmespath.search(json, entriesPath);
+        const entity = jmespath.search(json, entityPath);
+        const entriesValid = entries.every(validateEntry);
+        const entityValid = entity.every(validateEntity);
+        if (!entriesValid || !entityValid) {
+          const reason = `rtrvAcctSumm :: Validation failed: ${entries} + ${entity}`;
+          messages2.emit(actions.error.ACCOUNTS, new TypeError(reason));
+          return;
+        }
+        const {ctryCde, grpMmbr} = entity[0];
+        const sanitizedEntity = {
+          ctryCde: ctryCde.toLowerCase(),
+          grpMmbr
+        };
+        const obisEntries = entries.map((entry) => {
+          const {sortCodeAndAccountNumber, ...restEntry} = entry;
+          const [sortCode, accountNumber] = sortCodeAndAccountNumber.split(" ");
+          return {
+            ...sanitizedEntity,
+            ...restEntry,
+            sortCode,
+            accountNumber
+          };
+        });
+        messages2.emit(actions2.received.ACCOUNTS_LIST, obisEntries);
+      }
+    });
+    return AjaxRequester({
+      name: "rtrvAcctSumm",
+      description: "Request a list of accounts",
+      method: "post",
+      url: "/gpib/channel/proxy/accountDataSvc/rtrvAcctSumm",
+      setHeaders: hsbcCommonHeaders,
+      setPayload: (options) => {
+        const err = checkSchema2({
+          ctryCde: isString,
+          grpMmbr: isString
+        })("AjaxRequester")(options);
+        if (err) {
+          const reason = `rtrvAcctSumm :: Invalid options: ${err}`;
+          messages2.emit(actions.error.ACCOUNTS, new TypeError(reason));
+          return;
+        }
+        const payload = {
+          accountSummaryFilter: {
+            txnTypCdes: [],
+            entityCdes: [
+              {
+                ctryCde: options.ctryCde,
+                grpMmbr: options.grpMmbr
+              }
+            ]
+          }
+        };
+        return JSON.stringify(payload);
+      }
+    });
+  }
+
+  // src/plugins/hsbc/requesters/accounts.js
+  var accounts_default = configureEntriesInterceptor;
+  function configureEntriesInterceptor() {
+    const {messages: messages2} = obis.deps;
+    const {on: on2, emit} = messages2;
+    const requestAccounts = addAccountsInterceptor();
+    function _requestAccounts() {
+      requestAccounts(hsbcCodes());
+    }
+    on2(actions2.received.ACCOUNTS_LIST, (accountsResponse) => {
+      const accountsUpdate = accountsResponse.map((accountResponse) => {
+        return {
+          id: accountResponse.id,
+          accountNumber: accountResponse.accountNumber,
+          sortCode: accountResponse.sortCode,
+          name: accountResponse.accountHolderName,
+          type: accountResponse.entProdTypCde,
+          iban: LEAVE_UNCHANGED,
+          bic: LEAVE_UNCHANGED
+        };
+      });
+      emit(actions.add.ACCOUNTS, accountsUpdate);
+      emit(actions.got.ACCOUNTS, accountsResponse);
+    });
+    return {
+      canRequestAccounts: () => true,
+      requestAccounts: _requestAccounts
+    };
+  }
+
+  // src/plugins/hsbc/requesters/statements.js
+  var import_promises = __toModule(require_promises());
+
+  // src/plugins/hsbc/hijack/statements.js
+  var checkSchema3 = ObjTypeError("addAccountStatementsInterceptor#");
+  function addAccountStatementsInterceptor() {
+    const {addAjaxListener, AjaxRequester, jmespath, messages: messages2} = obis.deps;
+    addAjaxListener({
+      name: "rtrvStmtAcctList",
+      description: "Parse a list of available statements in an account",
+      rx: /\/accountDataSvc\/rtrvStmtAcctList/,
+      onFullResponse: (payload) => {
+        const {responseText} = payload;
+        const json = JSON.parse(responseText);
+        const entriesPath = `
         {
           id:     stmtAcctList[].acctIdr.acctIndex | [0],
           bic:    extensions[?name=='bic'].value   | [0],
@@ -34,23 +1295,513 @@ ${s.map(c=>`| ${c}`).join(`
             endDate:  stmtEndDt
           }
         }
-      `,c=m=>!ne({id:d,bic:d,iban:d,entProdCatCde:d,entProdTypCde:d,startSheet:T,statementIds:re})("validateEntries")(m),u=n.search(s,i);if(!c(u)){let m=`rtrvStmtAcctList :: Validation failed: ${u}`;r.emit(l.error.STATEMENTS,new TypeError(m));return}r.emit(I.received.STATEMENTS_LIST,[u])}}),e({name:"rtrvStmtAcctList",description:"Request a list of available statements in an account",method:"post",url:"/gpib/channel/proxy/accountDataSvc/rtrvStmtAcctList",setHeaders:H,setPayload:o=>{let a=ne({ctryCde:d,grpMmbr:d,year:[rt("Latest"),d],acctIndex:d,entProdTypCde:d,entProdCatCde:d})("AjaxRequester")(o);if(a){let i=`rtrvStmtAcctList :: Invalid options: ${a}`;r.emit(l.error.STATEMENTS,new TypeError(i));return}let s={extensions:[{name:"date",value:o.year||"Latest"}],custIdr:{entityID:{ctryCde:o.ctryCde,grpMmbr:o.grpMmbr},custID:" "},account:[{acctIdr:{acctIndex:o.acctIndex,entProdTypCde:o.entProdTypCde,entProdCatCde:o.entProdCatCde},procFlag:" ",eStmFlag:" ",emailId:" "}]};return JSON.stringify(s)}})}function re(...t){return t.every(({id:e,endDate:n})=>typeof e=="string"&&typeof n=="string")}re.displayName="isValidStatementIds";var ae=En;function yn(t,e=["Latest"]){return e.map(n=>t.map(r=>({year:n,acctIndex:r.id,ctryCde:r.ctryCde,grpMmbr:r.grpMmbr,entProdTypCde:r.entProdTypCde,entProdCatCde:r.entProdCatCde})))}function En(){let{messages:t}=obis.deps,{on:e,emit:n}=t,r=oe(),o=[];e(l.got.ACCOUNTS,i=>{o.push(...i)});function a(i,c){n(l.ui.UPDATE_PROGRESS_BAR,{max:i,value:c})}function s(i=["Latest"]){let c=yn(o,i).flat().map(m=>()=>{let[S,g,E]=(0,st.makePromise)(),h=e(I.received.STATEMENTS_LIST,g),p=e(l.error.STATEMENTS,E);return r(m),a(c.length,++u),S.finally(()=>{h(),p()})}),u=0;a(c.length,u),(0,st.poolPromises)(1,...c).then(m=>{let S=m.filter(h=>h.status==="fulfilled").map(h=>h.value[0]);if(!S.length){let h=m.filter(p=>p.status==="rejected").map(p=>p.reason);n(l.error.STATEMENTS,h);return}let g=S.map(h=>({id:h.id,iban:h.iban,bic:h.bic,accountNumber:C,sortCode:C,name:C,type:C})),E=S.map(h=>h.statementIds.map(p=>({id:p.id,accountId:h.id,endDate:new Date(p.endDate).getTime(),startDate:C,startBalance:C,endBalance:C}))).flat();n(l.update.ACCOUNTS,g),n(l.add.STATEMENTS,E),n(l.got.STATEMENTS),o.length=0})}return{canRequestStatements:()=>!!o.length,requestStatements:s}}var ct=Mt(Rt());function j(t){return!t||typeof t!="number"?"-":(t/100).toLocaleString("en-GB",{minimumFractionDigits:2,maximumFractionDigits:2})}var{SparkMD5:vn}=obis.deps;function ie(t){return vn.hash(t)}function ce(t){let{date:e,debit:n,credit:r,index:o,accountNumber:a,sortCode:s,type:i,payee:c,note:u}=t,f=It(e)||"UNKNOWN_DATE",m=j(n+r);return f+"_"+ie(f+(o!==void 0?o:"")+(a||"")+(s||"")+(i||"")+(c||"")+(u||"")+m)}var it=M("addStatementDetailInterceptor#");function ue(){let{addAjaxListener:t,AjaxRequester:e,jmespath:n,messages:r}=obis.deps;return t({name:"rtrvStmtDetl",description:"Parse a statement part",rx:/\/accountDataSvc\/rtrvStmtDetl/,onFullResponse:o=>{let{data:a="{}",responseText:s}=o,i=JSON.parse(a),c=JSON.parse(s),u=`
+      `;
+        const validateEntries = (entry) => !checkSchema3({
+          id: isString,
+          bic: isString,
+          iban: isString,
+          entProdCatCde: isString,
+          entProdTypCde: isString,
+          startSheet: isNumber,
+          statementIds: isValidStatementIds
+        })("validateEntries")(entry);
+        const entries = jmespath.search(json, entriesPath);
+        const entriesValid = validateEntries(entries);
+        if (!entriesValid) {
+          const reason = `rtrvStmtAcctList :: Validation failed: ${entries}`;
+          messages2.emit(actions.error.STATEMENTS, new TypeError(reason));
+          return;
+        }
+        messages2.emit(actions2.received.STATEMENTS_LIST, [entries]);
+      }
+    });
+    return AjaxRequester({
+      name: "rtrvStmtAcctList",
+      description: "Request a list of available statements in an account",
+      method: "post",
+      url: "/gpib/channel/proxy/accountDataSvc/rtrvStmtAcctList",
+      setHeaders: hsbcCommonHeaders,
+      setPayload: (options) => {
+        const err = checkSchema3({
+          ctryCde: isString,
+          grpMmbr: isString,
+          year: [isThisValue("Latest"), isString],
+          acctIndex: isString,
+          entProdTypCde: isString,
+          entProdCatCde: isString
+        })("AjaxRequester")(options);
+        if (err) {
+          const reason = `rtrvStmtAcctList :: Invalid options: ${err}`;
+          messages2.emit(actions.error.STATEMENTS, new TypeError(reason));
+          return;
+        }
+        const payload = {
+          extensions: [
+            {
+              name: "date",
+              value: options.year || "Latest"
+            }
+          ],
+          custIdr: {
+            entityID: {
+              ctryCde: options.ctryCde,
+              grpMmbr: options.grpMmbr
+            },
+            custID: " "
+          },
+          account: [
+            {
+              acctIdr: {
+                acctIndex: options.acctIndex,
+                entProdTypCde: options.entProdTypCde,
+                entProdCatCde: options.entProdCatCde
+              },
+              procFlag: " ",
+              eStmFlag: " ",
+              emailId: " "
+            }
+          ]
+        };
+        return JSON.stringify(payload);
+      }
+    });
+  }
+  function isValidStatementIds(...statementIds) {
+    return statementIds.every(({id, endDate}) => {
+      return typeof id === "string" && typeof endDate === "string";
+    });
+  }
+  isValidStatementIds.displayName = "isValidStatementIds";
+
+  // src/plugins/hsbc/requesters/statements.js
+  var statements_default = configureStatementsInterceptor;
+  function generateStatementListRequesterPayloads(accountsResponse, years = ["Latest"]) {
+    return years.map((year) => accountsResponse.map((act) => ({
+      year,
+      acctIndex: act.id,
+      ctryCde: act.ctryCde,
+      grpMmbr: act.grpMmbr,
+      entProdTypCde: act.entProdTypCde,
+      entProdCatCde: act.entProdCatCde
+    })));
+  }
+  function configureStatementsInterceptor() {
+    const {messages: messages2} = obis.deps;
+    const {on: on2, emit} = messages2;
+    const requestStatementListForAccount = addAccountStatementsInterceptor();
+    const accountsResponse = [];
+    on2(actions.got.ACCOUNTS, (_accountsResponse) => {
+      accountsResponse.push(..._accountsResponse);
+    });
+    function updateProgressBar(max, value) {
+      emit(actions.ui.UPDATE_PROGRESS_BAR, {max, value});
+    }
+    function _requestStatements(years = ["Latest"]) {
+      const statementListRequesters = generateStatementListRequesterPayloads(accountsResponse, years).flat().map((payload) => () => {
+        const [prom, res, rej] = (0, import_promises.makePromise)();
+        const resOff = on2(actions2.received.STATEMENTS_LIST, res);
+        const rejOff = on2(actions.error.STATEMENTS, rej);
+        requestStatementListForAccount(payload);
+        updateProgressBar(statementListRequesters.length, ++count);
+        return prom.finally(() => {
+          resOff();
+          rejOff();
+        });
+      });
+      let count = 0;
+      updateProgressBar(statementListRequesters.length, count);
+      const CONCURRENT_REQUESTS_NOT_POSSIBLE_YET = 1;
+      (0, import_promises.poolPromises)(CONCURRENT_REQUESTS_NOT_POSSIBLE_YET, ...statementListRequesters).then((everything) => {
+        const fulfilled = everything.filter((x2) => x2.status === "fulfilled").map((x2) => x2.value[0]);
+        if (!fulfilled.length) {
+          const reasons = everything.filter((x2) => x2.status === "rejected").map((x2) => x2.reason);
+          emit(actions.error.STATEMENTS, reasons);
+          return;
+        }
+        const accountUpdates = fulfilled.map((x2) => ({
+          id: x2.id,
+          iban: x2.iban,
+          bic: x2.bic,
+          accountNumber: LEAVE_UNCHANGED,
+          sortCode: LEAVE_UNCHANGED,
+          name: LEAVE_UNCHANGED,
+          type: LEAVE_UNCHANGED
+        }));
+        const statementsAdded = fulfilled.map((account) => account.statementIds.map((statement) => ({
+          id: statement.id,
+          accountId: account.id,
+          endDate: new Date(statement.endDate).getTime(),
+          startDate: LEAVE_UNCHANGED,
+          startBalance: LEAVE_UNCHANGED,
+          endBalance: LEAVE_UNCHANGED
+        }))).flat();
+        emit(actions.update.ACCOUNTS, accountUpdates);
+        emit(actions.add.STATEMENTS, statementsAdded);
+        emit(actions.got.STATEMENTS);
+        accountsResponse.length = 0;
+      });
+    }
+    return {
+      canRequestStatements: () => !!accountsResponse.length,
+      requestStatements: _requestStatements
+    };
+  }
+
+  // src/plugins/hsbc/requesters/entries.js
+  var import_promises2 = __toModule(require_promises());
+
+  // src/common/obis/utils/currency.js
+  function convertCentsToDecimal(cents) {
+    if (!cents || typeof cents !== "number") {
+      return "-";
+    }
+    const decimal = cents / 100;
+    return decimal.toLocaleString("en-GB", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  // src/common/esm/md5.js
+  var {SparkMD5} = obis.deps;
+  function md5(str) {
+    return SparkMD5.hash(str);
+  }
+
+  // src/common/obis/generators.js
+  function generateIdForTransaction(fullEntry) {
+    const {
+      date,
+      debit,
+      credit,
+      index,
+      accountNumber,
+      sortCode,
+      type,
+      payee,
+      note
+    } = fullEntry;
+    const dateTime = dateTimeString(date) || "UNKNOWN_DATE";
+    const transactionAmount = convertCentsToDecimal(debit + credit);
+    return dateTime + "_" + md5(dateTime + (index !== void 0 ? index : "") + (accountNumber || "") + (sortCode || "") + (type || "") + (payee || "") + (note || "") + transactionAmount);
+  }
+
+  // src/plugins/hsbc/hijack/entries.js
+  var checkSchema4 = ObjTypeError("addStatementDetailInterceptor#");
+  function addStatementDetailInterceptor() {
+    const {addAjaxListener, AjaxRequester, jmespath, messages: messages2} = obis.deps;
+    addAjaxListener({
+      name: "rtrvStmtDetl",
+      description: "Parse a statement part",
+      rx: /\/accountDataSvc\/rtrvStmtDetl/,
+      onFullResponse: (payload) => {
+        const {data = "{}", responseText} = payload;
+        const postData = JSON.parse(data);
+        const json = JSON.parse(responseText);
+        const idsPath = `
         {
           accountId: acctIdr.acctIndex,
           statementId: stmtDtl.stmtId
         }
-      `,f=n.search(i,u),m=it({accountId:d,statementId:d})("ids")(f);if(m){let A=`rtrvStmtDetl :: Validation failed: ${m}`;r.emit(l.error.ENTRIES,new TypeError(A));return}let S=`
+      `;
+        const ids = jmespath.search(postData, idsPath);
+        const idsErr = checkSchema4({
+          accountId: isString,
+          statementId: isString
+        })("ids")(ids);
+        if (idsErr) {
+          const reason = `rtrvStmtDetl :: Validation failed: ${idsErr}`;
+          messages2.emit(actions.error.ENTRIES, new TypeError(reason));
+          return;
+        }
+        const balancesPath = `
         stmtInfo.{
           startDate:      stmtPrdDetl.stmtPrdStrtDt,
           endDate:        stmtPrdDetl.stmtPrdEndDt,
           endBalance:     stmtStartBal.amt,
           startBalance:   stmtEndBal.amt
         }
-      `,g=n.search(c,S),E=it({startDate:d,startBalance:T,endDate:d,endBalance:T})("balances")(g);if(E){let A=`rtrvStmtDetl :: Validation failed: ${E}`;r.emit(l.error.ENTRIES,new TypeError(A));return}let h=`
+      `;
+        const balances = jmespath.search(json, balancesPath);
+        const balancesErr = checkSchema4({
+          startDate: isString,
+          startBalance: isNumber,
+          endDate: isString,
+          endBalance: isNumber
+        })("balances")(balances);
+        if (balancesErr) {
+          const reason = `rtrvStmtDetl :: Validation failed: ${balancesErr}`;
+          messages2.emit(actions.error.ENTRIES, new TypeError(reason));
+          return;
+        }
+        const entriesPath = `
         stmtInfo.stmtTxnDetl[].{
           fullDescription:   txnDetail[0],
           amount:            txnAmt.amt,
           runningBalance:    balRunAmt.amt,
           date:              txnDt
         }
-      `,p=A=>!it({date:d,fullDescription:d,amount:T,runningBalance:[T,rt(null)]})("validateEntry")(A),y=n.search(c,h);if(!y.every(p)){let A=`rtrvStmtDetl :: Validation failed: ${y}`;r.emit(l.error.ENTRIES,new TypeError(A));return}let v={...f,startDate:ot(g.startDate),endDate:ot(g.endDate),startBalance:Math.round(g.startBalance*100),endBalance:Math.round(g.endBalance*100)},$=y.map(A=>{let{fullDescription:ut,amount:W,runningBalance:le,date:fe}=A,[pe,me]=Yt(ut),he=Math.round(Math.abs(Math.min(W,0))*100),Se=Math.round(Math.max(W,0)*100),ge=Math.round(le*100),xt={...f,payee:pe,note:me,date:ot(fe),debit:he,credit:Se,balance:ge};return{id:ce(xt),...xt}});r.emit(I.received.STATEMENT_DETAILS,{balances:v,entries:$})}}),e({name:"rtrvStmtDetl",description:"Request a statement part",method:"post",url:"/gpib/channel/proxy/accountDataSvc/rtrvStmtDetl",setHeaders:H,setPayload:o=>{let a=it({entProdTypCde:d,acctIndex:d,startSheet:T,stmtId:d,stmtDt:d})("AjaxRequester")(o);if(a){let i=`rtrvStmtDetl :: Invalid options: ${a}`;r.emit(l.error.ENTRIES,new TypeError(i));return}let s={acctIdr:{acctIndex:o.acctIndex,entProdTypCde:o.entProdTypCde},startSheet:o.startSheet,bulkKey:0,bulkKeyNum:0,stmtDtl:{stmtId:o.stmtId,stmtDt:o.stmtDt,stmtType:"undefined"},pagingInfo:{},extensions:[{name:" ",value:"1"},{name:" ",value:"1"},{name:" ",value:"1"}]};return JSON.stringify(s)}})}var de=An;function Nn(t){return t.map(e=>e.statementIds.map(n=>({entProdTypCde:e.entProdTypCde,acctIndex:e.id,startSheet:e.startSheet,stmtId:n.id,stmtDt:n.endDate})))}function An(){let{messages:t}=obis.deps,{on:e,emit:n}=t,r=ue(),o=[];e(I.received.STATEMENTS_LIST,i=>{o.push(...i)});function a(i,c){n(l.ui.UPDATE_PROGRESS_BAR,{max:i,value:c})}function s(){let i=Nn(o).flat().map(f=>()=>{let[m,S,g]=(0,ct.makePromise)(),E=e(I.received.STATEMENT_DETAILS,S),h=e(l.error.ENTRIES,g);return r(f),a(i.length,++c),m.finally(()=>{E(),h()})}),c=0;a(i.length,c),(0,ct.poolPromises)(1,...i).then(f=>{let m=f.filter(p=>p.status==="fulfilled").map(p=>p.value);if(!m.length){let p=f.filter(y=>y.status==="rejected").map(y=>y.reason);n(l.error.ENTRIES,p);return}let S=m.map(p=>p.balances),g=m.map(p=>p.entries).flat(),E=S.map(p=>{let{statementId:y,startDate:R,endDate:v,startBalance:$,endBalance:A}=p;return{id:y,accountId:C,endDate:v,startDate:R,startBalance:$,endBalance:A}}),h=g.map(p=>{let R=p.credit+-p.debit<0?"WITHD":"DEP";return{id:p.id,accountId:p.accountId,statementId:p.statementId,date:p.date,type:R,payee:p.payee,note:p.note,debit:p.debit,credit:p.credit,balance:p.balance}});n(l.update.STATEMENTS,E),n(l.add.ENTRIES,h),n(l.got.ENTRIES),o.length=0})}return{canRequestEntries:()=>!!o.length,requestEntries:s}}obis.loadPlugin(()=>{let{requestAccounts:t}=Kt(),{requestStatements:e}=ae(),{requestEntries:n}=de(),r=obis.fetchMachine,{messages:o}=obis.deps,{emit:a}=o,s;return r.performTransitions({"idle -> getting-accounts":{on:l.get.ACCOUNTS,then:i=>{s=i,console.log("requestedYearsToDownload = ",i),t()}},"getting-accounts -> found-accounts":{on:l.got.ACCOUNTS,then:()=>a(l.get.STATEMENTS)},"getting-accounts -> failed-accounts":{on:l.error.ACCOUNTS,then:()=>r.enter("idle")},"found-accounts -> getting-statements":{on:l.get.STATEMENTS,then:()=>{let i=new Date().getFullYear(),c=new Array(s).fill().map((u,f)=>String(i-f));e(c.length?c:["Latest"])}},"getting-statements -> found-statements":{on:l.got.STATEMENTS,then:()=>a(l.get.ENTRIES)},"getting-statements -> failed-statements":{on:l.error.STATEMENTS,then:()=>r.enter("found-accounts")},"found-statements -> getting-entries":{on:l.get.ENTRIES,then:()=>n()},"getting-entries -> found-entries":{on:l.got.ENTRIES,then:()=>{}},"getting-entries -> failed-entries":{on:l.error.ENTRIES,then:()=>r.enter("found-statements")},"found-entries -> download-all":{on:l.ui.DOWNLOAD_STATEMENTS,then:()=>{}},"download-all -> found-entries":{on:l.ui.DOWNLOADED_STATEMENTS,then:()=>{}}}),r.info(),{name:"HSBC"}});})();
+      `;
+        const validateEntry = (entry) => !checkSchema4({
+          date: isString,
+          fullDescription: isString,
+          amount: isNumber,
+          runningBalance: [isNumber, isThisValue(null)]
+        })("validateEntry")(entry);
+        const entries = jmespath.search(json, entriesPath);
+        const entriesValid = entries.every(validateEntry);
+        if (!entriesValid) {
+          const reason = `rtrvStmtDetl :: Validation failed: ${entries}`;
+          messages2.emit(actions.error.ENTRIES, new TypeError(reason));
+          return;
+        }
+        const obisBalances = {
+          ...ids,
+          startDate: parseHsbcDateTimeString(balances.startDate),
+          endDate: parseHsbcDateTimeString(balances.endDate),
+          startBalance: Math.round(balances.startBalance * 100),
+          endBalance: Math.round(balances.endBalance * 100)
+        };
+        const obisEntries = entries.map((entry) => {
+          const {fullDescription, amount, runningBalance, date} = entry;
+          const [payee, note] = parseDescriptionIntoPayeeAndNote(fullDescription);
+          const debit = Math.round(Math.abs(Math.min(amount, 0)) * 100);
+          const credit = Math.round(Math.max(amount, 0) * 100);
+          const balance = Math.round(runningBalance * 100);
+          const transaction = {
+            ...ids,
+            payee,
+            note,
+            date: parseHsbcDateTimeString(date),
+            debit,
+            credit,
+            balance
+          };
+          const id = generateIdForTransaction(transaction);
+          return {
+            id,
+            ...transaction
+          };
+        });
+        messages2.emit(actions2.received.STATEMENT_DETAILS, {
+          balances: obisBalances,
+          entries: obisEntries
+        });
+      }
+    });
+    return AjaxRequester({
+      name: "rtrvStmtDetl",
+      description: "Request a statement part",
+      method: "post",
+      url: "/gpib/channel/proxy/accountDataSvc/rtrvStmtDetl",
+      setHeaders: hsbcCommonHeaders,
+      setPayload: (options) => {
+        const err = checkSchema4({
+          entProdTypCde: isString,
+          acctIndex: isString,
+          startSheet: isNumber,
+          stmtId: isString,
+          stmtDt: isString
+        })("AjaxRequester")(options);
+        if (err) {
+          const reason = `rtrvStmtDetl :: Invalid options: ${err}`;
+          messages2.emit(actions.error.ENTRIES, new TypeError(reason));
+          return;
+        }
+        const payload = {
+          acctIdr: {
+            acctIndex: options.acctIndex,
+            entProdTypCde: options.entProdTypCde
+          },
+          startSheet: options.startSheet,
+          bulkKey: 0,
+          bulkKeyNum: 0,
+          stmtDtl: {
+            stmtId: options.stmtId,
+            stmtDt: options.stmtDt,
+            stmtType: "undefined"
+          },
+          pagingInfo: {},
+          extensions: [
+            {
+              name: " ",
+              value: "1"
+            },
+            {
+              name: " ",
+              value: "1"
+            },
+            {
+              name: " ",
+              value: "1"
+            }
+          ]
+        };
+        return JSON.stringify(payload);
+      }
+    });
+  }
+
+  // src/plugins/hsbc/requesters/entries.js
+  var entries_default = configureEntriesInterceptor2;
+  function generateStatementDetailsRequesterPayloads(statementsListResponse) {
+    return statementsListResponse.map((stmtList) => stmtList.statementIds.map((stmtMeta) => ({
+      entProdTypCde: stmtList.entProdTypCde,
+      acctIndex: stmtList.id,
+      startSheet: stmtList.startSheet,
+      stmtId: stmtMeta.id,
+      stmtDt: stmtMeta.endDate
+    })));
+  }
+  function configureEntriesInterceptor2() {
+    const {messages: messages2} = obis.deps;
+    const {on: on2, emit} = messages2;
+    const requestStatementDetail = addStatementDetailInterceptor();
+    const statementsListResponses = [];
+    on2(actions2.received.STATEMENTS_LIST, (_statementsListResponse) => {
+      statementsListResponses.push(..._statementsListResponse);
+    });
+    function updateProgressBar(max, value) {
+      emit(actions.ui.UPDATE_PROGRESS_BAR, {max, value});
+    }
+    function _requestEntries() {
+      const statementDetailsRequesters = generateStatementDetailsRequesterPayloads(statementsListResponses).flat().map((payload) => () => {
+        const [prom, res, rej] = (0, import_promises2.makePromise)();
+        const resOff = on2(actions2.received.STATEMENT_DETAILS, res);
+        const rejOff = on2(actions.error.ENTRIES, rej);
+        requestStatementDetail(payload);
+        updateProgressBar(statementDetailsRequesters.length, ++count);
+        return prom.finally(() => {
+          resOff();
+          rejOff();
+        });
+      });
+      let count = 0;
+      updateProgressBar(statementDetailsRequesters.length, count);
+      const CONCURRENT_REQUESTS_NOT_POSSIBLE_YET = 1;
+      (0, import_promises2.poolPromises)(CONCURRENT_REQUESTS_NOT_POSSIBLE_YET, ...statementDetailsRequesters).then((everything) => {
+        const fulfilled = everything.filter((x2) => x2.status === "fulfilled").map((x2) => x2.value);
+        if (!fulfilled.length) {
+          const reasons = everything.filter((x2) => x2.status === "rejected").map((x2) => x2.reason);
+          emit(actions.error.ENTRIES, reasons);
+          return;
+        }
+        const allBalances = fulfilled.map((x2) => x2.balances);
+        const allEntries = fulfilled.map((x2) => x2.entries).flat();
+        const statementUpdates = allBalances.map((balance) => {
+          const {
+            statementId,
+            startDate,
+            endDate,
+            startBalance,
+            endBalance
+          } = balance;
+          return {
+            id: statementId,
+            accountId: LEAVE_UNCHANGED,
+            endDate,
+            startDate,
+            startBalance,
+            endBalance
+          };
+        });
+        const entriesAdded = allEntries.map((entry) => {
+          const amount = entry.credit + -entry.debit;
+          const type = amount < 0 ? "WITHD" : "DEP";
+          return {
+            id: entry.id,
+            accountId: entry.accountId,
+            statementId: entry.statementId,
+            date: entry.date,
+            type,
+            payee: entry.payee,
+            note: entry.note,
+            debit: entry.debit,
+            credit: entry.credit,
+            balance: entry.balance
+          };
+        });
+        emit(actions.update.STATEMENTS, statementUpdates);
+        emit(actions.add.ENTRIES, entriesAdded);
+        emit(actions.got.ENTRIES);
+        statementsListResponses.length = 0;
+      });
+    }
+    return {
+      canRequestEntries: () => !!statementsListResponses.length,
+      requestEntries: _requestEntries
+    };
+  }
+
+  // src/plugins/hsbc/plugin.js
+  obis.loadPlugin(() => {
+    const {requestAccounts} = accounts_default();
+    const {requestStatements} = statements_default();
+    const {requestEntries} = entries_default();
+    const fetcher = obis.fetchMachine;
+    const {messages: messages2} = obis.deps;
+    const {emit} = messages2;
+    let yearsToDownload;
+    fetcher.performTransitions({
+      "idle -> getting-accounts": {
+        on: actions.get.ACCOUNTS,
+        then: (requestedYearsToDownload) => {
+          yearsToDownload = requestedYearsToDownload;
+          console.log("requestedYearsToDownload = ", requestedYearsToDownload);
+          requestAccounts();
+        }
+      },
+      "getting-accounts -> found-accounts": {
+        on: actions.got.ACCOUNTS,
+        then: () => emit(actions.get.STATEMENTS)
+      },
+      "getting-accounts -> failed-accounts": {
+        on: actions.error.ACCOUNTS,
+        then: () => fetcher.enter("idle")
+      },
+      "found-accounts -> getting-statements": {
+        on: actions.get.STATEMENTS,
+        then: () => {
+          const thisYear = new Date().getFullYear();
+          const yearsToRequest = new Array(yearsToDownload).fill().map((_2, goBack) => String(thisYear - goBack));
+          requestStatements(yearsToRequest.length ? yearsToRequest : ["Latest"]);
+        }
+      },
+      "getting-statements -> found-statements": {
+        on: actions.got.STATEMENTS,
+        then: () => emit(actions.get.ENTRIES)
+      },
+      "getting-statements -> failed-statements": {
+        on: actions.error.STATEMENTS,
+        then: () => fetcher.enter("found-accounts")
+      },
+      "found-statements -> getting-entries": {
+        on: actions.get.ENTRIES,
+        then: () => requestEntries()
+      },
+      "getting-entries -> found-entries": {
+        on: actions.got.ENTRIES,
+        then: () => {
+        }
+      },
+      "getting-entries -> failed-entries": {
+        on: actions.error.ENTRIES,
+        then: () => fetcher.enter("found-statements")
+      },
+      "found-entries -> download-all": {
+        on: actions.ui.DOWNLOAD_STATEMENTS,
+        then: () => {
+        }
+      },
+      "download-all -> found-entries": {
+        on: actions.ui.DOWNLOADED_STATEMENTS,
+        then: () => {
+        }
+      }
+    });
+    fetcher.info();
+    return {
+      name: "HSBC"
+    };
+  });
+})();
