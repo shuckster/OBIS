@@ -6,10 +6,12 @@ const actions = {
   PLUGINS_REGISTERED: 'plugins/registered',
   PLUGIN_AVAILABLE: 'plugin/available',
   PLUGIN_LOADED: 'plugin/loaded',
+  OBIS_READY: 'obis-ready',
   FIRST_RUN: 'first-run',
   STORE_HYDRATED: 'ui/store-hydrated',
   STORE_UPDATED: 'ui/store-updated',
   ui: {
+    LOADED: 'ui/loaded',
     RENDERING: 'ui/rendering',
     RENDERED: 'ui/rendered',
     TOGGLE_OPEN: 'ui/toggle-open',

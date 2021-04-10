@@ -146,6 +146,10 @@ function loadObisFromBookmarklet(obis) {
     loadQueue.push(...loadAfterPlugin)
   })
 
+  messages.on(actions.ui.LOADED, () => {
+    messages.emit(actions.OBIS_READY)
+  })
+
   //
   // loadScript() defined in bookmarklet. Add one for styles, too
   //
