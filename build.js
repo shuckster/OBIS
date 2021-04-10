@@ -154,50 +154,76 @@ function buildStatementsCss() {
 }
 
 function buildPlugins() {
+  return buildAndMinifyPlugins().then(results => {
+    const allPluginMeta = results.map(({ pluginMeta }) => pluginMeta)
+    const allPluginContent = results.map(({ pluginContent, pluginMeta }) => ({
+      dist: pluginMeta.dist,
+      content: pluginContent
+    }))
+
+    const pluginPromises = allPluginContent.map(({ dist, content }) => {
+      const [promise, resolve, reject] = makePromise()
+      fs.writeFile(dist, content, err => (err ? reject(err) : resolve()))
+      return promise
+    })
+
+    const pluginRegistryJs = buildPluginsRegistryContent(allPluginMeta)
+    const [registryPromise, resolve, reject] = makePromise()
+    fs.writeFile(paths.DIST_PLUGIN_JS, pluginRegistryJs, err =>
+      err ? reject(err) : resolve()
+    )
+
+    return Promise.all(pluginPromises.concat(registryPromise))
+  })
+}
+
+//
+// Plugin building helpers
+//
+
+function buildPluginsRegistryContent(allPluginMeta) {
+  const pluginInfo = allPluginMeta.map(result => {
+    // eslint-disable-next-line no-unused-vars
+    const { src, dist, ...restValue } = result
+    return restValue
+  })
+
+  return `obis.registerPlugins(${JSON.stringify(pluginInfo, null, 2)})`
+}
+
+function buildAndMinifyPlugins() {
   return (
     metaForAllAvailablePlugins()
       // Bundle/minify plugins
       .then(allPluginMeta =>
         Promise.allSettled(
           allPluginMeta.map(pluginMeta => {
-            const { src, dist } = pluginMeta
             return esbuild
               .build({
                 define: BUILD_REPLACEMENTS,
-                entryPoints: [src],
+                entryPoints: [pluginMeta.src],
                 bundle: true,
                 minify: MINIFY_DISTRIBUTION,
                 platform: 'browser',
                 sourcemap: IS_LOCAL,
-                outfile: dist
+                write: false
               })
-              .then(() => pluginMeta)
+              .then(build => {
+                const pluginContent = build?.outputFiles[0]?.contents
+                return {
+                  pluginMeta,
+                  pluginContent
+                }
+              })
           })
         )
       )
-      // Plugins built successfully, so write-out plugins.js now
-      .then(allSuccessfulPluginMeta => {
-        const pluginsJs = buildPluginsRegistry(allSuccessfulPluginMeta)
-        const [promise, resolve, reject] = makePromise()
-        fs.writeFile(paths.DIST_PLUGIN_JS, pluginsJs, err =>
-          err ? reject(err) : resolve()
-        )
-        return promise
-      })
-      .catch(err => console.log('err = ', err))
+      .then(results =>
+        results
+          .filter(result => result.status === 'fulfilled')
+          .map(result => result.value)
+      )
   )
-}
-
-function buildPluginsRegistry(allSuccessfulPluginMeta) {
-  const pluginInfo = allSuccessfulPluginMeta
-    .filter(result => result.status === 'fulfilled')
-    .map(result => {
-      // eslint-disable-next-line no-unused-vars
-      const { src, dist, ...restValue } = result.value
-      return restValue
-    })
-
-  return `obis.registerPlugins(${JSON.stringify(pluginInfo, null, 2)})`
 }
 
 function metaForAllAvailablePlugins() {
