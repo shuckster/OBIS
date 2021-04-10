@@ -24,5 +24,6 @@ if (!('obis' in window)) {
       ? 'http://localhost:4000'
       : 'https://raw.githubusercontent.com/shuckster/OBIS/master/dist'
 
+  obis.fromBookmarklet = true
   obis.loadScript(obis.rootPath + '/main.js')
 }
