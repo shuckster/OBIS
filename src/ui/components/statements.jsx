@@ -37,8 +37,8 @@ export function createStatementsWindow() {
         </style>
       </head>
       <body
-        onload="opener.messages.emit('${actions.ui.STATEMENTS_WINDOW_READY}');"
-        onunload="opener.messages.emit('${actions.ui.STATEMENTS_WINDOW_CLOSED}');"
+        onload="opener.messages?.emit?.('${actions.ui.STATEMENTS_WINDOW_READY}');"
+        onunload="opener.messages?.emit?.('${actions.ui.STATEMENTS_WINDOW_CLOSED}');"
       >
       </body>
     </html>
