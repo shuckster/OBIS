@@ -67,7 +67,7 @@ function main() {
   return buildWebExtension()
     .then(buildBookmarklet)
     .then(buildPlugins)
-    .then(buildUi)
+    .then(() => buildUi())
     .then(() => buildMain())
     .then(() => buildStatementsCss())
     .then(maybeRunMockServer)
@@ -137,8 +137,8 @@ function buildMain(doNotWrite) {
   return esbuild.build(options)
 }
 
-function buildUi() {
-  return esbuild.build({
+function buildUi(doNotWrite) {
+  const options = {
     define: BUILD_REPLACEMENTS,
     entryPoints: [paths.SRC_UI],
     bundle: true,
@@ -148,8 +148,12 @@ function buildUi() {
     jsxFragment: 'm.Fragment',
     plugins: [sassPlugin()],
     sourcemap: SOURCE_MAPS,
-    outfile: paths.DIST_UI
-  })
+    write: !doNotWrite,
+    ...(doNotWrite
+      ? { outdir: paths.EXTENSION_FOLDER }
+      : { outfile: paths.DIST_UI })
+  }
+  return esbuild.build(options)
 }
 
 function buildStatementsCss(doNotWrite) {
