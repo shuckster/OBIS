@@ -6,6 +6,7 @@ if (!('obis' in window)) {
   }
 
   window.obis = {
+    fromBookmarklet: true,
     loadScript: function (url, cb) {
       var el = document.createElement('script')
       el.src = url
@@ -16,14 +17,12 @@ if (!('obis' in window)) {
         el.onerror = () => cb(url, false)
       }
       document.head.appendChild(el)
-    }
+    },
+    rootPath:
+      process.env.NODE_ENV === 'local'
+        ? 'http://localhost:4000'
+        : 'https://raw.githubusercontent.com/shuckster/OBIS/master/dist'
   }
 
-  obis.rootPath =
-    process.env.NODE_ENV === 'local'
-      ? 'http://localhost:4000'
-      : 'https://raw.githubusercontent.com/shuckster/OBIS/master/dist'
-
-  obis.fromBookmarklet = true
   obis.loadScript(obis.rootPath + '/main.js')
 }
