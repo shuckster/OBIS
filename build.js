@@ -154,6 +154,53 @@ function buildStatementsCss() {
 }
 
 function buildPlugins() {
+  return (
+    metaForAllAvailablePlugins()
+      // Bundle/minify plugins
+      .then(allPluginMeta =>
+        Promise.allSettled(
+          allPluginMeta.map(pluginMeta => {
+            const { src, dist } = pluginMeta
+            return esbuild
+              .build({
+                define: BUILD_REPLACEMENTS,
+                entryPoints: [src],
+                bundle: true,
+                minify: MINIFY_DISTRIBUTION,
+                platform: 'browser',
+                sourcemap: IS_LOCAL,
+                outfile: dist
+              })
+              .then(() => pluginMeta)
+          })
+        )
+      )
+      // Plugins built successfully, so write-out plugins.js now
+      .then(allSuccessfulPluginMeta => {
+        const pluginsJs = buildPluginsRegistry(allSuccessfulPluginMeta)
+        const [promise, resolve, reject] = makePromise()
+        fs.writeFile(paths.DIST_PLUGIN_JS, pluginsJs, err =>
+          err ? reject(err) : resolve()
+        )
+        return promise
+      })
+      .catch(err => console.log('err = ', err))
+  )
+}
+
+function buildPluginsRegistry(allSuccessfulPluginMeta) {
+  const pluginInfo = allSuccessfulPluginMeta
+    .filter(result => result.status === 'fulfilled')
+    .map(result => {
+      // eslint-disable-next-line no-unused-vars
+      const { src, dist, ...restValue } = result.value
+      return restValue
+    })
+
+  return `obis.registerPlugins(${JSON.stringify(pluginInfo, null, 2)})`
+}
+
+function metaForAllAvailablePlugins() {
   const loadPluginFile = fileName =>
     loadTextFile(fileName).then(src => ({ fileName, src }))
 
@@ -183,45 +230,6 @@ function buildPlugins() {
             }
           })
       )
-      // Bundle/minify plugins
-      .then(pluginInfo =>
-        Promise.allSettled(
-          pluginInfo.map(info => {
-            const { src, dist } = info
-            return esbuild
-              .build({
-                define: BUILD_REPLACEMENTS,
-                entryPoints: [src],
-                bundle: true,
-                minify: MINIFY_DISTRIBUTION,
-                platform: 'browser',
-                sourcemap: IS_LOCAL,
-                outfile: dist
-              })
-              .then(() => info)
-          })
-        )
-      )
-      // Plugins built successfully, so write-out plugins.js now
-      .then(results => {
-        const pluginInfo = results
-          .filter(result => result.status === 'fulfilled')
-          .map(result => {
-            // eslint-disable-next-line no-unused-vars
-            const { src, dist, ...restValue } = result.value
-            return restValue
-          })
-
-        const [promise, resolve, reject] = makePromise()
-
-        fs.writeFile(
-          paths.DIST_PLUGIN_JS,
-          `obis.registerPlugins(${JSON.stringify(pluginInfo, null, 2)})`,
-          err => (err ? reject(err) : resolve())
-        )
-        return promise
-      })
-      .catch(err => console.log('err = ', err))
   )
 }
 
@@ -229,11 +237,9 @@ function allPluginFileNames() {
   const [promise, resolve, reject] = makePromise()
 
   glob(paths.SRC_PLUGINS, {}, (err, files) => {
-    if (err) {
-      return reject(err)
-    }
-
-    Promise.all(files.map(fileOnly)).then(resolve, reject)
+    return err
+      ? reject(err)
+      : Promise.all(files.map(fileOnly)).then(resolve, reject)
   })
 
   return promise
