@@ -96,7 +96,7 @@ const routes = composePaths(`
 `)
 
 const fixedRoutes = zip(routes, paths, {
-  aliases: ['DEBUG_BOOKMARKLET'],
+  aliases: ['DEBUG_BOOKMARKLET', 'INDEX', 'HOME'],
   ignoreAliases: true
 })
 
@@ -146,6 +146,22 @@ function main() {
       detectHeader(paths.DEBUG_BOOKMARKLET)
     )
   )
+
+  // Load index.html, but inject the bookmarklet script so we don't have
+  // to manually load it every time.
+
+  const injectBookmarkletIntoIndex = sendText(
+    loadTextFile(paths.INDEX).then(text =>
+      text.replace(
+        '<!-- Load bookmarklet automatically -->',
+        '<script defer src="/debug/bookmarklet.js"></script>'
+      )
+    ),
+    detectHeader(paths.INDEX)
+  )
+
+  app.get(route(routes.HOME), injectBookmarkletIntoIndex)
+  app.get(route(routes.INDEX), injectBookmarkletIntoIndex)
 
   // HSBC debugging fixtures
 
