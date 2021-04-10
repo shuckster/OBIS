@@ -46,6 +46,7 @@ if (!fs.statSync(paths.DIST_PLUGINS).isDirectory()) {
   process.exit(255)
 }
 
+const DO_NOT_WRITE = true
 const RUN_MOCK_SERVER = process.argv.some(arg => arg === '--mock-server')
 const IS_LOCAL = (process.env.NODE_ENV || 'local') === 'local'
 const SOURCE_MAPS = false // IS_LOCAL
@@ -115,16 +116,18 @@ function buildBookmarklet() {
     )
 }
 
-function buildMain() {
-  return esbuild.build({
+function buildMain(doNotWrite) {
+  const options = {
     define: BUILD_REPLACEMENTS,
     entryPoints: [paths.SRC_MAIN],
     bundle: true,
     minify: MINIFY_DISTRIBUTION,
     platform: 'browser',
-    sourcemap: IS_LOCAL,
-    outfile: paths.DIST_MAIN
-  })
+    sourcemap: SOURCE_MAPS,
+    write: !doNotWrite,
+    ...(!doNotWrite && { outfile: paths.DIST_MAIN })
+  }
+  return esbuild.build(options)
 }
 
 function buildUi() {
@@ -142,16 +145,18 @@ function buildUi() {
   })
 }
 
-function buildStatementsCss() {
-  return esbuild.build({
+function buildStatementsCss(doNotWrite) {
+  const options = {
     entryPoints: [paths.SRC_STATEMENTS_CSS],
     bundle: true,
     minify: MINIFY_DISTRIBUTION,
     loader: { '.scss': 'css' },
     plugins: [sassPlugin()],
-    sourcemap: IS_LOCAL,
-    outfile: paths.DIST_STATEMENTS_CSS
-  })
+    sourcemap: SOURCE_MAPS,
+    write: !doNotWrite,
+    ...(!doNotWrite && { outfile: paths.DIST_STATEMENTS_CSS })
+  }
+  return esbuild.build(options)
 }
 
 function buildPlugins() {
