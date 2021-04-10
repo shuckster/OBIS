@@ -46,6 +46,7 @@ const paths = composePaths(`
         /public
           /index.html                 = HOME
           /index.html                 = INDEX
+          /index.html                 = CHROME
           /debug.html                 = DEBUG
 
           /hsbc/full/store.json       = FULL_MOCK
@@ -66,6 +67,7 @@ const paths = composePaths(`
 const routes = composePaths(`
   /                                   = HOME
     /index.html                       = INDEX
+    /chrome.html                      = CHROME
     /main.js                          = BOOKMARKLET_LOADER
     /main.js.map                      = BOOKMARKLET_LOADER_MAP
 
