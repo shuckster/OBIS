@@ -115,12 +115,8 @@ function buildBookmarklet() {
       outfile: paths.DIST_BOOKMARKLET
     })
     .then(() => loadTextFile(paths.DIST_BOOKMARKLET))
-    .then(bookmarkletContent =>
-      fs.writeFileSync(
-        paths.DIST_BOOKMARKLET,
-        'javascript:' + bookmarkletContent.toString()
-      )
-    )
+    .then(bookmarkletContent => 'javascript:' + bookmarkletContent.toString())
+    .then(writeTextFile(paths.DIST_BOOKMARKLET))
 }
 
 function buildMain(doNotWrite) {
@@ -177,19 +173,12 @@ function buildPlugins() {
       dist: pluginMeta.dist,
       content: pluginContent
     }))
-
-    const pluginPromises = allPluginContent.map(({ dist, content }) => {
-      const [promise, resolve, reject] = makePromise()
-      fs.writeFile(dist, content, err => (err ? reject(err) : resolve()))
-      return promise
-    })
-
-    const pluginRegistryJs = buildPluginsRegistryContent(allPluginMeta)
-    const [registryPromise, resolve, reject] = makePromise()
-    fs.writeFile(paths.DIST_PLUGIN_JS, pluginRegistryJs, err =>
-      err ? reject(err) : resolve()
+    const pluginPromises = allPluginContent.map(({ dist, content }) =>
+      writeTextFile(dist)(content)
     )
-
+    const registryPromise = writeTextFile(paths.DIST_PLUGIN_JS)(
+      buildPluginsRegistry(allPluginMeta)
+    )
     return Promise.all(pluginPromises.concat(registryPromise))
   })
 }
@@ -378,6 +367,14 @@ main()
 //
 // Helpers
 //
+
+function writeTextFile(path) {
+  return textContent => {
+    const [promise, resolve, reject] = makePromise()
+    fs.writeFile(path, textContent, err => (err ? reject(err) : resolve()))
+    return promise
+  }
+}
 
 function getFullEsbuildContent(build) {
   return mergeTypedArrays(
