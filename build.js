@@ -188,7 +188,7 @@ function buildPluginsRegistryContent(allPluginMeta) {
     return restValue
   })
 
-  return `obis.registerPlugins(${JSON.stringify(pluginInfo, null, 2)})`
+  return `obis.registerPlugins(${JSON.stringify(pluginInfo, null, 2)});`
 }
 
 function buildAndMinifyPlugins() {
