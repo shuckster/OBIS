@@ -31,7 +31,7 @@ export function createStatementsWindow() {
   windowRef.document.writeln(`
     <html>
       <head>
-        <title>Statements</title>
+        <title>OBIS :: Statements Browser</title>
         <style type="text/css">
           @import url('${obis.rootPath}/statement.css');
         </style>
