@@ -209,10 +209,9 @@ function buildAndMinifyPlugins() {
                 write: false
               })
               .then(build => {
-                const pluginContent = build?.outputFiles[0]?.contents
                 return {
                   pluginMeta,
-                  pluginContent
+                  pluginContent: getFullEsbuildContent(build)
                 }
               })
           })
@@ -272,3 +271,25 @@ function allPluginFileNames() {
 }
 
 main()
+
+//
+// Helpers
+//
+
+function getFullEsbuildContent(build) {
+  return mergeTypedArrays(
+    build.outputFiles.map(out => out.contents),
+    Uint8Array
+  )
+}
+
+// https://stackoverflow.com/a/56993335/127928
+const mergeTypedArrays = (arrays, type = Uint8Array) => {
+  const result = new type(arrays.reduce((acc, arr) => acc + arr.byteLength, 0))
+  let offset = 0
+  arrays.forEach(arr => {
+    result.set(arr, offset)
+    offset += arr.byteLength
+  })
+  return result
+}
