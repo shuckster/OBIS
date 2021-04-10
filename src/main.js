@@ -123,8 +123,8 @@ function loadObisFromBookmarklet(obis) {
     const plugins = Array.from(pluginRegistry.values())
     const pluginDetected = plugins.find(pluginValidForLocation)
     if (!pluginDetected) {
-      console.error('No plugin valid for current location. Nothing to do.')
-      return false
+      const reason = 'No plugin valid for current location. Nothing to do.'
+      throw new Error(reason)
     }
 
     loadQueue.push(`${rootPath}/plugins/${pluginDetected.name}.js`)
@@ -134,7 +134,7 @@ function loadObisFromBookmarklet(obis) {
     obis.plugin = getPluginMeta(name)
     const { loaderFn } = obis.plugin
     if (typeof loaderFn !== 'function') {
-      const reason = `Plugin "${name}" did not provide a load-function: ${loaderFn}`
+      const reason = `Plugin "${name}" did not provide a valid load-function: ${loaderFn}`
       throw new TypeError(reason)
     }
 
