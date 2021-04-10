@@ -302,8 +302,8 @@ function buildAndMinifyPlugins() {
       // Bundle/minify plugins
       .then(allPluginMeta =>
         Promise.allSettled(
-          allPluginMeta.map(pluginMeta => {
-            return esbuild
+          allPluginMeta.map(pluginMeta =>
+            esbuild
               .build({
                 define: BUILD_REPLACEMENTS,
                 entryPoints: [pluginMeta.src],
@@ -313,13 +313,11 @@ function buildAndMinifyPlugins() {
                 sourcemap: SOURCE_MAPS,
                 write: false
               })
-              .then(build => {
-                return {
-                  pluginMeta,
-                  pluginContent: getFullEsbuildContent(build)
-                }
-              })
-          })
+              .then(build => ({
+                pluginMeta,
+                pluginContent: getFullEsbuildContent(build)
+              }))
+          )
         )
       )
       .then(results =>
