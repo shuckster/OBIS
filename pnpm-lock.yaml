@@ -3,9 +3,9 @@ lockfileVersion: 5.3
 specifiers:
   clsx: ^1.1.1
   cross-env: ^7.0.3
-  esbuild: ^0.11.6
+  esbuild: ^0.11.7
   esbuild-plugin-sass: ^0.4.1
-  eslint: ^7.23.0
+  eslint: ^7.24.0
   eslint-plugin-mithril: ^0.2.0
   express: ^4.17.1
   fflate: ^0.6.9
@@ -38,9 +38,9 @@ dependencies:
 
 devDependencies:
   cross-env: 7.0.3
-  esbuild: 0.11.6
+  esbuild: 0.11.7
   esbuild-plugin-sass: 0.4.1
-  eslint: 7.23.0
+  eslint: 7.24.0
   eslint-plugin-mithril: 0.2.0
   express: 4.17.1
   glob: 7.1.6
@@ -197,7 +197,7 @@ packages:
     engines: {node: '>= 8'}
     dependencies:
       normalize-path: 3.0.0
-      picomatch: 2.2.2
+      picomatch: 2.2.3
     dev: true
 
   /argparse/1.0.10:
@@ -666,8 +666,8 @@ packages:
       tmp: 0.2.1
     dev: true
 
-  /esbuild/0.11.6:
-    resolution: {integrity: sha512-L+nKW9ftVS/N2CVJMR9YmXHbkm+vHzlNYuo09rzipQhF7dYNvRLfWoEPSDRTl10and4owFBV9rJ2CTFNtLIOiw==}
+  /esbuild/0.11.7:
+    resolution: {integrity: sha512-rY+jA0TiCFVLcvxUbbp+yQ9EEBXDsfIU4rsY7RKJEsx/fjjRFjyGnamRCBwUZQspK37G9We6xAkX7IibGA24AA==}
     hasBin: true
     requiresBuild: true
     dev: true
@@ -720,8 +720,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint/7.23.0:
-    resolution: {integrity: sha512-kqvNVbdkjzpFy0XOszNwjkKzZ+6TcwCQ/h+ozlcIWwaimBBuhlQ4nN6kbiM2L+OjDcznkTJxzYfRFH92sx4a0Q==}
+  /eslint/7.24.0:
+    resolution: {integrity: sha512-k9gaHeHiFmGCDQ2rEfvULlSLruz6tgfA8DEn+rY9/oYPFFTlz55mM/Q/Rij1b2Y42jwZiK3lXvNTw6w6TXzcKQ==}
     engines: {node: ^10.12.0 || >=12.0.0}
     hasBin: true
     dependencies:
@@ -742,7 +742,7 @@ packages:
       file-entry-cache: 6.0.1
       functional-red-black-tree: 1.0.1
       glob-parent: 5.1.2
-      globals: 13.7.0
+      globals: 13.8.0
       ignore: 4.0.6
       import-fresh: 3.3.0
       imurmurhash: 0.1.4
@@ -1003,8 +1003,8 @@ packages:
       type-fest: 0.8.1
     dev: true
 
-  /globals/13.7.0:
-    resolution: {integrity: sha512-Aipsz6ZKRxa/xQkZhNg0qIWXT6x6rD46f6x/PCnBomlttdIyAPak4YD9jTmKpZ72uROSMU87qJtcgpgHaVchiA==}
+  /globals/13.8.0:
+    resolution: {integrity: sha512-rHtdA6+PDBIjeEvA91rpqzEvk/k3/i7EeNQiryiWuJH0Hw9cpyJMAt2jtbAwUaRdhD+573X4vWw6IcjKPasi9Q==}
     engines: {node: '>=8'}
     dependencies:
       type-fest: 0.20.2
@@ -1609,8 +1609,8 @@ packages:
     resolution: {integrity: sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=}
     dev: true
 
-  /picomatch/2.2.2:
-    resolution: {integrity: sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==}
+  /picomatch/2.2.3:
+    resolution: {integrity: sha512-KpELjfwcCDUb9PeigTs2mBJzXUPzAuP2oPcA989He8Rte0+YUAjw1JVedDhuTKPkHjSYzMN3npC9luThGYEKdg==}
     engines: {node: '>=8.6'}
     dev: true
 
@@ -1694,7 +1694,7 @@ packages:
     resolution: {integrity: sha512-cMhu7c/8rdhkHXWsY+osBhfSy0JikwpHK/5+imo+LpeasTF8ouErHrlYkwT0++njiyuDvc7OFY5T3ukvZ8qmFQ==}
     engines: {node: '>=8.10.0'}
     dependencies:
-      picomatch: 2.2.2
+      picomatch: 2.2.3
     dev: true
 
   /regexpp/3.1.0:
