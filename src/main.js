@@ -48,7 +48,7 @@ const obisFetchFlow = `
 `
 
 // obisDefault used for (potential) Chrome/Web Extension
-const obisDefault = { rootPath: '' }
+const obisDefault = { rootPath: '.' }
 const obis = window.obis || (window.obis = obisDefault)
 
 // Plugin registry
@@ -61,8 +61,17 @@ const getPluginMeta = name =>
 // Add dependencies, plugin API
 addObisDependencies(obis)
 
-if (obis.fromBookmarklet) {
-  loadObisFromBookmarklet(obis)
+// Guard against OBIS loading again in the statements-browser for Extension
+if (document.title !== 'OBIS :: Statements Browser') {
+  main()
+}
+
+function main() {
+  if (obis.fromBookmarklet) {
+    loadObisInChunks(obis)
+  } else {
+    loadObisAsBundle(obis)
+  }
 }
 
 function addObisDependencies(obis) {
@@ -108,7 +117,33 @@ function addObisDependencies(obis) {
   }
 }
 
-function loadObisFromBookmarklet(obis) {
+function loadObisAsBundle(obis) {
+  messages.on(actions.PLUGIN_AVAILABLE, name => {
+    obis.plugin = getPluginMeta(name)
+    const { loaderFn } = obis.plugin
+    if (typeof loaderFn !== 'function') {
+      const reason = `Plugin "${name}" did not provide a valid load-function: ${loaderFn}`
+      throw new TypeError(reason)
+    }
+
+    loaderFn()
+    messages.emit(actions.PLUGIN_LOADED)
+  })
+
+  let waitingOn = 2
+
+  function checkReady() {
+    waitingOn -= 1
+    if (waitingOn === 0) {
+      messages.emit(actions.OBIS_READY)
+    }
+  }
+
+  messages.on(actions.ui.LOADED, checkReady)
+  messages.on(actions.PLUGIN_LOADED, checkReady)
+}
+
+function loadObisInChunks(obis) {
   const { rootPath, pluginRegistry } = obis
   const loadQueue = [`${rootPath}/plugins.js`]
   const loadAfterPlugin = [`${rootPath}/ui.css`, `${rootPath}/ui.js`]
