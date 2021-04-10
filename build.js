@@ -183,6 +183,30 @@ function buildPlugins() {
   })
 }
 
+//
+// Extension building
+//
+
+const extensionManifestTemplate = {
+  name: 'OBIS',
+  description: 'A JavaScript Framework for downloading Bank Statements',
+  version: '2.0',
+  manifest_version: 3,
+  content_scripts: [
+    {
+      matches: [],
+      css: ['ui.css'],
+      js: ['obis-${pluginName}.js']
+    }
+  ],
+  web_accessible_resources: [
+    {
+      resources: ['statement.css'],
+      matches: ['https://obis.styles/*']
+    }
+  ]
+}
+
 function buildWebExtension() {
   const decoder = new TextDecoder()
   const encoder = new TextEncoder()
