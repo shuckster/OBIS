@@ -4414,10 +4414,15 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
 
   // src/common/obis/actions.js
   var actions = {
+    PLUGINS_REGISTERED: "plugins/registered",
+    PLUGIN_AVAILABLE: "plugin/available",
+    PLUGIN_LOADED: "plugin/loaded",
+    OBIS_READY: "obis-ready",
     FIRST_RUN: "first-run",
     STORE_HYDRATED: "ui/store-hydrated",
     STORE_UPDATED: "ui/store-updated",
     ui: {
+      LOADED: "ui/loaded",
       RENDERING: "ui/rendering",
       RENDERED: "ui/rendered",
       TOGGLE_OPEN: "ui/toggle-open",
@@ -4487,9 +4492,23 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     (getting-entries -> failed-entries -> found-statements)
 
 `;
-  postBookmarkletOps(window.obis);
-  function postBookmarkletOps(obis) {
-    obis.deps = {
+  var obisDefault = {rootPath: "."};
+  var obis = window.obis || (window.obis = obisDefault);
+  obis.pluginRegistry = new Map();
+  var getPluginMeta = (name) => obis.pluginRegistry.has(name) ? obis.pluginRegistry.get(name) : obis.pluginRegistry.set(name, {}).get(name);
+  addObisDependencies(obis);
+  if (document.title !== "OBIS :: Statements Browser") {
+    main();
+  }
+  function main() {
+    if (obis.fromBookmarklet) {
+      loadObisInChunks(obis);
+    } else {
+      loadObisAsBundle(obis);
+    }
+  }
+  function addObisDependencies(obis2) {
+    obis2.deps = {
       addAjaxListener,
       AjaxRequester,
       fflate: {zip, strToU8},
@@ -4499,35 +4518,85 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       SparkMD5: import_spark_md5.default,
       Statebot: import_statebot.Statebot
     };
-    obis.fetchMachine = (0, import_statebot.Statebot)("fetcher", {
+    obis2.fetchMachine = (0, import_statebot.Statebot)("fetcher", {
       events: messages,
       startIn: false ? "found-entries" : "idle",
       chart: obisFetchFlow,
       logLevel: 2
     });
-    const {rootPath} = obis;
-    const loadQueue = [`${rootPath}/plugins.js`];
-    const loadAfterPlugin = [`${rootPath}/ui.css`, `${rootPath}/ui.js`];
-    obis.loadPlugin = (pluginLoaderFn) => {
-      obis.plugin = pluginLoaderFn();
-      loadQueue.push(...loadAfterPlugin);
+    obis2.makePluginAvailable = (name, pluginLoaderFn) => {
+      console.log(`Registering plugin loader: ${name}`);
+      const meta = getPluginMeta(name);
+      meta.name = name;
+      meta.loaderFn = pluginLoaderFn;
+      messages.emit(actions.PLUGIN_AVAILABLE, name);
     };
-    obis.registerPlugins = (plugins) => {
-      const pluginDetected = plugins.find(registerPlugin);
-      if (!pluginDetected) {
-        console.error("No plugin detected. Nothing to do.");
+    obis2.registerPlugins = (plugins) => {
+      plugins.map((plugin) => {
+        const meta = getPluginMeta(plugin.name);
+        meta.name = plugin.name;
+        meta.description = plugin.description;
+        meta.urls = plugin.urls;
+      });
+      messages.emit(actions.PLUGINS_REGISTERED);
+    };
+  }
+  function loadObisAsBundle(obis2) {
+    messages.on(actions.PLUGIN_AVAILABLE, (name) => {
+      obis2.plugin = getPluginMeta(name);
+      const {loaderFn} = obis2.plugin;
+      if (typeof loaderFn !== "function") {
+        const reason = `Plugin "${name}" did not provide a valid load-function: ${loaderFn}`;
+        throw new TypeError(reason);
       }
-    };
-    function registerPlugin(plugin) {
-      const {name, description, urls} = plugin;
-      const usePlugin = urls.some((url) => location.href.includes(url));
-      if (usePlugin) {
-        console.log("Detected " + description + ": Adding plugin");
-        loadQueue.push(`${rootPath}/plugins/${name}.js`);
-        return true;
+      loaderFn();
+      messages.emit(actions.PLUGIN_LOADED);
+    });
+    let waitingOn = 2;
+    function checkReady() {
+      waitingOn -= 1;
+      if (waitingOn === 0) {
+        messages.emit(actions.OBIS_READY);
       }
     }
-    obis.loadStyle = (url, cb) => {
+    messages.on(actions.ui.LOADED, checkReady);
+    messages.on(actions.PLUGIN_LOADED, checkReady);
+  }
+  function loadObisInChunks(obis2) {
+    const {rootPath, pluginRegistry} = obis2;
+    const loadQueue = [`${rootPath}/plugins.js`];
+    const loadAfterPlugin = [`${rootPath}/ui.css`, `${rootPath}/ui.js`];
+    function pluginValidForLocation(plugin) {
+      const {urls = []} = plugin;
+      const usePlugin = urls.some((url) => location.href.includes(url));
+      return usePlugin;
+    }
+    messages.on(actions.PLUGINS_REGISTERED, () => {
+      const plugins = Array.from(pluginRegistry.values());
+      const pluginDetected = plugins.find(pluginValidForLocation);
+      if (!pluginDetected) {
+        const reason = "No plugin valid for current location. Nothing to do.";
+        throw new Error(reason);
+      }
+      loadQueue.push(`${rootPath}/plugins/${pluginDetected.name}.js`);
+    });
+    messages.on(actions.PLUGIN_AVAILABLE, (name) => {
+      obis2.plugin = getPluginMeta(name);
+      const {loaderFn} = obis2.plugin;
+      if (typeof loaderFn !== "function") {
+        const reason = `Plugin "${name}" did not provide a valid load-function: ${loaderFn}`;
+        throw new TypeError(reason);
+      }
+      loaderFn();
+      messages.emit(actions.PLUGIN_LOADED);
+    });
+    messages.on(actions.PLUGIN_LOADED, () => {
+      loadQueue.push(...loadAfterPlugin);
+    });
+    messages.on(actions.ui.LOADED, () => {
+      messages.emit(actions.OBIS_READY);
+    });
+    obis2.loadStyle = (url, cb) => {
       const el = document.createElement("link");
       el.href = url;
       el.rel = "stylesheet";
@@ -4546,7 +4615,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       }
       const nextFile = loadQueue.shift();
       if (/\.css$/.test(nextFile)) {
-        obis.loadStyle(nextFile, (style, success) => {
+        obis2.loadStyle(nextFile, (style, success) => {
           if (!success) {
             console.error("Could not load style: " + style);
           } else {
@@ -4554,7 +4623,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
           }
         });
       } else {
-        obis.loadScript(nextFile, (script, success) => {
+        obis2.loadScript(nextFile, (script, success) => {
           if (!success) {
             console.error("Could not load script: " + script);
           } else {

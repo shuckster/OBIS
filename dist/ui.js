@@ -3557,10 +3557,15 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
 
   // src/common/obis/actions.js
   var actions = {
+    PLUGINS_REGISTERED: "plugins/registered",
+    PLUGIN_AVAILABLE: "plugin/available",
+    PLUGIN_LOADED: "plugin/loaded",
+    OBIS_READY: "obis-ready",
     FIRST_RUN: "first-run",
     STORE_HYDRATED: "ui/store-hydrated",
     STORE_UPDATED: "ui/store-updated",
     ui: {
+      LOADED: "ui/loaded",
       RENDERING: "ui/rendering",
       RENDERED: "ui/rendered",
       TOGGLE_OPEN: "ui/toggle-open",
@@ -5228,7 +5233,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       }),
       handleClick: handleToggleOpen,
       disabled: !opened && !closed
-    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril4.default)(Header, null, obis.plugin.name), /* @__PURE__ */ (0, import_mithril4.default)(Subheader, null, ready ? opened ? "Hit the button below to try and download everything automatically." : "Welcome! Click that button on the right to see if we can download some statements." : "Loading...", /* @__PURE__ */ (0, import_mithril4.default)("br", null), /* @__PURE__ */ (0, import_mithril4.default)("br", null), fetcher.inState({
+    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril4.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril4.default)(Subheader, null, ready ? opened ? "Hit the button below to try and download everything automatically." : "Welcome! Click that button on the right to see if we can download some statements." : "Loading...", /* @__PURE__ */ (0, import_mithril4.default)("br", null), /* @__PURE__ */ (0, import_mithril4.default)("br", null), fetcher.inState({
       "getting-accounts": "Finding accounts...",
       "getting-statements": "Getting statements...",
       "getting-entries": "Getting transactions..."
@@ -5377,14 +5382,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     windowRef.document.writeln(`
     <html>
       <head>
-        <title>Statements</title>
+        <title>OBIS :: Statements Browser</title>
         <style type="text/css">
           @import url('${obis.rootPath}/statement.css');
         </style>
       </head>
       <body
-        onload="opener.messages.emit('${actions.ui.STATEMENTS_WINDOW_READY}');"
-        onunload="opener.messages.emit('${actions.ui.STATEMENTS_WINDOW_CLOSED}');"
+        onload="opener.messages?.emit?.('${actions.ui.STATEMENTS_WINDOW_READY}');"
+        onunload="opener.messages?.emit?.('${actions.ui.STATEMENTS_WINDOW_CLOSED}');"
       >
       </body>
     </html>
@@ -5658,5 +5663,6 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       return acc;
     }, obj);
   }
-  main();
+  messages4.on(actions.OBIS_READY, main);
+  messages4.emit(actions.ui.LOADED);
 })();

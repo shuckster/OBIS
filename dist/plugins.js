@@ -9,4 +9,4 @@ obis.registerPlugins([
       "https://www.hsbc.co.uk/"
     ]
   }
-])
+]);

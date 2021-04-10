@@ -217,10 +217,15 @@
 
   // src/common/obis/actions.js
   var actions = {
+    PLUGINS_REGISTERED: "plugins/registered",
+    PLUGIN_AVAILABLE: "plugin/available",
+    PLUGIN_LOADED: "plugin/loaded",
+    OBIS_READY: "obis-ready",
     FIRST_RUN: "first-run",
     STORE_HYDRATED: "ui/store-hydrated",
     STORE_UPDATED: "ui/store-updated",
     ui: {
+      LOADED: "ui/loaded",
       RENDERING: "ui/rendering",
       RENDERED: "ui/rendered",
       TOGGLE_OPEN: "ui/toggle-open",
@@ -1734,7 +1739,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
 
   // src/plugins/hsbc/plugin.js
-  obis.loadPlugin(() => {
+  obis.makePluginAvailable("hsbc-uk", () => {
     const {requestAccounts} = accounts_default();
     const {requestStatements} = statements_default();
     const {requestEntries} = entries_default();
@@ -1800,8 +1805,5 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       }
     });
     fetcher.info();
-    return {
-      name: "HSBC"
-    };
   });
 })();
