@@ -67,7 +67,11 @@
         }
         messagesEl.innerText = messagesSeen
           .map(detail => {
-            const { eventName, args, timestamp } = detail
+            const {
+              eventName = '<UNKNOWN>',
+              args = [],
+              timestamp = Date.now()
+            } = detail || {}
             const time = new Date(timestamp).toLocaleTimeString('en-GB')
             maxEventWidth = Math.max(maxEventWidth, eventName.length)
             return [
