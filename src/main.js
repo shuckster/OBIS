@@ -47,9 +47,16 @@ const obisFetchFlow = `
 
 `
 
-postBookmarkletOps(window.obis)
+// Default used for Chrome Extension
+const obisDefault = { rootPath: '' }
+const { obis = obisDefault } = window
+addObisDependencies(obis)
 
-function postBookmarkletOps(obis) {
+if (obis.fromBookmarklet) {
+  loadObisFromBookmarklet(obis)
+}
+
+function addObisDependencies(obis) {
   //
   // Dependencies that plugins have access to without import'ing them
   //
@@ -76,32 +83,42 @@ function postBookmarkletOps(obis) {
   // Plugin registering/loading
   //
 
-  const { rootPath } = obis
-  const loadQueue = [`${rootPath}/plugins.js`]
-  const loadAfterPlugin = [`${rootPath}/ui.css`, `${rootPath}/ui.js`]
-
   obis.loadPlugin = pluginLoaderFn => {
     obis.plugin = pluginLoaderFn()
-    loadQueue.push(...loadAfterPlugin)
+    messages.emit(actions.PLUGIN_LOADED)
   }
 
   obis.registerPlugins = plugins => {
     const pluginDetected = plugins.find(registerPlugin)
-
     if (!pluginDetected) {
       console.error('No plugin detected. Nothing to do.')
+      return false
     }
+
+    console.log(`Detected ${pluginDetected.description}: Registering plugin`)
+    messages.emit(actions.PLUGIN_REGISTERED, pluginDetected)
+    return true
   }
 
   function registerPlugin(plugin) {
-    const { name, description, urls } = plugin
+    const { urls = [] } = plugin
     const usePlugin = urls.some(url => location.href.includes(url))
-    if (usePlugin) {
-      console.log('Detected ' + description + ': Adding plugin')
-      loadQueue.push(`${rootPath}/plugins/${name}.js`)
-      return true
-    }
+    return usePlugin
   }
+}
+
+function loadObisFromBookmarklet(obis) {
+  const { rootPath } = obis
+  const loadQueue = [`${rootPath}/plugins.js`]
+  const loadAfterPlugin = [`${rootPath}/ui.css`, `${rootPath}/ui.js`]
+
+  messages.on(actions.PLUGIN_LOADED, () => {
+    loadQueue.push(...loadAfterPlugin)
+  })
+
+  messages.on(actions.PLUGIN_REGISTERED, plugin => {
+    loadQueue.push(`${rootPath}/plugins/${plugin.name}.js`)
+  })
 
   //
   // loadScript() defined in bookmarklet. Add one for styles, too
