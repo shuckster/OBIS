@@ -47,9 +47,18 @@ const obisFetchFlow = `
 
 `
 
-// Default used for Chrome Extension
+// obisDefault used for (potential) Chrome/Web Extension
 const obisDefault = { rootPath: '' }
-const { obis = obisDefault } = window
+const obis = window.obis || (window.obis = obisDefault)
+
+// Plugin registry
+obis.pluginRegistry = new Map()
+const getPluginMeta = name =>
+  obis.pluginRegistry.has(name)
+    ? obis.pluginRegistry.get(name)
+    : obis.pluginRegistry.set(name, {}).get(name)
+
+// Add dependencies, plugin API
 addObisDependencies(obis)
 
 if (obis.fromBookmarklet) {
@@ -79,45 +88,62 @@ function addObisDependencies(obis) {
     logLevel: 2
   })
 
-  //
-  // Plugin registering/loading
-  //
-
-  obis.loadPlugin = pluginLoaderFn => {
-    obis.plugin = pluginLoaderFn()
-    messages.emit(actions.PLUGIN_LOADED)
+  obis.makePluginAvailable = (name, pluginLoaderFn) => {
+    console.log(`Registering plugin loader: ${name}`)
+    const meta = getPluginMeta(name)
+    meta.name = name
+    meta.loaderFn = pluginLoaderFn
+    messages.emit(actions.PLUGIN_AVAILABLE, name)
   }
 
   obis.registerPlugins = plugins => {
-    const pluginDetected = plugins.find(registerPlugin)
-    if (!pluginDetected) {
-      console.error('No plugin detected. Nothing to do.')
-      return false
-    }
+    plugins.map(plugin => {
+      const meta = getPluginMeta(plugin.name)
+      meta.name = plugin.name
+      meta.description = plugin.description
+      meta.urls = plugin.urls
+    })
 
-    console.log(`Detected ${pluginDetected.description}: Registering plugin`)
-    messages.emit(actions.PLUGIN_REGISTERED, pluginDetected)
-    return true
-  }
-
-  function registerPlugin(plugin) {
-    const { urls = [] } = plugin
-    const usePlugin = urls.some(url => location.href.includes(url))
-    return usePlugin
+    messages.emit(actions.PLUGINS_REGISTERED)
   }
 }
 
 function loadObisFromBookmarklet(obis) {
-  const { rootPath } = obis
+  const { rootPath, pluginRegistry } = obis
   const loadQueue = [`${rootPath}/plugins.js`]
   const loadAfterPlugin = [`${rootPath}/ui.css`, `${rootPath}/ui.js`]
 
-  messages.on(actions.PLUGIN_LOADED, () => {
-    loadQueue.push(...loadAfterPlugin)
+  function pluginValidForLocation(plugin) {
+    const { urls = [] } = plugin
+    const usePlugin = urls.some(url => location.href.includes(url))
+    return usePlugin
+  }
+
+  messages.on(actions.PLUGINS_REGISTERED, () => {
+    const plugins = Array.from(pluginRegistry.values())
+    const pluginDetected = plugins.find(pluginValidForLocation)
+    if (!pluginDetected) {
+      console.error('No plugin valid for current location. Nothing to do.')
+      return false
+    }
+
+    loadQueue.push(`${rootPath}/plugins/${pluginDetected.name}.js`)
   })
 
-  messages.on(actions.PLUGIN_REGISTERED, plugin => {
-    loadQueue.push(`${rootPath}/plugins/${plugin.name}.js`)
+  messages.on(actions.PLUGIN_AVAILABLE, name => {
+    obis.plugin = getPluginMeta(name)
+    const { loaderFn } = obis.plugin
+    if (typeof loaderFn !== 'function') {
+      const reason = `Plugin "${name}" did not provide a load-function: ${loaderFn}`
+      throw new TypeError(reason)
+    }
+
+    loaderFn()
+    messages.emit(actions.PLUGIN_LOADED)
+  })
+
+  messages.on(actions.PLUGIN_LOADED, () => {
+    loadQueue.push(...loadAfterPlugin)
   })
 
   //

@@ -10,7 +10,7 @@ import configureAccountsInterceptor from './requesters/accounts'
 import configureStatementsInterceptor from './requesters/statements'
 import configureEntriesInterceptor from './requesters/entries'
 
-obis.loadPlugin(() => {
+obis.makePluginAvailable('hsbc-uk', () => {
   const { requestAccounts } = configureAccountsInterceptor()
   const { requestStatements } = configureStatementsInterceptor()
   const { requestEntries } = configureEntriesInterceptor()
@@ -95,8 +95,4 @@ obis.loadPlugin(() => {
   })
 
   fetcher.info()
-
-  return {
-    name: 'HSBC'
-  }
 })

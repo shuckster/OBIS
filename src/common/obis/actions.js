@@ -3,7 +3,8 @@
 //
 
 const actions = {
-  PLUGIN_REGISTERED: 'plugin/registered',
+  PLUGINS_REGISTERED: 'plugins/registered',
+  PLUGIN_AVAILABLE: 'plugin/available',
   PLUGIN_LOADED: 'plugin/loaded',
   FIRST_RUN: 'first-run',
   STORE_HYDRATED: 'ui/store-hydrated',

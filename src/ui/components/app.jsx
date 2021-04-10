@@ -124,7 +124,7 @@ export const App = ViewComponent(() => {
         </Button>
       )}
 
-      <Header>{obis.plugin.name}</Header>
+      <Header>{obis.plugin.description}</Header>
 
       <Subheader>
         {ready
