@@ -38,6 +38,12 @@ const paths = composePaths(`
       /bookmarklet.js                  = DIST_BOOKMARKLET
       /main.js                         = DIST_MAIN
       /statement.css                   = DIST_STATEMENTS_CSS
+
+    /extension                         = EXTENSION_FOLDER
+      /manifest.json                   = EXTENSION_MANIFEST
+      /obis-hsbc-uk.js                 = EXTENSION_MAIN
+      /statement.css                   = EXTENSION_STATEMENTS_CSS
+      /ui.css                          = EXTENSION_UI_CSS
 `)
 
 // Require plugins folder before moving on...
@@ -58,11 +64,12 @@ const BUILD_REPLACEMENTS = {
 console.log('IS_LOCAL', IS_LOCAL)
 
 function main() {
-  return buildBookmarklet()
-    .then(buildMain)
+  return buildWebExtension()
+    .then(buildBookmarklet)
     .then(buildPlugins)
     .then(buildUi)
-    .then(buildStatementsCss)
+    .then(() => buildMain())
+    .then(() => buildStatementsCss())
     .then(maybeRunMockServer)
 }
 
@@ -181,6 +188,94 @@ function buildPlugins() {
 
     return Promise.all(pluginPromises.concat(registryPromise))
   })
+}
+
+function buildWebExtension() {
+  const decoder = new TextDecoder()
+  const encoder = new TextEncoder()
+
+  return buildMain(DO_NOT_WRITE)
+    .then(getFullEsbuildContent)
+    .then(mainContent => {
+      esbuild
+        .build({
+          define: BUILD_REPLACEMENTS,
+          entryPoints: [paths.SRC_UI],
+          bundle: true,
+          minify: MINIFY_DISTRIBUTION,
+          platform: 'browser',
+          jsxFactory: 'm',
+          jsxFragment: 'm.Fragment',
+          plugins: [sassPlugin()],
+          sourcemap: SOURCE_MAPS,
+          write: false,
+          outdir: paths.EXTENSION_FOLDER
+        })
+        .then(uiBuild => {
+          const uiContent = uiBuild.outputFiles.find(({ path }) =>
+            path.includes('index.js')
+          ).contents
+
+          const uiCssContent = uiBuild.outputFiles.find(({ path }) =>
+            path.includes('index.css')
+          ).contents
+
+          const [uiCssPromise, resolve, reject] = makePromise()
+          fs.writeFile(paths.EXTENSION_UI_CSS, uiCssContent, err =>
+            err ? reject(err) : resolve()
+          )
+
+          uiCssPromise
+            .then(() => buildAndMinifyPlugins())
+            .then(results => {
+              const allPluginMeta = results.map(({ pluginMeta }) => pluginMeta)
+              const allPluginContent = results.map(
+                ({ pluginContent }) => pluginContent
+              )
+              const pluginRegistryJs = buildPluginsRegistryContent(
+                allPluginMeta
+              )
+              const pluginRegistry = encoder.encode(pluginRegistryJs)
+
+              return mergeTypedArrays([
+                mainContent,
+                uiContent,
+                pluginRegistry,
+                ...allPluginContent
+              ])
+            })
+            .then(bundle => {
+              const bundleJs = decoder.decode(bundle)
+
+              return esbuild
+                .transform(bundleJs, {
+                  define: BUILD_REPLACEMENTS,
+                  minify: MINIFY_DISTRIBUTION,
+                  sourcemap: SOURCE_MAPS
+                })
+                .then(build => {
+                  const { code } = build
+                  const [promise, resolve, reject] = makePromise()
+                  fs.writeFile(paths.EXTENSION_MAIN, code, err =>
+                    err ? reject(err) : resolve()
+                  )
+                  return promise
+                })
+            })
+        })
+    })
+    .then(() => {
+      buildStatementsCss(DO_NOT_WRITE)
+        .then(getFullEsbuildContent)
+        .then(cssContent => {
+          const css = decoder.decode(cssContent)
+          const [promise, resolve, reject] = makePromise()
+          fs.writeFile(paths.EXTENSION_STATEMENTS_CSS, css, err =>
+            err ? reject(err) : resolve()
+          )
+          return promise
+        })
+    })
 }
 
 //
