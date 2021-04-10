@@ -48,6 +48,7 @@ if (!fs.statSync(paths.DIST_PLUGINS).isDirectory()) {
 
 const RUN_MOCK_SERVER = process.argv.some(arg => arg === '--mock-server')
 const IS_LOCAL = (process.env.NODE_ENV || 'local') === 'local'
+const SOURCE_MAPS = false // IS_LOCAL
 const BUILD_REPLACEMENTS = {
   'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
   'process.env.HYDRATE': `"${process.env.HYDRATE}"`
@@ -102,7 +103,7 @@ function buildBookmarklet() {
       bundle: true,
       minify: true, // Always minify bookmarklet
       platform: 'browser',
-      sourcemap: IS_LOCAL,
+      sourcemap: SOURCE_MAPS,
       outfile: paths.DIST_BOOKMARKLET
     })
     .then(() => loadTextFile(paths.DIST_BOOKMARKLET))
@@ -136,7 +137,7 @@ function buildUi() {
     jsxFactory: 'm',
     jsxFragment: 'm.Fragment',
     plugins: [sassPlugin()],
-    sourcemap: IS_LOCAL,
+    sourcemap: SOURCE_MAPS,
     outfile: paths.DIST_UI
   })
 }
@@ -205,7 +206,7 @@ function buildAndMinifyPlugins() {
                 bundle: true,
                 minify: MINIFY_DISTRIBUTION,
                 platform: 'browser',
-                sourcemap: IS_LOCAL,
+                sourcemap: SOURCE_MAPS,
                 write: false
               })
               .then(build => {
