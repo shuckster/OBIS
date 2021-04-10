@@ -214,92 +214,79 @@ function buildWebExtension() {
   return buildMain(DO_NOT_WRITE)
     .then(getFullEsbuildContent)
     .then(mainContent => {
-      esbuild
-        .build({
-          define: BUILD_REPLACEMENTS,
-          entryPoints: [paths.SRC_UI],
-          bundle: true,
-          minify: MINIFY_DISTRIBUTION,
-          platform: 'browser',
-          jsxFactory: 'm',
-          jsxFragment: 'm.Fragment',
-          plugins: [sassPlugin()],
-          sourcemap: SOURCE_MAPS,
-          write: false,
-          outdir: paths.EXTENSION_FOLDER
-        })
-        .then(uiBuild => {
-          const uiContent = uiBuild.outputFiles.find(({ path }) =>
-            path.includes('index.js')
-          ).contents
+      buildUi(DO_NOT_WRITE).then(uiBuild => {
+        const uiContent = uiBuild.outputFiles.find(({ path }) =>
+          path.includes('index.js')
+        ).contents
 
-          const uiCssContent = uiBuild.outputFiles.find(({ path }) =>
-            path.includes('index.css')
-          ).contents
+        const uiCssContent = uiBuild.outputFiles.find(({ path }) =>
+          path.includes('index.css')
+        ).contents
 
-          const [uiCssPromise, resolve, reject] = makePromise()
-          fs.writeFile(paths.EXTENSION_UI_CSS, uiCssContent, err =>
-            err ? reject(err) : resolve()
-          )
+        writeTextFile(paths.EXTENSION_UI_CSS)(uiCssContent)
+          .then(() => buildAndMinifyPlugins())
+          .then(results => {
+            const allPluginMeta = results.map(({ pluginMeta }) => pluginMeta)
+            const pluginRegistryJs = buildPluginsRegistry(allPluginMeta)
+            const pluginRegistry = encoder.encode(pluginRegistryJs)
 
-          uiCssPromise
-            .then(() => buildAndMinifyPlugins())
-            .then(results => {
-              const allPluginMeta = results.map(({ pluginMeta }) => pluginMeta)
-              const allPluginContent = results.map(
-                ({ pluginContent }) => pluginContent
+            // Generate manifest.json
+            const contentScriptTemplate = extensionManifestTemplate.content_scripts.pop()
+            const manifest = { ...extensionManifestTemplate }
+            manifest.content_scripts = allPluginMeta.map(meta => ({
+              ...contentScriptTemplate,
+              matches: meta.urls,
+              js: contentScriptTemplate.js.map(js =>
+                js.replace('${pluginName}', meta.name)
               )
-              const pluginRegistryJs = buildPluginsRegistryContent(
-                allPluginMeta
-              )
-              const pluginRegistry = encoder.encode(pluginRegistryJs)
+            }))
 
-              return mergeTypedArrays([
-                mainContent,
-                uiContent,
-                pluginRegistry,
-                ...allPluginContent
-              ])
-            })
-            .then(bundle => {
-              const bundleJs = decoder.decode(bundle)
-
-              return esbuild
-                .transform(bundleJs, {
-                  define: BUILD_REPLACEMENTS,
-                  minify: MINIFY_DISTRIBUTION,
-                  sourcemap: SOURCE_MAPS
-                })
-                .then(build => {
-                  const { code } = build
-                  const [promise, resolve, reject] = makePromise()
-                  fs.writeFile(paths.EXTENSION_MAIN, code, err =>
-                    err ? reject(err) : resolve()
+            return writeTextFile(paths.EXTENSION_MANIFEST)(
+              JSON.stringify(manifest, null, 2)
+            ).then(
+              Promise.all(
+                results.map(({ pluginMeta, pluginContent }) => {
+                  const bundleWithoutPlugin = mergeTypedArrays([
+                    mainContent,
+                    uiContent,
+                    pluginRegistry,
+                    pluginContent
+                  ])
+                  const bundleJs = decoder.decode(bundleWithoutPlugin)
+                  return buildExtensionContentScript(
+                    `obis-${pluginMeta.name}.js`,
+                    bundleJs
                   )
-                  return promise
                 })
-            })
-        })
+              )
+            )
+          })
+      })
     })
-    .then(() => {
+    .then(() =>
       buildStatementsCss(DO_NOT_WRITE)
         .then(getFullEsbuildContent)
-        .then(cssContent => {
-          const css = decoder.decode(cssContent)
-          const [promise, resolve, reject] = makePromise()
-          fs.writeFile(paths.EXTENSION_STATEMENTS_CSS, css, err =>
-            err ? reject(err) : resolve()
-          )
-          return promise
-        })
+        .then(cssContent => decoder.decode(cssContent))
+        .then(writeTextFile(paths.EXTENSION_STATEMENTS_CSS))
+    )
+}
+
+function buildExtensionContentScript(name, bundleJs) {
+  return esbuild
+    .transform(bundleJs, {
+      define: BUILD_REPLACEMENTS,
+      minify: MINIFY_DISTRIBUTION,
+      sourcemap: SOURCE_MAPS
     })
+    .then(({ code }) => code)
+    .then(writeTextFile(path.join(paths.EXTENSION_FOLDER, name)))
 }
 
 //
 // Plugin building helpers
 //
 
-function buildPluginsRegistryContent(allPluginMeta) {
+function buildPluginsRegistry(allPluginMeta) {
   const pluginInfo = allPluginMeta.map(result => {
     // eslint-disable-next-line no-unused-vars
     const { src, dist, ...restValue } = result
