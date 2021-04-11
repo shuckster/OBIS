@@ -235,7 +235,9 @@ function buildWebExtension() {
             const manifest = { ...extensionManifestTemplate }
             manifest.content_scripts = allPluginMeta.map(meta => ({
               ...contentScriptTemplate,
-              matches: meta.urls,
+              matches: meta.urls.filter(
+                url => IS_LOCAL || !url.includes('localhost')
+              ),
               js: contentScriptTemplate.js.map(js =>
                 js.replace('${pluginName}', meta.name)
               )
