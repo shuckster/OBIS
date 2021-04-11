@@ -31,19 +31,20 @@ const paths = composePaths(`
       /_mock-server
         /index.js                      = SERVER_SCRIPT
 
-    /dist                              = DIST
-      /plugins                         = DIST_PLUGINS
-      /plugins.js                      = DIST_PLUGIN_JS
-      /ui.js                           = DIST_UI
-      /bookmarklet.js                  = DIST_BOOKMARKLET
-      /main.js                         = DIST_MAIN
-      /statement.css                   = DIST_STATEMENTS_CSS
+    /dist
+      /bookmarklet                     = DIST
+        /plugins                       = DIST_PLUGINS
+        /plugins.js                    = DIST_PLUGIN_JS
+        /ui.js                         = DIST_UI
+        /bookmarklet.js                = DIST_BOOKMARKLET
+        /main.js                       = DIST_MAIN
+        /statement.css                 = DIST_STATEMENTS_CSS
 
-    /extension                         = EXTENSION_FOLDER
-      /manifest.json                   = EXTENSION_MANIFEST
-      /obis-hsbc-uk.js                 = EXTENSION_MAIN
-      /statement.css                   = EXTENSION_STATEMENTS_CSS
-      /ui.css                          = EXTENSION_UI_CSS
+      /extension                       = EXTENSION_FOLDER
+        /manifest.json                 = EXTENSION_MANIFEST
+        /obis-hsbc-uk.js               = EXTENSION_MAIN
+        /statement.css                 = EXTENSION_STATEMENTS_CSS
+        /ui.css                        = EXTENSION_UI_CSS
 `)
 
 // Require plugins folder before moving on...

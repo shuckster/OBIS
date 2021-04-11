@@ -28,7 +28,7 @@ const HOST_PORT = NON_PRODUCTION_HOST_PORT
 // eslint-disable-next-line no-unused-vars
 const paths = composePaths(`
   ${__dirname}/../..
-    /dist
+    /dist/bookmarklet
       /main.js                        = BOOKMARKLET_LOADER
       /main.js.map                    = BOOKMARKLET_LOADER_MAP
 

@@ -21,7 +21,7 @@ if (!('obis' in window)) {
     rootPath:
       process.env.NODE_ENV === 'local'
         ? 'http://localhost:4000'
-        : 'https://raw.githubusercontent.com/shuckster/OBIS/master/dist'
+        : 'https://raw.githubusercontent.com/shuckster/OBIS/master/dist/bookmarklet'
   }
 
   obis.loadScript(obis.rootPath + '/main.js')

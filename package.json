@@ -10,7 +10,7 @@
     "debug": "pnpm run build:clean ; cross-env NODE_ENV=local HYDRATE=yes nodemon -e js,jsx,json,scss node build.js --mock-server",
     "debug:live": "pnpm run build:clean ; cross-env NODE_ENV=local HYDRATE=no nodemon -e js,jsx,json,scss node build.js --mock-server",
     "build": "cross-env NODE_ENV=production node build.js",
-    "build:clean": "rimraf dist/*; mkdir -p dist/plugins",
+    "build:clean": "rimraf dist/bookmarklet; rimraf dist/extension; mkdir -p dist/bookmarklet/plugins; mkdir -p dist/extension",
     "build:all": "pnpm run build:clean ; cross-env NODE_ENV=production pnpm run build"
   },
   "devDependencies": {
