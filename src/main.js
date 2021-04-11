@@ -15,6 +15,7 @@ import { Statebot } from 'statebot'
 
 import { messages } from '@/esm/bus'
 import { addAjaxListener, AjaxRequester } from '@/esm/ajacks'
+import { makeRegExpFromWildcardString } from '@/cjs/regexp'
 import { actions } from '@/obis/actions'
 
 // Mithril.js Fragment <></> support (see build.js for implementation)
@@ -150,7 +151,16 @@ function loadObisInChunks(obis) {
 
   function pluginValidForLocation(plugin) {
     const { urls = [] } = plugin
-    const usePlugin = urls.some(url => location.href.includes(url))
+    const usePlugin = urls.some(url => {
+      const rx =
+        typeof url === 'string'
+          ? makeRegExpFromWildcardString(url)
+          : url instanceof RegExp
+          ? url
+          : null
+
+      return rx?.test(location.href)
+    })
     return usePlugin
   }
 
