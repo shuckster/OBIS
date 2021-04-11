@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   clsx: ^1.1.1
   cross-env: ^7.0.3
-  esbuild: ^0.11.7
+  esbuild: ^0.11.8
   esbuild-plugin-sass: ^0.4.1
   eslint: ^7.24.0
   eslint-plugin-mithril: ^0.2.0
@@ -38,7 +38,7 @@ dependencies:
 
 devDependencies:
   cross-env: 7.0.3
-  esbuild: 0.11.7
+  esbuild: 0.11.8
   esbuild-plugin-sass: 0.4.1
   eslint: 7.24.0
   eslint-plugin-mithril: 0.2.0
@@ -148,8 +148,8 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /ajv/8.0.5:
-    resolution: {integrity: sha512-RkiLa/AeJx7+9OvniQ/qeWu0w74A8DiPPBclQ6ji3ZQkv5KamO+QGpqmi7O4JIw3rHGUXZ6CoP9tsAkn3gyazg==}
+  /ajv/8.1.0:
+    resolution: {integrity: sha512-B/Sk2Ix7A36fs/ZkuGLIR86EdjbgR6fsAcbx9lOP/QBSXujDNbVmIS/U4Itz5k8fPFDeVZl/zQ/gJW4Jrq6XjQ==}
     dependencies:
       fast-deep-equal: 3.1.3
       json-schema-traverse: 1.0.0
@@ -666,8 +666,8 @@ packages:
       tmp: 0.2.1
     dev: true
 
-  /esbuild/0.11.7:
-    resolution: {integrity: sha512-rY+jA0TiCFVLcvxUbbp+yQ9EEBXDsfIU4rsY7RKJEsx/fjjRFjyGnamRCBwUZQspK37G9We6xAkX7IibGA24AA==}
+  /esbuild/0.11.8:
+    resolution: {integrity: sha512-dUZj5etA0e+SChqRMswgUj8TAj5ay7z06/BD32t0pRWgMDh8S/NTW7e7O1jLVIDeAECsRXkIzG2o+jpBwchq7w==}
     hasBin: true
     requiresBuild: true
     dev: true
@@ -1985,7 +1985,7 @@ packages:
     resolution: {integrity: sha512-F3cLs9a3hL1Z7N4+EkSscsel3z55XT950AvB05bwayrNg5T1/gykXtigioTAjbltvbMSJvvhFCbnf6mX+ntnJQ==}
     engines: {node: '>=10.0.0'}
     dependencies:
-      ajv: 8.0.5
+      ajv: 8.1.0
       is-boolean-object: 1.1.0
       is-number-object: 1.0.4
       is-string: 1.0.5
