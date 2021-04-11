@@ -37,6 +37,7 @@ export function createStatementsWindow() {
         </style>
       </head>
       <body
+        class="obis-statements-browser"
         onload="opener.messages?.emit?.('${actions.ui.STATEMENTS_WINDOW_READY}');"
         onunload="opener.messages?.emit?.('${actions.ui.STATEMENTS_WINDOW_CLOSED}');"
       >
