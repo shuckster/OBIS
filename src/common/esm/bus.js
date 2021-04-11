@@ -70,7 +70,7 @@ const messages = (function () {
     }
 
     const eventHandler = event => {
-      const { eventName, args } = event.detail
+      const { eventName = '', args = [] } = event?.detail || {}
       const runCallback = rx.test(eventName)
 
       if (runCallback) {
