@@ -17,7 +17,7 @@ export const addAjaxListener = (function () {
 
     window.addEventListener(eventName, event => {
       const options = event.detail
-      const url = options.url
+      const url = options?.url ?? ''
       let runCallback = true
 
       if (rx instanceof RegExp) {
