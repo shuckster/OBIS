@@ -3456,6 +3456,38 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       module.exports = require_statebot_dev();
     }
   });
+  var require_regexp = __commonJS((exports, module) => {
+    function memoize(fn, cache = new Map()) {
+      return (x2) => cache.has(x2) ? cache.get(x2) : cache.set(x2, fn(x2)).get(x2);
+    }
+    var makeRegExpFromWildcardString3 = memoize((str) => {
+      if (!str.length) {
+        throw new Error("String should not be empty");
+      }
+      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeStringForRegExp);
+      const rxString = sanitized.join("(.*)");
+      switch (true) {
+        case sanitized.length === 1:
+          return new RegExp(`^${rxString}$`);
+        case sanitized[0] !== "":
+          return new RegExp(`^${rxString}`);
+        case sanitized[sanitized.length - 1] !== "":
+          return new RegExp(`${rxString}$`);
+      }
+      return new RegExp(rxString);
+    });
+    function escapeStringForRegExp(string) {
+      if (typeof string !== "string") {
+        throw new TypeError("Expected string to be passed-in");
+      }
+      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+    module.exports = {
+      memoize,
+      makeRegExpFromWildcardString: makeRegExpFromWildcardString3,
+      escapeStringForRegExp
+    };
+  });
   var import_spark_md5 = __toModule(require_spark_md5());
   var import_jmespath = __toModule(require_jmespath());
   var ch2 = {};
@@ -4180,6 +4212,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   }
   var import_file_saver = __toModule(require_FileSaver_min());
   var import_statebot = __toModule(require_statebot());
+  var import_regexp = __toModule(require_regexp());
   (function() {
     if (typeof window.CustomEvent === "function")
       return false;
@@ -4214,13 +4247,13 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         throw new Error("Callback already deals with this event");
       }
       const isPlainMatcher = typeof eventNameOrPattern === "string" && eventNameOrPattern.indexOf("*") === -1;
-      const rx = typeof eventNameOrPattern === "string" ? rxFromString(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
+      const rx = typeof eventNameOrPattern === "string" ? (0, import_regexp.makeRegExpFromWildcardString)(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
       if (rx === null) {
         const reason = `Could not figure-out eventNameOrPattern`;
         throw new Error(`${reason} = ${eventNameOrPattern}`);
       }
       const eventHandler = (event) => {
-        const {eventName, args} = event.detail;
+        const {eventName = "", args = []} = event?.detail || {};
         const runCallback = rx.test(eventName);
         if (runCallback) {
           if (isPlainMatcher) {
@@ -4249,27 +4282,6 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       global2.removeEventListener(BUS, eventHandler);
       cbMap.delete(cb);
     }
-    function rxFromString(str) {
-      if (!str.length) {
-        throw new Error("String should not be empty");
-      }
-      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeRegExp);
-      let rxString = sanitized.join(".*");
-      if (sanitized.length === 1) {
-        rxString = `^${rxString}$`;
-      } else {
-        if (sanitized[0] !== "") {
-          rxString = `^${rxString}`;
-        }
-        if (sanitized[sanitized.length - 1] !== "") {
-          rxString = `${rxString}$`;
-        }
-      }
-      return new RegExp(rxString);
-    }
-    function escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    }
     return {
       emit,
       on,
@@ -4285,7 +4297,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       }
       window.addEventListener(eventName, (event) => {
         const options2 = event.detail;
-        const url = options2.url;
+        const url = options2?.url ?? "";
         let runCallback = true;
         if (rx instanceof RegExp) {
           runCallback = rx.test(url);
@@ -4389,6 +4401,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     window.XMLHttpRequest.prototype.send = sendReplacement;
     console.log("attachAjaxEventRepeater");
   }
+  var import_regexp2 = __toModule(require_regexp());
   var actions = {
     PLUGINS_REGISTERED: "plugins/registered",
     PLUGIN_AVAILABLE: "plugin/available",
@@ -4542,7 +4555,10 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     const loadAfterPlugin = [`${rootPath}/ui.css`, `${rootPath}/ui.js`];
     function pluginValidForLocation(plugin) {
       const {urls = []} = plugin;
-      const usePlugin = urls.some((url) => location.href.includes(url));
+      const usePlugin = urls.some((url) => {
+        const rx = typeof url === "string" ? (0, import_regexp2.makeRegExpFromWildcardString)(url) : url instanceof RegExp ? url : null;
+        return rx?.test(location.href);
+      });
       return usePlugin;
     }
     messages.on(actions.PLUGINS_REGISTERED, () => {
@@ -6650,6 +6666,38 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       };
     }
   });
+  var require_regexp = __commonJS((exports, module) => {
+    function memoize(fn2, cache = new Map()) {
+      return (x2) => cache.has(x2) ? cache.get(x2) : cache.set(x2, fn2(x2)).get(x2);
+    }
+    var makeRegExpFromWildcardString2 = memoize((str) => {
+      if (!str.length) {
+        throw new Error("String should not be empty");
+      }
+      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeStringForRegExp);
+      const rxString = sanitized.join("(.*)");
+      switch (true) {
+        case sanitized.length === 1:
+          return new RegExp(`^${rxString}$`);
+        case sanitized[0] !== "":
+          return new RegExp(`^${rxString}`);
+        case sanitized[sanitized.length - 1] !== "":
+          return new RegExp(`${rxString}$`);
+      }
+      return new RegExp(rxString);
+    });
+    function escapeStringForRegExp(string) {
+      if (typeof string !== "string") {
+        throw new TypeError("Expected string to be passed-in");
+      }
+      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+    module.exports = {
+      memoize,
+      makeRegExpFromWildcardString: makeRegExpFromWildcardString2,
+      escapeStringForRegExp
+    };
+  });
   var require_statebot_min = __commonJS((exports) => {
     "use strict";
     function t2(t3) {
@@ -8515,6 +8563,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var pn = an.applyPatches.bind(an);
   var ln = an.createDraft.bind(an);
   var dn = an.finishDraft.bind(an);
+  var import_regexp = __toModule(require_regexp());
   (function() {
     if (typeof window.CustomEvent === "function")
       return false;
@@ -8549,13 +8598,13 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         throw new Error("Callback already deals with this event");
       }
       const isPlainMatcher = typeof eventNameOrPattern === "string" && eventNameOrPattern.indexOf("*") === -1;
-      const rx = typeof eventNameOrPattern === "string" ? rxFromString(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
+      const rx = typeof eventNameOrPattern === "string" ? (0, import_regexp.makeRegExpFromWildcardString)(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
       if (rx === null) {
         const reason = `Could not figure-out eventNameOrPattern`;
         throw new Error(`${reason} = ${eventNameOrPattern}`);
       }
       const eventHandler = (event2) => {
-        const {eventName, args} = event2.detail;
+        const {eventName = "", args = []} = event2?.detail || {};
         const runCallback = rx.test(eventName);
         if (runCallback) {
           if (isPlainMatcher) {
@@ -8583,27 +8632,6 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       const eventHandler = cbMap.get(cb);
       global2.removeEventListener(BUS, eventHandler);
       cbMap.delete(cb);
-    }
-    function rxFromString(str) {
-      if (!str.length) {
-        throw new Error("String should not be empty");
-      }
-      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeRegExp);
-      let rxString = sanitized.join(".*");
-      if (sanitized.length === 1) {
-        rxString = `^${rxString}$`;
-      } else {
-        if (sanitized[0] !== "") {
-          rxString = `^${rxString}`;
-        }
-        if (sanitized[sanitized.length - 1] !== "") {
-          rxString = `${rxString}$`;
-        }
-      }
-      return new RegExp(rxString);
-    }
-    function escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
     return {
       emit: emit2,
@@ -9877,6 +9905,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         </style>
       </head>
       <body
+        class="obis-statements-browser"
         onload="opener.messages?.emit?.('${actions.ui.STATEMENTS_WINDOW_READY}');"
         onunload="opener.messages?.emit?.('${actions.ui.STATEMENTS_WINDOW_CLOSED}');"
       >
@@ -9894,7 +9923,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const {selectedAccountId, handleClick} = props;
     const accounts = useAccounts();
     const clickHandler = useCallback((event2) => {
-      const accountId = event2?.path.map((x2) => x2?.dataset?.account).filter(Boolean)[0];
+      const accountId = event2?.composedPath().map((x2) => x2?.dataset?.account).filter(Boolean)[0];
       handleClick(accountId);
     }, [handleClick]);
     return accounts.map((account) => /* @__PURE__ */ (0, import_mithril5.default)("div", {
@@ -10158,10 +10187,8 @@ obis.registerPlugins([
     name: "hsbc-uk",
     description: "HSBC UK",
     urls: [
-      "http://localhost:4000/",
-      "https://services.online-banking.hsbc.co.uk/",
-      "https://www.services.online-banking.hsbc.co.uk/",
-      "https://www.hsbc.co.uk/"
+      "http://localhost:4000/*",
+      "https://*.online-banking.hsbc.co.uk/*"
     ]
   }
 ]);
@@ -10185,6 +10212,38 @@ obis.registerPlugins([
   var __toModule = (module) => {
     return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? {get: () => module.default, enumerable: true} : {value: module, enumerable: true})), module);
   };
+  var require_regexp = __commonJS((exports, module) => {
+    function memoize(fn2, cache = new Map()) {
+      return (x2) => cache.has(x2) ? cache.get(x2) : cache.set(x2, fn2(x2)).get(x2);
+    }
+    var makeRegExpFromWildcardString2 = memoize((str) => {
+      if (!str.length) {
+        throw new Error("String should not be empty");
+      }
+      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeStringForRegExp);
+      const rxString = sanitized.join("(.*)");
+      switch (true) {
+        case sanitized.length === 1:
+          return new RegExp(`^${rxString}$`);
+        case sanitized[0] !== "":
+          return new RegExp(`^${rxString}`);
+        case sanitized[sanitized.length - 1] !== "":
+          return new RegExp(`${rxString}$`);
+      }
+      return new RegExp(rxString);
+    });
+    function escapeStringForRegExp(string) {
+      if (typeof string !== "string") {
+        throw new TypeError("Expected string to be passed-in");
+      }
+      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+    module.exports = {
+      memoize,
+      makeRegExpFromWildcardString: makeRegExpFromWildcardString2,
+      escapeStringForRegExp
+    };
+  });
   var require_timers = __commonJS((exports, module) => {
     module.exports = {
       seconds,
@@ -10785,6 +10844,7 @@ obis.registerPlugins([
   var pn = an.applyPatches.bind(an);
   var ln = an.createDraft.bind(an);
   var dn = an.finishDraft.bind(an);
+  var import_regexp = __toModule(require_regexp());
   (function() {
     if (typeof window.CustomEvent === "function")
       return false;
@@ -10819,13 +10879,13 @@ obis.registerPlugins([
         throw new Error("Callback already deals with this event");
       }
       const isPlainMatcher = typeof eventNameOrPattern === "string" && eventNameOrPattern.indexOf("*") === -1;
-      const rx = typeof eventNameOrPattern === "string" ? rxFromString(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
+      const rx = typeof eventNameOrPattern === "string" ? (0, import_regexp.makeRegExpFromWildcardString)(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
       if (rx === null) {
         const reason = `Could not figure-out eventNameOrPattern`;
         throw new Error(`${reason} = ${eventNameOrPattern}`);
       }
       const eventHandler = (event) => {
-        const {eventName, args} = event.detail;
+        const {eventName = "", args = []} = event?.detail || {};
         const runCallback = rx.test(eventName);
         if (runCallback) {
           if (isPlainMatcher) {
@@ -10853,27 +10913,6 @@ obis.registerPlugins([
       const eventHandler = cbMap.get(cb);
       global2.removeEventListener(BUS, eventHandler);
       cbMap.delete(cb);
-    }
-    function rxFromString(str) {
-      if (!str.length) {
-        throw new Error("String should not be empty");
-      }
-      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeRegExp);
-      let rxString = sanitized.join(".*");
-      if (sanitized.length === 1) {
-        rxString = `^${rxString}$`;
-      } else {
-        if (sanitized[0] !== "") {
-          rxString = `^${rxString}`;
-        }
-        if (sanitized[sanitized.length - 1] !== "") {
-          rxString = `${rxString}$`;
-        }
-      }
-      return new RegExp(rxString);
-    }
-    function escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
     return {
       emit,

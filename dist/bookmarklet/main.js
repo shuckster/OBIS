@@ -3469,6 +3469,40 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     }
   });
 
+  // src/common/cjs/regexp.js
+  var require_regexp = __commonJS((exports, module) => {
+    function memoize(fn, cache = new Map()) {
+      return (x) => cache.has(x) ? cache.get(x) : cache.set(x, fn(x)).get(x);
+    }
+    var makeRegExpFromWildcardString3 = memoize((str) => {
+      if (!str.length) {
+        throw new Error("String should not be empty");
+      }
+      const sanitized = str.split("*").map((x) => x.trim()).map(escapeStringForRegExp);
+      const rxString = sanitized.join("(.*)");
+      switch (true) {
+        case sanitized.length === 1:
+          return new RegExp(`^${rxString}$`);
+        case sanitized[0] !== "":
+          return new RegExp(`^${rxString}`);
+        case sanitized[sanitized.length - 1] !== "":
+          return new RegExp(`${rxString}$`);
+      }
+      return new RegExp(rxString);
+    });
+    function escapeStringForRegExp(string) {
+      if (typeof string !== "string") {
+        throw new TypeError("Expected string to be passed-in");
+      }
+      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+    module.exports = {
+      memoize,
+      makeRegExpFromWildcardString: makeRegExpFromWildcardString3,
+      escapeStringForRegExp
+    };
+  });
+
   // src/main.js
   var import_spark_md5 = __toModule(require_spark_md5());
   var import_jmespath = __toModule(require_jmespath());
@@ -4200,6 +4234,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var import_statebot = __toModule(require_statebot());
 
   // src/common/esm/bus.js
+  var import_regexp = __toModule(require_regexp());
   (function() {
     if (typeof window.CustomEvent === "function")
       return false;
@@ -4234,13 +4269,13 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         throw new Error("Callback already deals with this event");
       }
       const isPlainMatcher = typeof eventNameOrPattern === "string" && eventNameOrPattern.indexOf("*") === -1;
-      const rx = typeof eventNameOrPattern === "string" ? rxFromString(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
+      const rx = typeof eventNameOrPattern === "string" ? (0, import_regexp.makeRegExpFromWildcardString)(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
       if (rx === null) {
         const reason = `Could not figure-out eventNameOrPattern`;
         throw new Error(`${reason} = ${eventNameOrPattern}`);
       }
       const eventHandler = (event) => {
-        const {eventName, args} = event.detail;
+        const {eventName = "", args = []} = event?.detail || {};
         const runCallback = rx.test(eventName);
         if (runCallback) {
           if (isPlainMatcher) {
@@ -4269,27 +4304,6 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       global2.removeEventListener(BUS, eventHandler);
       cbMap.delete(cb);
     }
-    function rxFromString(str) {
-      if (!str.length) {
-        throw new Error("String should not be empty");
-      }
-      const sanitized = str.split("*").map((x) => x.trim()).map(escapeRegExp);
-      let rxString = sanitized.join(".*");
-      if (sanitized.length === 1) {
-        rxString = `^${rxString}$`;
-      } else {
-        if (sanitized[0] !== "") {
-          rxString = `^${rxString}`;
-        }
-        if (sanitized[sanitized.length - 1] !== "") {
-          rxString = `${rxString}$`;
-        }
-      }
-      return new RegExp(rxString);
-    }
-    function escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    }
     return {
       emit,
       on,
@@ -4307,7 +4321,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       }
       window.addEventListener(eventName, (event) => {
         const options2 = event.detail;
-        const url = options2.url;
+        const url = options2?.url ?? "";
         let runCallback = true;
         if (rx instanceof RegExp) {
           runCallback = rx.test(url);
@@ -4411,6 +4425,9 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     window.XMLHttpRequest.prototype.send = sendReplacement;
     console.log("attachAjaxEventRepeater");
   }
+
+  // src/main.js
+  var import_regexp2 = __toModule(require_regexp());
 
   // src/common/obis/actions.js
   var actions = {
@@ -4568,7 +4585,10 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     const loadAfterPlugin = [`${rootPath}/ui.css`, `${rootPath}/ui.js`];
     function pluginValidForLocation(plugin) {
       const {urls = []} = plugin;
-      const usePlugin = urls.some((url) => location.href.includes(url));
+      const usePlugin = urls.some((url) => {
+        const rx = typeof url === "string" ? (0, import_regexp2.makeRegExpFromWildcardString)(url) : url instanceof RegExp ? url : null;
+        return rx?.test(location.href);
+      });
       return usePlugin;
     }
     messages.on(actions.PLUGINS_REGISTERED, () => {

@@ -19,6 +19,40 @@
     return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? {get: () => module.default, enumerable: true} : {value: module, enumerable: true})), module);
   };
 
+  // src/common/cjs/regexp.js
+  var require_regexp = __commonJS((exports, module) => {
+    function memoize(fn2, cache = new Map()) {
+      return (x2) => cache.has(x2) ? cache.get(x2) : cache.set(x2, fn2(x2)).get(x2);
+    }
+    var makeRegExpFromWildcardString2 = memoize((str) => {
+      if (!str.length) {
+        throw new Error("String should not be empty");
+      }
+      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeStringForRegExp);
+      const rxString = sanitized.join("(.*)");
+      switch (true) {
+        case sanitized.length === 1:
+          return new RegExp(`^${rxString}$`);
+        case sanitized[0] !== "":
+          return new RegExp(`^${rxString}`);
+        case sanitized[sanitized.length - 1] !== "":
+          return new RegExp(`${rxString}$`);
+      }
+      return new RegExp(rxString);
+    });
+    function escapeStringForRegExp(string) {
+      if (typeof string !== "string") {
+        throw new TypeError("Expected string to be passed-in");
+      }
+      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+    module.exports = {
+      memoize,
+      makeRegExpFromWildcardString: makeRegExpFromWildcardString2,
+      escapeStringForRegExp
+    };
+  });
+
   // src/common/cjs/timers.js
   var require_timers = __commonJS((exports, module) => {
     module.exports = {
@@ -628,6 +662,7 @@
   var dn = an.finishDraft.bind(an);
 
   // src/common/esm/bus.js
+  var import_regexp = __toModule(require_regexp());
   (function() {
     if (typeof window.CustomEvent === "function")
       return false;
@@ -662,13 +697,13 @@
         throw new Error("Callback already deals with this event");
       }
       const isPlainMatcher = typeof eventNameOrPattern === "string" && eventNameOrPattern.indexOf("*") === -1;
-      const rx = typeof eventNameOrPattern === "string" ? rxFromString(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
+      const rx = typeof eventNameOrPattern === "string" ? (0, import_regexp.makeRegExpFromWildcardString)(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
       if (rx === null) {
         const reason = `Could not figure-out eventNameOrPattern`;
         throw new Error(`${reason} = ${eventNameOrPattern}`);
       }
       const eventHandler = (event) => {
-        const {eventName, args} = event.detail;
+        const {eventName = "", args = []} = event?.detail || {};
         const runCallback = rx.test(eventName);
         if (runCallback) {
           if (isPlainMatcher) {
@@ -696,27 +731,6 @@
       const eventHandler = cbMap.get(cb);
       global.removeEventListener(BUS, eventHandler);
       cbMap.delete(cb);
-    }
-    function rxFromString(str) {
-      if (!str.length) {
-        throw new Error("String should not be empty");
-      }
-      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeRegExp);
-      let rxString = sanitized.join(".*");
-      if (sanitized.length === 1) {
-        rxString = `^${rxString}$`;
-      } else {
-        if (sanitized[0] !== "") {
-          rxString = `^${rxString}`;
-        }
-        if (sanitized[sanitized.length - 1] !== "") {
-          rxString = `${rxString}$`;
-        }
-      }
-      return new RegExp(rxString);
-    }
-    function escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
     return {
       emit,

@@ -2090,6 +2090,40 @@
     }
   });
 
+  // src/common/cjs/regexp.js
+  var require_regexp = __commonJS((exports, module) => {
+    function memoize(fn2, cache = new Map()) {
+      return (x2) => cache.has(x2) ? cache.get(x2) : cache.set(x2, fn2(x2)).get(x2);
+    }
+    var makeRegExpFromWildcardString2 = memoize((str) => {
+      if (!str.length) {
+        throw new Error("String should not be empty");
+      }
+      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeStringForRegExp);
+      const rxString = sanitized.join("(.*)");
+      switch (true) {
+        case sanitized.length === 1:
+          return new RegExp(`^${rxString}$`);
+        case sanitized[0] !== "":
+          return new RegExp(`^${rxString}`);
+        case sanitized[sanitized.length - 1] !== "":
+          return new RegExp(`${rxString}$`);
+      }
+      return new RegExp(rxString);
+    });
+    function escapeStringForRegExp(string) {
+      if (typeof string !== "string") {
+        throw new TypeError("Expected string to be passed-in");
+      }
+      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+    module.exports = {
+      memoize,
+      makeRegExpFromWildcardString: makeRegExpFromWildcardString2,
+      escapeStringForRegExp
+    };
+  });
+
   // node_modules/.pnpm/statebot@2.7.2/node_modules/statebot/dist/cjs/statebot.min.js
   var require_statebot_min = __commonJS((exports) => {
     "use strict";
@@ -3968,6 +4002,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var dn = an.finishDraft.bind(an);
 
   // src/common/esm/bus.js
+  var import_regexp = __toModule(require_regexp());
   (function() {
     if (typeof window.CustomEvent === "function")
       return false;
@@ -4002,13 +4037,13 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         throw new Error("Callback already deals with this event");
       }
       const isPlainMatcher = typeof eventNameOrPattern === "string" && eventNameOrPattern.indexOf("*") === -1;
-      const rx = typeof eventNameOrPattern === "string" ? rxFromString(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
+      const rx = typeof eventNameOrPattern === "string" ? (0, import_regexp.makeRegExpFromWildcardString)(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
       if (rx === null) {
         const reason = `Could not figure-out eventNameOrPattern`;
         throw new Error(`${reason} = ${eventNameOrPattern}`);
       }
       const eventHandler = (event2) => {
-        const {eventName, args} = event2.detail;
+        const {eventName = "", args = []} = event2?.detail || {};
         const runCallback = rx.test(eventName);
         if (runCallback) {
           if (isPlainMatcher) {
@@ -4036,27 +4071,6 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       const eventHandler = cbMap.get(cb);
       global2.removeEventListener(BUS, eventHandler);
       cbMap.delete(cb);
-    }
-    function rxFromString(str) {
-      if (!str.length) {
-        throw new Error("String should not be empty");
-      }
-      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeRegExp);
-      let rxString = sanitized.join(".*");
-      if (sanitized.length === 1) {
-        rxString = `^${rxString}$`;
-      } else {
-        if (sanitized[0] !== "") {
-          rxString = `^${rxString}`;
-        }
-        if (sanitized[sanitized.length - 1] !== "") {
-          rxString = `${rxString}$`;
-        }
-      }
-      return new RegExp(rxString);
-    }
-    function escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
     return {
       emit: emit2,
@@ -5388,6 +5402,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         </style>
       </head>
       <body
+        class="obis-statements-browser"
         onload="opener.messages?.emit?.('${actions.ui.STATEMENTS_WINDOW_READY}');"
         onunload="opener.messages?.emit?.('${actions.ui.STATEMENTS_WINDOW_CLOSED}');"
       >
@@ -5405,7 +5420,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const {selectedAccountId, handleClick} = props;
     const accounts = useAccounts();
     const clickHandler = useCallback((event2) => {
-      const accountId = event2?.path.map((x2) => x2?.dataset?.account).filter(Boolean)[0];
+      const accountId = event2?.composedPath().map((x2) => x2?.dataset?.account).filter(Boolean)[0];
       handleClick(accountId);
     }, [handleClick]);
     return accounts.map((account) => /* @__PURE__ */ (0, import_mithril5.default)("div", {

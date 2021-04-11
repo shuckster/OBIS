@@ -1,0 +1,23 @@
+{
+  "name": "OBIS",
+  "description": "A JavaScript Framework for downloading Bank Statements",
+  "version": "2.0",
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.online-banking.hsbc.co.uk/*"
+      ],
+      "css": [
+        "ui.css",
+        "statement.css"
+      ],
+      "js": [
+        "obis-hsbc-uk.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    "statement.css"
+  ]
+}
