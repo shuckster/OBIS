@@ -59,7 +59,8 @@ const Accounts = ViewComponent(props => {
 
   const clickHandler = useCallback(
     event => {
-      const accountId = event?.path
+      const accountId = event
+        ?.composedPath()
         .map(x => x?.dataset?.account)
         .filter(Boolean)[0]
 
