@@ -9,3 +9,4 @@ PUBLISH.md
 publish.sh
 src/_mock-server/public/hsbc
 extension.pem
+extension.crx
