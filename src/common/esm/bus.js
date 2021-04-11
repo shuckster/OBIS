@@ -2,6 +2,8 @@
 // Browser message-bus using CustomEvent()
 //
 
+import { makeRegExpFromWildcardString } from '@/cjs/regexp'
+
 // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#polyfill
 // eslint-disable-next-line no-extra-semi
 ;(function () {
@@ -57,7 +59,7 @@ const messages = (function () {
 
     const rx =
       typeof eventNameOrPattern === 'string'
-        ? rxFromString(eventNameOrPattern)
+        ? makeRegExpFromWildcardString(eventNameOrPattern)
         : eventNameOrPattern instanceof RegExp
         ? eventNameOrPattern
         : null
@@ -106,39 +108,6 @@ const messages = (function () {
     const eventHandler = cbMap.get(cb)
     global.removeEventListener(BUS, eventHandler)
     cbMap.delete(cb)
-  }
-
-  //
-  // Wildcard helpers
-  //
-
-  function rxFromString(str) {
-    if (!str.length) {
-      throw new Error('String should not be empty')
-    }
-    const sanitized = str
-      .split('*')
-      .map(x => x.trim())
-      .map(escapeRegExp)
-
-    let rxString = sanitized.join('.*')
-
-    if (sanitized.length === 1) {
-      rxString = `^${rxString}$`
-    } else {
-      if (sanitized[0] !== '') {
-        rxString = `^${rxString}`
-      }
-      if (sanitized[sanitized.length - 1] !== '') {
-        rxString = `${rxString}$`
-      }
-    }
-    return new RegExp(rxString)
-  }
-
-  function escapeRegExp(string) {
-    // $& means the whole matched string
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   }
 
   return {
