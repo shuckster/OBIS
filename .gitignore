@@ -1,6 +1,7 @@
 _scratch
 .DS_Store
 .vscode
+.nosync
 node_modules
 pnpm-debug.log
 vs.code-workspace
