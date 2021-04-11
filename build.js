@@ -195,7 +195,7 @@ const extensionManifestTemplate = {
   content_scripts: [
     {
       matches: [],
-      css: ['ui.css'],
+      css: ['ui.css', 'statement.css'],
       js: ['obis-${pluginName}.js']
     }
   ],
