@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+Unreleased
+
+- Web Extension work-in-progress, currently supports Chrome
+
 21st March 2021
 
 - Complete rewrite

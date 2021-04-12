@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   clsx: ^1.1.1
   cross-env: ^7.0.3
-  esbuild: ^0.11.8
+  esbuild: ^0.11.9
   esbuild-plugin-sass: ^0.4.1
   eslint: ^7.24.0
   eslint-plugin-mithril: ^0.2.0
@@ -38,7 +38,7 @@ dependencies:
 
 devDependencies:
   cross-env: 7.0.3
-  esbuild: 0.11.8
+  esbuild: 0.11.9
   esbuild-plugin-sass: 0.4.1
   eslint: 7.24.0
   eslint-plugin-mithril: 0.2.0
@@ -666,8 +666,8 @@ packages:
       tmp: 0.2.1
     dev: true
 
-  /esbuild/0.11.8:
-    resolution: {integrity: sha512-dUZj5etA0e+SChqRMswgUj8TAj5ay7z06/BD32t0pRWgMDh8S/NTW7e7O1jLVIDeAECsRXkIzG2o+jpBwchq7w==}
+  /esbuild/0.11.9:
+    resolution: {integrity: sha512-qP7w/oWjJBIh9x+H37DbpkMtmSnLm63VDyA06+vkJJEHlVR7QSDiPAaka7mtMQZHoBn87irUx5rDxbXMKaf8xw==}
     hasBin: true
     requiresBuild: true
     dev: true
