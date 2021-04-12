@@ -104,15 +104,20 @@ function maybeRunMockServer() {
 // Builders
 //
 
+const commonBuildOptions = {
+  define: BUILD_REPLACEMENTS,
+  minify: MINIFY_DISTRIBUTION,
+  sourcemap: SOURCE_MAPS
+}
+
 function buildBookmarklet() {
   return esbuild
     .build({
-      define: BUILD_REPLACEMENTS,
+      ...commonBuildOptions,
       entryPoints: [paths.SRC_BOOKMARKLET],
       bundle: true,
       minify: true, // Always minify bookmarklet
       platform: 'browser',
-      sourcemap: SOURCE_MAPS,
       outfile: paths.DIST_BOOKMARKLET
     })
     .then(() => loadTextFile(paths.DIST_BOOKMARKLET))
@@ -122,12 +127,10 @@ function buildBookmarklet() {
 
 function buildMain(doNotWrite) {
   const options = {
-    define: BUILD_REPLACEMENTS,
+    ...commonBuildOptions,
     entryPoints: [paths.SRC_MAIN],
     bundle: true,
-    minify: MINIFY_DISTRIBUTION,
     platform: 'browser',
-    sourcemap: SOURCE_MAPS,
     write: !doNotWrite,
     ...(!doNotWrite && { outfile: paths.DIST_MAIN })
   }
@@ -136,15 +139,13 @@ function buildMain(doNotWrite) {
 
 function buildUi(doNotWrite) {
   const options = {
-    define: BUILD_REPLACEMENTS,
+    ...commonBuildOptions,
     entryPoints: [paths.SRC_UI],
     bundle: true,
-    minify: MINIFY_DISTRIBUTION,
     platform: 'browser',
     jsxFactory: 'm',
     jsxFragment: 'm.Fragment',
     plugins: [sassPlugin()],
-    sourcemap: SOURCE_MAPS,
     write: !doNotWrite,
     ...(doNotWrite
       ? { outdir: paths.EXTENSION_FOLDER }
@@ -155,12 +156,11 @@ function buildUi(doNotWrite) {
 
 function buildStatementsCss(doNotWrite) {
   const options = {
+    ...commonBuildOptions,
     entryPoints: [paths.SRC_STATEMENTS_CSS],
     bundle: true,
-    minify: MINIFY_DISTRIBUTION,
     loader: { '.scss': 'css' },
     plugins: [sassPlugin()],
-    sourcemap: SOURCE_MAPS,
     write: !doNotWrite,
     ...(!doNotWrite && { outfile: paths.DIST_STATEMENTS_CSS })
   }
@@ -271,11 +271,7 @@ function buildWebExtension() {
 
 function buildExtensionContentScript(name, bundleJs) {
   return esbuild
-    .transform(bundleJs, {
-      define: BUILD_REPLACEMENTS,
-      minify: MINIFY_DISTRIBUTION,
-      sourcemap: SOURCE_MAPS
-    })
+    .transform(bundleJs, commonBuildOptions)
     .then(({ code }) => code)
     .then(writeTextFile(path.join(paths.EXTENSION_FOLDER, name)))
 }
@@ -303,12 +299,10 @@ function buildAndMinifyPlugins() {
           allPluginMeta.map(pluginMeta =>
             esbuild
               .build({
-                define: BUILD_REPLACEMENTS,
+                ...commonBuildOptions,
                 entryPoints: [pluginMeta.src],
                 bundle: true,
-                minify: MINIFY_DISTRIBUTION,
                 platform: 'browser',
-                sourcemap: SOURCE_MAPS,
                 write: false
               })
               .then(build => ({
