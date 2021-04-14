@@ -200,7 +200,13 @@ const extensionManifestTemplate = {
       js: ['obis-${pluginName}.js']
     }
   ],
-  web_accessible_resources: ['statement.css']
+  web_accessible_resources: ['statement.css'],
+  icons: {
+    16: 'images/icon-16.png',
+    32: 'images/icon-32.png',
+    48: 'images/icon-48.png',
+    128: 'images/icon-128.png'
+  }
 }
 
 function buildWebExtension() {
