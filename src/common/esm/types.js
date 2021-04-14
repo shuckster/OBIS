@@ -23,6 +23,8 @@ export {
 // isType
 //
 
+// isEventEmitter
+//
 function isEventEmitter(obj) {
   return (
     isObject(obj) &&
@@ -34,18 +36,24 @@ function isEventEmitter(obj) {
 
 isEventEmitter.displayName = 'isEventEmitter'
 
+// isUnset
+//
 function isUnset(obj) {
   return obj === null || obj === undefined
 }
 
 isArray.displayName = 'isUnset'
 
+// isArray
+//
 function isArray(obj) {
   return Array.isArray(obj)
 }
 
 isArray.displayName = 'isArray'
 
+// isArguments
+//
 function isArguments(obj) {
   if (!isObject(obj)) {
     return false
@@ -58,42 +66,56 @@ function isArguments(obj) {
 
 isArguments.displayName = 'isArguments'
 
+// isBoolean
+//
 function isBoolean(obj) {
   return obj === true || obj === false
 }
 
 isBoolean.displayName = 'isBoolean'
 
+// isFunction
+//
 function isFunction(obj) {
   return typeof obj === 'function'
 }
 
 isFunction.displayName = 'isFunction'
 
+// isString
+//
 function isString(obj) {
   return typeof obj === 'string'
 }
 
 isString.displayName = 'isString'
 
+// isNull
+//
 function isNull(obj) {
   return obj === null
 }
 
 isNull.displayName = 'isNull'
 
+// isNumber
+//
 function isNumber(obj) {
   return typeof obj === 'number'
 }
 
 isNumber.displayName = 'isNumber'
 
+// isObject
+//
 function isObject(obj) {
   return typeof obj === 'object' && obj !== null
 }
 
 isObject.displayName = 'isObject'
 
+// isPojo
+//
 function isPojo(obj) {
   if (obj === null || !isObject(obj)) {
     return false
@@ -103,6 +125,8 @@ function isPojo(obj) {
 
 isPojo.displayName = 'isPojo'
 
+// isTemplateLiteral
+//
 function isTemplateLiteral(obj) {
   if (isString(obj)) {
     return true
@@ -115,6 +139,8 @@ function isTemplateLiteral(obj) {
 
 isTemplateLiteral.displayName = 'isTemplateLiteral'
 
+// isThisValue
+//
 function isThisValue(value) {
   function inObject(obj) {
     return obj === value
