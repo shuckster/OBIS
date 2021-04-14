@@ -215,66 +215,55 @@ function buildWebExtension() {
   const decoder = new TextDecoder()
   const encoder = new TextEncoder()
 
-  return buildMain(DO_NOT_WRITE)
-    .then(getFullEsbuildContent)
-    .then(mainContent => {
-      buildUi(DO_NOT_WRITE).then(uiBuild => {
-        const uiContent = uiBuild.outputFiles.find(({ path }) =>
-          path.includes('index.js')
-        ).contents
+  return Promise.all([
+    buildAndMinifyPlugins(),
+    buildMain(DO_NOT_WRITE).then(getConcatenatedEsbuildContent),
+    buildUi(DO_NOT_WRITE)
+      .then(getEsbuiltJavaScriptWithCss)
+      .then(({ jsContent, cssContent }) =>
+        writeTextFile(paths.EXTENSION_UI_CSS)(cssContent).then(() => jsContent)
+      ),
+    buildStatementsCss(DO_NOT_WRITE)
+      .then(getConcatenatedEsbuildContent)
+      .then(cssContent => decoder.decode(cssContent))
+      .then(writeTextFile(paths.EXTENSION_STATEMENTS_CSS))
+  ]).then(([plugins, mainContent, uiContent]) => {
+    const allPluginMeta = plugins.map(({ pluginMeta }) => pluginMeta)
+    const pluginRegistryJs = buildPluginsRegistry(allPluginMeta)
+    const pluginRegistry = encoder.encode(pluginRegistryJs)
 
-        const uiCssContent = uiBuild.outputFiles.find(({ path }) =>
-          path.includes('index.css')
-        ).contents
+    // Generate manifest.json
+    const contentScriptTemplate = extensionManifestTemplate.content_scripts.pop()
+    const manifest = { ...extensionManifestTemplate }
+    manifest.content_scripts = allPluginMeta.map(meta => ({
+      ...contentScriptTemplate,
+      matches: meta.urls.filter(url => IS_LOCAL || !url.includes('localhost')),
+      js: contentScriptTemplate.js.map(js =>
+        js.replace('${pluginName}', meta.name)
+      )
+    }))
 
-        writeTextFile(paths.EXTENSION_UI_CSS)(uiCssContent)
-          .then(() => buildAndMinifyPlugins())
-          .then(results => {
-            const allPluginMeta = results.map(({ pluginMeta }) => pluginMeta)
-            const pluginRegistryJs = buildPluginsRegistry(allPluginMeta)
-            const pluginRegistry = encoder.encode(pluginRegistryJs)
-
-            // Generate manifest.json
-            const contentScriptTemplate = extensionManifestTemplate.content_scripts.pop()
-            const manifest = { ...extensionManifestTemplate }
-            manifest.content_scripts = allPluginMeta.map(meta => ({
-              ...contentScriptTemplate,
-              matches: meta.urls.filter(
-                url => IS_LOCAL || !url.includes('localhost')
-              ),
-              js: contentScriptTemplate.js.map(js =>
-                js.replace('${pluginName}', meta.name)
-              )
-            }))
-
-            return writeTextFile(paths.EXTENSION_MANIFEST)(
-              JSON.stringify(manifest, null, 2)
-            ).then(
-              Promise.all(
-                results.map(({ pluginMeta, pluginContent }) => {
-                  const bundleWithoutPlugin = mergeTypedArrays([
-                    mainContent,
-                    uiContent,
-                    pluginRegistry,
-                    pluginContent
-                  ])
-                  const bundleJs = decoder.decode(bundleWithoutPlugin)
-                  return buildExtensionContentScript(
-                    `obis-${pluginMeta.name}.js`,
-                    bundleJs
-                  )
-                })
-              )
-            )
-          })
+    return Promise.all([
+      // Write manifest:
+      writeTextFile(paths.EXTENSION_MANIFEST)(
+        JSON.stringify(manifest, null, 2)
+      ),
+      // Bundle OBIS + each plugin per bank:
+      ...plugins.map(({ pluginMeta, pluginContent }) => {
+        const bundleWithoutPlugin = mergeTypedArrays([
+          mainContent,
+          uiContent,
+          pluginRegistry,
+          pluginContent
+        ])
+        const bundleJs = decoder.decode(bundleWithoutPlugin)
+        return buildExtensionContentScript(
+          `obis-${pluginMeta.name}.js`,
+          bundleJs
+        )
       })
-    })
-    .then(() =>
-      buildStatementsCss(DO_NOT_WRITE)
-        .then(getFullEsbuildContent)
-        .then(cssContent => decoder.decode(cssContent))
-        .then(writeTextFile(paths.EXTENSION_STATEMENTS_CSS))
-    )
+    ])
+  })
 }
 
 function buildExtensionContentScript(name, bundleJs) {
@@ -315,7 +304,7 @@ function buildAndMinifyPlugins() {
               })
               .then(build => ({
                 pluginMeta,
-                pluginContent: getFullEsbuildContent(build)
+                pluginContent: getConcatenatedEsbuildContent(build)
               }))
           )
         )
@@ -387,11 +376,22 @@ function writeTextFile(path) {
   }
 }
 
-function getFullEsbuildContent(build) {
+function getConcatenatedEsbuildContent(build) {
   return mergeTypedArrays(
     build.outputFiles.map(out => out.contents),
     Uint8Array
   )
+}
+
+function getEsbuiltJavaScriptWithCss(build) {
+  const { outputFiles } = build
+  const { contents: jsContent } = outputFiles.find(({ path }) =>
+    path.includes('index.js')
+  )
+  const { contents: cssContent } = outputFiles.find(({ path }) =>
+    path.includes('index.css')
+  )
+  return { jsContent, cssContent }
 }
 
 // https://stackoverflow.com/a/56993335/127928
