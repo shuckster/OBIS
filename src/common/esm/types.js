@@ -5,6 +5,7 @@
 export {
   isArray,
   isArguments,
+  isBoolean,
   isEventEmitter,
   isFunction,
   isPojo,
@@ -12,6 +13,7 @@ export {
   isTemplateLiteral,
   isNumber,
   isThisValue,
+  isNull,
   isUnset,
   ArgTypeError,
   ObjTypeError
@@ -56,6 +58,12 @@ function isArguments(obj) {
 
 isArguments.displayName = 'isArguments'
 
+function isBoolean(obj) {
+  return obj === true || obj === false
+}
+
+isBoolean.displayName = 'isBoolean'
+
 function isFunction(obj) {
   return typeof obj === 'function'
 }
@@ -67,6 +75,12 @@ function isString(obj) {
 }
 
 isString.displayName = 'isString'
+
+function isNull(obj) {
+  return obj === null
+}
+
+isNull.displayName = 'isNull'
 
 function isNumber(obj) {
   return typeof obj === 'number'
@@ -171,7 +185,7 @@ const typeErrorStringFromArgument = argMap => (arg, index) => {
  * function myFn (myArg1, myArg2) {
  *   const err = argTypeError({
  *     myArg1: isString,
- *     myArg2: Boolean
+ *     myArg2: isBoolean
  *   })('myFn')(myArg1, myArg2)
  *   if (err) {
  *     throw new TypeError(err)
