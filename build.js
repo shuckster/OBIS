@@ -190,8 +190,8 @@ function buildPlugins() {
 
 const extensionManifestTemplate = {
   name: 'OBIS',
-  description: 'A JavaScript Framework for downloading Bank Statements',
-  version: '2.0',
+  description: 'Easily download your HSBC UK bank-statements.',
+  version: '0.0.0.1',
   manifest_version: 2,
   content_scripts: [
     {
