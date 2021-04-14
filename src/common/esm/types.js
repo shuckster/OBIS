@@ -55,13 +55,7 @@ isArray.displayName = 'isArray'
 // isArguments
 //
 function isArguments(obj) {
-  if (!isObject(obj)) {
-    return false
-  }
-  const hasMap = isFunction(obj.map)
-  const hasLength = isNumber(obj.length)
-  const hasObjectPrototype = obj.__proto__ === Object.prototype
-  return hasObjectPrototype && hasLength && !hasMap
+  return Object.prototype.toString.call(obj) === '[object Arguments]'
 }
 
 isArguments.displayName = 'isArguments'
@@ -117,7 +111,7 @@ isObject.displayName = 'isObject'
 // isPojo
 //
 function isPojo(obj) {
-  if (obj === null || !isObject(obj)) {
+  if (obj === null || !isObject(obj) || isArguments(obj)) {
     return false
   }
   return Object.getPrototypeOf(obj) === Object.prototype
