@@ -190,7 +190,9 @@ function buildPlugins() {
 
 const extensionManifestTemplate = {
   name: 'OBIS',
-  description: 'Easily download your HSBC UK bank-statements.',
+  description: `Easily download your HSBC UK bank-statements.${
+    IS_LOCAL ? ' (DEBUGGING)' : ''
+  }`,
   version: '0.0.0.1',
   manifest_version: 2,
   content_scripts: [
