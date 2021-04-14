@@ -189,7 +189,10 @@ function buildPlugins() {
 //
 
 const extensionManifestTemplate = {
-  name: 'OBIS',
+  name: 'OBIS | Online Banking Is Shit',
+  short_name: 'OBIS',
+  homepage_url: 'https://github.com/shuckster/OBIS#obis-online-banking-is-shit',
+  author: 'Conan Theobald',
   description: `Easily download your HSBC UK bank-statements.${
     IS_LOCAL ? ' (DEBUGGING)' : ''
   }`,
