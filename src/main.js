@@ -103,7 +103,7 @@ function addObisDependencies(obis) {
     const meta = getPluginMeta(name)
     meta.name = name
     meta.loaderFn = pluginLoaderFn
-    messages.emit(actions.PLUGIN_AVAILABLE, name)
+    messages.emit(actions.plugin.AVAILABLE, name)
   }
 
   obis.registerPlugins = plugins => {
@@ -114,12 +114,12 @@ function addObisDependencies(obis) {
       meta.urls = plugin.urls
     })
 
-    messages.emit(actions.PLUGINS_REGISTERED)
+    messages.emit(actions.plugin.ALL_REGISTERED)
   }
 }
 
 function loadObisAsBundle(obis) {
-  messages.on(actions.PLUGIN_AVAILABLE, name => {
+  messages.on(actions.plugin.AVAILABLE, name => {
     obis.plugin = getPluginMeta(name)
     const { loaderFn } = obis.plugin
     if (typeof loaderFn !== 'function') {
@@ -128,7 +128,7 @@ function loadObisAsBundle(obis) {
     }
 
     loaderFn()
-    messages.emit(actions.PLUGIN_LOADED)
+    messages.emit(actions.plugin.LOADED)
   })
 
   let waitingOn = 2
@@ -141,7 +141,7 @@ function loadObisAsBundle(obis) {
   }
 
   messages.on(actions.ui.LOADED, checkReady)
-  messages.on(actions.PLUGIN_LOADED, checkReady)
+  messages.on(actions.plugin.LOADED, checkReady)
 }
 
 function loadObisInChunks(obis) {
@@ -164,7 +164,7 @@ function loadObisInChunks(obis) {
     return usePlugin
   }
 
-  messages.on(actions.PLUGINS_REGISTERED, () => {
+  messages.on(actions.plugin.ALL_REGISTERED, () => {
     const plugins = Array.from(pluginRegistry.values())
     const pluginDetected = plugins.find(pluginValidForLocation)
     if (!pluginDetected) {
@@ -175,7 +175,7 @@ function loadObisInChunks(obis) {
     loadQueue.push(`${rootPath}/plugins/${pluginDetected.name}.js`)
   })
 
-  messages.on(actions.PLUGIN_AVAILABLE, name => {
+  messages.on(actions.plugin.AVAILABLE, name => {
     obis.plugin = getPluginMeta(name)
     const { loaderFn } = obis.plugin
     if (typeof loaderFn !== 'function') {
@@ -184,10 +184,10 @@ function loadObisInChunks(obis) {
     }
 
     loaderFn()
-    messages.emit(actions.PLUGIN_LOADED)
+    messages.emit(actions.plugin.LOADED)
   })
 
-  messages.on(actions.PLUGIN_LOADED, () => {
+  messages.on(actions.plugin.LOADED, () => {
     loadQueue.push(...loadAfterPlugin)
   })
 

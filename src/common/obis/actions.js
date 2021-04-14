@@ -3,13 +3,15 @@
 //
 
 const actions = {
-  PLUGINS_REGISTERED: 'plugins/registered',
-  PLUGIN_AVAILABLE: 'plugin/available',
-  PLUGIN_LOADED: 'plugin/loaded',
   OBIS_READY: 'obis-ready',
   FIRST_RUN: 'first-run',
   STORE_HYDRATED: 'ui/store-hydrated',
   STORE_UPDATED: 'ui/store-updated',
+  plugin: {
+    ALL_REGISTERED: 'plugins/registered',
+    AVAILABLE: 'plugin/available',
+    LOADED: 'plugin/loaded'
+  },
   ui: {
     LOADED: 'ui/loaded',
     RENDERING: 'ui/rendering',
