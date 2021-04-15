@@ -251,13 +251,15 @@
 
   // src/common/obis/actions.js
   var actions = {
-    PLUGINS_REGISTERED: "plugins/registered",
-    PLUGIN_AVAILABLE: "plugin/available",
-    PLUGIN_LOADED: "plugin/loaded",
     OBIS_READY: "obis-ready",
     FIRST_RUN: "first-run",
     STORE_HYDRATED: "ui/store-hydrated",
     STORE_UPDATED: "ui/store-updated",
+    plugin: {
+      ALL_REGISTERED: "plugins/registered",
+      AVAILABLE: "plugin/available",
+      LOADED: "plugin/loaded"
+    },
     ui: {
       LOADED: "ui/loaded",
       RENDERING: "ui/rendering",
@@ -753,15 +755,13 @@
   }
   isArray.displayName = "isArray";
   function isArguments(obj) {
-    if (!isObject(obj)) {
-      return false;
-    }
-    const hasMap = isFunction(obj.map);
-    const hasLength = isNumber(obj.length);
-    const hasObjectPrototype = obj.__proto__ === Object.prototype;
-    return hasObjectPrototype && hasLength && !hasMap;
+    return Object.prototype.toString.call(obj) === "[object Arguments]";
   }
   isArguments.displayName = "isArguments";
+  function isBoolean(obj) {
+    return obj === true || obj === false;
+  }
+  isBoolean.displayName = "isBoolean";
   function isFunction(obj) {
     return typeof obj === "function";
   }
@@ -770,6 +770,10 @@
     return typeof obj === "string";
   }
   isString.displayName = "isString";
+  function isNull(obj) {
+    return obj === null;
+  }
+  isNull.displayName = "isNull";
   function isNumber(obj) {
     return typeof obj === "number";
   }
@@ -779,7 +783,7 @@
   }
   isObject.displayName = "isObject";
   function isPojo(obj) {
-    if (obj === null || !isObject(obj)) {
+    if (obj === null || !isObject(obj) || isArguments(obj)) {
       return false;
     }
     return Object.getPrototypeOf(obj) === Object.prototype;

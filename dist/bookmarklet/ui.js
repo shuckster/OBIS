@@ -85,9 +85,9 @@
     var selectorParser = /(?:(^|#|\.)([^#\.\[\]]+))|(\[(.+?)(?:\s*=\s*("|'|)((?:\\["'\]]|.)*?)\5)?\])/g;
     var selectorCache = {};
     var hasOwn = {}.hasOwnProperty;
-    function isEmpty(object) {
-      for (var key in object)
-        if (hasOwn.call(object, key))
+    function isEmpty(object2) {
+      for (var key in object2)
+        if (hasOwn.call(object2, key))
           return false;
       return true;
     }
@@ -1294,12 +1294,12 @@
   // node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/querystring/build.js
   var require_build = __commonJS((exports, module) => {
     "use strict";
-    module.exports = function(object) {
-      if (Object.prototype.toString.call(object) !== "[object Object]")
+    module.exports = function(object2) {
+      if (Object.prototype.toString.call(object2) !== "[object Object]")
         return "";
       var args = [];
-      for (var key in object) {
-        destructure(key, object[key]);
+      for (var key in object2) {
+        destructure(key, object2[key]);
       }
       return args.join("&");
       function destructure(key2, value) {
@@ -3365,8 +3365,8 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         routes: allRoutes
       };
     }
-    function isStatebot(object) {
-      return isPojo2(object) && typeof object.__STATEBOT__ === "number";
+    function isStatebot(object2) {
+      return isPojo2(object2) && typeof object2.__STATEBOT__ === "number";
     }
     var argTypeError$1 = ArgTypeError2("statebot.");
     function routeIsPossible(machine, route) {
@@ -3591,13 +3591,15 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
 
   // src/common/obis/actions.js
   var actions = {
-    PLUGINS_REGISTERED: "plugins/registered",
-    PLUGIN_AVAILABLE: "plugin/available",
-    PLUGIN_LOADED: "plugin/loaded",
     OBIS_READY: "obis-ready",
     FIRST_RUN: "first-run",
     STORE_HYDRATED: "ui/store-hydrated",
     STORE_UPDATED: "ui/store-updated",
+    plugin: {
+      ALL_REGISTERED: "plugins/registered",
+      AVAILABLE: "plugin/available",
+      LOADED: "plugin/loaded"
+    },
     ui: {
       LOADED: "ui/loaded",
       RENDERING: "ui/rendering",
@@ -4093,15 +4095,13 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   }
   isArray.displayName = "isArray";
   function isArguments(obj) {
-    if (!isObject(obj)) {
-      return false;
-    }
-    const hasMap = isFunction(obj.map);
-    const hasLength = isNumber(obj.length);
-    const hasObjectPrototype = obj.__proto__ === Object.prototype;
-    return hasObjectPrototype && hasLength && !hasMap;
+    return Object.prototype.toString.call(obj) === "[object Arguments]";
   }
   isArguments.displayName = "isArguments";
+  function isBoolean(obj) {
+    return obj === true || obj === false;
+  }
+  isBoolean.displayName = "isBoolean";
   function isFunction(obj) {
     return typeof obj === "function";
   }
@@ -4110,6 +4110,10 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     return typeof obj === "string";
   }
   isString.displayName = "isString";
+  function isNull(obj) {
+    return obj === null;
+  }
+  isNull.displayName = "isNull";
   function isNumber(obj) {
     return typeof obj === "number";
   }
@@ -4119,7 +4123,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   }
   isObject.displayName = "isObject";
   function isPojo(obj) {
-    if (obj === null || !isObject(obj)) {
+    if (obj === null || !isObject(obj) || isArguments(obj)) {
       return false;
     }
     return Object.getPrototypeOf(obj) === Object.prototype;
@@ -4815,8 +4819,51 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   // src/ui/components/app.jsx
   var import_mithril4 = __toModule(require_mithril());
 
-  // node_modules/.pnpm/mithril-hooks@0.6.3_mithril@2.0.4/node_modules/mithril-hooks/dist/mithril-hooks.mjs
+  // node_modules/.pnpm/mithril-hooks@0.6.4_mithril@2.0.4/node_modules/mithril-hooks/dist/mithril-hooks.mjs
   var import_mithril = __toModule(require_mithril());
+
+  // node_modules/.pnpm/flatted@3.1.1/node_modules/flatted/esm/index.js
+  /*! (c) 2020 Andrea Giammarchi */
+  var {parse: $parse, stringify: $stringify} = JSON;
+  var Primitive = String;
+  var primitive = "string";
+  var object = "object";
+  var noop = (_2, value) => value;
+  var set = (known, input, value) => {
+    const index = Primitive(input.push(value) - 1);
+    known.set(value, index);
+    return index;
+  };
+  var stringify = (value, replacer, space) => {
+    const $ = replacer && typeof replacer === object ? (k2, v2) => k2 === "" || -1 < replacer.indexOf(k2) ? v2 : void 0 : replacer || noop;
+    const known = new Map();
+    const input = [];
+    const output = [];
+    let i2 = +set(known, input, $.call({"": value}, "", value));
+    let firstRun = !i2;
+    while (i2 < input.length) {
+      firstRun = true;
+      output[i2] = $stringify(input[i2++], replace, space);
+    }
+    return "[" + output.join(",") + "]";
+    function replace(key, value2) {
+      if (firstRun) {
+        firstRun = !firstRun;
+        return value2;
+      }
+      const after = $.call(this, key, value2);
+      switch (typeof after) {
+        case object:
+          if (after === null)
+            return after;
+        case primitive:
+          return known.get(after) || set(known, input, after);
+      }
+      return after;
+    }
+  };
+
+  // node_modules/.pnpm/mithril-hooks@0.6.4_mithril@2.0.4/node_modules/mithril-hooks/dist/mithril-hooks.mjs
   var currentState;
   var call = Function.prototype.call.bind(Function.prototype.call);
   var scheduleRender = () => import_mithril.default.redraw();
@@ -4865,7 +4912,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         const previousValue = state.states[index];
         const newValue = newValueFn ? newValueFn(value, index) : value;
         state.states[index] = newValue;
-        if (JSON.stringify(newValue) !== JSON.stringify(previousValue)) {
+        if (stringify(newValue) !== stringify(previousValue)) {
           scheduleRender();
         }
       },
@@ -4937,7 +4984,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       const prevState = currentState;
       currentState = vnode.state;
       try {
-        [...vnode.state.teardowns.values()].forEach(call);
+        vnode.state.teardowns.forEach(call);
       } finally {
         currentState = prevState;
       }
@@ -4951,7 +4998,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     };
   };
 
-  // node_modules/.pnpm/statebot-mithril-hooks@1.2.0_e960771ee17908bb2774079709a1d229/node_modules/statebot-mithril-hooks/dist/esm/statebot-mithril-hooks.js
+  // node_modules/.pnpm/statebot-mithril-hooks@1.2.0_42be78f0ae9c47ee8a01c7a31dd11557/node_modules/statebot-mithril-hooks/dist/esm/statebot-mithril-hooks.js
   var import_statebot = __toModule(require_statebot());
   function useStatebot(bot) {
     const [state, setState] = useState(bot.currentState());

@@ -4403,13 +4403,15 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   }
   var import_regexp2 = __toModule(require_regexp());
   var actions = {
-    PLUGINS_REGISTERED: "plugins/registered",
-    PLUGIN_AVAILABLE: "plugin/available",
-    PLUGIN_LOADED: "plugin/loaded",
     OBIS_READY: "obis-ready",
     FIRST_RUN: "first-run",
     STORE_HYDRATED: "ui/store-hydrated",
     STORE_UPDATED: "ui/store-updated",
+    plugin: {
+      ALL_REGISTERED: "plugins/registered",
+      AVAILABLE: "plugin/available",
+      LOADED: "plugin/loaded"
+    },
     ui: {
       LOADED: "ui/loaded",
       RENDERING: "ui/rendering",
@@ -4516,7 +4518,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       const meta = getPluginMeta(name);
       meta.name = name;
       meta.loaderFn = pluginLoaderFn;
-      messages.emit(actions.PLUGIN_AVAILABLE, name);
+      messages.emit(actions.plugin.AVAILABLE, name);
     };
     obis22.registerPlugins = (plugins) => {
       plugins.map((plugin) => {
@@ -4525,11 +4527,11 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         meta.description = plugin.description;
         meta.urls = plugin.urls;
       });
-      messages.emit(actions.PLUGINS_REGISTERED);
+      messages.emit(actions.plugin.ALL_REGISTERED);
     };
   }
   function loadObisAsBundle(obis22) {
-    messages.on(actions.PLUGIN_AVAILABLE, (name) => {
+    messages.on(actions.plugin.AVAILABLE, (name) => {
       obis22.plugin = getPluginMeta(name);
       const {loaderFn} = obis22.plugin;
       if (typeof loaderFn !== "function") {
@@ -4537,7 +4539,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         throw new TypeError(reason);
       }
       loaderFn();
-      messages.emit(actions.PLUGIN_LOADED);
+      messages.emit(actions.plugin.LOADED);
     });
     let waitingOn = 2;
     function checkReady() {
@@ -4547,7 +4549,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       }
     }
     messages.on(actions.ui.LOADED, checkReady);
-    messages.on(actions.PLUGIN_LOADED, checkReady);
+    messages.on(actions.plugin.LOADED, checkReady);
   }
   function loadObisInChunks(obis22) {
     const {rootPath, pluginRegistry} = obis22;
@@ -4561,7 +4563,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       });
       return usePlugin;
     }
-    messages.on(actions.PLUGINS_REGISTERED, () => {
+    messages.on(actions.plugin.ALL_REGISTERED, () => {
       const plugins = Array.from(pluginRegistry.values());
       const pluginDetected = plugins.find(pluginValidForLocation);
       if (!pluginDetected) {
@@ -4570,7 +4572,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       }
       loadQueue.push(`${rootPath}/plugins/${pluginDetected.name}.js`);
     });
-    messages.on(actions.PLUGIN_AVAILABLE, (name) => {
+    messages.on(actions.plugin.AVAILABLE, (name) => {
       obis22.plugin = getPluginMeta(name);
       const {loaderFn} = obis22.plugin;
       if (typeof loaderFn !== "function") {
@@ -4578,9 +4580,9 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         throw new TypeError(reason);
       }
       loaderFn();
-      messages.emit(actions.PLUGIN_LOADED);
+      messages.emit(actions.plugin.LOADED);
     });
-    messages.on(actions.PLUGIN_LOADED, () => {
+    messages.on(actions.plugin.LOADED, () => {
       loadQueue.push(...loadAfterPlugin);
     });
     messages.on(actions.ui.LOADED, () => {
@@ -4706,9 +4708,9 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     var selectorParser = /(?:(^|#|\.)([^#\.\[\]]+))|(\[(.+?)(?:\s*=\s*("|'|)((?:\\["'\]]|.)*?)\5)?\])/g;
     var selectorCache = {};
     var hasOwn = {}.hasOwnProperty;
-    function isEmpty(object) {
-      for (var key in object)
-        if (hasOwn.call(object, key))
+    function isEmpty(object2) {
+      for (var key in object2)
+        if (hasOwn.call(object2, key))
           return false;
       return true;
     }
@@ -5895,12 +5897,12 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   });
   var require_build = __commonJS((exports, module) => {
     "use strict";
-    module.exports = function(object) {
-      if (Object.prototype.toString.call(object) !== "[object Object]")
+    module.exports = function(object2) {
+      if (Object.prototype.toString.call(object2) !== "[object Object]")
         return "";
       var args = [];
-      for (var key in object) {
-        destructure(key, object[key]);
+      for (var key in object2) {
+        destructure(key, object2[key]);
       }
       return args.join("&");
       function destructure(key2, value) {
@@ -7936,8 +7938,8 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         routes: allRoutes
       };
     }
-    function isStatebot(object) {
-      return isPojo2(object) && typeof object.__STATEBOT__ === "number";
+    function isStatebot(object2) {
+      return isPojo2(object2) && typeof object2.__STATEBOT__ === "number";
     }
     var argTypeError$1 = ArgTypeError2("statebot.");
     function routeIsPossible(machine, route) {
@@ -8156,13 +8158,15 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var import_timers3 = __toModule(require_timers());
   var import_promises2 = __toModule(require_promises());
   var actions = {
-    PLUGINS_REGISTERED: "plugins/registered",
-    PLUGIN_AVAILABLE: "plugin/available",
-    PLUGIN_LOADED: "plugin/loaded",
     OBIS_READY: "obis-ready",
     FIRST_RUN: "first-run",
     STORE_HYDRATED: "ui/store-hydrated",
     STORE_UPDATED: "ui/store-updated",
+    plugin: {
+      ALL_REGISTERED: "plugins/registered",
+      AVAILABLE: "plugin/available",
+      LOADED: "plugin/loaded"
+    },
     ui: {
       LOADED: "ui/loaded",
       RENDERING: "ui/rendering",
@@ -8652,15 +8656,13 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   }
   isArray.displayName = "isArray";
   function isArguments(obj) {
-    if (!isObject(obj)) {
-      return false;
-    }
-    const hasMap = isFunction(obj.map);
-    const hasLength = isNumber(obj.length);
-    const hasObjectPrototype = obj.__proto__ === Object.prototype;
-    return hasObjectPrototype && hasLength && !hasMap;
+    return Object.prototype.toString.call(obj) === "[object Arguments]";
   }
   isArguments.displayName = "isArguments";
+  function isBoolean(obj) {
+    return obj === true || obj === false;
+  }
+  isBoolean.displayName = "isBoolean";
   function isFunction(obj) {
     return typeof obj === "function";
   }
@@ -8669,6 +8671,10 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     return typeof obj === "string";
   }
   isString.displayName = "isString";
+  function isNull(obj) {
+    return obj === null;
+  }
+  isNull.displayName = "isNull";
   function isNumber(obj) {
     return typeof obj === "number";
   }
@@ -8678,7 +8684,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   }
   isObject.displayName = "isObject";
   function isPojo(obj) {
-    if (obj === null || !isObject(obj)) {
+    if (obj === null || !isObject(obj) || isArguments(obj)) {
       return false;
     }
     return Object.getPrototypeOf(obj) === Object.prototype;
@@ -9338,6 +9344,45 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
   var import_mithril4 = __toModule(require_mithril());
   var import_mithril = __toModule(require_mithril());
+  /*! (c) 2020 Andrea Giammarchi */
+  var {parse: $parse, stringify: $stringify} = JSON;
+  var Primitive = String;
+  var primitive = "string";
+  var object = "object";
+  var noop = (_2, value) => value;
+  var set = (known, input, value) => {
+    const index = Primitive(input.push(value) - 1);
+    known.set(value, index);
+    return index;
+  };
+  var stringify = (value, replacer, space) => {
+    const $ = replacer && typeof replacer === object ? (k2, v2) => k2 === "" || -1 < replacer.indexOf(k2) ? v2 : void 0 : replacer || noop;
+    const known = new Map();
+    const input = [];
+    const output = [];
+    let i2 = +set(known, input, $.call({"": value}, "", value));
+    let firstRun = !i2;
+    while (i2 < input.length) {
+      firstRun = true;
+      output[i2] = $stringify(input[i2++], replace, space);
+    }
+    return "[" + output.join(",") + "]";
+    function replace(key, value2) {
+      if (firstRun) {
+        firstRun = !firstRun;
+        return value2;
+      }
+      const after = $.call(this, key, value2);
+      switch (typeof after) {
+        case object:
+          if (after === null)
+            return after;
+        case primitive:
+          return known.get(after) || set(known, input, after);
+      }
+      return after;
+    }
+  };
   var currentState;
   var call = Function.prototype.call.bind(Function.prototype.call);
   var scheduleRender = () => import_mithril.default.redraw();
@@ -9386,7 +9431,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         const previousValue = state.states[index];
         const newValue = newValueFn ? newValueFn(value, index) : value;
         state.states[index] = newValue;
-        if (JSON.stringify(newValue) !== JSON.stringify(previousValue)) {
+        if (stringify(newValue) !== stringify(previousValue)) {
           scheduleRender();
         }
       },
@@ -9458,7 +9503,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       const prevState = currentState;
       currentState = vnode.state;
       try {
-        [...vnode.state.teardowns.values()].forEach(call);
+        vnode.state.teardowns.forEach(call);
       } finally {
         currentState = prevState;
       }
@@ -10437,13 +10482,15 @@ obis.registerPlugins([
     }
   });
   var actions = {
-    PLUGINS_REGISTERED: "plugins/registered",
-    PLUGIN_AVAILABLE: "plugin/available",
-    PLUGIN_LOADED: "plugin/loaded",
     OBIS_READY: "obis-ready",
     FIRST_RUN: "first-run",
     STORE_HYDRATED: "ui/store-hydrated",
     STORE_UPDATED: "ui/store-updated",
+    plugin: {
+      ALL_REGISTERED: "plugins/registered",
+      AVAILABLE: "plugin/available",
+      LOADED: "plugin/loaded"
+    },
     ui: {
       LOADED: "ui/loaded",
       RENDERING: "ui/rendering",
@@ -10933,15 +10980,13 @@ obis.registerPlugins([
   }
   isArray.displayName = "isArray";
   function isArguments(obj) {
-    if (!isObject(obj)) {
-      return false;
-    }
-    const hasMap = isFunction(obj.map);
-    const hasLength = isNumber(obj.length);
-    const hasObjectPrototype = obj.__proto__ === Object.prototype;
-    return hasObjectPrototype && hasLength && !hasMap;
+    return Object.prototype.toString.call(obj) === "[object Arguments]";
   }
   isArguments.displayName = "isArguments";
+  function isBoolean(obj) {
+    return obj === true || obj === false;
+  }
+  isBoolean.displayName = "isBoolean";
   function isFunction(obj) {
     return typeof obj === "function";
   }
@@ -10950,6 +10995,10 @@ obis.registerPlugins([
     return typeof obj === "string";
   }
   isString.displayName = "isString";
+  function isNull(obj) {
+    return obj === null;
+  }
+  isNull.displayName = "isNull";
   function isNumber(obj) {
     return typeof obj === "number";
   }
@@ -10959,7 +11008,7 @@ obis.registerPlugins([
   }
   isObject.displayName = "isObject";
   function isPojo(obj) {
-    if (obj === null || !isObject(obj)) {
+    if (obj === null || !isObject(obj) || isArguments(obj)) {
       return false;
     }
     return Object.getPrototypeOf(obj) === Object.prototype;

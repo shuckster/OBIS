@@ -1,7 +1,10 @@
 {
-  "name": "OBIS",
-  "description": "A JavaScript Framework for downloading Bank Statements",
-  "version": "2.0",
+  "name": "OBIS | Online Banking Is Shit",
+  "short_name": "OBIS",
+  "homepage_url": "https://shuckster.github.io/OBIS/",
+  "author": "Conan Theobald",
+  "description": "Easily download your HSBC UK bank-statements.",
+  "version": "0.0.0.1",
   "manifest_version": 2,
   "content_scripts": [
     {
@@ -19,5 +22,11 @@
   ],
   "web_accessible_resources": [
     "statement.css"
-  ]
+  ],
+  "icons": {
+    "16": "images/icon-16.png",
+    "32": "images/icon-32.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  }
 }

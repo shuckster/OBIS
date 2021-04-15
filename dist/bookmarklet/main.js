@@ -4431,13 +4431,15 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
 
   // src/common/obis/actions.js
   var actions = {
-    PLUGINS_REGISTERED: "plugins/registered",
-    PLUGIN_AVAILABLE: "plugin/available",
-    PLUGIN_LOADED: "plugin/loaded",
     OBIS_READY: "obis-ready",
     FIRST_RUN: "first-run",
     STORE_HYDRATED: "ui/store-hydrated",
     STORE_UPDATED: "ui/store-updated",
+    plugin: {
+      ALL_REGISTERED: "plugins/registered",
+      AVAILABLE: "plugin/available",
+      LOADED: "plugin/loaded"
+    },
     ui: {
       LOADED: "ui/loaded",
       RENDERING: "ui/rendering",
@@ -4546,7 +4548,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       const meta = getPluginMeta(name);
       meta.name = name;
       meta.loaderFn = pluginLoaderFn;
-      messages.emit(actions.PLUGIN_AVAILABLE, name);
+      messages.emit(actions.plugin.AVAILABLE, name);
     };
     obis2.registerPlugins = (plugins) => {
       plugins.map((plugin) => {
@@ -4555,11 +4557,11 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         meta.description = plugin.description;
         meta.urls = plugin.urls;
       });
-      messages.emit(actions.PLUGINS_REGISTERED);
+      messages.emit(actions.plugin.ALL_REGISTERED);
     };
   }
   function loadObisAsBundle(obis2) {
-    messages.on(actions.PLUGIN_AVAILABLE, (name) => {
+    messages.on(actions.plugin.AVAILABLE, (name) => {
       obis2.plugin = getPluginMeta(name);
       const {loaderFn} = obis2.plugin;
       if (typeof loaderFn !== "function") {
@@ -4567,7 +4569,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         throw new TypeError(reason);
       }
       loaderFn();
-      messages.emit(actions.PLUGIN_LOADED);
+      messages.emit(actions.plugin.LOADED);
     });
     let waitingOn = 2;
     function checkReady() {
@@ -4577,7 +4579,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       }
     }
     messages.on(actions.ui.LOADED, checkReady);
-    messages.on(actions.PLUGIN_LOADED, checkReady);
+    messages.on(actions.plugin.LOADED, checkReady);
   }
   function loadObisInChunks(obis2) {
     const {rootPath, pluginRegistry} = obis2;
@@ -4591,7 +4593,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       });
       return usePlugin;
     }
-    messages.on(actions.PLUGINS_REGISTERED, () => {
+    messages.on(actions.plugin.ALL_REGISTERED, () => {
       const plugins = Array.from(pluginRegistry.values());
       const pluginDetected = plugins.find(pluginValidForLocation);
       if (!pluginDetected) {
@@ -4600,7 +4602,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       }
       loadQueue.push(`${rootPath}/plugins/${pluginDetected.name}.js`);
     });
-    messages.on(actions.PLUGIN_AVAILABLE, (name) => {
+    messages.on(actions.plugin.AVAILABLE, (name) => {
       obis2.plugin = getPluginMeta(name);
       const {loaderFn} = obis2.plugin;
       if (typeof loaderFn !== "function") {
@@ -4608,9 +4610,9 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         throw new TypeError(reason);
       }
       loaderFn();
-      messages.emit(actions.PLUGIN_LOADED);
+      messages.emit(actions.plugin.LOADED);
     });
-    messages.on(actions.PLUGIN_LOADED, () => {
+    messages.on(actions.plugin.LOADED, () => {
       loadQueue.push(...loadAfterPlugin);
     });
     messages.on(actions.ui.LOADED, () => {

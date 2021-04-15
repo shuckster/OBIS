@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   clsx: ^1.1.1
   cross-env: ^7.0.3
-  esbuild: ^0.11.10
+  esbuild: ^0.11.11
   esbuild-plugin-sass: ^0.4.1
   eslint: ^7.24.0
   eslint-plugin-mithril: ^0.2.0
@@ -38,7 +38,7 @@ dependencies:
 
 devDependencies:
   cross-env: 7.0.3
-  esbuild: 0.11.10
+  esbuild: 0.11.11
   esbuild-plugin-sass: 0.4.1
   eslint: 7.24.0
   eslint-plugin-mithril: 0.2.0
@@ -109,8 +109,8 @@ packages:
     resolution: {integrity: sha512-C7srjHiVG3Ey1nR6d511dtDkCEjxuN9W1HWAEjGq8kpcwmNM6JJkpC0xvabM7BXTG2wDq8Eu33iH9aQKa7IvLQ==}
     dev: true
 
-  /@types/node/14.14.37:
-    resolution: {integrity: sha512-XYmBiy+ohOR4Lh5jE379fV2IU+6Jn4g5qASinhitfyO71b/sCo6MKsMLF5tc7Zf2CE8hViVQyYSobJNke8OvUw==}
+  /@types/node/14.14.41:
+    resolution: {integrity: sha512-dueRKfaJL4RTtSa7bWeTK1M+VH+Gns73oCgzvYfHZywRCoPSd8EkXBL0mZ9unPTveBn+D9phZBaxuzpwjWkW0g==}
     dev: true
 
   /abbrev/1.1.1:
@@ -666,8 +666,8 @@ packages:
       tmp: 0.2.1
     dev: true
 
-  /esbuild/0.11.10:
-    resolution: {integrity: sha512-XvGbf+UreVFA24Tlk6sNOqNcvF2z49XAZt4E7A4H80+yqn944QOLTTxaU0lkdYNtZKFiITNea+VxmtrfjvnLPA==}
+  /esbuild/0.11.11:
+    resolution: {integrity: sha512-iq5YdV63vY/nUAFIvY92BXVkYjMbOchnofLKoLKMPZIa4uuIJAJG9WRA+ZRjQBZbrsORUwvZcANeG2d3p46PJQ==}
     hasBin: true
     requiresBuild: true
     dev: true
@@ -759,7 +759,7 @@ packages:
       semver: 7.3.5
       strip-ansi: 6.0.0
       strip-json-comments: 3.1.1
-      table: 6.0.9
+      table: 6.1.0
       text-table: 0.2.0
       v8-compile-cache: 2.3.0
     transitivePeerDependencies:
@@ -1864,7 +1864,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.0
       '@types/cors': 2.8.10
-      '@types/node': 14.14.37
+      '@types/node': 14.14.41
       accepts: 1.3.7
       base64id: 2.0.0
       debug: 4.3.1
@@ -1981,8 +1981,8 @@ packages:
       has-flag: 4.0.0
     dev: true
 
-  /table/6.0.9:
-    resolution: {integrity: sha512-F3cLs9a3hL1Z7N4+EkSscsel3z55XT950AvB05bwayrNg5T1/gykXtigioTAjbltvbMSJvvhFCbnf6mX+ntnJQ==}
+  /table/6.1.0:
+    resolution: {integrity: sha512-T4G5KMmqIk6X87gLKWyU5exPpTjLjY5KyrFWaIjv3SvgaIUGXV7UEzGEnZJdTA38/yUS6f9PlKezQ0bYXG3iIQ==}
     engines: {node: '>=10.0.0'}
     dependencies:
       ajv: 8.1.0
