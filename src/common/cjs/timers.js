@@ -27,23 +27,22 @@ function Delay(fn, forMs) {
 
 function makeDebouncer(ms, fn) {
   let timerId
-  const cancel = () => clearTimeout(timerId)
+  const clear = () => clearTimeout(timerId)
   const debouncedFn = (...args) => {
-    cancel()
+    clear()
     timerId = setTimeout(fn, ms, ...args)
   }
-  return [debouncedFn, cancel]
+  return [debouncedFn, clear]
 }
 
 function makeThrottler(fn, ms) {
   let canRun = true
-  const [reset, clear] = makeDebouncer(ms, () => (canRun = true))
+  const [throttle, clear] = makeDebouncer(ms, () => (canRun = true))
   const throttledFn = (...args) => {
-    if (canRun) {
-      canRun = false
-      reset()
-      fn(...args)
-    }
+    if (!canRun) return
+    canRun = false
+    throttle()
+    fn(...args)
   }
   return [throttledFn, clear]
 }
