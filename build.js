@@ -65,13 +65,16 @@ const BUILD_REPLACEMENTS = {
 console.log('IS_LOCAL', IS_LOCAL)
 
 function main() {
-  return buildWebExtension()
-    .then(buildBookmarklet)
-    .then(buildPlugins)
-    .then(() => buildUi())
-    .then(() => buildMain())
-    .then(() => buildStatementsCss())
-    .then(maybeRunMockServer)
+  const concurrentJobs = [
+    buildWebExtension(),
+    buildBookmarklet(),
+    buildPlugins(),
+    buildUi(),
+    buildMain(),
+    buildStatementsCss()
+  ]
+
+  return Promise.all(concurrentJobs).then(maybeRunMockServer)
 }
 
 function maybeRunMockServer() {
@@ -80,24 +83,29 @@ function maybeRunMockServer() {
   }
 
   const nodemon = require('nodemon')
-  nodemon({
+  const config = {
     script: paths.SERVER_SCRIPT,
     ext: 'js,jsx,json,scss',
     env: { HYDRATE: process.env.HYDRATE }
-  })
-    .on('start', () => {
-      console.log('nodemon started')
-    })
-    .on('crash', error => {
-      console.log('script crashed for some reason')
-      console.error(error)
-    })
+  }
 
-  process.on('SIGINT', function () {
+  function handleStart() {
+    console.log('nodemon started')
+  }
+
+  function handleCrash(error) {
+    console.log('script crashed for some reason')
+    console.error(error)
+  }
+
+  function handleSIGINT() {
     console.log('Caught interrupt signal')
     nodemon.emit('quit')
     process.exit()
-  })
+  }
+
+  nodemon(config).on('start', handleStart).on('crash', handleCrash)
+  process.on('SIGINT', handleSIGINT)
 }
 
 //
@@ -111,6 +119,7 @@ const commonBuildOptions = {
 }
 
 function buildBookmarklet() {
+  const decoder = new TextDecoder()
   return esbuild
     .build({
       ...commonBuildOptions,
@@ -118,10 +127,11 @@ function buildBookmarklet() {
       bundle: true,
       minify: true, // Always minify bookmarklet
       platform: 'browser',
-      outfile: paths.DIST_BOOKMARKLET
+      write: false
     })
-    .then(() => loadTextFile(paths.DIST_BOOKMARKLET))
-    .then(bookmarkletContent => 'javascript:' + bookmarkletContent.toString())
+    .then(getConcatenatedEsbuildContent)
+    .then(bookmarkletContent => decoder.decode(bookmarkletContent))
+    .then(bookmarkletContent => 'javascript:' + bookmarkletContent)
     .then(writeTextFile(paths.DIST_BOOKMARKLET))
 }
 
@@ -180,7 +190,8 @@ function buildPlugins() {
     const registryPromise = writeTextFile(paths.DIST_PLUGIN_JS)(
       buildPluginsRegistry(allPluginMeta)
     )
-    return Promise.all(pluginPromises.concat(registryPromise))
+    const concurrentJobs = [...pluginPromises, registryPromise]
+    return Promise.all(concurrentJobs)
   })
 }
 
@@ -189,15 +200,15 @@ function buildPlugins() {
 //
 
 const extensionManifestTemplate = {
-  name: 'OBIS | Online Banking Is Shit',
+  manifest_version: 2,
   short_name: 'OBIS',
+  name: 'OBIS | Online Banking Is Shit',
+  version: '0.0.0.1',
   homepage_url: 'https://shuckster.github.io/OBIS/',
   author: 'Conan Theobald',
   description: `Easily download your HSBC UK bank-statements.${
     IS_LOCAL ? ' (DEBUGGING)' : ''
   }`,
-  version: '0.0.0.1',
-  manifest_version: 2,
   content_scripts: [
     {
       matches: [],
@@ -218,7 +229,7 @@ function buildWebExtension() {
   const decoder = new TextDecoder()
   const encoder = new TextEncoder()
 
-  return Promise.all([
+  const concurrentJobs = [
     buildAndMinifyPlugins(),
     buildMain(DO_NOT_WRITE).then(getConcatenatedEsbuildContent),
     buildUi(DO_NOT_WRITE)
@@ -230,29 +241,34 @@ function buildWebExtension() {
       .then(getConcatenatedEsbuildContent)
       .then(cssContent => decoder.decode(cssContent))
       .then(writeTextFile(paths.EXTENSION_STATEMENTS_CSS))
-  ]).then(([plugins, mainContent, uiContent]) => {
-    const allPluginMeta = plugins.map(({ pluginMeta }) => pluginMeta)
-    const pluginRegistryJs = buildPluginsRegistry(allPluginMeta)
-    const pluginRegistry = encoder.encode(pluginRegistryJs)
+  ]
 
-    // Generate manifest.json
-    const contentScriptTemplate = extensionManifestTemplate.content_scripts.pop()
-    const manifest = { ...extensionManifestTemplate }
-    manifest.content_scripts = allPluginMeta.map(meta => ({
-      ...contentScriptTemplate,
-      matches: meta.urls.filter(url => IS_LOCAL || !url.includes('localhost')),
-      js: contentScriptTemplate.js.map(js =>
-        js.replace('${pluginName}', meta.name)
-      )
-    }))
+  return Promise.all(concurrentJobs).then(
+    ([plugins, mainContent, uiContent]) => {
+      const allPluginMeta = plugins.map(({ pluginMeta }) => pluginMeta)
+      const pluginRegistryJs = buildPluginsRegistry(allPluginMeta)
+      const pluginRegistry = encoder.encode(pluginRegistryJs)
 
-    return Promise.all([
+      // Generate manifest.json
+      const contentScriptTemplate = extensionManifestTemplate.content_scripts.pop()
+      const manifest = { ...extensionManifestTemplate }
+      manifest.content_scripts = allPluginMeta.map(meta => ({
+        ...contentScriptTemplate,
+        matches: meta.urls.filter(
+          url => IS_LOCAL || !url.includes('localhost')
+        ),
+        js: contentScriptTemplate.js.map(js =>
+          js.replace('${pluginName}', meta.name)
+        )
+      }))
+
       // Write manifest:
-      writeTextFile(paths.EXTENSION_MANIFEST)(
+      const manifestJob = writeTextFile(paths.EXTENSION_MANIFEST)(
         JSON.stringify(manifest, null, 2)
-      ),
+      )
+
       // Bundle OBIS + each plugin per bank:
-      ...plugins.map(({ pluginMeta, pluginContent }) => {
+      const pluginJobs = plugins.map(({ pluginMeta, pluginContent }) => {
         const bundleWithoutPlugin = mergeTypedArrays([
           mainContent,
           uiContent,
@@ -265,8 +281,11 @@ function buildWebExtension() {
           bundleJs
         )
       })
-    ])
-  })
+
+      const allPluginJobs = [manifestJob, ...pluginJobs]
+      return Promise.all(allPluginJobs)
+    }
+  )
 }
 
 function buildExtensionContentScript(name, bundleJs) {
@@ -291,32 +310,28 @@ function buildPluginsRegistry(allPluginMeta) {
 }
 
 function buildAndMinifyPlugins() {
+  const buildPlugin = pluginMeta =>
+    esbuild
+      .build({
+        ...commonBuildOptions,
+        entryPoints: [pluginMeta.src],
+        bundle: true,
+        platform: 'browser',
+        write: false
+      })
+      .then(build => ({
+        pluginMeta,
+        pluginContent: getConcatenatedEsbuildContent(build)
+      }))
+
+  const buildAllPlugins = allPluginMeta => allPluginMeta.map(buildPlugin)
+
   return (
     metaForAllAvailablePlugins()
       // Bundle/minify plugins
-      .then(allPluginMeta =>
-        Promise.allSettled(
-          allPluginMeta.map(pluginMeta =>
-            esbuild
-              .build({
-                ...commonBuildOptions,
-                entryPoints: [pluginMeta.src],
-                bundle: true,
-                platform: 'browser',
-                write: false
-              })
-              .then(build => ({
-                pluginMeta,
-                pluginContent: getConcatenatedEsbuildContent(build)
-              }))
-          )
-        )
-      )
-      .then(results =>
-        results
-          .filter(result => result.status === 'fulfilled')
-          .map(result => result.value)
-      )
+      .then(allPluginMeta => Promise.allSettled(buildAllPlugins(allPluginMeta)))
+      .then(filter(result => result.status === 'fulfilled'))
+      .then(map(result => result.value))
   )
 }
 
@@ -324,36 +339,31 @@ function metaForAllAvailablePlugins() {
   const loadPluginFile = fileName =>
     loadTextFile(fileName).then(src => ({ fileName, src }))
 
-  return (
-    allPluginFileNames()
-      // Load all plugins
-      .then(pluginsFiles =>
-        Promise.allSettled(pluginsFiles.map(loadPluginFile))
-      )
-      // Build plugins.js output (but don't write it yet)
-      .then(results =>
-        results
-          .filter(result => result.status === 'fulfilled')
-          .map(result => result.value)
-          .map(details => {
-            const { fileName, src } = details
-            const { name, description, urls } = JSON.parse(src)
-            const { dir } = path.parse(fileName)
-            const srcJs = path.join(dir, PLUGIN_SOURCE_NAME)
-            const distJs = path.join(paths.DIST_PLUGINS, `${name}.js`)
-            return {
-              src: srcJs,
-              dist: distJs,
-              name,
-              description,
-              urls
-            }
-          })
-      )
-  )
+  return allPluginConfigFiles()
+    .then(pluginConfigFiles =>
+      Promise.allSettled(pluginConfigFiles.map(loadPluginFile))
+        .then(filter(result => result.status === 'fulfilled'))
+        .then(map(result => result.value))
+    )
+    .then(
+      map(details => {
+        const { fileName, src } = details
+        const { name, description, urls } = JSON.parse(src)
+        const { dir } = path.parse(fileName)
+        const srcJs = path.join(dir, PLUGIN_SOURCE_NAME)
+        const distJs = path.join(paths.DIST_PLUGINS, `${name}.js`)
+        return {
+          src: srcJs,
+          dist: distJs,
+          name,
+          description,
+          urls
+        }
+      })
+    )
 }
 
-function allPluginFileNames() {
+function allPluginConfigFiles() {
   const [promise, resolve, reject] = makePromise()
 
   glob(paths.SRC_PLUGINS, {}, (err, files) => {
@@ -370,6 +380,14 @@ main()
 //
 // Helpers
 //
+
+function filter(pred) {
+  return arr => arr.filter(pred)
+}
+
+function map(pred) {
+  return arr => arr.map(pred)
+}
 
 function writeTextFile(path) {
   return textContent => {
