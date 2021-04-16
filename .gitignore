@@ -11,3 +11,5 @@ src/_mock-server/public/hsbc
 extension.pem
 extension.crx
 *.acorn
+promotional*
+screenshot*
