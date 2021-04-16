@@ -6499,22 +6499,22 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     }
     function makeDebouncer(ms, fn2) {
       let timerId;
-      const cancel = () => clearTimeout(timerId);
+      const clear = () => clearTimeout(timerId);
       const debouncedFn = (...args) => {
-        cancel();
+        clear();
         timerId = setTimeout(fn2, ms, ...args);
       };
-      return [debouncedFn, cancel];
+      return [debouncedFn, clear];
     }
     function makeThrottler(fn2, ms) {
       let canRun = true;
-      const [reset, clear] = makeDebouncer(ms, () => canRun = true);
+      const [throttle, clear] = makeDebouncer(ms, () => canRun = true);
       const throttledFn = (...args) => {
-        if (canRun) {
-          canRun = false;
-          reset();
-          fn2(...args);
-        }
+        if (!canRun)
+          return;
+        canRun = false;
+        throttle();
+        fn2(...args);
       };
       return [throttledFn, clear];
     }
@@ -9388,7 +9388,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   var scheduleRender = () => import_mithril.default.redraw();
   var updateDeps = (deps) => {
     const state = currentState;
-    const depsIndex = state.depsIndex++;
+    const depsIndex = state.depsIndex;
+    state.depsIndex += 1;
     const prevDeps = state.depsStates[depsIndex] || [];
     const shouldRecompute = deps === void 0 ? true : Array.isArray(deps) ? deps.length > 0 ? !deps.every((x2, i2) => x2 === prevDeps[i2]) : !state.setup : false;
     if (deps !== void 0) {
@@ -9421,7 +9422,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   };
   var updateState = (initialState, newValueFn) => {
     const state = currentState;
-    const index = state.statesIndex++;
+    const index = state.statesIndex;
+    state.statesIndex += 1;
     if (!state.setup) {
       state.states[index] = initialState;
     }
@@ -10312,22 +10314,22 @@ obis.registerPlugins([
     }
     function makeDebouncer(ms, fn2) {
       let timerId;
-      const cancel = () => clearTimeout(timerId);
+      const clear = () => clearTimeout(timerId);
       const debouncedFn = (...args) => {
-        cancel();
+        clear();
         timerId = setTimeout(fn2, ms, ...args);
       };
-      return [debouncedFn, cancel];
+      return [debouncedFn, clear];
     }
     function makeThrottler(fn2, ms) {
       let canRun = true;
-      const [reset, clear] = makeDebouncer(ms, () => canRun = true);
+      const [throttle, clear] = makeDebouncer(ms, () => canRun = true);
       const throttledFn = (...args) => {
-        if (canRun) {
-          canRun = false;
-          reset();
-          fn2(...args);
-        }
+        if (!canRun)
+          return;
+        canRun = false;
+        throttle();
+        fn2(...args);
       };
       return [throttledFn, clear];
     }

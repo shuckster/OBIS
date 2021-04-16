@@ -1918,22 +1918,22 @@
     }
     function makeDebouncer(ms, fn2) {
       let timerId;
-      const cancel = () => clearTimeout(timerId);
+      const clear = () => clearTimeout(timerId);
       const debouncedFn = (...args) => {
-        cancel();
+        clear();
         timerId = setTimeout(fn2, ms, ...args);
       };
-      return [debouncedFn, cancel];
+      return [debouncedFn, clear];
     }
     function makeThrottler(fn2, ms) {
       let canRun = true;
-      const [reset, clear] = makeDebouncer(ms, () => canRun = true);
+      const [throttle, clear] = makeDebouncer(ms, () => canRun = true);
       const throttledFn = (...args) => {
-        if (canRun) {
-          canRun = false;
-          reset();
-          fn2(...args);
-        }
+        if (!canRun)
+          return;
+        canRun = false;
+        throttle();
+        fn2(...args);
       };
       return [throttledFn, clear];
     }
@@ -4819,7 +4819,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   // src/ui/components/app.jsx
   var import_mithril4 = __toModule(require_mithril());
 
-  // node_modules/.pnpm/mithril-hooks@0.6.4_mithril@2.0.4/node_modules/mithril-hooks/dist/mithril-hooks.mjs
+  // node_modules/.pnpm/mithril-hooks@0.7.0_mithril@2.0.4/node_modules/mithril-hooks/dist/mithril-hooks.mjs
   var import_mithril = __toModule(require_mithril());
 
   // node_modules/.pnpm/flatted@3.1.1/node_modules/flatted/esm/index.js
@@ -4863,13 +4863,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }
   };
 
-  // node_modules/.pnpm/mithril-hooks@0.6.4_mithril@2.0.4/node_modules/mithril-hooks/dist/mithril-hooks.mjs
+  // node_modules/.pnpm/mithril-hooks@0.7.0_mithril@2.0.4/node_modules/mithril-hooks/dist/mithril-hooks.mjs
   var currentState;
   var call = Function.prototype.call.bind(Function.prototype.call);
   var scheduleRender = () => import_mithril.default.redraw();
   var updateDeps = (deps) => {
     const state = currentState;
-    const depsIndex = state.depsIndex++;
+    const depsIndex = state.depsIndex;
+    state.depsIndex += 1;
     const prevDeps = state.depsStates[depsIndex] || [];
     const shouldRecompute = deps === void 0 ? true : Array.isArray(deps) ? deps.length > 0 ? !deps.every((x2, i2) => x2 === prevDeps[i2]) : !state.setup : false;
     if (deps !== void 0) {
@@ -4902,7 +4903,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   };
   var updateState = (initialState, newValueFn) => {
     const state = currentState;
-    const index = state.statesIndex++;
+    const index = state.statesIndex;
+    state.statesIndex += 1;
     if (!state.setup) {
       state.states[index] = initialState;
     }
@@ -4998,7 +5000,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     };
   };
 
-  // node_modules/.pnpm/statebot-mithril-hooks@1.2.0_42be78f0ae9c47ee8a01c7a31dd11557/node_modules/statebot-mithril-hooks/dist/esm/statebot-mithril-hooks.js
+  // node_modules/.pnpm/statebot-mithril-hooks@1.2.0_3bf11102c2d718bd63d667fba36f3839/node_modules/statebot-mithril-hooks/dist/esm/statebot-mithril-hooks.js
   var import_statebot = __toModule(require_statebot());
   function useStatebot(bot) {
     const [state, setState] = useState(bot.currentState());

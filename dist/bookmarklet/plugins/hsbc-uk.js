@@ -77,22 +77,22 @@
     }
     function makeDebouncer(ms, fn2) {
       let timerId;
-      const cancel = () => clearTimeout(timerId);
+      const clear = () => clearTimeout(timerId);
       const debouncedFn = (...args) => {
-        cancel();
+        clear();
         timerId = setTimeout(fn2, ms, ...args);
       };
-      return [debouncedFn, cancel];
+      return [debouncedFn, clear];
     }
     function makeThrottler(fn2, ms) {
       let canRun = true;
-      const [reset, clear] = makeDebouncer(ms, () => canRun = true);
+      const [throttle, clear] = makeDebouncer(ms, () => canRun = true);
       const throttledFn = (...args) => {
-        if (canRun) {
-          canRun = false;
-          reset();
-          fn2(...args);
-        }
+        if (!canRun)
+          return;
+        canRun = false;
+        throttle();
+        fn2(...args);
       };
       return [throttledFn, clear];
     }
