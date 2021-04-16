@@ -32,7 +32,7 @@
     "immer": "^9.0.1",
     "jmespath": "^0.15.0",
     "mithril": "^2.0.4",
-    "mithril-hooks": "^0.6.4",
+    "mithril-hooks": "^0.7.0",
     "module-alias": "^2.2.2",
     "spark-md5": "^3.0.1",
     "statebot": "^2.7.2",

@@ -14,7 +14,7 @@ specifiers:
   immer: ^9.0.1
   jmespath: ^0.15.0
   mithril: ^2.0.4
-  mithril-hooks: ^0.6.4
+  mithril-hooks: ^0.7.0
   module-alias: ^2.2.2
   nodemon: ^2.0.7
   rimraf: ^3.0.2
@@ -30,11 +30,11 @@ dependencies:
   immer: 9.0.1
   jmespath: 0.15.0
   mithril: 2.0.4
-  mithril-hooks: 0.6.4_mithril@2.0.4
+  mithril-hooks: 0.7.0_mithril@2.0.4
   module-alias: 2.2.2
   spark-md5: 3.0.1
   statebot: 2.7.2
-  statebot-mithril-hooks: 1.2.0_42be78f0ae9c47ee8a01c7a31dd11557
+  statebot-mithril-hooks: 1.2.0_3bf11102c2d718bd63d667fba36f3839
 
 devDependencies:
   cross-env: 7.0.3
@@ -1441,8 +1441,8 @@ packages:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
     dev: true
 
-  /mithril-hooks/0.6.4_mithril@2.0.4:
-    resolution: {integrity: sha512-1AnSFAfoPszz0R8rtC9UWzP5DOOM2nehsOJvz4tbc5eI5q7L9H7AiDYqfZmw7e+Lml/KpWD/+N1HM3bGws7nLQ==}
+  /mithril-hooks/0.7.0_mithril@2.0.4:
+    resolution: {integrity: sha512-yJW12VRF9D+o7IjBXxmmfmQ2zoFWzdmQEIx7VvWmNUmMv3hsv32arZyx9cy3pZYfIb2PNUogv4SA16ZAYhHKfg==}
     peerDependencies:
       mithril: ^2.0.4
     dependencies:
@@ -1890,14 +1890,14 @@ packages:
     resolution: {integrity: sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=}
     dev: true
 
-  /statebot-mithril-hooks/1.2.0_42be78f0ae9c47ee8a01c7a31dd11557:
+  /statebot-mithril-hooks/1.2.0_3bf11102c2d718bd63d667fba36f3839:
     resolution: {integrity: sha512-NIGNtun9udUMhU9DAlLBcrgJX3Oc1BY84mnnjNqyevl4XQTiRTt5+kl3AMEhbKs/CCJxb5Ppk7kgqSOOV+yS+g==}
     engines: {node: '>=10'}
     peerDependencies:
       mithril-hooks: ^0.5.6
       statebot: ^2
     dependencies:
-      mithril-hooks: 0.6.4_mithril@2.0.4
+      mithril-hooks: 0.7.0_mithril@2.0.4
       statebot: 2.7.2
     dev: false
 

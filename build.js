@@ -61,6 +61,7 @@ const BUILD_REPLACEMENTS = {
   'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
   'process.env.HYDRATE': `"${process.env.HYDRATE}"`
 }
+const ifLocal = getIf(() => IS_LOCAL, '')
 
 console.log('IS_LOCAL', IS_LOCAL)
 
@@ -202,9 +203,9 @@ const extensionManifestTemplate = {
   version: '0.0.0.1',
   homepage_url: 'https://shuckster.github.io/OBIS/',
   author: 'Conan Theobald',
-  description: `Easily download your HSBC UK bank-statements.${
-    IS_LOCAL ? ' (DEBUGGING)' : ''
-  }`,
+  description: `${ifLocal(
+    '(DEBUGGING) '
+  )}Easily download your HSBC UK bank-statements.`,
   content_scripts: [
     {
       matches: [],
@@ -383,6 +384,10 @@ function filter(pred) {
 
 function map(pred) {
   return arr => arr.map(pred)
+}
+
+function getIf(pred, fallback = '') {
+  return val => (pred() ? val : fallback)
 }
 
 function writeTextFile(path) {
