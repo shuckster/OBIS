@@ -180,17 +180,13 @@ function buildStatementsCss(doNotWrite) {
 function buildPlugins() {
   return buildAndMinifyPlugins().then(results => {
     const allPluginMeta = results.map(({ pluginMeta }) => pluginMeta)
-    const allPluginContent = results.map(({ pluginContent, pluginMeta }) => ({
-      dist: pluginMeta.dist,
-      content: pluginContent
-    }))
-    const pluginPromises = allPluginContent.map(({ dist, content }) =>
-      writeTextFile(dist)(content)
-    )
-    const registryPromise = writeTextFile(paths.DIST_PLUGIN_JS)(
+    const writeRegistryJob = writeTextFile(paths.DIST_PLUGIN_JS)(
       buildPluginsRegistry(allPluginMeta)
     )
-    const concurrentJobs = [...pluginPromises, registryPromise]
+    const writePluginJobs = results.map(({ pluginContent, pluginMeta }) =>
+      writeTextFile(pluginMeta.dist)(pluginContent)
+    )
+    const concurrentJobs = [...writePluginJobs, writeRegistryJob]
     return Promise.all(concurrentJobs)
   })
 }
@@ -352,6 +348,7 @@ function metaForAllAvailablePlugins() {
         const { dir } = path.parse(fileName)
         const srcJs = path.join(dir, PLUGIN_SOURCE_NAME)
         const distJs = path.join(paths.DIST_PLUGINS, `${name}.js`)
+
         return {
           src: srcJs,
           dist: distJs,
@@ -371,7 +368,6 @@ function allPluginConfigFiles() {
       ? reject(err)
       : Promise.all(files.map(fileOnly)).then(resolve, reject)
   })
-
   return promise
 }
 
