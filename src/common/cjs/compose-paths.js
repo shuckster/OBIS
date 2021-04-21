@@ -10,34 +10,36 @@ const path = require('path')
 // MAIN
 //
 
-function composePaths(linesOfPaths) {
-  const lineDepthInfo = sanitizedLines(linesOfPaths).map(splitByIndentation)
+function composePaths(dsl) {
+  const linesWithIndentMeta = sanitizedLines(dsl).map(splitByIndent)
 
-  const minLineDepth = lineDepthInfo.reduce(
-    (minDepth, { depth }) => Math.min(minDepth, depth),
+  const shallowestIndent = linesWithIndentMeta.reduce(
+    (min, { indent }) => Math.min(min, indent),
     Infinity
   )
+  const clampedIndents = linesWithIndentMeta.map(({ indent, content }) => ({
+    indent: indent - shallowestIndent,
+    content
+  }))
 
-  const floorLineDepthInfo = lineDepthInfo.map(({ depth, ...rest }) => {
-    return {
-      depth: depth - minLineDepth,
-      ...rest
+  const fullLinesMeta = composeFullLinesMeta(clampedIndents)
+  const output = performPathComposition(fullLinesMeta)
+
+  fullLinesMeta.forEach(({ name, index }) => {
+    if (!name) {
+      return output
     }
-  })
 
-  const [props, rawLineInfo] = extractAssignments(floorLineDepthInfo)
-  const justPaths = performPathComposition(rawLineInfo)
-  const aliases = props.filter(prop => !!prop?.name).map(prop => prop.name)
-
-  const output = props.reduce((paths, prop, index) => {
-    if (!prop) {
-      return paths
-    }
-    return Object.defineProperty(paths, prop.name, {
-      value: justPaths[index],
+    const fullPath = output[index]
+    Object.defineProperty(output, name, {
+      value: fullPath,
       enumerable: false
     })
-  }, justPaths)
+  })
+
+  const aliases = fullLinesMeta
+    .filter(prop => !!prop?.name)
+    .map(prop => prop.name)
 
   return Object.defineProperty(output, 'aliases', {
     value: aliases,
@@ -73,56 +75,53 @@ const rxLineIndentation = /^( *)([^$]*)/
 const rxPathAssignment = /\s*=\s*([^$]+)/
 const rxJustWhiteSpace = /^\s*$/
 
-function performPathComposition(lineInfo) {
+function performPathComposition(fullLinesMeta) {
   const pathStack = []
   const allExpandedPaths = []
-  let previousDepth = -1
+  let previousIndent = -1
   let indentationSize = -1
 
-  lineInfo.forEach(({ depth, content }) => {
-    if (depth <= previousDepth) {
-      let count = 1 + (previousDepth - depth) / indentationSize
+  fullLinesMeta.forEach(({ indent, content }) => {
+    if (indent <= previousIndent) {
+      let count = 1 + (previousIndent - indent) / indentationSize
       while (count--) {
         pathStack.pop()
       }
     } else if (indentationSize <= 0) {
-      indentationSize = depth
+      indentationSize = indent
     }
 
     pathStack.push(content)
     allExpandedPaths.push(path.join(pathStack.join('/')))
-    previousDepth = depth
+    previousIndent = indent
   })
 
   return allExpandedPaths
 }
 
-function extractAssignments(lineInfo) {
-  const props = []
-  const contentArrayWithoutProps = lineInfo.map(line => {
-    const { content, ...rest } = line
+function composeFullLinesMeta(linesIndentMeta) {
+  return linesIndentMeta.map((lineMeta, index) => {
+    const { content, indent } = lineMeta
     const match = content.match(rxPathAssignment)
     if (!match) {
-      props.push(undefined)
-      return line
+      return { index, indent, content }
     }
 
-    props.push({ name: match[1] })
     return {
+      index,
+      indent,
       content: content.slice(0, content.length - match[0].length),
-      ...rest
+      name: match[1]
     }
   })
-
-  return [props, contentArrayWithoutProps]
 }
 
-function splitByIndentation(line) {
+function splitByIndent(line) {
   const defaultSplit = [line, '', line]
-  const lineSplitByIndentation = line.match(rxLineIndentation) || defaultSplit
+  const lineSplitByIndentation = line.match(rxLineIndentation) ?? defaultSplit
 
   return {
-    depth: lineSplitByIndentation[1].length,
+    indent: lineSplitByIndentation[1].length,
     content: lineSplitByIndentation[2]
   }
 }
