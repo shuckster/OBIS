@@ -14,6 +14,7 @@
     "build:all": "pnpm run build:clean ; cross-env NODE_ENV=production pnpm run build"
   },
   "devDependencies": {
+    "compose-paths": "^1.0.6",
     "cross-env": "^7.0.3",
     "esbuild": "^0.11.17",
     "esbuild-plugin-sass": "^0.5.0",

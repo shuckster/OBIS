@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   clsx: ^1.1.1
-  compose-paths: ^1.0.4
+  compose-paths: ^1.0.6
   cross-env: ^7.0.3
   esbuild: ^0.11.17
   esbuild-plugin-sass: ^0.5.0
@@ -38,7 +38,7 @@ dependencies:
   statebot-mithril-hooks: 1.2.1_8d58e50b9161575650e8972ec13a2f9b
 
 devDependencies:
-  compose-paths: 1.0.4
+  compose-paths: 1.0.6
   cross-env: 7.0.3
   esbuild: 0.11.17
   esbuild-plugin-sass: 0.5.0_esbuild@0.11.17
@@ -416,8 +416,8 @@ packages:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}
     dev: true
 
-  /compose-paths/1.0.4:
-    resolution: {integrity: sha512-IxNzihSmNQLmawInacw5AeqTaZ3MX/yhZsGJyjexvznodGewYn5Q79A8Wh9sSPv1LoKOlYSGVORL1Xtz/uasTA==}
+  /compose-paths/1.0.6:
+    resolution: {integrity: sha512-B1PlsZtLLGwr6S2O35JKoCQ0IkC8t22A+ng47TinAkKt3b/ZoFjBW6Ck58QXNkVcYnbJ1IdQECUCM2kHO/exjA==}
     engines: {node: '>=10'}
     dev: true
 

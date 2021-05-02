@@ -5,9 +5,9 @@ const path = require('path')
 const glob = require('glob')
 const esbuild = require('esbuild')
 const sassPlugin = require('esbuild-plugin-sass')
+const { composePaths } = require('compose-paths')
 
 const { makePromise } = require('@/cjs/promises')
-const { composePaths } = require('@/cjs/compose-paths')
 const { loadTextFile, fileOnly } = require('@/cjs/files')
 
 const MINIFY_DISTRIBUTION = false

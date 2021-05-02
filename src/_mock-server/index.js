@@ -4,7 +4,7 @@ const express = require('express')
 
 require('module-alias/register')
 
-const { composePaths, zip } = require('@/cjs/compose-paths')
+const { composePaths, zip } = require('compose-paths')
 const { loadTextFile } = require('@/cjs/files')
 const { makeRegExpFromWildcardString } = require('@/cjs/regexp')
 
@@ -98,7 +98,7 @@ const routes = composePaths(`
     /rtrvStmtDetl                     = STATEMENT_DETAIL
 `)
 
-const fixedRoutes = zip(routes, paths, {
+const staticRoutes = zip(routes, paths, {
   aliases: ['DEBUG_BOOKMARKLET', 'INDEX', 'HOME'],
   ignoreAliases: true
 })
@@ -134,7 +134,7 @@ function main() {
 
   // Bootstrap
 
-  fixedRoutes.forEach(([_route, _path]) => {
+  staticRoutes.forEach(([_route, _path]) => {
     app.get(route(_route), sendFile(_path, detectHeader(_path)))
   })
 
