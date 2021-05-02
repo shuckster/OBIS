@@ -4074,10 +4074,19 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       global2.removeEventListener(BUS, eventHandler);
       cbMap.delete(cb);
     }
+    function once(eventNameOrPattern, cb) {
+      const off2 = on3(eventNameOrPattern, handle);
+      return off2;
+      function handle(...args) {
+        cb(...args);
+        off2();
+      }
+    }
     return {
       emit: emit2,
       on: on3,
-      off
+      off,
+      once
     };
   }();
 
@@ -5725,7 +5734,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       return acc;
     }, obj);
   }
-  messages4.on(actions.OBIS_READY, main);
+  messages4.once(actions.OBIS_READY, main);
   messages4.emit(actions.ui.LOADED);
 })();
 /*! (c) 2020 Andrea Giammarchi */

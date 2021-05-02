@@ -90,5 +90,5 @@ function withProps(obj, props) {
   }, obj)
 }
 
-messages.on(actions.OBIS_READY, main)
+messages.once(actions.OBIS_READY, main)
 messages.emit(actions.ui.LOADED)

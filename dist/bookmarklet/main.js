@@ -4288,10 +4288,19 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       global2.removeEventListener(BUS, eventHandler);
       cbMap.delete(cb);
     }
+    function once(eventNameOrPattern, cb) {
+      const off2 = on(eventNameOrPattern, handle);
+      return off2;
+      function handle(...args) {
+        cb(...args);
+        off2();
+      }
+    }
     return {
       emit,
       on,
-      off
+      off,
+      once
     };
   }();
 

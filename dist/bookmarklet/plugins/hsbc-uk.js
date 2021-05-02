@@ -734,10 +734,19 @@
       global.removeEventListener(BUS, eventHandler);
       cbMap.delete(cb);
     }
+    function once(eventNameOrPattern, cb) {
+      const off2 = on2(eventNameOrPattern, handle);
+      return off2;
+      function handle(...args) {
+        cb(...args);
+        off2();
+      }
+    }
     return {
       emit,
       on: on2,
-      off
+      off,
+      once
     };
   }();
 

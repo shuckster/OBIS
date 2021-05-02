@@ -110,10 +110,25 @@ const messages = (function () {
     cbMap.delete(cb)
   }
 
+  //
+  // ONCE
+  //
+
+  function once(eventNameOrPattern, cb) {
+    const off = on(eventNameOrPattern, handle)
+    return off
+
+    function handle(...args) {
+      cb(...args)
+      off()
+    }
+  }
+
   return {
     emit,
     on,
-    off
+    off,
+    once
   }
 })()
 
