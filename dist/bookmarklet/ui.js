@@ -2124,7 +2124,7 @@
     };
   });
 
-  // node_modules/.pnpm/statebot@2.7.2/node_modules/statebot/dist/cjs/statebot.min.js
+  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.min.js
   var require_statebot_min = __commonJS((exports) => {
     "use strict";
     function t2(t3) {
@@ -2183,7 +2183,7 @@ ${c3.map((t4) => `| ${t4}`).join("\n")}`;
       const n3 = t3.addListener ? (...n4) => t3.addListener(...n4) : (...n4) => t3.on(...n4), e2 = t3.removeListener ? (...n4) => t3.removeListener(...n4) : (...n4) => t3.off(...n4), r3 = new Map();
       return {emit: (n4, ...e3) => t3.emit(n4, e3), on: function(t4, e3) {
         let o3 = r3.get(e3);
-        o3 || (o3 = {handleEvent: (t5) => e3(...t5 || []), refCount: 0}, r3.set(e3, o3)), o3.refCount += 1, n3(t4, o3.handleEvent);
+        o3 || (o3 = {handleEvent: (t5 = []) => e3(...[t5].flat()), refCount: 0}, r3.set(e3, o3)), o3.refCount += 1, n3(t4, o3.handleEvent);
       }, off: function(t4, n4) {
         let o3 = r3.get(n4);
         o3 && (e2(t4, o3.handleEvent), o3.refCount -= 1, o3.refCount === 0 && r3.delete(n4));
@@ -2606,7 +2606,7 @@ ${d3}: ${o3}: [${t4 ? "FAILED" : "SUCCESS"}]`), h3.table(j3.content()), t4)), {a
     };
   });
 
-  // node_modules/.pnpm/statebot@2.7.2/node_modules/statebot/dist/cjs/statebot.dev.js
+  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.dev.js
   var require_statebot_dev = __commonJS((exports) => {
     "use strict";
     Object.defineProperty(exports, "__esModule", {value: true});
@@ -2697,7 +2697,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         let fnMeta = wrapMap.get(fn2);
         if (!fnMeta) {
           fnMeta = {
-            handleEvent: (args) => fn2(...args || []),
+            handleEvent: (args = []) => fn2(...[args].flat()),
             refCount: 0
           };
           wrapMap.set(fn2, fnMeta);
@@ -2869,9 +2869,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     var rxLineContinuations = new RegExp(`(${rxOperators})$`);
     var rxDisallowedCharacters = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
     var rxComment = /(\/\/[^\n\r]*)/;
-    var argTypeError = ArgTypeError2("statebot.");
+    var argTypeError$1 = ArgTypeError2("statebot.");
     function decomposeRoute(templateLiteral) {
-      const err = argTypeError("decomposeRoute", {templateLiteral: isTemplateLiteral2}, templateLiteral);
+      const err = argTypeError$1("decomposeRoute", {templateLiteral: isTemplateLiteral2}, templateLiteral);
       if (err) {
         throw TypeError(err);
       }
@@ -2881,7 +2881,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       return route;
     }
     function decomposeChart(chart2) {
-      const err = argTypeError("decomposeChart", {chart: isTemplateLiteral2}, chart2);
+      const err = argTypeError$1("decomposeChart", {chart: isTemplateLiteral2}, chart2);
       if (err) {
         throw TypeError(err);
       }
@@ -3368,9 +3368,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
     function isStatebot(object2) {
       return isPojo2(object2) && typeof object2.__STATEBOT__ === "number";
     }
-    var argTypeError$1 = ArgTypeError2("statebot.");
+    var argTypeError = ArgTypeError2("statebot.");
     function routeIsPossible(machine, route) {
-      const err = argTypeError$1("routeIsPossible", {machine: isStatebot, route: isTemplateLiteral2}, machine, route);
+      const err = argTypeError("routeIsPossible", {machine: isStatebot, route: isTemplateLiteral2}, machine, route);
       if (err) {
         throw TypeError(err);
       }
@@ -3388,7 +3388,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
     }
     var assertionId = 0;
     function assertRoute(machine, expectedRoute, options) {
-      const err = argTypeError$1("assertRoute", {machine: isStatebot, expectedRoute: isTemplateLiteral2}, machine, expectedRoute);
+      const err = argTypeError("assertRoute", {machine: isStatebot, expectedRoute: isTemplateLiteral2}, machine, expectedRoute);
       if (err) {
         throw TypeError(err);
       }
@@ -3574,7 +3574,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     exports.routeIsPossible = routeIsPossible;
   });
 
-  // node_modules/.pnpm/statebot@2.7.2/node_modules/statebot/index.js
+  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/index.js
   var require_statebot = __commonJS((exports, module) => {
     "use strict";
     if (typeof process !== "undefined" && true) {
@@ -3643,7 +3643,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     }
   };
 
-  // node_modules/.pnpm/immer@9.0.1/node_modules/immer/dist/immer.esm.js
+  // node_modules/.pnpm/immer@9.0.2/node_modules/immer/dist/immer.esm.js
   function n(n2) {
     for (var r2 = arguments.length, t2 = Array(r2 > 1 ? r2 - 1 : 0), e = 1; e < r2; e++)
       t2[e - 1] = arguments[e];
@@ -4819,11 +4819,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   // src/ui/components/app.jsx
   var import_mithril4 = __toModule(require_mithril());
 
-  // node_modules/.pnpm/mithril-hooks@0.7.0_mithril@2.0.4/node_modules/mithril-hooks/dist/mithril-hooks.mjs
-  var import_mithril = __toModule(require_mithril());
-
   // node_modules/.pnpm/flatted@3.1.1/node_modules/flatted/esm/index.js
-  /*! (c) 2020 Andrea Giammarchi */
   var {parse: $parse, stringify: $stringify} = JSON;
   var Primitive = String;
   var primitive = "string";
@@ -4863,13 +4859,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }
   };
 
-  // node_modules/.pnpm/mithril-hooks@0.7.0_mithril@2.0.4/node_modules/mithril-hooks/dist/mithril-hooks.mjs
+  // node_modules/.pnpm/mithril-hooks@0.7.1_mithril@2.0.4/node_modules/mithril-hooks/dist/mithril-hooks.module.js
+  var import_mithril = __toModule(require_mithril());
   var currentState;
   var call = Function.prototype.call.bind(Function.prototype.call);
   var scheduleRender = () => import_mithril.default.redraw();
   var updateDeps = (deps) => {
     const state = currentState;
-    const depsIndex = state.depsIndex;
+    const {depsIndex} = state;
     state.depsIndex += 1;
     const prevDeps = state.depsStates[depsIndex] || [];
     const shouldRecompute = deps === void 0 ? true : Array.isArray(deps) ? deps.length > 0 ? !deps.every((x2, i2) => x2 === prevDeps[i2]) : !state.setup : false;
@@ -4882,7 +4879,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const state = currentState;
     const shouldRecompute = updateDeps(deps);
     if (shouldRecompute) {
-      const depsIndex = state.depsIndex;
+      const {depsIndex} = state;
       const runCallbackFn = () => {
         const teardown2 = fn2();
         if (typeof teardown2 === "function") {
@@ -5000,16 +4997,17 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     };
   };
 
-  // node_modules/.pnpm/statebot-mithril-hooks@1.2.0_3bf11102c2d718bd63d667fba36f3839/node_modules/statebot-mithril-hooks/dist/esm/statebot-mithril-hooks.js
+  // node_modules/.pnpm/statebot-mithril-hooks@1.2.1_8d58e50b9161575650e8972ec13a2f9b/node_modules/statebot-mithril-hooks/dist/esm/statebot-mithril-hooks.js
   var import_statebot = __toModule(require_statebot());
   function useStatebot(bot) {
     const [state, setState] = useState(bot.currentState());
     useEffect(() => {
       let done = false;
       const removeListener = bot.onSwitched((toState) => {
-        if (!done) {
-          setState(toState);
+        if (done) {
+          return;
         }
+        setState(toState);
       });
       return () => {
         done = true;
@@ -5730,3 +5728,4 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   messages4.on(actions.OBIS_READY, main);
   messages4.emit(actions.ui.LOADED);
 })();
+/*! (c) 2020 Andrea Giammarchi */

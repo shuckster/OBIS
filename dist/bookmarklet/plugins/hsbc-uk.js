@@ -303,7 +303,7 @@
     }
   };
 
-  // node_modules/.pnpm/immer@9.0.1/node_modules/immer/dist/immer.esm.js
+  // node_modules/.pnpm/immer@9.0.2/node_modules/immer/dist/immer.esm.js
   function n(n2) {
     for (var r2 = arguments.length, t2 = Array(r2 > 1 ? r2 - 1 : 0), e = 1; e < r2; e++)
       t2[e - 1] = arguments[e];

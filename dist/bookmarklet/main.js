@@ -2009,7 +2009,7 @@
     });
   });
 
-  // node_modules/.pnpm/statebot@2.7.2/node_modules/statebot/dist/cjs/statebot.min.js
+  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.min.js
   var require_statebot_min = __commonJS((exports) => {
     "use strict";
     function t(t2) {
@@ -2068,7 +2068,7 @@ ${c2.map((t3) => `| ${t3}`).join("\n")}`;
       const n2 = t2.addListener ? (...n3) => t2.addListener(...n3) : (...n3) => t2.on(...n3), e2 = t2.removeListener ? (...n3) => t2.removeListener(...n3) : (...n3) => t2.off(...n3), r2 = new Map();
       return {emit: (n3, ...e3) => t2.emit(n3, e3), on: function(t3, e3) {
         let o2 = r2.get(e3);
-        o2 || (o2 = {handleEvent: (t4) => e3(...t4 || []), refCount: 0}, r2.set(e3, o2)), o2.refCount += 1, n2(t3, o2.handleEvent);
+        o2 || (o2 = {handleEvent: (t4 = []) => e3(...[t4].flat()), refCount: 0}, r2.set(e3, o2)), o2.refCount += 1, n2(t3, o2.handleEvent);
       }, off: function(t3, n3) {
         let o2 = r2.get(n3);
         o2 && (e2(t3, o2.handleEvent), o2.refCount -= 1, o2.refCount === 0 && r2.delete(n3));
@@ -2491,7 +2491,7 @@ ${d2}: ${o2}: [${t3 ? "FAILED" : "SUCCESS"}]`), h2.table(j2.content()), t3)), {a
     };
   });
 
-  // node_modules/.pnpm/statebot@2.7.2/node_modules/statebot/dist/cjs/statebot.dev.js
+  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.dev.js
   var require_statebot_dev = __commonJS((exports) => {
     "use strict";
     Object.defineProperty(exports, "__esModule", {value: true});
@@ -2582,7 +2582,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         let fnMeta = wrapMap.get(fn);
         if (!fnMeta) {
           fnMeta = {
-            handleEvent: (args) => fn(...args || []),
+            handleEvent: (args = []) => fn(...[args].flat()),
             refCount: 0
           };
           wrapMap.set(fn, fnMeta);
@@ -2754,9 +2754,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     var rxLineContinuations = new RegExp(`(${rxOperators})$`);
     var rxDisallowedCharacters = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
     var rxComment = /(\/\/[^\n\r]*)/;
-    var argTypeError = ArgTypeError("statebot.");
+    var argTypeError$1 = ArgTypeError("statebot.");
     function decomposeRoute(templateLiteral) {
-      const err = argTypeError("decomposeRoute", {templateLiteral: isTemplateLiteral}, templateLiteral);
+      const err = argTypeError$1("decomposeRoute", {templateLiteral: isTemplateLiteral}, templateLiteral);
       if (err) {
         throw TypeError(err);
       }
@@ -2766,7 +2766,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       return route;
     }
     function decomposeChart(chart) {
-      const err = argTypeError("decomposeChart", {chart: isTemplateLiteral}, chart);
+      const err = argTypeError$1("decomposeChart", {chart: isTemplateLiteral}, chart);
       if (err) {
         throw TypeError(err);
       }
@@ -3253,9 +3253,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
     function isStatebot(object) {
       return isPojo(object) && typeof object.__STATEBOT__ === "number";
     }
-    var argTypeError$1 = ArgTypeError("statebot.");
+    var argTypeError = ArgTypeError("statebot.");
     function routeIsPossible(machine, route) {
-      const err = argTypeError$1("routeIsPossible", {machine: isStatebot, route: isTemplateLiteral}, machine, route);
+      const err = argTypeError("routeIsPossible", {machine: isStatebot, route: isTemplateLiteral}, machine, route);
       if (err) {
         throw TypeError(err);
       }
@@ -3273,7 +3273,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
     }
     var assertionId = 0;
     function assertRoute(machine, expectedRoute, options) {
-      const err = argTypeError$1("assertRoute", {machine: isStatebot, expectedRoute: isTemplateLiteral}, machine, expectedRoute);
+      const err = argTypeError("assertRoute", {machine: isStatebot, expectedRoute: isTemplateLiteral}, machine, expectedRoute);
       if (err) {
         throw TypeError(err);
       }
@@ -3459,7 +3459,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     exports.routeIsPossible = routeIsPossible;
   });
 
-  // node_modules/.pnpm/statebot@2.7.2/node_modules/statebot/index.js
+  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/index.js
   var require_statebot = __commonJS((exports, module) => {
     "use strict";
     if (typeof process !== "undefined" && true) {
@@ -3507,26 +3507,10 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var import_spark_md5 = __toModule(require_spark_md5());
   var import_jmespath = __toModule(require_jmespath());
 
-  // node_modules/.pnpm/fflate@0.6.9/node_modules/fflate/esm/browser.js
+  // node_modules/.pnpm/fflate@0.6.10/node_modules/fflate/esm/browser.js
   var ch2 = {};
-  var durl = function(c) {
-    return URL.createObjectURL(new Blob([c], {type: "text/javascript"}));
-  };
-  var cwk = function(u) {
-    return new Worker(u);
-  };
-  try {
-    URL.revokeObjectURL(durl(""));
-  } catch (e) {
-    durl = function(c) {
-      return "data:application/javascript;charset=UTF-8," + encodeURI(c);
-    };
-    cwk = function(u) {
-      return new Worker(u, {type: "module"});
-    };
-  }
   var wk = function(c, id, msg, transfer, cb) {
-    var w = cwk(ch2[id] || (ch2[id] = durl(c)));
+    var w = new Worker(ch2[id] || (ch2[id] = URL.createObjectURL(new Blob([c], {type: "text/javascript"}))));
     w.onerror = function(e) {
       return cb(e.error, null);
     };
@@ -3921,11 +3905,11 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     return slc(o, 0, pre + shft(pos) + post);
   };
   var crct = /* @__PURE__ */ function() {
-    var t = new u32(256);
+    var t = new Int32Array(256);
     for (var i = 0; i < 256; ++i) {
       var c = i, k = 9;
       while (--k)
-        c = (c & 1 && 3988292384) ^ c >>> 1;
+        c = (c & 1 && -306674912) ^ c >>> 1;
       t[i] = c;
     }
     return t;

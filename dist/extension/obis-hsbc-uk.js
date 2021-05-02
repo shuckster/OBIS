@@ -2060,7 +2060,7 @@ ${c2.map((t3) => `| ${t3}`).join("\n")}`;
       const n2 = t2.addListener ? (...n3) => t2.addListener(...n3) : (...n3) => t2.on(...n3), e2 = t2.removeListener ? (...n3) => t2.removeListener(...n3) : (...n3) => t2.off(...n3), r2 = new Map();
       return {emit: (n3, ...e3) => t2.emit(n3, e3), on: function(t3, e3) {
         let o2 = r2.get(e3);
-        o2 || (o2 = {handleEvent: (t4) => e3(...t4 || []), refCount: 0}, r2.set(e3, o2)), o2.refCount += 1, n2(t3, o2.handleEvent);
+        o2 || (o2 = {handleEvent: (t4 = []) => e3(...[t4].flat()), refCount: 0}, r2.set(e3, o2)), o2.refCount += 1, n2(t3, o2.handleEvent);
       }, off: function(t3, n3) {
         let o2 = r2.get(n3);
         o2 && (e2(t3, o2.handleEvent), o2.refCount -= 1, o2.refCount === 0 && r2.delete(n3));
@@ -2572,7 +2572,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         let fnMeta = wrapMap.get(fn);
         if (!fnMeta) {
           fnMeta = {
-            handleEvent: (args) => fn(...args || []),
+            handleEvent: (args = []) => fn(...[args].flat()),
             refCount: 0
           };
           wrapMap.set(fn, fnMeta);
@@ -2744,9 +2744,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     var rxLineContinuations = new RegExp(`(${rxOperators})$`);
     var rxDisallowedCharacters = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
     var rxComment = /(\/\/[^\n\r]*)/;
-    var argTypeError = ArgTypeError("statebot.");
+    var argTypeError$1 = ArgTypeError("statebot.");
     function decomposeRoute(templateLiteral) {
-      const err = argTypeError("decomposeRoute", {templateLiteral: isTemplateLiteral}, templateLiteral);
+      const err = argTypeError$1("decomposeRoute", {templateLiteral: isTemplateLiteral}, templateLiteral);
       if (err) {
         throw TypeError(err);
       }
@@ -2756,7 +2756,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       return route;
     }
     function decomposeChart(chart) {
-      const err = argTypeError("decomposeChart", {chart: isTemplateLiteral}, chart);
+      const err = argTypeError$1("decomposeChart", {chart: isTemplateLiteral}, chart);
       if (err) {
         throw TypeError(err);
       }
@@ -3243,9 +3243,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
     function isStatebot(object) {
       return isPojo(object) && typeof object.__STATEBOT__ === "number";
     }
-    var argTypeError$1 = ArgTypeError("statebot.");
+    var argTypeError = ArgTypeError("statebot.");
     function routeIsPossible(machine, route) {
-      const err = argTypeError$1("routeIsPossible", {machine: isStatebot, route: isTemplateLiteral}, machine, route);
+      const err = argTypeError("routeIsPossible", {machine: isStatebot, route: isTemplateLiteral}, machine, route);
       if (err) {
         throw TypeError(err);
       }
@@ -3263,7 +3263,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
     }
     var assertionId = 0;
     function assertRoute(machine, expectedRoute, options) {
-      const err = argTypeError$1("assertRoute", {machine: isStatebot, expectedRoute: isTemplateLiteral}, machine, expectedRoute);
+      const err = argTypeError("assertRoute", {machine: isStatebot, expectedRoute: isTemplateLiteral}, machine, expectedRoute);
       if (err) {
         throw TypeError(err);
       }
@@ -3491,24 +3491,8 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var import_spark_md5 = __toModule(require_spark_md5());
   var import_jmespath = __toModule(require_jmespath());
   var ch2 = {};
-  var durl = function(c) {
-    return URL.createObjectURL(new Blob([c], {type: "text/javascript"}));
-  };
-  var cwk = function(u) {
-    return new Worker(u);
-  };
-  try {
-    URL.revokeObjectURL(durl(""));
-  } catch (e) {
-    durl = function(c) {
-      return "data:application/javascript;charset=UTF-8," + encodeURI(c);
-    };
-    cwk = function(u) {
-      return new Worker(u, {type: "module"});
-    };
-  }
   var wk = function(c, id, msg, transfer, cb) {
-    var w = cwk(ch2[id] || (ch2[id] = durl(c)));
+    var w = new Worker(ch2[id] || (ch2[id] = URL.createObjectURL(new Blob([c], {type: "text/javascript"}))));
     w.onerror = function(e) {
       return cb(e.error, null);
     };
@@ -3903,11 +3887,11 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     return slc(o, 0, pre + shft(pos) + post);
   };
   var crct = /* @__PURE__ */ function() {
-    var t = new u32(256);
+    var t = new Int32Array(256);
     for (var i2 = 0; i2 < 256; ++i2) {
       var c = i2, k = 9;
       while (--k)
-        c = (c & 1 && 3988292384) ^ c >>> 1;
+        c = (c & 1 && -306674912) ^ c >>> 1;
       t[i2] = c;
     }
     return t;
@@ -6758,7 +6742,7 @@ ${c3.map((t4) => `| ${t4}`).join("\n")}`;
       const n3 = t3.addListener ? (...n4) => t3.addListener(...n4) : (...n4) => t3.on(...n4), e2 = t3.removeListener ? (...n4) => t3.removeListener(...n4) : (...n4) => t3.off(...n4), r3 = new Map();
       return {emit: (n4, ...e3) => t3.emit(n4, e3), on: function(t4, e3) {
         let o3 = r3.get(e3);
-        o3 || (o3 = {handleEvent: (t5) => e3(...t5 || []), refCount: 0}, r3.set(e3, o3)), o3.refCount += 1, n3(t4, o3.handleEvent);
+        o3 || (o3 = {handleEvent: (t5 = []) => e3(...[t5].flat()), refCount: 0}, r3.set(e3, o3)), o3.refCount += 1, n3(t4, o3.handleEvent);
       }, off: function(t4, n4) {
         let o3 = r3.get(n4);
         o3 && (e2(t4, o3.handleEvent), o3.refCount -= 1, o3.refCount === 0 && r3.delete(n4));
@@ -7270,7 +7254,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         let fnMeta = wrapMap.get(fn2);
         if (!fnMeta) {
           fnMeta = {
-            handleEvent: (args) => fn2(...args || []),
+            handleEvent: (args = []) => fn2(...[args].flat()),
             refCount: 0
           };
           wrapMap.set(fn2, fnMeta);
@@ -7442,9 +7426,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     var rxLineContinuations = new RegExp(`(${rxOperators})$`);
     var rxDisallowedCharacters = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
     var rxComment = /(\/\/[^\n\r]*)/;
-    var argTypeError = ArgTypeError2("statebot.");
+    var argTypeError$1 = ArgTypeError2("statebot.");
     function decomposeRoute(templateLiteral) {
-      const err = argTypeError("decomposeRoute", {templateLiteral: isTemplateLiteral2}, templateLiteral);
+      const err = argTypeError$1("decomposeRoute", {templateLiteral: isTemplateLiteral2}, templateLiteral);
       if (err) {
         throw TypeError(err);
       }
@@ -7454,7 +7438,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       return route;
     }
     function decomposeChart(chart2) {
-      const err = argTypeError("decomposeChart", {chart: isTemplateLiteral2}, chart2);
+      const err = argTypeError$1("decomposeChart", {chart: isTemplateLiteral2}, chart2);
       if (err) {
         throw TypeError(err);
       }
@@ -7941,9 +7925,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
     function isStatebot(object2) {
       return isPojo2(object2) && typeof object2.__STATEBOT__ === "number";
     }
-    var argTypeError$1 = ArgTypeError2("statebot.");
+    var argTypeError = ArgTypeError2("statebot.");
     function routeIsPossible(machine, route) {
-      const err = argTypeError$1("routeIsPossible", {machine: isStatebot, route: isTemplateLiteral2}, machine, route);
+      const err = argTypeError("routeIsPossible", {machine: isStatebot, route: isTemplateLiteral2}, machine, route);
       if (err) {
         throw TypeError(err);
       }
@@ -7961,7 +7945,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
     }
     var assertionId = 0;
     function assertRoute(machine, expectedRoute, options) {
-      const err = argTypeError$1("assertRoute", {machine: isStatebot, expectedRoute: isTemplateLiteral2}, machine, expectedRoute);
+      const err = argTypeError("assertRoute", {machine: isStatebot, expectedRoute: isTemplateLiteral2}, machine, expectedRoute);
       if (err) {
         throw TypeError(err);
       }
@@ -9343,8 +9327,6 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return "OBIS-Statements-" + statementDate.getFullYear() + "-" + dateTimeString(new Date(), "_") + ".zip";
   }
   var import_mithril4 = __toModule(require_mithril());
-  var import_mithril = __toModule(require_mithril());
-  /*! (c) 2020 Andrea Giammarchi */
   var {parse: $parse, stringify: $stringify} = JSON;
   var Primitive = String;
   var primitive = "string";
@@ -9383,12 +9365,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       return after;
     }
   };
+  var import_mithril = __toModule(require_mithril());
   var currentState;
   var call = Function.prototype.call.bind(Function.prototype.call);
   var scheduleRender = () => import_mithril.default.redraw();
   var updateDeps = (deps) => {
     const state = currentState;
-    const depsIndex = state.depsIndex;
+    const {depsIndex} = state;
     state.depsIndex += 1;
     const prevDeps = state.depsStates[depsIndex] || [];
     const shouldRecompute = deps === void 0 ? true : Array.isArray(deps) ? deps.length > 0 ? !deps.every((x2, i2) => x2 === prevDeps[i2]) : !state.setup : false;
@@ -9401,7 +9384,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const state = currentState;
     const shouldRecompute = updateDeps(deps);
     if (shouldRecompute) {
-      const depsIndex = state.depsIndex;
+      const {depsIndex} = state;
       const runCallbackFn = () => {
         const teardown2 = fn2();
         if (typeof teardown2 === "function") {
@@ -9524,9 +9507,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     useEffect(() => {
       let done = false;
       const removeListener = bot.onSwitched((toState) => {
-        if (!done) {
-          setState(toState);
+        if (done) {
+          return;
         }
+        setState(toState);
       });
       return () => {
         done = true;
@@ -10229,6 +10213,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   messages4.on(actions.OBIS_READY, main);
   messages4.emit(actions.ui.LOADED);
 })();
+/*! (c) 2020 Andrea Giammarchi */
 obis.registerPlugins([
   {
     name: "hsbc-uk",

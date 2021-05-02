@@ -15,8 +15,8 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "esbuild": "^0.11.14",
-    "esbuild-plugin-sass": "^0.4.1",
+    "esbuild": "^0.11.17",
+    "esbuild-plugin-sass": "^0.5.0",
     "eslint": "^7.25.0",
     "eslint-plugin-mithril": "^0.2.0",
     "express": "^4.17.1",
@@ -27,9 +27,9 @@
   },
   "dependencies": {
     "clsx": "^1.1.1",
-    "fflate": "^0.6.9",
+    "fflate": "^0.6.10",
     "file-saver": "^2.0.5",
-    "immer": "^9.0.1",
+    "immer": "^9.0.2",
     "jmespath": "^0.15.0",
     "mithril": "^2.0.4",
     "mithril-hooks": "^0.7.1",
