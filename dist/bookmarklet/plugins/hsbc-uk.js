@@ -1,12 +1,14 @@
 (() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
   var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
-  var __commonJS = (cb, mod) => () => (mod || cb((mod = {exports: {}}).exports, mod), mod.exports);
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[Object.keys(cb)[0]])((mod = {exports: {}}).exports, mod), mod.exports;
+  };
   var __reExport = (target, module, desc) => {
     if (module && typeof module === "object" || typeof module === "function") {
       for (let key of __getOwnPropNames(module))
@@ -20,232 +22,238 @@
   };
 
   // src/common/cjs/regexp.js
-  var require_regexp = __commonJS((exports, module) => {
-    function memoize(fn2, cache = new Map()) {
-      return (x2) => cache.has(x2) ? cache.get(x2) : cache.set(x2, fn2(x2)).get(x2);
+  var require_regexp = __commonJS({
+    "src/common/cjs/regexp.js"(exports, module) {
+      function memoize(fn2, cache = new Map()) {
+        return (x2) => cache.has(x2) ? cache.get(x2) : cache.set(x2, fn2(x2)).get(x2);
+      }
+      var makeRegExpFromWildcardString2 = memoize((str) => {
+        if (!str.length) {
+          throw new Error("String should not be empty");
+        }
+        const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeStringForRegExp);
+        const rxString = sanitized.join("(.*)");
+        switch (true) {
+          case sanitized.length === 1:
+            return new RegExp(`^${rxString}$`);
+          case sanitized[0] !== "":
+            return new RegExp(`^${rxString}`);
+          case sanitized[sanitized.length - 1] !== "":
+            return new RegExp(`${rxString}$`);
+        }
+        return new RegExp(rxString);
+      });
+      function escapeStringForRegExp(string) {
+        if (typeof string !== "string") {
+          throw new TypeError("Expected string to be passed-in");
+        }
+        return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      }
+      module.exports = {
+        memoize,
+        makeRegExpFromWildcardString: makeRegExpFromWildcardString2,
+        escapeStringForRegExp
+      };
     }
-    var makeRegExpFromWildcardString2 = memoize((str) => {
-      if (!str.length) {
-        throw new Error("String should not be empty");
-      }
-      const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeStringForRegExp);
-      const rxString = sanitized.join("(.*)");
-      switch (true) {
-        case sanitized.length === 1:
-          return new RegExp(`^${rxString}$`);
-        case sanitized[0] !== "":
-          return new RegExp(`^${rxString}`);
-        case sanitized[sanitized.length - 1] !== "":
-          return new RegExp(`${rxString}$`);
-      }
-      return new RegExp(rxString);
-    });
-    function escapeStringForRegExp(string) {
-      if (typeof string !== "string") {
-        throw new TypeError("Expected string to be passed-in");
-      }
-      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    }
-    module.exports = {
-      memoize,
-      makeRegExpFromWildcardString: makeRegExpFromWildcardString2,
-      escapeStringForRegExp
-    };
   });
 
   // src/common/cjs/timers.js
-  var require_timers = __commonJS((exports, module) => {
-    module.exports = {
-      seconds,
-      makeDebouncer,
-      makeThrottler,
-      runAfter,
-      runOnce,
-      runFnPeriodically,
-      makeValueChangeDetector,
-      makeValueInPredicateDetector,
-      runFnWhenValueChanges,
-      Delay
-    };
-    function seconds(n2) {
-      const ms = n2 * 1e3;
-      return ms;
-    }
-    function Delay(fn2, forMs) {
-      const [_fn] = makeDebouncer(forMs, fn2);
-      return (...args) => _fn(...args);
-    }
-    function makeDebouncer(ms, fn2) {
-      let timerId;
-      const clear = () => clearTimeout(timerId);
-      const debouncedFn = (...args) => {
-        clear();
-        timerId = setTimeout(fn2, ms, ...args);
+  var require_timers = __commonJS({
+    "src/common/cjs/timers.js"(exports, module) {
+      module.exports = {
+        seconds,
+        makeDebouncer,
+        makeThrottler,
+        runAfter,
+        runOnce,
+        runFnPeriodically,
+        makeValueChangeDetector,
+        makeValueInPredicateDetector,
+        runFnWhenValueChanges,
+        Delay
       };
-      return [debouncedFn, clear];
-    }
-    function makeThrottler(fn2, ms) {
-      let canRun = true;
-      const [throttle, clear] = makeDebouncer(ms, () => canRun = true);
-      const throttledFn = (...args) => {
-        if (!canRun)
-          return;
-        canRun = false;
-        throttle();
-        fn2(...args);
-      };
-      return [throttledFn, clear];
-    }
-    function runAfter(delayInMs, fn2) {
-      const [runSoon, cancel] = makeDebouncer(delayInMs, fn2);
-      runSoon();
-      return cancel;
-    }
-    function runOnce(fn2) {
-      let run = true;
-      let predicateFn = () => true;
-      const onceFn = (...args) => {
-        if (run && predicateFn()) {
-          run = false;
+      function seconds(n2) {
+        const ms = n2 * 1e3;
+        return ms;
+      }
+      function Delay(fn2, forMs) {
+        const [_fn] = makeDebouncer(forMs, fn2);
+        return (...args) => _fn(...args);
+      }
+      function makeDebouncer(ms, fn2) {
+        let timerId;
+        const clear = () => clearTimeout(timerId);
+        const debouncedFn = (...args) => {
+          clear();
+          timerId = setTimeout(fn2, ms, ...args);
+        };
+        return [debouncedFn, clear];
+      }
+      function makeThrottler(fn2, ms) {
+        let canRun = true;
+        const [throttle, clear] = makeDebouncer(ms, () => canRun = true);
+        const throttledFn = (...args) => {
+          if (!canRun)
+            return;
+          canRun = false;
+          throttle();
           fn2(...args);
-        }
-      };
-      onceFn.when = (fn3) => {
-        predicateFn = fn3;
+        };
+        return [throttledFn, clear];
+      }
+      function runAfter(delayInMs, fn2) {
+        const [runSoon, cancel] = makeDebouncer(delayInMs, fn2);
+        runSoon();
+        return cancel;
+      }
+      function runOnce(fn2) {
+        let run = true;
+        let predicateFn = () => true;
+        const onceFn = (...args) => {
+          if (run && predicateFn()) {
+            run = false;
+            fn2(...args);
+          }
+        };
+        onceFn.when = (fn3) => {
+          predicateFn = fn3;
+          return onceFn;
+        };
         return onceFn;
-      };
-      return onceFn;
-    }
-    function runFnPeriodically(fn2, ms = 16) {
-      const cleanup = () => clearInterval(timerId);
-      const timerId = setInterval(fn2, ms, {cleanup});
-      return cleanup;
-    }
-    function makeValueChangeDetector({
-      onChange = () => {
-      },
-      getValueFn = () => NaN,
-      equalityFn = (a2, b2) => a2 === b2
-    }) {
-      let currentValue = getValueFn();
-      const performCheck = (...checkArgs) => {
-        const newValue = getValueFn();
-        if (!equalityFn(newValue, currentValue)) {
-          const oldValue = currentValue;
-          currentValue = newValue;
-          onChange(newValue, oldValue, ...checkArgs);
-        }
-      };
-      return performCheck;
-    }
-    function makeValueInPredicateDetector({
-      onChange = () => {
-      },
-      getValueFn = () => NaN,
-      predicateFn = () => true
-    }) {
-      const performCheck = makeValueChangeDetector({
-        getValueFn,
-        onChange: (newValue) => predicateFn(newValue) && onChange()
-      });
-      return performCheck;
-    }
-    function runFnWhenValueChanges({fn: fn2, getValueFn}) {
-      const performCheck = makeValueChangeDetector({getValueFn, onChange: fn2});
-      const checkPeriodInMs = 16;
-      const cleanup = runFnPeriodically(performCheck, checkPeriodInMs);
-      return cleanup;
+      }
+      function runFnPeriodically(fn2, ms = 16) {
+        const cleanup = () => clearInterval(timerId);
+        const timerId = setInterval(fn2, ms, {cleanup});
+        return cleanup;
+      }
+      function makeValueChangeDetector({
+        onChange = () => {
+        },
+        getValueFn = () => NaN,
+        equalityFn = (a2, b2) => a2 === b2
+      }) {
+        let currentValue = getValueFn();
+        const performCheck = (...checkArgs) => {
+          const newValue = getValueFn();
+          if (!equalityFn(newValue, currentValue)) {
+            const oldValue = currentValue;
+            currentValue = newValue;
+            onChange(newValue, oldValue, ...checkArgs);
+          }
+        };
+        return performCheck;
+      }
+      function makeValueInPredicateDetector({
+        onChange = () => {
+        },
+        getValueFn = () => NaN,
+        predicateFn = () => true
+      }) {
+        const performCheck = makeValueChangeDetector({
+          getValueFn,
+          onChange: (newValue) => predicateFn(newValue) && onChange()
+        });
+        return performCheck;
+      }
+      function runFnWhenValueChanges({fn: fn2, getValueFn}) {
+        const performCheck = makeValueChangeDetector({getValueFn, onChange: fn2});
+        const checkPeriodInMs = 16;
+        const cleanup = runFnPeriodically(performCheck, checkPeriodInMs);
+        return cleanup;
+      }
     }
   });
 
   // src/common/cjs/promises.js
-  var require_promises = __commonJS((exports, module) => {
-    module.exports = {
-      isThennable,
-      makePromise: makePromise3,
-      delay,
-      unzip,
-      makeIdleDetectorWithTimeout,
-      poolPromises: poolPromises3,
-      runPromisesInSequence
-    };
-    var {seconds, runOnce, makeDebouncer} = require_timers();
-    function makeUnzipReducer() {
-      return [
-        (acc, [first, second]) => [
-          [...acc[0], first],
-          [...acc[1], second]
-        ],
-        [[], []]
-      ];
-    }
-    function unzip(arr) {
-      return arr.reduce(...makeUnzipReducer());
-    }
-    function isThennable(obj) {
-      return obj && typeof obj.then === "function";
-    }
-    function makePromise3() {
-      let _resolve;
-      let _reject;
-      const promise = new Promise((resolve, reject) => {
-        _resolve = resolve;
-        _reject = reject;
-      });
-      return [promise, _resolve, _reject];
-    }
-    function delay(ms) {
-      const [promise, resolve] = makePromise3();
-      setTimeout(resolve, ms || 0);
-      return promise;
-    }
-    function makeIdleDetectorWithTimeout(initBouncer = () => {
-    }, {withinMs = 500, timeoutInMs = seconds(5)}) {
-      const [promise, resolve, reject] = makePromise3();
-      const [resolveSoon, dontResolve] = makeDebouncer(resolve, withinMs);
-      const [rejectLater, dontReject] = makeDebouncer(reject, timeoutInMs);
-      const cleanup = initBouncer(resolveSoon);
-      resolveSoon();
-      rejectLater();
-      return promise.finally(() => {
-        cleanup && cleanup();
-        dontResolve();
-        dontReject();
-      });
-    }
-    function poolPromises3(limit, ...promiseMakerFns) {
-      const checkAll = () => canPromisesRun.forEach((check) => check());
-      const context = makePoolCounter(limit, checkAll);
-      const [pooledPromises, canPromisesRun] = promiseMakerFns.map((fn2) => makePoolAwarePromise(context, fn2)).reduce(...makeUnzipReducer());
-      checkAll();
-      return Promise.allSettled(pooledPromises);
-    }
-    function makePoolAwarePromise(context, promiseMakerFn) {
-      const {allowedToStartNext, bumpRunCount, unbump} = context;
-      const [promise, resolve, reject] = makePromise3();
-      const startPromise = () => {
-        bumpRunCount();
-        promiseMakerFn().then(resolve, reject).finally(unbump);
+  var require_promises = __commonJS({
+    "src/common/cjs/promises.js"(exports, module) {
+      module.exports = {
+        isThennable,
+        makePromise: makePromise3,
+        delay,
+        unzip,
+        makeIdleDetectorWithTimeout,
+        poolPromises: poolPromises3,
+        runPromisesInSequence
       };
-      return [promise, runOnce(startPromise).when(allowedToStartNext)];
-    }
-    function makePoolCounter(limit, onChange) {
-      let running = 0;
-      return {
-        allowedToStartNext: () => running < Math.max(1, limit),
-        bumpRunCount: () => onChange(++running),
-        unbump: () => onChange(--running)
-      };
-    }
-    function runPromisesInSequence(initialState, ...promiseMakerFns) {
-      const [promise, resolve, reject] = makePromise3();
-      promiseMakerFns.reduce(promiseSequenceReducer(reject), Promise.resolve(initialState)).then(resolve).catch(reject);
-      return promise;
-    }
-    function promiseSequenceReducer(reject) {
-      return (lastPromise, createNextPromise) => {
-        return lastPromise.then(createNextPromise, reject);
-      };
+      var {seconds, runOnce, makeDebouncer} = require_timers();
+      function makeUnzipReducer() {
+        return [
+          (acc, [first, second]) => [
+            [...acc[0], first],
+            [...acc[1], second]
+          ],
+          [[], []]
+        ];
+      }
+      function unzip(arr) {
+        return arr.reduce(...makeUnzipReducer());
+      }
+      function isThennable(obj) {
+        return obj && typeof obj.then === "function";
+      }
+      function makePromise3() {
+        let _resolve;
+        let _reject;
+        const promise = new Promise((resolve, reject) => {
+          _resolve = resolve;
+          _reject = reject;
+        });
+        return [promise, _resolve, _reject];
+      }
+      function delay(ms) {
+        const [promise, resolve] = makePromise3();
+        setTimeout(resolve, ms || 0);
+        return promise;
+      }
+      function makeIdleDetectorWithTimeout(initBouncer = () => {
+      }, {withinMs = 500, timeoutInMs = seconds(5)}) {
+        const [promise, resolve, reject] = makePromise3();
+        const [resolveSoon, dontResolve] = makeDebouncer(resolve, withinMs);
+        const [rejectLater, dontReject] = makeDebouncer(reject, timeoutInMs);
+        const cleanup = initBouncer(resolveSoon);
+        resolveSoon();
+        rejectLater();
+        return promise.finally(() => {
+          cleanup && cleanup();
+          dontResolve();
+          dontReject();
+        });
+      }
+      function poolPromises3(limit, ...promiseMakerFns) {
+        const checkAll = () => canPromisesRun.forEach((check) => check());
+        const context = makePoolCounter(limit, checkAll);
+        const [pooledPromises, canPromisesRun] = promiseMakerFns.map((fn2) => makePoolAwarePromise(context, fn2)).reduce(...makeUnzipReducer());
+        checkAll();
+        return Promise.allSettled(pooledPromises);
+      }
+      function makePoolAwarePromise(context, promiseMakerFn) {
+        const {allowedToStartNext, bumpRunCount, unbump} = context;
+        const [promise, resolve, reject] = makePromise3();
+        const startPromise = () => {
+          bumpRunCount();
+          promiseMakerFn().then(resolve, reject).finally(unbump);
+        };
+        return [promise, runOnce(startPromise).when(allowedToStartNext)];
+      }
+      function makePoolCounter(limit, onChange) {
+        let running = 0;
+        return {
+          allowedToStartNext: () => running < Math.max(1, limit),
+          bumpRunCount: () => onChange(++running),
+          unbump: () => onChange(--running)
+        };
+      }
+      function runPromisesInSequence(initialState, ...promiseMakerFns) {
+        const [promise, resolve, reject] = makePromise3();
+        promiseMakerFns.reduce(promiseSequenceReducer(reject), Promise.resolve(initialState)).then(resolve).catch(reject);
+        return promise;
+      }
+      function promiseSequenceReducer(reject) {
+        return (lastPromise, createNextPromise) => {
+          return lastPromise.then(createNextPromise, reject);
+        };
+      }
     }
   });
 

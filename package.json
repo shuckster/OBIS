@@ -14,17 +14,17 @@
     "build:all": "pnpm run build:clean ; cross-env NODE_ENV=production pnpm run build"
   },
   "devDependencies": {
-    "compose-paths": "^1.0.6",
+    "compose-paths": "^1.0.7",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.11.17",
+    "esbuild": "^0.11.20",
     "esbuild-plugin-sass": "^0.5.0",
-    "eslint": "^7.25.0",
+    "eslint": "^7.26.0",
     "eslint-plugin-mithril": "^0.2.0",
     "express": "^4.17.1",
-    "glob": "^7.1.6",
+    "glob": "^7.1.7",
     "nodemon": "^2.0.7",
     "rimraf": "^3.0.2",
-    "socket.io": "^4.0.1"
+    "socket.io": "^4.1.1"
   },
   "dependencies": {
     "clsx": "^1.1.1",
