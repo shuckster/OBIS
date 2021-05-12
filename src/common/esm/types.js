@@ -220,25 +220,26 @@ function ArgTypeError(namespace) {
       argType
     }))
 
-    return fnName => (...args) => {
-      const processedArgs = Array.from(args, x =>
-        isArguments(x) ? Array.from(x) : x
-      ).flat(1)
+    return fnName =>
+      (...args) => {
+        const processedArgs = Array.from(args, x =>
+          isArguments(x) ? Array.from(x) : x
+        ).flat(1)
 
-      const err = processedArgs
-        .map(typeErrorStringFromArgument(argMap))
-        .filter(isString)
+        const err = processedArgs
+          .map(typeErrorStringFromArgument(argMap))
+          .filter(isString)
 
-      if (!err.length) {
-        return
+        if (!err.length) {
+          return
+        }
+
+        const signature = Object.keys(typeMap).join(', ')
+        return (
+          `\n${namespace || ''}${fnName}(${signature}):\n` +
+          `${err.map(err => `| ${err}`).join('\n')}`
+        )
       }
-
-      const signature = Object.keys(typeMap).join(', ')
-      return (
-        `\n${namespace || ''}${fnName}(${signature}):\n` +
-        `${err.map(err => `| ${err}`).join('\n')}`
-      )
-    }
   }
 }
 

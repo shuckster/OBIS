@@ -10197,9 +10197,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }, [accountStatements, selectedStatementDate, selectedYear]);
     const selectedStatement = useStatementEntries(selectedStatementId);
     const {totalDebit, totalCredit, creditDebitDiff} = selectedStatement;
-    const selectAccount = useCallback((accountId2) => setAccountId(accountId2), [
-      setAccountId
-    ]);
+    const selectAccount = useCallback((accountId2) => setAccountId(accountId2), [setAccountId]);
     const latestStatement = useCallback(() => setSelectedStatementId(getNewest()), [setSelectedStatementId, getNewest]);
     const olderStatement = useCallback(() => setSelectedStatementId(getOlderThan(selectedStatementId)), [setSelectedStatementId, getOlderThan, selectedStatementId]);
     const newerStatement = useCallback(() => setSelectedStatementId(getNewerThan(selectedStatementId)), [setSelectedStatementId, getNewerThan, selectedStatementId]);
@@ -12003,13 +12001,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         const allBalances = fulfilled.map((x2) => x2.balances);
         const allEntries = fulfilled.map((x2) => x2.entries).flat();
         const statementUpdates = allBalances.map((balance) => {
-          const {
-            statementId,
-            startDate,
-            endDate,
-            startBalance,
-            endBalance
-          } = balance;
+          const {statementId, startDate, endDate, startBalance, endBalance} = balance;
           return {
             id: statementId,
             accountId: LEAVE_UNCHANGED,

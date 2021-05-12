@@ -141,9 +141,8 @@ const Years = ViewComponent(props => {
 
 const Statement = ViewComponent(props => {
   const { selectedStatementId } = props
-  const { entries, startBalance, endBalance } = useStatementEntries(
-    selectedStatementId
-  )
+  const { entries, startBalance, endBalance } =
+    useStatementEntries(selectedStatementId)
 
   let totalCredit = 0
   let totalDebit = 0
@@ -317,9 +316,10 @@ export const StatementsPicker = ViewComponent(() => {
   // Click handlers
   //
 
-  const selectAccount = useCallback(accountId => setAccountId(accountId), [
-    setAccountId
-  ])
+  const selectAccount = useCallback(
+    accountId => setAccountId(accountId),
+    [setAccountId]
+  )
 
   const latestStatement = useCallback(
     () => setSelectedStatementId(getNewest()),

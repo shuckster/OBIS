@@ -37,23 +37,22 @@ function configureEntriesInterceptor() {
   }
 
   function _requestEntries() {
-    const statementDetailsRequesters = generateStatementDetailsRequesterPayloads(
-      statementsListResponses
-    )
-      .flat()
-      .map(payload => () => {
-        const [prom, res, rej] = makePromise()
-        const resOff = on(hsbcActions.received.STATEMENT_DETAILS, res)
-        const rejOff = on(actions.error.ENTRIES, rej)
+    const statementDetailsRequesters =
+      generateStatementDetailsRequesterPayloads(statementsListResponses)
+        .flat()
+        .map(payload => () => {
+          const [prom, res, rej] = makePromise()
+          const resOff = on(hsbcActions.received.STATEMENT_DETAILS, res)
+          const rejOff = on(actions.error.ENTRIES, rej)
 
-        requestStatementDetail(payload)
-        updateProgressBar(statementDetailsRequesters.length, ++count)
+          requestStatementDetail(payload)
+          updateProgressBar(statementDetailsRequesters.length, ++count)
 
-        return prom.finally(() => {
-          resOff()
-          rejOff()
+          return prom.finally(() => {
+            resOff()
+            rejOff()
+          })
         })
-      })
 
     let count = 0
     updateProgressBar(statementDetailsRequesters.length, count)
@@ -81,13 +80,8 @@ function configureEntriesInterceptor() {
       const allEntries = fulfilled.map(x => x.entries).flat()
 
       const statementUpdates = allBalances.map(balance => {
-        const {
-          statementId,
-          startDate,
-          endDate,
-          startBalance,
-          endBalance
-        } = balance
+        const { statementId, startDate, endDate, startBalance, endBalance } =
+          balance
         return {
           id: statementId,
           accountId: LEAVE_UNCHANGED,

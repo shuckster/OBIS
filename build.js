@@ -247,7 +247,8 @@ function buildWebExtension() {
       const pluginRegistry = encoder.encode(pluginRegistryJs)
 
       // Generate manifest.json
-      const contentScriptTemplate = extensionManifestTemplate.content_scripts.pop()
+      const contentScriptTemplate =
+        extensionManifestTemplate.content_scripts.pop()
       const manifest = { ...extensionManifestTemplate }
       manifest.content_scripts = allPluginMeta.map(meta => ({
         ...contentScriptTemplate,

@@ -1729,13 +1729,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         const allBalances = fulfilled.map((x2) => x2.balances);
         const allEntries = fulfilled.map((x2) => x2.entries).flat();
         const statementUpdates = allBalances.map((balance) => {
-          const {
-            statementId,
-            startDate,
-            endDate,
-            startBalance,
-            endBalance
-          } = balance;
+          const {statementId, startDate, endDate, startBalance, endBalance} = balance;
           return {
             id: statementId,
             accountId: LEAVE_UNCHANGED,
