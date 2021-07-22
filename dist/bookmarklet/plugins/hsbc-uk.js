@@ -1523,7 +1523,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       note
     } = fullEntry;
     const dateTime = dateTimeString(date) || "UNKNOWN_DATE";
-    const transactionAmount = convertCentsToDecimal(debit + credit);
+    const transactionAmount = convertCentsToDecimal(-debit + credit);
     return dateTime + "_" + md5(dateTime + (index !== void 0 ? index : "") + (accountNumber || "") + (sortCode || "") + (type || "") + (payee || "") + (note || "") + transactionAmount);
   }
 

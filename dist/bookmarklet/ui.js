@@ -4639,7 +4639,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         ];
         statement.entries.forEach((entry) => {
           const { debit, credit, id, date, payee, note, type } = entry;
-          const transactionAmount = convertCentsToDecimal(debit + credit);
+          const transactionAmount = convertCentsToDecimal(-debit + credit);
           csv.push('"' + csvEscape(id) + '","' + csvEscape(simpleDate(date)) + '","' + csvEscape(statement.type) + '","' + csvEscape(statement.sortCode + " " + statement.accountNumber) + '","' + csvEscape(payee) + '","' + csvEscape(note || "") + '","' + csvEscape(type) + '","' + csvEscape(transactionAmount) + '"');
         });
         csv.push("");
@@ -4674,7 +4674,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         const csv = [];
         statement.entries.forEach((entry) => {
           const { debit, credit, id, date, payee, note, type } = entry;
-          const transactionAmount = convertCentsToDecimal(debit + credit);
+          const transactionAmount = convertCentsToDecimal(-debit + credit);
           csv.push('"' + csvEscape(UKDateTimeString(date)) + '","' + csvEscape(addSpaces(payee, 25) + addSpaces(note || "", 25) + type) + '","' + csvEscape(transactionAmount) + '"');
         });
         csv.push("");
@@ -4696,7 +4696,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           if (isNaN(float)) {
             return key === "balance" ? void 0 : 0;
           } else {
-            return float;
+            return key === "debit" ? -float : float;
           }
         }
         return replacementValue;
@@ -4730,7 +4730,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         const csv = [" Date,Type,Merchant/Description,Debit/Credit,Balance", ""];
         statement.entries.forEach((entry) => {
           const { debit, credit, date, type, payee, note } = entry;
-          const transactionAmountInCents = debit + credit;
+          const transactionAmountInCents = -debit + credit;
           runningBalanceInCents += transactionAmountInCents;
           csv.push('"' + csvEscape(UKDateTimeString(date)) + '","' + csvEscape(type) + '","' + csvEscape(payee + (note || "")) + '","' + csvEscape(convertCentsToDecimal(transactionAmountInCents)) + '","' + csvEscape(convertCentsToDecimal(runningBalanceInCents)) + '"');
         });
@@ -4770,7 +4770,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         ofx = "OFXHEADER:100\nDATA:OFXSGML\nVERSION:102\nSECURITY:NONE\nENCODING:USASCII\nCHARSET:1252\nCOMPRESSION:NONE\nOLDFILEUID:NONE\nNEWFILEUID:NONE\n\n<OFX>\n\n	<SIGNONMSGSRSV1>\n		<SONRS>\n			<STATUS>\n				<CODE>0</CODE>\n				<SEVERITY>INFO</SEVERITY>\n			</STATUS>\n			<DTSERVER>" + ofxEscape(dateTimeString(new Date())) + "</DTSERVER>\n			<LANGUAGE>" + ofxEscape(HSBC_OFX.LANGUAGE) + "</LANGUAGE>\n			<INTU.BID>" + ofxEscape(HSBC_OFX.INTU_BID) + "</INTU.BID>\n		</SONRS>\n	</SIGNONMSGSRSV1>\n\n	<BANKMSGSRSV1>\n\n		<STMTTRNRS>\n\n			<TRNUID>1</TRNUID>\n\n			<STATUS>\n				<CODE>0</CODE>\n				<SEVERITY>INFO</SEVERITY>\n			</STATUS>\n\n			<STMTRS>\n\n				<CURDEF>" + ofxEscape(HSBC_OFX.CURDEF) + "</CURDEF>\n\n				<BANKACCTFROM>\n					<BANKID>" + ofxEscape(statement.sortCode) + "</BANKID>\n					<ACCTID>" + ofxEscape(statement.sortCode + statement.accountNumber) + "</ACCTID>\n					<ACCTTYPE>CHECKING</ACCTTYPE>\n				</BANKACCTFROM>\n\n				<BANKTRANLIST>\n\n					<DTSTART>" + ofxEscape(dateTimeString(statement.balances[0].date)) + "</DTSTART>\n					<DTEND>" + ofxEscape(dateTimeString(statement.balances[latestBalanceIndex].date)) + "</DTEND>\n\n";
         statement.entries.forEach((entry) => {
           const { debit, credit, type, date, id, payee, note } = entry;
-          const transactionAmount = convertCentsToDecimal(debit + credit);
+          const transactionAmount = convertCentsToDecimal(-debit + credit);
           ofx += "					<STMTTRN>\n						<TRNTYPE>" + ofxEscape(filterTransactionType(type)) + "</TRNTYPE>\n						<DTPOSTED>" + ofxEscape(dateTimeString(date)) + "</DTPOSTED>\n						<TRNAMT>" + ofxEscape(transactionAmount) + "</TRNAMT>\n						<FITID>" + ofxEscape(id) + "</FITID>\n						<NAME>" + ofxEscape(payee) + "</NAME>\n" + (note ? "						<MEMO>" + ofxEscape(note) + "</MEMO>\n" : "") + "					</STMTTRN>\n\n";
         });
         const balanceCarriedForward = statement.balances[latestBalanceIndex].balance;
@@ -4793,8 +4793,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         qif = "!Account\nN" + qifEscape(statement.type) + "\nA" + qifEscape(statement.sortCode + "/" + statement.sortCode + statement.accountNumber) + "\n/" + qifEscape(USDateTimeString(statement.balances[latestBalanceIndex].date)) + "\n$" + qifEscape(convertCentsToDecimal(statement.balances[latestBalanceIndex].balance)) + "\nTBank\n^\n!Type:Bank\n";
         statement.entries.forEach((entry) => {
           const { debit, credit, id, date, payee, note, type } = entry;
-          const transactionAmount = convertCentsToDecimal(debit + credit);
-          qif += "D" + qifEscape(USDateTimeString(date)) + "\nN" + qifEscape(debit + credit < 0 ? "WITHD" : "DEP") + "\nT" + qifEscape(transactionAmount) + "\nC\nP" + qifEscape(payee) + "\n" + (note ? "M" + qifEscape(note) + "\n" : "") + "^\n";
+          const transactionAmount = convertCentsToDecimal(-debit + credit);
+          qif += "D" + qifEscape(USDateTimeString(date)) + "\nN" + qifEscape(-debit + credit < 0 ? "WITHD" : "DEP") + "\nT" + qifEscape(transactionAmount) + "\nC\nP" + qifEscape(payee) + "\n" + (note ? "M" + qifEscape(note) + "\n" : "") + "^\n";
         });
         qif += "\n";
         return qif;
@@ -4825,7 +4825,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       note
     } = fullEntry;
     const dateTime = dateTimeString(date) || "UNKNOWN_DATE";
-    const transactionAmount = convertCentsToDecimal(debit + credit);
+    const transactionAmount = convertCentsToDecimal(-debit + credit);
     return dateTime + "_" + md5(dateTime + (index !== void 0 ? index : "") + (accountNumber || "") + (sortCode || "") + (type || "") + (payee || "") + (note || "") + transactionAmount);
   }
 
@@ -5450,7 +5450,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       }),
       handleClick: handleToggleOpen,
       disabled: !opened && !closed
-    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril4.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril4.default)(Subheader, null, (0, import_match_iz.match)({ ready, opened })((0, import_match_iz.when)({ ready: true, opened: true })("Hit the button below to try and download everything automatically."), (0, import_match_iz.when)({ ready: true, opened: false })("Welcome! Click that button on the right to see if we can download some statements."), (0, import_match_iz.otherwise)("Loading...")), /* @__PURE__ */ (0, import_mithril4.default)("br", null), /* @__PURE__ */ (0, import_mithril4.default)("br", null), (0, import_match_iz.match)(fetcher.currentState())((0, import_match_iz.when)("getting-accounts")("Finding accounts..."), (0, import_match_iz.when)("getting-statements")("Getting statements..."), (0, import_match_iz.when)("getting-entries")("Getting transactions...")), /* @__PURE__ */ (0, import_mithril4.default)(ProgressBar, {
+    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril4.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril4.default)(Subheader, null, (0, import_match_iz.match)({ ready, opened })((0, import_match_iz.when)({ ready: true, opened: true })("Hit the button below to try and download everything automatically."), (0, import_match_iz.when)({ ready: true, opened: false })("Welcome! Click that button on the right to see if we can download some statements."), (0, import_match_iz.otherwise)("Loading...")), /* @__PURE__ */ (0, import_mithril4.default)("br", null), /* @__PURE__ */ (0, import_mithril4.default)("br", null), fetcher.inState({
+      "getting-accounts": "Finding accounts...",
+      "getting-statements": "Getting statements...",
+      "getting-entries": "Getting transactions..."
+    }), /* @__PURE__ */ (0, import_mithril4.default)(ProgressBar, {
       ...progressBar
     })), ready && /* @__PURE__ */ (0, import_mithril4.default)(VerticalAnimationContainer, {
       opened
