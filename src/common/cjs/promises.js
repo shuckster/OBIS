@@ -115,14 +115,14 @@ function runPromisesInSequence(initialState, ...promiseMakerFns) {
   const [promise, resolve, reject] = makePromise()
 
   promiseMakerFns
-    .reduce(promiseSequenceReducer(reject), Promise.resolve(initialState))
+    .reduce(PromiseSequenceReducer(reject), Promise.resolve(initialState))
     .then(resolve)
     .catch(reject)
 
   return promise
 }
 
-function promiseSequenceReducer(reject) {
+function PromiseSequenceReducer(reject) {
   return (lastPromise, createNextPromise) => {
     return lastPromise.then(createNextPromise, reject)
   }

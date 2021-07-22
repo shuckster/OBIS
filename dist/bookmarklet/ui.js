@@ -5,20 +5,20 @@
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
+  var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
   var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[Object.keys(cb)[0]])((mod = {exports: {}}).exports, mod), mod.exports;
+    return mod || (0, cb[Object.keys(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
   var __reExport = (target, module, desc) => {
     if (module && typeof module === "object" || typeof module === "function") {
       for (let key of __getOwnPropNames(module))
         if (!__hasOwnProp.call(target, key) && key !== "default")
-          __defProp(target, key, {get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable});
+          __defProp(target, key, { get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable });
     }
     return target;
   };
   var __toModule = (module) => {
-    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? {get: () => module.default, enumerable: true} : {value: module, enumerable: true})), module);
+    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
 
   // node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/render/vnode.js
@@ -26,7 +26,7 @@
     "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/render/vnode.js"(exports, module) {
       "use strict";
       function Vnode(tag, key, attrs, children, text, dom) {
-        return {tag, key, attrs, children, text, dom, domSize: void 0, state: void 0, events: void 0, instance: void 0};
+        return { tag, key, attrs, children, text, dom, domSize: void 0, state: void 0, events: void 0, instance: void 0 };
       }
       Vnode.normalize = function(node) {
         if (Array.isArray(node))
@@ -99,28 +99,28 @@
         return true;
       }
       function compileSelector(selector) {
-        var match, tag = "div", classes = [], attrs = {};
-        while (match = selectorParser.exec(selector)) {
-          var type = match[1], value = match[2];
+        var match2, tag = "div", classes = [], attrs = {};
+        while (match2 = selectorParser.exec(selector)) {
+          var type = match2[1], value = match2[2];
           if (type === "" && value !== "")
             tag = value;
           else if (type === "#")
             attrs.id = value;
           else if (type === ".")
             classes.push(value);
-          else if (match[3][0] === "[") {
-            var attrValue = match[6];
+          else if (match2[3][0] === "[") {
+            var attrValue = match2[6];
             if (attrValue)
               attrValue = attrValue.replace(/\\(["'])/g, "$1").replace(/\\\\/g, "\\");
-            if (match[4] === "class")
+            if (match2[4] === "class")
               classes.push(attrValue);
             else
-              attrs[match[4]] = attrValue === "" ? attrValue : attrValue || true;
+              attrs[match2[4]] = attrValue === "" ? attrValue : attrValue || true;
           }
         }
         if (classes.length > 0)
           attrs.className = classes.join(" ");
-        return selectorCache[selector] = {tag, attrs};
+        return selectorCache[selector] = { tag, attrs };
       }
       function execSelector(state, vnode) {
         var attrs = vnode.attrs;
@@ -226,7 +226,7 @@
         if (typeof executor !== "function")
           throw new TypeError("executor must be a function");
         var self2 = this, resolvers = [], rejectors = [], resolveCurrent = handler(resolvers, true), rejectCurrent = handler(rejectors, false);
-        var instance = self2._instance = {resolvers, rejectors};
+        var instance = self2._instance = { resolvers, rejectors };
         var callAsync = typeof setImmediate === "function" ? setImmediate : setTimeout;
         function handler(list, shouldAbsorb) {
           return function execute(value) {
@@ -448,10 +448,10 @@
           vnode.dom = $doc.createTextNode(vnode.children);
           insertNode(parent, vnode.dom, nextSibling);
         }
-        var possibleParents = {caption: "table", thead: "table", tbody: "table", tfoot: "table", tr: "tbody", th: "tr", td: "tr", colgroup: "table", col: "colgroup"};
+        var possibleParents = { caption: "table", thead: "table", tbody: "table", tfoot: "table", tr: "tbody", th: "tr", td: "tr", colgroup: "table", col: "colgroup" };
         function createHTML(parent, vnode, ns, nextSibling) {
-          var match = vnode.children.match(/^\s*?<(\w+)/im) || [];
-          var temp = $doc.createElement(possibleParents[match[1]] || "div");
+          var match2 = vnode.children.match(/^\s*?<(\w+)/im) || [];
+          var temp = $doc.createElement(possibleParents[match2[1]] || "div");
           if (ns === "http://www.w3.org/2000/svg") {
             temp.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg">' + vnode.children + "</svg>";
             temp = temp.firstChild;
@@ -484,7 +484,7 @@
           var attrs = vnode.attrs;
           var is = attrs && attrs.is;
           ns = getNameSpace(vnode) || ns;
-          var element = ns ? is ? $doc.createElementNS(ns, tag, {is}) : $doc.createElementNS(ns, tag) : is ? $doc.createElement(tag, {is}) : $doc.createElement(tag);
+          var element = ns ? is ? $doc.createElementNS(ns, tag, { is }) : $doc.createElementNS(ns, tag) : is ? $doc.createElement(tag, { is }) : $doc.createElement(tag);
           vnode.dom = element;
           if (attrs != null) {
             setAttrs(vnode, attrs, ns);
@@ -1303,7 +1303,7 @@
             render(root, Vnode(component), redraw);
           }
         }
-        return {mount, redraw};
+        return { mount, redraw };
       };
     }
   });
@@ -1675,7 +1675,7 @@
         var regexp = new RegExp("^" + templateData.path.replace(/:([^\/.-]+)(\.{3}|\.(?!\.)|-)?|[\\^$*+.()|\[\]{}]/g, function(m7, key, extra) {
           if (key == null)
             return "\\" + m7;
-          keys.push({k: key, r: extra === "..."});
+          keys.push({ k: key, r: extra === "..." });
           if (extra === "...")
             return "(.*)";
           if (extra === ".")
@@ -1777,7 +1777,7 @@
             function fail() {
               if (path === defaultRoute)
                 throw new Error("Could not resolve default route " + defaultRoute);
-              setPath(defaultRoute, null, {replace: true});
+              setPath(defaultRoute, null, { replace: true });
             }
             loop(0);
             function loop(i2) {
@@ -2008,7 +2008,7 @@
       }
       function runFnPeriodically(fn2, ms = 16) {
         const cleanup = () => clearInterval(timerId);
-        const timerId = setInterval(fn2, ms, {cleanup});
+        const timerId = setInterval(fn2, ms, { cleanup });
         return cleanup;
       }
       function makeValueChangeDetector({
@@ -2040,8 +2040,8 @@
         });
         return performCheck;
       }
-      function runFnWhenValueChanges({fn: fn2, getValueFn}) {
-        const performCheck = makeValueChangeDetector({getValueFn, onChange: fn2});
+      function runFnWhenValueChanges({ fn: fn2, getValueFn }) {
+        const performCheck = makeValueChangeDetector({ getValueFn, onChange: fn2 });
         const checkPeriodInMs = 16;
         const cleanup = runFnPeriodically(performCheck, checkPeriodInMs);
         return cleanup;
@@ -2061,7 +2061,7 @@
         poolPromises,
         runPromisesInSequence
       };
-      var {seconds: seconds3, runOnce, makeDebouncer} = require_timers();
+      var { seconds: seconds3, runOnce, makeDebouncer } = require_timers();
       function makeUnzipReducer() {
         return [
           (acc, [first, second]) => [
@@ -2092,7 +2092,7 @@
         return promise;
       }
       function makeIdleDetectorWithTimeout(initBouncer = () => {
-      }, {withinMs = 500, timeoutInMs = seconds3(5)}) {
+      }, { withinMs = 500, timeoutInMs = seconds3(5) }) {
         const [promise, resolve, reject] = makePromise2();
         const [resolveSoon, dontResolve] = makeDebouncer(resolve, withinMs);
         const [rejectLater, dontReject] = makeDebouncer(reject, timeoutInMs);
@@ -2113,7 +2113,7 @@
         return Promise.allSettled(pooledPromises);
       }
       function makePoolAwarePromise(context, promiseMakerFn) {
-        const {allowedToStartNext, bumpRunCount, unbump} = context;
+        const { allowedToStartNext, bumpRunCount, unbump } = context;
         const [promise, resolve, reject] = makePromise2();
         const startPromise = () => {
           bumpRunCount();
@@ -2131,10 +2131,10 @@
       }
       function runPromisesInSequence(initialState, ...promiseMakerFns) {
         const [promise, resolve, reject] = makePromise2();
-        promiseMakerFns.reduce(promiseSequenceReducer(reject), Promise.resolve(initialState)).then(resolve).catch(reject);
+        promiseMakerFns.reduce(PromiseSequenceReducer(reject), Promise.resolve(initialState)).then(resolve).catch(reject);
         return promise;
       }
-      function promiseSequenceReducer(reject) {
+      function PromiseSequenceReducer(reject) {
         return (lastPromise, createNextPromise) => {
           return lastPromise.then(createNextPromise, reject);
         };
@@ -2178,12 +2178,12 @@
     }
   });
 
-  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.min.js
+  // node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.min.js
   var require_statebot_min = __commonJS({
-    "node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.min.js"(exports) {
+    "node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.min.js"(exports) {
       "use strict";
       function t2(t3) {
-        return {all: t3 = t3 || new Map(), on: function(n3, e2) {
+        return { all: t3 = t3 || new Map(), on: function(n3, e2) {
           var r3 = t3.get(n3);
           r3 && r3.push(e2) || t3.set(n3, [e2]);
         }, off: function(n3, e2) {
@@ -2195,7 +2195,7 @@
           }), (t3.get("*") || []).slice().map(function(t4) {
             t4(n3, e2);
           });
-        }};
+        } };
       }
       function n2(t3) {
         return Array.isArray(t3);
@@ -2215,11 +2215,11 @@
       function s2(t3) {
         return !!r2(t3) || !!n2(t3) && t3.every(r2);
       }
-      Object.defineProperty(exports, "__esModule", {value: true});
+      Object.defineProperty(exports, "__esModule", { value: true });
       function c2(t3) {
         return function(n3, o3, ...i3) {
-          const s3 = Object.entries(o3).map(([t4, n4]) => ({argName: t4, argType: n4})), c3 = i3.map((...t4) => ((t5, n4, o4) => {
-            const {argName: i4, argType: s4} = t5[o4];
+          const s3 = Object.entries(o3).map(([t4, n4]) => ({ argName: t4, argType: n4 })), c3 = i3.map((...t4) => ((t5, n4, o4) => {
+            const { argName: i4, argType: s4 } = t5[o4];
             if (n4 === void 0)
               return `Argument undefined: "${i4}"`;
             const c4 = Array.isArray(s4) ? s4 : [s4], a4 = c4.map((t6) => e(t6) ? ((t7, n5, e2) => n5(e2) ? void 0 : `${n5.name}(${t7}) did not return true`)(i4, t6, n4) : ((t7, n5, e2) => typeof e2 === n5 ? void 0 : `Argument "${t7}" should be a ${n5}`)(i4, t6, n4)).filter(r2);
@@ -2236,13 +2236,13 @@ ${c3.map((t4) => `| ${t4}`).join("\n")}`;
       }
       function a2(t3) {
         const n3 = t3.addListener ? (...n4) => t3.addListener(...n4) : (...n4) => t3.on(...n4), e2 = t3.removeListener ? (...n4) => t3.removeListener(...n4) : (...n4) => t3.off(...n4), r3 = new Map();
-        return {emit: (n4, ...e3) => t3.emit(n4, e3), on: function(t4, e3) {
+        return { emit: (n4, ...e3) => t3.emit(n4, e3), on: function(t4, e3) {
           let o3 = r3.get(e3);
-          o3 || (o3 = {handleEvent: (t5 = []) => e3(...[t5].flat()), refCount: 0}, r3.set(e3, o3)), o3.refCount += 1, n3(t4, o3.handleEvent);
+          o3 || (o3 = { handleEvent: (t5 = []) => e3(...[t5].flat()), refCount: 0 }, r3.set(e3, o3)), o3.refCount += 1, n3(t4, o3.handleEvent);
         }, off: function(t4, n4) {
           let o3 = r3.get(n4);
           o3 && (e2(t4, o3.handleEvent), o3.refCount -= 1, o3.refCount === 0 && r3.delete(n4));
-        }};
+        } };
       }
       function u2(t3) {
         return t3.reduce((t4, n3) => t4.indexOf(n3) === -1 ? [...t4, n3] : t4, []);
@@ -2256,13 +2256,20 @@ ${c3.map((t4) => `| ${t4}`).join("\n")}`;
         }(t3, ...n3);
       }
       function l2(t3) {
-        let n3, e2 = false;
-        return {fn: (...r3) => (e2 || (n3 = t3(...r3)), n3), revoke: () => {
-          e2 = true;
-        }};
+        const { revoke: n3, fn: e2 } = p2(t3);
+        let r3;
+        return function(...t4) {
+          return r3 = e2(...t4), n3(), r3;
+        };
       }
-      function p2(t3, n3, e2, ...r3) {
-        const o3 = [...r3].flat().reduce((t4, n4) => ({...t4, [n4]: 0}), {});
+      function p2(t3) {
+        let n3, e2 = false;
+        return { fn: (...r3) => (e2 || (n3 = t3(...r3)), n3), revoke: () => {
+          e2 = true;
+        } };
+      }
+      function h2(t3, n3, e2, ...r3) {
+        const o3 = [...r3].flat().reduce((t4, n4) => ({ ...t4, [n4]: 0 }), {});
         function i3(t4) {
           const n4 = s3(t4) - 1;
           o3[t4] = Math.max(n4, 0);
@@ -2270,17 +2277,17 @@ ${c3.map((t4) => `| ${t4}`).join("\n")}`;
         function s3(t4) {
           return o3[t4] || 0;
         }
-        return {increase: function(t4) {
+        return { increase: function(t4) {
           return o3[t4] = s3(t4) + 1, () => {
             i3(t4);
           };
         }, decrease: i3, countOf: s3, toValue: function() {
-          return {description: `Statebot[${t3}]: ${e2}:`, table: Object.keys(o3).sort().map((t4) => [t4, o3[t4]]).map(([t4, e3]) => ({[n3]: t4, refs: e3 || "None"}))};
+          return { description: `Statebot[${t3}]: ${e2}:`, table: Object.keys(o3).sort().map((t4) => [t4, o3[t4]]).map(([t4, e3]) => ({ [n3]: t4, refs: e3 || "None" })) };
         }, refs: function() {
-          return {...o3};
-        }};
+          return { ...o3 };
+        } };
       }
-      function m7(t3, n3) {
+      function d2(t3, n3) {
         function e2() {
           return t3 >= 1;
         }
@@ -2290,9 +2297,9 @@ ${c3.map((t4) => `| ${t4}`).join("\n")}`;
         function i3() {
           return t3 >= 3;
         }
-        r2(t3) && (t3 = {info: 3, log: 2, warn: 1, none: 0}[t3] || 3);
-        const {info: s3, table: c3, log: a3, warn: u3, error: f3} = n3 || console;
-        return {canWarn: e2, canLog: o3, canInfo: i3, info: (...t4) => {
+        r2(t3) && (t3 = { info: 3, log: 2, warn: 1, none: 0 }[t3] || 3);
+        const { info: s3, table: c3, log: a3, warn: u3, error: f3 } = n3 || console;
+        return { canWarn: e2, canLog: o3, canInfo: i3, info: (...t4) => {
           i3() && s3(...t4);
         }, table: (...t4) => {
           o3() && c3(...t4);
@@ -2302,72 +2309,72 @@ ${c3.map((t4) => `| ${t4}`).join("\n")}`;
           e2() && u3(...t4);
         }, error: (...t4) => {
           f3(...t4);
-        }};
+        } };
       }
-      var h2 = /[\r\n]/;
-      var d2 = "|";
-      var g2 = "->";
-      var $ = [d2, g2].map((t3) => t3.replace("|", "\\|")).join("|");
-      var w2 = new RegExp(`(${$})$`);
-      var E2 = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
-      var v2 = /(\/\/[^\n\r]*)/;
-      var T = c2("statebot.");
-      function y2(t3) {
-        const n3 = T("decomposeRoute", {templateLiteral: s2}, t3);
-        if (n3)
-          throw TypeError(n3);
-        return O2(S2(t3)).flat(2);
-      }
+      var m7 = /[\r\n]/;
+      var g2 = "|";
+      var $ = "->";
+      var w2 = [g2, $].map((t3) => t3.replace("|", "\\|")).join("|");
+      var E2 = new RegExp(`(${w2})$`);
+      var v2 = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
+      var T = /(\/\/[^\n\r]*)/;
+      var y2 = c2("statebot.");
       function b2(t3) {
-        const n3 = T("decomposeChart", {chart: s2}, t3);
+        const n3 = y2("decomposeRoute", { templateLiteral: s2 }, t3);
         if (n3)
           throw TypeError(n3);
-        const e2 = O2(S2(t3)), r3 = e2.map(A2).flat(1).map(j2).flat(1);
-        let o3 = false;
-        const i3 = u2(r3.map((t4) => (t4.includes("") && (o3 = true), t4.join(g2)))), c3 = u2(e2.flat(3));
-        return {transitions: i3.map((t4) => t4.split(g2)), routes: i3, states: o3 ? c3 : c3.filter(Boolean)};
+        return A2(O2(t3)).flat(2);
       }
       function S2(t3) {
+        const n3 = y2("decomposeChart", { chart: s2 }, t3);
+        if (n3)
+          throw TypeError(n3);
+        const e2 = A2(O2(t3)), r3 = e2.flatMap(j2).flatMap(x2);
+        let o3 = false;
+        const i3 = u2(r3.map((t4) => (t4.includes("") && (o3 = true), t4.join($)))), c3 = u2(e2.flat(3));
+        return { transitions: i3.map((t4) => t4.split($)), routes: i3, states: o3 ? c3 : c3.filter(Boolean) };
+      }
+      function O2(t3) {
         const n3 = function(t4) {
-          return [t4].flat().reduce((t5, n4) => [...t5, ...n4.split(h2)], []);
+          return [t4].flat().reduce((t5, n4) => [...t5, ...n4.split(m7)], []);
         }(t3), e2 = [];
         let r3 = false;
         const o3 = n3.reduce((t4, n4) => {
-          const o4 = n4.replace(v2, "").replace(E2, "");
-          return o4 ? (r3 = w2.test(o4), r3 ? t4 + o4 : (e2.push(t4 + o4), "")) : t4;
+          const o4 = n4.replace(T, "").replace(v2, "");
+          return o4 ? (r3 = E2.test(o4), r3 ? t4 + o4 : (e2.push(t4 + o4), "")) : t4;
         }, "");
         return r3 || o3 ? [...e2, o3] : [...e2];
       }
-      function O2(t3) {
-        return t3.map((t4) => t4.split(g2).map((t5) => t5.split(d2)));
-      }
       function A2(t3) {
+        return t3.map((t4) => t4.split($).map((t5) => t5.split(g2)));
+      }
+      function j2(t3) {
         const n3 = [];
         return t3.reduce((t4, e2) => (t4 === false || n3.push([t4, [...e2]]), [...e2]), false), n3;
       }
-      function j2([t3, n3]) {
+      function x2([t3, n3]) {
         return t3.reduce((t4, e2) => [...t4, ...n3.map((t5) => [e2, t5])], []);
       }
-      var x2 = "onExiting";
-      var I2 = "onEntering";
-      var L2 = "onExited";
-      var N = "onEntered";
-      var C = "onSwitching";
-      var P2 = "onSwitched";
-      var _2 = {[C]: "(ANY)state:changing", [P2]: "(ANY)state:changed"};
+      var I2 = "onExiting";
+      var L2 = "onEntering";
+      var N = "onExited";
+      var C = "onEntered";
+      var P2 = "onSwitching";
+      var M2 = "onSwitched";
+      var _2 = { [P2]: "(ANY)state:changing", [M2]: "(ANY)state:changed" };
       function k2(t3, n3) {
         const e2 = [], r3 = [];
-        return {configs: t3.reduce((t4, o3) => {
-          const {routeChart: i3, action: s3} = o3, {states: c3, routes: a3, transitions: u3} = b2(i3);
-          return n3() && (e2.push(...c3), r3.push(...a3)), [...t4, ...u3.map(([t5, n4]) => ({fromState: t5, toState: n4, action: s3}))];
-        }, []), states: e2, routes: r3};
+        return { configs: t3.reduce((t4, o3) => {
+          const { routeChart: i3, action: s3 } = o3, { states: c3, routes: a3, transitions: u3 } = S2(i3);
+          return n3() && (e2.push(...c3), r3.push(...a3)), [...t4, ...u3.map(([t5, n4]) => ({ fromState: t5, toState: n4, action: s3 }))];
+        }, []), states: e2, routes: r3 };
       }
       function R2(t3) {
         return i2(t3) && typeof t3.__STATEBOT__ == "number";
       }
-      var M2 = c2("statebot.");
-      var D2 = 0;
-      function F2() {
+      var D2 = c2("statebot.");
+      var F2 = 0;
+      function Y() {
         const t3 = Date.now();
         function n3(t4, n4) {
           return t4.toFixed(n4).replace(/\.0+$/, "");
@@ -2384,207 +2391,217 @@ ${c3.map((t4) => `| ${t4}`).join("\n")}`;
         if (!i2(u3))
           throw new TypeError(`
 ${f3}: Please specify options for this machine`);
-        const {chart: l3, logLevel: h3 = 3, historyLimit: d3 = 2} = u3 || {}, $2 = u3.events === void 0 ? a2(t2()) : o2(w3 = u3.events) && e(w3.emit) && (e(w3.addListener) || e(w3.on)) && (e(w3.removeListener) || e(w3.off)) && a2(u3.events);
-        var w3;
-        if (!$2)
+        const { chart: p3, logLevel: m8 = 3, historyLimit: g3 = 2 } = u3 || {}, w3 = u3.events === void 0 ? a2(t2()) : o2(E3 = u3.events) && e(E3.emit) && (e(E3.addListener) || e(E3.on)) && (e(E3.removeListener) || e(E3.off)) && a2(u3.events);
+        var E3;
+        if (!w3)
           throw new TypeError(`
 ${f3}: Invalid event-emitter specified in options`);
-        const {states: E3 = [], routes: v3 = []} = l3 ? b2(l3) : u3, {startIn: T2 = E3[0]} = u3;
-        if (!E3.includes(T2))
-          throw new Error(`${f3}: Starting-state not in chart: "${T2}"`);
-        const y3 = c2(`${f3}#`), S3 = m7(h3, console), {canWarn: O3} = S3, A3 = [T2], j3 = Math.max(d3, 2);
+        const { states: v3 = [], routes: T2 = [] } = p3 ? S2(p3) : u3, { startIn: y3 = v3[0] } = u3;
+        if (!v3.includes(y3))
+          throw new Error(`${f3}: Starting-state not in chart: "${y3}"`);
+        const b3 = c2(`${f3}#`), O3 = d2(m8, console), { canWarn: A3 } = O3, j3 = [y3], x3 = Math.max(g3, 2);
         let R3 = 0;
-        const {pause: M3, resume: D3, paused: F3, Pausable: Y} = function(t3, n3) {
+        const { pause: D3, resume: F3, paused: Y2, Pausable: B2 } = function(t3, n3) {
           n3 = n3 || function() {
           };
           let e2 = !!t3;
-          return {Pausable: function(t4) {
+          return { Pausable: function(t4) {
             return (...r3) => e2 ? (n3(), false) : t4(...r3);
           }, paused: () => e2, pause: () => {
             e2 = true;
           }, resume: () => {
             e2 = false;
-          }};
-        }(false, () => S3.warn(`${f3}: Ignoring callback, paused`)), B2 = a2(t2()), G2 = Y(B2.emit);
-        function H2(t3, n3) {
-          return B2.on(t3, n3), () => B2.off(t3, n3);
+          } };
+        }(false, () => O3.warn(`${f3}: Ignoring callback, paused`)), G2 = a2(t2()), H2 = B2(G2.emit);
+        function U2(t3, n3) {
+          return G2.on(t3, n3), () => G2.off(t3, n3);
         }
-        const U2 = p2(s3, "states", "Listening for the following state-changes", [...E3]), V2 = p2(s3, "transitions", "Listening for the following transitions", [...v3]), W2 = p2(s3, "events", "Listening for the following events");
-        function z2(t3, o3) {
-          const c3 = e(t3) ? t3({enter: tt, emit: Z2, Enter: it, Emit: ot}) : i2(t3) ? t3 : null;
+        const V2 = h2(s3, "states", "Listening for the following state-changes", [...v3]), W2 = h2(s3, "transitions", "Listening for the following transitions", [...T2]), z2 = h2(s3, "events", "Listening for the following events");
+        function J(t3, o3) {
+          const c3 = e(t3) ? t3({ enter: nt, emit: tt, Enter: st, Emit: it }) : i2(t3) ? t3 : null;
           if (!i2(c3))
             throw new TypeError(`Statebot[${s3}]#${o3}(): Expected an object, or a function that returns an object`);
-          const a3 = [], u4 = [], {transitionsForEvents: f4, transitionsOnly: l4} = function(t4) {
+          const a3 = [], u4 = [], { transitionsForEvents: f4, transitionsOnly: p4 } = function(t4) {
             const o4 = {}, s4 = [];
             return Object.entries(t4).map(([t5, c4]) => {
               if (e(c4))
-                return void s4.push({routeChart: t5, action: c4});
+                return void s4.push({ routeChart: t5, action: c4 });
               if (!i2(c4))
                 return;
-              const {on: a4, then: u5} = c4;
+              const { on: a4, then: u5 } = c4;
               if (r2(a4) || n2(a4)) {
                 [a4].flat().map((n3) => {
-                  o4[n3] = o4[n3] || [], o4[n3].push({routeChart: t5, action: u5});
+                  o4[n3] = o4[n3] || [], o4[n3].push({ routeChart: t5, action: u5 });
                 });
               } else
-                e(u5) && s4.push({routeChart: t5, action: c4});
-            }), {transitionsForEvents: o4, transitionsOnly: s4};
-          }(c3), p3 = Object.entries(f4).reduce(function(t4, [n3, e2]) {
-            const {states: r3, routes: o4, configs: i3} = k2(e2, O3);
-            O3() && (a3.push(...r3), u4.push(...o4));
-            return {...t4, [n3]: i3};
-          }, {}), m8 = k2(l4, O3), h4 = Object.entries(p3).map(function([t4, n3]) {
-            return [W2.increase(t4), nt(t4, (...e2) => {
-              n3.map((t5) => ({...t5, args: e2})).some(d4) || st(`Event not handled: "${t4}"`);
+                e(u5) && s4.push({ routeChart: t5, action: c4 });
+            }), { transitionsForEvents: o4, transitionsOnly: s4 };
+          }(c3), h3 = Object.entries(f4).reduce(function(t4, [n3, e2]) {
+            const { states: r3, routes: o4, configs: i3 } = k2(e2, A3);
+            A3() && (a3.push(...r3), u4.push(...o4));
+            return { ...t4, [n3]: i3 };
+          }, {}), d3 = k2(p4, A3), m9 = Object.entries(h3).map(function([t4, n3]) {
+            return [z2.increase(t4), et(t4, (...e2) => {
+              n3.map((t5) => ({ ...t5, args: e2 })).some(g4) || ct(`Event not handled: "${t4}"`);
             })];
-          }).concat(m8.configs.map(function(t4) {
-            const {fromState: n3, toState: e2, action: r3} = t4, o4 = `${n3}->${e2}`;
-            return [V2.increase(o4), H2(o4, r3)];
+          }).concat(d3.configs.map(function(t4) {
+            const { fromState: n3, toState: e2, action: r3 } = t4, o4 = `${n3}->${e2}`;
+            return [W2.increase(o4), U2(o4, (i3 = e2, s4 = r3, (...t5) => $2(i3, s4, ...t5)))];
+            var i3, s4;
           })).flat();
-          if (O3()) {
-            a3.push(...m8.states), u4.push(...m8.routes);
-            const t4 = a3.filter((t5) => !E3.includes(t5)), n3 = u4.filter((t5) => !v3.includes(t5));
-            t4.length && S3.warn(`Statebot[${s3}]#${o3}(): Invalid states specified:
-` + t4.map((t5) => `  > "${t5}"`).join("\n")), n3.length && S3.warn(`Statebot[${s3}]#${o3}(): Invalid transitions specified:
+          if (A3()) {
+            a3.push(...d3.states), u4.push(...d3.routes);
+            const t4 = a3.filter((t5) => !v3.includes(t5)), n3 = u4.filter((t5) => !T2.includes(t5));
+            t4.length && O3.warn(`Statebot[${s3}]#${o3}(): Invalid states specified:
+` + t4.map((t5) => `  > "${t5}"`).join("\n")), n3.length && O3.warn(`Statebot[${s3}]#${o3}(): Invalid transitions specified:
 ` + n3.map((t5) => `  > "${t5}"`).join("\n"));
           }
-          return () => h4.map((t4) => t4());
-          function d4({fromState: t4, toState: n3, action: r3, args: o4}) {
-            return X2(t4, () => (tt(n3, ...o4), e(r3) && r3(...o4), true));
+          return () => m9.map((t4) => t4());
+          function g4({ fromState: t4, toState: n3, action: r3, args: o4 }) {
+            return Z2(t4, () => (nt(n3, ...o4), e(r3) && $2(n3, r3, ...o4), true));
+          }
+          function $2(t4, n3, ...r3) {
+            const o4 = n3(...r3);
+            if (e(o4)) {
+              const n4 = l2(ot[I2](t4, (t5) => {
+                n4(), o4(t5);
+              }));
+              m9.push(n4);
+            }
           }
         }
-        function J() {
-          return A3[A3.length - 2];
-        }
         function K() {
-          return A3[A3.length - 1];
+          return j3[j3.length - 2];
         }
-        function q2(t3) {
-          const n3 = t3 !== void 0 ? t3 : K(), e2 = y3("statesAvailableFromHere", {state: r2}, n3);
+        function q2() {
+          return j3[j3.length - 1];
+        }
+        function Q2(t3) {
+          const n3 = t3 !== void 0 ? t3 : q2(), e2 = b3("statesAvailableFromHere", { state: r2 }, n3);
           if (e2)
             throw new TypeError(e2);
-          return v3.reduce((t4, e3) => {
-            const [r3, o3] = e3.split(g2).map((t5) => t5.trim());
+          return T2.reduce((t4, e3) => {
+            const [r3, o3] = e3.split($).map((t5) => t5.trim());
             return r3 === n3 ? [...t4, o3] : t4;
           }, []);
         }
-        function Q2(t3, n3, ...r3) {
-          const o3 = K() === t3;
+        function X2(t3, n3, ...r3) {
+          const o3 = q2() === t3;
           return n3 === void 0 ? o3 : o3 ? e(n3) ? n3(...r3) : n3 : null;
         }
-        function X2(...t3) {
-          const n3 = y3("inState", {state: [r2, i2]}, t3[0]);
+        function Z2(...t3) {
+          const n3 = b3("inState", { state: [r2, i2] }, t3[0]);
           if (n3)
             throw new TypeError(n3);
           return i2(t3[0]) ? function(t4, ...n4) {
-            const e2 = Object.entries(t4).find(([t5]) => Q2(t5));
-            return e2 ? Q2(...e2.concat(n4)) : null;
-          }(...t3) : Q2(...t3);
+            const e2 = Object.entries(t4).find(([t5]) => X2(t5));
+            return e2 ? X2(...e2.concat(n4)) : null;
+          }(...t3) : X2(...t3);
         }
-        const Z2 = Y((t3, ...n3) => {
-          const e2 = y3("emit", {eventName: r2}, t3);
+        const tt = B2((t3, ...n3) => {
+          const e2 = b3("emit", { eventName: r2 }, t3);
           if (e2)
             throw new TypeError(e2);
-          return $2.emit(t3, ...n3);
-        }), tt = Y((t3, ...n3) => {
-          const e2 = y3("enter", {state: r2}, t3);
+          return w3.emit(t3, ...n3);
+        }), nt = B2((t3, ...n3) => {
+          const e2 = b3("enter", { state: r2 }, t3);
           if (e2)
             throw new TypeError(e2);
-          const o3 = K(), i3 = t3;
+          const o3 = q2(), i3 = t3;
           if (i3 === o3)
-            return st(`Already in state: "${i3}"`), false;
-          if (!E3.includes(i3))
-            return st(`Invalid state "${i3}", not switching`), false;
+            return ct(`Already in state: "${i3}"`), false;
+          if (!v3.includes(i3))
+            return ct(`Invalid state "${i3}", not switching`), false;
           const s4 = `${o3}->${i3}`;
-          return v3.includes(s4) ? (S3.info(`${f3}: tId<${++R3}>: ${s4}`), A3.push(i3), A3.length > j3 && A3.shift(), G2(_2[C], i3, o3, ...n3), G2(s4, ...n3), G2(_2[P2], i3, o3, ...n3), true) : (st(`Invalid transition "${s4}", not switching`), false);
+          return T2.includes(s4) ? (O3.info(`${f3}: tId<${++R3}>: ${s4}`), j3.push(i3), j3.length > x3 && j3.shift(), H2(_2[P2], i3, o3, ...n3), H2(s4, ...n3), H2(_2[M2], i3, o3, ...n3), true) : (ct(`Invalid transition "${s4}", not switching`), false);
         });
-        function nt(t3, n3) {
-          const o3 = y3("onEvent", {eventName: r2, cb: e}, t3, n3);
+        function et(t3, n3) {
+          const o3 = b3("onEvent", { eventName: r2, cb: e }, t3, n3);
           if (o3)
             throw new TypeError(o3);
-          return $2.on(t3, n3), () => $2.off(t3, n3);
+          return w3.on(t3, n3), () => w3.off(t3, n3);
         }
-        const et = Object.keys(_2).reduce((t3, n3) => ({...t3, [n3]: (t4) => {
-          const r3 = y3(n3, {cb: e}, t4);
+        const rt = Object.keys(_2).reduce((t3, n3) => ({ ...t3, [n3]: (t4) => {
+          const r3 = b3(n3, { cb: e }, t4);
           if (r3)
             throw new TypeError(r3);
-          const o3 = U2.increase(_2[n3]), i3 = H2(_2[n3], t4);
+          const o3 = V2.increase(_2[n3]), i3 = U2(_2[n3], t4);
           return () => {
             i3(), o3();
           };
-        }}), {}), rt = [[x2, C], [I2, C], [L2, P2], [N, P2]].reduce((t3, n3) => {
+        } }), {}), ot = [[I2, P2], [L2, P2], [N, M2], [C, M2]].reduce((t3, n3) => {
           const [o3, i3] = n3, s4 = o3.slice(2), c3 = s4.toLowerCase();
-          return {...t3, [o3]: (t4, n4) => {
-            const a3 = y3(o3, {state: r2, cb: e}, t4, n4);
+          return { ...t3, [o3]: (t4, n4) => {
+            const a3 = b3(o3, { state: r2, cb: e }, t4, n4);
             if (a3)
               throw new TypeError(a3);
-            const u4 = [U2.increase(t4), U2.increase(`${t4}:${c3}`)], f4 = et[i3]((e2, r3, ...o4) => {
+            const u4 = [V2.increase(t4), V2.increase(`${t4}:${c3}`)], f4 = rt[i3]((e2, r3, ...o4) => {
               s4.indexOf("Exit") === 0 ? t4 === r3 && n4(e2, ...o4) : t4 === e2 && n4(r3, ...o4);
             });
             return () => {
               f4(), u4.map((t5) => t5());
             };
-          }};
+          } };
         }, {});
-        function ot(t3, ...n3) {
-          const e2 = y3("Emit", {eventName: r2}, t3);
-          if (e2)
-            throw new TypeError(e2);
-          return (...e3) => Z2(t3, ...n3, ...e3);
-        }
         function it(t3, ...n3) {
-          const e2 = y3("Enter", {state: r2}, t3);
+          const e2 = b3("Emit", { eventName: r2 }, t3);
           if (e2)
             throw new TypeError(e2);
           return (...e3) => tt(t3, ...n3, ...e3);
         }
-        function st(t3) {
-          const n3 = J(), e2 = K(), r3 = `${n3 === void 0 ? "[undefined]" : n3}->${e2}`, o3 = q2();
-          o3.length ? S3.info(`${f3}: ${t3}
+        function st(t3, ...n3) {
+          const e2 = b3("Enter", { state: r2 }, t3);
+          if (e2)
+            throw new TypeError(e2);
+          return (...e3) => nt(t3, ...n3, ...e3);
+        }
+        function ct(t3) {
+          const n3 = K(), e2 = q2(), r3 = `${n3 === void 0 ? "[undefined]" : n3}->${e2}`, o3 = Q2();
+          o3.length ? O3.info(`${f3}: ${t3}
   > Previous transition: "${r3}"
-  > From "${e2}", valid states are: [${o3.map((t4) => `"${t4}"`).join(", ")}]`) : S3.info(`${f3}: ${t3}
+  > From "${e2}", valid states are: [${o3.map((t4) => `"${t4}"`).join(", ")}]`) : O3.info(`${f3}: ${t3}
   > Previous transition: "${r3}"
   > There are no states available from "${e2}"`);
         }
-        function ct(t3) {
-          const {description: n3, table: e2} = t3.toValue();
-          S3.log(n3), e2.length ? S3.table(e2) : S3.log("  > No information");
+        function at(t3) {
+          const { description: n3, table: e2 } = t3.toValue();
+          O3.log(n3), e2.length ? O3.table(e2) : O3.log("  > No information");
         }
-        return {__STATEBOT__: 1, canTransitionTo: function(...t3) {
-          const n3 = t3.flat(), e2 = y3("canTransitionTo", {state: r2}, n3[0]);
+        return { __STATEBOT__: 1, canTransitionTo: function(...t3) {
+          const n3 = t3.flat(), e2 = b3("canTransitionTo", { state: r2 }, n3[0]);
           if (e2)
             throw new TypeError(e2);
           if (!n3.length)
             return false;
-          const o3 = q2();
+          const o3 = Q2();
           return n3.every((t4) => o3.includes(t4));
-        }, currentState: K, emit: Z2, Emit: ot, enter: tt, Enter: it, history: () => [...A3], info: () => (S3.log(`${f3}: Information about this state-machine`), ct(U2), ct(V2), void ct(W2)), inspect: () => ({states: U2.refs(), transitions: V2.refs(), events: W2.refs()}), inState: X2, InState: function(...t3) {
-          const n3 = y3("InState", {state: [r2, i2]}, t3[0]);
+        }, currentState: q2, emit: tt, Emit: it, enter: nt, Enter: st, history: () => [...j3], info: () => (O3.log(`${f3}: Information about this state-machine`), at(V2), at(W2), void at(z2)), inspect: () => ({ states: V2.refs(), transitions: W2.refs(), events: z2.refs() }), inState: Z2, InState: function(...t3) {
+          const n3 = b3("InState", { state: [r2, i2] }, t3[0]);
           if (n3)
             throw new TypeError(n3);
           return i2(t3[0]) ? function(t4, ...n4) {
-            return (...e2) => X2(t4, ...n4, ...e2);
+            return (...e2) => Z2(t4, ...n4, ...e2);
           }(...t3) : function(t4, n4, ...e2) {
-            return (...r3) => X2(t4, n4, ...e2, ...r3);
+            return (...r3) => Z2(t4, n4, ...e2, ...r3);
           }(...t3);
-        }, name: () => s3, onEntered: rt[N], onEntering: rt[I2], onEvent: nt, onExited: rt[L2], onExiting: rt[x2], onSwitched: et[P2], onSwitching: et[C], onTransitions: (t3) => z2(t3, "onTransitions"), pause: M3, paused: F3, performTransitions: (t3) => z2(t3, "performTransitions"), previousState: J, reset: function() {
-          S3.warn(`${f3}: State-machine reset!`), A3.length = 0, A3.push(T2);
-        }, resume: D3, statesAvailableFromHere: q2};
+        }, name: () => s3, onEntered: ot[C], onEntering: ot[L2], onEvent: et, onExited: ot[N], onExiting: ot[I2], onSwitched: rt[M2], onSwitching: rt[P2], onTransitions: (t3) => J(t3, "onTransitions"), pause: D3, paused: Y2, performTransitions: (t3) => J(t3, "performTransitions"), previousState: K, reset: function() {
+          O3.warn(`${f3}: State-machine reset!`), j3.length = 0, j3.push(y3);
+        }, resume: F3, statesAvailableFromHere: Q2 };
       }, exports.assertRoute = function(t3, n3, e2) {
-        const r3 = M2("assertRoute", {machine: R2, expectedRoute: s2}, t3, n3);
+        const r3 = D2("assertRoute", { machine: R2, expectedRoute: s2 }, t3, n3);
         if (r3)
           throw TypeError(r3);
-        D2 += 1;
-        const {description: o3 = "Assertion complete", fromState: i3 = "", run: c3 = () => {
-        }, permittedDeviations: a3 = 0, timeoutInMs: u3 = 1e3, logLevel: p3 = 3} = e2 || {}, h3 = m7(p3), d3 = `Statebot[${t3.name()}]: aId<${D2}>`, g3 = y2(n3);
-        h3.log(`
-${d3}: Asserting route: [${g3.join(" > ")}]`), h3.log(`${d3}: > Assertion will start from state: "${i3}"`);
-        const $2 = f2(c3);
-        let w3 = () => {
+        F2 += 1;
+        const { description: o3 = "Assertion complete", fromState: i3 = "", run: c3 = () => {
+        }, permittedDeviations: a3 = 0, timeoutInMs: u3 = 1e3, logLevel: h3 = 3 } = e2 || {}, m8 = d2(h3), g3 = `Statebot[${t3.name()}]: aId<${F2}>`, $2 = b2(n3);
+        m8.log(`
+${g3}: Asserting route: [${$2.join(" > ")}]`), m8.log(`${g3}: > Assertion will start from state: "${i3}"`);
+        const w3 = f2(c3);
+        let E3 = () => {
         };
-        const E3 = F2();
-        let v3, T2 = F2(), b3 = 0, S3 = true, O3 = false;
-        const A3 = [...g3], j3 = function(t4, n4) {
+        const v3 = Y();
+        let T2, y3 = Y(), S3 = 0, O3 = true, A3 = false;
+        const j3 = [...$2], x3 = function(t4, n4) {
           n4 = n4 || [];
           const e3 = [], r4 = (t4 = t4 || []).map((t5, e4) => n4[e4] || "center");
           let o4 = false;
@@ -2594,7 +2611,7 @@ ${d3}: Asserting route: [${g3.join(" > ")}]`), h3.log(`${d3}: > Assertion will s
           function s3(...n5) {
             if (o4)
               return;
-            const r5 = t4.reduce((t5, e4, r6) => ({...t5, [e4]: n5[r6] || ""}), {});
+            const r5 = t4.reduce((t5, e4, r6) => ({ ...t5, [e4]: n5[r6] || "" }), {});
             e3.push(r5);
           }
           function c4() {
@@ -2606,50 +2623,44 @@ ${d3}: Asserting route: [${g3.join(" > ")}]`), h3.log(`${d3}: > Assertion will s
               const o6 = n5[e4], i5 = r4[e4];
               return i5 === "left" ? t5.padEnd(o6) : i5 === "right" ? t5.padStart(o6) : t5;
             }
-            return e3.reduce((n6, e4) => [...n6, t4.reduce((t5, n7, r5) => ({...t5, [n7]: o5(e4[n7], r5)}), {})], []);
+            return e3.reduce((n6, e4) => [...n6, t4.reduce((t5, n7, r5) => ({ ...t5, [n7]: o5(e4[n7], r5) }), {})], []);
           }
-          return {lock: i4, addRow: s3, content: a4};
-        }(["state", "expected", "info", "took"], ["center", "center", "left", "right"]), x3 = function(t4) {
-          const {revoke: n4, fn: e3} = l2(t4);
-          let r4;
-          return function(...t5) {
-            return r4 = e3(...t5), n4(), r4;
-          };
-        }((t4) => (I3("", "", "", "TOTAL: " + E3()), j3.lock(), h3.log(`
-${d3}: ${o3}: [${t4 ? "FAILED" : "SUCCESS"}]`), h3.table(j3.content()), t4)), {addRow: I3} = j3;
+          return { lock: i4, addRow: s3, content: a4 };
+        }(["state", "expected", "info", "took"], ["center", "center", "left", "right"]), I3 = l2((t4) => (L3("", "", "", "TOTAL: " + v3()), x3.lock(), m8.log(`
+${g3}: ${o3}: [${t4 ? "FAILED" : "SUCCESS"}]`), m8.table(x3.content()), t4)), { addRow: L3 } = x3;
         return new Promise((n4, e3) => {
-          if (A3.length === 0)
-            return void e3(x3(new Error("NO ROUTE TO TEST")));
+          if (j3.length === 0)
+            return void e3(I3(new Error("NO ROUTE TO TEST")));
           const r4 = (n5) => {
-            for (; A3.length; ) {
-              const e4 = A3.shift();
-              I3(t3.currentState(), `(${e4})`, n5), O3 = false;
+            for (; j3.length; ) {
+              const e4 = j3.shift();
+              L3(t3.currentState(), `(${e4})`, n5), A3 = false;
             }
             ((t4) => {
-              clearTimeout(v3), w3(), c4(), e3(t4);
-            })(x3(new Error(n5)));
+              clearTimeout(T2), E3(), c4(), e3(t4);
+            })(I3(new Error(n5)));
           };
-          t3.inState(i3) && (S3 = false, w3 = $2());
-          const {revoke: o4, fn: s3} = l2((t4) => {
-            v3 = setTimeout(() => {
+          t3.inState(i3) && (O3 = false, E3 = w3());
+          const { revoke: o4, fn: s3 } = p2((t4) => {
+            T2 = setTimeout(() => {
               o4(), r4("TIMEOUT");
             }, u3), function(t5) {
-              if (S3)
-                I3(t5, "-", "PENDING");
+              if (O3)
+                L3(t5, "-", "PENDING");
               else {
-                const n5 = A3[0];
-                n5 === t5 ? (I3(t5, n5, O3 ? "REALIGNED" : "OKAY", T2()), O3 = false, A3.shift()) : (I3(t5, n5, "WRONG STATE", T2()), O3 = true, b3 += 1), T2 = F2();
+                const n5 = j3[0];
+                n5 === t5 ? (L3(t5, n5, A3 ? "REALIGNED" : "OKAY", y3()), A3 = false, j3.shift()) : (L3(t5, n5, "WRONG STATE", y3()), A3 = true, S3 += 1), y3 = Y();
               }
-            }(t4), S3 && t4 === i3 && (S3 = false, w3 = $2()), b3 > a3 && (o4(), r4("TOO MANY DEVIATIONS")), A3.length <= 0 && (o4(), ((...t5) => {
-              clearTimeout(v3), w3(), c4(), n4(...t5);
-            })(x3()));
+            }(t4), O3 && t4 === i3 && (O3 = false, E3 = w3()), S3 > a3 && (o4(), r4("TOO MANY DEVIATIONS")), j3.length <= 0 && (o4(), ((...t5) => {
+              clearTimeout(T2), E3(), c4(), n4(...t5);
+            })(I3()));
           }), c4 = t3.onSwitching(s3);
         });
-      }, exports.decomposeChart = b2, exports.isStatebot = R2, exports.routeIsPossible = function(t3, n3) {
-        const e2 = M2("routeIsPossible", {machine: R2, route: s2}, t3, n3);
+      }, exports.decomposeChart = S2, exports.isStatebot = R2, exports.routeIsPossible = function(t3, n3) {
+        const e2 = D2("routeIsPossible", { machine: R2, route: s2 }, t3, n3);
         if (e2)
           throw TypeError(e2);
-        const r3 = y2(n3);
+        const r3 = b2(n3);
         return r3.every((n4, e3) => {
           if (e3 === r3.length - 1)
             return true;
@@ -2662,13 +2673,13 @@ ${d3}: ${o3}: [${t4 ? "FAILED" : "SUCCESS"}]`), h3.table(j3.content()), t4)), {a
     }
   });
 
-  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.dev.js
+  // node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.dev.js
   var require_statebot_dev = __commonJS({
-    "node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.dev.js"(exports) {
+    "node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.dev.js"(exports) {
       "use strict";
-      Object.defineProperty(exports, "__esModule", {value: true});
+      Object.defineProperty(exports, "__esModule", { value: true });
       function mitt(n2) {
-        return {all: n2 = n2 || new Map(), on: function(t2, e) {
+        return { all: n2 = n2 || new Map(), on: function(t2, e) {
           var i2 = n2.get(t2);
           i2 && i2.push(e) || n2.set(t2, [e]);
         }, off: function(t2, e) {
@@ -2680,7 +2691,7 @@ ${d3}: ${o3}: [${t4 ? "FAILED" : "SUCCESS"}]`), h3.table(j3.content()), t4)), {a
           }), (n2.get("*") || []).slice().map(function(n3) {
             n3(t2, e);
           });
-        }};
+        } };
       }
       function isEventEmitter2(obj) {
         return isObject2(obj) && isFunction2(obj.emit) && (isFunction2(obj.addListener) || isFunction2(obj.on)) && (isFunction2(obj.removeListener) || isFunction2(obj.off));
@@ -2719,7 +2730,7 @@ ${d3}: ${o3}: [${t4 ? "FAILED" : "SUCCESS"}]`), h3.table(j3.content()), t4)), {a
         return typeof arg === argType ? void 0 : `Argument "${argName}" should be a ${argType}`;
       };
       var typeErrorStringFromArgument2 = (argMap, arg, index) => {
-        const {argName, argType} = argMap[index];
+        const { argName, argType } = argMap[index];
         if (arg === void 0) {
           return `Argument undefined: "${argName}"`;
         }
@@ -2734,7 +2745,7 @@ ${d3}: ${o3}: [${t4 ? "FAILED" : "SUCCESS"}]`), h3.table(j3.content()), t4)), {a
       };
       function ArgTypeError2(errPrefix) {
         return function(fnName, typeMap, ...args) {
-          const argMap = Object.entries(typeMap).map(([argName, argType]) => ({argName, argType}));
+          const argMap = Object.entries(typeMap).map(([argName, argType]) => ({ argName, argType }));
           const err = args.map((...args2) => typeErrorStringFromArgument2(argMap, ...args2)).filter(isString2);
           if (!err.length) {
             return;
@@ -2792,7 +2803,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         return (...args) => defer(fn2, ...args);
       }
       function Once(fn2) {
-        const {revoke, fn: _fn} = Revokable(fn2);
+        const { revoke, fn: _fn } = Revokable(fn2);
         let result;
         return function(...args) {
           result = _fn(...args);
@@ -2840,7 +2851,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         };
       }
       function ReferenceCounter(name, kind, description, ...expecting) {
-        const _refs = [...expecting].flat().reduce((acc, ref) => ({...acc, [ref]: 0}), {});
+        const _refs = [...expecting].flat().reduce((acc, ref) => ({ ...acc, [ref]: 0 }), {});
         function increase(ref) {
           _refs[ref] = countOf(ref) + 1;
           return () => {
@@ -2855,7 +2866,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           return _refs[ref] || 0;
         }
         function refs() {
-          return {..._refs};
+          return { ..._refs };
         }
         function table() {
           return Object.keys(_refs).sort().map((key) => [key, _refs[key]]).map(([ref, count]) => {
@@ -2897,7 +2908,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         function canInfo() {
           return level >= 3;
         }
-        const {info, table, log, warn, error} = _console || console;
+        const { info, table, log, warn, error } = _console || console;
         return {
           canWarn,
           canLog,
@@ -2928,7 +2939,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       var rxComment = /(\/\/[^\n\r]*)/;
       var argTypeError$1 = ArgTypeError2("statebot.");
       function decomposeRoute(templateLiteral) {
-        const err = argTypeError$1("decomposeRoute", {templateLiteral: isTemplateLiteral2}, templateLiteral);
+        const err = argTypeError$1("decomposeRoute", { templateLiteral: isTemplateLiteral2 }, templateLiteral);
         if (err) {
           throw TypeError(err);
         }
@@ -2938,14 +2949,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         return route;
       }
       function decomposeChart(chart2) {
-        const err = argTypeError$1("decomposeChart", {chart: isTemplateLiteral2}, chart2);
+        const err = argTypeError$1("decomposeChart", { chart: isTemplateLiteral2 }, chart2);
         if (err) {
           throw TypeError(err);
         }
         const lines = condensedLines(chart2);
         const linesOfTokens = tokenisedLines(lines);
-        const linesOfRoutes = linesOfTokens.map(decomposeRouteFromTokens).flat(1);
-        const linesOfTransitions = linesOfRoutes.map(decomposeTransitionsFromRoute).flat(1);
+        const linesOfRoutes = linesOfTokens.flatMap(decomposeRouteFromTokens);
+        const linesOfTransitions = linesOfRoutes.flatMap(decomposeTransitionsFromRoute);
         let emptyStateFound = false;
         const routeKeys = linesOfTransitions.map((route) => {
           if (route.includes("")) {
@@ -3035,18 +3046,18 @@ ${logPrefix}: Please specify options for this machine`);
           throw new TypeError(`
 ${logPrefix}: Invalid event-emitter specified in options`);
         }
-        const {states = [], routes = []} = chart2 ? decomposeChart(chart2) : options;
-        const {startIn = states[0]} = options;
+        const { states = [], routes = [] } = chart2 ? decomposeChart(chart2) : options;
+        const { startIn = states[0] } = options;
         if (!states.includes(startIn)) {
           throw new Error(`${logPrefix}: Starting-state not in chart: "${startIn}"`);
         }
         const argTypeError2 = ArgTypeError2(`${logPrefix}#`);
         const _console = Logger(logLevel, console);
-        const {canWarn} = _console;
+        const { canWarn } = _console;
         const stateHistory = [startIn];
         const stateHistoryLimit = Math.max(historyLimit, 2);
         let transitionId = 0;
-        const {pause, resume, paused, Pausable} = Pausables(false, () => _console.warn(`${logPrefix}: Ignoring callback, paused`));
+        const { pause, resume, paused, Pausable } = Pausables(false, () => _console.warn(`${logPrefix}: Ignoring callback, paused`));
         const internalEvents = wrapEmitter(mitt());
         const emitInternalEvent = Pausable(internalEvents.emit);
         function onInternalEvent(eventName, cb) {
@@ -3057,7 +3068,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         const routesHandled = ReferenceCounter(name, "transitions", "Listening for the following transitions", [...routes]);
         const eventsHandled = ReferenceCounter(name, "events", "Listening for the following events");
         function applyHitcher(hitcher, fnName) {
-          const hitcherActions = isFunction2(hitcher) ? hitcher({enter, emit: emit2, Enter, Emit: Emit3}) : isPojo2(hitcher) ? hitcher : null;
+          const hitcherActions = isFunction2(hitcher) ? hitcher({ enter, emit: emit2, Enter, Emit: Emit3 }) : isPojo2(hitcher) ? hitcher : null;
           if (!isPojo2(hitcherActions)) {
             throw new TypeError(`Statebot[${name}]#${fnName}(): Expected an object, or a function that returns an object`);
           }
@@ -3086,11 +3097,11 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           }
           return () => allCleanupFns.map((fn2) => fn2());
           function runThenMethodOnTransition(config) {
-            const {fromState, toState, action} = config;
+            const { fromState, toState, action } = config;
             const route = `${fromState}->${toState}`;
             return [
               routesHandled.increase(route),
-              onInternalEvent(route, action)
+              onInternalEvent(route, bindActionTo(toState, action))
             ];
           }
           function decomposeTransitionsForEvent(acc, [eventName, transitionsAndAction]) {
@@ -3108,10 +3119,10 @@ ${logPrefix}: Invalid event-emitter specified in options`);
               [eventName]: configs
             };
           }
-          function ifStateThenEnterState({fromState, toState, action, args}) {
+          function ifStateThenEnterState({ fromState, toState, action, args }) {
             return inState(fromState, () => {
               enter(toState, ...args);
-              isFunction2(action) && action(...args);
+              isFunction2(action) && runActionFor(toState, action, ...args);
               return true;
             });
           }
@@ -3119,12 +3130,25 @@ ${logPrefix}: Invalid event-emitter specified in options`);
             return [
               eventsHandled.increase(eventName),
               onEvent(eventName, (...args) => {
-                const eventWasHandled = configs.map((config) => ({...config, args})).some(ifStateThenEnterState);
+                const eventWasHandled = configs.map((config) => ({ ...config, args })).some(ifStateThenEnterState);
                 if (!eventWasHandled) {
                   transitionNoOp(`Event not handled: "${eventName}"`);
                 }
               })
             ];
+          }
+          function runActionFor(state, actionFn, ...args) {
+            const onExitingState = actionFn(...args);
+            if (isFunction2(onExitingState)) {
+              const uninstall = Once(enterExitMethods[ON_EXITING](state, (toState) => {
+                uninstall();
+                onExitingState(toState);
+              }));
+              allCleanupFns.push(uninstall);
+            }
+          }
+          function bindActionTo(state, actionFn) {
+            return (...args) => runActionFor(state, actionFn, ...args);
           }
         }
         function previousState() {
@@ -3135,7 +3159,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         }
         function canTransitionTo(...states2) {
           const testStates = states2.flat();
-          const err = argTypeError2("canTransitionTo", {state: isString2}, testStates[0]);
+          const err = argTypeError2("canTransitionTo", { state: isString2 }, testStates[0]);
           if (err) {
             throw new TypeError(err);
           }
@@ -3147,7 +3171,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         }
         function statesAvailableFromHere(state) {
           const _state = state !== void 0 ? state : currentState2();
-          const err = argTypeError2("statesAvailableFromHere", {state: isString2}, _state);
+          const err = argTypeError2("statesAvailableFromHere", { state: isString2 }, _state);
           if (err) {
             throw new TypeError(err);
           }
@@ -3170,25 +3194,25 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           return anyOrFn;
         }
         function _inStateObject(stateObject, ...fnArgs) {
-          const match = Object.entries(stateObject).find(([state]) => _inState(state));
-          return match ? _inState(...match.concat(fnArgs)) : null;
+          const match2 = Object.entries(stateObject).find(([state]) => _inState(state));
+          return match2 ? _inState(...match2.concat(fnArgs)) : null;
         }
         function inState(...args) {
-          const err = argTypeError2("inState", {state: [isString2, isPojo2]}, args[0]);
+          const err = argTypeError2("inState", { state: [isString2, isPojo2] }, args[0]);
           if (err) {
             throw new TypeError(err);
           }
           return isPojo2(args[0]) ? _inStateObject(...args) : _inState(...args);
         }
         const emit2 = Pausable((eventName, ...args) => {
-          const err = argTypeError2("emit", {eventName: isString2}, eventName);
+          const err = argTypeError2("emit", { eventName: isString2 }, eventName);
           if (err) {
             throw new TypeError(err);
           }
           return events.emit(eventName, ...args);
         });
         const enter = Pausable((state, ...args) => {
-          const err = argTypeError2("enter", {state: isString2}, state);
+          const err = argTypeError2("enter", { state: isString2 }, state);
           if (err) {
             throw new TypeError(err);
           }
@@ -3218,7 +3242,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           return true;
         });
         function onEvent(eventName, cb) {
-          const err = argTypeError2("onEvent", {eventName: isString2, cb: isFunction2}, eventName, cb);
+          const err = argTypeError2("onEvent", { eventName: isString2, cb: isFunction2 }, eventName, cb);
           if (err) {
             throw new TypeError(err);
           }
@@ -3228,7 +3252,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         const switchMethods = Object.keys(INTERNAL_EVENTS).reduce((obj, methodName) => ({
           ...obj,
           [methodName]: (cb) => {
-            const err = argTypeError2(methodName, {cb: isFunction2}, cb);
+            const err = argTypeError2(methodName, { cb: isFunction2 }, cb);
             if (err) {
               throw new TypeError(err);
             }
@@ -3252,7 +3276,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           return {
             ...obj,
             [methodName]: (state, cb) => {
-              const err = argTypeError2(methodName, {state: isString2, cb: isFunction2}, state, cb);
+              const err = argTypeError2(methodName, { state: isString2, cb: isFunction2 }, state, cb);
               if (err) {
                 throw new TypeError(err);
               }
@@ -3275,14 +3299,14 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           };
         }, {});
         function Emit3(eventName, ...curriedArgs) {
-          const err = argTypeError2("Emit", {eventName: isString2}, eventName);
+          const err = argTypeError2("Emit", { eventName: isString2 }, eventName);
           if (err) {
             throw new TypeError(err);
           }
           return (...args) => emit2(eventName, ...[...curriedArgs, ...args]);
         }
         function Enter(state, ...curriedArgs) {
-          const err = argTypeError2("Enter", {state: isString2}, state);
+          const err = argTypeError2("Enter", { state: isString2 }, state);
           if (err) {
             throw new TypeError(err);
           }
@@ -3295,7 +3319,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           return (...fnArgs) => inState(stateObject, ...[...curriedFnArgs, ...fnArgs]);
         }
         function InState(...args) {
-          const err = argTypeError2("InState", {state: [isString2, isPojo2]}, args[0]);
+          const err = argTypeError2("InState", { state: [isString2, isPojo2] }, args[0]);
           if (err) {
             throw new TypeError(err);
           }
@@ -3335,7 +3359,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           logRefCounterInfo(eventsHandled);
         }
         function logRefCounterInfo(refCounter) {
-          const {description, table} = refCounter.toValue();
+          const { description, table } = refCounter.toValue();
           _console.log(description);
           if (table.length) {
             _console.table(table);
@@ -3379,41 +3403,41 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         const transitionsOnly = [];
         Object.entries(hitcherActions).map(([routeChart, actionFnOrConfigObj]) => {
           if (isFunction2(actionFnOrConfigObj)) {
-            transitionsOnly.push({routeChart, action: actionFnOrConfigObj});
+            transitionsOnly.push({ routeChart, action: actionFnOrConfigObj });
             return;
           }
           if (!isPojo2(actionFnOrConfigObj)) {
             return;
           }
-          const {on: _on, then: _then} = actionFnOrConfigObj;
+          const { on: _on, then: _then } = actionFnOrConfigObj;
           const hasValidEventNames = isString2(_on) || isArray2(_on);
           if (hasValidEventNames) {
             const eventNames = [_on].flat();
             eventNames.map((name) => {
               transitionsForEvents[name] = transitionsForEvents[name] || [];
-              transitionsForEvents[name].push({routeChart, action: _then});
+              transitionsForEvents[name].push({ routeChart, action: _then });
             });
             return;
           }
           if (isFunction2(_then)) {
-            transitionsOnly.push({routeChart, action: actionFnOrConfigObj});
+            transitionsOnly.push({ routeChart, action: actionFnOrConfigObj });
           }
         });
-        return {transitionsForEvents, transitionsOnly};
+        return { transitionsForEvents, transitionsOnly };
       }
       function expandTransitions(configs, canWarn) {
         const allStates = [];
         const allRoutes = [];
         const _configs = configs.reduce((acc, config) => {
-          const {routeChart, action} = config;
-          const {states, routes, transitions} = decomposeChart(routeChart);
+          const { routeChart, action } = config;
+          const { states, routes, transitions } = decomposeChart(routeChart);
           if (canWarn()) {
             allStates.push(...states);
             allRoutes.push(...routes);
           }
           return [
             ...acc,
-            ...transitions.map(([fromState, toState]) => ({fromState, toState, action}))
+            ...transitions.map(([fromState, toState]) => ({ fromState, toState, action }))
           ];
         }, []);
         return {
@@ -3427,7 +3451,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
       }
       var argTypeError = ArgTypeError2("statebot.");
       function routeIsPossible(machine, route) {
-        const err = argTypeError("routeIsPossible", {machine: isStatebot, route: isTemplateLiteral2}, machine, route);
+        const err = argTypeError("routeIsPossible", { machine: isStatebot, route: isTemplateLiteral2 }, machine, route);
         if (err) {
           throw TypeError(err);
         }
@@ -3445,7 +3469,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
       }
       var assertionId = 0;
       function assertRoute(machine, expectedRoute, options) {
-        const err = argTypeError("assertRoute", {machine: isStatebot, expectedRoute: isTemplateLiteral2}, machine, expectedRoute);
+        const err = argTypeError("assertRoute", { machine: isStatebot, expectedRoute: isTemplateLiteral2 }, machine, expectedRoute);
         if (err) {
           throw TypeError(err);
         }
@@ -3484,7 +3508,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
           console2.table(report.content());
           return err2;
         });
-        const {addRow} = report;
+        const { addRow } = report;
         function enteredState(state) {
           if (pending) {
             addRow(state, "-", "PENDING");
@@ -3531,7 +3555,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
             pending = false;
             removeFromStateActionFn = fromStateActionFn();
           }
-          const {revoke, fn: fn2} = Revokable((state) => {
+          const { revoke, fn: fn2 } = Revokable((state) => {
             assertionTimeoutTimer = setTimeout(() => {
               revoke();
               bailout("TIMEOUT");
@@ -3632,15 +3656,64 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     }
   });
 
-  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/index.js
+  // node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/index.js
   var require_statebot = __commonJS({
-    "node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/index.js"(exports, module) {
+    "node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/index.js"(exports, module) {
       "use strict";
       if (typeof process !== "undefined" && true) {
         module.exports = require_statebot_min();
       } else {
         module.exports = require_statebot_dev();
       }
+    }
+  });
+
+  // node_modules/.pnpm/match-iz@1.3.2/node_modules/match-iz/dist/match-iz.cjs.js
+  var require_match_iz_cjs = __commonJS({
+    "node_modules/.pnpm/match-iz@1.3.2/node_modules/match-iz/dist/match-iz.cjs.js"(exports, module) {
+      var R2 = (t2, s2) => () => (s2 || t2((s2 = { exports: {} }).exports, s2), s2.exports);
+      var A2 = R2(($, p2) => {
+        var b2 = Object.prototype, c2 = (t2) => typeof t2, W2 = b2.toString, O2 = (t2) => W2.call(t2) === "[object Arguments]", w2 = (t2) => c2(t2) === "function", d2 = (t2) => c2(t2) === "object" && t2 !== null, N = (t2) => Array.isArray(t2), q2 = (t2) => t2 instanceof RegExp, F2 = (t2) => c2(t2) === "string", k2 = (t2) => c2(t2) === "number", M2 = (t2) => t2 === null || !d2(t2) || O2(t2) ? false : Object.getPrototypeOf(t2) === b2;
+        p2.exports = { isArguments: O2, isFunction: w2, isObject: d2, isArray: N, isRegExp: q2, isString: F2, isNumber: k2, isPojo: M2 };
+      });
+      var { isFunction: e, isRegExp: j2, isPojo: y2, isArray: g2, isString: i2, isNumber: z2 } = A2();
+      function S2(...t2) {
+        let s2;
+        return (n2) => t2.find((E2) => {
+          let r2 = E2(n2), { matched: f2, value: m7 } = r2 || {};
+          return [f2, m7].every(e) ? f2(n2) && (s2 = m7(n2), true) : r2 && (s2 = r2);
+        }) && s2;
+      }
+      function B2(t2) {
+        return (...s2) => S2(...s2)(t2);
+      }
+      var C = (t2) => (s2) => (n2) => ({ matched: () => u2(t2, n2), value: () => e(s2) ? i2(n2) && j2(t2) ? s2(n2.match(t2)) : s2(n2) : s2 });
+      var D2 = (t2) => (s2) => ({ matched: () => true, value: () => e(t2) ? t2(s2) : t2 });
+      var u2 = (t2, s2) => y2(t2) ? Object.keys(t2).every((n2) => x2(t2[n2], s2 == null ? void 0 : s2[n2])) : g2(t2) ? t2.some((n2) => u2(n2, s2)) : x2(t2, s2);
+      var x2 = (t2, s2) => y2(t2) ? u2(t2, s2) : e(t2) ? t2(s2) : i2(s2) && j2(t2) ? t2.test(s2) : t2 === s2;
+      var P2 = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || g2(t2) && !t2.length || y2(t2) && !Object.keys(t2).length;
+      var G2 = (t2) => !P2(t2);
+      var H2 = (t2) => o2((s2) => s2 > t2);
+      var I2 = (t2) => o2((s2) => s2 < t2);
+      var J = (t2) => o2((s2) => s2 >= t2);
+      var K = (t2) => o2((s2) => s2 <= t2);
+      var L2 = (t2, s2) => o2((n2) => n2 >= t2 && n2 <= s2);
+      var Q2 = (t2) => h2((s2) => s2.startsWith(t2));
+      var T = (t2) => h2((s2) => s2.endsWith(t2));
+      var U2 = (t2) => Z2((s2) => s2.includes(t2));
+      var V2 = (t2) => !!t2;
+      var X2 = (t2) => !t2;
+      var Y = (t2) => new Proxy({}, { get: () => t2 });
+      function h2(t2) {
+        return (...s2) => s2.every(i2) && t2(...s2);
+      }
+      function Z2(t2) {
+        return (...s2) => s2.every((n2) => g2(n2) || i2(n2)) && t2(...s2);
+      }
+      function o2(t2) {
+        return (...s2) => s2.every(z2) && t2(...s2);
+      }
+      module.exports = { against: S2, match: B2, defined: G2, empty: P2, gt: H2, lt: I2, gte: J, lte: K, inRange: L2, startsWith: Q2, endsWith: T, includes: U2, truthy: V2, falsy: X2, spread: Y, when: C, otherwise: D2 };
     }
   });
 
@@ -3703,55 +3776,55 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     }
   };
 
-  // node_modules/.pnpm/immer@9.0.2/node_modules/immer/dist/immer.esm.js
+  // node_modules/.pnpm/immer@9.0.5/node_modules/immer/dist/immer.esm.js
   function n(n2) {
-    for (var r2 = arguments.length, t2 = Array(r2 > 1 ? r2 - 1 : 0), e = 1; e < r2; e++)
-      t2[e - 1] = arguments[e];
+    for (var t2 = arguments.length, r2 = Array(t2 > 1 ? t2 - 1 : 0), e = 1; e < t2; e++)
+      r2[e - 1] = arguments[e];
     if (false) {
-      var i2 = Y[n2], o2 = i2 ? typeof i2 == "function" ? i2.apply(null, t2) : i2 : "unknown error nr: " + n2;
+      var i2 = Y[n2], o2 = i2 ? typeof i2 == "function" ? i2.apply(null, r2) : i2 : "unknown error nr: " + n2;
       throw Error("[Immer] " + o2);
     }
-    throw Error("[Immer] minified error nr: " + n2 + (t2.length ? " " + t2.map(function(n3) {
+    throw Error("[Immer] minified error nr: " + n2 + (r2.length ? " " + r2.map(function(n3) {
       return "'" + n3 + "'";
     }).join(",") : "") + ". Find the full error at: https://bit.ly/3cXEKWf");
   }
-  function r(n2) {
+  function t(n2) {
     return !!n2 && !!n2[Q];
   }
-  function t(n2) {
+  function r(n2) {
     return !!n2 && (function(n3) {
       if (!n3 || typeof n3 != "object")
         return false;
-      var r2 = Object.getPrototypeOf(n3);
-      if (r2 === null)
+      var t2 = Object.getPrototypeOf(n3);
+      if (t2 === null)
         return true;
-      var t2 = Object.hasOwnProperty.call(r2, "constructor") && r2.constructor;
-      return typeof t2 == "function" && Function.toString.call(t2) === Z;
+      var r2 = Object.hasOwnProperty.call(t2, "constructor") && t2.constructor;
+      return r2 === Object || typeof r2 == "function" && Function.toString.call(r2) === Z;
     }(n2) || Array.isArray(n2) || !!n2[L] || !!n2.constructor[L] || s(n2) || v(n2));
   }
-  function i(n2, r2, t2) {
-    t2 === void 0 && (t2 = false), o(n2) === 0 ? (t2 ? Object.keys : nn)(n2).forEach(function(e) {
-      t2 && typeof e == "symbol" || r2(e, n2[e], n2);
-    }) : n2.forEach(function(t3, e) {
-      return r2(e, t3, n2);
+  function i(n2, t2, r2) {
+    r2 === void 0 && (r2 = false), o(n2) === 0 ? (r2 ? Object.keys : nn)(n2).forEach(function(e) {
+      r2 && typeof e == "symbol" || t2(e, n2[e], n2);
+    }) : n2.forEach(function(r3, e) {
+      return t2(e, r3, n2);
     });
   }
   function o(n2) {
-    var r2 = n2[Q];
-    return r2 ? r2.i > 3 ? r2.i - 4 : r2.i : Array.isArray(n2) ? 1 : s(n2) ? 2 : v(n2) ? 3 : 0;
+    var t2 = n2[Q];
+    return t2 ? t2.i > 3 ? t2.i - 4 : t2.i : Array.isArray(n2) ? 1 : s(n2) ? 2 : v(n2) ? 3 : 0;
   }
-  function u(n2, r2) {
-    return o(n2) === 2 ? n2.has(r2) : Object.prototype.hasOwnProperty.call(n2, r2);
+  function u(n2, t2) {
+    return o(n2) === 2 ? n2.has(t2) : Object.prototype.hasOwnProperty.call(n2, t2);
   }
-  function a(n2, r2) {
-    return o(n2) === 2 ? n2.get(r2) : n2[r2];
+  function a(n2, t2) {
+    return o(n2) === 2 ? n2.get(t2) : n2[t2];
   }
-  function f(n2, r2, t2) {
+  function f(n2, t2, r2) {
     var e = o(n2);
-    e === 2 ? n2.set(r2, t2) : e === 3 ? (n2.delete(r2), n2.add(t2)) : n2[r2] = t2;
+    e === 2 ? n2.set(t2, r2) : e === 3 ? (n2.delete(t2), n2.add(r2)) : n2[t2] = r2;
   }
-  function c(n2, r2) {
-    return n2 === r2 ? n2 !== 0 || 1 / n2 == 1 / r2 : n2 != n2 && r2 != r2;
+  function c(n2, t2) {
+    return n2 === t2 ? n2 !== 0 || 1 / n2 == 1 / t2 : n2 != n2 && t2 != t2;
   }
   function s(n2) {
     return X && n2 instanceof Map;
@@ -3765,17 +3838,17 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   function l(n2) {
     if (Array.isArray(n2))
       return Array.prototype.slice.call(n2);
-    var r2 = rn(n2);
-    delete r2[Q];
-    for (var t2 = nn(r2), e = 0; e < t2.length; e++) {
-      var i2 = t2[e], o2 = r2[i2];
-      o2.writable === false && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (r2[i2] = {configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i2]});
+    var t2 = tn(n2);
+    delete t2[Q];
+    for (var r2 = nn(t2), e = 0; e < r2.length; e++) {
+      var i2 = r2[e], o2 = t2[i2];
+      o2.writable === false && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (t2[i2] = { configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i2] });
     }
-    return Object.create(Object.getPrototypeOf(n2), r2);
+    return Object.create(Object.getPrototypeOf(n2), t2);
   }
   function d(n2, e) {
-    return e === void 0 && (e = false), y(n2) || r(n2) || !t(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e && i(n2, function(n3, r2) {
-      return d(r2, true);
+    return e === void 0 && (e = false), y(n2) || t(n2) || !r(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e && i(n2, function(n3, t2) {
+      return d(t2, true);
     }, true), n2);
   }
   function h() {
@@ -3784,82 +3857,82 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   function y(n2) {
     return n2 == null || typeof n2 != "object" || Object.isFrozen(n2);
   }
-  function b(r2) {
-    var t2 = tn[r2];
-    return t2 || n(18, r2), t2;
+  function b(t2) {
+    var r2 = rn[t2];
+    return r2 || n(18, t2), r2;
   }
   function _() {
     return true, U;
   }
-  function j(n2, r2) {
-    r2 && (b("Patches"), n2.u = [], n2.s = [], n2.v = r2);
-  }
-  function g(n2) {
-    O(n2), n2.p.forEach(S), n2.p = null;
+  function j(n2, t2) {
+    t2 && (b("Patches"), n2.u = [], n2.s = [], n2.v = t2);
   }
   function O(n2) {
+    g(n2), n2.p.forEach(S), n2.p = null;
+  }
+  function g(n2) {
     n2 === U && (U = n2.l);
   }
   function w(n2) {
-    return U = {p: [], l: U, h: n2, m: true, _: 0};
+    return U = { p: [], l: U, h: n2, m: true, _: 0 };
   }
   function S(n2) {
-    var r2 = n2[Q];
-    r2.i === 0 || r2.i === 1 ? r2.j() : r2.g = true;
+    var t2 = n2[Q];
+    t2.i === 0 || t2.i === 1 ? t2.j() : t2.O = true;
   }
-  function P(r2, e) {
+  function P(t2, e) {
     e._ = e.p.length;
-    var i2 = e.p[0], o2 = r2 !== void 0 && r2 !== i2;
-    return e.h.O || b("ES5").S(e, r2, o2), o2 ? (i2[Q].P && (g(e), n(4)), t(r2) && (r2 = M(e, r2), e.l || x(e, r2)), e.u && b("Patches").M(i2[Q], r2, e.u, e.s)) : r2 = M(e, i2, []), g(e), e.u && e.v(e.u, e.s), r2 !== H ? r2 : void 0;
+    var i2 = e.p[0], o2 = t2 !== void 0 && t2 !== i2;
+    return e.h.g || b("ES5").S(e, t2, o2), o2 ? (i2[Q].P && (O(e), n(4)), r(t2) && (t2 = M(e, t2), e.l || x(e, t2)), e.u && b("Patches").M(i2[Q], t2, e.u, e.s)) : t2 = M(e, i2, []), O(e), e.u && e.v(e.u, e.s), t2 !== H ? t2 : void 0;
   }
-  function M(n2, r2, t2) {
-    if (y(r2))
-      return r2;
-    var e = r2[Q];
+  function M(n2, t2, r2) {
+    if (y(t2))
+      return t2;
+    var e = t2[Q];
     if (!e)
-      return i(r2, function(i2, o3) {
-        return A(n2, e, r2, i2, o3, t2);
-      }, true), r2;
+      return i(t2, function(i2, o3) {
+        return A(n2, e, t2, i2, o3, r2);
+      }, true), t2;
     if (e.A !== n2)
-      return r2;
+      return t2;
     if (!e.P)
       return x(n2, e.t, true), e.t;
     if (!e.I) {
       e.I = true, e.A._--;
       var o2 = e.i === 4 || e.i === 5 ? e.o = l(e.k) : e.o;
-      i(e.i === 3 ? new Set(o2) : o2, function(r3, i2) {
-        return A(n2, e, o2, r3, i2, t2);
-      }), x(n2, o2, false), t2 && n2.u && b("Patches").R(e, t2, n2.u, n2.s);
+      i(e.i === 3 ? new Set(o2) : o2, function(t3, i2) {
+        return A(n2, e, o2, t3, i2, r2);
+      }), x(n2, o2, false), r2 && n2.u && b("Patches").R(e, r2, n2.u, n2.s);
     }
     return e.o;
   }
   function A(e, i2, o2, a2, c2, s2) {
-    if (false, r(c2)) {
+    if (false, t(c2)) {
       var v2 = M(e, c2, s2 && i2 && i2.i !== 3 && !u(i2.D, a2) ? s2.concat(a2) : void 0);
-      if (f(o2, a2, v2), !r(v2))
+      if (f(o2, a2, v2), !t(v2))
         return;
       e.m = false;
     }
-    if (t(c2) && !y(c2)) {
+    if (r(c2) && !y(c2)) {
       if (!e.h.F && e._ < 1)
         return;
       M(e, c2), i2 && i2.A.l || x(e, c2);
     }
   }
-  function x(n2, r2, t2) {
-    t2 === void 0 && (t2 = false), n2.h.F && n2.m && d(r2, t2);
+  function x(n2, t2, r2) {
+    r2 === void 0 && (r2 = false), n2.h.F && n2.m && d(t2, r2);
   }
-  function z(n2, r2) {
-    var t2 = n2[Q];
-    return (t2 ? p(t2) : n2)[r2];
+  function z(n2, t2) {
+    var r2 = n2[Q];
+    return (r2 ? p(r2) : n2)[t2];
   }
-  function I(n2, r2) {
-    if (r2 in n2)
-      for (var t2 = Object.getPrototypeOf(n2); t2; ) {
-        var e = Object.getOwnPropertyDescriptor(t2, r2);
+  function I(n2, t2) {
+    if (t2 in n2)
+      for (var r2 = Object.getPrototypeOf(n2); r2; ) {
+        var e = Object.getOwnPropertyDescriptor(r2, t2);
         if (e)
           return e;
-        t2 = Object.getPrototypeOf(t2);
+        r2 = Object.getPrototypeOf(r2);
       }
   }
   function k(n2) {
@@ -3868,33 +3941,33 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   function E(n2) {
     n2.o || (n2.o = l(n2.t));
   }
-  function R(n2, r2, t2) {
-    var e = s(r2) ? b("MapSet").N(r2, t2) : v(r2) ? b("MapSet").T(r2, t2) : n2.O ? function(n3, r3) {
-      var t3 = Array.isArray(n3), e2 = {i: t3 ? 1 : 0, A: r3 ? r3.A : _(), P: false, I: false, D: {}, l: r3, t: n3, k: null, o: null, j: null, C: false}, i2 = e2, o2 = en;
-      t3 && (i2 = [e2], o2 = on);
+  function R(n2, t2, r2) {
+    var e = s(t2) ? b("MapSet").N(t2, r2) : v(t2) ? b("MapSet").T(t2, r2) : n2.g ? function(n3, t3) {
+      var r3 = Array.isArray(n3), e2 = { i: r3 ? 1 : 0, A: t3 ? t3.A : _(), P: false, I: false, D: {}, l: t3, t: n3, k: null, o: null, j: null, C: false }, i2 = e2, o2 = en;
+      r3 && (i2 = [e2], o2 = on);
       var u2 = Proxy.revocable(i2, o2), a2 = u2.revoke, f2 = u2.proxy;
       return e2.k = f2, e2.j = a2, f2;
-    }(r2, t2) : b("ES5").J(r2, t2);
-    return (t2 ? t2.A : _()).p.push(e), e;
+    }(t2, r2) : b("ES5").J(t2, r2);
+    return (r2 ? r2.A : _()).p.push(e), e;
   }
   function D(e) {
-    return r(e) || n(22, e), function n2(r2) {
-      if (!t(r2))
-        return r2;
-      var e2, u2 = r2[Q], c2 = o(r2);
+    return t(e) || n(22, e), function n2(t2) {
+      if (!r(t2))
+        return t2;
+      var e2, u2 = t2[Q], c2 = o(t2);
       if (u2) {
         if (!u2.P && (u2.i < 4 || !b("ES5").K(u2)))
           return u2.t;
-        u2.I = true, e2 = F(r2, c2), u2.I = false;
+        u2.I = true, e2 = F(t2, c2), u2.I = false;
       } else
-        e2 = F(r2, c2);
-      return i(e2, function(r3, t2) {
-        u2 && a(u2.t, r3) === t2 || f(e2, r3, n2(t2));
+        e2 = F(t2, c2);
+      return i(e2, function(t3, r2) {
+        u2 && a(u2.t, t3) === r2 || f(e2, t3, n2(r2));
       }), c2 === 3 ? new Set(e2) : e2;
     }(e);
   }
-  function F(n2, r2) {
-    switch (r2) {
+  function F(n2, t2) {
+    switch (t2) {
       case 2:
         return new Map(n2);
       case 3:
@@ -3916,141 +3989,141 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var nn = typeof Reflect != "undefined" && Reflect.ownKeys ? Reflect.ownKeys : Object.getOwnPropertySymbols !== void 0 ? function(n2) {
     return Object.getOwnPropertyNames(n2).concat(Object.getOwnPropertySymbols(n2));
   } : Object.getOwnPropertyNames;
-  var rn = Object.getOwnPropertyDescriptors || function(n2) {
-    var r2 = {};
-    return nn(n2).forEach(function(t2) {
-      r2[t2] = Object.getOwnPropertyDescriptor(n2, t2);
-    }), r2;
+  var tn = Object.getOwnPropertyDescriptors || function(n2) {
+    var t2 = {};
+    return nn(n2).forEach(function(r2) {
+      t2[r2] = Object.getOwnPropertyDescriptor(n2, r2);
+    }), t2;
   };
-  var tn = {};
-  var en = {get: function(n2, r2) {
-    if (r2 === Q)
+  var rn = {};
+  var en = { get: function(n2, t2) {
+    if (t2 === Q)
       return n2;
     var e = p(n2);
-    if (!u(e, r2))
-      return function(n3, r3, t2) {
-        var e2, i3 = I(r3, t2);
+    if (!u(e, t2))
+      return function(n3, t3, r2) {
+        var e2, i3 = I(t3, r2);
         return i3 ? "value" in i3 ? i3.value : (e2 = i3.get) === null || e2 === void 0 ? void 0 : e2.call(n3.k) : void 0;
-      }(n2, e, r2);
-    var i2 = e[r2];
-    return n2.I || !t(i2) ? i2 : i2 === z(n2.t, r2) ? (E(n2), n2.o[r2] = R(n2.A.h, i2, n2)) : i2;
-  }, has: function(n2, r2) {
-    return r2 in p(n2);
+      }(n2, e, t2);
+    var i2 = e[t2];
+    return n2.I || !r(i2) ? i2 : i2 === z(n2.t, t2) ? (E(n2), n2.o[t2] = R(n2.A.h, i2, n2)) : i2;
+  }, has: function(n2, t2) {
+    return t2 in p(n2);
   }, ownKeys: function(n2) {
     return Reflect.ownKeys(p(n2));
-  }, set: function(n2, r2, t2) {
-    var e = I(p(n2), r2);
+  }, set: function(n2, t2, r2) {
+    var e = I(p(n2), t2);
     if (e == null ? void 0 : e.set)
-      return e.set.call(n2.k, t2), true;
+      return e.set.call(n2.k, r2), true;
     if (!n2.P) {
-      var i2 = z(p(n2), r2), o2 = i2 == null ? void 0 : i2[Q];
-      if (o2 && o2.t === t2)
-        return n2.o[r2] = t2, n2.D[r2] = false, true;
-      if (c(t2, i2) && (t2 !== void 0 || u(n2.t, r2)))
+      var i2 = z(p(n2), t2), o2 = i2 == null ? void 0 : i2[Q];
+      if (o2 && o2.t === r2)
+        return n2.o[t2] = r2, n2.D[t2] = false, true;
+      if (c(r2, i2) && (r2 !== void 0 || u(n2.t, t2)))
         return true;
       E(n2), k(n2);
     }
-    return n2.o[r2] === t2 && typeof t2 != "number" || (n2.o[r2] = t2, n2.D[r2] = true, true);
-  }, deleteProperty: function(n2, r2) {
-    return z(n2.t, r2) !== void 0 || r2 in n2.t ? (n2.D[r2] = false, E(n2), k(n2)) : delete n2.D[r2], n2.o && delete n2.o[r2], true;
-  }, getOwnPropertyDescriptor: function(n2, r2) {
-    var t2 = p(n2), e = Reflect.getOwnPropertyDescriptor(t2, r2);
-    return e ? {writable: true, configurable: n2.i !== 1 || r2 !== "length", enumerable: e.enumerable, value: t2[r2]} : e;
+    return n2.o[t2] === r2 && typeof r2 != "number" && (r2 !== void 0 || t2 in n2.o) || (n2.o[t2] = r2, n2.D[t2] = true, true);
+  }, deleteProperty: function(n2, t2) {
+    return z(n2.t, t2) !== void 0 || t2 in n2.t ? (n2.D[t2] = false, E(n2), k(n2)) : delete n2.D[t2], n2.o && delete n2.o[t2], true;
+  }, getOwnPropertyDescriptor: function(n2, t2) {
+    var r2 = p(n2), e = Reflect.getOwnPropertyDescriptor(r2, t2);
+    return e ? { writable: true, configurable: n2.i !== 1 || t2 !== "length", enumerable: e.enumerable, value: r2[t2] } : e;
   }, defineProperty: function() {
     n(11);
   }, getPrototypeOf: function(n2) {
     return Object.getPrototypeOf(n2.t);
   }, setPrototypeOf: function() {
     n(12);
-  }};
+  } };
   var on = {};
-  i(en, function(n2, r2) {
+  i(en, function(n2, t2) {
     on[n2] = function() {
-      return arguments[0] = arguments[0][0], r2.apply(this, arguments);
+      return arguments[0] = arguments[0][0], t2.apply(this, arguments);
     };
-  }), on.deleteProperty = function(r2, t2) {
-    return false, en.deleteProperty.call(this, r2[0], t2);
-  }, on.set = function(r2, t2, e) {
-    return false, en.set.call(this, r2[0], t2, e, r2[0]);
+  }), on.deleteProperty = function(t2, r2) {
+    return false, en.deleteProperty.call(this, t2[0], r2);
+  }, on.set = function(t2, r2, e) {
+    return false, en.set.call(this, t2[0], r2, e, t2[0]);
   };
   var un = function() {
-    function e(r2) {
+    function e(t2) {
       var e2 = this;
-      this.O = B, this.F = true, this.produce = function(r3, i3, o2) {
-        if (typeof r3 == "function" && typeof i3 != "function") {
+      this.g = B, this.F = true, this.produce = function(t3, i3, o2) {
+        if (typeof t3 == "function" && typeof i3 != "function") {
           var u2 = i3;
-          i3 = r3;
+          i3 = t3;
           var a2 = e2;
           return function(n2) {
-            var r4 = this;
+            var t4 = this;
             n2 === void 0 && (n2 = u2);
-            for (var t2 = arguments.length, e3 = Array(t2 > 1 ? t2 - 1 : 0), o3 = 1; o3 < t2; o3++)
+            for (var r2 = arguments.length, e3 = Array(r2 > 1 ? r2 - 1 : 0), o3 = 1; o3 < r2; o3++)
               e3[o3 - 1] = arguments[o3];
             return a2.produce(n2, function(n3) {
-              var t3;
-              return (t3 = i3).call.apply(t3, [r4, n3].concat(e3));
+              var r3;
+              return (r3 = i3).call.apply(r3, [t4, n3].concat(e3));
             });
           };
         }
         var f2;
-        if (typeof i3 != "function" && n(6), o2 !== void 0 && typeof o2 != "function" && n(7), t(r3)) {
-          var c2 = w(e2), s2 = R(e2, r3, void 0), v2 = true;
+        if (typeof i3 != "function" && n(6), o2 !== void 0 && typeof o2 != "function" && n(7), r(t3)) {
+          var c2 = w(e2), s2 = R(e2, t3, void 0), v2 = true;
           try {
             f2 = i3(s2), v2 = false;
           } finally {
-            v2 ? g(c2) : O(c2);
+            v2 ? O(c2) : g(c2);
           }
           return typeof Promise != "undefined" && f2 instanceof Promise ? f2.then(function(n2) {
             return j(c2, o2), P(n2, c2);
           }, function(n2) {
-            throw g(c2), n2;
+            throw O(c2), n2;
           }) : (j(c2, o2), P(f2, c2));
         }
-        if (!r3 || typeof r3 != "object") {
-          if ((f2 = i3(r3)) === H)
+        if (!t3 || typeof t3 != "object") {
+          if ((f2 = i3(t3)) === H)
             return;
-          return f2 === void 0 && (f2 = r3), e2.F && d(f2, true), f2;
+          return f2 === void 0 && (f2 = t3), e2.F && d(f2, true), f2;
         }
-        n(21, r3);
-      }, this.produceWithPatches = function(n2, r3) {
-        return typeof n2 == "function" ? function(r4) {
-          for (var t3 = arguments.length, i4 = Array(t3 > 1 ? t3 - 1 : 0), o2 = 1; o2 < t3; o2++)
+        n(21, t3);
+      }, this.produceWithPatches = function(n2, t3) {
+        return typeof n2 == "function" ? function(t4) {
+          for (var r3 = arguments.length, i4 = Array(r3 > 1 ? r3 - 1 : 0), o2 = 1; o2 < r3; o2++)
             i4[o2 - 1] = arguments[o2];
-          return e2.produceWithPatches(r4, function(r5) {
-            return n2.apply(void 0, [r5].concat(i4));
+          return e2.produceWithPatches(t4, function(t5) {
+            return n2.apply(void 0, [t5].concat(i4));
           });
-        } : [e2.produce(n2, r3, function(n3, r4) {
-          t2 = n3, i3 = r4;
-        }), t2, i3];
-        var t2, i3;
-      }, typeof (r2 == null ? void 0 : r2.useProxies) == "boolean" && this.setUseProxies(r2.useProxies), typeof (r2 == null ? void 0 : r2.autoFreeze) == "boolean" && this.setAutoFreeze(r2.autoFreeze);
+        } : [e2.produce(n2, t3, function(n3, t4) {
+          r2 = n3, i3 = t4;
+        }), r2, i3];
+        var r2, i3;
+      }, typeof (t2 == null ? void 0 : t2.useProxies) == "boolean" && this.setUseProxies(t2.useProxies), typeof (t2 == null ? void 0 : t2.autoFreeze) == "boolean" && this.setAutoFreeze(t2.autoFreeze);
     }
     var i2 = e.prototype;
     return i2.createDraft = function(e2) {
-      t(e2) || n(8), r(e2) && (e2 = D(e2));
+      r(e2) || n(8), t(e2) && (e2 = D(e2));
       var i3 = w(this), o2 = R(this, e2, void 0);
-      return o2[Q].C = true, O(i3), o2;
-    }, i2.finishDraft = function(r2, t2) {
-      var e2 = r2 && r2[Q];
+      return o2[Q].C = true, g(i3), o2;
+    }, i2.finishDraft = function(t2, r2) {
+      var e2 = t2 && t2[Q];
       false;
       var i3 = e2.A;
-      return j(i3, t2), P(void 0, i3);
+      return j(i3, r2), P(void 0, i3);
     }, i2.setAutoFreeze = function(n2) {
       this.F = n2;
-    }, i2.setUseProxies = function(r2) {
-      r2 && !B && n(20), this.O = r2;
-    }, i2.applyPatches = function(n2, t2) {
+    }, i2.setUseProxies = function(t2) {
+      t2 && !B && n(20), this.g = t2;
+    }, i2.applyPatches = function(n2, r2) {
       var e2;
-      for (e2 = t2.length - 1; e2 >= 0; e2--) {
-        var i3 = t2[e2];
+      for (e2 = r2.length - 1; e2 >= 0; e2--) {
+        var i3 = r2[e2];
         if (i3.path.length === 0 && i3.op === "replace") {
           n2 = i3.value;
           break;
         }
       }
       var o2 = b("Patches").$;
-      return r(n2) ? o2(n2, t2) : this.produce(n2, function(n3) {
-        return o2(n3, t2.slice(e2 + 1));
+      return t(n2) ? o2(n2, r2) : this.produce(n2, function(n3) {
+        return o2(n3, r2.slice(e2 + 1));
       });
     }, e;
   }();
@@ -4069,7 +4142,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     if (typeof window.CustomEvent === "function")
       return false;
     function CustomEvent2(event2, params) {
-      params = params || {bubbles: false, cancelable: false, detail: null};
+      params = params || { bubbles: false, cancelable: false, detail: null };
       const evt = document.createEvent("CustomEvent");
       evt.initCustomEvent(event2, params.bubbles, params.cancelable, params.detail);
       return evt;
@@ -4086,8 +4159,8 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     const BUS = "message-bus";
     const eventMap = new Map();
     function emit2(eventName, ...args) {
-      const detail = {eventName, args, timestamp: Date.now()};
-      const event2 = new CustomEvent(BUS, {detail});
+      const detail = { eventName, args, timestamp: Date.now() };
+      const event2 = new CustomEvent(BUS, { detail });
       global2.dispatchEvent(event2);
     }
     function on3(eventNameOrPattern, cb) {
@@ -4105,7 +4178,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         throw new Error(`${reason} = ${eventNameOrPattern}`);
       }
       const eventHandler = (event2) => {
-        const {eventName = "", args = []} = event2?.detail || {};
+        const { eventName = "", args = [] } = event2?.detail || {};
         const runCallback = rx.test(eventName);
         if (runCallback) {
           if (isPlainMatcher) {
@@ -4218,7 +4291,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     if (index >= argMap.length) {
       return;
     }
-    const {argName, argType} = argMap[index];
+    const { argName, argType } = argMap[index];
     if (arg === void 0) {
       return `Argument undefined: "${argName}"`;
     }
@@ -4255,14 +4328,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       const keys = Object.keys(typeMap);
       const objTypeError = ArgTypeError(namespace)(typeMap);
       return (fnName) => (obj) => {
-        const values = valuesOf(obj, {keys});
+        const values = valuesOf(obj, { keys });
         const err = objTypeError(fnName)(...values);
         return err;
       };
     };
   }
   function valuesOf(obj, options) {
-    const {keys} = options;
+    const { keys } = options;
     if (!Array.isArray(keys)) {
       return Object.values(obj);
     }
@@ -4328,7 +4401,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           console.log("Account exists", existingAccount);
           return;
         }
-        draftState.accounts.push({...account});
+        draftState.accounts.push({ ...account });
       });
     });
     if (nextStore !== currentStore) {
@@ -4394,7 +4467,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           existingStatements.push(existingStatement);
           return;
         }
-        draftState.statements.push({...statement});
+        draftState.statements.push({ ...statement });
       });
     });
     if (existingStatements.length) {
@@ -4459,7 +4532,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           existingEntries.push(existingEntry);
           return;
         }
-        draftState.entries.push({...entry});
+        draftState.entries.push({ ...entry });
       });
     });
     if (existingEntries.length) {
@@ -4536,6 +4609,17 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }
     const decimal = cents / 100;
     return decimal.toLocaleString("en-GB", {
+      useGrouping: false,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+  function convertCentsToDecimalForDisplay(cents) {
+    if (!cents || typeof cents !== "number") {
+      return "-";
+    }
+    const decimal = cents / 100;
+    return decimal.toLocaleString("en-GB", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
@@ -4554,7 +4638,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           ""
         ];
         statement.entries.forEach((entry) => {
-          const {debit, credit, id, date, payee, note, type} = entry;
+          const { debit, credit, id, date, payee, note, type } = entry;
           const transactionAmount = convertCentsToDecimal(debit + credit);
           csv.push('"' + csvEscape(id) + '","' + csvEscape(simpleDate(date)) + '","' + csvEscape(statement.type) + '","' + csvEscape(statement.sortCode + " " + statement.accountNumber) + '","' + csvEscape(payee) + '","' + csvEscape(note || "") + '","' + csvEscape(type) + '","' + csvEscape(transactionAmount) + '"');
         });
@@ -4589,7 +4673,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       generate: (statement) => {
         const csv = [];
         statement.entries.forEach((entry) => {
-          const {debit, credit, id, date, payee, note, type} = entry;
+          const { debit, credit, id, date, payee, note, type } = entry;
           const transactionAmount = convertCentsToDecimal(debit + credit);
           csv.push('"' + csvEscape(UKDateTimeString(date)) + '","' + csvEscape(addSpaces(payee, 25) + addSpaces(note || "", 25) + type) + '","' + csvEscape(transactionAmount) + '"');
         });
@@ -4641,11 +4725,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       extension: "csv",
       description: "midata (non-standard, CSV)",
       generate: (statement) => {
-        const initialBalanceInCents = (statement.balances || [{date: 0, balance: 0}]).sort(SortByNumber("date"))[0].balance;
+        const initialBalanceInCents = (statement.balances || [{ date: 0, balance: 0 }]).sort(SortByNumber("date"))[0].balance;
         let runningBalanceInCents = initialBalanceInCents;
         const csv = [" Date,Type,Merchant/Description,Debit/Credit,Balance", ""];
         statement.entries.forEach((entry) => {
-          const {debit, credit, date, type, payee, note} = entry;
+          const { debit, credit, date, type, payee, note } = entry;
           const transactionAmountInCents = debit + credit;
           runningBalanceInCents += transactionAmountInCents;
           csv.push('"' + csvEscape(UKDateTimeString(date)) + '","' + csvEscape(type) + '","' + csvEscape(payee + (note || "")) + '","' + csvEscape(convertCentsToDecimal(transactionAmountInCents)) + '","' + csvEscape(convertCentsToDecimal(runningBalanceInCents)) + '"');
@@ -4685,7 +4769,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         }
         ofx = "OFXHEADER:100\nDATA:OFXSGML\nVERSION:102\nSECURITY:NONE\nENCODING:USASCII\nCHARSET:1252\nCOMPRESSION:NONE\nOLDFILEUID:NONE\nNEWFILEUID:NONE\n\n<OFX>\n\n	<SIGNONMSGSRSV1>\n		<SONRS>\n			<STATUS>\n				<CODE>0</CODE>\n				<SEVERITY>INFO</SEVERITY>\n			</STATUS>\n			<DTSERVER>" + ofxEscape(dateTimeString(new Date())) + "</DTSERVER>\n			<LANGUAGE>" + ofxEscape(HSBC_OFX.LANGUAGE) + "</LANGUAGE>\n			<INTU.BID>" + ofxEscape(HSBC_OFX.INTU_BID) + "</INTU.BID>\n		</SONRS>\n	</SIGNONMSGSRSV1>\n\n	<BANKMSGSRSV1>\n\n		<STMTTRNRS>\n\n			<TRNUID>1</TRNUID>\n\n			<STATUS>\n				<CODE>0</CODE>\n				<SEVERITY>INFO</SEVERITY>\n			</STATUS>\n\n			<STMTRS>\n\n				<CURDEF>" + ofxEscape(HSBC_OFX.CURDEF) + "</CURDEF>\n\n				<BANKACCTFROM>\n					<BANKID>" + ofxEscape(statement.sortCode) + "</BANKID>\n					<ACCTID>" + ofxEscape(statement.sortCode + statement.accountNumber) + "</ACCTID>\n					<ACCTTYPE>CHECKING</ACCTTYPE>\n				</BANKACCTFROM>\n\n				<BANKTRANLIST>\n\n					<DTSTART>" + ofxEscape(dateTimeString(statement.balances[0].date)) + "</DTSTART>\n					<DTEND>" + ofxEscape(dateTimeString(statement.balances[latestBalanceIndex].date)) + "</DTEND>\n\n";
         statement.entries.forEach((entry) => {
-          const {debit, credit, type, date, id, payee, note} = entry;
+          const { debit, credit, type, date, id, payee, note } = entry;
           const transactionAmount = convertCentsToDecimal(debit + credit);
           ofx += "					<STMTTRN>\n						<TRNTYPE>" + ofxEscape(filterTransactionType(type)) + "</TRNTYPE>\n						<DTPOSTED>" + ofxEscape(dateTimeString(date)) + "</DTPOSTED>\n						<TRNAMT>" + ofxEscape(transactionAmount) + "</TRNAMT>\n						<FITID>" + ofxEscape(id) + "</FITID>\n						<NAME>" + ofxEscape(payee) + "</NAME>\n" + (note ? "						<MEMO>" + ofxEscape(note) + "</MEMO>\n" : "") + "					</STMTTRN>\n\n";
         });
@@ -4708,7 +4792,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         const latestBalanceIndex = statement.balances.length - 1;
         qif = "!Account\nN" + qifEscape(statement.type) + "\nA" + qifEscape(statement.sortCode + "/" + statement.sortCode + statement.accountNumber) + "\n/" + qifEscape(USDateTimeString(statement.balances[latestBalanceIndex].date)) + "\n$" + qifEscape(convertCentsToDecimal(statement.balances[latestBalanceIndex].balance)) + "\nTBank\n^\n!Type:Bank\n";
         statement.entries.forEach((entry) => {
-          const {debit, credit, id, date, payee, note, type} = entry;
+          const { debit, credit, id, date, payee, note, type } = entry;
           const transactionAmount = convertCentsToDecimal(debit + credit);
           qif += "D" + qifEscape(USDateTimeString(date)) + "\nN" + qifEscape(debit + credit < 0 ? "WITHD" : "DEP") + "\nT" + qifEscape(transactionAmount) + "\nC\nP" + qifEscape(payee) + "\n" + (note ? "M" + qifEscape(note) + "\n" : "") + "^\n";
         });
@@ -4719,7 +4803,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
 
   // src/common/esm/md5.js
-  var {SparkMD5} = obis.deps;
+  var { SparkMD5 } = obis.deps;
   function md5(str) {
     return SparkMD5.hash(str);
   }
@@ -4747,7 +4831,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
 
   // src/common/obis/statements.js
   function compatMakeStatements() {
-    const {accounts, statements, entries} = store();
+    const { accounts, statements, entries } = store();
     const compatStatements = statements.reduce((acc, statement) => {
       const statementAccount = accounts.find((account) => account.id === statement.accountId);
       const statementBalances = [
@@ -4755,7 +4839,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         compatMakeBalance(statement, "end")
       ];
       const statementEntries = entries.filter((entry) => entry.statementId === statement.id).map((entry) => {
-        const {id, date, type: type2, payee, note, debit, credit, balance} = entry;
+        const { id, date, type: type2, payee, note, debit, credit, balance } = entry;
         return {
           id,
           date,
@@ -4767,7 +4851,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           balance
         };
       });
-      const {iban, bic, type, name, accountNumber, sortCode} = statementAccount;
+      const { iban, bic, type, name, accountNumber, sortCode } = statementAccount;
       return [
         ...acc,
         {
@@ -4805,9 +4889,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
 
   // src/common/obis/zip.js
-  var {fflate, saveAs} = obis.deps;
+  var { fflate, saveAs } = obis.deps;
   function makeZip() {
-    const {filename, content} = fflateBuildZipContent();
+    const { filename, content } = fflateBuildZipContent();
     const [zipPromise, resolve, reject] = (0, import_promises.makePromise)();
     fflate.zip(content, (err, data) => {
       if (err) {
@@ -4826,13 +4910,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return promise;
   }
   function fflateBuildZipContent() {
-    const {filename, content} = compatBuildZipContent();
+    const { filename, content } = compatBuildZipContent();
     return {
       filename,
-      content: content.reduce((acc, {folder, files}) => {
+      content: content.reduce((acc, { folder, files }) => {
         return {
           ...acc,
-          [folder]: files.reduce((acc2, {name, content: content2}) => {
+          [folder]: files.reduce((acc2, { name, content: content2 }) => {
             if (acc2[name]) {
               return acc2;
             }
@@ -4851,7 +4935,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const zipContents = [];
     let zipName;
     generators.forEach((generator) => {
-      const {generate, extension, folder} = generator;
+      const { generate, extension, folder } = generator;
       const zipContent = {
         folder,
         files: []
@@ -4875,12 +4959,12 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     };
   }
   function filenameFromStatement(statement, extension) {
-    const {date, type, sortCode, accountNumber} = statement;
+    const { date, type, sortCode, accountNumber } = statement;
     const statementDate = new Date(date);
     return `${type} ${sortCode} ${accountNumber}`.replace(/[^a-zA-Z0-9-]/g, "_") + "-" + statementDate.getFullYear() + "-" + zeroPad(statementDate.getMonth() + 1) + "-" + zeroPad(statementDate.getDate()) + "." + extension;
   }
   function zipnameFromStatement(statement) {
-    const {date} = statement;
+    const { date } = statement;
     const statementDate = new Date(date);
     return "OBIS-Statements-" + statementDate.getFullYear() + "-" + dateTimeString(new Date(), "_") + ".zip";
   }
@@ -4888,8 +4972,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   // src/ui/components/app.jsx
   var import_mithril4 = __toModule(require_mithril());
 
-  // node_modules/.pnpm/flatted@3.1.1/node_modules/flatted/esm/index.js
-  var {parse: $parse, stringify: $stringify} = JSON;
+  // node_modules/.pnpm/flatted@3.2.1/node_modules/flatted/esm/index.js
+  var { parse: $parse, stringify: $stringify } = JSON;
   var Primitive = String;
   var primitive = "string";
   var object = "object";
@@ -4904,7 +4988,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const known = new Map();
     const input = [];
     const output = [];
-    let i2 = +set(known, input, $.call({"": value}, "", value));
+    let i2 = +set(known, input, $.call({ "": value }, "", value));
     let firstRun = !i2;
     while (i2 < input.length) {
       firstRun = true;
@@ -4935,7 +5019,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   var scheduleRender = () => import_mithril.default.redraw();
   var updateDeps = (deps) => {
     const state = currentState;
-    const {depsIndex} = state;
+    const { depsIndex } = state;
     state.depsIndex += 1;
     const prevDeps = state.depsStates[depsIndex] || [];
     const shouldRecompute = deps === void 0 ? true : Array.isArray(deps) ? deps.length > 0 ? !deps.every((x2, i2) => x2 === prevDeps[i2]) : !state.setup : false;
@@ -4948,7 +5032,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const state = currentState;
     const shouldRecompute = updateDeps(deps);
     if (shouldRecompute) {
-      const {depsIndex} = state;
+      const { depsIndex } = state;
       const runCallbackFn = () => {
         const teardown2 = fn2();
         if (typeof teardown2 === "function") {
@@ -5066,7 +5150,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     };
   };
 
-  // node_modules/.pnpm/statebot-mithril-hooks@1.2.1_8d58e50b9161575650e8972ec13a2f9b/node_modules/statebot-mithril-hooks/dist/esm/statebot-mithril-hooks.js
+  // node_modules/.pnpm/statebot-mithril-hooks@1.2.3_c933ff67a9e0fca865f4750d48b954c8/node_modules/statebot-mithril-hooks/dist/esm/statebot-mithril-hooks.js
   var import_statebot = __toModule(require_statebot());
   function useStatebot(bot) {
     const [state, setState] = useState(bot.currentState());
@@ -5086,7 +5170,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return state;
   }
   function useStatebotFactory(name, config) {
-    const {bot, listeners} = useMemo(() => {
+    const { bot, listeners } = useMemo(() => {
       const {
         performTransitions = {},
         onTransitions = {},
@@ -5109,8 +5193,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       listeners.forEach((off) => off());
     }, [bot, listeners]);
     const state = useStatebot(bot);
-    return {state, bot};
+    return { state, bot };
   }
+
+  // src/ui/components/app.jsx
+  var import_match_iz = __toModule(require_match_iz_cjs());
 
   // node_modules/.pnpm/clsx@1.1.1/node_modules/clsx/dist/clsx.m.js
   function toVal(mix) {
@@ -5155,9 +5242,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   var import_mithril2 = __toModule(require_mithril());
   var import_timers = __toModule(require_timers());
   var ContainerWithRef = withHooks((props) => {
-    const {children} = props || {};
-    const {setRef = () => {
-    }} = props || {};
+    const { children } = props || {};
+    const { setRef = () => {
+    } } = props || {};
     return /* @__PURE__ */ (0, import_mithril2.default)("div", {
       oncreate: (vnode) => setRef(vnode.dom)
     }, children);
@@ -5172,13 +5259,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   opened -> closing -> closed
 `;
   var VerticalAnimationContainer = withHooks((props) => {
-    const {children} = props || {};
-    const {opened = false, durationInMs = 250} = props || {};
-    const {state, bot} = useStatebotFactory("animated-close/open", {
+    const { children } = props || {};
+    const { opened = false, durationInMs = 250 } = props || {};
+    const { state, bot } = useStatebotFactory("animated-close/open", {
       chart,
       startIn: opened ? "opened" : "closed",
       logLevel: 2,
-      performTransitions: ({Emit: Emit3}) => ({
+      performTransitions: ({ Emit: Emit3 }) => ({
         "closed -> opening": {
           on: event.TOGGLE_OPEN,
           then: (0, import_timers.Delay)(Emit3(event.OPEN_FINISHED), durationInMs)
@@ -5224,7 +5311,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   // src/ui/components/dialog.jsx
   var import_mithril3 = __toModule(require_mithril());
   var Dialog = withHooks((props) => {
-    const {children, hidden} = props || {};
+    const { children, hidden } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("div", {
       className: clsx_m_default("dialog", {
         hidden
@@ -5232,16 +5319,16 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }, children);
   });
   var Header = withHooks((props) => {
-    const {children} = props || {};
+    const { children } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("h1", null, "OBIS | ", children);
   });
   var Subheader = withHooks((props) => {
-    const {children} = props || {};
+    const { children } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("h2", null, children);
   });
   var Button = withHooks((props) => {
-    const {children} = props || {};
-    const {className, handleClick, disabled} = props || {};
+    const { children } = props || {};
+    const { className, handleClick, disabled } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("button", {
       className,
       onclick: handleClick,
@@ -5249,7 +5336,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }, children);
   });
   var YearsSlider = withHooks((props) => {
-    const {value, max = 15, handleUpdate, disabled} = props || {};
+    const { value, max = 15, handleUpdate, disabled } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("input", {
       className: "fetch-slider",
       type: "range",
@@ -5262,44 +5349,44 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     });
   });
   var ProgressBar = withHooks((props) => {
-    const {value, max} = props || {};
+    const { value, max } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("progress", {
       value,
       max
     });
   });
   var Account = withHooks((props) => {
-    const {children} = props || {};
+    const { children } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("div", {
       className: "account"
     }, children);
   });
   var Accounts = withHooks((props) => {
-    const {children} = props || {};
+    const { children } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("div", {
       className: "accounts"
     }, children);
   });
   var StatementsLoaded = withHooks((props) => {
-    const {children} = props || {};
+    const { children } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("div", {
       className: "statements-loaded"
     }, children);
   });
   var YearsLoaded = withHooks((props) => {
-    const {children} = props || {};
+    const { children } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("div", {
       className: "years-loaded"
     }, children);
   });
   var AccountName = withHooks((props) => {
-    const {children} = props || {};
+    const { children } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("h3", {
       className: "account-name"
     }, children);
   });
   var Actions = withHooks((props) => {
-    const {children} = props || {};
+    const { children } = props || {};
     return /* @__PURE__ */ (0, import_mithril3.default)("div", {
       className: "actions"
     }, children);
@@ -5307,9 +5394,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
 
   // src/ui/components/app.jsx
   var import_timers2 = __toModule(require_timers());
-  var {fetchMachine: fetcher} = obis;
-  var {Statebot: Statebot2, messages: messages2} = obis.deps;
-  var {Emit} = fetcher;
+  var { fetchMachine: fetcher } = obis;
+  var { Statebot: Statebot2, messages: messages2 } = obis.deps;
+  var { Emit } = fetcher;
   var MAXIMUM_YEARS_TO_FETCH = 10;
   var DEFAULT_YEARS_TO_FETCH = 3;
   var uiMachine = Statebot2("UI", {
@@ -5363,11 +5450,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       }),
       handleClick: handleToggleOpen,
       disabled: !opened && !closed
-    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril4.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril4.default)(Subheader, null, ready ? opened ? "Hit the button below to try and download everything automatically." : "Welcome! Click that button on the right to see if we can download some statements." : "Loading...", /* @__PURE__ */ (0, import_mithril4.default)("br", null), /* @__PURE__ */ (0, import_mithril4.default)("br", null), fetcher.inState({
-      "getting-accounts": "Finding accounts...",
-      "getting-statements": "Getting statements...",
-      "getting-entries": "Getting transactions..."
-    }), /* @__PURE__ */ (0, import_mithril4.default)(ProgressBar, {
+    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril4.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril4.default)(Subheader, null, (0, import_match_iz.match)({ ready, opened })((0, import_match_iz.when)({ ready: true, opened: true })("Hit the button below to try and download everything automatically."), (0, import_match_iz.when)({ ready: true, opened: false })("Welcome! Click that button on the right to see if we can download some statements."), (0, import_match_iz.otherwise)("Loading...")), /* @__PURE__ */ (0, import_mithril4.default)("br", null), /* @__PURE__ */ (0, import_mithril4.default)("br", null), (0, import_match_iz.match)(fetcher.currentState())((0, import_match_iz.when)("getting-accounts")("Finding accounts..."), (0, import_match_iz.when)("getting-statements")("Getting statements..."), (0, import_match_iz.when)("getting-entries")("Getting transactions...")), /* @__PURE__ */ (0, import_mithril4.default)(ProgressBar, {
       ...progressBar
     })), ready && /* @__PURE__ */ (0, import_mithril4.default)(VerticalAnimationContainer, {
       opened
@@ -5399,7 +5482,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   var import_mithril5 = __toModule(require_mithril());
 
   // src/ui/store/base.js
-  var {messages: messages3} = obis.deps;
+  var { messages: messages3 } = obis.deps;
   function useAccounts() {
     const [accounts, setAccounts] = useState(store().accounts);
     useEffect(() => {
@@ -5434,14 +5517,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
 
   // src/ui/store/derived.js
-  var UNKNOWN_ACCOUNT = {sortCode: "", accountNumber: ""};
+  var UNKNOWN_ACCOUNT = { sortCode: "", accountNumber: "" };
   function useAccountStatements(accountId) {
     const accounts = useAccounts();
     const [account, setAccount] = useState();
     const [accountInfo, setAccountInfo] = useState();
     useEffect(() => {
       const account2 = accounts.find((x2) => x2.id === accountId);
-      const {sortCode, accountNumber} = account2 ?? UNKNOWN_ACCOUNT;
+      const { sortCode, accountNumber } = account2 ?? UNKNOWN_ACCOUNT;
       const accountInfo2 = `${sortCode} ${accountNumber}`;
       setAccount(account2);
       setAccountInfo(accountInfo2);
@@ -5478,7 +5561,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
   function useStatementEntries(statementId) {
     const statements = useStatements();
-    const {startDate, startBalance, endDate, endBalance} = useMemo(() => statements.find((x2) => x2.id === statementId) ?? {}, [statements, statementId]);
+    const { startDate, startBalance, endDate, endBalance } = useMemo(() => statements.find((x2) => x2.id === statementId) ?? {}, [statements, statementId]);
     const entries = useEntries();
     const [statementEntries, setStatementEntries] = useState([]);
     const [totalDebit, setTotalDebit] = useState(0);
@@ -5529,11 +5612,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return windowRef;
   }
   var Info = withHooks((props) => {
-    const {children = []} = props || {};
+    const { children = [] } = props || {};
     return children;
   });
   var Accounts2 = withHooks((props) => {
-    const {selectedAccountId, handleClick} = props;
+    const { selectedAccountId, handleClick } = props;
     const accounts = useAccounts();
     const clickHandler = useCallback((event2) => {
       const accountId = event2?.composedPath().map((x2) => x2?.dataset?.account).filter(Boolean)[0];
@@ -5555,12 +5638,12 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }, account.sortCode, " ", account.accountNumber)));
   });
   var Cursor = withHooks((props) => {
-    const {children = []} = props || {};
+    const { children = [] } = props || {};
     return children;
   });
   var Months = withHooks((props) => {
     const _months = "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec".split("|");
-    const {selectedMonth, months = [], handleClick} = props || {};
+    const { selectedMonth, months = [], handleClick } = props || {};
     const clickHandler = useCallback((event2) => handleClick(event2?.target?.dataset?.month), [handleClick]);
     return _months.map((month, index) => /* @__PURE__ */ (0, import_mithril5.default)("div", {
       onclick: clickHandler,
@@ -5573,7 +5656,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }, month));
   });
   var Years = withHooks((props) => {
-    const {selectedYear, years = [], handleClick} = props || {};
+    const { selectedYear, years = [], handleClick } = props || {};
     const clickHandler = useCallback((event2) => handleClick(event2?.target?.dataset?.year), [handleClick]);
     return years.map((year) => /* @__PURE__ */ (0, import_mithril5.default)("div", {
       onclick: clickHandler,
@@ -5585,13 +5668,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }, year));
   });
   var Statement = withHooks((props) => {
-    const {selectedStatementId} = props;
-    const {entries, startBalance, endBalance} = useStatementEntries(selectedStatementId);
+    const { selectedStatementId } = props;
+    const { entries, startBalance, endBalance } = useStatementEntries(selectedStatementId);
     let totalCredit = 0;
     let totalDebit = 0;
     let runningBalance = startBalance ?? 0;
     const rows = entries.map((entry) => {
-      const {id, date, type, payee, note, debit, credit, balance} = entry;
+      const { id, date, type, payee, note, debit, credit, balance } = entry;
       totalDebit -= debit;
       totalCredit += credit;
       runningBalance += credit - debit;
@@ -5601,17 +5684,17 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         className: "no-wrap"
       }, simpleDate(date)), /* @__PURE__ */ (0, import_mithril5.default)("td", null, type), /* @__PURE__ */ (0, import_mithril5.default)("td", null, payee), /* @__PURE__ */ (0, import_mithril5.default)("td", null, note), /* @__PURE__ */ (0, import_mithril5.default)("td", {
         className: "currency"
-      }, convertCentsToDecimal(debit)), /* @__PURE__ */ (0, import_mithril5.default)("td", {
+      }, convertCentsToDecimalForDisplay(debit)), /* @__PURE__ */ (0, import_mithril5.default)("td", {
         className: "currency"
-      }, convertCentsToDecimal(credit)), /* @__PURE__ */ (0, import_mithril5.default)("td", {
+      }, convertCentsToDecimalForDisplay(credit)), /* @__PURE__ */ (0, import_mithril5.default)("td", {
         className: clsx_m_default("currency", {
           negative: balance < 0
         })
-      }, convertCentsToDecimal(balance)), /* @__PURE__ */ (0, import_mithril5.default)("td", {
+      }, convertCentsToDecimalForDisplay(balance)), /* @__PURE__ */ (0, import_mithril5.default)("td", {
         className: clsx_m_default("currency", {
           negative: runningBalance < 0
         })
-      }, convertCentsToDecimal(runningBalance)));
+      }, convertCentsToDecimalForDisplay(runningBalance)));
     });
     let emptyState;
     if (!rows.length) {
@@ -5628,13 +5711,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       className: "table-footer"
     }, /* @__PURE__ */ (0, import_mithril5.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril5.default)("th", {
       className: "currency"
-    }, convertCentsToDecimal(totalDebit)), /* @__PURE__ */ (0, import_mithril5.default)("th", {
+    }, convertCentsToDecimalForDisplay(totalDebit)), /* @__PURE__ */ (0, import_mithril5.default)("th", {
       className: "currency"
-    }, convertCentsToDecimal(totalCredit)), /* @__PURE__ */ (0, import_mithril5.default)("th", {
+    }, convertCentsToDecimalForDisplay(totalCredit)), /* @__PURE__ */ (0, import_mithril5.default)("th", {
       className: "currency"
-    }, convertCentsToDecimal(endBalance)), /* @__PURE__ */ (0, import_mithril5.default)("th", {
+    }, convertCentsToDecimalForDisplay(endBalance)), /* @__PURE__ */ (0, import_mithril5.default)("th", {
       className: "currency"
-    }, convertCentsToDecimal(runningBalance)))));
+    }, convertCentsToDecimalForDisplay(runningBalance)))));
   });
   var StatementsPicker = withHooks(() => {
     const accounts = useAccounts();
@@ -5684,7 +5767,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       setMonths(uniqueMonths);
     }, [accountStatements, selectedStatementDate, selectedYear]);
     const selectedStatement = useStatementEntries(selectedStatementId);
-    const {totalDebit, totalCredit, creditDebitDiff} = selectedStatement;
+    const { totalDebit, totalCredit, creditDebitDiff } = selectedStatement;
     const selectAccount = useCallback((accountId2) => setAccountId(accountId2), [setAccountId]);
     const latestStatement = useCallback(() => setSelectedStatementId(getNewest()), [setSelectedStatementId, getNewest]);
     const olderStatement = useCallback(() => setSelectedStatementId(getOlderThan(selectedStatementId)), [setSelectedStatementId, getOlderThan, selectedStatementId]);
@@ -5709,12 +5792,12 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       className: "info"
     }, /* @__PURE__ */ (0, import_mithril5.default)(Info, null, /* @__PURE__ */ (0, import_mithril5.default)("h1", null, "OBIS | Statements Browser"), /* @__PURE__ */ (0, import_mithril5.default)("h2", null, accountInfo, " \u2022", " ", !isNaN(selectedStatementDate) && simpleDate(selectedStatementDate)), /* @__PURE__ */ (0, import_mithril5.default)("div", {
       className: "balance-summary"
-    }, totalCredit > 0 && /* @__PURE__ */ (0, import_mithril5.default)("span", null, convertCentsToDecimal(totalCredit), " in"), totalDebit > 0 && /* @__PURE__ */ (0, import_mithril5.default)("span", null, convertCentsToDecimal(totalDebit), " out"), creditDebitDiff !== 0 && /* @__PURE__ */ (0, import_mithril5.default)("span", {
+    }, totalCredit > 0 && /* @__PURE__ */ (0, import_mithril5.default)("span", null, convertCentsToDecimalForDisplay(totalCredit), " in"), totalDebit > 0 && /* @__PURE__ */ (0, import_mithril5.default)("span", null, convertCentsToDecimalForDisplay(totalDebit), " out"), creditDebitDiff !== 0 && /* @__PURE__ */ (0, import_mithril5.default)("span", {
       className: clsx_m_default({
         black: creditDebitDiff > 0,
         red: creditDebitDiff < 0
       })
-    }, creditDebitDiff <= 0 ? "\u{1F4C9} " : "\u{1F4C8} ", convertCentsToDecimal(creditDebitDiff))))), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, creditDebitDiff <= 0 ? "\u{1F4C9} " : "\u{1F4C8} ", convertCentsToDecimalForDisplay(creditDebitDiff))))), /* @__PURE__ */ (0, import_mithril5.default)("div", {
       className: "accounts"
     }, /* @__PURE__ */ (0, import_mithril5.default)(Accounts2, {
       selectedAccountId: accountId,
@@ -5751,10 +5834,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   });
 
   // src/ui/index.js
-  var {fetchMachine: fetcher2} = obis;
-  var {messages: messages4} = obis.deps;
-  var {on: on2, emit} = messages4;
-  var {Emit: Emit2} = fetcher2;
+  var { fetchMachine: fetcher2 } = obis;
+  var { messages: messages4 } = obis.deps;
+  var { on: on2, emit } = messages4;
+  var { Emit: Emit2 } = fetcher2;
   window.store = store;
   window.actions = actions;
   window.messages = messages4;
@@ -5772,7 +5855,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   });
   function main() {
     emit(actions.ui.RENDERING, import_mithril6.default);
-    const rootEl = document.querySelector("#obis-root") || document.body.appendChild(withProps(document.createElement("div"), {id: "obis-root"}));
+    const rootEl = document.querySelector("#obis-root") || document.body.appendChild(withProps(document.createElement("div"), { id: "obis-root" }));
     import_mithril6.default.mount(rootEl, App);
     const rafRedraw = () => requestAnimationFrame(() => import_mithril6.default.redraw());
     fetcher2.onSwitched(rafRedraw);

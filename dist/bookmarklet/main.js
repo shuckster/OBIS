@@ -5,20 +5,20 @@
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
+  var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
   var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[Object.keys(cb)[0]])((mod = {exports: {}}).exports, mod), mod.exports;
+    return mod || (0, cb[Object.keys(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
   var __reExport = (target, module, desc) => {
     if (module && typeof module === "object" || typeof module === "function") {
       for (let key of __getOwnPropNames(module))
         if (!__hasOwnProp.call(target, key) && key !== "default")
-          __defProp(target, key, {get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable});
+          __defProp(target, key, { get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable });
     }
     return target;
   };
   var __toModule = (module) => {
-    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? {get: () => module.default, enumerable: true} : {value: module, enumerable: true})), module);
+    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
 
   // node_modules/.pnpm/spark-md5@3.0.1/node_modules/spark-md5/spark-md5.js
@@ -692,18 +692,18 @@
                 this._current++;
                 if (stream[this._current] === "&") {
                   this._current++;
-                  tokens.push({type: TOK_AND, value: "&&", start});
+                  tokens.push({ type: TOK_AND, value: "&&", start });
                 } else {
-                  tokens.push({type: TOK_EXPREF, value: "&", start});
+                  tokens.push({ type: TOK_EXPREF, value: "&", start });
                 }
               } else if (stream[this._current] === "|") {
                 start = this._current;
                 this._current++;
                 if (stream[this._current] === "|") {
                   this._current++;
-                  tokens.push({type: TOK_OR, value: "||", start});
+                  tokens.push({ type: TOK_OR, value: "||", start });
                 } else {
-                  tokens.push({type: TOK_PIPE, value: "|", start});
+                  tokens.push({ type: TOK_PIPE, value: "|", start });
                 }
               } else {
                 var error = new Error("Unknown character:" + stream[this._current]);
@@ -762,19 +762,19 @@
               this._current++;
             }
             var value = parseInt(stream.slice(start, this._current));
-            return {type: TOK_NUMBER, value, start};
+            return { type: TOK_NUMBER, value, start };
           },
           _consumeLBracket: function(stream) {
             var start = this._current;
             this._current++;
             if (stream[this._current] === "?") {
               this._current++;
-              return {type: TOK_FILTER, value: "[?", start};
+              return { type: TOK_FILTER, value: "[?", start };
             } else if (stream[this._current] === "]") {
               this._current++;
-              return {type: TOK_FLATTEN, value: "[]", start};
+              return { type: TOK_FLATTEN, value: "[]", start };
             } else {
-              return {type: TOK_LBRACKET, value: "[", start};
+              return { type: TOK_LBRACKET, value: "[", start };
             }
           },
           _consumeOperator: function(stream) {
@@ -784,28 +784,28 @@
             if (startingChar === "!") {
               if (stream[this._current] === "=") {
                 this._current++;
-                return {type: TOK_NE, value: "!=", start};
+                return { type: TOK_NE, value: "!=", start };
               } else {
-                return {type: TOK_NOT, value: "!", start};
+                return { type: TOK_NOT, value: "!", start };
               }
             } else if (startingChar === "<") {
               if (stream[this._current] === "=") {
                 this._current++;
-                return {type: TOK_LTE, value: "<=", start};
+                return { type: TOK_LTE, value: "<=", start };
               } else {
-                return {type: TOK_LT, value: "<", start};
+                return { type: TOK_LT, value: "<", start };
               }
             } else if (startingChar === ">") {
               if (stream[this._current] === "=") {
                 this._current++;
-                return {type: TOK_GTE, value: ">=", start};
+                return { type: TOK_GTE, value: ">=", start };
               } else {
-                return {type: TOK_GT, value: ">", start};
+                return { type: TOK_GT, value: ">", start };
               }
             } else if (startingChar === "=") {
               if (stream[this._current] === "=") {
                 this._current++;
-                return {type: TOK_EQ, value: "==", start};
+                return { type: TOK_EQ, value: "==", start };
               }
             }
           },
@@ -901,7 +901,7 @@
           _loadTokens: function(expression) {
             var lexer = new Lexer();
             var tokens = lexer.tokenize(expression);
-            tokens.push({type: TOK_EOF, value: "", start: expression.length});
+            tokens.push({ type: TOK_EOF, value: "", start: expression.length });
             this.tokens = tokens;
           },
           expression: function(rbp) {
@@ -931,11 +931,11 @@
             var expression;
             switch (token.type) {
               case TOK_LITERAL:
-                return {type: "Literal", value: token.value};
+                return { type: "Literal", value: token.value };
               case TOK_UNQUOTEDIDENTIFIER:
-                return {type: "Field", name: token.value};
+                return { type: "Field", name: token.value };
               case TOK_QUOTEDIDENTIFIER:
-                var node = {type: "Field", name: token.value};
+                var node = { type: "Field", name: token.value };
                 if (this._lookahead(0) === TOK_LPAREN) {
                   throw new Error("Quoted identifier not allowed for function names.");
                 } else {
@@ -944,50 +944,50 @@
                 break;
               case TOK_NOT:
                 right = this.expression(bindingPower.Not);
-                return {type: "NotExpression", children: [right]};
+                return { type: "NotExpression", children: [right] };
               case TOK_STAR:
-                left = {type: "Identity"};
+                left = { type: "Identity" };
                 right = null;
                 if (this._lookahead(0) === TOK_RBRACKET) {
-                  right = {type: "Identity"};
+                  right = { type: "Identity" };
                 } else {
                   right = this._parseProjectionRHS(bindingPower.Star);
                 }
-                return {type: "ValueProjection", children: [left, right]};
+                return { type: "ValueProjection", children: [left, right] };
               case TOK_FILTER:
-                return this.led(token.type, {type: "Identity"});
+                return this.led(token.type, { type: "Identity" });
               case TOK_LBRACE:
                 return this._parseMultiselectHash();
               case TOK_FLATTEN:
-                left = {type: TOK_FLATTEN, children: [{type: "Identity"}]};
+                left = { type: TOK_FLATTEN, children: [{ type: "Identity" }] };
                 right = this._parseProjectionRHS(bindingPower.Flatten);
-                return {type: "Projection", children: [left, right]};
+                return { type: "Projection", children: [left, right] };
               case TOK_LBRACKET:
                 if (this._lookahead(0) === TOK_NUMBER || this._lookahead(0) === TOK_COLON) {
                   right = this._parseIndexExpression();
-                  return this._projectIfSlice({type: "Identity"}, right);
+                  return this._projectIfSlice({ type: "Identity" }, right);
                 } else if (this._lookahead(0) === TOK_STAR && this._lookahead(1) === TOK_RBRACKET) {
                   this._advance();
                   this._advance();
                   right = this._parseProjectionRHS(bindingPower.Star);
                   return {
                     type: "Projection",
-                    children: [{type: "Identity"}, right]
+                    children: [{ type: "Identity" }, right]
                   };
                 } else {
                   return this._parseMultiselectList();
                 }
                 break;
               case TOK_CURRENT:
-                return {type: TOK_CURRENT};
+                return { type: TOK_CURRENT };
               case TOK_EXPREF:
                 expression = this.expression(bindingPower.Expref);
-                return {type: "ExpressionReference", children: [expression]};
+                return { type: "ExpressionReference", children: [expression] };
               case TOK_LPAREN:
                 var args = [];
                 while (this._lookahead(0) !== TOK_RPAREN) {
                   if (this._lookahead(0) === TOK_CURRENT) {
-                    expression = {type: TOK_CURRENT};
+                    expression = { type: TOK_CURRENT };
                     this._advance();
                   } else {
                     expression = this.expression(0);
@@ -1007,29 +1007,29 @@
                 var rbp = bindingPower.Dot;
                 if (this._lookahead(0) !== TOK_STAR) {
                   right = this._parseDotRHS(rbp);
-                  return {type: "Subexpression", children: [left, right]};
+                  return { type: "Subexpression", children: [left, right] };
                 } else {
                   this._advance();
                   right = this._parseProjectionRHS(rbp);
-                  return {type: "ValueProjection", children: [left, right]};
+                  return { type: "ValueProjection", children: [left, right] };
                 }
                 break;
               case TOK_PIPE:
                 right = this.expression(bindingPower.Pipe);
-                return {type: TOK_PIPE, children: [left, right]};
+                return { type: TOK_PIPE, children: [left, right] };
               case TOK_OR:
                 right = this.expression(bindingPower.Or);
-                return {type: "OrExpression", children: [left, right]};
+                return { type: "OrExpression", children: [left, right] };
               case TOK_AND:
                 right = this.expression(bindingPower.And);
-                return {type: "AndExpression", children: [left, right]};
+                return { type: "AndExpression", children: [left, right] };
               case TOK_LPAREN:
                 var name = left.name;
                 var args = [];
                 var expression, node;
                 while (this._lookahead(0) !== TOK_RPAREN) {
                   if (this._lookahead(0) === TOK_CURRENT) {
-                    expression = {type: TOK_CURRENT};
+                    expression = { type: TOK_CURRENT };
                     this._advance();
                   } else {
                     expression = this.expression(0);
@@ -1040,21 +1040,21 @@
                   args.push(expression);
                 }
                 this._match(TOK_RPAREN);
-                node = {type: "Function", name, children: args};
+                node = { type: "Function", name, children: args };
                 return node;
               case TOK_FILTER:
                 var condition = this.expression(0);
                 this._match(TOK_RBRACKET);
                 if (this._lookahead(0) === TOK_FLATTEN) {
-                  right = {type: "Identity"};
+                  right = { type: "Identity" };
                 } else {
                   right = this._parseProjectionRHS(bindingPower.Filter);
                 }
-                return {type: "FilterProjection", children: [left, right, condition]};
+                return { type: "FilterProjection", children: [left, right, condition] };
               case TOK_FLATTEN:
-                var leftNode = {type: TOK_FLATTEN, children: [left]};
+                var leftNode = { type: TOK_FLATTEN, children: [left] };
                 var rightNode = this._parseProjectionRHS(bindingPower.Flatten);
-                return {type: "Projection", children: [leftNode, rightNode]};
+                return { type: "Projection", children: [leftNode, rightNode] };
               case TOK_EQ:
               case TOK_NE:
               case TOK_GT:
@@ -1071,7 +1071,7 @@
                   this._match(TOK_STAR);
                   this._match(TOK_RBRACKET);
                   right = this._parseProjectionRHS(bindingPower.Star);
-                  return {type: "Projection", children: [left, right]};
+                  return { type: "Projection", children: [left, right] };
                 }
                 break;
               default:
@@ -1107,7 +1107,7 @@
             }
           },
           _projectIfSlice: function(left, right) {
-            var indexExpr = {type: "IndexExpression", children: [left, right]};
+            var indexExpr = { type: "IndexExpression", children: [left, right] };
             if (right.type === "Slice") {
               return {
                 type: "Projection",
@@ -1144,7 +1144,7 @@
           },
           _parseComparator: function(left, comparator) {
             var right = this.expression(bindingPower[comparator]);
-            return {type: "Comparator", name: comparator, children: [left, right]};
+            return { type: "Comparator", name: comparator, children: [left, right] };
           },
           _parseDotRHS: function(rbp) {
             var lookahead = this._lookahead(0);
@@ -1162,7 +1162,7 @@
           _parseProjectionRHS: function(rbp) {
             var right;
             if (bindingPower[this._lookahead(0)] < 10) {
-              right = {type: "Identity"};
+              right = { type: "Identity" };
             } else if (this._lookahead(0) === TOK_LBRACKET) {
               right = this.expression(rbp);
             } else if (this._lookahead(0) === TOK_FILTER) {
@@ -1191,7 +1191,7 @@
               }
             }
             this._match(TOK_RBRACKET);
-            return {type: "MultiSelectList", children: expressions};
+            return { type: "MultiSelectList", children: expressions };
           },
           _parseMultiselectHash: function() {
             var pairs = [];
@@ -1206,7 +1206,7 @@
               this._advance();
               this._match(TOK_COLON);
               value = this.expression(0);
-              node = {type: "KeyValuePair", name: keyName, value};
+              node = { type: "KeyValuePair", name: keyName, value };
               pairs.push(node);
               if (this._lookahead(0) === TOK_COMMA) {
                 this._match(TOK_COMMA);
@@ -1215,7 +1215,7 @@
                 break;
               }
             }
-            return {type: "MultiSelectHash", children: pairs};
+            return { type: "MultiSelectHash", children: pairs };
           }
         };
         function TreeInterpreter(runtime) {
@@ -1477,79 +1477,79 @@
         function Runtime(interpreter) {
           this._interpreter = interpreter;
           this.functionTable = {
-            abs: {_func: this._functionAbs, _signature: [{types: [TYPE_NUMBER]}]},
-            avg: {_func: this._functionAvg, _signature: [{types: [TYPE_ARRAY_NUMBER]}]},
-            ceil: {_func: this._functionCeil, _signature: [{types: [TYPE_NUMBER]}]},
+            abs: { _func: this._functionAbs, _signature: [{ types: [TYPE_NUMBER] }] },
+            avg: { _func: this._functionAvg, _signature: [{ types: [TYPE_ARRAY_NUMBER] }] },
+            ceil: { _func: this._functionCeil, _signature: [{ types: [TYPE_NUMBER] }] },
             contains: {
               _func: this._functionContains,
               _signature: [
-                {types: [TYPE_STRING, TYPE_ARRAY]},
-                {types: [TYPE_ANY]}
+                { types: [TYPE_STRING, TYPE_ARRAY] },
+                { types: [TYPE_ANY] }
               ]
             },
             "ends_with": {
               _func: this._functionEndsWith,
-              _signature: [{types: [TYPE_STRING]}, {types: [TYPE_STRING]}]
+              _signature: [{ types: [TYPE_STRING] }, { types: [TYPE_STRING] }]
             },
-            floor: {_func: this._functionFloor, _signature: [{types: [TYPE_NUMBER]}]},
+            floor: { _func: this._functionFloor, _signature: [{ types: [TYPE_NUMBER] }] },
             length: {
               _func: this._functionLength,
-              _signature: [{types: [TYPE_STRING, TYPE_ARRAY, TYPE_OBJECT]}]
+              _signature: [{ types: [TYPE_STRING, TYPE_ARRAY, TYPE_OBJECT] }]
             },
             map: {
               _func: this._functionMap,
-              _signature: [{types: [TYPE_EXPREF]}, {types: [TYPE_ARRAY]}]
+              _signature: [{ types: [TYPE_EXPREF] }, { types: [TYPE_ARRAY] }]
             },
             max: {
               _func: this._functionMax,
-              _signature: [{types: [TYPE_ARRAY_NUMBER, TYPE_ARRAY_STRING]}]
+              _signature: [{ types: [TYPE_ARRAY_NUMBER, TYPE_ARRAY_STRING] }]
             },
             "merge": {
               _func: this._functionMerge,
-              _signature: [{types: [TYPE_OBJECT], variadic: true}]
+              _signature: [{ types: [TYPE_OBJECT], variadic: true }]
             },
             "max_by": {
               _func: this._functionMaxBy,
-              _signature: [{types: [TYPE_ARRAY]}, {types: [TYPE_EXPREF]}]
+              _signature: [{ types: [TYPE_ARRAY] }, { types: [TYPE_EXPREF] }]
             },
-            sum: {_func: this._functionSum, _signature: [{types: [TYPE_ARRAY_NUMBER]}]},
+            sum: { _func: this._functionSum, _signature: [{ types: [TYPE_ARRAY_NUMBER] }] },
             "starts_with": {
               _func: this._functionStartsWith,
-              _signature: [{types: [TYPE_STRING]}, {types: [TYPE_STRING]}]
+              _signature: [{ types: [TYPE_STRING] }, { types: [TYPE_STRING] }]
             },
             min: {
               _func: this._functionMin,
-              _signature: [{types: [TYPE_ARRAY_NUMBER, TYPE_ARRAY_STRING]}]
+              _signature: [{ types: [TYPE_ARRAY_NUMBER, TYPE_ARRAY_STRING] }]
             },
             "min_by": {
               _func: this._functionMinBy,
-              _signature: [{types: [TYPE_ARRAY]}, {types: [TYPE_EXPREF]}]
+              _signature: [{ types: [TYPE_ARRAY] }, { types: [TYPE_EXPREF] }]
             },
-            type: {_func: this._functionType, _signature: [{types: [TYPE_ANY]}]},
-            keys: {_func: this._functionKeys, _signature: [{types: [TYPE_OBJECT]}]},
-            values: {_func: this._functionValues, _signature: [{types: [TYPE_OBJECT]}]},
-            sort: {_func: this._functionSort, _signature: [{types: [TYPE_ARRAY_STRING, TYPE_ARRAY_NUMBER]}]},
+            type: { _func: this._functionType, _signature: [{ types: [TYPE_ANY] }] },
+            keys: { _func: this._functionKeys, _signature: [{ types: [TYPE_OBJECT] }] },
+            values: { _func: this._functionValues, _signature: [{ types: [TYPE_OBJECT] }] },
+            sort: { _func: this._functionSort, _signature: [{ types: [TYPE_ARRAY_STRING, TYPE_ARRAY_NUMBER] }] },
             "sort_by": {
               _func: this._functionSortBy,
-              _signature: [{types: [TYPE_ARRAY]}, {types: [TYPE_EXPREF]}]
+              _signature: [{ types: [TYPE_ARRAY] }, { types: [TYPE_EXPREF] }]
             },
             join: {
               _func: this._functionJoin,
               _signature: [
-                {types: [TYPE_STRING]},
-                {types: [TYPE_ARRAY_STRING]}
+                { types: [TYPE_STRING] },
+                { types: [TYPE_ARRAY_STRING] }
               ]
             },
             reverse: {
               _func: this._functionReverse,
-              _signature: [{types: [TYPE_STRING, TYPE_ARRAY]}]
+              _signature: [{ types: [TYPE_STRING, TYPE_ARRAY] }]
             },
-            "to_array": {_func: this._functionToArray, _signature: [{types: [TYPE_ANY]}]},
-            "to_string": {_func: this._functionToString, _signature: [{types: [TYPE_ANY]}]},
-            "to_number": {_func: this._functionToNumber, _signature: [{types: [TYPE_ANY]}]},
+            "to_array": { _func: this._functionToArray, _signature: [{ types: [TYPE_ANY] }] },
+            "to_string": { _func: this._functionToString, _signature: [{ types: [TYPE_ANY] }] },
+            "to_number": { _func: this._functionToNumber, _signature: [{ types: [TYPE_ANY] }] },
             "not_null": {
               _func: this._functionNotNull,
-              _signature: [{types: [TYPE_ANY], variadic: true}]
+              _signature: [{ types: [TYPE_ANY], variadic: true }]
             }
           };
         }
@@ -1944,12 +1944,12 @@
         else if (typeof exports != "undefined")
           b();
         else {
-          b(), a.FileSaver = {exports: {}}.exports;
+          b(), a.FileSaver = { exports: {} }.exports;
         }
       })(exports, function() {
         "use strict";
         function b(a2, b2) {
-          return typeof b2 == "undefined" ? b2 = {autoBom: false} : typeof b2 != "object" && (console.warn("Deprecated: Expected third argument to be a object"), b2 = {autoBom: !b2}), b2.autoBom && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a2.type) ? new Blob(["\uFEFF", a2], {type: a2.type}) : a2;
+          return typeof b2 == "undefined" ? b2 = { autoBom: false } : typeof b2 != "object" && (console.warn("Deprecated: Expected third argument to be a object"), b2 = { autoBom: !b2 }), b2.autoBom && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a2.type) ? new Blob(["\uFEFF", a2], { type: a2.type }) : a2;
         }
         function c(a2, b2, c2) {
           var d2 = new XMLHttpRequest();
@@ -2017,12 +2017,12 @@
     }
   });
 
-  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.min.js
+  // node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.min.js
   var require_statebot_min = __commonJS({
-    "node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.min.js"(exports) {
+    "node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.min.js"(exports) {
       "use strict";
       function t(t2) {
-        return {all: t2 = t2 || new Map(), on: function(n2, e2) {
+        return { all: t2 = t2 || new Map(), on: function(n2, e2) {
           var r2 = t2.get(n2);
           r2 && r2.push(e2) || t2.set(n2, [e2]);
         }, off: function(n2, e2) {
@@ -2034,7 +2034,7 @@
           }), (t2.get("*") || []).slice().map(function(t3) {
             t3(n2, e2);
           });
-        }};
+        } };
       }
       function n(t2) {
         return Array.isArray(t2);
@@ -2054,11 +2054,11 @@
       function s(t2) {
         return !!r(t2) || !!n(t2) && t2.every(r);
       }
-      Object.defineProperty(exports, "__esModule", {value: true});
+      Object.defineProperty(exports, "__esModule", { value: true });
       function c(t2) {
         return function(n2, o2, ...i2) {
-          const s2 = Object.entries(o2).map(([t3, n3]) => ({argName: t3, argType: n3})), c2 = i2.map((...t3) => ((t4, n3, o3) => {
-            const {argName: i3, argType: s3} = t4[o3];
+          const s2 = Object.entries(o2).map(([t3, n3]) => ({ argName: t3, argType: n3 })), c2 = i2.map((...t3) => ((t4, n3, o3) => {
+            const { argName: i3, argType: s3 } = t4[o3];
             if (n3 === void 0)
               return `Argument undefined: "${i3}"`;
             const c3 = Array.isArray(s3) ? s3 : [s3], a3 = c3.map((t5) => e(t5) ? ((t6, n4, e2) => n4(e2) ? void 0 : `${n4.name}(${t6}) did not return true`)(i3, t5, n3) : ((t6, n4, e2) => typeof e2 === n4 ? void 0 : `Argument "${t6}" should be a ${n4}`)(i3, t5, n3)).filter(r);
@@ -2075,13 +2075,13 @@ ${c2.map((t3) => `| ${t3}`).join("\n")}`;
       }
       function a(t2) {
         const n2 = t2.addListener ? (...n3) => t2.addListener(...n3) : (...n3) => t2.on(...n3), e2 = t2.removeListener ? (...n3) => t2.removeListener(...n3) : (...n3) => t2.off(...n3), r2 = new Map();
-        return {emit: (n3, ...e3) => t2.emit(n3, e3), on: function(t3, e3) {
+        return { emit: (n3, ...e3) => t2.emit(n3, e3), on: function(t3, e3) {
           let o2 = r2.get(e3);
-          o2 || (o2 = {handleEvent: (t4 = []) => e3(...[t4].flat()), refCount: 0}, r2.set(e3, o2)), o2.refCount += 1, n2(t3, o2.handleEvent);
+          o2 || (o2 = { handleEvent: (t4 = []) => e3(...[t4].flat()), refCount: 0 }, r2.set(e3, o2)), o2.refCount += 1, n2(t3, o2.handleEvent);
         }, off: function(t3, n3) {
           let o2 = r2.get(n3);
           o2 && (e2(t3, o2.handleEvent), o2.refCount -= 1, o2.refCount === 0 && r2.delete(n3));
-        }};
+        } };
       }
       function u(t2) {
         return t2.reduce((t3, n2) => t3.indexOf(n2) === -1 ? [...t3, n2] : t3, []);
@@ -2095,13 +2095,20 @@ ${c2.map((t3) => `| ${t3}`).join("\n")}`;
         }(t2, ...n2);
       }
       function l(t2) {
-        let n2, e2 = false;
-        return {fn: (...r2) => (e2 || (n2 = t2(...r2)), n2), revoke: () => {
-          e2 = true;
-        }};
+        const { revoke: n2, fn: e2 } = p(t2);
+        let r2;
+        return function(...t3) {
+          return r2 = e2(...t3), n2(), r2;
+        };
       }
-      function p(t2, n2, e2, ...r2) {
-        const o2 = [...r2].flat().reduce((t3, n3) => ({...t3, [n3]: 0}), {});
+      function p(t2) {
+        let n2, e2 = false;
+        return { fn: (...r2) => (e2 || (n2 = t2(...r2)), n2), revoke: () => {
+          e2 = true;
+        } };
+      }
+      function h(t2, n2, e2, ...r2) {
+        const o2 = [...r2].flat().reduce((t3, n3) => ({ ...t3, [n3]: 0 }), {});
         function i2(t3) {
           const n3 = s2(t3) - 1;
           o2[t3] = Math.max(n3, 0);
@@ -2109,17 +2116,17 @@ ${c2.map((t3) => `| ${t3}`).join("\n")}`;
         function s2(t3) {
           return o2[t3] || 0;
         }
-        return {increase: function(t3) {
+        return { increase: function(t3) {
           return o2[t3] = s2(t3) + 1, () => {
             i2(t3);
           };
         }, decrease: i2, countOf: s2, toValue: function() {
-          return {description: `Statebot[${t2}]: ${e2}:`, table: Object.keys(o2).sort().map((t3) => [t3, o2[t3]]).map(([t3, e3]) => ({[n2]: t3, refs: e3 || "None"}))};
+          return { description: `Statebot[${t2}]: ${e2}:`, table: Object.keys(o2).sort().map((t3) => [t3, o2[t3]]).map(([t3, e3]) => ({ [n2]: t3, refs: e3 || "None" })) };
         }, refs: function() {
-          return {...o2};
-        }};
+          return { ...o2 };
+        } };
       }
-      function m(t2, n2) {
+      function d(t2, n2) {
         function e2() {
           return t2 >= 1;
         }
@@ -2129,9 +2136,9 @@ ${c2.map((t3) => `| ${t3}`).join("\n")}`;
         function i2() {
           return t2 >= 3;
         }
-        r(t2) && (t2 = {info: 3, log: 2, warn: 1, none: 0}[t2] || 3);
-        const {info: s2, table: c2, log: a2, warn: u2, error: f2} = n2 || console;
-        return {canWarn: e2, canLog: o2, canInfo: i2, info: (...t3) => {
+        r(t2) && (t2 = { info: 3, log: 2, warn: 1, none: 0 }[t2] || 3);
+        const { info: s2, table: c2, log: a2, warn: u2, error: f2 } = n2 || console;
+        return { canWarn: e2, canLog: o2, canInfo: i2, info: (...t3) => {
           i2() && s2(...t3);
         }, table: (...t3) => {
           o2() && c2(...t3);
@@ -2141,72 +2148,72 @@ ${c2.map((t3) => `| ${t3}`).join("\n")}`;
           e2() && u2(...t3);
         }, error: (...t3) => {
           f2(...t3);
-        }};
+        } };
       }
-      var h = /[\r\n]/;
-      var d = "|";
-      var g = "->";
-      var $ = [d, g].map((t2) => t2.replace("|", "\\|")).join("|");
-      var w = new RegExp(`(${$})$`);
-      var E = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
-      var v = /(\/\/[^\n\r]*)/;
-      var T = c("statebot.");
-      function y(t2) {
-        const n2 = T("decomposeRoute", {templateLiteral: s}, t2);
-        if (n2)
-          throw TypeError(n2);
-        return O(S(t2)).flat(2);
-      }
+      var m = /[\r\n]/;
+      var g = "|";
+      var $ = "->";
+      var w = [g, $].map((t2) => t2.replace("|", "\\|")).join("|");
+      var E = new RegExp(`(${w})$`);
+      var v = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
+      var T = /(\/\/[^\n\r]*)/;
+      var y = c("statebot.");
       function b(t2) {
-        const n2 = T("decomposeChart", {chart: s}, t2);
+        const n2 = y("decomposeRoute", { templateLiteral: s }, t2);
         if (n2)
           throw TypeError(n2);
-        const e2 = O(S(t2)), r2 = e2.map(A).flat(1).map(j).flat(1);
-        let o2 = false;
-        const i2 = u(r2.map((t3) => (t3.includes("") && (o2 = true), t3.join(g)))), c2 = u(e2.flat(3));
-        return {transitions: i2.map((t3) => t3.split(g)), routes: i2, states: o2 ? c2 : c2.filter(Boolean)};
+        return A(O(t2)).flat(2);
       }
       function S(t2) {
+        const n2 = y("decomposeChart", { chart: s }, t2);
+        if (n2)
+          throw TypeError(n2);
+        const e2 = A(O(t2)), r2 = e2.flatMap(j).flatMap(x);
+        let o2 = false;
+        const i2 = u(r2.map((t3) => (t3.includes("") && (o2 = true), t3.join($)))), c2 = u(e2.flat(3));
+        return { transitions: i2.map((t3) => t3.split($)), routes: i2, states: o2 ? c2 : c2.filter(Boolean) };
+      }
+      function O(t2) {
         const n2 = function(t3) {
-          return [t3].flat().reduce((t4, n3) => [...t4, ...n3.split(h)], []);
+          return [t3].flat().reduce((t4, n3) => [...t4, ...n3.split(m)], []);
         }(t2), e2 = [];
         let r2 = false;
         const o2 = n2.reduce((t3, n3) => {
-          const o3 = n3.replace(v, "").replace(E, "");
-          return o3 ? (r2 = w.test(o3), r2 ? t3 + o3 : (e2.push(t3 + o3), "")) : t3;
+          const o3 = n3.replace(T, "").replace(v, "");
+          return o3 ? (r2 = E.test(o3), r2 ? t3 + o3 : (e2.push(t3 + o3), "")) : t3;
         }, "");
         return r2 || o2 ? [...e2, o2] : [...e2];
       }
-      function O(t2) {
-        return t2.map((t3) => t3.split(g).map((t4) => t4.split(d)));
-      }
       function A(t2) {
+        return t2.map((t3) => t3.split($).map((t4) => t4.split(g)));
+      }
+      function j(t2) {
         const n2 = [];
         return t2.reduce((t3, e2) => (t3 === false || n2.push([t3, [...e2]]), [...e2]), false), n2;
       }
-      function j([t2, n2]) {
+      function x([t2, n2]) {
         return t2.reduce((t3, e2) => [...t3, ...n2.map((t4) => [e2, t4])], []);
       }
-      var x = "onExiting";
-      var I = "onEntering";
-      var L = "onExited";
-      var N = "onEntered";
-      var C = "onSwitching";
-      var P = "onSwitched";
-      var _ = {[C]: "(ANY)state:changing", [P]: "(ANY)state:changed"};
+      var I = "onExiting";
+      var L = "onEntering";
+      var N = "onExited";
+      var C = "onEntered";
+      var P = "onSwitching";
+      var M = "onSwitched";
+      var _ = { [P]: "(ANY)state:changing", [M]: "(ANY)state:changed" };
       function k(t2, n2) {
         const e2 = [], r2 = [];
-        return {configs: t2.reduce((t3, o2) => {
-          const {routeChart: i2, action: s2} = o2, {states: c2, routes: a2, transitions: u2} = b(i2);
-          return n2() && (e2.push(...c2), r2.push(...a2)), [...t3, ...u2.map(([t4, n3]) => ({fromState: t4, toState: n3, action: s2}))];
-        }, []), states: e2, routes: r2};
+        return { configs: t2.reduce((t3, o2) => {
+          const { routeChart: i2, action: s2 } = o2, { states: c2, routes: a2, transitions: u2 } = S(i2);
+          return n2() && (e2.push(...c2), r2.push(...a2)), [...t3, ...u2.map(([t4, n3]) => ({ fromState: t4, toState: n3, action: s2 }))];
+        }, []), states: e2, routes: r2 };
       }
       function R(t2) {
         return i(t2) && typeof t2.__STATEBOT__ == "number";
       }
-      var M = c("statebot.");
-      var D = 0;
-      function F() {
+      var D = c("statebot.");
+      var F = 0;
+      function Y() {
         const t2 = Date.now();
         function n2(t3, n3) {
           return t3.toFixed(n3).replace(/\.0+$/, "");
@@ -2223,207 +2230,217 @@ ${c2.map((t3) => `| ${t3}`).join("\n")}`;
         if (!i(u2))
           throw new TypeError(`
 ${f2}: Please specify options for this machine`);
-        const {chart: l2, logLevel: h2 = 3, historyLimit: d2 = 2} = u2 || {}, $2 = u2.events === void 0 ? a(t()) : o(w2 = u2.events) && e(w2.emit) && (e(w2.addListener) || e(w2.on)) && (e(w2.removeListener) || e(w2.off)) && a(u2.events);
-        var w2;
-        if (!$2)
+        const { chart: p2, logLevel: m2 = 3, historyLimit: g2 = 2 } = u2 || {}, w2 = u2.events === void 0 ? a(t()) : o(E2 = u2.events) && e(E2.emit) && (e(E2.addListener) || e(E2.on)) && (e(E2.removeListener) || e(E2.off)) && a(u2.events);
+        var E2;
+        if (!w2)
           throw new TypeError(`
 ${f2}: Invalid event-emitter specified in options`);
-        const {states: E2 = [], routes: v2 = []} = l2 ? b(l2) : u2, {startIn: T2 = E2[0]} = u2;
-        if (!E2.includes(T2))
-          throw new Error(`${f2}: Starting-state not in chart: "${T2}"`);
-        const y2 = c(`${f2}#`), S2 = m(h2, console), {canWarn: O2} = S2, A2 = [T2], j2 = Math.max(d2, 2);
+        const { states: v2 = [], routes: T2 = [] } = p2 ? S(p2) : u2, { startIn: y2 = v2[0] } = u2;
+        if (!v2.includes(y2))
+          throw new Error(`${f2}: Starting-state not in chart: "${y2}"`);
+        const b2 = c(`${f2}#`), O2 = d(m2, console), { canWarn: A2 } = O2, j2 = [y2], x2 = Math.max(g2, 2);
         let R2 = 0;
-        const {pause: M2, resume: D2, paused: F2, Pausable: Y} = function(t2, n2) {
+        const { pause: D2, resume: F2, paused: Y2, Pausable: B } = function(t2, n2) {
           n2 = n2 || function() {
           };
           let e2 = !!t2;
-          return {Pausable: function(t3) {
+          return { Pausable: function(t3) {
             return (...r2) => e2 ? (n2(), false) : t3(...r2);
           }, paused: () => e2, pause: () => {
             e2 = true;
           }, resume: () => {
             e2 = false;
-          }};
-        }(false, () => S2.warn(`${f2}: Ignoring callback, paused`)), B = a(t()), G = Y(B.emit);
-        function H(t2, n2) {
-          return B.on(t2, n2), () => B.off(t2, n2);
+          } };
+        }(false, () => O2.warn(`${f2}: Ignoring callback, paused`)), G = a(t()), H = B(G.emit);
+        function U(t2, n2) {
+          return G.on(t2, n2), () => G.off(t2, n2);
         }
-        const U = p(s2, "states", "Listening for the following state-changes", [...E2]), V = p(s2, "transitions", "Listening for the following transitions", [...v2]), W = p(s2, "events", "Listening for the following events");
-        function z(t2, o2) {
-          const c2 = e(t2) ? t2({enter: tt, emit: Z, Enter: it, Emit: ot}) : i(t2) ? t2 : null;
+        const V = h(s2, "states", "Listening for the following state-changes", [...v2]), W = h(s2, "transitions", "Listening for the following transitions", [...T2]), z = h(s2, "events", "Listening for the following events");
+        function J(t2, o2) {
+          const c2 = e(t2) ? t2({ enter: nt, emit: tt, Enter: st, Emit: it }) : i(t2) ? t2 : null;
           if (!i(c2))
             throw new TypeError(`Statebot[${s2}]#${o2}(): Expected an object, or a function that returns an object`);
-          const a2 = [], u3 = [], {transitionsForEvents: f3, transitionsOnly: l3} = function(t3) {
+          const a2 = [], u3 = [], { transitionsForEvents: f3, transitionsOnly: p3 } = function(t3) {
             const o3 = {}, s3 = [];
             return Object.entries(t3).map(([t4, c3]) => {
               if (e(c3))
-                return void s3.push({routeChart: t4, action: c3});
+                return void s3.push({ routeChart: t4, action: c3 });
               if (!i(c3))
                 return;
-              const {on: a3, then: u4} = c3;
+              const { on: a3, then: u4 } = c3;
               if (r(a3) || n(a3)) {
                 [a3].flat().map((n2) => {
-                  o3[n2] = o3[n2] || [], o3[n2].push({routeChart: t4, action: u4});
+                  o3[n2] = o3[n2] || [], o3[n2].push({ routeChart: t4, action: u4 });
                 });
               } else
-                e(u4) && s3.push({routeChart: t4, action: c3});
-            }), {transitionsForEvents: o3, transitionsOnly: s3};
-          }(c2), p2 = Object.entries(f3).reduce(function(t3, [n2, e2]) {
-            const {states: r2, routes: o3, configs: i2} = k(e2, O2);
-            O2() && (a2.push(...r2), u3.push(...o3));
-            return {...t3, [n2]: i2};
-          }, {}), m2 = k(l3, O2), h3 = Object.entries(p2).map(function([t3, n2]) {
-            return [W.increase(t3), nt(t3, (...e2) => {
-              n2.map((t4) => ({...t4, args: e2})).some(d3) || st(`Event not handled: "${t3}"`);
+                e(u4) && s3.push({ routeChart: t4, action: c3 });
+            }), { transitionsForEvents: o3, transitionsOnly: s3 };
+          }(c2), h2 = Object.entries(f3).reduce(function(t3, [n2, e2]) {
+            const { states: r2, routes: o3, configs: i2 } = k(e2, A2);
+            A2() && (a2.push(...r2), u3.push(...o3));
+            return { ...t3, [n2]: i2 };
+          }, {}), d2 = k(p3, A2), m3 = Object.entries(h2).map(function([t3, n2]) {
+            return [z.increase(t3), et2(t3, (...e2) => {
+              n2.map((t4) => ({ ...t4, args: e2 })).some(g3) || ct(`Event not handled: "${t3}"`);
             })];
-          }).concat(m2.configs.map(function(t3) {
-            const {fromState: n2, toState: e2, action: r2} = t3, o3 = `${n2}->${e2}`;
-            return [V.increase(o3), H(o3, r2)];
+          }).concat(d2.configs.map(function(t3) {
+            const { fromState: n2, toState: e2, action: r2 } = t3, o3 = `${n2}->${e2}`;
+            return [W.increase(o3), U(o3, (i2 = e2, s3 = r2, (...t4) => $2(i2, s3, ...t4)))];
+            var i2, s3;
           })).flat();
-          if (O2()) {
-            a2.push(...m2.states), u3.push(...m2.routes);
-            const t3 = a2.filter((t4) => !E2.includes(t4)), n2 = u3.filter((t4) => !v2.includes(t4));
-            t3.length && S2.warn(`Statebot[${s2}]#${o2}(): Invalid states specified:
-` + t3.map((t4) => `  > "${t4}"`).join("\n")), n2.length && S2.warn(`Statebot[${s2}]#${o2}(): Invalid transitions specified:
+          if (A2()) {
+            a2.push(...d2.states), u3.push(...d2.routes);
+            const t3 = a2.filter((t4) => !v2.includes(t4)), n2 = u3.filter((t4) => !T2.includes(t4));
+            t3.length && O2.warn(`Statebot[${s2}]#${o2}(): Invalid states specified:
+` + t3.map((t4) => `  > "${t4}"`).join("\n")), n2.length && O2.warn(`Statebot[${s2}]#${o2}(): Invalid transitions specified:
 ` + n2.map((t4) => `  > "${t4}"`).join("\n"));
           }
-          return () => h3.map((t3) => t3());
-          function d3({fromState: t3, toState: n2, action: r2, args: o3}) {
-            return X(t3, () => (tt(n2, ...o3), e(r2) && r2(...o3), true));
+          return () => m3.map((t3) => t3());
+          function g3({ fromState: t3, toState: n2, action: r2, args: o3 }) {
+            return Z(t3, () => (nt(n2, ...o3), e(r2) && $2(n2, r2, ...o3), true));
+          }
+          function $2(t3, n2, ...r2) {
+            const o3 = n2(...r2);
+            if (e(o3)) {
+              const n3 = l(ot[I](t3, (t4) => {
+                n3(), o3(t4);
+              }));
+              m3.push(n3);
+            }
           }
         }
-        function J() {
-          return A2[A2.length - 2];
-        }
         function K() {
-          return A2[A2.length - 1];
+          return j2[j2.length - 2];
         }
-        function q(t2) {
-          const n2 = t2 !== void 0 ? t2 : K(), e2 = y2("statesAvailableFromHere", {state: r}, n2);
+        function q() {
+          return j2[j2.length - 1];
+        }
+        function Q(t2) {
+          const n2 = t2 !== void 0 ? t2 : q(), e2 = b2("statesAvailableFromHere", { state: r }, n2);
           if (e2)
             throw new TypeError(e2);
-          return v2.reduce((t3, e3) => {
-            const [r2, o2] = e3.split(g).map((t4) => t4.trim());
+          return T2.reduce((t3, e3) => {
+            const [r2, o2] = e3.split($).map((t4) => t4.trim());
             return r2 === n2 ? [...t3, o2] : t3;
           }, []);
         }
-        function Q(t2, n2, ...r2) {
-          const o2 = K() === t2;
+        function X(t2, n2, ...r2) {
+          const o2 = q() === t2;
           return n2 === void 0 ? o2 : o2 ? e(n2) ? n2(...r2) : n2 : null;
         }
-        function X(...t2) {
-          const n2 = y2("inState", {state: [r, i]}, t2[0]);
+        function Z(...t2) {
+          const n2 = b2("inState", { state: [r, i] }, t2[0]);
           if (n2)
             throw new TypeError(n2);
           return i(t2[0]) ? function(t3, ...n3) {
-            const e2 = Object.entries(t3).find(([t4]) => Q(t4));
-            return e2 ? Q(...e2.concat(n3)) : null;
-          }(...t2) : Q(...t2);
+            const e2 = Object.entries(t3).find(([t4]) => X(t4));
+            return e2 ? X(...e2.concat(n3)) : null;
+          }(...t2) : X(...t2);
         }
-        const Z = Y((t2, ...n2) => {
-          const e2 = y2("emit", {eventName: r}, t2);
+        const tt = B((t2, ...n2) => {
+          const e2 = b2("emit", { eventName: r }, t2);
           if (e2)
             throw new TypeError(e2);
-          return $2.emit(t2, ...n2);
-        }), tt = Y((t2, ...n2) => {
-          const e2 = y2("enter", {state: r}, t2);
+          return w2.emit(t2, ...n2);
+        }), nt = B((t2, ...n2) => {
+          const e2 = b2("enter", { state: r }, t2);
           if (e2)
             throw new TypeError(e2);
-          const o2 = K(), i2 = t2;
+          const o2 = q(), i2 = t2;
           if (i2 === o2)
-            return st(`Already in state: "${i2}"`), false;
-          if (!E2.includes(i2))
-            return st(`Invalid state "${i2}", not switching`), false;
+            return ct(`Already in state: "${i2}"`), false;
+          if (!v2.includes(i2))
+            return ct(`Invalid state "${i2}", not switching`), false;
           const s3 = `${o2}->${i2}`;
-          return v2.includes(s3) ? (S2.info(`${f2}: tId<${++R2}>: ${s3}`), A2.push(i2), A2.length > j2 && A2.shift(), G(_[C], i2, o2, ...n2), G(s3, ...n2), G(_[P], i2, o2, ...n2), true) : (st(`Invalid transition "${s3}", not switching`), false);
+          return T2.includes(s3) ? (O2.info(`${f2}: tId<${++R2}>: ${s3}`), j2.push(i2), j2.length > x2 && j2.shift(), H(_[P], i2, o2, ...n2), H(s3, ...n2), H(_[M], i2, o2, ...n2), true) : (ct(`Invalid transition "${s3}", not switching`), false);
         });
-        function nt(t2, n2) {
-          const o2 = y2("onEvent", {eventName: r, cb: e}, t2, n2);
+        function et2(t2, n2) {
+          const o2 = b2("onEvent", { eventName: r, cb: e }, t2, n2);
           if (o2)
             throw new TypeError(o2);
-          return $2.on(t2, n2), () => $2.off(t2, n2);
+          return w2.on(t2, n2), () => w2.off(t2, n2);
         }
-        const et2 = Object.keys(_).reduce((t2, n2) => ({...t2, [n2]: (t3) => {
-          const r2 = y2(n2, {cb: e}, t3);
+        const rt = Object.keys(_).reduce((t2, n2) => ({ ...t2, [n2]: (t3) => {
+          const r2 = b2(n2, { cb: e }, t3);
           if (r2)
             throw new TypeError(r2);
-          const o2 = U.increase(_[n2]), i2 = H(_[n2], t3);
+          const o2 = V.increase(_[n2]), i2 = U(_[n2], t3);
           return () => {
             i2(), o2();
           };
-        }}), {}), rt = [[x, C], [I, C], [L, P], [N, P]].reduce((t2, n2) => {
+        } }), {}), ot = [[I, P], [L, P], [N, M], [C, M]].reduce((t2, n2) => {
           const [o2, i2] = n2, s3 = o2.slice(2), c2 = s3.toLowerCase();
-          return {...t2, [o2]: (t3, n3) => {
-            const a2 = y2(o2, {state: r, cb: e}, t3, n3);
+          return { ...t2, [o2]: (t3, n3) => {
+            const a2 = b2(o2, { state: r, cb: e }, t3, n3);
             if (a2)
               throw new TypeError(a2);
-            const u3 = [U.increase(t3), U.increase(`${t3}:${c2}`)], f3 = et2[i2]((e2, r2, ...o3) => {
+            const u3 = [V.increase(t3), V.increase(`${t3}:${c2}`)], f3 = rt[i2]((e2, r2, ...o3) => {
               s3.indexOf("Exit") === 0 ? t3 === r2 && n3(e2, ...o3) : t3 === e2 && n3(r2, ...o3);
             });
             return () => {
               f3(), u3.map((t4) => t4());
             };
-          }};
+          } };
         }, {});
-        function ot(t2, ...n2) {
-          const e2 = y2("Emit", {eventName: r}, t2);
-          if (e2)
-            throw new TypeError(e2);
-          return (...e3) => Z(t2, ...n2, ...e3);
-        }
         function it(t2, ...n2) {
-          const e2 = y2("Enter", {state: r}, t2);
+          const e2 = b2("Emit", { eventName: r }, t2);
           if (e2)
             throw new TypeError(e2);
           return (...e3) => tt(t2, ...n2, ...e3);
         }
-        function st(t2) {
-          const n2 = J(), e2 = K(), r2 = `${n2 === void 0 ? "[undefined]" : n2}->${e2}`, o2 = q();
-          o2.length ? S2.info(`${f2}: ${t2}
+        function st(t2, ...n2) {
+          const e2 = b2("Enter", { state: r }, t2);
+          if (e2)
+            throw new TypeError(e2);
+          return (...e3) => nt(t2, ...n2, ...e3);
+        }
+        function ct(t2) {
+          const n2 = K(), e2 = q(), r2 = `${n2 === void 0 ? "[undefined]" : n2}->${e2}`, o2 = Q();
+          o2.length ? O2.info(`${f2}: ${t2}
   > Previous transition: "${r2}"
-  > From "${e2}", valid states are: [${o2.map((t3) => `"${t3}"`).join(", ")}]`) : S2.info(`${f2}: ${t2}
+  > From "${e2}", valid states are: [${o2.map((t3) => `"${t3}"`).join(", ")}]`) : O2.info(`${f2}: ${t2}
   > Previous transition: "${r2}"
   > There are no states available from "${e2}"`);
         }
-        function ct(t2) {
-          const {description: n2, table: e2} = t2.toValue();
-          S2.log(n2), e2.length ? S2.table(e2) : S2.log("  > No information");
+        function at(t2) {
+          const { description: n2, table: e2 } = t2.toValue();
+          O2.log(n2), e2.length ? O2.table(e2) : O2.log("  > No information");
         }
-        return {__STATEBOT__: 1, canTransitionTo: function(...t2) {
-          const n2 = t2.flat(), e2 = y2("canTransitionTo", {state: r}, n2[0]);
+        return { __STATEBOT__: 1, canTransitionTo: function(...t2) {
+          const n2 = t2.flat(), e2 = b2("canTransitionTo", { state: r }, n2[0]);
           if (e2)
             throw new TypeError(e2);
           if (!n2.length)
             return false;
-          const o2 = q();
+          const o2 = Q();
           return n2.every((t3) => o2.includes(t3));
-        }, currentState: K, emit: Z, Emit: ot, enter: tt, Enter: it, history: () => [...A2], info: () => (S2.log(`${f2}: Information about this state-machine`), ct(U), ct(V), void ct(W)), inspect: () => ({states: U.refs(), transitions: V.refs(), events: W.refs()}), inState: X, InState: function(...t2) {
-          const n2 = y2("InState", {state: [r, i]}, t2[0]);
+        }, currentState: q, emit: tt, Emit: it, enter: nt, Enter: st, history: () => [...j2], info: () => (O2.log(`${f2}: Information about this state-machine`), at(V), at(W), void at(z)), inspect: () => ({ states: V.refs(), transitions: W.refs(), events: z.refs() }), inState: Z, InState: function(...t2) {
+          const n2 = b2("InState", { state: [r, i] }, t2[0]);
           if (n2)
             throw new TypeError(n2);
           return i(t2[0]) ? function(t3, ...n3) {
-            return (...e2) => X(t3, ...n3, ...e2);
+            return (...e2) => Z(t3, ...n3, ...e2);
           }(...t2) : function(t3, n3, ...e2) {
-            return (...r2) => X(t3, n3, ...e2, ...r2);
+            return (...r2) => Z(t3, n3, ...e2, ...r2);
           }(...t2);
-        }, name: () => s2, onEntered: rt[N], onEntering: rt[I], onEvent: nt, onExited: rt[L], onExiting: rt[x], onSwitched: et2[P], onSwitching: et2[C], onTransitions: (t2) => z(t2, "onTransitions"), pause: M2, paused: F2, performTransitions: (t2) => z(t2, "performTransitions"), previousState: J, reset: function() {
-          S2.warn(`${f2}: State-machine reset!`), A2.length = 0, A2.push(T2);
-        }, resume: D2, statesAvailableFromHere: q};
+        }, name: () => s2, onEntered: ot[C], onEntering: ot[L], onEvent: et2, onExited: ot[N], onExiting: ot[I], onSwitched: rt[M], onSwitching: rt[P], onTransitions: (t2) => J(t2, "onTransitions"), pause: D2, paused: Y2, performTransitions: (t2) => J(t2, "performTransitions"), previousState: K, reset: function() {
+          O2.warn(`${f2}: State-machine reset!`), j2.length = 0, j2.push(y2);
+        }, resume: F2, statesAvailableFromHere: Q };
       }, exports.assertRoute = function(t2, n2, e2) {
-        const r2 = M("assertRoute", {machine: R, expectedRoute: s}, t2, n2);
+        const r2 = D("assertRoute", { machine: R, expectedRoute: s }, t2, n2);
         if (r2)
           throw TypeError(r2);
-        D += 1;
-        const {description: o2 = "Assertion complete", fromState: i2 = "", run: c2 = () => {
-        }, permittedDeviations: a2 = 0, timeoutInMs: u2 = 1e3, logLevel: p2 = 3} = e2 || {}, h2 = m(p2), d2 = `Statebot[${t2.name()}]: aId<${D}>`, g2 = y(n2);
-        h2.log(`
-${d2}: Asserting route: [${g2.join(" > ")}]`), h2.log(`${d2}: > Assertion will start from state: "${i2}"`);
-        const $2 = f(c2);
-        let w2 = () => {
+        F += 1;
+        const { description: o2 = "Assertion complete", fromState: i2 = "", run: c2 = () => {
+        }, permittedDeviations: a2 = 0, timeoutInMs: u2 = 1e3, logLevel: h2 = 3 } = e2 || {}, m2 = d(h2), g2 = `Statebot[${t2.name()}]: aId<${F}>`, $2 = b(n2);
+        m2.log(`
+${g2}: Asserting route: [${$2.join(" > ")}]`), m2.log(`${g2}: > Assertion will start from state: "${i2}"`);
+        const w2 = f(c2);
+        let E2 = () => {
         };
-        const E2 = F();
-        let v2, T2 = F(), b2 = 0, S2 = true, O2 = false;
-        const A2 = [...g2], j2 = function(t3, n3) {
+        const v2 = Y();
+        let T2, y2 = Y(), S2 = 0, O2 = true, A2 = false;
+        const j2 = [...$2], x2 = function(t3, n3) {
           n3 = n3 || [];
           const e3 = [], r3 = (t3 = t3 || []).map((t4, e4) => n3[e4] || "center");
           let o3 = false;
@@ -2433,7 +2450,7 @@ ${d2}: Asserting route: [${g2.join(" > ")}]`), h2.log(`${d2}: > Assertion will s
           function s2(...n4) {
             if (o3)
               return;
-            const r4 = t3.reduce((t4, e4, r5) => ({...t4, [e4]: n4[r5] || ""}), {});
+            const r4 = t3.reduce((t4, e4, r5) => ({ ...t4, [e4]: n4[r5] || "" }), {});
             e3.push(r4);
           }
           function c3() {
@@ -2445,50 +2462,44 @@ ${d2}: Asserting route: [${g2.join(" > ")}]`), h2.log(`${d2}: > Assertion will s
               const o5 = n4[e4], i4 = r3[e4];
               return i4 === "left" ? t4.padEnd(o5) : i4 === "right" ? t4.padStart(o5) : t4;
             }
-            return e3.reduce((n5, e4) => [...n5, t3.reduce((t4, n6, r4) => ({...t4, [n6]: o4(e4[n6], r4)}), {})], []);
+            return e3.reduce((n5, e4) => [...n5, t3.reduce((t4, n6, r4) => ({ ...t4, [n6]: o4(e4[n6], r4) }), {})], []);
           }
-          return {lock: i3, addRow: s2, content: a3};
-        }(["state", "expected", "info", "took"], ["center", "center", "left", "right"]), x2 = function(t3) {
-          const {revoke: n3, fn: e3} = l(t3);
-          let r3;
-          return function(...t4) {
-            return r3 = e3(...t4), n3(), r3;
-          };
-        }((t3) => (I2("", "", "", "TOTAL: " + E2()), j2.lock(), h2.log(`
-${d2}: ${o2}: [${t3 ? "FAILED" : "SUCCESS"}]`), h2.table(j2.content()), t3)), {addRow: I2} = j2;
+          return { lock: i3, addRow: s2, content: a3 };
+        }(["state", "expected", "info", "took"], ["center", "center", "left", "right"]), I2 = l((t3) => (L2("", "", "", "TOTAL: " + v2()), x2.lock(), m2.log(`
+${g2}: ${o2}: [${t3 ? "FAILED" : "SUCCESS"}]`), m2.table(x2.content()), t3)), { addRow: L2 } = x2;
         return new Promise((n3, e3) => {
-          if (A2.length === 0)
-            return void e3(x2(new Error("NO ROUTE TO TEST")));
+          if (j2.length === 0)
+            return void e3(I2(new Error("NO ROUTE TO TEST")));
           const r3 = (n4) => {
-            for (; A2.length; ) {
-              const e4 = A2.shift();
-              I2(t2.currentState(), `(${e4})`, n4), O2 = false;
+            for (; j2.length; ) {
+              const e4 = j2.shift();
+              L2(t2.currentState(), `(${e4})`, n4), A2 = false;
             }
             ((t3) => {
-              clearTimeout(v2), w2(), c3(), e3(t3);
-            })(x2(new Error(n4)));
+              clearTimeout(T2), E2(), c3(), e3(t3);
+            })(I2(new Error(n4)));
           };
-          t2.inState(i2) && (S2 = false, w2 = $2());
-          const {revoke: o3, fn: s2} = l((t3) => {
-            v2 = setTimeout(() => {
+          t2.inState(i2) && (O2 = false, E2 = w2());
+          const { revoke: o3, fn: s2 } = p((t3) => {
+            T2 = setTimeout(() => {
               o3(), r3("TIMEOUT");
             }, u2), function(t4) {
-              if (S2)
-                I2(t4, "-", "PENDING");
+              if (O2)
+                L2(t4, "-", "PENDING");
               else {
-                const n4 = A2[0];
-                n4 === t4 ? (I2(t4, n4, O2 ? "REALIGNED" : "OKAY", T2()), O2 = false, A2.shift()) : (I2(t4, n4, "WRONG STATE", T2()), O2 = true, b2 += 1), T2 = F();
+                const n4 = j2[0];
+                n4 === t4 ? (L2(t4, n4, A2 ? "REALIGNED" : "OKAY", y2()), A2 = false, j2.shift()) : (L2(t4, n4, "WRONG STATE", y2()), A2 = true, S2 += 1), y2 = Y();
               }
-            }(t3), S2 && t3 === i2 && (S2 = false, w2 = $2()), b2 > a2 && (o3(), r3("TOO MANY DEVIATIONS")), A2.length <= 0 && (o3(), ((...t4) => {
-              clearTimeout(v2), w2(), c3(), n3(...t4);
-            })(x2()));
+            }(t3), O2 && t3 === i2 && (O2 = false, E2 = w2()), S2 > a2 && (o3(), r3("TOO MANY DEVIATIONS")), j2.length <= 0 && (o3(), ((...t4) => {
+              clearTimeout(T2), E2(), c3(), n3(...t4);
+            })(I2()));
           }), c3 = t2.onSwitching(s2);
         });
-      }, exports.decomposeChart = b, exports.isStatebot = R, exports.routeIsPossible = function(t2, n2) {
-        const e2 = M("routeIsPossible", {machine: R, route: s}, t2, n2);
+      }, exports.decomposeChart = S, exports.isStatebot = R, exports.routeIsPossible = function(t2, n2) {
+        const e2 = D("routeIsPossible", { machine: R, route: s }, t2, n2);
         if (e2)
           throw TypeError(e2);
-        const r2 = y(n2);
+        const r2 = b(n2);
         return r2.every((n3, e3) => {
           if (e3 === r2.length - 1)
             return true;
@@ -2501,13 +2512,13 @@ ${d2}: ${o2}: [${t3 ? "FAILED" : "SUCCESS"}]`), h2.table(j2.content()), t3)), {a
     }
   });
 
-  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.dev.js
+  // node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.dev.js
   var require_statebot_dev = __commonJS({
-    "node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/dist/cjs/statebot.dev.js"(exports) {
+    "node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.dev.js"(exports) {
       "use strict";
-      Object.defineProperty(exports, "__esModule", {value: true});
+      Object.defineProperty(exports, "__esModule", { value: true });
       function mitt(n) {
-        return {all: n = n || new Map(), on: function(t, e) {
+        return { all: n = n || new Map(), on: function(t, e) {
           var i = n.get(t);
           i && i.push(e) || n.set(t, [e]);
         }, off: function(t, e) {
@@ -2519,7 +2530,7 @@ ${d2}: ${o2}: [${t3 ? "FAILED" : "SUCCESS"}]`), h2.table(j2.content()), t3)), {a
           }), (n.get("*") || []).slice().map(function(n2) {
             n2(t, e);
           });
-        }};
+        } };
       }
       function isEventEmitter(obj) {
         return isObject(obj) && isFunction(obj.emit) && (isFunction(obj.addListener) || isFunction(obj.on)) && (isFunction(obj.removeListener) || isFunction(obj.off));
@@ -2558,7 +2569,7 @@ ${d2}: ${o2}: [${t3 ? "FAILED" : "SUCCESS"}]`), h2.table(j2.content()), t3)), {a
         return typeof arg === argType ? void 0 : `Argument "${argName}" should be a ${argType}`;
       };
       var typeErrorStringFromArgument = (argMap, arg, index) => {
-        const {argName, argType} = argMap[index];
+        const { argName, argType } = argMap[index];
         if (arg === void 0) {
           return `Argument undefined: "${argName}"`;
         }
@@ -2573,15 +2584,15 @@ ${d2}: ${o2}: [${t3 ? "FAILED" : "SUCCESS"}]`), h2.table(j2.content()), t3)), {a
       };
       function ArgTypeError(errPrefix) {
         return function(fnName, typeMap, ...args) {
-          const argMap = Object.entries(typeMap).map(([argName, argType]) => ({argName, argType}));
-          const err = args.map((...args2) => typeErrorStringFromArgument(argMap, ...args2)).filter(isString);
-          if (!err.length) {
+          const argMap = Object.entries(typeMap).map(([argName, argType]) => ({ argName, argType }));
+          const err2 = args.map((...args2) => typeErrorStringFromArgument(argMap, ...args2)).filter(isString);
+          if (!err2.length) {
             return;
           }
           const signature = Object.keys(typeMap).join(", ");
           return `
 ${errPrefix || ""}${fnName}(${signature}):
-${err.map((err2) => `| ${err2}`).join("\n")}`;
+${err2.map((err3) => `| ${err3}`).join("\n")}`;
         };
       }
       function wrapEmitter(events) {
@@ -2631,7 +2642,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         return (...args) => defer(fn, ...args);
       }
       function Once(fn) {
-        const {revoke, fn: _fn} = Revokable(fn);
+        const { revoke, fn: _fn } = Revokable(fn);
         let result;
         return function(...args) {
           result = _fn(...args);
@@ -2679,7 +2690,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         };
       }
       function ReferenceCounter(name, kind, description, ...expecting) {
-        const _refs = [...expecting].flat().reduce((acc, ref) => ({...acc, [ref]: 0}), {});
+        const _refs = [...expecting].flat().reduce((acc, ref) => ({ ...acc, [ref]: 0 }), {});
         function increase(ref) {
           _refs[ref] = countOf(ref) + 1;
           return () => {
@@ -2694,7 +2705,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           return _refs[ref] || 0;
         }
         function refs() {
-          return {..._refs};
+          return { ..._refs };
         }
         function table() {
           return Object.keys(_refs).sort().map((key) => [key, _refs[key]]).map(([ref, count]) => {
@@ -2736,7 +2747,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         function canInfo() {
           return level >= 3;
         }
-        const {info, table, log, warn, error} = _console || console;
+        const { info, table, log, warn, error } = _console || console;
         return {
           canWarn,
           canLog,
@@ -2767,9 +2778,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       var rxComment = /(\/\/[^\n\r]*)/;
       var argTypeError$1 = ArgTypeError("statebot.");
       function decomposeRoute(templateLiteral) {
-        const err = argTypeError$1("decomposeRoute", {templateLiteral: isTemplateLiteral}, templateLiteral);
-        if (err) {
-          throw TypeError(err);
+        const err2 = argTypeError$1("decomposeRoute", { templateLiteral: isTemplateLiteral }, templateLiteral);
+        if (err2) {
+          throw TypeError(err2);
         }
         const lines = condensedLines(templateLiteral);
         const linesOfTokens = tokenisedLines(lines);
@@ -2777,14 +2788,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         return route;
       }
       function decomposeChart(chart) {
-        const err = argTypeError$1("decomposeChart", {chart: isTemplateLiteral}, chart);
-        if (err) {
-          throw TypeError(err);
+        const err2 = argTypeError$1("decomposeChart", { chart: isTemplateLiteral }, chart);
+        if (err2) {
+          throw TypeError(err2);
         }
         const lines = condensedLines(chart);
         const linesOfTokens = tokenisedLines(lines);
-        const linesOfRoutes = linesOfTokens.map(decomposeRouteFromTokens).flat(1);
-        const linesOfTransitions = linesOfRoutes.map(decomposeTransitionsFromRoute).flat(1);
+        const linesOfRoutes = linesOfTokens.flatMap(decomposeRouteFromTokens);
+        const linesOfTransitions = linesOfRoutes.flatMap(decomposeTransitionsFromRoute);
         let emptyStateFound = false;
         const routeKeys = linesOfTransitions.map((route) => {
           if (route.includes("")) {
@@ -2874,18 +2885,18 @@ ${logPrefix}: Please specify options for this machine`);
           throw new TypeError(`
 ${logPrefix}: Invalid event-emitter specified in options`);
         }
-        const {states = [], routes = []} = chart ? decomposeChart(chart) : options;
-        const {startIn = states[0]} = options;
+        const { states = [], routes = [] } = chart ? decomposeChart(chart) : options;
+        const { startIn = states[0] } = options;
         if (!states.includes(startIn)) {
           throw new Error(`${logPrefix}: Starting-state not in chart: "${startIn}"`);
         }
         const argTypeError2 = ArgTypeError(`${logPrefix}#`);
         const _console = Logger(logLevel, console);
-        const {canWarn} = _console;
+        const { canWarn } = _console;
         const stateHistory = [startIn];
         const stateHistoryLimit = Math.max(historyLimit, 2);
         let transitionId = 0;
-        const {pause, resume, paused, Pausable} = Pausables(false, () => _console.warn(`${logPrefix}: Ignoring callback, paused`));
+        const { pause, resume, paused, Pausable } = Pausables(false, () => _console.warn(`${logPrefix}: Ignoring callback, paused`));
         const internalEvents = wrapEmitter(mitt());
         const emitInternalEvent = Pausable(internalEvents.emit);
         function onInternalEvent(eventName, cb) {
@@ -2896,7 +2907,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         const routesHandled = ReferenceCounter(name, "transitions", "Listening for the following transitions", [...routes]);
         const eventsHandled = ReferenceCounter(name, "events", "Listening for the following events");
         function applyHitcher(hitcher, fnName) {
-          const hitcherActions = isFunction(hitcher) ? hitcher({enter, emit, Enter, Emit}) : isPojo(hitcher) ? hitcher : null;
+          const hitcherActions = isFunction(hitcher) ? hitcher({ enter, emit, Enter, Emit }) : isPojo(hitcher) ? hitcher : null;
           if (!isPojo(hitcherActions)) {
             throw new TypeError(`Statebot[${name}]#${fnName}(): Expected an object, or a function that returns an object`);
           }
@@ -2925,11 +2936,11 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           }
           return () => allCleanupFns.map((fn) => fn());
           function runThenMethodOnTransition(config) {
-            const {fromState, toState, action} = config;
+            const { fromState, toState, action } = config;
             const route = `${fromState}->${toState}`;
             return [
               routesHandled.increase(route),
-              onInternalEvent(route, action)
+              onInternalEvent(route, bindActionTo(toState, action))
             ];
           }
           function decomposeTransitionsForEvent(acc, [eventName, transitionsAndAction]) {
@@ -2947,10 +2958,10 @@ ${logPrefix}: Invalid event-emitter specified in options`);
               [eventName]: configs
             };
           }
-          function ifStateThenEnterState({fromState, toState, action, args}) {
+          function ifStateThenEnterState({ fromState, toState, action, args }) {
             return inState(fromState, () => {
               enter(toState, ...args);
-              isFunction(action) && action(...args);
+              isFunction(action) && runActionFor(toState, action, ...args);
               return true;
             });
           }
@@ -2958,12 +2969,25 @@ ${logPrefix}: Invalid event-emitter specified in options`);
             return [
               eventsHandled.increase(eventName),
               onEvent(eventName, (...args) => {
-                const eventWasHandled = configs.map((config) => ({...config, args})).some(ifStateThenEnterState);
+                const eventWasHandled = configs.map((config) => ({ ...config, args })).some(ifStateThenEnterState);
                 if (!eventWasHandled) {
                   transitionNoOp(`Event not handled: "${eventName}"`);
                 }
               })
             ];
+          }
+          function runActionFor(state, actionFn, ...args) {
+            const onExitingState = actionFn(...args);
+            if (isFunction(onExitingState)) {
+              const uninstall = Once(enterExitMethods[ON_EXITING](state, (toState) => {
+                uninstall();
+                onExitingState(toState);
+              }));
+              allCleanupFns.push(uninstall);
+            }
+          }
+          function bindActionTo(state, actionFn) {
+            return (...args) => runActionFor(state, actionFn, ...args);
           }
         }
         function previousState() {
@@ -2974,9 +2998,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         }
         function canTransitionTo(...states2) {
           const testStates = states2.flat();
-          const err = argTypeError2("canTransitionTo", {state: isString}, testStates[0]);
-          if (err) {
-            throw new TypeError(err);
+          const err2 = argTypeError2("canTransitionTo", { state: isString }, testStates[0]);
+          if (err2) {
+            throw new TypeError(err2);
           }
           if (!testStates.length) {
             return false;
@@ -2986,9 +3010,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         }
         function statesAvailableFromHere(state) {
           const _state = state !== void 0 ? state : currentState();
-          const err = argTypeError2("statesAvailableFromHere", {state: isString}, _state);
-          if (err) {
-            throw new TypeError(err);
+          const err2 = argTypeError2("statesAvailableFromHere", { state: isString }, _state);
+          if (err2) {
+            throw new TypeError(err2);
           }
           return routes.reduce((acc, route) => {
             const [fromState, toState] = route.split(cxArrow).map((state2) => state2.trim());
@@ -3013,23 +3037,23 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           return match ? _inState(...match.concat(fnArgs)) : null;
         }
         function inState(...args) {
-          const err = argTypeError2("inState", {state: [isString, isPojo]}, args[0]);
-          if (err) {
-            throw new TypeError(err);
+          const err2 = argTypeError2("inState", { state: [isString, isPojo] }, args[0]);
+          if (err2) {
+            throw new TypeError(err2);
           }
           return isPojo(args[0]) ? _inStateObject(...args) : _inState(...args);
         }
         const emit = Pausable((eventName, ...args) => {
-          const err = argTypeError2("emit", {eventName: isString}, eventName);
-          if (err) {
-            throw new TypeError(err);
+          const err2 = argTypeError2("emit", { eventName: isString }, eventName);
+          if (err2) {
+            throw new TypeError(err2);
           }
           return events.emit(eventName, ...args);
         });
         const enter = Pausable((state, ...args) => {
-          const err = argTypeError2("enter", {state: isString}, state);
-          if (err) {
-            throw new TypeError(err);
+          const err2 = argTypeError2("enter", { state: isString }, state);
+          if (err2) {
+            throw new TypeError(err2);
           }
           const inState2 = currentState();
           const toState = state;
@@ -3057,9 +3081,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           return true;
         });
         function onEvent(eventName, cb) {
-          const err = argTypeError2("onEvent", {eventName: isString, cb: isFunction}, eventName, cb);
-          if (err) {
-            throw new TypeError(err);
+          const err2 = argTypeError2("onEvent", { eventName: isString, cb: isFunction }, eventName, cb);
+          if (err2) {
+            throw new TypeError(err2);
           }
           events.on(eventName, cb);
           return () => events.off(eventName, cb);
@@ -3067,9 +3091,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         const switchMethods = Object.keys(INTERNAL_EVENTS).reduce((obj, methodName) => ({
           ...obj,
           [methodName]: (cb) => {
-            const err = argTypeError2(methodName, {cb: isFunction}, cb);
-            if (err) {
-              throw new TypeError(err);
+            const err2 = argTypeError2(methodName, { cb: isFunction }, cb);
+            if (err2) {
+              throw new TypeError(err2);
             }
             const decreaseRefCount = statesHandled.increase(INTERNAL_EVENTS[methodName]);
             const removeEvent = onInternalEvent(INTERNAL_EVENTS[methodName], cb);
@@ -3091,9 +3115,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           return {
             ...obj,
             [methodName]: (state, cb) => {
-              const err = argTypeError2(methodName, {state: isString, cb: isFunction}, state, cb);
-              if (err) {
-                throw new TypeError(err);
+              const err2 = argTypeError2(methodName, { state: isString, cb: isFunction }, state, cb);
+              if (err2) {
+                throw new TypeError(err2);
               }
               const decreaseRefCounts = [
                 statesHandled.increase(state),
@@ -3114,16 +3138,16 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           };
         }, {});
         function Emit(eventName, ...curriedArgs) {
-          const err = argTypeError2("Emit", {eventName: isString}, eventName);
-          if (err) {
-            throw new TypeError(err);
+          const err2 = argTypeError2("Emit", { eventName: isString }, eventName);
+          if (err2) {
+            throw new TypeError(err2);
           }
           return (...args) => emit(eventName, ...[...curriedArgs, ...args]);
         }
         function Enter(state, ...curriedArgs) {
-          const err = argTypeError2("Enter", {state: isString}, state);
-          if (err) {
-            throw new TypeError(err);
+          const err2 = argTypeError2("Enter", { state: isString }, state);
+          if (err2) {
+            throw new TypeError(err2);
           }
           return (...args) => enter(state, ...[...curriedArgs, ...args]);
         }
@@ -3134,9 +3158,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           return (...fnArgs) => inState(stateObject, ...[...curriedFnArgs, ...fnArgs]);
         }
         function InState(...args) {
-          const err = argTypeError2("InState", {state: [isString, isPojo]}, args[0]);
-          if (err) {
-            throw new TypeError(err);
+          const err2 = argTypeError2("InState", { state: [isString, isPojo] }, args[0]);
+          if (err2) {
+            throw new TypeError(err2);
           }
           return isPojo(args[0]) ? _InStateObject(...args) : _InState(...args);
         }
@@ -3174,7 +3198,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
           logRefCounterInfo(eventsHandled);
         }
         function logRefCounterInfo(refCounter) {
-          const {description, table} = refCounter.toValue();
+          const { description, table } = refCounter.toValue();
           _console.log(description);
           if (table.length) {
             _console.table(table);
@@ -3218,41 +3242,41 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         const transitionsOnly = [];
         Object.entries(hitcherActions).map(([routeChart, actionFnOrConfigObj]) => {
           if (isFunction(actionFnOrConfigObj)) {
-            transitionsOnly.push({routeChart, action: actionFnOrConfigObj});
+            transitionsOnly.push({ routeChart, action: actionFnOrConfigObj });
             return;
           }
           if (!isPojo(actionFnOrConfigObj)) {
             return;
           }
-          const {on: _on, then: _then} = actionFnOrConfigObj;
+          const { on: _on, then: _then } = actionFnOrConfigObj;
           const hasValidEventNames = isString(_on) || isArray(_on);
           if (hasValidEventNames) {
             const eventNames = [_on].flat();
             eventNames.map((name) => {
               transitionsForEvents[name] = transitionsForEvents[name] || [];
-              transitionsForEvents[name].push({routeChart, action: _then});
+              transitionsForEvents[name].push({ routeChart, action: _then });
             });
             return;
           }
           if (isFunction(_then)) {
-            transitionsOnly.push({routeChart, action: actionFnOrConfigObj});
+            transitionsOnly.push({ routeChart, action: actionFnOrConfigObj });
           }
         });
-        return {transitionsForEvents, transitionsOnly};
+        return { transitionsForEvents, transitionsOnly };
       }
       function expandTransitions(configs, canWarn) {
         const allStates = [];
         const allRoutes = [];
         const _configs = configs.reduce((acc, config) => {
-          const {routeChart, action} = config;
-          const {states, routes, transitions} = decomposeChart(routeChart);
+          const { routeChart, action } = config;
+          const { states, routes, transitions } = decomposeChart(routeChart);
           if (canWarn()) {
             allStates.push(...states);
             allRoutes.push(...routes);
           }
           return [
             ...acc,
-            ...transitions.map(([fromState, toState]) => ({fromState, toState, action}))
+            ...transitions.map(([fromState, toState]) => ({ fromState, toState, action }))
           ];
         }, []);
         return {
@@ -3266,9 +3290,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
       }
       var argTypeError = ArgTypeError("statebot.");
       function routeIsPossible(machine, route) {
-        const err = argTypeError("routeIsPossible", {machine: isStatebot, route: isTemplateLiteral}, machine, route);
-        if (err) {
-          throw TypeError(err);
+        const err2 = argTypeError("routeIsPossible", { machine: isStatebot, route: isTemplateLiteral }, machine, route);
+        if (err2) {
+          throw TypeError(err2);
         }
         const _route = decomposeRoute(route);
         return _route.every((state, index) => {
@@ -3284,9 +3308,9 @@ ${logPrefix}: Invalid event-emitter specified in options`);
       }
       var assertionId = 0;
       function assertRoute(machine, expectedRoute, options) {
-        const err = argTypeError("assertRoute", {machine: isStatebot, expectedRoute: isTemplateLiteral}, machine, expectedRoute);
-        if (err) {
-          throw TypeError(err);
+        const err2 = argTypeError("assertRoute", { machine: isStatebot, expectedRoute: isTemplateLiteral }, machine, expectedRoute);
+        if (err2) {
+          throw TypeError(err2);
         }
         assertionId += 1;
         const {
@@ -3315,15 +3339,15 @@ ${prefix}: Asserting route: [${route.join(" > ")}]`);
         let unexpected = false;
         const consumeRoute = [...route];
         const report = Table(["state", "expected", "info", "took"], ["center", "center", "left", "right"]);
-        const finaliseReport = Once((err2) => {
+        const finaliseReport = Once((err3) => {
           addRow("", "", "", "TOTAL: " + totalTimeTaken());
           report.lock();
           console2.log(`
-${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
+${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
           console2.table(report.content());
-          return err2;
+          return err3;
         });
-        const {addRow} = report;
+        const { addRow } = report;
         function enteredState(state) {
           if (pending) {
             addRow(state, "-", "PENDING");
@@ -3352,11 +3376,11 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
             removeOnSwitchingListener();
             resolve(...args);
           };
-          const clearTimeoutAndReject = (err2) => {
+          const clearTimeoutAndReject = (err3) => {
             clearTimeout(assertionTimeoutTimer);
             removeFromStateActionFn();
             removeOnSwitchingListener();
-            reject(err2);
+            reject(err3);
           };
           const bailout = (message) => {
             while (consumeRoute.length) {
@@ -3370,7 +3394,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
             pending = false;
             removeFromStateActionFn = fromStateActionFn();
           }
-          const {revoke, fn} = Revokable((state) => {
+          const { revoke, fn } = Revokable((state) => {
             assertionTimeoutTimer = setTimeout(() => {
               revoke();
               bailout("TIMEOUT");
@@ -3471,9 +3495,9 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     }
   });
 
-  // node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/index.js
+  // node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/index.js
   var require_statebot = __commonJS({
-    "node_modules/.pnpm/statebot@2.7.4/node_modules/statebot/index.js"(exports, module) {
+    "node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/index.js"(exports, module) {
       "use strict";
       if (typeof process !== "undefined" && true) {
         module.exports = require_statebot_min();
@@ -3523,15 +3547,21 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var import_spark_md5 = __toModule(require_spark_md5());
   var import_jmespath = __toModule(require_jmespath());
 
-  // node_modules/.pnpm/fflate@0.6.10/node_modules/fflate/esm/browser.js
+  // node_modules/.pnpm/fflate@0.7.1/node_modules/fflate/esm/browser.js
   var ch2 = {};
   var wk = function(c, id, msg, transfer, cb) {
-    var w = new Worker(ch2[id] || (ch2[id] = URL.createObjectURL(new Blob([c], {type: "text/javascript"}))));
-    w.onerror = function(e) {
-      return cb(e.error, null);
-    };
+    var w = new Worker(ch2[id] || (ch2[id] = URL.createObjectURL(new Blob([
+      c + ';addEventListener("error",function(e){e=e.error;postMessage({$e$:[e.message,e.code,e.stack]})})'
+    ], { type: "text/javascript" }))));
     w.onmessage = function(e) {
-      return cb(null, e.data);
+      var d = e.data, ed = d.$e$;
+      if (ed) {
+        var err2 = new Error(ed[0]);
+        err2["code"] = ed[1];
+        err2.stack = ed[2];
+        cb(err2, null);
+      } else
+        cb(null, d);
     };
     w.postMessage(msg, transfer);
     return w;
@@ -3619,7 +3649,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var flm = /* @__PURE__ */ hMap(flt, 9, 0);
   var fdm = /* @__PURE__ */ hMap(fdt, 5, 0);
   var shft = function(p) {
-    return (p / 8 | 0) + (p & 7 && 1);
+    return (p + 7) / 8 | 0;
   };
   var slc = function(v, s, e) {
     if (s == null || s < 0)
@@ -3629,6 +3659,31 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     var n = new (v instanceof u16 ? u16 : v instanceof u32 ? u32 : u8)(e - s);
     n.set(v.subarray(s, e));
     return n;
+  };
+  var ec = [
+    "unexpected EOF",
+    "invalid block type",
+    "invalid length/literal",
+    "invalid distance",
+    "stream finished",
+    "no stream handler",
+    ,
+    "no callback",
+    "invalid UTF-8 data",
+    "extra field too long",
+    "date not in range 1980-2099",
+    "filename too long",
+    "stream finishing",
+    "invalid zip data"
+  ];
+  var err = function(ind, msg, nt) {
+    var e = new Error(msg || ec[ind]);
+    e.code = ind;
+    if (Error.captureStackTrace)
+      Error.captureStackTrace(e, err);
+    if (!nt)
+      throw e;
+    return e;
   };
   var wbits = function(d, p, v) {
     v <<= p & 7;
@@ -3647,7 +3702,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     var t = [];
     for (var i = 0; i < d.length; ++i) {
       if (d[i])
-        t.push({s: i, f: d[i]});
+        t.push({ s: i, f: d[i] });
     }
     var s = t.length;
     var t2 = t.slice();
@@ -3661,13 +3716,13 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     t.sort(function(a, b) {
       return a.f - b.f;
     });
-    t.push({s: -1, f: 25001});
+    t.push({ s: -1, f: 25001 });
     var l = t[0], r = t[1], i0 = 0, i1 = 1, i2 = 2;
-    t[0] = {s: -1, f: l.f + r.f, l, r};
+    t[0] = { s: -1, f: l.f + r.f, l, r };
     while (i1 != s - 1) {
       l = t[t[i0].f < t[i2].f ? i0++ : i2++];
       r = t[i0 != i1 && t[i0].f < t[i2].f ? i0++ : i2++];
-      t[i1++] = {s: -1, f: l.f + r.f, l, r};
+      t[i1++] = { s: -1, f: l.f + r.f, l, r };
     }
     var maxSym = t2[0].s;
     for (var i = 1; i < s; ++i) {
@@ -4007,9 +4062,9 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     return postMessage(msg, [msg.buffer]);
   };
   var cbify = function(dat, opts, fns, init, id, cb) {
-    var w = wrkr(fns, init, id, function(err, dat2) {
+    var w = wrkr(fns, init, id, function(err2, dat2) {
       w.terminate();
-      cb(err, dat2);
+      cb(err2, dat2);
     });
     w.postMessage([dat, opts], opts.consume ? [dat.buffer] : []);
     return function() {
@@ -4024,7 +4079,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     if (!cb)
       cb = opts, opts = {};
     if (typeof cb != "function")
-      throw "no callback";
+      err(7);
     return cbify(data, opts, [
       bDflt
     ], function(ev) {
@@ -4049,7 +4104,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var td = typeof TextDecoder != "undefined" && /* @__PURE__ */ new TextDecoder();
   var tds = 0;
   try {
-    td.decode(et, {stream: true});
+    td.decode(et, { stream: true });
     tds = 1;
   } catch (e) {
   }
@@ -4092,7 +4147,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       for (var k in ex) {
         var l = ex[k].length;
         if (l > 65535)
-          throw "extra field too long";
+          err(9);
         le += l + 4;
       }
     }
@@ -4109,7 +4164,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     d[b++] = f.compression & 255, d[b++] = f.compression >> 8;
     var dt = new Date(f.mtime == null ? Date.now() : f.mtime), y = dt.getFullYear() - 1980;
     if (y < 0 || y > 119)
-      throw "date not in range 1980-2099";
+      err(10);
     wbytes(d, b, y << 25 | dt.getMonth() + 1 << 21 | dt.getDate() << 16 | dt.getHours() << 11 | dt.getMinutes() << 5 | dt.getSeconds() >>> 1), b += 4;
     if (c != null) {
       wbytes(d, b, f.crc);
@@ -4148,7 +4203,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     if (!cb)
       cb = opts, opts = {};
     if (typeof cb != "function")
-      throw "no callback";
+      err(7);
     var r = {};
     fltn(data, "", r, opts);
     var k = Object.keys(r);
@@ -4159,6 +4214,14 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       for (var i2 = 0; i2 < term.length; ++i2)
         term[i2]();
     };
+    var cbd = function(a, b) {
+      mt(function() {
+        cb(a, b);
+      });
+    };
+    mt(function() {
+      cbd = cb;
+    });
     var cbf = function() {
       var out = new u8(tot + 22), oe = o, cdl = tot - o;
       tot = 0;
@@ -4172,11 +4235,11 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
           out.set(f.c, loc);
           wzh(out, o, f, f.f, f.u, l, tot, f.m), o += 16 + badd + (f.m ? f.m.length : 0), tot = loc + l;
         } catch (e) {
-          return cb(e, null);
+          return cbd(e, null);
         }
       }
       wzf(out, o, files.length, cdl, oe);
-      cb(null, out);
+      cbd(null, out);
     };
     if (!lft)
       cbf();
@@ -4192,7 +4255,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       var cbl = function(e, d) {
         if (e) {
           tAll();
-          cb(e, null);
+          cbd(e, null);
         } else {
           var l = d.length;
           files[i2] = mrg(p, {
@@ -4211,7 +4274,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         }
       };
       if (s > 65535)
-        cbl("filename too long", null);
+        cbl(err(11, 0, 1), null);
       if (!compression)
         cbl(null, file);
       else if (size < 16e4) {
@@ -4228,6 +4291,9 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     }
     return tAll;
   }
+  var mt = typeof queueMicrotask == "function" ? queueMicrotask : typeof setTimeout == "function" ? setTimeout : function(fn) {
+    fn();
+  };
 
   // src/main.js
   var import_file_saver = __toModule(require_FileSaver_min());
@@ -4239,7 +4305,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     if (typeof window.CustomEvent === "function")
       return false;
     function CustomEvent2(event, params) {
-      params = params || {bubbles: false, cancelable: false, detail: null};
+      params = params || { bubbles: false, cancelable: false, detail: null };
       const evt = document.createEvent("CustomEvent");
       evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
       return evt;
@@ -4256,8 +4322,8 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     const BUS = "message-bus";
     const eventMap = new Map();
     function emit(eventName, ...args) {
-      const detail = {eventName, args, timestamp: Date.now()};
-      const event = new CustomEvent(BUS, {detail});
+      const detail = { eventName, args, timestamp: Date.now() };
+      const event = new CustomEvent(BUS, { detail });
       global2.dispatchEvent(event);
     }
     function on(eventNameOrPattern, cb) {
@@ -4275,7 +4341,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
         throw new Error(`${reason} = ${eventNameOrPattern}`);
       }
       const eventHandler = (event) => {
-        const {eventName = "", args = []} = event?.detail || {};
+        const { eventName = "", args = [] } = event?.detail || {};
         const runCallback = rx.test(eventName);
         if (runCallback) {
           if (isPlainMatcher) {
@@ -4324,7 +4390,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   var addAjaxListener = function() {
     attachAjaxEventRepeater();
     function onRx(eventName, options) {
-      const {rx, cb} = options;
+      const { rx, cb } = options;
       if (typeof cb !== "function") {
         throw TypeError("Callback is not a function");
       }
@@ -4353,18 +4419,18 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
       } = options || {};
       console.info(`AjaxListener[${name}]: ${description}`);
       if (typeof onBeforeOpen === "function") {
-        onRx("ajax:onBeforeOpen", {rx, cb: onBeforeOpen});
+        onRx("ajax:onBeforeOpen", { rx, cb: onBeforeOpen });
       }
       if (typeof onBeforeSend === "function") {
-        onRx("ajax:onBeforeSend", {rx, cb: onBeforeSend});
+        onRx("ajax:onBeforeSend", { rx, cb: onBeforeSend });
       }
       if (typeof onFullResponse === "function") {
-        onRx("ajax:onFullResponse", {rx, cb: onFullResponse});
+        onRx("ajax:onFullResponse", { rx, cb: onFullResponse });
       }
     };
   }();
   function AjaxRequester(options) {
-    const {name, description, method, url, setHeaders, setPayload} = options;
+    const { name, description, method, url, setHeaders, setPayload } = options;
     const _method = (method || "get").toUpperCase();
     const _formatPayload = (...args) => {
       let data;
@@ -4401,13 +4467,13 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   }
   function attachAjaxEventRepeater() {
     function emit(eventName, options) {
-      const event = new CustomEvent(eventName, {detail: options});
+      const event = new CustomEvent(eventName, { detail: options });
       window.dispatchEvent(event);
     }
     const open2 = window.XMLHttpRequest.prototype.open;
     const send = window.XMLHttpRequest.prototype.send;
     function openReplacement(method, url, async = true, user, password) {
-      this._options = {method, url, async, user, password, xhr: this};
+      this._options = { method, url, async, user, password, xhr: this };
       emit("ajax:onBeforeOpen", this._options);
       return open2.apply(this, arguments);
     }
@@ -4520,7 +4586,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     (getting-entries -> failed-entries -> found-statements)
 
 `;
-  var obisDefault = {rootPath: "."};
+  var obisDefault = { rootPath: "." };
   var obis = window.obis || (window.obis = obisDefault);
   obis.pluginRegistry = new Map();
   var getPluginMeta = (name) => obis.pluginRegistry.has(name) ? obis.pluginRegistry.get(name) : obis.pluginRegistry.set(name, {}).get(name);
@@ -4539,7 +4605,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     obis2.deps = {
       addAjaxListener,
       AjaxRequester,
-      fflate: {zip, strToU8},
+      fflate: { zip, strToU8 },
       jmespath: import_jmespath.default,
       messages,
       saveAs: import_file_saver.saveAs,
@@ -4572,7 +4638,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
   function loadObisAsBundle(obis2) {
     messages.on(actions.plugin.AVAILABLE, (name) => {
       obis2.plugin = getPluginMeta(name);
-      const {loaderFn} = obis2.plugin;
+      const { loaderFn } = obis2.plugin;
       if (typeof loaderFn !== "function") {
         const reason = `Plugin "${name}" did not provide a valid load-function: ${loaderFn}`;
         throw new TypeError(reason);
@@ -4591,11 +4657,11 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     messages.on(actions.plugin.LOADED, checkReady);
   }
   function loadObisInChunks(obis2) {
-    const {rootPath, pluginRegistry} = obis2;
+    const { rootPath, pluginRegistry } = obis2;
     const loadQueue = [`${rootPath}/plugins.js`];
     const loadAfterPlugin = [`${rootPath}/ui.css`, `${rootPath}/ui.js`];
     function pluginValidForLocation(plugin) {
-      const {urls = []} = plugin;
+      const { urls = [] } = plugin;
       const usePlugin = urls.some((url) => {
         const rx = typeof url === "string" ? (0, import_regexp2.makeRegExpFromWildcardString)(url) : url instanceof RegExp ? url : null;
         return rx?.test(location.href);
@@ -4613,7 +4679,7 @@ ${prefix}: ${description}: [${err2 ? "FAILED" : "SUCCESS"}]`);
     });
     messages.on(actions.plugin.AVAILABLE, (name) => {
       obis2.plugin = getPluginMeta(name);
-      const {loaderFn} = obis2.plugin;
+      const { loaderFn } = obis2.plugin;
       if (typeof loaderFn !== "function") {
         const reason = `Plugin "${name}" did not provide a valid load-function: ${loaderFn}`;
         throw new TypeError(reason);
