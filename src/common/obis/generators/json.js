@@ -17,7 +17,7 @@ export function makeGenerator() {
             if (isNaN(float)) {
               return 'balance' === key ? undefined : 0
             } else {
-              return float
+              return key === 'debit' ? -float : float
             }
           }
 

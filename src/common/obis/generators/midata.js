@@ -32,7 +32,7 @@ export function makeGenerator() {
       statement.entries.forEach(entry => {
         const { debit, credit, date, type, payee, note } = entry
 
-        const transactionAmountInCents = debit + credit
+        const transactionAmountInCents = -debit + credit
         runningBalanceInCents += transactionAmountInCents
 
         csv.push(

@@ -172,7 +172,7 @@ export function makeGenerator() {
 
       statement.entries.forEach(entry => {
         const { debit, credit, type, date, id, payee, note } = entry
-        const transactionAmount = convertCentsToDecimal(debit + credit)
+        const transactionAmount = convertCentsToDecimal(-debit + credit)
 
         ofx +=
           '\t\t\t\t\t' +

@@ -34,7 +34,7 @@ function generateIdForTransaction(fullEntry) {
   } = fullEntry
 
   const dateTime = dateTimeString(date) || 'UNKNOWN_DATE'
-  const transactionAmount = convertCentsToDecimal(debit + credit)
+  const transactionAmount = convertCentsToDecimal(-debit + credit)
 
   return (
     dateTime +

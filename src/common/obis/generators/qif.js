@@ -48,14 +48,14 @@ export function makeGenerator() {
       statement.entries.forEach(entry => {
         // eslint-disable-next-line no-unused-vars
         const { debit, credit, id, date, payee, note, type } = entry
-        const transactionAmount = convertCentsToDecimal(debit + credit)
+        const transactionAmount = convertCentsToDecimal(-debit + credit)
 
         qif +=
           'D' +
           qifEscape(USDateTimeString(date)) +
           '\n' +
           'N' +
-          qifEscape(debit + credit < 0 ? 'WITHD' : 'DEP') +
+          qifEscape(-debit + credit < 0 ? 'WITHD' : 'DEP') +
           '\n' +
           'T' +
           qifEscape(transactionAmount) +

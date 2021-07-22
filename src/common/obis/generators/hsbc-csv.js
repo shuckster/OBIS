@@ -16,7 +16,7 @@ export function makeGenerator() {
       statement.entries.forEach(entry => {
         // eslint-disable-next-line no-unused-vars
         const { debit, credit, id, date, payee, note, type } = entry
-        const transactionAmount = convertCentsToDecimal(debit + credit)
+        const transactionAmount = convertCentsToDecimal(-debit + credit)
 
         csv.push(
           '"' +
