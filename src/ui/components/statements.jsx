@@ -16,7 +16,7 @@ import clsx from 'clsx'
 
 import { actions } from '@/obis/actions'
 import { simpleDate } from '@/obis/utils/dates'
-import { convertCentsToDecimal } from '@/obis/utils/currency'
+import { convertCentsToDecimalForDisplay } from '@/obis/utils/currency'
 
 import { useAccounts } from '../store/base'
 import { useAccountStatements, useStatementEntries } from '../store/derived'
@@ -161,21 +161,21 @@ const Statement = ViewComponent(props => {
         <td>{type}</td>
         <td>{payee}</td>
         <td>{note}</td>
-        <td className="currency">{convertCentsToDecimal(debit)}</td>
-        <td className="currency">{convertCentsToDecimal(credit)}</td>
+        <td className="currency">{convertCentsToDecimalForDisplay(debit)}</td>
+        <td className="currency">{convertCentsToDecimalForDisplay(credit)}</td>
         <td
           className={clsx('currency', {
             negative: balance < 0
           })}
         >
-          {convertCentsToDecimal(balance)}
+          {convertCentsToDecimalForDisplay(balance)}
         </td>
         <td
           className={clsx('currency', {
             negative: runningBalance < 0
           })}
         >
-          {convertCentsToDecimal(runningBalance)}
+          {convertCentsToDecimalForDisplay(runningBalance)}
         </td>
       </tr>
     )
@@ -214,10 +214,18 @@ const Statement = ViewComponent(props => {
           <th>&nbsp;</th>
           <th>&nbsp;</th>
           <th>&nbsp;</th>
-          <th className="currency">{convertCentsToDecimal(totalDebit)}</th>
-          <th className="currency">{convertCentsToDecimal(totalCredit)}</th>
-          <th className="currency">{convertCentsToDecimal(endBalance)}</th>
-          <th className="currency">{convertCentsToDecimal(runningBalance)}</th>
+          <th className="currency">
+            {convertCentsToDecimalForDisplay(totalDebit)}
+          </th>
+          <th className="currency">
+            {convertCentsToDecimalForDisplay(totalCredit)}
+          </th>
+          <th className="currency">
+            {convertCentsToDecimalForDisplay(endBalance)}
+          </th>
+          <th className="currency">
+            {convertCentsToDecimalForDisplay(runningBalance)}
+          </th>
         </tr>
       </tfoot>
     </table>
@@ -363,10 +371,10 @@ export const StatementsPicker = ViewComponent(() => {
               </h2>
               <div className="balance-summary">
                 {totalCredit > 0 && (
-                  <span>{convertCentsToDecimal(totalCredit)} in</span>
+                  <span>{convertCentsToDecimalForDisplay(totalCredit)} in</span>
                 )}
                 {totalDebit > 0 && (
-                  <span>{convertCentsToDecimal(totalDebit)} out</span>
+                  <span>{convertCentsToDecimalForDisplay(totalDebit)} out</span>
                 )}
                 {creditDebitDiff !== 0 && (
                   <span
@@ -376,7 +384,7 @@ export const StatementsPicker = ViewComponent(() => {
                     })}
                   >
                     {creditDebitDiff <= 0 ? '📉 ' : '📈 '}
-                    {convertCentsToDecimal(creditDebitDiff)}
+                    {convertCentsToDecimalForDisplay(creditDebitDiff)}
                   </span>
                 )}
               </div>

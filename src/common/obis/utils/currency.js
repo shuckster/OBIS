@@ -10,6 +10,19 @@ export function convertCentsToDecimal(cents) {
   const decimal = cents / 100
   // const currencyString = gbpFormatter.format(decimal)
   return decimal.toLocaleString('en-GB', {
+    useGrouping: false,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  })
+}
+
+export function convertCentsToDecimalForDisplay(cents) {
+  if (!cents || 'number' !== typeof cents) {
+    return '-'
+  }
+  const decimal = cents / 100
+  // const currencyString = gbpFormatter.format(decimal)
+  return decimal.toLocaleString('en-GB', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   })
