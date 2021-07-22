@@ -11,6 +11,7 @@ import {
   useCallback
 } from 'mithril-hooks'
 import { useStatebot } from 'statebot-mithril-hooks'
+import { match, when, otherwise } from 'match-iz'
 
 import clsx from 'clsx'
 
@@ -127,11 +128,15 @@ export const App = ViewComponent(() => {
       <Header>{obis.plugin.description}</Header>
 
       <Subheader>
-        {ready
-          ? opened
-            ? 'Hit the button below to try and download everything automatically.'
-            : 'Welcome! Click that button on the right to see if we can download some statements.'
-          : 'Loading...'}
+        {match({ ready, opened })(
+          when({ ready: true, opened: true })(
+            'Hit the button below to try and download everything automatically.'
+          ),
+          when({ ready: true, opened: false })(
+            'Welcome! Click that button on the right to see if we can download some statements.'
+          ),
+          otherwise('Loading...')
+        )}
         <br />
         <br />
         {fetcher.inState({
