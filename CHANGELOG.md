@@ -6,6 +6,10 @@ Unreleased
 
 - Web Extension work-in-progress, currently supports Chrome
 
+22nd June 2021
+
+- Remove grouping "," separators from downloads, ie; 1,000.00 vs. 1000.00
+
 21st March 2021
 
 - Complete rewrite
