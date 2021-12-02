@@ -1,5 +1,5 @@
 {
-  "extends": ["eslint:recommended","plugin:mithril/recommended"],
+  "extends": ["eslint:recommended", "plugin:mithril/recommended"],
   "env": {
     "browser": true,
     "commonjs": true,
