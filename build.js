@@ -9,6 +9,7 @@ const { composePaths } = require('compose-paths')
 
 const { makePromise } = require('@/cjs/promises')
 const { loadTextFile, fileOnly } = require('@/cjs/files')
+const { pipe } = require('@/cjs/fp')
 
 const MINIFY_DISTRIBUTION = false
 const PLUGIN_SOURCE_NAME = 'plugin.js'
@@ -180,9 +181,11 @@ function buildStatementsCss(doNotWrite) {
 
 function buildPlugins() {
   return buildAndMinifyPlugins().then(results => {
-    const allPluginMeta = results.map(({ pluginMeta }) => pluginMeta)
-    const writeRegistryJob = writeTextFile(paths.DIST_PLUGIN_JS)(
-      buildPluginsRegistry(allPluginMeta)
+    const writeRegistryJob = pipe(
+      results,
+      $ => $.map(({ pluginMeta }) => pluginMeta),
+      $ => buildPluginsRegistry($),
+      $ => writeTextFile(paths.DIST_PLUGIN_JS)($)
     )
     const writePluginJobs = results.map(({ pluginContent, pluginMeta }) =>
       writeTextFile(pluginMeta.dist)(pluginContent)

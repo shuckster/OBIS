@@ -20,6 +20,7 @@ import { convertCentsToDecimalForDisplay } from '@/obis/utils/currency'
 
 import { useAccounts } from '../store/base'
 import { useAccountStatements, useStatementEntries } from '../store/derived'
+import { pipe } from '@/cjs/fp'
 
 export function createStatementsWindow() {
   const windowRef = window.open(
@@ -296,17 +297,22 @@ export const StatementsPicker = ViewComponent(() => {
   const [months, setMonths] = useState([])
 
   useEffect(() => {
-    const allYears = accountStatements.map(x =>
-      new Date(x.endDate).getFullYear()
+    const uniqueYears = pipe(
+      accountStatements,
+      $ => $.map(x => new Date(x.endDate)),
+      $ => $.map(x => x.getFullYear()),
+      $ => new Set($),
+      $ => [...$]
     )
-    const uniqueYears = [...new Set(allYears)]
 
-    // Months
-    const allMonths = accountStatements
-      .filter(x => new Date(x.endDate).getFullYear() == selectedYear)
-      .map(x => new Date(x.endDate).getMonth())
-
-    const uniqueMonths = [...new Set(allMonths)]
+    const uniqueMonths = pipe(
+      accountStatements,
+      $ => $.map(x => new Date(x.endDate)),
+      $ => $.filter(x => x.getFullYear() == selectedYear),
+      $ => $.map(x => x.getMonth()),
+      $ => new Set($),
+      $ => [...$]
+    )
 
     // Update
     setYears(uniqueYears)

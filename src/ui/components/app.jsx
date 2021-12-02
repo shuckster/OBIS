@@ -34,6 +34,7 @@ import {
 import { Delay, seconds } from '@/cjs/timers'
 import { actions } from '@/obis/actions'
 import { store } from '@/obis/store'
+import { flow, pipe } from '@/cjs/fp'
 
 const { fetchMachine: fetcher } = obis
 const { Statebot, messages } = obis.deps
@@ -88,10 +89,12 @@ export const App = ViewComponent(() => {
   const handleToggleOpen = useCallback(Emit(actions.ui.TOGGLE_OPEN), [])
 
   const handleRangeSlider = useCallback(
-    event => {
-      const val = parseInt(event?.target?.value, 10)
-      setYearsToFetch(isNaN(val) ? DEFAULT_YEARS_TO_FETCH : val)
-    },
+    flow(
+      event => event?.target?.value,
+      $ => parseInt($, 10),
+      $ => (isNaN($) ? DEFAULT_YEARS_TO_FETCH : $),
+      $ => setYearsToFetch($)
+    ),
     [setYearsToFetch]
   )
 
@@ -151,11 +154,17 @@ export const App = ViewComponent(() => {
         <VerticalAnimationContainer opened={opened}>
           <Accounts>
             {store().accounts.map(account => {
-              const allStatementYears = store()
-                .statements.filter(x => x.accountId === account.id)
-                .map(x => new Date(x.endDate).getFullYear())
+              const allStatementYears = pipe(
+                store(),
+                $ => $.statements.filter(x => x.accountId === account.id),
+                $ => $.map(x => new Date(x.endDate).getFullYear())
+              )
 
-              const uniqueStatementYears = [...new Set(allStatementYears)]
+              const uniqueStatementYears = pipe(
+                allStatementYears,
+                $ => new Set($),
+                $ => [...$]
+              )
 
               return (
                 <Account key={account.id}>
