@@ -7,9 +7,9 @@ import { actions as hsbcActions } from '../actions'
 import { addAccountsInterceptor } from '../hijack/accounts'
 import { hsbcCodes } from '../helpers'
 
-export default configureEntriesInterceptor
+export default configureAccountsInterceptor
 
-function configureEntriesInterceptor() {
+function configureAccountsInterceptor() {
   const { messages } = obis.deps
   const { on, emit } = messages
 
