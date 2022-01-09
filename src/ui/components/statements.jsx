@@ -22,6 +22,8 @@ import { useAccounts } from '../store/base'
 import { useAccountStatements, useStatementEntries } from '../store/derived'
 import { pipe } from '@/cjs/fp'
 
+const STATEMENTS_KEEP_BALANCE_HISTORY = false
+
 export function createStatementsWindow() {
   const windowRef = window.open(
     'text/html',
@@ -171,13 +173,15 @@ const Statement = ViewComponent(props => {
         >
           {convertCentsToDecimalForDisplay(balance)}
         </td>
-        <td
-          className={clsx('currency', {
-            negative: runningBalance < 0
-          })}
-        >
-          {convertCentsToDecimalForDisplay(runningBalance)}
-        </td>
+        {STATEMENTS_KEEP_BALANCE_HISTORY && (
+          <td
+            className={clsx('currency', {
+              negative: runningBalance < 0
+            })}
+          >
+            {convertCentsToDecimalForDisplay(runningBalance)}
+          </td>
+        )}
       </tr>
     )
   })
@@ -205,7 +209,7 @@ const Statement = ViewComponent(props => {
           <th>Debit</th>
           <th>Credit</th>
           <th>Balance</th>
-          <th>(Calculated)</th>
+          {STATEMENTS_KEEP_BALANCE_HISTORY && <th>(Calculated)</th>}
         </tr>
       </thead>
       <tbody>{rows.length ? rows : emptyState}</tbody>
@@ -224,9 +228,11 @@ const Statement = ViewComponent(props => {
           <th className="currency">
             {convertCentsToDecimalForDisplay(endBalance)}
           </th>
-          <th className="currency">
-            {convertCentsToDecimalForDisplay(runningBalance)}
-          </th>
+          {STATEMENTS_KEEP_BALANCE_HISTORY && (
+            <th className="currency">
+              {convertCentsToDecimalForDisplay(runningBalance)}
+            </th>
+          )}
         </tr>
       </tfoot>
     </table>
