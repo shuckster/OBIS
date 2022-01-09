@@ -147,7 +147,8 @@ export const App = ViewComponent(() => {
         {fetcher.inState({
           'getting-accounts': 'Finding accounts...',
           'getting-statements': 'Getting statements...',
-          'getting-entries': 'Getting transactions...'
+          'getting-entries':
+            'Getting transactions... (takes a moment to finish)'
         })}
         <ProgressBar {...progressBar} />
       </Subheader>
