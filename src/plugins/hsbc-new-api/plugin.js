@@ -39,8 +39,6 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
   const updateProgressBar = max => value =>
     emit(actions.ui.UPDATE_PROGRESS_BAR, { max, value })
 
-  let yearsToDownload
-
   fetcher.performTransitions({
     //
     // Accounts
@@ -48,9 +46,6 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
     'idle -> getting-accounts': {
       on: actions.get.ACCOUNTS,
       then: requestedYearsToDownload => {
-        yearsToDownload = requestedYearsToDownload
-        // console.log('requestedYearsToDownload = ', requestedYearsToDownload)
-
         fetchAccounts().then(accountsResponse => {
           //
           // Update store
@@ -74,23 +69,29 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
               bic: LEAVE_UNCHANGED
             }
           })
+
           emit(actions.add.ACCOUNTS, accountsUpdate)
-
-          // Build next query
-          //
-          const statementsQueries = accountsResponse.map(accountResponse => ({
-            host: getHost(),
-            accountId: accountResponse.id,
-            productCategoryCode: accountResponse.productCategoryCode
-          }))
-
-          emit(actions.got.ACCOUNTS, { statementsQueries, yearsToDownload })
+          emit(actions.got.ACCOUNTS, {
+            accountsResponse,
+            yearsToDownload: requestedYearsToDownload
+          })
         })
       }
     },
     'getting-accounts -> found-accounts': {
       on: actions.got.ACCOUNTS,
-      then: fetcher.Emit(actions.get.STATEMENTS)
+      then: ({ accountsResponse, yearsToDownload }) => {
+        //
+        // Build next query
+        //
+        const statementsQueries = accountsResponse.map(accountResponse => ({
+          host: getHost(),
+          accountId: accountResponse.id,
+          productCategoryCode: accountResponse.productCategoryCode
+        }))
+
+        emit(actions.get.STATEMENTS, { statementsQueries, yearsToDownload })
+      }
     },
     'getting-accounts -> failed-accounts': {
       on: actions.error.ACCOUNTS,
@@ -102,7 +103,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
     //
     'found-accounts -> getting-statements': {
       on: actions.get.STATEMENTS,
-      then: ({ statementsQueries }) => {
+      then: ({ statementsQueries, yearsToDownload }) => {
         const progress = updateProgressBar(statementsQueries.length)
         progress(0)
 
@@ -163,37 +164,37 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
               }
             )
             emit(actions.add.STATEMENTS, statementsUpdate)
-
-            // Build next query
-            //
-            const accountsTransactionsQueries = allStatements.map(
-              ({
-                id,
-                accountId,
-                endDate: endDateString,
-                productCategoryCode
-              }) => {
-                const endDate = new Date(endDateString)
-                const startDate = new Date(endDate)
-                startDate.setMonth(startDate.getMonth() - 1)
-                return {
-                  host: getHost(),
-                  id,
-                  accountId,
-                  productCategoryCode,
-                  transactionStartDate: startDate.toISOString().split('T')[0],
-                  transactionEndDate: endDate.toISOString().split('T')[0]
-                }
-              }
-            )
-
-            emit(actions.got.STATEMENTS, { accountsTransactionsQueries })
+            emit(actions.got.STATEMENTS, { allStatements, yearsToDownload })
           })
       }
     },
     'getting-statements -> found-statements': {
       on: actions.got.STATEMENTS,
-      then: fetcher.Emit(actions.get.ENTRIES)
+      then: ({ allStatements, yearsToDownload }) => {
+        //
+        // Build next query
+        //
+        const accountsTransactionsQueries = allStatements.map(
+          ({ id, accountId, endDate: endDateString, productCategoryCode }) => {
+            const endDate = new Date(endDateString)
+            const startDate = new Date(endDate)
+            startDate.setMonth(startDate.getMonth() - 1)
+            return {
+              host: getHost(),
+              id,
+              accountId,
+              productCategoryCode,
+              transactionStartDate: startDate.toISOString().split('T')[0],
+              transactionEndDate: endDate.toISOString().split('T')[0]
+            }
+          }
+        )
+
+        emit(actions.get.ENTRIES, {
+          accountsTransactionsQueries,
+          yearsToDownload
+        })
+      }
     },
     'getting-statements -> failed-statements': {
       on: actions.error.STATEMENTS,
@@ -205,7 +206,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
     //
     'found-statements -> getting-entries': {
       on: actions.get.ENTRIES,
-      then: ({ accountsTransactionsQueries }) => {
+      then: ({ accountsTransactionsQueries, yearsToDownload }) => {
         const progress = updateProgressBar(accountsTransactionsQueries.length)
         progress(0)
 
