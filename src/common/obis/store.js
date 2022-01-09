@@ -58,10 +58,14 @@ const checkSchemaForAddingAnAccount = checkSchema({
 
   accountNumber: isString,
   sortCode: isString,
+
   name: [isString, isUnset],
   type: [isString, isUnset],
   iban: [isString, isUnset],
-  bic: [isString, isUnset]
+  bic: [isString, isUnset],
+
+  ledgerBalance: [isNumber, isUnset],
+  lastUpdatedTimestamp: [isNumber, isUnset]
 })(actions.add.ACCOUNTS)
 
 const checkSchemaForUpdatingAnAccount = checkSchema({
