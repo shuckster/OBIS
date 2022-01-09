@@ -12,16 +12,16 @@ html {
 
 @media screen and (min-width: 352px) {
   #obis-root {
-    margin: 1rem;
+    margin: 1em;
   }
 }
 
 #obis-root {
   z-index: 1000;
   position: fixed;
-  top: 1rem;
+  top: 3em;
   right: 0px;
-  width: 24rem;
+  width: 24em;
   margin: 0;
   padding: 0;
   font-size: 16px;
@@ -36,11 +36,11 @@ html {
 
 #obis-root {
   .dialog {
-    padding: 1.5rem;
+    padding: 1.5em;
     background: #1a1a1a;
     box-shadow: #222 0.5em 0.5em 2em;
-    border-radius: 1.3rem;
-    width: 20rem;
+    border-radius: 1.3em;
+    width: 20em;
 
     &.hidden {
       display: none;
@@ -48,11 +48,11 @@ html {
 
     .toggle-button {
       float: right;
-      font-size: 1rem;
+      font-size: 1em;
 
-      margin-left: 0.5rem;
-      width: 3rem;
-      height: 3rem;
+      margin-left: 0.5em;
+      width: 3em;
+      height: 3em;
       border-radius: 1.5em;
 
       &.closed {
@@ -63,7 +63,7 @@ html {
     // Header
     //
     h1 {
-      margin: 0 0 0.8rem 0;
+      margin: 0 0 0.8em 0;
       padding: 0;
       font-size: 1.5em;
       font-weight: 400;
@@ -82,14 +82,14 @@ html {
     }
 
     button {
-      padding: 0.75rem 0.7rem;
+      padding: 0.75em 0.7em;
 
       font-style: normal;
       font-weight: bold;
-      font-size: 0.8rem;
+      font-size: 0.8em;
 
       border: none;
-      border-radius: 0.5rem;
+      border-radius: 0.5em;
       text-align: center;
 
       background: rgba(72, 72, 72, 0.6);
@@ -108,15 +108,15 @@ html {
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-rows: auto;
 
-      column-gap: 0.5rem;
+      column-gap: 0.5em;
 
       .account {
         border: none;
-        border-radius: 0.75rem;
+        border-radius: 0.75em;
 
-        min-height: 6rem;
-        padding: 0.5rem;
-        margin: 0.5rem 0;
+        min-height: 6em;
+        padding: 0.5em;
+        margin: 0.5em 0;
 
         background: #484848;
 
@@ -128,13 +128,13 @@ html {
         // Accounts info
         //
         .statements-loaded {
-          font-size: 0.575rem;
+          font-size: 0.575em;
           font-weight: 600;
           text-align: right;
         }
 
         .years-loaded {
-          font-size: 0.7rem;
+          font-size: 0.7em;
           font-weight: 600;
           text-align: right;
           color: #aaa;
@@ -142,7 +142,7 @@ html {
         }
 
         .account-name {
-          font-size: 0.9rem;
+          font-size: 0.9em;
           font-weight: 800;
           text-align: left;
           margin-bottom: auto;
@@ -154,7 +154,7 @@ html {
     //
     .actions {
       display: grid;
-      margin-top: 0.5rem;
+      margin-top: 0.5em;
 
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto 1fr;
@@ -162,8 +162,8 @@ html {
         'slider fetch'
         'view download';
 
-      column-gap: 0.5rem;
-      row-gap: 0.5rem;
+      column-gap: 0.5em;
+      row-gap: 0.5em;
 
       .fetch-slider {
         grid-area: slider;
@@ -176,7 +176,7 @@ html {
   }
 
   .vertical-animation-container {
-    max-height: 0rem;
+    max-height: 0em;
     overflow: hidden;
     transition-property: max-height opacity;
     transition-duration: 0ms;
@@ -190,7 +190,7 @@ html {
     &.closing {
       overflow: hidden;
       opacity: 0;
-      max-height: 0rem !important;
+      max-height: 0em !important;
       transition-duration: 250ms;
     }
 
@@ -201,7 +201,7 @@ html {
 
     &.closed {
       overflow: hidden;
-      max-height: 0rem !important;
+      max-height: 0em !important;
       opacity: 0;
     }
   }
