@@ -5,6 +5,7 @@ module.exports = {
   unzip,
   makeIdleDetectorWithTimeout,
   poolPromises,
+  makePromisePool,
   runPromisesInSequence
 }
 
@@ -104,6 +105,35 @@ function makePoolCounter(limit, onChange) {
     allowedToStartNext: () => running < Math.max(1, limit),
     bumpRunCount: () => onChange(++running),
     unbump: () => onChange(--running)
+  }
+}
+
+//
+// Promise-pool for indeterminate-length tasks
+//
+
+function makePromisePool(limit) {
+  let running = 0
+  const pending = new Set()
+
+  return promiseMakerFn => {
+    const [promise, O, X] = makePromise()
+    promise.finally(() => ((running -= 1), next()))
+    pending.add({ promiseMakerFn, O, X })
+    next()
+    return promise
+  }
+
+  function next() {
+    Array.from(pending).every(config => {
+      if (running < limit) {
+        running += 1
+        pending.delete(config)
+        config.promiseMakerFn().then(config.O, config.X)
+
+        return true
+      }
+    })
   }
 }
 
