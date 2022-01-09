@@ -2,8 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-Unreleased
+9th January 2022
 
+- New HSBC UK plugin to support the new HSBC UK API
 - Web Extension work-in-progress, currently supports Chrome
 
 22nd June 2021
