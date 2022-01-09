@@ -7,23 +7,23 @@
   var __hasOwnProp = Object.prototype.hasOwnProperty;
   var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
   var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[Object.keys(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
-  var __reExport = (target, module, desc) => {
+  var __reExport = (target, module, copyDefault, desc) => {
     if (module && typeof module === "object" || typeof module === "function") {
       for (let key of __getOwnPropNames(module))
-        if (!__hasOwnProp.call(target, key) && key !== "default")
+        if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
           __defProp(target, key, { get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable });
     }
     return target;
   };
-  var __toModule = (module) => {
-    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
+  var __toESM = (module, isNodeMode) => {
+    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", !isNodeMode && module && module.__esModule ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
 
-  // node_modules/.pnpm/spark-md5@3.0.1/node_modules/spark-md5/spark-md5.js
+  // node_modules/.pnpm/spark-md5@3.0.2/node_modules/spark-md5/spark-md5.js
   var require_spark_md5 = __commonJS({
-    "node_modules/.pnpm/spark-md5@3.0.1/node_modules/spark-md5/spark-md5.js"(exports, module) {
+    "node_modules/.pnpm/spark-md5@3.0.2/node_modules/spark-md5/spark-md5.js"(exports, module) {
       (function(factory) {
         if (typeof exports === "object") {
           module.exports = factory();
@@ -459,14 +459,14 @@
     "node_modules/.pnpm/jmespath@0.15.0/node_modules/jmespath/jmespath.js"(exports) {
       (function(exports2) {
         "use strict";
-        function isArray(obj) {
+        function isArray2(obj) {
           if (obj !== null) {
             return Object.prototype.toString.call(obj) === "[object Array]";
           } else {
             return false;
           }
         }
-        function isObject(obj) {
+        function isObject2(obj) {
           if (obj !== null) {
             return Object.prototype.toString.call(obj) === "[object Object]";
           } else {
@@ -481,7 +481,7 @@
           if (firstType !== Object.prototype.toString.call(second)) {
             return false;
           }
-          if (isArray(first) === true) {
+          if (isArray2(first) === true) {
             if (first.length !== second.length) {
               return false;
             }
@@ -492,7 +492,7 @@
             }
             return true;
           }
-          if (isObject(first) === true) {
+          if (isObject2(first) === true) {
             var keysSeen = {};
             for (var key in first) {
               if (hasOwnProperty.call(first, key)) {
@@ -516,9 +516,9 @@
         function isFalse(obj) {
           if (obj === "" || obj === false || obj === null) {
             return true;
-          } else if (isArray(obj) && obj.length === 0) {
+          } else if (isArray2(obj) && obj.length === 0) {
             return true;
-          } else if (isObject(obj)) {
+          } else if (isObject2(obj)) {
             for (var key in obj) {
               if (obj.hasOwnProperty(key)) {
                 return false;
@@ -1231,7 +1231,7 @@
               case "Field":
                 if (value === null) {
                   return null;
-                } else if (isObject(value)) {
+                } else if (isObject2(value)) {
                   field = value[node.name];
                   if (field === void 0) {
                     return null;
@@ -1256,7 +1256,7 @@
                 right = this.visit(node.children[1], left);
                 return right;
               case "Index":
-                if (!isArray(value)) {
+                if (!isArray2(value)) {
                   return null;
                 }
                 var index = node.value;
@@ -1269,7 +1269,7 @@
                 }
                 return result;
               case "Slice":
-                if (!isArray(value)) {
+                if (!isArray2(value)) {
                   return null;
                 }
                 var sliceParams = node.children.slice(0);
@@ -1290,7 +1290,7 @@
                 return result;
               case "Projection":
                 var base = this.visit(node.children[0], value);
-                if (!isArray(base)) {
+                if (!isArray2(base)) {
                   return null;
                 }
                 collected = [];
@@ -1303,7 +1303,7 @@
                 return collected;
               case "ValueProjection":
                 base = this.visit(node.children[0], value);
-                if (!isObject(base)) {
+                if (!isObject2(base)) {
                   return null;
                 }
                 collected = [];
@@ -1317,7 +1317,7 @@
                 return collected;
               case "FilterProjection":
                 base = this.visit(node.children[0], value);
-                if (!isArray(base)) {
+                if (!isArray2(base)) {
                   return null;
                 }
                 var filtered = [];
@@ -1363,13 +1363,13 @@
                 return result;
               case TOK_FLATTEN:
                 var original = this.visit(node.children[0], value);
-                if (!isArray(original)) {
+                if (!isArray2(original)) {
                   return null;
                 }
                 var merged = [];
                 for (i = 0; i < original.length; i++) {
                   current = original[i];
-                  if (isArray(current)) {
+                  if (isArray2(current)) {
                     merged.push.apply(merged, current);
                   } else {
                     merged.push(current);
@@ -1680,7 +1680,7 @@
             return Math.floor(resolvedArgs[0]);
           },
           _functionLength: function(resolvedArgs) {
-            if (!isObject(resolvedArgs[0])) {
+            if (!isObject2(resolvedArgs[0])) {
               return resolvedArgs[0].length;
             } else {
               return Object.keys(resolvedArgs[0]).length;
@@ -2017,1503 +2017,54 @@
     }
   });
 
-  // node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.min.js
-  var require_statebot_min = __commonJS({
-    "node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.min.js"(exports) {
-      "use strict";
-      function t(t2) {
-        return { all: t2 = t2 || new Map(), on: function(n2, e2) {
-          var r2 = t2.get(n2);
-          r2 && r2.push(e2) || t2.set(n2, [e2]);
-        }, off: function(n2, e2) {
-          var r2 = t2.get(n2);
-          r2 && r2.splice(r2.indexOf(e2) >>> 0, 1);
-        }, emit: function(n2, e2) {
-          (t2.get(n2) || []).slice().map(function(t3) {
-            t3(e2);
-          }), (t2.get("*") || []).slice().map(function(t3) {
-            t3(n2, e2);
-          });
-        } };
+  // src/common/cjs/fp.js
+  var require_fp = __commonJS({
+    "src/common/cjs/fp.js"(exports, module) {
+      function compose(...fns) {
+        return (...x) => fns.reduceRight((g, f) => [f(...g)], x)[0];
       }
-      function n(t2) {
-        return Array.isArray(t2);
+      function flow(...fns) {
+        return (...x) => fns.reduce((g, f) => [f(...g)], x)[0];
       }
-      function e(t2) {
-        return typeof t2 == "function";
+      function pipe(x, ...fns) {
+        return fns.reduce((g, f) => f(g), x);
       }
-      function r(t2) {
-        return typeof t2 == "string";
+      function flip(fn) {
+        return (...x) => (...y) => fn(...y)(...x);
       }
-      function o(t2) {
-        return typeof t2 == "object";
+      function do_(f) {
+        return f();
       }
-      function i(t2) {
-        return !(t2 === null || !o(t2)) && Object.getPrototypeOf(t2) === Object.prototype;
+      function memo(fn) {
+        const table = /* @__PURE__ */ new Map();
+        return (x) => table.has(x) ? table.get(x) : table.set(x, fn(x)).get(x);
       }
-      function s(t2) {
-        return !!r(t2) || !!n(t2) && t2.every(r);
+      function cache(fn) {
+        const cache2 = /* @__PURE__ */ new Map();
+        return (x) => cache2.has(x) ? cache2.get(x) : cache2.set(x, fn(x, invalidater(cache2, x))).get(x);
       }
-      Object.defineProperty(exports, "__esModule", { value: true });
-      function c(t2) {
-        return function(n2, o2, ...i2) {
-          const s2 = Object.entries(o2).map(([t3, n3]) => ({ argName: t3, argType: n3 })), c2 = i2.map((...t3) => ((t4, n3, o3) => {
-            const { argName: i3, argType: s3 } = t4[o3];
-            if (n3 === void 0)
-              return `Argument undefined: "${i3}"`;
-            const c3 = Array.isArray(s3) ? s3 : [s3], a3 = c3.map((t5) => e(t5) ? ((t6, n4, e2) => n4(e2) ? void 0 : `${n4.name}(${t6}) did not return true`)(i3, t5, n3) : ((t6, n4, e2) => typeof e2 === n4 ? void 0 : `Argument "${t6}" should be a ${n4}`)(i3, t5, n3)).filter(r);
-            return (c3.length > 1 ? a3.length > 1 : a3.length) ? `${a3.join("\n| ")}
-> typeof ${i3} === ${typeof n3}(${JSON.stringify(n3)})` : void 0;
-          })(s2, ...t3)).filter(r);
-          if (!c2.length)
-            return;
-          const a2 = Object.keys(o2).join(", ");
-          return `
-${t2 || ""}${n2}(${a2}):
-${c2.map((t3) => `| ${t3}`).join("\n")}`;
-        };
+      var invalidater = (cache2, x) => () => cache2.delete(x);
+      function aside(fn) {
+        return (x) => (fn(x), x);
       }
-      function a(t2) {
-        const n2 = t2.addListener ? (...n3) => t2.addListener(...n3) : (...n3) => t2.on(...n3), e2 = t2.removeListener ? (...n3) => t2.removeListener(...n3) : (...n3) => t2.off(...n3), r2 = new Map();
-        return { emit: (n3, ...e3) => t2.emit(n3, e3), on: function(t3, e3) {
-          let o2 = r2.get(e3);
-          o2 || (o2 = { handleEvent: (t4 = []) => e3(...[t4].flat()), refCount: 0 }, r2.set(e3, o2)), o2.refCount += 1, n2(t3, o2.handleEvent);
-        }, off: function(t3, n3) {
-          let o2 = r2.get(n3);
-          o2 && (e2(t3, o2.handleEvent), o2.refCount -= 1, o2.refCount === 0 && r2.delete(n3));
-        } };
-      }
-      function u(t2) {
-        return t2.reduce((t3, n2) => t3.indexOf(n2) === -1 ? [...t3, n2] : t3, []);
-      }
-      function f(t2) {
-        return (...n2) => function(t3, ...n3) {
-          const e2 = setTimeout(t3, 0, ...n3);
-          return () => {
-            clearTimeout(e2);
-          };
-        }(t2, ...n2);
-      }
-      function l(t2) {
-        const { revoke: n2, fn: e2 } = p(t2);
-        let r2;
-        return function(...t3) {
-          return r2 = e2(...t3), n2(), r2;
-        };
-      }
-      function p(t2) {
-        let n2, e2 = false;
-        return { fn: (...r2) => (e2 || (n2 = t2(...r2)), n2), revoke: () => {
-          e2 = true;
-        } };
-      }
-      function h(t2, n2, e2, ...r2) {
-        const o2 = [...r2].flat().reduce((t3, n3) => ({ ...t3, [n3]: 0 }), {});
-        function i2(t3) {
-          const n3 = s2(t3) - 1;
-          o2[t3] = Math.max(n3, 0);
-        }
-        function s2(t3) {
-          return o2[t3] || 0;
-        }
-        return { increase: function(t3) {
-          return o2[t3] = s2(t3) + 1, () => {
-            i2(t3);
-          };
-        }, decrease: i2, countOf: s2, toValue: function() {
-          return { description: `Statebot[${t2}]: ${e2}:`, table: Object.keys(o2).sort().map((t3) => [t3, o2[t3]]).map(([t3, e3]) => ({ [n2]: t3, refs: e3 || "None" })) };
-        }, refs: function() {
-          return { ...o2 };
-        } };
-      }
-      function d(t2, n2) {
-        function e2() {
-          return t2 >= 1;
-        }
-        function o2() {
-          return t2 >= 2;
-        }
-        function i2() {
-          return t2 >= 3;
-        }
-        r(t2) && (t2 = { info: 3, log: 2, warn: 1, none: 0 }[t2] || 3);
-        const { info: s2, table: c2, log: a2, warn: u2, error: f2 } = n2 || console;
-        return { canWarn: e2, canLog: o2, canInfo: i2, info: (...t3) => {
-          i2() && s2(...t3);
-        }, table: (...t3) => {
-          o2() && c2(...t3);
-        }, log: (...t3) => {
-          o2() && a2(...t3);
-        }, warn: (...t3) => {
-          e2() && u2(...t3);
-        }, error: (...t3) => {
-          f2(...t3);
-        } };
-      }
-      var m = /[\r\n]/;
-      var g = "|";
-      var $ = "->";
-      var w = [g, $].map((t2) => t2.replace("|", "\\|")).join("|");
-      var E = new RegExp(`(${w})$`);
-      var v = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
-      var T = /(\/\/[^\n\r]*)/;
-      var y = c("statebot.");
-      function b(t2) {
-        const n2 = y("decomposeRoute", { templateLiteral: s }, t2);
-        if (n2)
-          throw TypeError(n2);
-        return A(O(t2)).flat(2);
-      }
-      function S(t2) {
-        const n2 = y("decomposeChart", { chart: s }, t2);
-        if (n2)
-          throw TypeError(n2);
-        const e2 = A(O(t2)), r2 = e2.flatMap(j).flatMap(x);
-        let o2 = false;
-        const i2 = u(r2.map((t3) => (t3.includes("") && (o2 = true), t3.join($)))), c2 = u(e2.flat(3));
-        return { transitions: i2.map((t3) => t3.split($)), routes: i2, states: o2 ? c2 : c2.filter(Boolean) };
-      }
-      function O(t2) {
-        const n2 = function(t3) {
-          return [t3].flat().reduce((t4, n3) => [...t4, ...n3.split(m)], []);
-        }(t2), e2 = [];
-        let r2 = false;
-        const o2 = n2.reduce((t3, n3) => {
-          const o3 = n3.replace(T, "").replace(v, "");
-          return o3 ? (r2 = E.test(o3), r2 ? t3 + o3 : (e2.push(t3 + o3), "")) : t3;
-        }, "");
-        return r2 || o2 ? [...e2, o2] : [...e2];
-      }
-      function A(t2) {
-        return t2.map((t3) => t3.split($).map((t4) => t4.split(g)));
-      }
-      function j(t2) {
-        const n2 = [];
-        return t2.reduce((t3, e2) => (t3 === false || n2.push([t3, [...e2]]), [...e2]), false), n2;
-      }
-      function x([t2, n2]) {
-        return t2.reduce((t3, e2) => [...t3, ...n2.map((t4) => [e2, t4])], []);
-      }
-      var I = "onExiting";
-      var L = "onEntering";
-      var N = "onExited";
-      var C = "onEntered";
-      var P = "onSwitching";
-      var M = "onSwitched";
-      var _ = { [P]: "(ANY)state:changing", [M]: "(ANY)state:changed" };
-      function k(t2, n2) {
-        const e2 = [], r2 = [];
-        return { configs: t2.reduce((t3, o2) => {
-          const { routeChart: i2, action: s2 } = o2, { states: c2, routes: a2, transitions: u2 } = S(i2);
-          return n2() && (e2.push(...c2), r2.push(...a2)), [...t3, ...u2.map(([t4, n3]) => ({ fromState: t4, toState: n3, action: s2 }))];
-        }, []), states: e2, routes: r2 };
-      }
-      function R(t2) {
-        return i(t2) && typeof t2.__STATEBOT__ == "number";
-      }
-      var D = c("statebot.");
-      var F = 0;
-      function Y() {
-        const t2 = Date.now();
-        function n2(t3, n3) {
-          return t3.toFixed(n3).replace(/\.0+$/, "");
-        }
-        return function() {
-          const e2 = Date.now() - t2;
-          return e2 < 500 ? `${n2(e2)} ms` : e2 < 5e3 ? `${n2(e2 / 1e3, 2)} s ` : e2 < 6e4 ? `${n2(e2 / 1e3, 1)} s ` : `${n2(e2 / 1e3 / 60, 1)} m `;
-        };
-      }
-      exports.Statebot = function(s2, u2) {
-        if (!r(s2))
-          throw new TypeError("\nStatebot: Please specify a name for this machine");
-        const f2 = `Statebot[${s2}]`;
-        if (!i(u2))
-          throw new TypeError(`
-${f2}: Please specify options for this machine`);
-        const { chart: p2, logLevel: m2 = 3, historyLimit: g2 = 2 } = u2 || {}, w2 = u2.events === void 0 ? a(t()) : o(E2 = u2.events) && e(E2.emit) && (e(E2.addListener) || e(E2.on)) && (e(E2.removeListener) || e(E2.off)) && a(u2.events);
-        var E2;
-        if (!w2)
-          throw new TypeError(`
-${f2}: Invalid event-emitter specified in options`);
-        const { states: v2 = [], routes: T2 = [] } = p2 ? S(p2) : u2, { startIn: y2 = v2[0] } = u2;
-        if (!v2.includes(y2))
-          throw new Error(`${f2}: Starting-state not in chart: "${y2}"`);
-        const b2 = c(`${f2}#`), O2 = d(m2, console), { canWarn: A2 } = O2, j2 = [y2], x2 = Math.max(g2, 2);
-        let R2 = 0;
-        const { pause: D2, resume: F2, paused: Y2, Pausable: B } = function(t2, n2) {
-          n2 = n2 || function() {
-          };
-          let e2 = !!t2;
-          return { Pausable: function(t3) {
-            return (...r2) => e2 ? (n2(), false) : t3(...r2);
-          }, paused: () => e2, pause: () => {
-            e2 = true;
-          }, resume: () => {
-            e2 = false;
-          } };
-        }(false, () => O2.warn(`${f2}: Ignoring callback, paused`)), G = a(t()), H = B(G.emit);
-        function U(t2, n2) {
-          return G.on(t2, n2), () => G.off(t2, n2);
-        }
-        const V = h(s2, "states", "Listening for the following state-changes", [...v2]), W = h(s2, "transitions", "Listening for the following transitions", [...T2]), z = h(s2, "events", "Listening for the following events");
-        function J(t2, o2) {
-          const c2 = e(t2) ? t2({ enter: nt, emit: tt, Enter: st, Emit: it }) : i(t2) ? t2 : null;
-          if (!i(c2))
-            throw new TypeError(`Statebot[${s2}]#${o2}(): Expected an object, or a function that returns an object`);
-          const a2 = [], u3 = [], { transitionsForEvents: f3, transitionsOnly: p3 } = function(t3) {
-            const o3 = {}, s3 = [];
-            return Object.entries(t3).map(([t4, c3]) => {
-              if (e(c3))
-                return void s3.push({ routeChart: t4, action: c3 });
-              if (!i(c3))
-                return;
-              const { on: a3, then: u4 } = c3;
-              if (r(a3) || n(a3)) {
-                [a3].flat().map((n2) => {
-                  o3[n2] = o3[n2] || [], o3[n2].push({ routeChart: t4, action: u4 });
-                });
-              } else
-                e(u4) && s3.push({ routeChart: t4, action: c3 });
-            }), { transitionsForEvents: o3, transitionsOnly: s3 };
-          }(c2), h2 = Object.entries(f3).reduce(function(t3, [n2, e2]) {
-            const { states: r2, routes: o3, configs: i2 } = k(e2, A2);
-            A2() && (a2.push(...r2), u3.push(...o3));
-            return { ...t3, [n2]: i2 };
-          }, {}), d2 = k(p3, A2), m3 = Object.entries(h2).map(function([t3, n2]) {
-            return [z.increase(t3), et2(t3, (...e2) => {
-              n2.map((t4) => ({ ...t4, args: e2 })).some(g3) || ct(`Event not handled: "${t3}"`);
-            })];
-          }).concat(d2.configs.map(function(t3) {
-            const { fromState: n2, toState: e2, action: r2 } = t3, o3 = `${n2}->${e2}`;
-            return [W.increase(o3), U(o3, (i2 = e2, s3 = r2, (...t4) => $2(i2, s3, ...t4)))];
-            var i2, s3;
-          })).flat();
-          if (A2()) {
-            a2.push(...d2.states), u3.push(...d2.routes);
-            const t3 = a2.filter((t4) => !v2.includes(t4)), n2 = u3.filter((t4) => !T2.includes(t4));
-            t3.length && O2.warn(`Statebot[${s2}]#${o2}(): Invalid states specified:
-` + t3.map((t4) => `  > "${t4}"`).join("\n")), n2.length && O2.warn(`Statebot[${s2}]#${o2}(): Invalid transitions specified:
-` + n2.map((t4) => `  > "${t4}"`).join("\n"));
-          }
-          return () => m3.map((t3) => t3());
-          function g3({ fromState: t3, toState: n2, action: r2, args: o3 }) {
-            return Z(t3, () => (nt(n2, ...o3), e(r2) && $2(n2, r2, ...o3), true));
-          }
-          function $2(t3, n2, ...r2) {
-            const o3 = n2(...r2);
-            if (e(o3)) {
-              const n3 = l(ot[I](t3, (t4) => {
-                n3(), o3(t4);
-              }));
-              m3.push(n3);
-            }
-          }
-        }
-        function K() {
-          return j2[j2.length - 2];
-        }
-        function q() {
-          return j2[j2.length - 1];
-        }
-        function Q(t2) {
-          const n2 = t2 !== void 0 ? t2 : q(), e2 = b2("statesAvailableFromHere", { state: r }, n2);
-          if (e2)
-            throw new TypeError(e2);
-          return T2.reduce((t3, e3) => {
-            const [r2, o2] = e3.split($).map((t4) => t4.trim());
-            return r2 === n2 ? [...t3, o2] : t3;
-          }, []);
-        }
-        function X(t2, n2, ...r2) {
-          const o2 = q() === t2;
-          return n2 === void 0 ? o2 : o2 ? e(n2) ? n2(...r2) : n2 : null;
-        }
-        function Z(...t2) {
-          const n2 = b2("inState", { state: [r, i] }, t2[0]);
-          if (n2)
-            throw new TypeError(n2);
-          return i(t2[0]) ? function(t3, ...n3) {
-            const e2 = Object.entries(t3).find(([t4]) => X(t4));
-            return e2 ? X(...e2.concat(n3)) : null;
-          }(...t2) : X(...t2);
-        }
-        const tt = B((t2, ...n2) => {
-          const e2 = b2("emit", { eventName: r }, t2);
-          if (e2)
-            throw new TypeError(e2);
-          return w2.emit(t2, ...n2);
-        }), nt = B((t2, ...n2) => {
-          const e2 = b2("enter", { state: r }, t2);
-          if (e2)
-            throw new TypeError(e2);
-          const o2 = q(), i2 = t2;
-          if (i2 === o2)
-            return ct(`Already in state: "${i2}"`), false;
-          if (!v2.includes(i2))
-            return ct(`Invalid state "${i2}", not switching`), false;
-          const s3 = `${o2}->${i2}`;
-          return T2.includes(s3) ? (O2.info(`${f2}: tId<${++R2}>: ${s3}`), j2.push(i2), j2.length > x2 && j2.shift(), H(_[P], i2, o2, ...n2), H(s3, ...n2), H(_[M], i2, o2, ...n2), true) : (ct(`Invalid transition "${s3}", not switching`), false);
-        });
-        function et2(t2, n2) {
-          const o2 = b2("onEvent", { eventName: r, cb: e }, t2, n2);
-          if (o2)
-            throw new TypeError(o2);
-          return w2.on(t2, n2), () => w2.off(t2, n2);
-        }
-        const rt = Object.keys(_).reduce((t2, n2) => ({ ...t2, [n2]: (t3) => {
-          const r2 = b2(n2, { cb: e }, t3);
-          if (r2)
-            throw new TypeError(r2);
-          const o2 = V.increase(_[n2]), i2 = U(_[n2], t3);
-          return () => {
-            i2(), o2();
-          };
-        } }), {}), ot = [[I, P], [L, P], [N, M], [C, M]].reduce((t2, n2) => {
-          const [o2, i2] = n2, s3 = o2.slice(2), c2 = s3.toLowerCase();
-          return { ...t2, [o2]: (t3, n3) => {
-            const a2 = b2(o2, { state: r, cb: e }, t3, n3);
-            if (a2)
-              throw new TypeError(a2);
-            const u3 = [V.increase(t3), V.increase(`${t3}:${c2}`)], f3 = rt[i2]((e2, r2, ...o3) => {
-              s3.indexOf("Exit") === 0 ? t3 === r2 && n3(e2, ...o3) : t3 === e2 && n3(r2, ...o3);
-            });
-            return () => {
-              f3(), u3.map((t4) => t4());
-            };
-          } };
-        }, {});
-        function it(t2, ...n2) {
-          const e2 = b2("Emit", { eventName: r }, t2);
-          if (e2)
-            throw new TypeError(e2);
-          return (...e3) => tt(t2, ...n2, ...e3);
-        }
-        function st(t2, ...n2) {
-          const e2 = b2("Enter", { state: r }, t2);
-          if (e2)
-            throw new TypeError(e2);
-          return (...e3) => nt(t2, ...n2, ...e3);
-        }
-        function ct(t2) {
-          const n2 = K(), e2 = q(), r2 = `${n2 === void 0 ? "[undefined]" : n2}->${e2}`, o2 = Q();
-          o2.length ? O2.info(`${f2}: ${t2}
-  > Previous transition: "${r2}"
-  > From "${e2}", valid states are: [${o2.map((t3) => `"${t3}"`).join(", ")}]`) : O2.info(`${f2}: ${t2}
-  > Previous transition: "${r2}"
-  > There are no states available from "${e2}"`);
-        }
-        function at(t2) {
-          const { description: n2, table: e2 } = t2.toValue();
-          O2.log(n2), e2.length ? O2.table(e2) : O2.log("  > No information");
-        }
-        return { __STATEBOT__: 1, canTransitionTo: function(...t2) {
-          const n2 = t2.flat(), e2 = b2("canTransitionTo", { state: r }, n2[0]);
-          if (e2)
-            throw new TypeError(e2);
-          if (!n2.length)
-            return false;
-          const o2 = Q();
-          return n2.every((t3) => o2.includes(t3));
-        }, currentState: q, emit: tt, Emit: it, enter: nt, Enter: st, history: () => [...j2], info: () => (O2.log(`${f2}: Information about this state-machine`), at(V), at(W), void at(z)), inspect: () => ({ states: V.refs(), transitions: W.refs(), events: z.refs() }), inState: Z, InState: function(...t2) {
-          const n2 = b2("InState", { state: [r, i] }, t2[0]);
-          if (n2)
-            throw new TypeError(n2);
-          return i(t2[0]) ? function(t3, ...n3) {
-            return (...e2) => Z(t3, ...n3, ...e2);
-          }(...t2) : function(t3, n3, ...e2) {
-            return (...r2) => Z(t3, n3, ...e2, ...r2);
-          }(...t2);
-        }, name: () => s2, onEntered: ot[C], onEntering: ot[L], onEvent: et2, onExited: ot[N], onExiting: ot[I], onSwitched: rt[M], onSwitching: rt[P], onTransitions: (t2) => J(t2, "onTransitions"), pause: D2, paused: Y2, performTransitions: (t2) => J(t2, "performTransitions"), previousState: K, reset: function() {
-          O2.warn(`${f2}: State-machine reset!`), j2.length = 0, j2.push(y2);
-        }, resume: F2, statesAvailableFromHere: Q };
-      }, exports.assertRoute = function(t2, n2, e2) {
-        const r2 = D("assertRoute", { machine: R, expectedRoute: s }, t2, n2);
-        if (r2)
-          throw TypeError(r2);
-        F += 1;
-        const { description: o2 = "Assertion complete", fromState: i2 = "", run: c2 = () => {
-        }, permittedDeviations: a2 = 0, timeoutInMs: u2 = 1e3, logLevel: h2 = 3 } = e2 || {}, m2 = d(h2), g2 = `Statebot[${t2.name()}]: aId<${F}>`, $2 = b(n2);
-        m2.log(`
-${g2}: Asserting route: [${$2.join(" > ")}]`), m2.log(`${g2}: > Assertion will start from state: "${i2}"`);
-        const w2 = f(c2);
-        let E2 = () => {
-        };
-        const v2 = Y();
-        let T2, y2 = Y(), S2 = 0, O2 = true, A2 = false;
-        const j2 = [...$2], x2 = function(t3, n3) {
-          n3 = n3 || [];
-          const e3 = [], r3 = (t3 = t3 || []).map((t4, e4) => n3[e4] || "center");
-          let o3 = false;
-          function i3() {
-            o3 = true;
-          }
-          function s2(...n4) {
-            if (o3)
-              return;
-            const r4 = t3.reduce((t4, e4, r5) => ({ ...t4, [e4]: n4[r5] || "" }), {});
-            e3.push(r4);
-          }
-          function c3() {
-            return e3.reduce((n4, e4) => t3.map((t4, r4) => Math.max(e4[t4].length, n4[r4])), t3.map(() => 0));
-          }
-          function a3() {
-            const n4 = c3();
-            function o4(t4, e4) {
-              const o5 = n4[e4], i4 = r3[e4];
-              return i4 === "left" ? t4.padEnd(o5) : i4 === "right" ? t4.padStart(o5) : t4;
-            }
-            return e3.reduce((n5, e4) => [...n5, t3.reduce((t4, n6, r4) => ({ ...t4, [n6]: o4(e4[n6], r4) }), {})], []);
-          }
-          return { lock: i3, addRow: s2, content: a3 };
-        }(["state", "expected", "info", "took"], ["center", "center", "left", "right"]), I2 = l((t3) => (L2("", "", "", "TOTAL: " + v2()), x2.lock(), m2.log(`
-${g2}: ${o2}: [${t3 ? "FAILED" : "SUCCESS"}]`), m2.table(x2.content()), t3)), { addRow: L2 } = x2;
-        return new Promise((n3, e3) => {
-          if (j2.length === 0)
-            return void e3(I2(new Error("NO ROUTE TO TEST")));
-          const r3 = (n4) => {
-            for (; j2.length; ) {
-              const e4 = j2.shift();
-              L2(t2.currentState(), `(${e4})`, n4), A2 = false;
-            }
-            ((t3) => {
-              clearTimeout(T2), E2(), c3(), e3(t3);
-            })(I2(new Error(n4)));
-          };
-          t2.inState(i2) && (O2 = false, E2 = w2());
-          const { revoke: o3, fn: s2 } = p((t3) => {
-            T2 = setTimeout(() => {
-              o3(), r3("TIMEOUT");
-            }, u2), function(t4) {
-              if (O2)
-                L2(t4, "-", "PENDING");
-              else {
-                const n4 = j2[0];
-                n4 === t4 ? (L2(t4, n4, A2 ? "REALIGNED" : "OKAY", y2()), A2 = false, j2.shift()) : (L2(t4, n4, "WRONG STATE", y2()), A2 = true, S2 += 1), y2 = Y();
-              }
-            }(t3), O2 && t3 === i2 && (O2 = false, E2 = w2()), S2 > a2 && (o3(), r3("TOO MANY DEVIATIONS")), j2.length <= 0 && (o3(), ((...t4) => {
-              clearTimeout(T2), E2(), c3(), n3(...t4);
-            })(I2()));
-          }), c3 = t2.onSwitching(s2);
-        });
-      }, exports.decomposeChart = S, exports.isStatebot = R, exports.routeIsPossible = function(t2, n2) {
-        const e2 = D("routeIsPossible", { machine: R, route: s }, t2, n2);
-        if (e2)
-          throw TypeError(e2);
-        const r2 = b(n2);
-        return r2.every((n3, e3) => {
-          if (e3 === r2.length - 1)
-            return true;
-          {
-            const o2 = r2[e3 + 1];
-            return t2.statesAvailableFromHere(n3).includes(o2);
-          }
-        });
+      module.exports = {
+        compose,
+        pipe,
+        flow,
+        flip,
+        do_,
+        memo,
+        cache,
+        aside
       };
-    }
-  });
-
-  // node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.dev.js
-  var require_statebot_dev = __commonJS({
-    "node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/dist/cjs/statebot.dev.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      function mitt(n) {
-        return { all: n = n || new Map(), on: function(t, e) {
-          var i = n.get(t);
-          i && i.push(e) || n.set(t, [e]);
-        }, off: function(t, e) {
-          var i = n.get(t);
-          i && i.splice(i.indexOf(e) >>> 0, 1);
-        }, emit: function(t, e) {
-          (n.get(t) || []).slice().map(function(n2) {
-            n2(e);
-          }), (n.get("*") || []).slice().map(function(n2) {
-            n2(t, e);
-          });
-        } };
-      }
-      function isEventEmitter(obj) {
-        return isObject(obj) && isFunction(obj.emit) && (isFunction(obj.addListener) || isFunction(obj.on)) && (isFunction(obj.removeListener) || isFunction(obj.off));
-      }
-      function isArray(obj) {
-        return Array.isArray(obj);
-      }
-      function isFunction(obj) {
-        return typeof obj === "function";
-      }
-      function isString(obj) {
-        return typeof obj === "string";
-      }
-      function isObject(obj) {
-        return typeof obj === "object";
-      }
-      function isPojo(obj) {
-        if (obj === null || !isObject(obj)) {
-          return false;
-        }
-        return Object.getPrototypeOf(obj) === Object.prototype;
-      }
-      function isTemplateLiteral(obj) {
-        if (isString(obj)) {
-          return true;
-        }
-        if (!isArray(obj)) {
-          return false;
-        }
-        return obj.every(isString);
-      }
-      var typeErrorStringIfFnReturnsFalse = (argName, argTypeFn, arg) => {
-        return argTypeFn(arg) ? void 0 : `${argTypeFn.name}(${argName}) did not return true`;
-      };
-      var typeErrorStringIfTypeOfFails = (argName, argType, arg) => {
-        return typeof arg === argType ? void 0 : `Argument "${argName}" should be a ${argType}`;
-      };
-      var typeErrorStringFromArgument = (argMap, arg, index) => {
-        const { argName, argType } = argMap[index];
-        if (arg === void 0) {
-          return `Argument undefined: "${argName}"`;
-        }
-        const permittedArgTypes = Array.isArray(argType) ? argType : [argType];
-        const errorDescs = permittedArgTypes.map((argType2) => isFunction(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)).filter(isString);
-        const multipleTypesSpecified = permittedArgTypes.length > 1;
-        const shouldError = multipleTypesSpecified ? errorDescs.length > 1 : errorDescs.length;
-        if (shouldError) {
-          return `${errorDescs.join("\n| ")}
-> typeof ${argName} === ${typeof arg}(${JSON.stringify(arg)})`;
-        }
-      };
-      function ArgTypeError(errPrefix) {
-        return function(fnName, typeMap, ...args) {
-          const argMap = Object.entries(typeMap).map(([argName, argType]) => ({ argName, argType }));
-          const err2 = args.map((...args2) => typeErrorStringFromArgument(argMap, ...args2)).filter(isString);
-          if (!err2.length) {
-            return;
-          }
-          const signature = Object.keys(typeMap).join(", ");
-          return `
-${errPrefix || ""}${fnName}(${signature}):
-${err2.map((err3) => `| ${err3}`).join("\n")}`;
-        };
-      }
-      function wrapEmitter(events) {
-        const emit = (eventName, ...args) => events.emit(eventName, args);
-        const addListener = events.addListener ? (...args) => events.addListener(...args) : (...args) => events.on(...args);
-        const removeListener = events.removeListener ? (...args) => events.removeListener(...args) : (...args) => events.off(...args);
-        const wrapMap = new Map();
-        function on(eventName, fn) {
-          let fnMeta = wrapMap.get(fn);
-          if (!fnMeta) {
-            fnMeta = {
-              handleEvent: (args = []) => fn(...[args].flat()),
-              refCount: 0
-            };
-            wrapMap.set(fn, fnMeta);
-          }
-          fnMeta.refCount += 1;
-          addListener(eventName, fnMeta.handleEvent);
-        }
-        function off(eventName, fn) {
-          let fnMeta = wrapMap.get(fn);
-          if (!fnMeta) {
-            return;
-          }
-          removeListener(eventName, fnMeta.handleEvent);
-          fnMeta.refCount -= 1;
-          if (fnMeta.refCount === 0) {
-            wrapMap.delete(fn);
-          }
-        }
-        return {
-          emit,
-          on,
-          off
-        };
-      }
-      function uniq(input) {
-        return input.reduce((acc, one) => acc.indexOf(one) === -1 ? [...acc, one] : acc, []);
-      }
-      function defer(fn, ...args) {
-        const timer = setTimeout(fn, 0, ...args);
-        return () => {
-          clearTimeout(timer);
-        };
-      }
-      function Defer(fn) {
-        return (...args) => defer(fn, ...args);
-      }
-      function Once(fn) {
-        const { revoke, fn: _fn } = Revokable(fn);
-        let result;
-        return function(...args) {
-          result = _fn(...args);
-          revoke();
-          return result;
-        };
-      }
-      function Revokable(fn) {
-        let revoked = false;
-        let result;
-        return {
-          fn: (...args) => {
-            if (!revoked) {
-              result = fn(...args);
-            }
-            return result;
-          },
-          revoke: () => {
-            revoked = true;
-          }
-        };
-      }
-      function Pausables(startPaused, runFnWhenPaused) {
-        runFnWhenPaused = runFnWhenPaused || function() {
-        };
-        let paused = !!startPaused;
-        function Pausable(fn) {
-          return (...args) => {
-            if (paused) {
-              runFnWhenPaused();
-              return false;
-            }
-            return fn(...args);
-          };
-        }
-        return {
-          Pausable,
-          paused: () => paused,
-          pause: () => {
-            paused = true;
-          },
-          resume: () => {
-            paused = false;
-          }
-        };
-      }
-      function ReferenceCounter(name, kind, description, ...expecting) {
-        const _refs = [...expecting].flat().reduce((acc, ref) => ({ ...acc, [ref]: 0 }), {});
-        function increase(ref) {
-          _refs[ref] = countOf(ref) + 1;
-          return () => {
-            decrease(ref);
-          };
-        }
-        function decrease(ref) {
-          const count = countOf(ref) - 1;
-          _refs[ref] = Math.max(count, 0);
-        }
-        function countOf(ref) {
-          return _refs[ref] || 0;
-        }
-        function refs() {
-          return { ..._refs };
-        }
-        function table() {
-          return Object.keys(_refs).sort().map((key) => [key, _refs[key]]).map(([ref, count]) => {
-            return {
-              [kind]: ref,
-              refs: count || "None"
-            };
-          });
-        }
-        function toValue() {
-          return {
-            description: `Statebot[${name}]: ${description}:`,
-            table: table()
-          };
-        }
-        return {
-          increase,
-          decrease,
-          countOf,
-          toValue,
-          refs
-        };
-      }
-      function Logger(level, _console) {
-        if (isString(level)) {
-          level = {
-            info: 3,
-            log: 2,
-            warn: 1,
-            none: 0
-          }[level] || 3;
-        }
-        function canWarn() {
-          return level >= 1;
-        }
-        function canLog() {
-          return level >= 2;
-        }
-        function canInfo() {
-          return level >= 3;
-        }
-        const { info, table, log, warn, error } = _console || console;
-        return {
-          canWarn,
-          canLog,
-          canInfo,
-          info: (...args) => {
-            canInfo() && info(...args);
-          },
-          table: (...args) => {
-            canLog() && table(...args);
-          },
-          log: (...args) => {
-            canLog() && log(...args);
-          },
-          warn: (...args) => {
-            canWarn() && warn(...args);
-          },
-          error: (...args) => {
-            error(...args);
-          }
-        };
-      }
-      var rxCRLF = /[\r\n]/;
-      var cxPipe = "|";
-      var cxArrow = "->";
-      var rxOperators = [cxPipe, cxArrow].map((rxUnsafe) => rxUnsafe.replace("|", "\\|")).join("|");
-      var rxLineContinuations = new RegExp(`(${rxOperators})$`);
-      var rxDisallowedCharacters = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
-      var rxComment = /(\/\/[^\n\r]*)/;
-      var argTypeError$1 = ArgTypeError("statebot.");
-      function decomposeRoute(templateLiteral) {
-        const err2 = argTypeError$1("decomposeRoute", { templateLiteral: isTemplateLiteral }, templateLiteral);
-        if (err2) {
-          throw TypeError(err2);
-        }
-        const lines = condensedLines(templateLiteral);
-        const linesOfTokens = tokenisedLines(lines);
-        const route = linesOfTokens.flat(2);
-        return route;
-      }
-      function decomposeChart(chart) {
-        const err2 = argTypeError$1("decomposeChart", { chart: isTemplateLiteral }, chart);
-        if (err2) {
-          throw TypeError(err2);
-        }
-        const lines = condensedLines(chart);
-        const linesOfTokens = tokenisedLines(lines);
-        const linesOfRoutes = linesOfTokens.flatMap(decomposeRouteFromTokens);
-        const linesOfTransitions = linesOfRoutes.flatMap(decomposeTransitionsFromRoute);
-        let emptyStateFound = false;
-        const routeKeys = linesOfTransitions.map((route) => {
-          if (route.includes("")) {
-            emptyStateFound = true;
-          }
-          return route.join(cxArrow);
-        });
-        const filteredRoutes = uniq(routeKeys);
-        const filteredStates = uniq(linesOfTokens.flat(3));
-        return {
-          transitions: filteredRoutes.map((route) => route.split(cxArrow)),
-          routes: filteredRoutes,
-          states: !emptyStateFound ? filteredStates.filter(Boolean) : filteredStates
-        };
-      }
-      function linesFrom(strOrArr) {
-        return [strOrArr].flat().reduce((acc, line) => [...acc, ...line.split(rxCRLF)], []);
-      }
-      function condensedLines(strOrArr) {
-        const input = linesFrom(strOrArr);
-        const output = [];
-        let previousLineHasContinuation = false;
-        const condenseLine = (condensedLine, line) => {
-          const sanitisedLine = line.replace(rxComment, "").replace(rxDisallowedCharacters, "");
-          if (!sanitisedLine) {
-            return condensedLine;
-          }
-          previousLineHasContinuation = rxLineContinuations.test(sanitisedLine);
-          if (previousLineHasContinuation) {
-            return condensedLine + sanitisedLine;
-          }
-          output.push(condensedLine + sanitisedLine);
-          return "";
-        };
-        const finalCondensedLine = input.reduce(condenseLine, "");
-        if (previousLineHasContinuation || finalCondensedLine) {
-          return [...output, finalCondensedLine];
-        }
-        return [...output];
-      }
-      function tokenisedLines(lines) {
-        return lines.map((line) => line.split(cxArrow).map((str) => str.split(cxPipe)));
-      }
-      function decomposeRouteFromTokens(line) {
-        const output = [];
-        line.reduce((previousStates, states) => {
-          if (previousStates === false) {
-            return [...states];
-          }
-          output.push([previousStates, [...states]]);
-          return [...states];
-        }, false);
-        return output;
-      }
-      function decomposeTransitionsFromRoute([fromStates, toStates]) {
-        return fromStates.reduce((acc, fromState) => [
-          ...acc,
-          ...toStates.map((toState) => [fromState, toState])
-        ], []);
-      }
-      var ON_EXITING = "onExiting";
-      var ON_ENTERING = "onEntering";
-      var ON_EXITED = "onExited";
-      var ON_ENTERED = "onEntered";
-      var ON_SWITCHING = "onSwitching";
-      var ON_SWITCHED = "onSwitched";
-      var INTERNAL_EVENTS = {
-        [ON_SWITCHING]: "(ANY)state:changing",
-        [ON_SWITCHED]: "(ANY)state:changed"
-      };
-      function Statebot2(name, options) {
-        if (!isString(name)) {
-          throw new TypeError("\nStatebot: Please specify a name for this machine");
-        }
-        const logPrefix = `Statebot[${name}]`;
-        if (!isPojo(options)) {
-          throw new TypeError(`
-${logPrefix}: Please specify options for this machine`);
-        }
-        const {
-          chart = void 0,
-          logLevel = 3,
-          historyLimit = 2
-        } = options || {};
-        const events = options.events === void 0 ? wrapEmitter(mitt()) : isEventEmitter(options.events) && wrapEmitter(options.events);
-        if (!events) {
-          throw new TypeError(`
-${logPrefix}: Invalid event-emitter specified in options`);
-        }
-        const { states = [], routes = [] } = chart ? decomposeChart(chart) : options;
-        const { startIn = states[0] } = options;
-        if (!states.includes(startIn)) {
-          throw new Error(`${logPrefix}: Starting-state not in chart: "${startIn}"`);
-        }
-        const argTypeError2 = ArgTypeError(`${logPrefix}#`);
-        const _console = Logger(logLevel, console);
-        const { canWarn } = _console;
-        const stateHistory = [startIn];
-        const stateHistoryLimit = Math.max(historyLimit, 2);
-        let transitionId = 0;
-        const { pause, resume, paused, Pausable } = Pausables(false, () => _console.warn(`${logPrefix}: Ignoring callback, paused`));
-        const internalEvents = wrapEmitter(mitt());
-        const emitInternalEvent = Pausable(internalEvents.emit);
-        function onInternalEvent(eventName, cb) {
-          internalEvents.on(eventName, cb);
-          return () => internalEvents.off(eventName, cb);
-        }
-        const statesHandled = ReferenceCounter(name, "states", "Listening for the following state-changes", [...states]);
-        const routesHandled = ReferenceCounter(name, "transitions", "Listening for the following transitions", [...routes]);
-        const eventsHandled = ReferenceCounter(name, "events", "Listening for the following events");
-        function applyHitcher(hitcher, fnName) {
-          const hitcherActions = isFunction(hitcher) ? hitcher({ enter, emit, Enter, Emit }) : isPojo(hitcher) ? hitcher : null;
-          if (!isPojo(hitcherActions)) {
-            throw new TypeError(`Statebot[${name}]#${fnName}(): Expected an object, or a function that returns an object`);
-          }
-          const allStates = [];
-          const allRoutes = [];
-          const {
-            transitionsForEvents,
-            transitionsOnly
-          } = decomposeHitcherActions(hitcherActions);
-          const eventsMappedToTransitionConfigs = Object.entries(transitionsForEvents).reduce(decomposeTransitionsForEvent, {});
-          const transitionConfigs = expandTransitions(transitionsOnly, canWarn);
-          const allCleanupFns = Object.entries(eventsMappedToTransitionConfigs).map(createEventHandlerForTransition).concat(transitionConfigs.configs.map(runThenMethodOnTransition)).flat();
-          if (canWarn()) {
-            allStates.push(...transitionConfigs.states);
-            allRoutes.push(...transitionConfigs.routes);
-            const invalidStates = allStates.filter((state) => !states.includes(state));
-            const invalidRoutes = allRoutes.filter((route) => !routes.includes(route));
-            if (invalidStates.length) {
-              _console.warn(`Statebot[${name}]#${fnName}(): Invalid states specified:
-` + invalidStates.map((state) => `  > "${state}"`).join("\n"));
-            }
-            if (invalidRoutes.length) {
-              _console.warn(`Statebot[${name}]#${fnName}(): Invalid transitions specified:
-` + invalidRoutes.map((route) => `  > "${route}"`).join("\n"));
-            }
-          }
-          return () => allCleanupFns.map((fn) => fn());
-          function runThenMethodOnTransition(config) {
-            const { fromState, toState, action } = config;
-            const route = `${fromState}->${toState}`;
-            return [
-              routesHandled.increase(route),
-              onInternalEvent(route, bindActionTo(toState, action))
-            ];
-          }
-          function decomposeTransitionsForEvent(acc, [eventName, transitionsAndAction]) {
-            const {
-              states: states2,
-              routes: routes2,
-              configs
-            } = expandTransitions(transitionsAndAction, canWarn);
-            if (canWarn()) {
-              allStates.push(...states2);
-              allRoutes.push(...routes2);
-            }
-            return {
-              ...acc,
-              [eventName]: configs
-            };
-          }
-          function ifStateThenEnterState({ fromState, toState, action, args }) {
-            return inState(fromState, () => {
-              enter(toState, ...args);
-              isFunction(action) && runActionFor(toState, action, ...args);
-              return true;
-            });
-          }
-          function createEventHandlerForTransition([eventName, configs]) {
-            return [
-              eventsHandled.increase(eventName),
-              onEvent(eventName, (...args) => {
-                const eventWasHandled = configs.map((config) => ({ ...config, args })).some(ifStateThenEnterState);
-                if (!eventWasHandled) {
-                  transitionNoOp(`Event not handled: "${eventName}"`);
-                }
-              })
-            ];
-          }
-          function runActionFor(state, actionFn, ...args) {
-            const onExitingState = actionFn(...args);
-            if (isFunction(onExitingState)) {
-              const uninstall = Once(enterExitMethods[ON_EXITING](state, (toState) => {
-                uninstall();
-                onExitingState(toState);
-              }));
-              allCleanupFns.push(uninstall);
-            }
-          }
-          function bindActionTo(state, actionFn) {
-            return (...args) => runActionFor(state, actionFn, ...args);
-          }
-        }
-        function previousState() {
-          return stateHistory[stateHistory.length - 2];
-        }
-        function currentState() {
-          return stateHistory[stateHistory.length - 1];
-        }
-        function canTransitionTo(...states2) {
-          const testStates = states2.flat();
-          const err2 = argTypeError2("canTransitionTo", { state: isString }, testStates[0]);
-          if (err2) {
-            throw new TypeError(err2);
-          }
-          if (!testStates.length) {
-            return false;
-          }
-          const nextStates = statesAvailableFromHere();
-          return testStates.every((state) => nextStates.includes(state));
-        }
-        function statesAvailableFromHere(state) {
-          const _state = state !== void 0 ? state : currentState();
-          const err2 = argTypeError2("statesAvailableFromHere", { state: isString }, _state);
-          if (err2) {
-            throw new TypeError(err2);
-          }
-          return routes.reduce((acc, route) => {
-            const [fromState, toState] = route.split(cxArrow).map((state2) => state2.trim());
-            return fromState === _state ? [...acc, toState] : acc;
-          }, []);
-        }
-        function _inState(state, anyOrFn, ...fnArgs) {
-          const conditionMatches = currentState() === state;
-          if (anyOrFn === void 0) {
-            return conditionMatches;
-          }
-          if (!conditionMatches) {
-            return null;
-          }
-          if (isFunction(anyOrFn)) {
-            return anyOrFn(...fnArgs);
-          }
-          return anyOrFn;
-        }
-        function _inStateObject(stateObject, ...fnArgs) {
-          const match = Object.entries(stateObject).find(([state]) => _inState(state));
-          return match ? _inState(...match.concat(fnArgs)) : null;
-        }
-        function inState(...args) {
-          const err2 = argTypeError2("inState", { state: [isString, isPojo] }, args[0]);
-          if (err2) {
-            throw new TypeError(err2);
-          }
-          return isPojo(args[0]) ? _inStateObject(...args) : _inState(...args);
-        }
-        const emit = Pausable((eventName, ...args) => {
-          const err2 = argTypeError2("emit", { eventName: isString }, eventName);
-          if (err2) {
-            throw new TypeError(err2);
-          }
-          return events.emit(eventName, ...args);
-        });
-        const enter = Pausable((state, ...args) => {
-          const err2 = argTypeError2("enter", { state: isString }, state);
-          if (err2) {
-            throw new TypeError(err2);
-          }
-          const inState2 = currentState();
-          const toState = state;
-          if (toState === inState2) {
-            transitionNoOp(`Already in state: "${toState}"`);
-            return false;
-          }
-          if (!states.includes(toState)) {
-            transitionNoOp(`Invalid state "${toState}", not switching`);
-            return false;
-          }
-          const nextRoute = `${inState2}->${toState}`;
-          if (!routes.includes(nextRoute)) {
-            transitionNoOp(`Invalid transition "${nextRoute}", not switching`);
-            return false;
-          }
-          _console.info(`${logPrefix}: tId<${++transitionId}>: ${nextRoute}`);
-          stateHistory.push(toState);
-          if (stateHistory.length > stateHistoryLimit) {
-            stateHistory.shift();
-          }
-          emitInternalEvent(INTERNAL_EVENTS[ON_SWITCHING], toState, inState2, ...args);
-          emitInternalEvent(nextRoute, ...args);
-          emitInternalEvent(INTERNAL_EVENTS[ON_SWITCHED], toState, inState2, ...args);
-          return true;
-        });
-        function onEvent(eventName, cb) {
-          const err2 = argTypeError2("onEvent", { eventName: isString, cb: isFunction }, eventName, cb);
-          if (err2) {
-            throw new TypeError(err2);
-          }
-          events.on(eventName, cb);
-          return () => events.off(eventName, cb);
-        }
-        const switchMethods = Object.keys(INTERNAL_EVENTS).reduce((obj, methodName) => ({
-          ...obj,
-          [methodName]: (cb) => {
-            const err2 = argTypeError2(methodName, { cb: isFunction }, cb);
-            if (err2) {
-              throw new TypeError(err2);
-            }
-            const decreaseRefCount = statesHandled.increase(INTERNAL_EVENTS[methodName]);
-            const removeEvent = onInternalEvent(INTERNAL_EVENTS[methodName], cb);
-            return () => {
-              removeEvent();
-              decreaseRefCount();
-            };
-          }
-        }), {});
-        const enterExitMethods = [
-          [ON_EXITING, ON_SWITCHING],
-          [ON_ENTERING, ON_SWITCHING],
-          [ON_EXITED, ON_SWITCHED],
-          [ON_ENTERED, ON_SWITCHED]
-        ].reduce((obj, names) => {
-          const [methodName, switchMethod] = names;
-          const name2 = methodName.slice(2);
-          const eventName = name2.toLowerCase();
-          return {
-            ...obj,
-            [methodName]: (state, cb) => {
-              const err2 = argTypeError2(methodName, { state: isString, cb: isFunction }, state, cb);
-              if (err2) {
-                throw new TypeError(err2);
-              }
-              const decreaseRefCounts = [
-                statesHandled.increase(state),
-                statesHandled.increase(`${state}:${eventName}`)
-              ];
-              const removeEvent = switchMethods[switchMethod]((toState, fromState, ...args) => {
-                if (name2.indexOf("Exit") === 0) {
-                  state === fromState && cb(toState, ...args);
-                } else {
-                  state === toState && cb(fromState, ...args);
-                }
-              });
-              return () => {
-                removeEvent();
-                decreaseRefCounts.map((fn) => fn());
-              };
-            }
-          };
-        }, {});
-        function Emit(eventName, ...curriedArgs) {
-          const err2 = argTypeError2("Emit", { eventName: isString }, eventName);
-          if (err2) {
-            throw new TypeError(err2);
-          }
-          return (...args) => emit(eventName, ...[...curriedArgs, ...args]);
-        }
-        function Enter(state, ...curriedArgs) {
-          const err2 = argTypeError2("Enter", { state: isString }, state);
-          if (err2) {
-            throw new TypeError(err2);
-          }
-          return (...args) => enter(state, ...[...curriedArgs, ...args]);
-        }
-        function _InState(state, anyOrFn, ...curriedFnArgs) {
-          return (...fnArgs) => inState(state, anyOrFn, ...[...curriedFnArgs, ...fnArgs]);
-        }
-        function _InStateObject(stateObject, ...curriedFnArgs) {
-          return (...fnArgs) => inState(stateObject, ...[...curriedFnArgs, ...fnArgs]);
-        }
-        function InState(...args) {
-          const err2 = argTypeError2("InState", { state: [isString, isPojo] }, args[0]);
-          if (err2) {
-            throw new TypeError(err2);
-          }
-          return isPojo(args[0]) ? _InStateObject(...args) : _InState(...args);
-        }
-        function reset() {
-          _console.warn(`${logPrefix}: State-machine reset!`);
-          stateHistory.length = 0;
-          stateHistory.push(startIn);
-        }
-        function transitionNoOp(message) {
-          const lastState = previousState();
-          const inState2 = currentState();
-          const prevRoute = `${lastState === void 0 ? "[undefined]" : lastState}->${inState2}`;
-          const availableStates = statesAvailableFromHere();
-          if (!availableStates.length) {
-            _console.info(`${logPrefix}: ${message}
-  > Previous transition: "${prevRoute}"
-  > There are no states available from "${inState2}"`);
-          } else {
-            _console.info(`${logPrefix}: ${message}
-  > Previous transition: "${prevRoute}"
-  > From "${inState2}", valid states are: [${availableStates.map((state) => `"${state}"`).join(", ")}]`);
-          }
-        }
-        function inspect() {
-          return {
-            states: statesHandled.refs(),
-            transitions: routesHandled.refs(),
-            events: eventsHandled.refs()
-          };
-        }
-        function info() {
-          _console.log(`${logPrefix}: Information about this state-machine`);
-          logRefCounterInfo(statesHandled);
-          logRefCounterInfo(routesHandled);
-          logRefCounterInfo(eventsHandled);
-        }
-        function logRefCounterInfo(refCounter) {
-          const { description, table } = refCounter.toValue();
-          _console.log(description);
-          if (table.length) {
-            _console.table(table);
-          } else {
-            _console.log("  > No information");
-          }
-        }
-        return {
-          __STATEBOT__: 1,
-          canTransitionTo,
-          currentState,
-          emit,
-          Emit,
-          enter,
-          Enter,
-          history: () => [...stateHistory],
-          info: () => info(),
-          inspect: () => inspect(),
-          inState,
-          InState,
-          name: () => name,
-          onEntered: enterExitMethods[ON_ENTERED],
-          onEntering: enterExitMethods[ON_ENTERING],
-          onEvent,
-          onExited: enterExitMethods[ON_EXITED],
-          onExiting: enterExitMethods[ON_EXITING],
-          onSwitched: switchMethods[ON_SWITCHED],
-          onSwitching: switchMethods[ON_SWITCHING],
-          onTransitions: (transitions) => applyHitcher(transitions, "onTransitions"),
-          pause,
-          paused,
-          performTransitions: (transitions) => applyHitcher(transitions, "performTransitions"),
-          previousState,
-          reset,
-          resume,
-          statesAvailableFromHere
-        };
-      }
-      function decomposeHitcherActions(hitcherActions) {
-        const transitionsForEvents = {};
-        const transitionsOnly = [];
-        Object.entries(hitcherActions).map(([routeChart, actionFnOrConfigObj]) => {
-          if (isFunction(actionFnOrConfigObj)) {
-            transitionsOnly.push({ routeChart, action: actionFnOrConfigObj });
-            return;
-          }
-          if (!isPojo(actionFnOrConfigObj)) {
-            return;
-          }
-          const { on: _on, then: _then } = actionFnOrConfigObj;
-          const hasValidEventNames = isString(_on) || isArray(_on);
-          if (hasValidEventNames) {
-            const eventNames = [_on].flat();
-            eventNames.map((name) => {
-              transitionsForEvents[name] = transitionsForEvents[name] || [];
-              transitionsForEvents[name].push({ routeChart, action: _then });
-            });
-            return;
-          }
-          if (isFunction(_then)) {
-            transitionsOnly.push({ routeChart, action: actionFnOrConfigObj });
-          }
-        });
-        return { transitionsForEvents, transitionsOnly };
-      }
-      function expandTransitions(configs, canWarn) {
-        const allStates = [];
-        const allRoutes = [];
-        const _configs = configs.reduce((acc, config) => {
-          const { routeChart, action } = config;
-          const { states, routes, transitions } = decomposeChart(routeChart);
-          if (canWarn()) {
-            allStates.push(...states);
-            allRoutes.push(...routes);
-          }
-          return [
-            ...acc,
-            ...transitions.map(([fromState, toState]) => ({ fromState, toState, action }))
-          ];
-        }, []);
-        return {
-          configs: _configs,
-          states: allStates,
-          routes: allRoutes
-        };
-      }
-      function isStatebot(object) {
-        return isPojo(object) && typeof object.__STATEBOT__ === "number";
-      }
-      var argTypeError = ArgTypeError("statebot.");
-      function routeIsPossible(machine, route) {
-        const err2 = argTypeError("routeIsPossible", { machine: isStatebot, route: isTemplateLiteral }, machine, route);
-        if (err2) {
-          throw TypeError(err2);
-        }
-        const _route = decomposeRoute(route);
-        return _route.every((state, index) => {
-          if (index === _route.length - 1) {
-            return true;
-          } else {
-            const nextState = _route[index + 1];
-            const availableStates = machine.statesAvailableFromHere(state);
-            const passes = availableStates.includes(nextState);
-            return passes;
-          }
-        });
-      }
-      var assertionId = 0;
-      function assertRoute(machine, expectedRoute, options) {
-        const err2 = argTypeError("assertRoute", { machine: isStatebot, expectedRoute: isTemplateLiteral }, machine, expectedRoute);
-        if (err2) {
-          throw TypeError(err2);
-        }
-        assertionId += 1;
-        const {
-          description = "Assertion complete",
-          fromState = "",
-          run = () => {
-          },
-          permittedDeviations = 0,
-          timeoutInMs = 1e3,
-          logLevel = 3
-        } = options || {};
-        const console2 = Logger(logLevel);
-        const prefix = `Statebot[${machine.name()}]: aId<${assertionId}>`;
-        const route = decomposeRoute(expectedRoute);
-        console2.log(`
-${prefix}: Asserting route: [${route.join(" > ")}]`);
-        console2.log(`${prefix}: > Assertion will start from state: "${fromState}"`);
-        const fromStateActionFn = Defer(run);
-        let removeFromStateActionFn = () => {
-        };
-        const totalTimeTaken = TimeTaken();
-        let stateTimeTaken = TimeTaken();
-        let assertionTimeoutTimer;
-        let deviations = 0;
-        let pending = true;
-        let unexpected = false;
-        const consumeRoute = [...route];
-        const report = Table(["state", "expected", "info", "took"], ["center", "center", "left", "right"]);
-        const finaliseReport = Once((err3) => {
-          addRow("", "", "", "TOTAL: " + totalTimeTaken());
-          report.lock();
-          console2.log(`
-${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
-          console2.table(report.content());
-          return err3;
-        });
-        const { addRow } = report;
-        function enteredState(state) {
-          if (pending) {
-            addRow(state, "-", "PENDING");
-          } else {
-            const expectedState = consumeRoute[0];
-            if (expectedState === state) {
-              addRow(state, expectedState, unexpected ? "REALIGNED" : "OKAY", stateTimeTaken());
-              unexpected = false;
-              consumeRoute.shift();
-            } else {
-              addRow(state, expectedState, "WRONG STATE", stateTimeTaken());
-              unexpected = true;
-              deviations += 1;
-            }
-            stateTimeTaken = TimeTaken();
-          }
-        }
-        return new Promise((resolve, reject) => {
-          if (consumeRoute.length === 0) {
-            reject(finaliseReport(new Error("NO ROUTE TO TEST")));
-            return;
-          }
-          const clearTimeoutAndResolve = (...args) => {
-            clearTimeout(assertionTimeoutTimer);
-            removeFromStateActionFn();
-            removeOnSwitchingListener();
-            resolve(...args);
-          };
-          const clearTimeoutAndReject = (err3) => {
-            clearTimeout(assertionTimeoutTimer);
-            removeFromStateActionFn();
-            removeOnSwitchingListener();
-            reject(err3);
-          };
-          const bailout = (message) => {
-            while (consumeRoute.length) {
-              const expectedState = consumeRoute.shift();
-              addRow(machine.currentState(), `(${expectedState})`, message);
-              unexpected = false;
-            }
-            clearTimeoutAndReject(finaliseReport(new Error(message)));
-          };
-          if (machine.inState(fromState)) {
-            pending = false;
-            removeFromStateActionFn = fromStateActionFn();
-          }
-          const { revoke, fn } = Revokable((state) => {
-            assertionTimeoutTimer = setTimeout(() => {
-              revoke();
-              bailout("TIMEOUT");
-            }, timeoutInMs);
-            enteredState(state);
-            if (pending && state === fromState) {
-              pending = false;
-              removeFromStateActionFn = fromStateActionFn();
-            }
-            if (deviations > permittedDeviations) {
-              revoke();
-              bailout("TOO MANY DEVIATIONS");
-            }
-            if (consumeRoute.length <= 0) {
-              revoke();
-              clearTimeoutAndResolve(finaliseReport());
-            }
-          });
-          const removeOnSwitchingListener = machine.onSwitching(fn);
-        });
-      }
-      function Table(columns, alignments) {
-        columns = columns || [];
-        alignments = alignments || [];
-        const table = [];
-        const alignment = columns.map((_, index) => alignments[index] || "center");
-        let locked = false;
-        function lock() {
-          locked = true;
-        }
-        function addRow(...args) {
-          if (locked) {
-            return;
-          }
-          const obj = columns.reduce((acc, col, index) => {
-            const row = args[index] || "";
-            return {
-              ...acc,
-              [col]: row
-            };
-          }, {});
-          table.push(obj);
-        }
-        function colSizes() {
-          return table.reduce((acc, row) => columns.map((col, index) => Math.max(row[col].length, acc[index])), columns.map(() => 0));
-        }
-        function content() {
-          const sizes = colSizes();
-          function formatField(value, index) {
-            const size = sizes[index];
-            const align = alignment[index];
-            if (align === "left") {
-              return value.padEnd(size);
-            }
-            if (align === "right") {
-              return value.padStart(size);
-            }
-            return value;
-          }
-          const output = table.reduce((acc, row) => {
-            const formattedRow = columns.reduce((acc2, col, index) => ({
-              ...acc2,
-              [col]: formatField(row[col], index)
-            }), {});
-            return [...acc, formattedRow];
-          }, []);
-          return output;
-        }
-        return {
-          lock,
-          addRow,
-          content
-        };
-      }
-      function TimeTaken() {
-        const startTime = Date.now();
-        function fmt(num, digits) {
-          return num.toFixed(digits).replace(/\.0+$/, "");
-        }
-        return function() {
-          const duration = Date.now() - startTime;
-          if (duration < 500) {
-            return `${fmt(duration)} ms`;
-          } else if (duration < 5e3) {
-            return `${fmt(duration / 1e3, 2)} s `;
-          } else if (duration < 6e4) {
-            return `${fmt(duration / 1e3, 1)} s `;
-          } else {
-            return `${fmt(duration / 1e3 / 60, 1)} m `;
-          }
-        };
-      }
-      exports.Statebot = Statebot2;
-      exports.assertRoute = assertRoute;
-      exports.decomposeChart = decomposeChart;
-      exports.isStatebot = isStatebot;
-      exports.routeIsPossible = routeIsPossible;
-    }
-  });
-
-  // node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/index.js
-  var require_statebot = __commonJS({
-    "node_modules/.pnpm/statebot@2.8.0/node_modules/statebot/index.js"(exports, module) {
-      "use strict";
-      if (typeof process !== "undefined" && true) {
-        module.exports = require_statebot_min();
-      } else {
-        module.exports = require_statebot_dev();
-      }
     }
   });
 
   // src/common/cjs/regexp.js
   var require_regexp = __commonJS({
     "src/common/cjs/regexp.js"(exports, module) {
-      function memoize(fn, cache = new Map()) {
-        return (x) => cache.has(x) ? cache.get(x) : cache.set(x, fn(x)).get(x);
-      }
-      var makeRegExpFromWildcardString3 = memoize((str) => {
+      var { memo } = require_fp();
+      var makeRegExpFromWildcardString3 = memo((str) => {
         if (!str.length) {
           throw new Error("String should not be empty");
         }
@@ -3536,7 +2087,6 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
         return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       }
       module.exports = {
-        memoize,
         makeRegExpFromWildcardString: makeRegExpFromWildcardString3,
         escapeStringForRegExp
       };
@@ -3544,10 +2094,10 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
   });
 
   // src/main.js
-  var import_spark_md5 = __toModule(require_spark_md5());
-  var import_jmespath = __toModule(require_jmespath());
+  var import_spark_md5 = __toESM(require_spark_md5());
+  var import_jmespath = __toESM(require_jmespath());
 
-  // node_modules/.pnpm/fflate@0.7.1/node_modules/fflate/esm/browser.js
+  // node_modules/.pnpm/fflate@0.7.2/node_modules/fflate/esm/browser.js
   var ch2 = {};
   var wk = function(c, id, msg, transfer, cb) {
     var w = new Worker(ch2[id] || (ch2[id] = URL.createObjectURL(new Blob([
@@ -3593,19 +2143,22 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
   var fd = _b[0];
   var revfd = _b[1];
   var rev = new u16(32768);
-  for (var i = 0; i < 32768; ++i) {
+  for (i = 0; i < 32768; ++i) {
     x = (i & 43690) >>> 1 | (i & 21845) << 1;
     x = (x & 52428) >>> 2 | (x & 13107) << 2;
     x = (x & 61680) >>> 4 | (x & 3855) << 4;
     rev[i] = ((x & 65280) >>> 8 | (x & 255) << 8) >>> 1;
   }
   var x;
+  var i;
   var hMap = function(cd, mb, r) {
     var s = cd.length;
     var i = 0;
     var l = new u16(mb);
-    for (; i < s; ++i)
-      ++l[cd[i] - 1];
+    for (; i < s; ++i) {
+      if (cd[i])
+        ++l[cd[i] - 1];
+    }
     var le = new u16(mb);
     for (i = 0; i < mb; ++i) {
       le[i] = le[i - 1] + l[i - 1] << 1;
@@ -3635,17 +2188,22 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
     return co;
   };
   var flt = new u8(288);
-  for (var i = 0; i < 144; ++i)
+  for (i = 0; i < 144; ++i)
     flt[i] = 8;
-  for (var i = 144; i < 256; ++i)
+  var i;
+  for (i = 144; i < 256; ++i)
     flt[i] = 9;
-  for (var i = 256; i < 280; ++i)
+  var i;
+  for (i = 256; i < 280; ++i)
     flt[i] = 7;
-  for (var i = 280; i < 288; ++i)
+  var i;
+  for (i = 280; i < 288; ++i)
     flt[i] = 8;
+  var i;
   var fdt = new u8(32);
-  for (var i = 0; i < 32; ++i)
+  for (i = 0; i < 32; ++i)
     fdt[i] = 5;
+  var i;
   var flm = /* @__PURE__ */ hMap(flt, 9, 0);
   var fdm = /* @__PURE__ */ hMap(fdt, 5, 0);
   var shft = function(p) {
@@ -3892,12 +2450,10 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
     if (!lvl || s < 8) {
       for (var i = 0; i <= s; i += 65535) {
         var e = i + 65535;
-        if (e < s) {
-          pos = wfblk(w, pos, dat.subarray(i, e));
-        } else {
-          w[i] = lst;
-          pos = wfblk(w, pos, dat.subarray(i, s));
+        if (e >= s) {
+          w[pos >> 3] = lst;
         }
+        pos = wfblk(w, pos + 1, dat.subarray(i, e));
       }
     } else {
       var opt = deo[lvl - 1];
@@ -4296,11 +2852,873 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
   };
 
   // src/main.js
-  var import_file_saver = __toModule(require_FileSaver_min());
-  var import_statebot = __toModule(require_statebot());
+  var import_file_saver = __toESM(require_FileSaver_min());
+
+  // node_modules/.pnpm/statebot@2.9.2/node_modules/statebot/dist/esm/statebot.js
+  function mitt(n) {
+    return { all: n = n || /* @__PURE__ */ new Map(), on: function(t, e) {
+      var i = n.get(t);
+      i ? i.push(e) : n.set(t, [e]);
+    }, off: function(t, e) {
+      var i = n.get(t);
+      i && (e ? i.splice(i.indexOf(e) >>> 0, 1) : n.set(t, []));
+    }, emit: function(t, e) {
+      var i = n.get(t);
+      i && i.slice().map(function(n2) {
+        n2(e);
+      }), (i = n.get("*")) && i.slice().map(function(n2) {
+        n2(t, e);
+      });
+    } };
+  }
+  function isEventEmitter(obj) {
+    return isObject(obj) && isFunction(obj.emit) && (isFunction(obj.addListener) || isFunction(obj.on)) && (isFunction(obj.removeListener) || isFunction(obj.off));
+  }
+  isEventEmitter.displayName = "isEventEmitter";
+  isArray.displayName = "isUnset";
+  function isArray(obj) {
+    return Array.isArray(obj);
+  }
+  isArray.displayName = "isArray";
+  function isArguments(obj) {
+    return Object.prototype.toString.call(obj) === "[object Arguments]";
+  }
+  isArguments.displayName = "isArguments";
+  function isFunction(obj) {
+    return typeof obj === "function";
+  }
+  isFunction.displayName = "isFunction";
+  function isString(obj) {
+    return typeof obj === "string";
+  }
+  isString.displayName = "isString";
+  function isAllStrings(arr) {
+    return isArray(arr) && arr.every(isString);
+  }
+  isAllStrings.displayName = "isAllStrings";
+  function isUndefined(obj) {
+    return obj === void 0;
+  }
+  isUndefined.displayName = "isUndefined";
+  function isNull(obj) {
+    return obj === null;
+  }
+  isNull.displayName = "isNull";
+  function isNumber(obj) {
+    return typeof obj === "number";
+  }
+  isNumber.displayName = "isNumber";
+  function isObject(obj) {
+    return typeof obj === "object" && !isNull(obj);
+  }
+  isObject.displayName = "isObject";
+  function isPojo(obj) {
+    if (isNull(obj) || !isObject(obj) || isArguments(obj)) {
+      return false;
+    }
+    return Object.getPrototypeOf(obj) === Object.prototype;
+  }
+  isPojo.displayName = "isPojo";
+  function isTemplateLiteral(obj) {
+    if (isString(obj)) {
+      return true;
+    }
+    if (!isArray(obj)) {
+      return false;
+    }
+    return obj.every(isString);
+  }
+  isTemplateLiteral.displayName = "isTemplateLiteral";
+  var typeErrorStringIfFnReturnsFalse = (argName, argTypeFn, arg) => {
+    return argTypeFn(arg) ? void 0 : (argTypeFn.displayName || argTypeFn.name) + `(${argName}) did not return true`;
+  };
+  var typeErrorStringIfTypeOfFails = (argName, argType, arg) => {
+    return typeof arg === argType ? void 0 : `Argument "${argName}" should be a ${argType}`;
+  };
+  var typeErrorStringFromArgument = (argMap) => (arg, index) => {
+    if (index >= argMap.length) {
+      return;
+    }
+    const { argName, argType } = argMap[index];
+    if (isUndefined(arg)) {
+      return `Argument undefined: "${argName}"`;
+    }
+    const permittedArgTypes = Array.isArray(argType) ? argType : [argType];
+    const errorDescs = permittedArgTypes.map((argType2) => isFunction(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)).filter(isString);
+    const multipleTypesSpecified = permittedArgTypes.length > 1;
+    const shouldError = multipleTypesSpecified ? errorDescs.length > 1 : errorDescs.length;
+    if (shouldError) {
+      return errorDescs.join("\n| ") + `
+> typeof ${argName} === ${typeof arg}(${JSON.stringify(arg)})`;
+    }
+  };
+  function ArgTypeError(namespace) {
+    return (typeMap) => {
+      const argMap = Object.entries(typeMap).map(([argName, argType]) => ({
+        argName,
+        argType
+      }));
+      return (fnName) => (...args) => {
+        const processedArgs = Array.from(args, (x) => isArguments(x) ? Array.from(x) : x).flat(1);
+        const err2 = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString);
+        if (!err2.length) {
+          return;
+        }
+        const signature = Object.keys(typeMap).join(", ");
+        return `
+${namespace || ""}${fnName}(${signature}):
+${err2.map((err3) => `| ${err3}`).join("\n")}`;
+      };
+    };
+  }
+  function wrapEmitter(events) {
+    const emit = (eventName, ...args) => events.emit(eventName, args);
+    const addListener = events.addListener ? (...args) => events.addListener(...args) : (...args) => events.on(...args);
+    const removeListener = events.removeListener ? (...args) => events.removeListener(...args) : (...args) => events.off(...args);
+    const wrapMap = /* @__PURE__ */ new Map();
+    function on(eventName, fn) {
+      let fnMeta = wrapMap.get(fn);
+      if (!fnMeta) {
+        fnMeta = {
+          handleEvent: (args = []) => fn(...[args].flat()),
+          refCount: 0
+        };
+        wrapMap.set(fn, fnMeta);
+      }
+      fnMeta.refCount += 1;
+      addListener(eventName, fnMeta.handleEvent);
+    }
+    function off(eventName, fn) {
+      let fnMeta = wrapMap.get(fn);
+      if (!fnMeta) {
+        return;
+      }
+      removeListener(eventName, fnMeta.handleEvent);
+      fnMeta.refCount -= 1;
+      if (fnMeta.refCount === 0) {
+        wrapMap.delete(fn);
+      }
+    }
+    return {
+      emit,
+      on,
+      off
+    };
+  }
+  function uniq(input) {
+    return input.reduce((acc, one) => acc.indexOf(one) === -1 ? (acc.push(one), acc) : acc, []);
+  }
+  function Once(fn) {
+    const { revoke, fn: _fn } = Revokable(fn);
+    let result;
+    return function(...args) {
+      result = _fn(...args);
+      revoke();
+      return result;
+    };
+  }
+  function Revokable(fn) {
+    let revoked = false;
+    let result;
+    return {
+      fn: (...args) => {
+        if (!revoked) {
+          result = fn(...args);
+        }
+        return result;
+      },
+      revoke: () => {
+        revoked = true;
+      }
+    };
+  }
+  function Pausables(startPaused, runFnWhenPaused) {
+    runFnWhenPaused = runFnWhenPaused || function() {
+    };
+    let paused = !!startPaused;
+    function Pausable(fn) {
+      return (...args) => {
+        if (paused) {
+          runFnWhenPaused();
+          return false;
+        }
+        return fn(...args);
+      };
+    }
+    return {
+      Pausable,
+      paused: () => paused,
+      pause: () => {
+        paused = true;
+      },
+      resume: () => {
+        paused = false;
+      }
+    };
+  }
+  function ReferenceCounter(logPrefix, kind, description, ...expecting) {
+    const _refs = [...expecting].flat().reduce((acc, ref) => ({ ...acc, [ref]: 0 }), {});
+    function increase(ref) {
+      _refs[ref] = countOf(ref) + 1;
+      return () => {
+        decrease(ref);
+      };
+    }
+    function decrease(ref) {
+      const count = countOf(ref) - 1;
+      _refs[ref] = Math.max(count, 0);
+    }
+    function countOf(ref) {
+      return _refs[ref] || 0;
+    }
+    function refs() {
+      return { ..._refs };
+    }
+    function table() {
+      return Object.keys(_refs).sort().map((key) => [key, _refs[key]]).map(([ref, count]) => {
+        return {
+          [kind]: ref,
+          refs: count || "None"
+        };
+      });
+    }
+    function toValue() {
+      return {
+        description: `${logPrefix}: ${description}:`,
+        table: table()
+      };
+    }
+    return {
+      increase,
+      decrease,
+      countOf,
+      toValue,
+      refs
+    };
+  }
+  function Definitions() {
+    const dictionary = {};
+    function undefine(word, definition) {
+      dictionary[word] = (dictionary[word] || []).filter((next) => next !== definition);
+      if (dictionary[word].length === 0) {
+        delete dictionary[word];
+      }
+    }
+    function define2(word, definition) {
+      dictionary[word] = dictionary[word] || [];
+      dictionary[word].push(definition);
+      return () => undefine(word, definition);
+    }
+    function definitionsOf(word) {
+      return dictionary[word] || [];
+    }
+    return {
+      define: define2,
+      undefine,
+      definitionsOf
+    };
+  }
+  function Logger(level, _console) {
+    if (isString(level)) {
+      level = {
+        info: 3,
+        log: 2,
+        warn: 1,
+        none: 0
+      }[level] || 3;
+    }
+    function canWarn() {
+      return level >= 1;
+    }
+    function canLog() {
+      return level >= 2;
+    }
+    function canInfo() {
+      return level >= 3;
+    }
+    const { info, table, log, warn, error } = _console || console;
+    return {
+      canWarn,
+      canLog,
+      canInfo,
+      info: (...args) => {
+        canInfo() && info(...args);
+      },
+      table: (...args) => {
+        canLog() && table(...args);
+      },
+      log: (...args) => {
+        canLog() && log(...args);
+      },
+      warn: (...args) => {
+        canWarn() && warn(...args);
+      },
+      error: (...args) => {
+        error(...args);
+      }
+    };
+  }
+  var rxCRLF = /[\r\n]/;
+  var cxPipe = "|";
+  var cxArrow = "->";
+  var rxOperators = [cxPipe, cxArrow].map((rxUnsafe) => rxUnsafe.replace("|", "\\|")).join("|");
+  var rxLineContinuations = new RegExp(`(${rxOperators})$`);
+  var rxDisallowedCharacters = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
+  var rxComment = /(\/\/[^\n\r]*)/;
+  var argTypeError$1 = ArgTypeError("statebot.");
+  function decomposeChart(chart) {
+    const err2 = argTypeError$1({ chart: isTemplateLiteral })("decomposeChart")(chart);
+    if (err2) {
+      throw TypeError(err2);
+    }
+    const lines = condensedLines(chart);
+    const linesOfTokens = tokenisedLines(lines);
+    const linesOfRoutes = linesOfTokens.flatMap(decomposeRouteFromTokens);
+    const linesOfTransitions = linesOfRoutes.flatMap(decomposeTransitionsFromRoute);
+    let emptyStateFound = false;
+    const routeKeys = linesOfTransitions.map((route) => {
+      if (route.includes("")) {
+        emptyStateFound = true;
+      }
+      return route.join(cxArrow);
+    });
+    const filteredRoutes = uniq(routeKeys);
+    const filteredStates = uniq(linesOfTokens.flat(3));
+    return {
+      transitions: filteredRoutes.map((route) => route.split(cxArrow)),
+      routes: filteredRoutes,
+      states: !emptyStateFound ? filteredStates.filter(Boolean) : filteredStates
+    };
+  }
+  function linesFrom(strOrArr) {
+    return [strOrArr].flat().reduce((acc, line) => [...acc, ...line.split(rxCRLF)], []);
+  }
+  function condensedLines(strOrArr) {
+    const input = linesFrom(strOrArr);
+    const output = [];
+    let previousLineHasContinuation = false;
+    const condenseLine = (condensedLine, line) => {
+      const sanitisedLine = line.replace(rxComment, "").replace(rxDisallowedCharacters, "");
+      if (!sanitisedLine) {
+        return condensedLine;
+      }
+      previousLineHasContinuation = rxLineContinuations.test(sanitisedLine);
+      if (previousLineHasContinuation) {
+        return condensedLine + sanitisedLine;
+      }
+      output.push(condensedLine + sanitisedLine);
+      return "";
+    };
+    const finalCondensedLine = input.reduce(condenseLine, "");
+    if (previousLineHasContinuation || finalCondensedLine) {
+      return [...output, finalCondensedLine];
+    }
+    return [...output];
+  }
+  function tokenisedLines(lines) {
+    return lines.map((line) => line.split(cxArrow).map((str) => str.split(cxPipe)));
+  }
+  function decomposeRouteFromTokens(line) {
+    const output = [];
+    line.reduce((previousStates, states) => {
+      if (previousStates === false) {
+        return [...states];
+      }
+      output.push([previousStates, [...states]]);
+      return [...states];
+    }, false);
+    return output;
+  }
+  function decomposeTransitionsFromRoute([fromStates, toStates]) {
+    return fromStates.reduce((acc, fromState) => (acc.push(...toStates.map((toState) => [fromState, toState])), acc), []);
+  }
+  var ON_EXITING = "onExiting";
+  var ON_ENTERING = "onEntering";
+  var ON_EXITED = "onExited";
+  var ON_ENTERED = "onEntered";
+  var ON_SWITCHING = "onSwitching";
+  var ON_SWITCHED = "onSwitched";
+  var INTERNAL_EVENTS = {
+    [ON_SWITCHING]: "(ANY)state:changing",
+    [ON_SWITCHED]: "(ANY)state:changed"
+  };
+  function Statebot(name, options) {
+    if (!isString(name)) {
+      throw new TypeError("\nStatebot: Please specify a name for this machine");
+    }
+    const logPrefix = `Statebot[${name}]`;
+    if (!isPojo(options)) {
+      throw new TypeError(`
+${logPrefix}: Please specify options for this machine`);
+    }
+    const {
+      chart = void 0,
+      logLevel = 3,
+      historyLimit = 2
+    } = options || {};
+    const events = isUndefined(options.events) ? wrapEmitter(mitt()) : isEventEmitter(options.events) && wrapEmitter(options.events);
+    if (!events) {
+      throw new TypeError(`
+${logPrefix}: Invalid event-emitter specified in options`);
+    }
+    const { states = [], routes = [] } = chart ? decomposeChart(chart) : options;
+    const { startIn = states[0] } = options;
+    if (!states.includes(startIn)) {
+      throw new Error(`${logPrefix}: Starting-state not in chart: "${startIn}"`);
+    }
+    const argTypeError2 = ArgTypeError(`${logPrefix}#`);
+    const _console = Logger(logLevel, console);
+    const { canWarn } = _console;
+    const stateHistory = [startIn];
+    const stateHistoryLimit = Math.max(historyLimit, 2);
+    let transitionId = 0;
+    const { pause, resume, paused, Pausable } = Pausables(false, () => _console.warn(`${logPrefix}: Ignoring callback, paused`));
+    const transitionsFromEvents = Definitions();
+    const internalEvents = wrapEmitter(mitt());
+    const emitInternalEvent = Pausable(internalEvents.emit);
+    function onInternalEvent(eventName, cb) {
+      internalEvents.on(eventName, cb);
+      return () => internalEvents.off(eventName, cb);
+    }
+    const statesHandled = ReferenceCounter(logPrefix, "states", "Listening for the following state-changes", [...states]);
+    const routesHandled = ReferenceCounter(logPrefix, "transitions", "Listening for the following transitions", [...routes]);
+    const eventsHandled = ReferenceCounter(logPrefix, "events", "Listening for the following events");
+    function applyHitcher(hitcher, fnName) {
+      const hitcherActions = isFunction(hitcher) ? hitcher({ enter, emit, Enter, Emit }) : isPojo(hitcher) ? hitcher : null;
+      if (!isPojo(hitcherActions)) {
+        throw new TypeError(`${logPrefix}#${fnName}(): Expected an object, or a function that returns an object`);
+      }
+      const allStates = [];
+      const allRoutes = [];
+      const {
+        transitionsForEvents,
+        transitionsOnly
+      } = decomposeHitcherActions(hitcherActions);
+      const eventsMappedToTransitionConfigs = Object.entries(transitionsForEvents).reduce(decomposeTransitionsForEvent, {});
+      const transitionConfigs = expandTransitions(transitionsOnly, canWarn);
+      const allCleanupFns = Object.entries(eventsMappedToTransitionConfigs).map(createEventHandlerForTransition).concat(transitionConfigs.configs.map(runThenMethodOnTransition)).flat();
+      if (canWarn()) {
+        allStates.push(...transitionConfigs.states);
+        allRoutes.push(...transitionConfigs.routes);
+        const invalidStates = allStates.filter((state) => !states.includes(state));
+        const invalidRoutes = allRoutes.filter((route) => !routes.includes(route));
+        if (invalidStates.length) {
+          _console.warn(`${logPrefix}#${fnName}(): Invalid states specified:
+` + invalidStates.map((state) => `  > "${state}"`).join("\n"));
+        }
+        if (invalidRoutes.length) {
+          _console.warn(`${logPrefix}#${fnName}(): Invalid transitions specified:
+` + invalidRoutes.map((route) => `  > "${route}"`).join("\n"));
+        }
+      }
+      return () => allCleanupFns.map((fn) => fn());
+      function runThenMethodOnTransition(config) {
+        const { fromState, toState, action } = config;
+        const route = `${fromState}->${toState}`;
+        return [
+          routesHandled.increase(route),
+          onInternalEvent(route, bindActionTo(toState, action))
+        ];
+      }
+      function decomposeTransitionsForEvent(acc, [eventName, transitionsAndAction]) {
+        const {
+          states: states2,
+          routes: routes2,
+          configs
+        } = expandTransitions(transitionsAndAction, canWarn);
+        if (canWarn()) {
+          allStates.push(...states2);
+          allRoutes.push(...routes2);
+        }
+        return {
+          ...acc,
+          [eventName]: configs
+        };
+      }
+      function ifStateThenEnterState({ fromState, toState, action, args }) {
+        return inState(fromState, () => {
+          enter(toState, ...args);
+          isFunction(action) && runActionFor(toState, action, ...args);
+          return true;
+        });
+      }
+      function createEventHandlerForTransition([eventName, configs]) {
+        return [
+          eventsHandled.increase(eventName),
+          onEvent(eventName, (...args) => {
+            const eventWasHandled = configs.map((config) => ({ ...config, args })).some(ifStateThenEnterState);
+            if (!eventWasHandled) {
+              transitionNoOp(`Event not handled: "${eventName}"`);
+            }
+          })
+        ].concat(configs.map(({ fromState, toState }) => transitionsFromEvents.define(`${eventName}:${fromState}`, toState)));
+      }
+      function runActionFor(state, actionFn, ...args) {
+        const onExitingState = actionFn(...args);
+        if (isFunction(onExitingState)) {
+          const uninstall = Once(enterExitMethods[ON_EXITING](state, (toState) => {
+            uninstall();
+            onExitingState(toState);
+          }));
+          allCleanupFns.push(uninstall);
+        }
+      }
+      function bindActionTo(state, actionFn) {
+        return (...args) => runActionFor(state, actionFn, ...args);
+      }
+    }
+    function _peek(eventName, stateObject, calledInternally = true) {
+      const err1 = argTypeError2({ eventName: isString })("peek")(eventName);
+      if (err1) {
+        throw new TypeError(err1);
+      }
+      const eventAndState = eventName + ":" + currentState();
+      const statesFromEvent = transitionsFromEvents.definitionsOf(eventAndState);
+      if (statesFromEvent.length > 1) {
+        const reason = `${logPrefix}: Event "${eventName}" causes multiple transitions.
+  > From state: "${currentState()}"
+  > To states: "${statesFromEvent.join(", ")}"
+
+Check your performTransitions() config.`;
+        throw new RangeError(reason);
+      }
+      if (!calledInternally && statesFromEvent.length === 0) {
+        if (eventsHandled.countOf(eventName) === 0) {
+          _console.warn(`${logPrefix}: Event not handled: "${eventName}"`);
+        } else {
+          _console.warn(`${logPrefix}: Will not transition after emitting: "${eventName}"`);
+        }
+      }
+      const toState = statesFromEvent[0];
+      if (isUndefined(stateObject)) {
+        return isUndefined(toState) ? currentState() : toState;
+      }
+      const err2 = argTypeError2({ stateObject: isPojo })("peek")(stateObject);
+      if (err2) {
+        throw new TypeError(err2);
+      }
+      if (Object.prototype.hasOwnProperty.call(stateObject, toState)) {
+        const anyOrFn = stateObject[toState];
+        return isFunction(anyOrFn) ? anyOrFn() : anyOrFn;
+      }
+      return null;
+    }
+    function peek(eventName, stateObject) {
+      return _peek(eventName, stateObject, false);
+    }
+    function previousState() {
+      return stateHistory[stateHistory.length - 2];
+    }
+    function currentState() {
+      return stateHistory[stateHistory.length - 1];
+    }
+    function _state_canTransitionTo(...states2) {
+      const err2 = argTypeError2({ states: isAllStrings })("canTransitionTo")([states2]);
+      if (err2) {
+        throw new TypeError(err2);
+      }
+      if (!states2.length) {
+        return false;
+      }
+      const nextStates = statesAvailableFromHere();
+      return states2.every((state) => nextStates.includes(state));
+    }
+    function canTransitionTo(...states2) {
+      const testStates = states2.flat();
+      if (testStates.length === 2 && isString(testStates[0]) && isPojo(testStates[1])) {
+        const thisState = testStates[0];
+        const { afterEmitting } = testStates[1];
+        const err2 = argTypeError2({ thisState: isString, "{ afterEmitting }": isString })("canTransitionTo")(thisState, afterEmitting);
+        if (err2) {
+          throw new TypeError(err2);
+        }
+        return thisState !== currentState() && _peek(afterEmitting) === thisState;
+      }
+      return _state_canTransitionTo(...testStates);
+    }
+    function statesAvailableFromHere(state) {
+      const _state = !isUndefined(state) ? state : currentState();
+      const err2 = argTypeError2({ state: isString })("statesAvailableFromHere")(_state);
+      if (err2) {
+        throw new TypeError(err2);
+      }
+      return routes.reduce((acc, route) => {
+        const [fromState, toState] = route.split(cxArrow).map((state2) => state2.trim());
+        return fromState === _state ? [...acc, toState] : acc;
+      }, []);
+    }
+    function _inState(state, anyOrFn, ...fnArgs) {
+      const conditionMatches = currentState() === state;
+      if (isUndefined(anyOrFn)) {
+        return conditionMatches;
+      }
+      if (!conditionMatches) {
+        return null;
+      }
+      if (isFunction(anyOrFn)) {
+        return anyOrFn(...fnArgs);
+      }
+      return anyOrFn;
+    }
+    function _inStateObject(stateObject, ...fnArgs) {
+      const match = Object.entries(stateObject).find(([state]) => _inState(state));
+      return match ? _inState(...match.concat(fnArgs)) : null;
+    }
+    function inState(...args) {
+      const err2 = argTypeError2({ state: [isString, isPojo] })("inState")(args[0]);
+      if (err2) {
+        throw new TypeError(err2);
+      }
+      return isPojo(args[0]) ? _inStateObject(...args) : _inState(...args);
+    }
+    const emit = Pausable((eventName, ...args) => {
+      const err2 = argTypeError2({ eventName: isString })("emit")(eventName);
+      if (err2) {
+        throw new TypeError(err2);
+      }
+      _peek(eventName);
+      return events.emit(eventName, ...args);
+    });
+    const enter = Pausable((state, ...args) => {
+      const err2 = argTypeError2({ state: isString })("enter")(state);
+      if (err2) {
+        throw new TypeError(err2);
+      }
+      const inState2 = currentState();
+      const toState = state;
+      if (toState === inState2) {
+        transitionNoOp(`Already in state: "${toState}"`);
+        return false;
+      }
+      if (!states.includes(toState)) {
+        transitionNoOp(`Invalid state "${toState}", not switching`);
+        return false;
+      }
+      const nextRoute = `${inState2}->${toState}`;
+      if (!routes.includes(nextRoute)) {
+        transitionNoOp(`Invalid transition "${nextRoute}", not switching`);
+        return false;
+      }
+      _console.info(`${logPrefix}: tId<${++transitionId}>: ${nextRoute}`);
+      stateHistory.push(toState);
+      if (stateHistory.length > stateHistoryLimit) {
+        stateHistory.shift();
+      }
+      emitInternalEvent(INTERNAL_EVENTS[ON_SWITCHING], toState, inState2, ...args);
+      emitInternalEvent(nextRoute, ...args);
+      emitInternalEvent(INTERNAL_EVENTS[ON_SWITCHED], toState, inState2, ...args);
+      return true;
+    });
+    function onEvent(eventName, cb) {
+      const err2 = argTypeError2({ eventName: isString, cb: isFunction })("onEvent")(eventName, cb);
+      if (err2) {
+        throw new TypeError(err2);
+      }
+      events.on(eventName, cb);
+      return () => events.off(eventName, cb);
+    }
+    const switchMethods = Object.keys(INTERNAL_EVENTS).reduce((obj, methodName) => ({
+      ...obj,
+      [methodName]: (cb) => {
+        const err2 = argTypeError2({ cb: isFunction })(methodName)(cb);
+        if (err2) {
+          throw new TypeError(err2);
+        }
+        const decreaseRefCount = statesHandled.increase(INTERNAL_EVENTS[methodName]);
+        const removeEvent = onInternalEvent(INTERNAL_EVENTS[methodName], cb);
+        return () => {
+          removeEvent();
+          decreaseRefCount();
+        };
+      }
+    }), {});
+    const enterExitMethods = [
+      [ON_EXITING, ON_SWITCHING],
+      [ON_ENTERING, ON_SWITCHING],
+      [ON_EXITED, ON_SWITCHED],
+      [ON_ENTERED, ON_SWITCHED]
+    ].reduce((obj, names) => {
+      const [methodName, switchMethod] = names;
+      const name2 = methodName.slice(2);
+      const eventName = name2.toLowerCase();
+      return {
+        ...obj,
+        [methodName]: (state, cb) => {
+          const err2 = argTypeError2({ state: isString, cb: isFunction })(methodName)(state, cb);
+          if (err2) {
+            throw new TypeError(err2);
+          }
+          const decreaseRefCounts = [
+            statesHandled.increase(state),
+            statesHandled.increase(`${state}:${eventName}`)
+          ];
+          const removeEvent = switchMethods[switchMethod]((toState, fromState, ...args) => {
+            if (name2.indexOf("Exit") === 0) {
+              state === fromState && cb(toState, ...args);
+            } else {
+              state === toState && cb(fromState, ...args);
+            }
+          });
+          return () => {
+            removeEvent();
+            decreaseRefCounts.map((fn) => fn());
+          };
+        }
+      };
+    }, {});
+    function Emit(eventName, ...curriedArgs) {
+      const err2 = argTypeError2({ eventName: isString })("Emit")(eventName);
+      if (err2) {
+        throw new TypeError(err2);
+      }
+      return (...args) => emit(eventName, ...[...curriedArgs, ...args]);
+    }
+    function Enter(state, ...curriedArgs) {
+      const err2 = argTypeError2({ state: isString })("Enter")(state);
+      if (err2) {
+        throw new TypeError(err2);
+      }
+      return (...args) => enter(state, ...[...curriedArgs, ...args]);
+    }
+    function _InState(state, anyOrFn, ...curriedFnArgs) {
+      return (...fnArgs) => inState(state, anyOrFn, ...[...curriedFnArgs, ...fnArgs]);
+    }
+    function _InStateObject(stateObject, ...curriedFnArgs) {
+      return (...fnArgs) => inState(stateObject, ...[...curriedFnArgs, ...fnArgs]);
+    }
+    function InState(...args) {
+      const err2 = argTypeError2({ state: [isString, isPojo] })("InState")(args[0]);
+      if (err2) {
+        throw new TypeError(err2);
+      }
+      return isPojo(args[0]) ? _InStateObject(...args) : _InState(...args);
+    }
+    function reset() {
+      _console.warn(`${logPrefix}: State-machine reset!`);
+      stateHistory.length = 0;
+      stateHistory.push(startIn);
+    }
+    function transitionNoOp(message) {
+      const lastState = previousState();
+      const inState2 = currentState();
+      const prevRoute = `${isUndefined(lastState) ? "[undefined]" : lastState}->${inState2}`;
+      const availableStates = statesAvailableFromHere();
+      if (!availableStates.length) {
+        _console.info(`${logPrefix}: ${message}
+  > Previous transition: "${prevRoute}"
+  > There are no states available from "${inState2}"`);
+      } else {
+        _console.info(`${logPrefix}: ${message}
+  > Previous transition: "${prevRoute}"
+  > From "${inState2}", valid states are: [${availableStates.map((state) => `"${state}"`).join(", ")}]`);
+      }
+    }
+    function inspect() {
+      return {
+        states: statesHandled.refs(),
+        transitions: routesHandled.refs(),
+        events: eventsHandled.refs()
+      };
+    }
+    function info() {
+      _console.log(`${logPrefix}: Information about this state-machine`);
+      logRefCounterInfo(statesHandled);
+      logRefCounterInfo(routesHandled);
+      logRefCounterInfo(eventsHandled);
+    }
+    function logRefCounterInfo(refCounter) {
+      const { description, table } = refCounter.toValue();
+      _console.log(description);
+      if (table.length) {
+        _console.table(table);
+      } else {
+        _console.log("  > No information");
+      }
+    }
+    return {
+      __STATEBOT__: 1,
+      canTransitionTo,
+      currentState,
+      emit,
+      Emit,
+      enter,
+      Enter,
+      history: () => [...stateHistory],
+      info: () => info(),
+      inspect: () => inspect(),
+      inState,
+      InState,
+      name: () => name,
+      onEntered: enterExitMethods[ON_ENTERED],
+      onEntering: enterExitMethods[ON_ENTERING],
+      onEvent,
+      onExited: enterExitMethods[ON_EXITED],
+      onExiting: enterExitMethods[ON_EXITING],
+      onSwitched: switchMethods[ON_SWITCHED],
+      onSwitching: switchMethods[ON_SWITCHING],
+      onTransitions: (transitions) => applyHitcher(transitions, "onTransitions"),
+      pause,
+      paused,
+      peek,
+      performTransitions: (transitions) => applyHitcher(transitions, "performTransitions"),
+      previousState,
+      reset,
+      resume,
+      statesAvailableFromHere
+    };
+  }
+  function decomposeHitcherActions(hitcherActions) {
+    const transitionsForEvents = {};
+    const transitionsOnly = [];
+    Object.entries(hitcherActions).map(([routeChart, actionFnOrConfigObj]) => {
+      if (isFunction(actionFnOrConfigObj)) {
+        transitionsOnly.push({ routeChart, action: actionFnOrConfigObj });
+        return;
+      }
+      if (!isPojo(actionFnOrConfigObj)) {
+        return;
+      }
+      const { on: _on, then: _then } = actionFnOrConfigObj;
+      const hasValidEventNames = isString(_on) || isArray(_on);
+      if (hasValidEventNames) {
+        const eventNames = [_on].flat();
+        eventNames.map((name) => {
+          transitionsForEvents[name] = transitionsForEvents[name] || [];
+          transitionsForEvents[name].push({ routeChart, action: _then });
+        });
+        return;
+      }
+      if (isFunction(_then)) {
+        transitionsOnly.push({ routeChart, action: actionFnOrConfigObj });
+      }
+    });
+    return { transitionsForEvents, transitionsOnly };
+  }
+  function expandTransitions(configs, canWarn) {
+    const allStates = [];
+    const allRoutes = [];
+    const _configs = configs.reduce((acc, config) => {
+      const { routeChart, action } = config;
+      const { states, routes, transitions } = decomposeChart(routeChart);
+      if (canWarn()) {
+        allStates.push(...states);
+        allRoutes.push(...routes);
+      }
+      return [
+        ...acc,
+        ...transitions.map(([fromState, toState]) => ({ fromState, toState, action }))
+      ];
+    }, []);
+    return {
+      configs: _configs,
+      states: allStates,
+      routes: allRoutes
+    };
+  }
+  var argTypeError = ArgTypeError("statebot.");
 
   // src/common/esm/bus.js
-  var import_regexp = __toModule(require_regexp());
+  var import_regexp = __toESM(require_regexp());
   (function() {
     if (typeof window.CustomEvent === "function")
       return false;
@@ -4320,7 +3738,7 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
       global2 = self;
     }
     const BUS = "message-bus";
-    const eventMap = new Map();
+    const eventMap = /* @__PURE__ */ new Map();
     function emit(eventName, ...args) {
       const detail = { eventName, args, timestamp: Date.now() };
       const event = new CustomEvent(BUS, { detail });
@@ -4330,7 +3748,7 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
       if (typeof cb !== "function") {
         throw new TypeError("Callback is not a function");
       }
-      const cbMap = eventMap.has(eventNameOrPattern) ? eventMap.get(eventNameOrPattern) : eventMap.set(eventNameOrPattern, new Map()).get(eventNameOrPattern);
+      const cbMap = eventMap.has(eventNameOrPattern) ? eventMap.get(eventNameOrPattern) : eventMap.set(eventNameOrPattern, /* @__PURE__ */ new Map()).get(eventNameOrPattern);
       if (cbMap.has(cb)) {
         throw new Error("Callback already deals with this event");
       }
@@ -4502,7 +3920,7 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
   }
 
   // src/main.js
-  var import_regexp2 = __toModule(require_regexp());
+  var import_regexp2 = __toESM(require_regexp());
 
   // src/common/obis/actions.js
   var actions = {
@@ -4588,7 +4006,7 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
 `;
   var obisDefault = { rootPath: "." };
   var obis = window.obis || (window.obis = obisDefault);
-  obis.pluginRegistry = new Map();
+  obis.pluginRegistry = /* @__PURE__ */ new Map();
   var getPluginMeta = (name) => obis.pluginRegistry.has(name) ? obis.pluginRegistry.get(name) : obis.pluginRegistry.set(name, {}).get(name);
   addObisDependencies(obis);
   if (document.title !== "OBIS :: Statements Browser") {
@@ -4610,9 +4028,9 @@ ${prefix}: ${description}: [${err3 ? "FAILED" : "SUCCESS"}]`);
       messages,
       saveAs: import_file_saver.saveAs,
       SparkMD5: import_spark_md5.default,
-      Statebot: import_statebot.Statebot
+      Statebot
     };
-    obis2.fetchMachine = (0, import_statebot.Statebot)("fetcher", {
+    obis2.fetchMachine = Statebot("fetcher", {
       events: messages,
       startIn: false ? "found-entries" : "idle",
       chart: obisFetchFlow,

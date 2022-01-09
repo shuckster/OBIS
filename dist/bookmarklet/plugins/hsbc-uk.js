@@ -7,27 +7,68 @@
   var __hasOwnProp = Object.prototype.hasOwnProperty;
   var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
   var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[Object.keys(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
-  var __reExport = (target, module, desc) => {
+  var __reExport = (target, module, copyDefault, desc) => {
     if (module && typeof module === "object" || typeof module === "function") {
       for (let key of __getOwnPropNames(module))
-        if (!__hasOwnProp.call(target, key) && key !== "default")
+        if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
           __defProp(target, key, { get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable });
     }
     return target;
   };
-  var __toModule = (module) => {
-    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
+  var __toESM = (module, isNodeMode) => {
+    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", !isNodeMode && module && module.__esModule ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
+
+  // src/common/cjs/fp.js
+  var require_fp = __commonJS({
+    "src/common/cjs/fp.js"(exports, module) {
+      function compose(...fns) {
+        return (...x2) => fns.reduceRight((g2, f2) => [f2(...g2)], x2)[0];
+      }
+      function flow(...fns) {
+        return (...x2) => fns.reduce((g2, f2) => [f2(...g2)], x2)[0];
+      }
+      function pipe(x2, ...fns) {
+        return fns.reduce((g2, f2) => f2(g2), x2);
+      }
+      function flip(fn2) {
+        return (...x2) => (...y2) => fn2(...y2)(...x2);
+      }
+      function do_(f2) {
+        return f2();
+      }
+      function memo(fn2) {
+        const table = /* @__PURE__ */ new Map();
+        return (x2) => table.has(x2) ? table.get(x2) : table.set(x2, fn2(x2)).get(x2);
+      }
+      function cache(fn2) {
+        const cache2 = /* @__PURE__ */ new Map();
+        return (x2) => cache2.has(x2) ? cache2.get(x2) : cache2.set(x2, fn2(x2, invalidater(cache2, x2))).get(x2);
+      }
+      var invalidater = (cache2, x2) => () => cache2.delete(x2);
+      function aside(fn2) {
+        return (x2) => (fn2(x2), x2);
+      }
+      module.exports = {
+        compose,
+        pipe,
+        flow,
+        flip,
+        do_,
+        memo,
+        cache,
+        aside
+      };
+    }
+  });
 
   // src/common/cjs/regexp.js
   var require_regexp = __commonJS({
     "src/common/cjs/regexp.js"(exports, module) {
-      function memoize(fn2, cache = new Map()) {
-        return (x2) => cache.has(x2) ? cache.get(x2) : cache.set(x2, fn2(x2)).get(x2);
-      }
-      var makeRegExpFromWildcardString2 = memoize((str) => {
+      var { memo } = require_fp();
+      var makeRegExpFromWildcardString2 = memo((str) => {
         if (!str.length) {
           throw new Error("String should not be empty");
         }
@@ -50,7 +91,6 @@
         return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       }
       module.exports = {
-        memoize,
         makeRegExpFromWildcardString: makeRegExpFromWildcardString2,
         escapeStringForRegExp
       };
@@ -174,6 +214,7 @@
         unzip,
         makeIdleDetectorWithTimeout,
         poolPromises: poolPromises3,
+        makePromisePool,
         runPromisesInSequence
       };
       var { seconds, runOnce, makeDebouncer } = require_timers();
@@ -244,6 +285,27 @@
           unbump: () => onChange(--running)
         };
       }
+      function makePromisePool(limit) {
+        let running = 0;
+        const pending = /* @__PURE__ */ new Set();
+        return (promiseMakerFn) => {
+          const [promise, O2, X2] = makePromise3();
+          promise.finally(() => (running -= 1, next()));
+          pending.add({ promiseMakerFn, O: O2, X: X2 });
+          next();
+          return promise;
+        };
+        function next() {
+          Array.from(pending).every((config) => {
+            if (running < limit) {
+              running += 1;
+              pending.delete(config);
+              config.promiseMakerFn().then(config.O, config.X);
+              return true;
+            }
+          });
+        }
+      }
       function runPromisesInSequence(initialState, ...promiseMakerFns) {
         const [promise, resolve, reject] = makePromise3();
         promiseMakerFns.reduce(PromiseSequenceReducer(reject), Promise.resolve(initialState)).then(resolve).catch(reject);
@@ -311,7 +373,7 @@
     }
   };
 
-  // node_modules/.pnpm/immer@9.0.5/node_modules/immer/dist/immer.esm.js
+  // node_modules/.pnpm/immer@9.0.7/node_modules/immer/dist/immer.esm.js
   function n(n2) {
     for (var t2 = arguments.length, r2 = Array(t2 > 1 ? t2 - 1 : 0), e = 1; e < t2; e++)
       r2[e - 1] = arguments[e];
@@ -656,9 +718,10 @@
           break;
         }
       }
+      e2 > -1 && (r2 = r2.slice(e2 + 1));
       var o2 = b("Patches").$;
       return t(n2) ? o2(n2, r2) : this.produce(n2, function(n3) {
-        return o2(n3, r2.slice(e2 + 1));
+        return o2(n3, r2);
       });
     }, e;
   }();
@@ -672,7 +735,7 @@
   var dn = an.finishDraft.bind(an);
 
   // src/common/esm/bus.js
-  var import_regexp = __toModule(require_regexp());
+  var import_regexp = __toESM(require_regexp());
   (function() {
     if (typeof window.CustomEvent === "function")
       return false;
@@ -692,7 +755,7 @@
       global = self;
     }
     const BUS = "message-bus";
-    const eventMap = new Map();
+    const eventMap = /* @__PURE__ */ new Map();
     function emit(eventName, ...args) {
       const detail = { eventName, args, timestamp: Date.now() };
       const event = new CustomEvent(BUS, { detail });
@@ -702,7 +765,7 @@
       if (typeof cb !== "function") {
         throw new TypeError("Callback is not a function");
       }
-      const cbMap = eventMap.has(eventNameOrPattern) ? eventMap.get(eventNameOrPattern) : eventMap.set(eventNameOrPattern, new Map()).get(eventNameOrPattern);
+      const cbMap = eventMap.has(eventNameOrPattern) ? eventMap.get(eventNameOrPattern) : eventMap.set(eventNameOrPattern, /* @__PURE__ */ new Map()).get(eventNameOrPattern);
       if (cbMap.has(cb)) {
         throw new Error("Callback already deals with this event");
       }
@@ -920,7 +983,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     name: [isString, isUnset],
     type: [isString, isUnset],
     iban: [isString, isUnset],
-    bic: [isString, isUnset]
+    bic: [isString, isUnset],
+    ledgerBalance: [isNumber, isUnset],
+    lastUpdatedTimestamp: [isNumber, isUnset]
   })(actions.add.ACCOUNTS);
   var checkSchemaForUpdatingAnAccount = checkSchema({
     id: isString,
@@ -1277,8 +1342,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
 
   // src/plugins/hsbc/requesters/accounts.js
-  var accounts_default = configureEntriesInterceptor;
-  function configureEntriesInterceptor() {
+  var accounts_default = configureAccountsInterceptor;
+  function configureAccountsInterceptor() {
     const { messages: messages2 } = obis.deps;
     const { on: on2, emit } = messages2;
     const requestAccounts = addAccountsInterceptor();
@@ -1307,7 +1372,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
 
   // src/plugins/hsbc/requesters/statements.js
-  var import_promises = __toModule(require_promises());
+  var import_promises = __toESM(require_promises());
 
   // src/plugins/hsbc/hijack/statements.js
   var checkSchema3 = ObjTypeError("addAccountStatementsInterceptor#");
@@ -1488,7 +1553,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
 
   // src/plugins/hsbc/requesters/entries.js
-  var import_promises2 = __toModule(require_promises());
+  var import_promises2 = __toESM(require_promises());
 
   // src/common/obis/utils/currency.js
   function convertCentsToDecimal(cents) {
@@ -1684,7 +1749,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
 
   // src/plugins/hsbc/requesters/entries.js
-  var entries_default = configureEntriesInterceptor2;
+  var entries_default = configureEntriesInterceptor;
   function generateStatementDetailsRequesterPayloads(statementsListResponse) {
     return statementsListResponse.map((stmtList) => stmtList.statementIds.map((stmtMeta) => ({
       entProdTypCde: stmtList.entProdTypCde,
@@ -1694,7 +1759,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       stmtDt: stmtMeta.endDate
     })));
   }
-  function configureEntriesInterceptor2() {
+  function configureEntriesInterceptor() {
     const { messages: messages2 } = obis.deps;
     const { on: on2, emit } = messages2;
     const requestStatementDetail = addStatementDetailInterceptor();
