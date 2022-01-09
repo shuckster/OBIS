@@ -36,6 +36,8 @@ import { actions } from '@/obis/actions'
 import { store } from '@/obis/store'
 import { flow, pipe } from '@/cjs/fp'
 
+const SUPPORTS_YEARS_SLIDER = false
+
 const { fetchMachine: fetcher } = obis
 const { Statebot, messages } = obis.deps
 const { Emit } = fetcher
@@ -181,19 +183,31 @@ export const App = ViewComponent(() => {
           </Accounts>
 
           <Actions>
-            <YearsSlider
-              max={MAXIMUM_YEARS_TO_FETCH}
-              value={yearsToFetch}
-              handleUpdate={handleRangeSlider}
-              disabled={!fetcher.inState('idle')}
-            />
+            {match(SUPPORTS_YEARS_SLIDER)(
+              when(true)(
+                <YearsSlider
+                  max={MAXIMUM_YEARS_TO_FETCH}
+                  value={yearsToFetch}
+                  handleUpdate={handleRangeSlider}
+                  disabled={!fetcher.inState('idle')}
+                />
+              ),
+              otherwise(<div>&nbsp;</div>)
+            )}
 
             <Button
               handleClick={handleFetchClick}
               className="fetch-everything"
               disabled={!fetcher.inState('idle')}
             >
-              Fetch {yearsToFetch} {yearsToFetch == 1 ? 'year' : 'years'}
+              {match(SUPPORTS_YEARS_SLIDER)(
+                when(true)(
+                  <>
+                    Fetch {yearsToFetch} {yearsToFetch == 1 ? 'year' : 'years'}
+                  </>
+                ),
+                otherwise('Fetch statements')
+              )}
             </Button>
             <Button
               handleClick={handleViewStatementsClick}
