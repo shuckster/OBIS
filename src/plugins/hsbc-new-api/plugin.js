@@ -221,6 +221,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
             const { id, accountId } = query
             return pool(() => {
               progress(idx + 1)
+
               return fetchTransactions(query).then(
                 map(transaction => ({
                   accountId,
