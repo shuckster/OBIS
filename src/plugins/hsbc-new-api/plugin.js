@@ -45,38 +45,39 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
     //
     'idle -> getting-accounts': {
       on: actions.get.ACCOUNTS,
-      then: requestedYearsToDownload => {
-        fetchAccounts().then(accountsResponse => {
-          //
-          // Update store
-          //
-          const accountsUpdate = accountsResponse.map(accountResponse => {
-            const [sortCode, accountNumber] =
-              accountResponse.sortCodeAndAccountNumber.split(' ')
+      then: requestedYearsToDownload =>
+        fetchAccounts()
+          .then(accountsResponse => {
+            //
+            // Update store
+            //
+            const accountsUpdate = accountsResponse.map(accountResponse => {
+              const [sortCode, accountNumber] =
+                accountResponse.sortCodeAndAccountNumber.split(' ')
 
-            return {
-              id: accountResponse.id,
-              accountNumber: accountNumber,
-              sortCode: sortCode,
-              name: accountResponse.accountHolderName,
-              type: accountResponse.productCode,
-              ledgerBalance: accountResponse.ledgerBalance * 100,
-              lastUpdatedTimestamp: new Date(
-                accountResponse.lastUpdatedDate
-              ).getTime(),
+              return {
+                id: accountResponse.id,
+                accountNumber: accountNumber,
+                sortCode: sortCode,
+                name: accountResponse.accountHolderName,
+                type: accountResponse.productCode,
+                ledgerBalance: accountResponse.ledgerBalance * 100,
+                lastUpdatedTimestamp: new Date(
+                  accountResponse.lastUpdatedDate
+                ).getTime(),
 
-              iban: LEAVE_UNCHANGED,
-              bic: LEAVE_UNCHANGED
-            }
+                iban: LEAVE_UNCHANGED,
+                bic: LEAVE_UNCHANGED
+              }
+            })
+
+            emit(actions.add.ACCOUNTS, accountsUpdate)
+            emit(actions.got.ACCOUNTS, {
+              accountsResponse,
+              yearsToDownload: requestedYearsToDownload
+            })
           })
-
-          emit(actions.add.ACCOUNTS, accountsUpdate)
-          emit(actions.got.ACCOUNTS, {
-            accountsResponse,
-            yearsToDownload: requestedYearsToDownload
-          })
-        })
-      }
+          .catch(fetcher.Emit(actions.error.ACCOUNTS))
     },
     'getting-accounts -> found-accounts': {
       on: actions.got.ACCOUNTS,
@@ -95,7 +96,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
     },
     'getting-accounts -> failed-accounts': {
       on: actions.error.ACCOUNTS,
-      then: () => fetcher.enter('idle')
+      then: fetcher.Enter('idle')
     },
 
     //
@@ -113,6 +114,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
 
             return pool(() => {
               progress(idx + 1)
+
               return fetchStatementsList(statementsQuery).then(
                 map(statementsResponse => {
                   const { endDate, accountNumber: mashed } = statementsResponse
@@ -144,6 +146,10 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
           .then(onlyFulfilled)
           .then(allAcctStatements => {
             const allStatements = allAcctStatements.flat()
+            if (allStatements.length === 0) {
+              fetcher.emit(actions.error.STATEMENTS)
+              return
+            }
 
             //
             // Update store
@@ -198,7 +204,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
     },
     'getting-statements -> failed-statements': {
       on: actions.error.STATEMENTS,
-      then: () => fetcher.enter('found-accounts')
+      then: fetcher.Enter('idle')
     },
 
     //
@@ -226,32 +232,36 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
           }
         )
 
-        //
-        // Update store
-        //
         Promise.allSettled(fetchAccountsTransactionsJobs)
           .then(onlyFulfilled)
           .then(allTransactionsInAccount => {
-            const allTransactions = allTransactionsInAccount
-              .flat()
-              .map(transaction => {
-                const { date, debit, credit, type, payee, note } = transaction
-                const { accountNumber, sortCode } = store().accounts.find(
-                  acct => acct.id === transaction.accountId
-                )
-                return Object.assign(transaction, {
-                  id: generateIdForTransaction({
-                    date,
-                    debit,
-                    credit,
-                    accountNumber,
-                    sortCode,
-                    type,
-                    payee,
-                    note
-                  })
+            const allTransactions = allTransactionsInAccount.flat()
+            if (allTransactions.length === 0) {
+              fetcher.emit(actions.error.ENTRIES)
+              return
+            }
+
+            //
+            // Update store
+            //
+            allTransactions.map(transaction => {
+              const { date, debit, credit, type, payee, note } = transaction
+              const { accountNumber, sortCode } = store().accounts.find(
+                acct => acct.id === transaction.accountId
+              )
+              return Object.assign(transaction, {
+                id: generateIdForTransaction({
+                  date,
+                  debit,
+                  credit,
+                  accountNumber,
+                  sortCode,
+                  type,
+                  payee,
+                  note
                 })
               })
+            })
 
             emit(actions.add.ENTRIES, allTransactions)
             emit(actions.got.ENTRIES)
@@ -264,7 +274,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
     },
     'getting-entries -> failed-entries': {
       on: actions.error.ENTRIES,
-      then: () => fetcher.enter('found-statements')
+      then: fetcher.Enter('idle')
     },
 
     //
@@ -277,6 +287,20 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
     'download-all -> found-entries': {
       on: actions.ui.DOWNLOADED_STATEMENTS,
       then: () => {}
+    }
+  })
+
+  fetcher.onTransitions({
+    //
+    // Flag a problem
+    //
+    [`
+        failed-accounts |
+      failed-statements |
+         failed-entries -> idle
+
+    `]: () => {
+      console.warn('Problem fetching data. Please try again.')
     }
   })
 

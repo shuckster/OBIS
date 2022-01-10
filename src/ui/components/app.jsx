@@ -148,7 +148,24 @@ export const App = ViewComponent(() => {
           'getting-accounts': 'Finding accounts...',
           'getting-statements': 'Getting statements...',
           'getting-entries':
-            'Getting transactions... (takes a moment to finish)'
+            'Getting transactions... (takes a moment to finish)',
+          idle: () =>
+            match(fetcher.history().some(state => /^failed-/.test(state)))(
+              when(true)(
+                <span style="font-weight: bold; color: red;">
+                  Sorry, something went wrong. Please try again, or report a
+                  problem on the{' '}
+                  <a
+                    href="https://github.com/shuckster/OBIS/issues"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    OBIS Github repo
+                  </a>
+                </span>
+              ),
+              otherwise('')
+            )
         })}
         <ProgressBar {...progressBar} />
       </Subheader>

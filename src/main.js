@@ -43,8 +43,8 @@ const obisFetchFlow = `
   // Failures
   //
     (getting-accounts -> failed-accounts -> idle)
-    (getting-statements -> failed-statements -> found-accounts)
-    (getting-entries -> failed-entries -> found-statements)
+    (getting-statements -> failed-statements -> idle)
+    (getting-entries -> failed-entries -> idle)
 
 `
 
