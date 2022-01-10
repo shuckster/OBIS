@@ -4863,7 +4863,14 @@ Check your performTransitions() config.`;
     }, "\u21E7"), /* @__PURE__ */ (0, import_mithril4.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril4.default)(Subheader, null, z2({ ready, opened })(C({ ready: true, opened: true })("Hit the button below to try and download everything automatically."), C({ ready: true, opened: false })("Welcome! Click that button on the right to see if we can download some statements."), B2("Loading...")), /* @__PURE__ */ (0, import_mithril4.default)("br", null), /* @__PURE__ */ (0, import_mithril4.default)("br", null), fetcher.inState({
       "getting-accounts": "Finding accounts...",
       "getting-statements": "Getting statements...",
-      "getting-entries": "Getting transactions... (takes a moment to finish)"
+      "getting-entries": "Getting transactions... (takes a moment to finish)",
+      idle: () => z2(fetcher.history().some((state2) => /^failed-/.test(state2)))(C(true)(/* @__PURE__ */ (0, import_mithril4.default)("span", {
+        style: "font-weight: bold; color: red;"
+      }, "Sorry, something went wrong. Please try again, or report a problem on the", " ", /* @__PURE__ */ (0, import_mithril4.default)("a", {
+        href: "https://github.com/shuckster/OBIS/issues",
+        target: "_blank",
+        rel: "noopener noreferrer"
+      }, "OBIS Github repo"))), B2(""))
     }), /* @__PURE__ */ (0, import_mithril4.default)(ProgressBar, {
       ...progressBar
     })), ready && /* @__PURE__ */ (0, import_mithril4.default)(VerticalAnimationContainer, {

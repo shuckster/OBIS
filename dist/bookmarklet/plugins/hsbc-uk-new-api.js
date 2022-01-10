@@ -2898,48 +2898,49 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const { messages: messages2 } = obis.deps;
     const { emit } = messages2;
     const updateProgressBar = (max) => (value) => emit(actions.ui.UPDATE_PROGRESS_BAR, { max, value });
-    let yearsToDownload;
     fetcher.performTransitions({
       "idle -> getting-accounts": {
         on: actions.get.ACCOUNTS,
-        then: (requestedYearsToDownload) => {
-          yearsToDownload = requestedYearsToDownload;
-          fetchAccounts().then((accountsResponse) => {
-            const accountsUpdate = accountsResponse.map((accountResponse) => {
-              const [sortCode, accountNumber] = accountResponse.sortCodeAndAccountNumber.split(" ");
-              return {
-                id: accountResponse.id,
-                accountNumber,
-                sortCode,
-                name: accountResponse.accountHolderName,
-                type: accountResponse.productCode,
-                ledgerBalance: accountResponse.ledgerBalance * 100,
-                lastUpdatedTimestamp: new Date(accountResponse.lastUpdatedDate).getTime(),
-                iban: LEAVE_UNCHANGED,
-                bic: LEAVE_UNCHANGED
-              };
-            });
-            emit(actions.add.ACCOUNTS, accountsUpdate);
-            const statementsQueries = accountsResponse.map((accountResponse) => ({
-              host: getHost(),
-              accountId: accountResponse.id,
-              productCategoryCode: accountResponse.productCategoryCode
-            }));
-            emit(actions.got.ACCOUNTS, { statementsQueries, yearsToDownload });
+        then: (requestedYearsToDownload) => fetchAccounts().then((accountsResponse) => {
+          const accountsUpdate = accountsResponse.map((accountResponse) => {
+            const [sortCode, accountNumber] = accountResponse.sortCodeAndAccountNumber.split(" ");
+            return {
+              id: accountResponse.id,
+              accountNumber,
+              sortCode,
+              name: accountResponse.accountHolderName,
+              type: accountResponse.productCode,
+              ledgerBalance: accountResponse.ledgerBalance * 100,
+              lastUpdatedTimestamp: new Date(accountResponse.lastUpdatedDate).getTime(),
+              iban: LEAVE_UNCHANGED,
+              bic: LEAVE_UNCHANGED
+            };
           });
-        }
+          emit(actions.add.ACCOUNTS, accountsUpdate);
+          emit(actions.got.ACCOUNTS, {
+            accountsResponse,
+            yearsToDownload: requestedYearsToDownload
+          });
+        }).catch(fetcher.Emit(actions.error.ACCOUNTS))
       },
       "getting-accounts -> found-accounts": {
         on: actions.got.ACCOUNTS,
-        then: fetcher.Emit(actions.get.STATEMENTS)
+        then: ({ accountsResponse, yearsToDownload }) => {
+          const statementsQueries = accountsResponse.map((accountResponse) => ({
+            host: getHost(),
+            accountId: accountResponse.id,
+            productCategoryCode: accountResponse.productCategoryCode
+          }));
+          emit(actions.get.STATEMENTS, { statementsQueries, yearsToDownload });
+        }
       },
       "getting-accounts -> failed-accounts": {
         on: actions.error.ACCOUNTS,
-        then: () => fetcher.enter("idle")
+        then: fetcher.Enter("idle")
       },
       "found-accounts -> getting-statements": {
         on: actions.get.STATEMENTS,
-        then: ({ statementsQueries }) => {
+        then: ({ statementsQueries, yearsToDownload }) => {
           const progress = updateProgressBar(statementsQueries.length);
           progress(0);
           const fetchStatementsJobs = statementsQueries.map((statementsQuery, idx) => {
@@ -2963,6 +2964,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           });
           Promise.allSettled(fetchStatementsJobs).then(onlyFulfilled).then((allAcctStatements) => {
             const allStatements = allAcctStatements.flat();
+            if (allStatements.length === 0) {
+              fetcher.emit(actions.error.STATEMENTS);
+              return;
+            }
             const statementsUpdate = allStatements.map(({ id, accountId, endDate: endDateString }) => {
               const endDate = new Date(endDateString);
               const startDate = new Date(endDate);
@@ -2977,39 +2982,39 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
               };
             });
             emit(actions.add.STATEMENTS, statementsUpdate);
-            const accountsTransactionsQueries = allStatements.map(({
-              id,
-              accountId,
-              endDate: endDateString,
-              productCategoryCode
-            }) => {
-              const endDate = new Date(endDateString);
-              const startDate = new Date(endDate);
-              startDate.setMonth(startDate.getMonth() - 1);
-              return {
-                host: getHost(),
-                id,
-                accountId,
-                productCategoryCode,
-                transactionStartDate: startDate.toISOString().split("T")[0],
-                transactionEndDate: endDate.toISOString().split("T")[0]
-              };
-            });
-            emit(actions.got.STATEMENTS, { accountsTransactionsQueries });
+            emit(actions.got.STATEMENTS, { allStatements, yearsToDownload });
           });
         }
       },
       "getting-statements -> found-statements": {
         on: actions.got.STATEMENTS,
-        then: fetcher.Emit(actions.get.ENTRIES)
+        then: ({ allStatements, yearsToDownload }) => {
+          const accountsTransactionsQueries = allStatements.map(({ id, accountId, endDate: endDateString, productCategoryCode }) => {
+            const endDate = new Date(endDateString);
+            const startDate = new Date(endDate);
+            startDate.setMonth(startDate.getMonth() - 1);
+            return {
+              host: getHost(),
+              id,
+              accountId,
+              productCategoryCode,
+              transactionStartDate: startDate.toISOString().split("T")[0],
+              transactionEndDate: endDate.toISOString().split("T")[0]
+            };
+          });
+          emit(actions.get.ENTRIES, {
+            accountsTransactionsQueries,
+            yearsToDownload
+          });
+        }
       },
       "getting-statements -> failed-statements": {
         on: actions.error.STATEMENTS,
-        then: () => fetcher.enter("found-accounts")
+        then: fetcher.Enter("idle")
       },
       "found-statements -> getting-entries": {
         on: actions.get.ENTRIES,
-        then: ({ accountsTransactionsQueries }) => {
+        then: ({ accountsTransactionsQueries, yearsToDownload }) => {
           const progress = updateProgressBar(accountsTransactionsQueries.length);
           progress(0);
           const fetchAccountsTransactionsJobs = accountsTransactionsQueries.map((query, idx) => {
@@ -3024,7 +3029,12 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
             });
           });
           Promise.allSettled(fetchAccountsTransactionsJobs).then(onlyFulfilled).then((allTransactionsInAccount) => {
-            const allTransactions = allTransactionsInAccount.flat().map((transaction) => {
+            const allTransactions = allTransactionsInAccount.flat();
+            if (allTransactions.length === 0) {
+              fetcher.emit(actions.error.ENTRIES);
+              return;
+            }
+            allTransactions.map((transaction) => {
               const { date, debit, credit, type, payee, note } = transaction;
               const { accountNumber, sortCode } = store().accounts.find((acct) => acct.id === transaction.accountId);
               return Object.assign(transaction, {
@@ -3052,7 +3062,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       },
       "getting-entries -> failed-entries": {
         on: actions.error.ENTRIES,
-        then: () => fetcher.enter("found-statements")
+        then: fetcher.Enter("idle")
       },
       "found-entries -> download-all": {
         on: actions.ui.DOWNLOAD_STATEMENTS,
@@ -3063,6 +3073,16 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         on: actions.ui.DOWNLOADED_STATEMENTS,
         then: () => {
         }
+      }
+    });
+    fetcher.onTransitions({
+      [`
+        failed-accounts |
+      failed-statements |
+         failed-entries -> idle
+
+    `]: () => {
+        console.warn("Problem fetching data. Please try again.");
       }
     });
     fetcher.info();
