@@ -52,7 +52,7 @@ export const fetchTransactions = ({
           type: amount > 0 ? 'DEP' : 'WITHD',
           ...restEntry,
           ...creditAndDebitFromAmount(amount),
-          balance: balance * 100
+          balance: Math.round(balance * 100)
         }
       })
       return entries
