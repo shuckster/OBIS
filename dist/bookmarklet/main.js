@@ -459,7 +459,7 @@
     "node_modules/.pnpm/jmespath@0.15.0/node_modules/jmespath/jmespath.js"(exports) {
       (function(exports2) {
         "use strict";
-        function isArray2(obj) {
+        function isArray3(obj) {
           if (obj !== null) {
             return Object.prototype.toString.call(obj) === "[object Array]";
           } else {
@@ -481,7 +481,7 @@
           if (firstType !== Object.prototype.toString.call(second)) {
             return false;
           }
-          if (isArray2(first) === true) {
+          if (isArray3(first) === true) {
             if (first.length !== second.length) {
               return false;
             }
@@ -516,7 +516,7 @@
         function isFalse(obj) {
           if (obj === "" || obj === false || obj === null) {
             return true;
-          } else if (isArray2(obj) && obj.length === 0) {
+          } else if (isArray3(obj) && obj.length === 0) {
             return true;
           } else if (isObject2(obj)) {
             for (var key in obj) {
@@ -1256,7 +1256,7 @@
                 right = this.visit(node.children[1], left);
                 return right;
               case "Index":
-                if (!isArray2(value)) {
+                if (!isArray3(value)) {
                   return null;
                 }
                 var index = node.value;
@@ -1269,7 +1269,7 @@
                 }
                 return result;
               case "Slice":
-                if (!isArray2(value)) {
+                if (!isArray3(value)) {
                   return null;
                 }
                 var sliceParams = node.children.slice(0);
@@ -1290,7 +1290,7 @@
                 return result;
               case "Projection":
                 var base = this.visit(node.children[0], value);
-                if (!isArray2(base)) {
+                if (!isArray3(base)) {
                   return null;
                 }
                 collected = [];
@@ -1317,7 +1317,7 @@
                 return collected;
               case "FilterProjection":
                 base = this.visit(node.children[0], value);
-                if (!isArray2(base)) {
+                if (!isArray3(base)) {
                   return null;
                 }
                 var filtered = [];
@@ -1363,13 +1363,13 @@
                 return result;
               case TOK_FLATTEN:
                 var original = this.visit(node.children[0], value);
-                if (!isArray2(original)) {
+                if (!isArray3(original)) {
                   return null;
                 }
                 var merged = [];
                 for (i = 0; i < original.length; i++) {
                   current = original[i];
-                  if (isArray2(current)) {
+                  if (isArray3(current)) {
                     merged.push.apply(merged, current);
                   } else {
                     merged.push(current);
@@ -2017,6 +2017,79 @@
     }
   });
 
+  // node_modules/.pnpm/match-iz@1.11.2/node_modules/match-iz/dist/match-iz.cjs.js
+  var require_match_iz_cjs = __commonJS({
+    "node_modules/.pnpm/match-iz@1.11.2/node_modules/match-iz/dist/match-iz.cjs.js"(exports, module) {
+      var x = Object.defineProperty;
+      var D = Object.getOwnPropertyDescriptor;
+      var E = Object.getOwnPropertyNames;
+      var F = Object.prototype.hasOwnProperty;
+      var I = (t) => x(t, "__esModule", { value: true });
+      var q = (t, n) => {
+        for (var o in n)
+          x(t, o, { get: n[o], enumerable: true });
+      };
+      var z = (t, n, o, s) => {
+        if (n && typeof n == "object" || typeof n == "function")
+          for (let r of E(n))
+            !F.call(t, r) && (o || r !== "default") && x(t, r, { get: () => n[r], enumerable: !(s = D(n, r)) || s.enumerable });
+        return t;
+      };
+      var B = ((t) => (n, o) => t && t.get(n) || (o = z(I({}), n, 1), t && t.set(n, o), o))(typeof WeakMap != "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+      var nt = {};
+      q(nt, { against: () => w, allOf: () => T, anyOf: () => R, defined: () => U, empty: () => W, endsWith: () => l, falsy: () => k, gt: () => V, gte: () => Y, hasOwn: () => v, inRange: () => _, includedIn: () => d, includes: () => y, instanceOf: () => u, isArray: () => e, isDate: () => P, isFunction: () => i, isNumber: () => b, isPojo: () => g, isRegExp: () => O, isString: () => f, lt: () => X, lte: () => Z, match: () => J, not: () => Q, otherwise: () => K, pluck: () => M, spread: () => a, startsWith: () => $, truthy: () => h, when: () => L });
+      var j = Object.prototype;
+      var C = j.toString;
+      var p = (t) => (n) => typeof n === t;
+      var u = (t) => (n) => n instanceof t;
+      var { isArray: e } = Array;
+      var G = (t) => C.call(t) === "[object Arguments]";
+      var P = (t) => u(Date)(t) && !isNaN(t);
+      var i = p("function");
+      var f = p("string");
+      var b = (t) => t === t && p("number")(t);
+      var H = (t) => t !== null && p("object")(t);
+      var O = u(RegExp);
+      var g = (t) => t === null || !H(t) || G(t) ? false : Object.getPrototypeOf(t) === j;
+      function J(t) {
+        return (...n) => w(...n)(t);
+      }
+      var w = (...t) => {
+        let n;
+        return (o) => t.find((s) => {
+          let r = s(o), { matched: N, value: S } = r || {};
+          return [N, S].every(i) ? N(o) && (n = S(o), true) : r && (n = r);
+        }) && n;
+      };
+      var K = (t) => (n) => ({ matched: () => true, value: () => i(t) ? t(n) : t });
+      var L = (t) => (n) => (o) => ({ matched: () => c(t, o, (s) => o = s), value: () => i(n) ? f(o) && O(t) ? n(o.match(t)) : n(o) : n });
+      var c = (t, n, o) => g(t) ? Object.keys(t).every((s) => c(t[s], n == null ? void 0 : n[s], o)) : e(t) ? e(n) ? t.length === n.length && t.every((s, r) => c(s, n == null ? void 0 : n[r], o)) : t.some((s) => c(s, n, o)) : i(t) ? t(n, o) : f(n) && O(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+      var M = (...t) => (n, o) => t.length === 0 || (i(t[0]) ? t[0](n) : c(t[0], n, o)) ? (o(n), true) : false;
+      var Q = (t) => (n, o) => !c(t, n, o);
+      var R = (...t) => t.flat();
+      var T = (...t) => (n, o) => t.flat().every((s) => c(s, n, o));
+      var W = (t) => t !== t || !t && t !== 0 && t !== false || e(t) && !t.length || g(t) && !Object.keys(t).length;
+      var U = (t) => !W(t);
+      var V = (t) => m((n) => n > t);
+      var X = (t) => m((n) => n < t);
+      var Y = (t) => m((n) => n >= t);
+      var Z = (t) => m((n) => n <= t);
+      var _ = (t, n) => m((o) => o >= t && o <= n);
+      var $ = (t) => A((n) => n.startsWith(t));
+      var l = (t) => A((n) => n.endsWith(t));
+      var y = (t) => tt((n) => n.includes(t));
+      var d = R;
+      var v = (...t) => (n) => g(n) && (([o, s]) => o.length && o.every((r) => s.includes(r)))([t.flat(), Object.keys(n)]);
+      var h = (t) => !!t;
+      var k = (t) => !t;
+      var a = (t) => new Proxy({}, { get: () => t });
+      var A = (t) => (n) => f(n) && t(n);
+      var m = (t) => (n) => b(n) && t(n);
+      var tt = (t) => (n) => (e(n) || f(n)) && t(n);
+      module.exports = B(nt);
+    }
+  });
+
   // src/common/cjs/fp.js
   var require_fp = __commonJS({
     "src/common/cjs/fp.js"(exports, module) {
@@ -2063,28 +2136,28 @@
   // src/common/cjs/regexp.js
   var require_regexp = __commonJS({
     "src/common/cjs/regexp.js"(exports, module) {
-      var { memo } = require_fp();
+      var { against: against2, when: when2, otherwise: otherwise2, isString: isString3 } = require_match_iz_cjs();
+      var { pipe, flow, memo } = require_fp();
       var makeRegExpFromWildcardString3 = memo((str) => {
-        if (!str.length) {
-          throw new Error("String should not be empty");
+        if (!isString3(str) || !str.length) {
+          throw new TypeError("Please pass a non-empty string");
         }
-        const sanitized = str.split("*").map((x) => x.trim()).map(escapeStringForRegExp);
-        const rxString = sanitized.join("(.*)");
-        switch (true) {
-          case sanitized.length === 1:
-            return new RegExp(`^${rxString}$`);
-          case sanitized[0] !== "":
-            return new RegExp(`^${rxString}`);
-          case sanitized[sanitized.length - 1] !== "":
-            return new RegExp(`${rxString}$`);
-        }
-        return new RegExp(rxString);
+        return pipe(str.replace(rxConsecutiveWildcards(), "*").split("*").map((x) => x.trim()).map(escapeStringForRegExp), against2(when2(hasNoWildcards)(templateMatchExact), when2(hasNoWildcardAtStart)(flow(insertWildcards, templateMatchStart)), when2(hasNoWildcardAtEnd)(flow(insertWildcards, templateMatchEnd)), otherwise2(insertWildcards)), ($) => new RegExp($));
       });
-      function escapeStringForRegExp(string) {
-        if (typeof string !== "string") {
-          throw new TypeError("Expected string to be passed-in");
+      var rxEscape = () => /[.*+?^${}()|[\]\\]/g;
+      var rxConsecutiveWildcards = () => /\*{2,}/g;
+      var hasNoWildcards = (x) => x.length === 1;
+      var hasNoWildcardAtStart = (x) => x.at(0) !== "";
+      var hasNoWildcardAtEnd = (x) => x.at(-1) !== "";
+      var insertWildcards = (x) => x.join("(.*)");
+      var templateMatchExact = ([x]) => `^${x}$`;
+      var templateMatchStart = (x) => `^${x}`;
+      var templateMatchEnd = (x) => `${x}$`;
+      function escapeStringForRegExp(str) {
+        if (!isString3(str)) {
+          throw new TypeError("Please pass a string");
         }
-        return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return str.replace(rxEscape(), "\\$&");
       }
       module.exports = {
         makeRegExpFromWildcardString: makeRegExpFromWildcardString3,
@@ -2854,7 +2927,7 @@
   // src/main.js
   var import_file_saver = __toESM(require_FileSaver_min());
 
-  // node_modules/.pnpm/statebot@2.9.2/node_modules/statebot/dist/esm/statebot.js
+  // node_modules/.pnpm/statebot@2.9.3/node_modules/statebot/dist/esm/statebot.js
   function mitt(n) {
     return { all: n = n || /* @__PURE__ */ new Map(), on: function(t, e) {
       var i = n.get(t);
@@ -2872,28 +2945,28 @@
     } };
   }
   function isEventEmitter(obj) {
-    return isObject(obj) && isFunction(obj.emit) && (isFunction(obj.addListener) || isFunction(obj.on)) && (isFunction(obj.removeListener) || isFunction(obj.off));
+    return isObject(obj) && isFunction2(obj.emit) && (isFunction2(obj.addListener) || isFunction2(obj.on)) && (isFunction2(obj.removeListener) || isFunction2(obj.off));
   }
   isEventEmitter.displayName = "isEventEmitter";
-  isArray.displayName = "isUnset";
-  function isArray(obj) {
+  isArray2.displayName = "isUnset";
+  function isArray2(obj) {
     return Array.isArray(obj);
   }
-  isArray.displayName = "isArray";
+  isArray2.displayName = "isArray";
   function isArguments(obj) {
     return Object.prototype.toString.call(obj) === "[object Arguments]";
   }
   isArguments.displayName = "isArguments";
-  function isFunction(obj) {
+  function isFunction2(obj) {
     return typeof obj === "function";
   }
-  isFunction.displayName = "isFunction";
-  function isString(obj) {
+  isFunction2.displayName = "isFunction";
+  function isString2(obj) {
     return typeof obj === "string";
   }
-  isString.displayName = "isString";
+  isString2.displayName = "isString";
   function isAllStrings(arr) {
-    return isArray(arr) && arr.every(isString);
+    return isArray2(arr) && arr.every(isString2);
   }
   isAllStrings.displayName = "isAllStrings";
   function isUndefined(obj) {
@@ -2904,29 +2977,29 @@
     return obj === null;
   }
   isNull.displayName = "isNull";
-  function isNumber(obj) {
+  function isNumber2(obj) {
     return typeof obj === "number";
   }
-  isNumber.displayName = "isNumber";
+  isNumber2.displayName = "isNumber";
   function isObject(obj) {
     return typeof obj === "object" && !isNull(obj);
   }
   isObject.displayName = "isObject";
-  function isPojo(obj) {
+  function isPojo2(obj) {
     if (isNull(obj) || !isObject(obj) || isArguments(obj)) {
       return false;
     }
     return Object.getPrototypeOf(obj) === Object.prototype;
   }
-  isPojo.displayName = "isPojo";
+  isPojo2.displayName = "isPojo";
   function isTemplateLiteral(obj) {
-    if (isString(obj)) {
+    if (isString2(obj)) {
       return true;
     }
-    if (!isArray(obj)) {
+    if (!isArray2(obj)) {
       return false;
     }
-    return obj.every(isString);
+    return obj.every(isString2);
   }
   isTemplateLiteral.displayName = "isTemplateLiteral";
   var typeErrorStringIfFnReturnsFalse = (argName, argTypeFn, arg) => {
@@ -2944,7 +3017,7 @@
       return `Argument undefined: "${argName}"`;
     }
     const permittedArgTypes = Array.isArray(argType) ? argType : [argType];
-    const errorDescs = permittedArgTypes.map((argType2) => isFunction(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)).filter(isString);
+    const errorDescs = permittedArgTypes.map((argType2) => isFunction2(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)).filter(isString2);
     const multipleTypesSpecified = permittedArgTypes.length > 1;
     const shouldError = multipleTypesSpecified ? errorDescs.length > 1 : errorDescs.length;
     if (shouldError) {
@@ -2960,7 +3033,7 @@
       }));
       return (fnName) => (...args) => {
         const processedArgs = Array.from(args, (x) => isArguments(x) ? Array.from(x) : x).flat(1);
-        const err2 = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString);
+        const err2 = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString2);
         if (!err2.length) {
           return;
         }
@@ -3119,7 +3192,7 @@ ${err2.map((err3) => `| ${err3}`).join("\n")}`;
     };
   }
   function Logger(level, _console) {
-    if (isString(level)) {
+    if (isString2(level)) {
       level = {
         info: 3,
         log: 2,
@@ -3243,11 +3316,11 @@ ${err2.map((err3) => `| ${err3}`).join("\n")}`;
     [ON_SWITCHED]: "(ANY)state:changed"
   };
   function Statebot(name, options) {
-    if (!isString(name)) {
+    if (!isString2(name)) {
       throw new TypeError("\nStatebot: Please specify a name for this machine");
     }
     const logPrefix = `Statebot[${name}]`;
-    if (!isPojo(options)) {
+    if (!isPojo2(options)) {
       throw new TypeError(`
 ${logPrefix}: Please specify options for this machine`);
     }
@@ -3284,8 +3357,8 @@ ${logPrefix}: Invalid event-emitter specified in options`);
     const routesHandled = ReferenceCounter(logPrefix, "transitions", "Listening for the following transitions", [...routes]);
     const eventsHandled = ReferenceCounter(logPrefix, "events", "Listening for the following events");
     function applyHitcher(hitcher, fnName) {
-      const hitcherActions = isFunction(hitcher) ? hitcher({ enter, emit, Enter, Emit }) : isPojo(hitcher) ? hitcher : null;
-      if (!isPojo(hitcherActions)) {
+      const hitcherActions = isFunction2(hitcher) ? hitcher({ enter, emit, Enter, Emit }) : isPojo2(hitcher) ? hitcher : null;
+      if (!isPojo2(hitcherActions)) {
         throw new TypeError(`${logPrefix}#${fnName}(): Expected an object, or a function that returns an object`);
       }
       const allStates = [];
@@ -3338,7 +3411,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
       function ifStateThenEnterState({ fromState, toState, action, args }) {
         return inState(fromState, () => {
           enter(toState, ...args);
-          isFunction(action) && runActionFor(toState, action, ...args);
+          isFunction2(action) && runActionFor(toState, action, ...args);
           return true;
         });
       }
@@ -3355,7 +3428,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
       }
       function runActionFor(state, actionFn, ...args) {
         const onExitingState = actionFn(...args);
-        if (isFunction(onExitingState)) {
+        if (isFunction2(onExitingState)) {
           const uninstall = Once(enterExitMethods[ON_EXITING](state, (toState) => {
             uninstall();
             onExitingState(toState);
@@ -3368,7 +3441,7 @@ ${logPrefix}: Invalid event-emitter specified in options`);
       }
     }
     function _peek(eventName, stateObject, calledInternally = true) {
-      const err1 = argTypeError2({ eventName: isString })("peek")(eventName);
+      const err1 = argTypeError2({ eventName: isString2 })("peek")(eventName);
       if (err1) {
         throw new TypeError(err1);
       }
@@ -3393,13 +3466,13 @@ Check your performTransitions() config.`;
       if (isUndefined(stateObject)) {
         return isUndefined(toState) ? currentState() : toState;
       }
-      const err2 = argTypeError2({ stateObject: isPojo })("peek")(stateObject);
+      const err2 = argTypeError2({ stateObject: isPojo2 })("peek")(stateObject);
       if (err2) {
         throw new TypeError(err2);
       }
       if (Object.prototype.hasOwnProperty.call(stateObject, toState)) {
         const anyOrFn = stateObject[toState];
-        return isFunction(anyOrFn) ? anyOrFn() : anyOrFn;
+        return isFunction2(anyOrFn) ? anyOrFn() : anyOrFn;
       }
       return null;
     }
@@ -3425,10 +3498,10 @@ Check your performTransitions() config.`;
     }
     function canTransitionTo(...states2) {
       const testStates = states2.flat();
-      if (testStates.length === 2 && isString(testStates[0]) && isPojo(testStates[1])) {
+      if (testStates.length === 2 && isString2(testStates[0]) && isPojo2(testStates[1])) {
         const thisState = testStates[0];
         const { afterEmitting } = testStates[1];
-        const err2 = argTypeError2({ thisState: isString, "{ afterEmitting }": isString })("canTransitionTo")(thisState, afterEmitting);
+        const err2 = argTypeError2({ thisState: isString2, "{ afterEmitting }": isString2 })("canTransitionTo")(thisState, afterEmitting);
         if (err2) {
           throw new TypeError(err2);
         }
@@ -3438,7 +3511,7 @@ Check your performTransitions() config.`;
     }
     function statesAvailableFromHere(state) {
       const _state = !isUndefined(state) ? state : currentState();
-      const err2 = argTypeError2({ state: isString })("statesAvailableFromHere")(_state);
+      const err2 = argTypeError2({ state: isString2 })("statesAvailableFromHere")(_state);
       if (err2) {
         throw new TypeError(err2);
       }
@@ -3455,24 +3528,24 @@ Check your performTransitions() config.`;
       if (!conditionMatches) {
         return null;
       }
-      if (isFunction(anyOrFn)) {
+      if (isFunction2(anyOrFn)) {
         return anyOrFn(...fnArgs);
       }
       return anyOrFn;
     }
     function _inStateObject(stateObject, ...fnArgs) {
-      const match = Object.entries(stateObject).find(([state]) => _inState(state));
-      return match ? _inState(...match.concat(fnArgs)) : null;
+      const match2 = Object.entries(stateObject).find(([state]) => _inState(state));
+      return match2 ? _inState(...match2.concat(fnArgs)) : null;
     }
     function inState(...args) {
-      const err2 = argTypeError2({ state: [isString, isPojo] })("inState")(args[0]);
+      const err2 = argTypeError2({ state: [isString2, isPojo2] })("inState")(args[0]);
       if (err2) {
         throw new TypeError(err2);
       }
-      return isPojo(args[0]) ? _inStateObject(...args) : _inState(...args);
+      return isPojo2(args[0]) ? _inStateObject(...args) : _inState(...args);
     }
     const emit = Pausable((eventName, ...args) => {
-      const err2 = argTypeError2({ eventName: isString })("emit")(eventName);
+      const err2 = argTypeError2({ eventName: isString2 })("emit")(eventName);
       if (err2) {
         throw new TypeError(err2);
       }
@@ -3480,7 +3553,7 @@ Check your performTransitions() config.`;
       return events.emit(eventName, ...args);
     });
     const enter = Pausable((state, ...args) => {
-      const err2 = argTypeError2({ state: isString })("enter")(state);
+      const err2 = argTypeError2({ state: isString2 })("enter")(state);
       if (err2) {
         throw new TypeError(err2);
       }
@@ -3510,7 +3583,7 @@ Check your performTransitions() config.`;
       return true;
     });
     function onEvent(eventName, cb) {
-      const err2 = argTypeError2({ eventName: isString, cb: isFunction })("onEvent")(eventName, cb);
+      const err2 = argTypeError2({ eventName: isString2, cb: isFunction2 })("onEvent")(eventName, cb);
       if (err2) {
         throw new TypeError(err2);
       }
@@ -3520,7 +3593,7 @@ Check your performTransitions() config.`;
     const switchMethods = Object.keys(INTERNAL_EVENTS).reduce((obj, methodName) => ({
       ...obj,
       [methodName]: (cb) => {
-        const err2 = argTypeError2({ cb: isFunction })(methodName)(cb);
+        const err2 = argTypeError2({ cb: isFunction2 })(methodName)(cb);
         if (err2) {
           throw new TypeError(err2);
         }
@@ -3544,7 +3617,7 @@ Check your performTransitions() config.`;
       return {
         ...obj,
         [methodName]: (state, cb) => {
-          const err2 = argTypeError2({ state: isString, cb: isFunction })(methodName)(state, cb);
+          const err2 = argTypeError2({ state: isString2, cb: isFunction2 })(methodName)(state, cb);
           if (err2) {
             throw new TypeError(err2);
           }
@@ -3567,14 +3640,14 @@ Check your performTransitions() config.`;
       };
     }, {});
     function Emit(eventName, ...curriedArgs) {
-      const err2 = argTypeError2({ eventName: isString })("Emit")(eventName);
+      const err2 = argTypeError2({ eventName: isString2 })("Emit")(eventName);
       if (err2) {
         throw new TypeError(err2);
       }
       return (...args) => emit(eventName, ...[...curriedArgs, ...args]);
     }
     function Enter(state, ...curriedArgs) {
-      const err2 = argTypeError2({ state: isString })("Enter")(state);
+      const err2 = argTypeError2({ state: isString2 })("Enter")(state);
       if (err2) {
         throw new TypeError(err2);
       }
@@ -3587,11 +3660,11 @@ Check your performTransitions() config.`;
       return (...fnArgs) => inState(stateObject, ...[...curriedFnArgs, ...fnArgs]);
     }
     function InState(...args) {
-      const err2 = argTypeError2({ state: [isString, isPojo] })("InState")(args[0]);
+      const err2 = argTypeError2({ state: [isString2, isPojo2] })("InState")(args[0]);
       if (err2) {
         throw new TypeError(err2);
       }
-      return isPojo(args[0]) ? _InStateObject(...args) : _InState(...args);
+      return isPojo2(args[0]) ? _InStateObject(...args) : _InState(...args);
     }
     function reset() {
       _console.warn(`${logPrefix}: State-machine reset!`);
@@ -3671,15 +3744,15 @@ Check your performTransitions() config.`;
     const transitionsForEvents = {};
     const transitionsOnly = [];
     Object.entries(hitcherActions).map(([routeChart, actionFnOrConfigObj]) => {
-      if (isFunction(actionFnOrConfigObj)) {
+      if (isFunction2(actionFnOrConfigObj)) {
         transitionsOnly.push({ routeChart, action: actionFnOrConfigObj });
         return;
       }
-      if (!isPojo(actionFnOrConfigObj)) {
+      if (!isPojo2(actionFnOrConfigObj)) {
         return;
       }
       const { on: _on, then: _then } = actionFnOrConfigObj;
-      const hasValidEventNames = isString(_on) || isArray(_on);
+      const hasValidEventNames = isString2(_on) || isArray2(_on);
       if (hasValidEventNames) {
         const eventNames = [_on].flat();
         eventNames.map((name) => {
@@ -3688,7 +3761,7 @@ Check your performTransitions() config.`;
         });
         return;
       }
-      if (isFunction(_then)) {
+      if (isFunction2(_then)) {
         transitionsOnly.push({ routeChart, action: actionFnOrConfigObj });
       }
     });

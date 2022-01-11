@@ -21,6 +21,79 @@
     return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", !isNodeMode && module && module.__esModule ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
 
+  // node_modules/.pnpm/match-iz@1.11.2/node_modules/match-iz/dist/match-iz.cjs.js
+  var require_match_iz_cjs = __commonJS({
+    "node_modules/.pnpm/match-iz@1.11.2/node_modules/match-iz/dist/match-iz.cjs.js"(exports, module) {
+      var x2 = Object.defineProperty;
+      var D2 = Object.getOwnPropertyDescriptor;
+      var E2 = Object.getOwnPropertyNames;
+      var F2 = Object.prototype.hasOwnProperty;
+      var I2 = (t2) => x2(t2, "__esModule", { value: true });
+      var q2 = (t2, n2) => {
+        for (var o2 in n2)
+          x2(t2, o2, { get: n2[o2], enumerable: true });
+      };
+      var z2 = (t2, n2, o2, s2) => {
+        if (n2 && typeof n2 == "object" || typeof n2 == "function")
+          for (let r2 of E2(n2))
+            !F2.call(t2, r2) && (o2 || r2 !== "default") && x2(t2, r2, { get: () => n2[r2], enumerable: !(s2 = D2(n2, r2)) || s2.enumerable });
+        return t2;
+      };
+      var B2 = ((t2) => (n2, o2) => t2 && t2.get(n2) || (o2 = z2(I2({}), n2, 1), t2 && t2.set(n2, o2), o2))(typeof WeakMap != "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+      var nt = {};
+      q2(nt, { against: () => w2, allOf: () => T, anyOf: () => R2, defined: () => U2, empty: () => W2, endsWith: () => l2, falsy: () => k2, gt: () => V2, gte: () => Y, hasOwn: () => v2, inRange: () => _2, includedIn: () => d2, includes: () => y2, instanceOf: () => u2, isArray: () => e, isDate: () => P2, isFunction: () => i2, isNumber: () => b2, isPojo: () => g2, isRegExp: () => O2, isString: () => f2, lt: () => X2, lte: () => Z2, match: () => J, not: () => Q2, otherwise: () => K, pluck: () => M2, spread: () => a2, startsWith: () => $, truthy: () => h2, when: () => L2 });
+      var j2 = Object.prototype;
+      var C = j2.toString;
+      var p2 = (t2) => (n2) => typeof n2 === t2;
+      var u2 = (t2) => (n2) => n2 instanceof t2;
+      var { isArray: e } = Array;
+      var G2 = (t2) => C.call(t2) === "[object Arguments]";
+      var P2 = (t2) => u2(Date)(t2) && !isNaN(t2);
+      var i2 = p2("function");
+      var f2 = p2("string");
+      var b2 = (t2) => t2 === t2 && p2("number")(t2);
+      var H2 = (t2) => t2 !== null && p2("object")(t2);
+      var O2 = u2(RegExp);
+      var g2 = (t2) => t2 === null || !H2(t2) || G2(t2) ? false : Object.getPrototypeOf(t2) === j2;
+      function J(t2) {
+        return (...n2) => w2(...n2)(t2);
+      }
+      var w2 = (...t2) => {
+        let n2;
+        return (o2) => t2.find((s2) => {
+          let r2 = s2(o2), { matched: N, value: S2 } = r2 || {};
+          return [N, S2].every(i2) ? N(o2) && (n2 = S2(o2), true) : r2 && (n2 = r2);
+        }) && n2;
+      };
+      var K = (t2) => (n2) => ({ matched: () => true, value: () => i2(t2) ? t2(n2) : t2 });
+      var L2 = (t2) => (n2) => (o2) => ({ matched: () => c2(t2, o2, (s2) => o2 = s2), value: () => i2(n2) ? f2(o2) && O2(t2) ? n2(o2.match(t2)) : n2(o2) : n2 });
+      var c2 = (t2, n2, o2) => g2(t2) ? Object.keys(t2).every((s2) => c2(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : e(t2) ? e(n2) ? t2.length === n2.length && t2.every((s2, r2) => c2(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => c2(s2, n2, o2)) : i2(t2) ? t2(n2, o2) : f2(n2) && O2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
+      var M2 = (...t2) => (n2, o2) => t2.length === 0 || (i2(t2[0]) ? t2[0](n2) : c2(t2[0], n2, o2)) ? (o2(n2), true) : false;
+      var Q2 = (t2) => (n2, o2) => !c2(t2, n2, o2);
+      var R2 = (...t2) => t2.flat();
+      var T = (...t2) => (n2, o2) => t2.flat().every((s2) => c2(s2, n2, o2));
+      var W2 = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || e(t2) && !t2.length || g2(t2) && !Object.keys(t2).length;
+      var U2 = (t2) => !W2(t2);
+      var V2 = (t2) => m((n2) => n2 > t2);
+      var X2 = (t2) => m((n2) => n2 < t2);
+      var Y = (t2) => m((n2) => n2 >= t2);
+      var Z2 = (t2) => m((n2) => n2 <= t2);
+      var _2 = (t2, n2) => m((o2) => o2 >= t2 && o2 <= n2);
+      var $ = (t2) => A2((n2) => n2.startsWith(t2));
+      var l2 = (t2) => A2((n2) => n2.endsWith(t2));
+      var y2 = (t2) => tt((n2) => n2.includes(t2));
+      var d2 = R2;
+      var v2 = (...t2) => (n2) => g2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
+      var h2 = (t2) => !!t2;
+      var k2 = (t2) => !t2;
+      var a2 = (t2) => new Proxy({}, { get: () => t2 });
+      var A2 = (t2) => (n2) => f2(n2) && t2(n2);
+      var m = (t2) => (n2) => b2(n2) && t2(n2);
+      var tt = (t2) => (n2) => (e(n2) || f2(n2)) && t2(n2);
+      module.exports = B2(nt);
+    }
+  });
+
   // src/common/cjs/fp.js
   var require_fp = __commonJS({
     "src/common/cjs/fp.js"(exports, module) {
@@ -67,28 +140,28 @@
   // src/common/cjs/regexp.js
   var require_regexp = __commonJS({
     "src/common/cjs/regexp.js"(exports, module) {
-      var { memo } = require_fp();
+      var { against: against2, when: when2, otherwise: otherwise2, isString: isString3 } = require_match_iz_cjs();
+      var { pipe, flow, memo } = require_fp();
       var makeRegExpFromWildcardString2 = memo((str) => {
-        if (!str.length) {
-          throw new Error("String should not be empty");
+        if (!isString3(str) || !str.length) {
+          throw new TypeError("Please pass a non-empty string");
         }
-        const sanitized = str.split("*").map((x2) => x2.trim()).map(escapeStringForRegExp);
-        const rxString = sanitized.join("(.*)");
-        switch (true) {
-          case sanitized.length === 1:
-            return new RegExp(`^${rxString}$`);
-          case sanitized[0] !== "":
-            return new RegExp(`^${rxString}`);
-          case sanitized[sanitized.length - 1] !== "":
-            return new RegExp(`${rxString}$`);
-        }
-        return new RegExp(rxString);
+        return pipe(str.replace(rxConsecutiveWildcards(), "*").split("*").map((x2) => x2.trim()).map(escapeStringForRegExp), against2(when2(hasNoWildcards)(templateMatchExact), when2(hasNoWildcardAtStart)(flow(insertWildcards, templateMatchStart)), when2(hasNoWildcardAtEnd)(flow(insertWildcards, templateMatchEnd)), otherwise2(insertWildcards)), ($) => new RegExp($));
       });
-      function escapeStringForRegExp(string) {
-        if (typeof string !== "string") {
-          throw new TypeError("Expected string to be passed-in");
+      var rxEscape = () => /[.*+?^${}()|[\]\\]/g;
+      var rxConsecutiveWildcards = () => /\*{2,}/g;
+      var hasNoWildcards = (x2) => x2.length === 1;
+      var hasNoWildcardAtStart = (x2) => x2.at(0) !== "";
+      var hasNoWildcardAtEnd = (x2) => x2.at(-1) !== "";
+      var insertWildcards = (x2) => x2.join("(.*)");
+      var templateMatchExact = ([x2]) => `^${x2}$`;
+      var templateMatchStart = (x2) => `^${x2}`;
+      var templateMatchEnd = (x2) => `${x2}$`;
+      function escapeStringForRegExp(str) {
+        if (!isString3(str)) {
+          throw new TypeError("Please pass a string");
         }
-        return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return str.replace(rxEscape(), "\\$&");
       }
       module.exports = {
         makeRegExpFromWildcardString: makeRegExpFromWildcardString2,
@@ -373,55 +446,55 @@
     }
   };
 
-  // node_modules/.pnpm/immer@9.0.7/node_modules/immer/dist/immer.esm.js
+  // node_modules/.pnpm/immer@9.0.12/node_modules/immer/dist/immer.esm.js
   function n(n2) {
-    for (var t2 = arguments.length, r2 = Array(t2 > 1 ? t2 - 1 : 0), e = 1; e < t2; e++)
-      r2[e - 1] = arguments[e];
+    for (var r2 = arguments.length, t2 = Array(r2 > 1 ? r2 - 1 : 0), e = 1; e < r2; e++)
+      t2[e - 1] = arguments[e];
     if (false) {
-      var i2 = Y[n2], o2 = i2 ? typeof i2 == "function" ? i2.apply(null, r2) : i2 : "unknown error nr: " + n2;
+      var i2 = Y[n2], o2 = i2 ? typeof i2 == "function" ? i2.apply(null, t2) : i2 : "unknown error nr: " + n2;
       throw Error("[Immer] " + o2);
     }
-    throw Error("[Immer] minified error nr: " + n2 + (r2.length ? " " + r2.map(function(n3) {
+    throw Error("[Immer] minified error nr: " + n2 + (t2.length ? " " + t2.map(function(n3) {
       return "'" + n3 + "'";
     }).join(",") : "") + ". Find the full error at: https://bit.ly/3cXEKWf");
   }
-  function t(n2) {
+  function r(n2) {
     return !!n2 && !!n2[Q];
   }
-  function r(n2) {
+  function t(n2) {
     return !!n2 && (function(n3) {
       if (!n3 || typeof n3 != "object")
         return false;
-      var t2 = Object.getPrototypeOf(n3);
-      if (t2 === null)
+      var r2 = Object.getPrototypeOf(n3);
+      if (r2 === null)
         return true;
-      var r2 = Object.hasOwnProperty.call(t2, "constructor") && t2.constructor;
-      return r2 === Object || typeof r2 == "function" && Function.toString.call(r2) === Z;
+      var t2 = Object.hasOwnProperty.call(r2, "constructor") && r2.constructor;
+      return t2 === Object || typeof t2 == "function" && Function.toString.call(t2) === Z;
     }(n2) || Array.isArray(n2) || !!n2[L] || !!n2.constructor[L] || s(n2) || v(n2));
   }
-  function i(n2, t2, r2) {
-    r2 === void 0 && (r2 = false), o(n2) === 0 ? (r2 ? Object.keys : nn)(n2).forEach(function(e) {
-      r2 && typeof e == "symbol" || t2(e, n2[e], n2);
-    }) : n2.forEach(function(r3, e) {
-      return t2(e, r3, n2);
+  function i(n2, r2, t2) {
+    t2 === void 0 && (t2 = false), o(n2) === 0 ? (t2 ? Object.keys : nn)(n2).forEach(function(e) {
+      t2 && typeof e == "symbol" || r2(e, n2[e], n2);
+    }) : n2.forEach(function(t3, e) {
+      return r2(e, t3, n2);
     });
   }
   function o(n2) {
-    var t2 = n2[Q];
-    return t2 ? t2.i > 3 ? t2.i - 4 : t2.i : Array.isArray(n2) ? 1 : s(n2) ? 2 : v(n2) ? 3 : 0;
+    var r2 = n2[Q];
+    return r2 ? r2.i > 3 ? r2.i - 4 : r2.i : Array.isArray(n2) ? 1 : s(n2) ? 2 : v(n2) ? 3 : 0;
   }
-  function u(n2, t2) {
-    return o(n2) === 2 ? n2.has(t2) : Object.prototype.hasOwnProperty.call(n2, t2);
+  function u(n2, r2) {
+    return o(n2) === 2 ? n2.has(r2) : Object.prototype.hasOwnProperty.call(n2, r2);
   }
-  function a(n2, t2) {
-    return o(n2) === 2 ? n2.get(t2) : n2[t2];
+  function a(n2, r2) {
+    return o(n2) === 2 ? n2.get(r2) : n2[r2];
   }
-  function f(n2, t2, r2) {
+  function f(n2, r2, t2) {
     var e = o(n2);
-    e === 2 ? n2.set(t2, r2) : e === 3 ? (n2.delete(t2), n2.add(r2)) : n2[t2] = r2;
+    e === 2 ? n2.set(r2, t2) : e === 3 ? (n2.delete(r2), n2.add(t2)) : n2[r2] = t2;
   }
-  function c(n2, t2) {
-    return n2 === t2 ? n2 !== 0 || 1 / n2 == 1 / t2 : n2 != n2 && t2 != t2;
+  function c(n2, r2) {
+    return n2 === r2 ? n2 !== 0 || 1 / n2 == 1 / r2 : n2 != n2 && r2 != r2;
   }
   function s(n2) {
     return X && n2 instanceof Map;
@@ -435,17 +508,17 @@
   function l(n2) {
     if (Array.isArray(n2))
       return Array.prototype.slice.call(n2);
-    var t2 = tn(n2);
-    delete t2[Q];
-    for (var r2 = nn(t2), e = 0; e < r2.length; e++) {
-      var i2 = r2[e], o2 = t2[i2];
-      o2.writable === false && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (t2[i2] = { configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i2] });
+    var r2 = rn(n2);
+    delete r2[Q];
+    for (var t2 = nn(r2), e = 0; e < t2.length; e++) {
+      var i2 = t2[e], o2 = r2[i2];
+      o2.writable === false && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (r2[i2] = { configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i2] });
     }
-    return Object.create(Object.getPrototypeOf(n2), t2);
+    return Object.create(Object.getPrototypeOf(n2), r2);
   }
   function d(n2, e) {
-    return e === void 0 && (e = false), y(n2) || t(n2) || !r(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e && i(n2, function(n3, t2) {
-      return d(t2, true);
+    return e === void 0 && (e = false), y(n2) || r(n2) || !t(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e && i(n2, function(n3, r2) {
+      return d(r2, true);
     }, true), n2);
   }
   function h() {
@@ -454,15 +527,15 @@
   function y(n2) {
     return n2 == null || typeof n2 != "object" || Object.isFrozen(n2);
   }
-  function b(t2) {
-    var r2 = rn[t2];
-    return r2 || n(18, t2), r2;
+  function b(r2) {
+    var t2 = tn[r2];
+    return t2 || n(18, r2), t2;
   }
   function _() {
     return true, U;
   }
-  function j(n2, t2) {
-    t2 && (b("Patches"), n2.u = [], n2.s = [], n2.v = t2);
+  function j(n2, r2) {
+    r2 && (b("Patches"), n2.u = [], n2.s = [], n2.v = r2);
   }
   function O(n2) {
     g(n2), n2.p.forEach(S), n2.p = null;
@@ -474,62 +547,62 @@
     return U = { p: [], l: U, h: n2, m: true, _: 0 };
   }
   function S(n2) {
-    var t2 = n2[Q];
-    t2.i === 0 || t2.i === 1 ? t2.j() : t2.O = true;
+    var r2 = n2[Q];
+    r2.i === 0 || r2.i === 1 ? r2.j() : r2.O = true;
   }
-  function P(t2, e) {
+  function P(r2, e) {
     e._ = e.p.length;
-    var i2 = e.p[0], o2 = t2 !== void 0 && t2 !== i2;
-    return e.h.g || b("ES5").S(e, t2, o2), o2 ? (i2[Q].P && (O(e), n(4)), r(t2) && (t2 = M(e, t2), e.l || x(e, t2)), e.u && b("Patches").M(i2[Q], t2, e.u, e.s)) : t2 = M(e, i2, []), O(e), e.u && e.v(e.u, e.s), t2 !== H ? t2 : void 0;
+    var i2 = e.p[0], o2 = r2 !== void 0 && r2 !== i2;
+    return e.h.g || b("ES5").S(e, r2, o2), o2 ? (i2[Q].P && (O(e), n(4)), t(r2) && (r2 = M(e, r2), e.l || x(e, r2)), e.u && b("Patches").M(i2[Q].t, r2, e.u, e.s)) : r2 = M(e, i2, []), O(e), e.u && e.v(e.u, e.s), r2 !== H ? r2 : void 0;
   }
-  function M(n2, t2, r2) {
-    if (y(t2))
-      return t2;
-    var e = t2[Q];
+  function M(n2, r2, t2) {
+    if (y(r2))
+      return r2;
+    var e = r2[Q];
     if (!e)
-      return i(t2, function(i2, o3) {
-        return A(n2, e, t2, i2, o3, r2);
-      }, true), t2;
+      return i(r2, function(i2, o3) {
+        return A(n2, e, r2, i2, o3, t2);
+      }, true), r2;
     if (e.A !== n2)
-      return t2;
+      return r2;
     if (!e.P)
       return x(n2, e.t, true), e.t;
     if (!e.I) {
       e.I = true, e.A._--;
       var o2 = e.i === 4 || e.i === 5 ? e.o = l(e.k) : e.o;
-      i(e.i === 3 ? new Set(o2) : o2, function(t3, i2) {
-        return A(n2, e, o2, t3, i2, r2);
-      }), x(n2, o2, false), r2 && n2.u && b("Patches").R(e, r2, n2.u, n2.s);
+      i(e.i === 3 ? new Set(o2) : o2, function(r3, i2) {
+        return A(n2, e, o2, r3, i2, t2);
+      }), x(n2, o2, false), t2 && n2.u && b("Patches").R(e, t2, n2.u, n2.s);
     }
     return e.o;
   }
   function A(e, i2, o2, a2, c2, s2) {
-    if (false, t(c2)) {
+    if (false, r(c2)) {
       var v2 = M(e, c2, s2 && i2 && i2.i !== 3 && !u(i2.D, a2) ? s2.concat(a2) : void 0);
-      if (f(o2, a2, v2), !t(v2))
+      if (f(o2, a2, v2), !r(v2))
         return;
       e.m = false;
     }
-    if (r(c2) && !y(c2)) {
+    if (t(c2) && !y(c2)) {
       if (!e.h.F && e._ < 1)
         return;
       M(e, c2), i2 && i2.A.l || x(e, c2);
     }
   }
-  function x(n2, t2, r2) {
-    r2 === void 0 && (r2 = false), n2.h.F && n2.m && d(t2, r2);
+  function x(n2, r2, t2) {
+    t2 === void 0 && (t2 = false), n2.h.F && n2.m && d(r2, t2);
   }
-  function z(n2, t2) {
-    var r2 = n2[Q];
-    return (r2 ? p(r2) : n2)[t2];
+  function z(n2, r2) {
+    var t2 = n2[Q];
+    return (t2 ? p(t2) : n2)[r2];
   }
-  function I(n2, t2) {
-    if (t2 in n2)
-      for (var r2 = Object.getPrototypeOf(n2); r2; ) {
-        var e = Object.getOwnPropertyDescriptor(r2, t2);
+  function I(n2, r2) {
+    if (r2 in n2)
+      for (var t2 = Object.getPrototypeOf(n2); t2; ) {
+        var e = Object.getOwnPropertyDescriptor(t2, r2);
         if (e)
           return e;
-        r2 = Object.getPrototypeOf(r2);
+        t2 = Object.getPrototypeOf(t2);
       }
   }
   function k(n2) {
@@ -538,33 +611,33 @@
   function E(n2) {
     n2.o || (n2.o = l(n2.t));
   }
-  function R(n2, t2, r2) {
-    var e = s(t2) ? b("MapSet").N(t2, r2) : v(t2) ? b("MapSet").T(t2, r2) : n2.g ? function(n3, t3) {
-      var r3 = Array.isArray(n3), e2 = { i: r3 ? 1 : 0, A: t3 ? t3.A : _(), P: false, I: false, D: {}, l: t3, t: n3, k: null, o: null, j: null, C: false }, i2 = e2, o2 = en;
-      r3 && (i2 = [e2], o2 = on);
+  function R(n2, r2, t2) {
+    var e = s(r2) ? b("MapSet").N(r2, t2) : v(r2) ? b("MapSet").T(r2, t2) : n2.g ? function(n3, r3) {
+      var t3 = Array.isArray(n3), e2 = { i: t3 ? 1 : 0, A: r3 ? r3.A : _(), P: false, I: false, D: {}, l: r3, t: n3, k: null, o: null, j: null, C: false }, i2 = e2, o2 = en;
+      t3 && (i2 = [e2], o2 = on);
       var u2 = Proxy.revocable(i2, o2), a2 = u2.revoke, f2 = u2.proxy;
       return e2.k = f2, e2.j = a2, f2;
-    }(t2, r2) : b("ES5").J(t2, r2);
-    return (r2 ? r2.A : _()).p.push(e), e;
+    }(r2, t2) : b("ES5").J(r2, t2);
+    return (t2 ? t2.A : _()).p.push(e), e;
   }
   function D(e) {
-    return t(e) || n(22, e), function n2(t2) {
-      if (!r(t2))
-        return t2;
-      var e2, u2 = t2[Q], c2 = o(t2);
+    return r(e) || n(22, e), function n2(r2) {
+      if (!t(r2))
+        return r2;
+      var e2, u2 = r2[Q], c2 = o(r2);
       if (u2) {
         if (!u2.P && (u2.i < 4 || !b("ES5").K(u2)))
           return u2.t;
-        u2.I = true, e2 = F(t2, c2), u2.I = false;
+        u2.I = true, e2 = F(r2, c2), u2.I = false;
       } else
-        e2 = F(t2, c2);
-      return i(e2, function(t3, r2) {
-        u2 && a(u2.t, t3) === r2 || f(e2, t3, n2(r2));
+        e2 = F(r2, c2);
+      return i(e2, function(r3, t2) {
+        u2 && a(u2.t, r3) === t2 || f(e2, r3, n2(t2));
       }), c2 === 3 ? new Set(e2) : e2;
     }(e);
   }
-  function F(n2, t2) {
-    switch (t2) {
+  function F(n2, r2) {
+    switch (r2) {
       case 2:
         return new Map(n2);
       case 3:
@@ -586,46 +659,46 @@
   var nn = typeof Reflect != "undefined" && Reflect.ownKeys ? Reflect.ownKeys : Object.getOwnPropertySymbols !== void 0 ? function(n2) {
     return Object.getOwnPropertyNames(n2).concat(Object.getOwnPropertySymbols(n2));
   } : Object.getOwnPropertyNames;
-  var tn = Object.getOwnPropertyDescriptors || function(n2) {
-    var t2 = {};
-    return nn(n2).forEach(function(r2) {
-      t2[r2] = Object.getOwnPropertyDescriptor(n2, r2);
-    }), t2;
+  var rn = Object.getOwnPropertyDescriptors || function(n2) {
+    var r2 = {};
+    return nn(n2).forEach(function(t2) {
+      r2[t2] = Object.getOwnPropertyDescriptor(n2, t2);
+    }), r2;
   };
-  var rn = {};
-  var en = { get: function(n2, t2) {
-    if (t2 === Q)
+  var tn = {};
+  var en = { get: function(n2, r2) {
+    if (r2 === Q)
       return n2;
     var e = p(n2);
-    if (!u(e, t2))
-      return function(n3, t3, r2) {
-        var e2, i3 = I(t3, r2);
+    if (!u(e, r2))
+      return function(n3, r3, t2) {
+        var e2, i3 = I(r3, t2);
         return i3 ? "value" in i3 ? i3.value : (e2 = i3.get) === null || e2 === void 0 ? void 0 : e2.call(n3.k) : void 0;
-      }(n2, e, t2);
-    var i2 = e[t2];
-    return n2.I || !r(i2) ? i2 : i2 === z(n2.t, t2) ? (E(n2), n2.o[t2] = R(n2.A.h, i2, n2)) : i2;
-  }, has: function(n2, t2) {
-    return t2 in p(n2);
+      }(n2, e, r2);
+    var i2 = e[r2];
+    return n2.I || !t(i2) ? i2 : i2 === z(n2.t, r2) ? (E(n2), n2.o[r2] = R(n2.A.h, i2, n2)) : i2;
+  }, has: function(n2, r2) {
+    return r2 in p(n2);
   }, ownKeys: function(n2) {
     return Reflect.ownKeys(p(n2));
-  }, set: function(n2, t2, r2) {
-    var e = I(p(n2), t2);
+  }, set: function(n2, r2, t2) {
+    var e = I(p(n2), r2);
     if (e == null ? void 0 : e.set)
-      return e.set.call(n2.k, r2), true;
+      return e.set.call(n2.k, t2), true;
     if (!n2.P) {
-      var i2 = z(p(n2), t2), o2 = i2 == null ? void 0 : i2[Q];
-      if (o2 && o2.t === r2)
-        return n2.o[t2] = r2, n2.D[t2] = false, true;
-      if (c(r2, i2) && (r2 !== void 0 || u(n2.t, t2)))
+      var i2 = z(p(n2), r2), o2 = i2 == null ? void 0 : i2[Q];
+      if (o2 && o2.t === t2)
+        return n2.o[r2] = t2, n2.D[r2] = false, true;
+      if (c(t2, i2) && (t2 !== void 0 || u(n2.t, r2)))
         return true;
       E(n2), k(n2);
     }
-    return n2.o[t2] === r2 && typeof r2 != "number" && (r2 !== void 0 || t2 in n2.o) || (n2.o[t2] = r2, n2.D[t2] = true, true);
-  }, deleteProperty: function(n2, t2) {
-    return z(n2.t, t2) !== void 0 || t2 in n2.t ? (n2.D[t2] = false, E(n2), k(n2)) : delete n2.D[t2], n2.o && delete n2.o[t2], true;
-  }, getOwnPropertyDescriptor: function(n2, t2) {
-    var r2 = p(n2), e = Reflect.getOwnPropertyDescriptor(r2, t2);
-    return e ? { writable: true, configurable: n2.i !== 1 || t2 !== "length", enumerable: e.enumerable, value: r2[t2] } : e;
+    return n2.o[r2] === t2 && typeof t2 != "number" && (t2 !== void 0 || r2 in n2.o) || (n2.o[r2] = t2, n2.D[r2] = true, true);
+  }, deleteProperty: function(n2, r2) {
+    return z(n2.t, r2) !== void 0 || r2 in n2.t ? (n2.D[r2] = false, E(n2), k(n2)) : delete n2.D[r2], n2.o && delete n2.o[r2], true;
+  }, getOwnPropertyDescriptor: function(n2, r2) {
+    var t2 = p(n2), e = Reflect.getOwnPropertyDescriptor(t2, r2);
+    return e ? { writable: true, configurable: n2.i !== 1 || r2 !== "length", enumerable: e.enumerable, value: t2[r2] } : e;
   }, defineProperty: function() {
     n(11);
   }, getPrototypeOf: function(n2) {
@@ -634,37 +707,37 @@
     n(12);
   } };
   var on = {};
-  i(en, function(n2, t2) {
+  i(en, function(n2, r2) {
     on[n2] = function() {
-      return arguments[0] = arguments[0][0], t2.apply(this, arguments);
+      return arguments[0] = arguments[0][0], r2.apply(this, arguments);
     };
-  }), on.deleteProperty = function(t2, r2) {
-    return false, en.deleteProperty.call(this, t2[0], r2);
-  }, on.set = function(t2, r2, e) {
-    return false, en.set.call(this, t2[0], r2, e, t2[0]);
+  }), on.deleteProperty = function(r2, t2) {
+    return false, on.set.call(this, r2, t2, void 0);
+  }, on.set = function(r2, t2, e) {
+    return false, en.set.call(this, r2[0], t2, e, r2[0]);
   };
   var un = function() {
-    function e(t2) {
+    function e(r2) {
       var e2 = this;
-      this.g = B, this.F = true, this.produce = function(t3, i3, o2) {
-        if (typeof t3 == "function" && typeof i3 != "function") {
+      this.g = B, this.F = true, this.produce = function(r3, i3, o2) {
+        if (typeof r3 == "function" && typeof i3 != "function") {
           var u2 = i3;
-          i3 = t3;
+          i3 = r3;
           var a2 = e2;
           return function(n2) {
-            var t4 = this;
+            var r4 = this;
             n2 === void 0 && (n2 = u2);
-            for (var r2 = arguments.length, e3 = Array(r2 > 1 ? r2 - 1 : 0), o3 = 1; o3 < r2; o3++)
+            for (var t2 = arguments.length, e3 = Array(t2 > 1 ? t2 - 1 : 0), o3 = 1; o3 < t2; o3++)
               e3[o3 - 1] = arguments[o3];
             return a2.produce(n2, function(n3) {
-              var r3;
-              return (r3 = i3).call.apply(r3, [t4, n3].concat(e3));
+              var t3;
+              return (t3 = i3).call.apply(t3, [r4, n3].concat(e3));
             });
           };
         }
         var f2;
-        if (typeof i3 != "function" && n(6), o2 !== void 0 && typeof o2 != "function" && n(7), r(t3)) {
-          var c2 = w(e2), s2 = R(e2, t3, void 0), v2 = true;
+        if (typeof i3 != "function" && n(6), o2 !== void 0 && typeof o2 != "function" && n(7), t(r3)) {
+          var c2 = w(e2), s2 = R(e2, r3, void 0), v2 = true;
           try {
             f2 = i3(s2), v2 = false;
           } finally {
@@ -676,52 +749,58 @@
             throw O(c2), n2;
           }) : (j(c2, o2), P(f2, c2));
         }
-        if (!t3 || typeof t3 != "object") {
-          if ((f2 = i3(t3)) === H)
-            return;
-          return f2 === void 0 && (f2 = t3), e2.F && d(f2, true), f2;
+        if (!r3 || typeof r3 != "object") {
+          if ((f2 = i3(r3)) === void 0 && (f2 = r3), f2 === H && (f2 = void 0), e2.F && d(f2, true), o2) {
+            var p2 = [], l2 = [];
+            b("Patches").M(r3, f2, p2, l2), o2(p2, l2);
+          }
+          return f2;
         }
-        n(21, t3);
-      }, this.produceWithPatches = function(n2, t3) {
-        return typeof n2 == "function" ? function(t4) {
-          for (var r3 = arguments.length, i4 = Array(r3 > 1 ? r3 - 1 : 0), o2 = 1; o2 < r3; o2++)
-            i4[o2 - 1] = arguments[o2];
-          return e2.produceWithPatches(t4, function(t5) {
-            return n2.apply(void 0, [t5].concat(i4));
-          });
-        } : [e2.produce(n2, t3, function(n3, t4) {
-          r2 = n3, i3 = t4;
-        }), r2, i3];
-        var r2, i3;
-      }, typeof (t2 == null ? void 0 : t2.useProxies) == "boolean" && this.setUseProxies(t2.useProxies), typeof (t2 == null ? void 0 : t2.autoFreeze) == "boolean" && this.setAutoFreeze(t2.autoFreeze);
+        n(21, r3);
+      }, this.produceWithPatches = function(n2, r3) {
+        if (typeof n2 == "function")
+          return function(r4) {
+            for (var t3 = arguments.length, i4 = Array(t3 > 1 ? t3 - 1 : 0), o3 = 1; o3 < t3; o3++)
+              i4[o3 - 1] = arguments[o3];
+            return e2.produceWithPatches(r4, function(r5) {
+              return n2.apply(void 0, [r5].concat(i4));
+            });
+          };
+        var t2, i3, o2 = e2.produce(n2, r3, function(n3, r4) {
+          t2 = n3, i3 = r4;
+        });
+        return typeof Promise != "undefined" && o2 instanceof Promise ? o2.then(function(n3) {
+          return [n3, t2, i3];
+        }) : [o2, t2, i3];
+      }, typeof (r2 == null ? void 0 : r2.useProxies) == "boolean" && this.setUseProxies(r2.useProxies), typeof (r2 == null ? void 0 : r2.autoFreeze) == "boolean" && this.setAutoFreeze(r2.autoFreeze);
     }
     var i2 = e.prototype;
     return i2.createDraft = function(e2) {
-      r(e2) || n(8), t(e2) && (e2 = D(e2));
+      t(e2) || n(8), r(e2) && (e2 = D(e2));
       var i3 = w(this), o2 = R(this, e2, void 0);
       return o2[Q].C = true, g(i3), o2;
-    }, i2.finishDraft = function(t2, r2) {
-      var e2 = t2 && t2[Q];
+    }, i2.finishDraft = function(r2, t2) {
+      var e2 = r2 && r2[Q];
       false;
       var i3 = e2.A;
-      return j(i3, r2), P(void 0, i3);
+      return j(i3, t2), P(void 0, i3);
     }, i2.setAutoFreeze = function(n2) {
       this.F = n2;
-    }, i2.setUseProxies = function(t2) {
-      t2 && !B && n(20), this.g = t2;
-    }, i2.applyPatches = function(n2, r2) {
+    }, i2.setUseProxies = function(r2) {
+      r2 && !B && n(20), this.g = r2;
+    }, i2.applyPatches = function(n2, t2) {
       var e2;
-      for (e2 = r2.length - 1; e2 >= 0; e2--) {
-        var i3 = r2[e2];
+      for (e2 = t2.length - 1; e2 >= 0; e2--) {
+        var i3 = t2[e2];
         if (i3.path.length === 0 && i3.op === "replace") {
           n2 = i3.value;
           break;
         }
       }
-      e2 > -1 && (r2 = r2.slice(e2 + 1));
+      e2 > -1 && (t2 = t2.slice(e2 + 1));
       var o2 = b("Patches").$;
-      return t(n2) ? o2(n2, r2) : this.produce(n2, function(n3) {
-        return o2(n3, r2);
+      return r(n2) ? o2(n2, t2) : this.produce(n2, function(n3) {
+        return o2(n3, t2);
       });
     }, e;
   }();
@@ -823,17 +902,17 @@
 
   // src/common/esm/types.js
   function isEventEmitter(obj) {
-    return isObject(obj) && isFunction(obj.emit) && (isFunction(obj.addListener) || isFunction(obj.on)) && (isFunction(obj.removeListener) || isFunction(obj.off));
+    return isObject(obj) && isFunction2(obj.emit) && (isFunction2(obj.addListener) || isFunction2(obj.on)) && (isFunction2(obj.removeListener) || isFunction2(obj.off));
   }
   isEventEmitter.displayName = "isEventEmitter";
   function isUnset(obj) {
     return obj === null || obj === void 0;
   }
-  isArray.displayName = "isUnset";
-  function isArray(obj) {
+  isArray2.displayName = "isUnset";
+  function isArray2(obj) {
     return Array.isArray(obj);
   }
-  isArray.displayName = "isArray";
+  isArray2.displayName = "isArray";
   function isArguments(obj) {
     return Object.prototype.toString.call(obj) === "[object Arguments]";
   }
@@ -842,41 +921,41 @@
     return obj === true || obj === false;
   }
   isBoolean.displayName = "isBoolean";
-  function isFunction(obj) {
+  function isFunction2(obj) {
     return typeof obj === "function";
   }
-  isFunction.displayName = "isFunction";
-  function isString(obj) {
+  isFunction2.displayName = "isFunction";
+  function isString2(obj) {
     return typeof obj === "string";
   }
-  isString.displayName = "isString";
+  isString2.displayName = "isString";
   function isNull(obj) {
     return obj === null;
   }
   isNull.displayName = "isNull";
-  function isNumber(obj) {
+  function isNumber2(obj) {
     return typeof obj === "number";
   }
-  isNumber.displayName = "isNumber";
+  isNumber2.displayName = "isNumber";
   function isObject(obj) {
     return typeof obj === "object" && obj !== null;
   }
   isObject.displayName = "isObject";
-  function isPojo(obj) {
+  function isPojo2(obj) {
     if (obj === null || !isObject(obj) || isArguments(obj)) {
       return false;
     }
     return Object.getPrototypeOf(obj) === Object.prototype;
   }
-  isPojo.displayName = "isPojo";
+  isPojo2.displayName = "isPojo";
   function isTemplateLiteral(obj) {
-    if (isString(obj)) {
+    if (isString2(obj)) {
       return true;
     }
-    if (!isArray(obj)) {
+    if (!isArray2(obj)) {
       return false;
     }
-    return obj.every(isString);
+    return obj.every(isString2);
   }
   isTemplateLiteral.displayName = "isTemplateLiteral";
   function isThisValue(value) {
@@ -901,7 +980,7 @@
       return `Argument undefined: "${argName}"`;
     }
     const permittedArgTypes = Array.isArray(argType) ? argType : [argType];
-    const errorDescs = permittedArgTypes.map((argType2) => isFunction(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)).filter(isString);
+    const errorDescs = permittedArgTypes.map((argType2) => isFunction2(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)).filter(isString2);
     const multipleTypesSpecified = permittedArgTypes.length > 1;
     const shouldError = multipleTypesSpecified ? errorDescs.length > 1 : errorDescs.length;
     if (shouldError) {
@@ -917,7 +996,7 @@
       }));
       return (fnName) => (...args) => {
         const processedArgs = Array.from(args, (x2) => isArguments(x2) ? Array.from(x2) : x2).flat(1);
-        const err = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString);
+        const err = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString2);
         if (!err.length) {
           return;
         }
@@ -977,24 +1056,24 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   var checkSchema = ObjTypeError("store#");
   var LEAVE_UNCHANGED = null;
   var checkSchemaForAddingAnAccount = checkSchema({
-    id: isString,
-    accountNumber: isString,
-    sortCode: isString,
-    name: [isString, isUnset],
-    type: [isString, isUnset],
-    iban: [isString, isUnset],
-    bic: [isString, isUnset],
-    ledgerBalance: [isNumber, isUnset],
-    lastUpdatedTimestamp: [isNumber, isUnset]
+    id: isString2,
+    accountNumber: isString2,
+    sortCode: isString2,
+    name: [isString2, isUnset],
+    type: [isString2, isUnset],
+    iban: [isString2, isUnset],
+    bic: [isString2, isUnset],
+    ledgerBalance: [isNumber2, isUnset],
+    lastUpdatedTimestamp: [isNumber2, isUnset]
   })(actions.add.ACCOUNTS);
   var checkSchemaForUpdatingAnAccount = checkSchema({
-    id: isString,
-    accountNumber: [isString, isUnset],
-    sortCode: [isString, isUnset],
-    name: [isString, isUnset],
-    type: [isString, isUnset],
-    iban: [isString, isUnset],
-    bic: [isString, isUnset]
+    id: isString2,
+    accountNumber: [isString2, isUnset],
+    sortCode: [isString2, isUnset],
+    name: [isString2, isUnset],
+    type: [isString2, isUnset],
+    iban: [isString2, isUnset],
+    bic: [isString2, isUnset]
   })(actions.update.ACCOUNTS);
   messages.on(actions.add.ACCOUNTS, (accounts) => {
     const currentStore = store();
@@ -1046,20 +1125,20 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }
   });
   var checkSchemaForAddingAStatement = checkSchema({
-    id: isString,
-    accountId: isString,
-    endDate: isNumber,
-    startDate: [isNumber, isUnset],
-    startBalance: [isNumber, isUnset],
-    endBalance: [isNumber, isUnset]
+    id: isString2,
+    accountId: isString2,
+    endDate: isNumber2,
+    startDate: [isNumber2, isUnset],
+    startBalance: [isNumber2, isUnset],
+    endBalance: [isNumber2, isUnset]
   })(actions.add.STATEMENTS);
   var checkSchemaForUpdatingAStatement = checkSchema({
-    id: isString,
-    accountId: [isString, isUnset],
-    endDate: isNumber,
-    startDate: isNumber,
-    startBalance: isNumber,
-    endBalance: isNumber
+    id: isString2,
+    accountId: [isString2, isUnset],
+    endDate: isNumber2,
+    startDate: isNumber2,
+    startBalance: isNumber2,
+    endBalance: isNumber2
   })(actions.update.STATEMENTS);
   messages.on(actions.add.STATEMENTS, (statements) => {
     const existingStatements = [];
@@ -1115,16 +1194,16 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }
   });
   var checkSchemaForAddingAnEntry = checkSchema({
-    id: isString,
-    accountId: isString,
-    statementId: isString,
-    date: isNumber,
-    type: isString,
-    payee: isString,
-    note: isString,
-    debit: isNumber,
-    credit: isNumber,
-    balance: isNumber
+    id: isString2,
+    accountId: isString2,
+    statementId: isString2,
+    date: isNumber2,
+    type: isString2,
+    payee: isString2,
+    note: isString2,
+    debit: isNumber2,
+    credit: isNumber2,
+    balance: isNumber2
   })(actions.add.ENTRIES);
   messages.on(actions.add.ENTRIES, (entries) => {
     const existingEntries = [];
@@ -1274,13 +1353,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         countriesAccountList[].entityID
       `;
         const validateEntry = (entry) => !checkSchema2({
-          id: isString,
-          accountHolderName: isString,
-          sortCodeAndAccountNumber: isString
+          id: isString2,
+          accountHolderName: isString2,
+          sortCodeAndAccountNumber: isString2
         })("validateEntry")(entry);
         const validateEntity = (entity2) => !checkSchema2({
-          ctryCde: isString,
-          grpMmbr: isString
+          ctryCde: isString2,
+          grpMmbr: isString2
         })("validateEntity")(entity2);
         const entries = jmespath.search(json, entriesPath);
         const entity = jmespath.search(json, entityPath);
@@ -1317,8 +1396,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       setHeaders: hsbcCommonHeaders,
       setPayload: (options) => {
         const err = checkSchema2({
-          ctryCde: isString,
-          grpMmbr: isString
+          ctryCde: isString2,
+          grpMmbr: isString2
         })("AjaxRequester")(options);
         if (err) {
           const reason = `rtrvAcctSumm :: Invalid options: ${err}`;
@@ -1402,12 +1481,12 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         }
       `;
         const validateEntries = (entry) => !checkSchema3({
-          id: isString,
-          bic: isString,
-          iban: isString,
-          entProdCatCde: isString,
-          entProdTypCde: isString,
-          startSheet: isNumber,
+          id: isString2,
+          bic: isString2,
+          iban: isString2,
+          entProdCatCde: isString2,
+          entProdTypCde: isString2,
+          startSheet: isNumber2,
           statementIds: isValidStatementIds
         })("validateEntries")(entry);
         const entries = jmespath.search(json, entriesPath);
@@ -1428,12 +1507,12 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       setHeaders: hsbcCommonHeaders,
       setPayload: (options) => {
         const err = checkSchema3({
-          ctryCde: isString,
-          grpMmbr: isString,
-          year: [isThisValue("Latest"), isString],
-          acctIndex: isString,
-          entProdTypCde: isString,
-          entProdCatCde: isString
+          ctryCde: isString2,
+          grpMmbr: isString2,
+          year: [isThisValue("Latest"), isString2],
+          acctIndex: isString2,
+          entProdTypCde: isString2,
+          entProdCatCde: isString2
         })("AjaxRequester")(options);
         if (err) {
           const reason = `rtrvStmtAcctList :: Invalid options: ${err}`;
@@ -1612,8 +1691,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       `;
         const ids = jmespath.search(postData, idsPath);
         const idsErr = checkSchema4({
-          accountId: isString,
-          statementId: isString
+          accountId: isString2,
+          statementId: isString2
         })("ids")(ids);
         if (idsErr) {
           const reason = `rtrvStmtDetl :: Validation failed: ${idsErr}`;
@@ -1630,10 +1709,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       `;
         const balances = jmespath.search(json, balancesPath);
         const balancesErr = checkSchema4({
-          startDate: isString,
-          startBalance: isNumber,
-          endDate: isString,
-          endBalance: isNumber
+          startDate: isString2,
+          startBalance: isNumber2,
+          endDate: isString2,
+          endBalance: isNumber2
         })("balances")(balances);
         if (balancesErr) {
           const reason = `rtrvStmtDetl :: Validation failed: ${balancesErr}`;
@@ -1649,10 +1728,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         }
       `;
         const validateEntry = (entry) => !checkSchema4({
-          date: isString,
-          fullDescription: isString,
-          amount: isNumber,
-          runningBalance: [isNumber, isThisValue(null)]
+          date: isString2,
+          fullDescription: isString2,
+          amount: isNumber2,
+          runningBalance: [isNumber2, isThisValue(null)]
         })("validateEntry")(entry);
         const entries = jmespath.search(json, entriesPath);
         const entriesValid = entries.every(validateEntry);
@@ -1703,11 +1782,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       setHeaders: hsbcCommonHeaders,
       setPayload: (options) => {
         const err = checkSchema4({
-          entProdTypCde: isString,
-          acctIndex: isString,
-          startSheet: isNumber,
-          stmtId: isString,
-          stmtDt: isString
+          entProdTypCde: isString2,
+          acctIndex: isString2,
+          startSheet: isNumber2,
+          stmtId: isString2,
+          stmtDt: isString2
         })("AjaxRequester")(options);
         if (err) {
           const reason = `rtrvStmtDetl :: Invalid options: ${err}`;
