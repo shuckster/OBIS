@@ -1,6 +1,6 @@
 import jmespath from 'jmespath'
 
-import { getHeadersFromCfg } from '../helpers'
+import { buildHeadersFromSiteConfig } from '../helpers'
 import { makeTransactionsUrl } from '../urls'
 
 //
@@ -25,7 +25,7 @@ export const fetchTransactions = ({
     {
       method: 'GET',
       headers: {
-        ...getHeadersFromCfg(),
+        ...buildHeadersFromSiteConfig(),
         'content-type': 'application/json',
         accept: 'application/json, text/plain, */*',
         adrum: 'isAjax:true',

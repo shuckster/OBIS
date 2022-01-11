@@ -1,6 +1,6 @@
 import jmespath from 'jmespath'
 
-import { getHeadersFromCfg } from '../helpers'
+import { buildHeadersFromSiteConfig } from '../helpers'
 import { makeStatementsUrl } from '../urls'
 
 //
@@ -11,7 +11,7 @@ export const fetchStatementsList = ({ host = '', accountId } = {}) =>
   fetch(makeStatementsUrl({ host, accountId }), {
     method: 'GET',
     headers: {
-      ...getHeadersFromCfg(),
+      ...buildHeadersFromSiteConfig(),
       'content-type': 'application/json',
       accept: 'application/json, text/plain, */*',
       adrum: 'isAjax:true',
