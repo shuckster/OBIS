@@ -2990,7 +2990,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         }
         const existingStatement = draftState.statements.find((x2) => x2.id === statement.id);
         if (existingStatement) {
-          existingStatements.push(existingStatement);
+          existingStatements.push({ newStatement: statement, existingStatement });
           return;
         }
         draftState.statements.push({ ...statement });
@@ -3055,7 +3055,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         }
         const existingEntry = draftState.entries.find((x2) => x2.id === entry.id);
         if (existingEntry) {
-          existingEntries.push(existingEntry);
+          existingEntries.push({ newEntry: entry, existingEntry });
           return;
         }
         draftState.entries.push({ ...entry });
