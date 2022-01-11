@@ -1,43 +1,55 @@
-const { memo } = require('./fp')
-
-//
-// Wildcard helpers
-//
+const { against, when, otherwise, isString } = require('match-iz')
+const { pipe, flow, aside, memo } = require('./fp')
 
 const makeRegExpFromWildcardString = memo(str => {
-  if (!str.length) {
-    throw new Error('String should not be empty')
+  if (!isString(str) || !str.length) {
+    throw new TypeError('Please pass a non-empty string')
   }
-  const sanitized = str
-    .split('*')
-    .map(x => x.trim())
-    .map(escapeStringForRegExp)
+  return pipe(
+    str
+      .replace(rxConsecutiveWildcards(), '*')
+      .split('*')
+      .map(x => x.trim())
+      .map(escapeStringForRegExp),
 
-  // Allow matching of wildcards
-  const rxString = sanitized.join('(.*)')
+    aside(x => console.log(`1 aside = "${x}"`)),
 
-  switch (true) {
-    // No wildcards? Match string exactly
-    case sanitized.length === 1:
-      return new RegExp(`^${rxString}$`)
+    against(
+      when(hasNoWildcards)(templateMatchExact),
+      when(hasNoWildcardAtStart)(flow(insertWildcards, templateMatchStart)),
+      when(hasNoWildcardAtEnd)(flow(insertWildcards, templateMatchEnd)),
+      otherwise(insertWildcards)
+    ),
 
-    // No wildcard at the start? Match string-start exactly
-    case sanitized[0] !== '':
-      return new RegExp(`^${rxString}`)
+    aside(x => console.log(`2 aside = "${x}"`)),
 
-    // No wildcard at the end? Match string-end exactly
-    case sanitized[sanitized.length - 1] !== '':
-      return new RegExp(`${rxString}$`)
-  }
-  return new RegExp(rxString)
+    $ => new RegExp($)
+  )
 })
 
-function escapeStringForRegExp(string) {
-  if (typeof string !== 'string') {
-    throw new TypeError('Expected string to be passed-in')
+//
+// Helpers
+//
+
+const rxEscape = () => /[.*+?^${}()|[\]\\]/g
+const rxConsecutiveWildcards = () => /\*{2,}/g
+
+const hasNoWildcards = x => x.length === 1
+const hasNoWildcardAtStart = x => x.at(0) !== ''
+const hasNoWildcardAtEnd = x => x.at(-1) !== ''
+
+const insertWildcards = x => x.join('(.*)')
+const templateMatchExact = ([x]) => `^${x}$`
+const templateMatchStart = x => `^${x}`
+const templateMatchEnd = x => `${x}$`
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+function escapeStringForRegExp(str) {
+  if (!isString(str)) {
+    throw new TypeError('Please pass a string')
   }
   // $& means the whole matched string
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return str.replace(rxEscape(), '\\$&')
 }
 
 module.exports = {
