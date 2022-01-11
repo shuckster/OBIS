@@ -11,6 +11,7 @@ import { Maybe, maybeTry } from '@/esm/maybe'
 const getSiteConfig = () =>
   Maybe.of(document.getElementById('siteConfig'))
     .chain(maybeTry(el => JSON.parse(el.attributes?.value?.value)))
+    .orElse(() => ({}))
     .valueOf()
 
 export const getHeadersFromCfg = (cfg = getSiteConfig()) => ({
