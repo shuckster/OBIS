@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   clsx: ^1.1.1
-  compose-paths: ^1.1.1
+  compose-paths: ^1.1.2
   cross-env: ^7.0.3
   esbuild: ^0.14.11
   esbuild-plugin-sass: 0.6.0
@@ -14,7 +14,7 @@ specifiers:
   glob: ^7.2.0
   immer: ^9.0.7
   jmespath: ^0.15.0
-  match-iz: ^1.11.0
+  match-iz: ^1.11.1
   mithril: ^2.0.4
   mithril-hooks: ^0.7.1
   module-alias: ^2.2.2
@@ -31,7 +31,7 @@ dependencies:
   file-saver: 2.0.5
   immer: 9.0.7
   jmespath: 0.15.0
-  match-iz: 1.11.0
+  match-iz: 1.11.1
   mithril: 2.0.4
   mithril-hooks: 0.7.1_mithril@2.0.4
   module-alias: 2.2.2
@@ -40,7 +40,7 @@ dependencies:
   statebot-mithril-hooks: 1.2.3_00b2218c9fafa57114a54ea775e3dc9e
 
 devDependencies:
-  compose-paths: 1.1.1
+  compose-paths: 1.1.2
   cross-env: 7.0.3
   esbuild: 0.14.11
   esbuild-plugin-sass: 0.6.0_esbuild@0.14.11
@@ -360,8 +360,8 @@ packages:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}
     dev: true
 
-  /compose-paths/1.1.1:
-    resolution: {integrity: sha512-wyI6cMafnDc/QtPGVdwpwjTG8wylSQsu6Ndms7Bzo+5MBg/cfvSODB3sljkiXq9o0raFjR+mKfYhu7WpaRDKcA==}
+  /compose-paths/1.1.2:
+    resolution: {integrity: sha512-OVPGEUs/v9aWr2LmjIzdb+wCDuHnrdCbFB4ccJjtBszkhagS5jfmCzNw23YTQlqeKh5FYUidOA1L1SBH9R4O0g==}
     engines: {node: '>=10'}
     dev: true
 
@@ -1505,8 +1505,8 @@ packages:
       semver: 6.3.0
     dev: true
 
-  /match-iz/1.11.0:
-    resolution: {integrity: sha512-EpVyeIHlYK+xTgO5WK5K2OwvrgvztaPoPl7JnfIu6ZX/FPaVvx2AqYY+55PZUfIl5UydJBmgMKBwj8ewhoIbfw==}
+  /match-iz/1.11.1:
+    resolution: {integrity: sha512-2DiZ0ysN7slVslMqFsO++QYNCs42uAaW2g3nOl4YMTLvCQz4Kg/Wk7QkiD4BH4lx0YcYEEHdTuvWzt+e0ulVew==}
     engines: {node: '>=10'}
     dev: false
 

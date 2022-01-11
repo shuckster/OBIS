@@ -14,7 +14,7 @@
     "build:all": "pnpm run build:clean ; cross-env NODE_ENV=production pnpm run build"
   },
   "devDependencies": {
-    "compose-paths": "^1.1.1",
+    "compose-paths": "^1.1.2",
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.11",
     "esbuild-plugin-sass": "0.6.0",
@@ -32,7 +32,7 @@
     "file-saver": "^2.0.5",
     "immer": "^9.0.7",
     "jmespath": "^0.15.0",
-    "match-iz": "^1.11.0",
+    "match-iz": "^1.11.1",
     "mithril": "^2.0.4",
     "mithril-hooks": "^0.7.1",
     "module-alias": "^2.2.2",

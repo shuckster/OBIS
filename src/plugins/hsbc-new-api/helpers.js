@@ -5,7 +5,7 @@ import { Maybe, maybeTry } from '@/esm/maybe'
  *
  *   <div
  *     id="siteConfig"
- *     value='{"countryCode":"GB","groupMemberId":"HRFB","globalBusinessGlobalFunction":"RBWM","channelId":"OHI","globalChannelId":"WEB","clientId":"f589dc5d97b5497b81842c7011d2e8f0","brandId":"HSBC","sourceSystemId":"10950682","locale":"en_gb","dateformat":"dd/MM/yyyy","timezone":"GMT","currencyFormat":"GBP","stalertinterval":"60","fatcaFullJourney":"Yes","cdnDomain":"hsbc.co.uk","loadFont":"yes","fraudFeedEnabled":"No"}'
+ *     value='{"countryCode":"GB","groupMemberId":"","globalBusinessGlobalFunction":"","channelId":"","globalChannelId":"","clientId":"","brandId":"","sourceSystemId":"","locale":"en_gb","dateformat":"dd/MM/yyyy","timezone":"GMT","currencyFormat":"GBP","stalertinterval":"60","fatcaFullJourney":"Yes","cdnDomain":"hsbc.co.uk","loadFont":"yes","fraudFeedEnabled":"No"}'
  *   ></div>
  */
 const getSiteConfig = () =>
