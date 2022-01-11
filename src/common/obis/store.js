@@ -175,7 +175,7 @@ messages.on(actions.add.STATEMENTS, statements => {
         x => x.id === statement.id
       )
       if (existingStatement) {
-        existingStatements.push(existingStatement)
+        existingStatements.push({ newStatement: statement, existingStatement })
         return
       }
 
@@ -258,7 +258,7 @@ messages.on(actions.add.ENTRIES, entries => {
 
       const existingEntry = draftState.entries.find(x => x.id === entry.id)
       if (existingEntry) {
-        existingEntries.push(existingEntry)
+        existingEntries.push({ newEntry: entry, existingEntry })
         return
       }
 
