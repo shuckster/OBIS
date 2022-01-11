@@ -1,5 +1,5 @@
 const { against, when, otherwise, isString } = require('match-iz')
-const { pipe, flow, aside, memo } = require('./fp')
+const { pipe, flow, memo } = require('./fp')
 
 const makeRegExpFromWildcardString = memo(str => {
   if (!isString(str) || !str.length) {
@@ -12,16 +12,12 @@ const makeRegExpFromWildcardString = memo(str => {
       .map(x => x.trim())
       .map(escapeStringForRegExp),
 
-    aside(x => console.log(`1 aside = "${x}"`)),
-
     against(
       when(hasNoWildcards)(templateMatchExact),
       when(hasNoWildcardAtStart)(flow(insertWildcards, templateMatchStart)),
       when(hasNoWildcardAtEnd)(flow(insertWildcards, templateMatchEnd)),
       otherwise(insertWildcards)
     ),
-
-    aside(x => console.log(`2 aside = "${x}"`)),
 
     $ => new RegExp($)
   )
