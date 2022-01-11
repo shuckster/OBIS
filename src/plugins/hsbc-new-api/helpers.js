@@ -1,4 +1,4 @@
-import { Maybe, maybeTry } from '@/esm/maybe'
+import { Just, Maybe, maybeTry } from '@/esm/maybe'
 
 /**
  * Plucks from the HTML:
@@ -11,7 +11,7 @@ import { Maybe, maybeTry } from '@/esm/maybe'
 const getSiteConfig = () =>
   Maybe.of(document.getElementById('siteConfig'))
     .chain(maybeTry(el => JSON.parse(el.attributes?.value?.value)))
-    .orElse(() => ({}))
+    .orElse(() => Just({}))
     .valueOf()
 
 export const getHeadersFromCfg = (cfg = getSiteConfig()) => ({

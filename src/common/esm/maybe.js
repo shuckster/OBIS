@@ -27,7 +27,7 @@ export const Identity = x => x
  * // undefined
  *
  * nothing
- *   .orElse(() => 'fallback')
+ *   .orElse(() => Just('fallback'))
  *   .map(x => `Contents: ${x}`)
  *   .valueOf()
  * // "Contents: fallback"
@@ -37,9 +37,8 @@ export const Nothing = () => ({
   toString: () => 'Nothing',
   map: () => Nothing(),
   chain: () => Nothing(),
-  // eslint-disable-next-line no-unused-vars
-  fold: (f, _) => f(),
-  orElse: f => Just(f()),
+  fold: (f /*, _*/) => f(),
+  orElse: f => f(),
   ap: m => m.map(() => Nothing()),
   isNothing: true,
   isJust: false
@@ -61,7 +60,7 @@ Nothing.of = () => Nothing()
  * // "Contents: 42"
  *
  * just
- *   .orElse(() => 'fallback')
+ *   .orElse(() => Just('fallback'))
  *   .map(x => `Contents: ${x}`)
  *   .valueOf()
  * // "Contents: 42"
@@ -116,7 +115,7 @@ export const safe = (predicate = not(isNullish)) => {
  * @example
  * maybeTry(msg => { throw msg; })('fit')
  *   .map(() => 'that did not throw')
- *   .orElse(() => 'that threw')
+ *   .orElse(() => Just('that threw'))
  *   .valueOf()
  * // "that threw"
  */
@@ -142,7 +141,7 @@ export const maybeTry = f => x => {
  * // undefined
  *
  * nothing
- *   .orElse(() => 'fallback')
+ *   .orElse(() => Just('fallback'))
  *   .map(x => `Contents: ${x}`)
  *   .valueOf()
  * // "Contents: fallback"
@@ -151,7 +150,7 @@ export const maybeTry = f => x => {
  * // 42
  *
  * just
- *   .orElse(() => 'fallback')
+ *   .orElse(() => Just('fallback'))
  *   .map(x => `Contents: ${x}`)
  *   .valueOf()
  * // "Contents: 42"
