@@ -61,7 +61,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
                 sortCode: sortCode,
                 name: accountResponse.accountHolderName,
                 type: accountResponse.productCode,
-                ledgerBalance: accountResponse.ledgerBalance * 100,
+                ledgerBalance: Math.round(accountResponse.ledgerBalance * 100),
                 lastUpdatedTimestamp: new Date(
                   accountResponse.lastUpdatedDate
                 ).getTime(),
@@ -79,6 +79,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
           })
           .catch(fetcher.Emit(actions.error.ACCOUNTS))
     },
+
     'getting-accounts -> found-accounts': {
       on: actions.got.ACCOUNTS,
       then: ({ accountsResponse, yearsToDownload }) => {
@@ -94,6 +95,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
         emit(actions.get.STATEMENTS, { statementsQueries, yearsToDownload })
       }
     },
+
     'getting-accounts -> failed-accounts': {
       on: actions.error.ACCOUNTS,
       then: fetcher.Enter('idle')
@@ -141,7 +143,6 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
             })
           }
         )
-
         Promise.allSettled(fetchStatementsJobs)
           .then(onlyFulfilled)
           .then(allAcctStatements => {
@@ -159,11 +160,13 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
                 const endDate = new Date(endDateString)
                 const startDate = new Date(endDate)
                 startDate.setMonth(startDate.getMonth() - 1)
+
                 return {
                   id,
                   accountId,
                   endDate: endDate.getTime(),
                   startDate: startDate.getTime(),
+
                   startBalance: LEAVE_UNCHANGED,
                   endBalance: LEAVE_UNCHANGED
                 }
@@ -174,6 +177,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
           })
       }
     },
+
     'getting-statements -> found-statements': {
       on: actions.got.STATEMENTS,
       then: ({ allStatements, yearsToDownload }) => {
@@ -185,6 +189,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
             const endDate = new Date(endDateString)
             const startDate = new Date(endDate)
             startDate.setMonth(startDate.getMonth() - 1)
+
             return {
               host: getHost(),
               id,
@@ -195,13 +200,13 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
             }
           }
         )
-
         emit(actions.get.ENTRIES, {
           accountsTransactionsQueries,
           yearsToDownload
         })
       }
     },
+
     'getting-statements -> failed-statements': {
       on: actions.error.STATEMENTS,
       then: fetcher.Enter('idle')
@@ -232,7 +237,6 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
             })
           }
         )
-
         Promise.allSettled(fetchAccountsTransactionsJobs)
           .then(onlyFulfilled)
           .then(allTransactionsInAccount => {
@@ -263,16 +267,17 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
                 })
               })
             })
-
             emit(actions.add.ENTRIES, allTransactions)
             emit(actions.got.ENTRIES)
           })
       }
     },
+
     'getting-entries -> found-entries': {
       on: actions.got.ENTRIES,
       then: () => {}
     },
+
     'getting-entries -> failed-entries': {
       on: actions.error.ENTRIES,
       then: fetcher.Enter('idle')
@@ -285,6 +290,7 @@ obis.makePluginAvailable('hsbc-uk-new-api', () => {
       on: actions.ui.DOWNLOAD_STATEMENTS,
       then: () => {}
     },
+
     'download-all -> found-entries': {
       on: actions.ui.DOWNLOADED_STATEMENTS,
       then: () => {}
