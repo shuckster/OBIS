@@ -1,15 +1,13 @@
 //
 // A minimal Maybe monad.
 //
-// Maybe's (or "Options") are a way of making compact sequences of
-// transformations while avoiding runaway error handling. This is
-// especially useful for adding guards to existing-code without
-// needing to "break it up" into imperative steps.
+// Maybe's are a way of making compact sequences of transformations
+// while avoiding runaway error handling. This is especially useful for
+// adding guards to existing-code without needing to "break it up" into
+// imperative steps.
 //
-// Think of it like Promise then/catch, but for synchronous code.
+// Think of them like Promise then/catch, but for synchronous code.
 //
-
-import { not, isNullish } from './primitives'
 
 export const Identity = x => x
 
@@ -39,7 +37,7 @@ export const Nothing = () => ({
   chain: () => Nothing(),
   fold: (f /*, _*/) => f(),
   orElse: f => f(),
-  ap: m => m.map(() => Nothing()),
+  ap: () => Nothing(),
   isNothing: true,
   isJust: false
 })
@@ -99,7 +97,7 @@ Just.of = x => Just(x)
  * result === 0 // true
  *
  */
-export const safe = (predicate = not(isNullish)) => {
+export const safe = (predicate = x => x != null) => {
   const Maybe = x => {
     return predicate(x) ? Just(x) : Nothing()
   }

@@ -14,7 +14,7 @@ specifiers:
   glob: ^7.2.0
   immer: ^9.0.12
   jmespath: ^0.15.0
-  match-iz: ^1.11.2
+  match-iz: ^1.12.0
   mithril: ^2.0.4
   mithril-hooks: ^0.7.1
   module-alias: ^2.2.2
@@ -31,7 +31,7 @@ dependencies:
   file-saver: 2.0.5
   immer: 9.0.12
   jmespath: 0.15.0
-  match-iz: 1.11.2
+  match-iz: 1.12.0
   mithril: 2.0.4
   mithril-hooks: 0.7.1_mithril@2.0.4
   module-alias: 2.2.2
@@ -1499,8 +1499,8 @@ packages:
       semver: 6.3.0
     dev: true
 
-  /match-iz/1.11.2:
-    resolution: {integrity: sha512-uYsBghUchndQWVxhgZ+bBZaVp+5tLumPLyActmPlMLKQVAtQgkLX0i7L49NSRJHETFnjfcuhuaDOKnvD1Pq4og==}
+  /match-iz/1.12.0:
+    resolution: {integrity: sha512-X1LFKvXs9/oN39cnNsCWtUu2UGfQAHhvBmS36FfEqLECdZwHbwkEBKr24Rd70pEqbZIbwkWoAxkNllqZnSJXzw==}
     engines: {node: '>=10'}
     dev: false
 
