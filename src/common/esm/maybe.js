@@ -35,7 +35,7 @@ export const Nothing = () => ({
   toString: () => 'Nothing',
   map: () => Nothing(),
   chain: () => Nothing(),
-  fold: (f /*, _*/) => f(),
+  fork: (f /*, _*/) => f(),
   orElse: f => f(),
   ap: () => Nothing(),
   isNothing: true,
@@ -68,7 +68,7 @@ export const Just = x => ({
   toString: () => `Just(${x})`,
   map: f => Just(f(x)),
   chain: f => f(x),
-  fold: (_, g) => g(x),
+  fork: (_, g) => g(x),
   orElse: () => Just(x),
   ap: m => m.map(x),
   isNothing: false,
@@ -89,7 +89,7 @@ Just.of = x => Just(x)
  * const MaybeNumber = safe(x => !Number.isNaN(x))
  *
  * const result = MaybeNumber('not a number')
- *   .fold(
+ *   .fork(
  *     () => 0,
  *     (x) => x + 1
  *   )
