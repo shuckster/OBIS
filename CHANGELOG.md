@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+8th February 2022
+
+- Fix styling of Statements Viewer
+
 9th January 2022
 
 - New HSBC UK plugin to support the new HSBC UK API
