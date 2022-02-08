@@ -7131,11 +7131,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     pushStore(payload);
     messages.emit(actions.STORE_HYDRATED);
   }
-  function store() {
+  function store2() {
     return storeHistory[storeHistory.length - 1];
   }
-  store.history = storeHistory;
-  store.hydrate = hydrate;
+  store2.history = storeHistory;
+  store2.hydrate = hydrate;
   function pushStore(nextStore) {
     storeHistory.push(nextStore);
     if (storeHistory.length > HISTORY_LIMIT) {
@@ -7165,7 +7165,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     bic: [isString2, isUnset]
   })(actions.update.ACCOUNTS);
   messages.on(actions.add.ACCOUNTS, (accounts) => {
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = fn(currentStore, (draftState) => {
       accounts.forEach((account) => {
         const err = checkSchemaForAddingAnAccount(account);
@@ -7186,7 +7186,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   });
   messages.on(actions.update.ACCOUNTS, (accounts) => {
     const unseenAccounts = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = fn(currentStore, (draftState) => {
       accounts.forEach((account) => {
         const err = checkSchemaForUpdatingAnAccount(account);
@@ -7231,7 +7231,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   })(actions.update.STATEMENTS);
   messages.on(actions.add.STATEMENTS, (statements) => {
     const existingStatements = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = fn(currentStore, (draftState) => {
       statements.forEach((statement) => {
         const err = checkSchemaForAddingAStatement(statement);
@@ -7255,7 +7255,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   });
   messages.on(actions.update.STATEMENTS, (statements) => {
     const unseenStatements = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = fn(currentStore, (draftState) => {
       statements.forEach((statement) => {
         const err = checkSchemaForUpdatingAStatement(statement);
@@ -7296,7 +7296,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   })(actions.add.ENTRIES);
   messages.on(actions.add.ENTRIES, (entries) => {
     const existingEntries = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = fn(currentStore, (draftState) => {
       entries.forEach((entry) => {
         const err = checkSchemaForAddingAnEntry(entry);
@@ -7577,7 +7577,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return dateTime + "_" + md5(dateTime + (index !== void 0 ? index : "") + (accountNumber || "") + (sortCode || "") + (type || "") + (payee || "") + (note || "") + transactionAmount);
   }
   function compatMakeStatements() {
-    const { accounts, statements, entries } = store();
+    const { accounts, statements, entries } = store2();
     const compatStatements = statements.reduce((acc, statement) => {
       const statementAccount = accounts.find((account) => account.id === statement.accountId);
       const statementBalances = [
@@ -9077,8 +9077,8 @@ Check your performTransitions() config.`;
       ...progressBar
     })), ready && /* @__PURE__ */ (0, import_mithril4.default)(VerticalAnimationContainer, {
       opened
-    }, /* @__PURE__ */ (0, import_mithril4.default)(Accounts, null, store().accounts.map((account) => {
-      const allStatementYears = (0, import_fp.pipe)(store(), ($) => $.statements.filter((x3) => x3.accountId === account.id), ($) => $.map((x3) => new Date(x3.endDate).getFullYear()));
+    }, /* @__PURE__ */ (0, import_mithril4.default)(Accounts, null, store2().accounts.map((account) => {
+      const allStatementYears = (0, import_fp.pipe)(store2(), ($) => $.statements.filter((x3) => x3.accountId === account.id), ($) => $.map((x3) => new Date(x3.endDate).getFullYear()));
       const uniqueStatementYears = (0, import_fp.pipe)(allStatementYears, ($) => new Set($), ($) => [...$]);
       return /* @__PURE__ */ (0, import_mithril4.default)(Account, {
         key: account.id
@@ -9103,20 +9103,20 @@ Check your performTransitions() config.`;
   var import_mithril5 = __toESM(require_mithril());
   var { messages: messages3 } = obis.deps;
   function useAccounts() {
-    const [accounts, setAccounts] = useState(store().accounts);
+    const [accounts, setAccounts] = useState(store2().accounts);
     useEffect(() => {
       const off = messages3.on(actions.STORE_UPDATED, () => {
-        setAccounts(store().accounts);
+        setAccounts(store2().accounts);
       });
       return () => off();
     }, []);
     return accounts;
   }
   function useStatements() {
-    const [statements, setStatements] = useState(store().statements);
+    const [statements, setStatements] = useState(store2().statements);
     useEffect(() => {
       const off = messages3.on(actions.STORE_UPDATED, () => {
-        const sortedStatements = [...store().statements].sort(SortByNumber("endDate")).reverse();
+        const sortedStatements = [...store2().statements].sort(SortByNumber("endDate")).reverse();
         setStatements(sortedStatements);
       });
       return () => off();
@@ -9124,10 +9124,10 @@ Check your performTransitions() config.`;
     return statements;
   }
   function useEntries() {
-    const [entries, setEntries] = useState(store().entries);
+    const [entries, setEntries] = useState(store2().entries);
     useEffect(() => {
       const off = messages3.on(actions.STORE_UPDATED, () => {
-        const sortedEntries = [...store().entries].sort(SortByNumber("date")).reverse();
+        const sortedEntries = [...store2().entries].sort(SortByNumber("date")).reverse();
         setEntries(sortedEntries);
       });
       return () => off();
@@ -9214,7 +9214,7 @@ Check your performTransitions() config.`;
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          /* ../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-13114-DcS3tKe1ej3d/OBIS/src/ui/styles/statements-browser/all.css */
+          /* ../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-16491-2JV5eQDTXrwL/OBIS/src/ui/styles/statements-browser/all.css */
 body.obis-statements-browser {
   font-size: 13px;
   font-family: sans-serif;
@@ -9695,7 +9695,7 @@ body.obis-statements-browser .month.no-entries {
   var { messages: messages4 } = obis.deps;
   var { on: on2, emit } = messages4;
   var { Emit: Emit2 } = fetcher2;
-  window.store = store;
+  window.store = store2;
   window.actions = actions;
   window.messages = messages4;
   function viewStatements() {
@@ -9738,18 +9738,11 @@ body.obis-statements-browser .month.no-entries {
 /*! (c) 2020 Andrea Giammarchi */
 obis.registerPlugins([
   {
-    "name": "hsbc-uk-new-api",
+    "name": "hsbc-uk",
     "description": "HSBC UK",
     "urls": [
       "http://localhost:4000/*",
       "https://*.hsbc.co.uk/online/dashboard/*"
-    ]
-  },
-  {
-    "name": "hsbc-uk",
-    "description": "HSBC UK",
-    "urls": [
-      "https://*.online-banking.hsbc.co.uk/*"
     ]
   }
 ]);
@@ -9937,6 +9930,1488 @@ obis.registerPlugins([
       };
     }
   });
+  var require_jmespath = __commonJS({
+    "node_modules/.pnpm/jmespath@0.16.0/node_modules/jmespath/jmespath.js"(exports) {
+      (function(exports2) {
+        "use strict";
+        function isArray3(obj) {
+          if (obj !== null) {
+            return Object.prototype.toString.call(obj) === "[object Array]";
+          } else {
+            return false;
+          }
+        }
+        function isObject2(obj) {
+          if (obj !== null) {
+            return Object.prototype.toString.call(obj) === "[object Object]";
+          } else {
+            return false;
+          }
+        }
+        function strictDeepEqual(first, second) {
+          if (first === second) {
+            return true;
+          }
+          var firstType = Object.prototype.toString.call(first);
+          if (firstType !== Object.prototype.toString.call(second)) {
+            return false;
+          }
+          if (isArray3(first) === true) {
+            if (first.length !== second.length) {
+              return false;
+            }
+            for (var i2 = 0; i2 < first.length; i2++) {
+              if (strictDeepEqual(first[i2], second[i2]) === false) {
+                return false;
+              }
+            }
+            return true;
+          }
+          if (isObject2(first) === true) {
+            var keysSeen = {};
+            for (var key in first) {
+              if (hasOwnProperty.call(first, key)) {
+                if (strictDeepEqual(first[key], second[key]) === false) {
+                  return false;
+                }
+                keysSeen[key] = true;
+              }
+            }
+            for (var key2 in second) {
+              if (hasOwnProperty.call(second, key2)) {
+                if (keysSeen[key2] !== true) {
+                  return false;
+                }
+              }
+            }
+            return true;
+          }
+          return false;
+        }
+        function isFalse(obj) {
+          if (obj === "" || obj === false || obj === null) {
+            return true;
+          } else if (isArray3(obj) && obj.length === 0) {
+            return true;
+          } else if (isObject2(obj)) {
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                return false;
+              }
+            }
+            return true;
+          } else {
+            return false;
+          }
+        }
+        function objValues(obj) {
+          var keys = Object.keys(obj);
+          var values = [];
+          for (var i2 = 0; i2 < keys.length; i2++) {
+            values.push(obj[keys[i2]]);
+          }
+          return values;
+        }
+        function merge(a2, b2) {
+          var merged = {};
+          for (var key in a2) {
+            merged[key] = a2[key];
+          }
+          for (var key2 in b2) {
+            merged[key2] = b2[key2];
+          }
+          return merged;
+        }
+        var trimLeft;
+        if (typeof String.prototype.trimLeft === "function") {
+          trimLeft = function(str) {
+            return str.trimLeft();
+          };
+        } else {
+          trimLeft = function(str) {
+            return str.match(/^\s*(.*)/)[1];
+          };
+        }
+        var TYPE_NUMBER = 0;
+        var TYPE_ANY = 1;
+        var TYPE_STRING = 2;
+        var TYPE_ARRAY = 3;
+        var TYPE_OBJECT = 4;
+        var TYPE_BOOLEAN = 5;
+        var TYPE_EXPREF = 6;
+        var TYPE_NULL = 7;
+        var TYPE_ARRAY_NUMBER = 8;
+        var TYPE_ARRAY_STRING = 9;
+        var TYPE_NAME_TABLE = {
+          0: "number",
+          1: "any",
+          2: "string",
+          3: "array",
+          4: "object",
+          5: "boolean",
+          6: "expression",
+          7: "null",
+          8: "Array<number>",
+          9: "Array<string>"
+        };
+        var TOK_EOF = "EOF";
+        var TOK_UNQUOTEDIDENTIFIER = "UnquotedIdentifier";
+        var TOK_QUOTEDIDENTIFIER = "QuotedIdentifier";
+        var TOK_RBRACKET = "Rbracket";
+        var TOK_RPAREN = "Rparen";
+        var TOK_COMMA = "Comma";
+        var TOK_COLON = "Colon";
+        var TOK_RBRACE = "Rbrace";
+        var TOK_NUMBER = "Number";
+        var TOK_CURRENT = "Current";
+        var TOK_EXPREF = "Expref";
+        var TOK_PIPE = "Pipe";
+        var TOK_OR = "Or";
+        var TOK_AND = "And";
+        var TOK_EQ = "EQ";
+        var TOK_GT = "GT";
+        var TOK_LT = "LT";
+        var TOK_GTE = "GTE";
+        var TOK_LTE = "LTE";
+        var TOK_NE = "NE";
+        var TOK_FLATTEN = "Flatten";
+        var TOK_STAR = "Star";
+        var TOK_FILTER = "Filter";
+        var TOK_DOT = "Dot";
+        var TOK_NOT = "Not";
+        var TOK_LBRACE = "Lbrace";
+        var TOK_LBRACKET = "Lbracket";
+        var TOK_LPAREN = "Lparen";
+        var TOK_LITERAL = "Literal";
+        var basicTokens = {
+          ".": TOK_DOT,
+          "*": TOK_STAR,
+          ",": TOK_COMMA,
+          ":": TOK_COLON,
+          "{": TOK_LBRACE,
+          "}": TOK_RBRACE,
+          "]": TOK_RBRACKET,
+          "(": TOK_LPAREN,
+          ")": TOK_RPAREN,
+          "@": TOK_CURRENT
+        };
+        var operatorStartToken = {
+          "<": true,
+          ">": true,
+          "=": true,
+          "!": true
+        };
+        var skipChars = {
+          " ": true,
+          "	": true,
+          "\n": true
+        };
+        function isAlpha(ch) {
+          return ch >= "a" && ch <= "z" || ch >= "A" && ch <= "Z" || ch === "_";
+        }
+        function isNum(ch) {
+          return ch >= "0" && ch <= "9" || ch === "-";
+        }
+        function isAlphaNum(ch) {
+          return ch >= "a" && ch <= "z" || ch >= "A" && ch <= "Z" || ch >= "0" && ch <= "9" || ch === "_";
+        }
+        function Lexer() {
+        }
+        Lexer.prototype = {
+          tokenize: function(stream) {
+            var tokens = [];
+            this._current = 0;
+            var start;
+            var identifier;
+            var token;
+            while (this._current < stream.length) {
+              if (isAlpha(stream[this._current])) {
+                start = this._current;
+                identifier = this._consumeUnquotedIdentifier(stream);
+                tokens.push({
+                  type: TOK_UNQUOTEDIDENTIFIER,
+                  value: identifier,
+                  start
+                });
+              } else if (basicTokens[stream[this._current]] !== void 0) {
+                tokens.push({
+                  type: basicTokens[stream[this._current]],
+                  value: stream[this._current],
+                  start: this._current
+                });
+                this._current++;
+              } else if (isNum(stream[this._current])) {
+                token = this._consumeNumber(stream);
+                tokens.push(token);
+              } else if (stream[this._current] === "[") {
+                token = this._consumeLBracket(stream);
+                tokens.push(token);
+              } else if (stream[this._current] === '"') {
+                start = this._current;
+                identifier = this._consumeQuotedIdentifier(stream);
+                tokens.push({
+                  type: TOK_QUOTEDIDENTIFIER,
+                  value: identifier,
+                  start
+                });
+              } else if (stream[this._current] === "'") {
+                start = this._current;
+                identifier = this._consumeRawStringLiteral(stream);
+                tokens.push({
+                  type: TOK_LITERAL,
+                  value: identifier,
+                  start
+                });
+              } else if (stream[this._current] === "`") {
+                start = this._current;
+                var literal = this._consumeLiteral(stream);
+                tokens.push({
+                  type: TOK_LITERAL,
+                  value: literal,
+                  start
+                });
+              } else if (operatorStartToken[stream[this._current]] !== void 0) {
+                tokens.push(this._consumeOperator(stream));
+              } else if (skipChars[stream[this._current]] !== void 0) {
+                this._current++;
+              } else if (stream[this._current] === "&") {
+                start = this._current;
+                this._current++;
+                if (stream[this._current] === "&") {
+                  this._current++;
+                  tokens.push({ type: TOK_AND, value: "&&", start });
+                } else {
+                  tokens.push({ type: TOK_EXPREF, value: "&", start });
+                }
+              } else if (stream[this._current] === "|") {
+                start = this._current;
+                this._current++;
+                if (stream[this._current] === "|") {
+                  this._current++;
+                  tokens.push({ type: TOK_OR, value: "||", start });
+                } else {
+                  tokens.push({ type: TOK_PIPE, value: "|", start });
+                }
+              } else {
+                var error = new Error("Unknown character:" + stream[this._current]);
+                error.name = "LexerError";
+                throw error;
+              }
+            }
+            return tokens;
+          },
+          _consumeUnquotedIdentifier: function(stream) {
+            var start = this._current;
+            this._current++;
+            while (this._current < stream.length && isAlphaNum(stream[this._current])) {
+              this._current++;
+            }
+            return stream.slice(start, this._current);
+          },
+          _consumeQuotedIdentifier: function(stream) {
+            var start = this._current;
+            this._current++;
+            var maxLength = stream.length;
+            while (stream[this._current] !== '"' && this._current < maxLength) {
+              var current = this._current;
+              if (stream[current] === "\\" && (stream[current + 1] === "\\" || stream[current + 1] === '"')) {
+                current += 2;
+              } else {
+                current++;
+              }
+              this._current = current;
+            }
+            this._current++;
+            return JSON.parse(stream.slice(start, this._current));
+          },
+          _consumeRawStringLiteral: function(stream) {
+            var start = this._current;
+            this._current++;
+            var maxLength = stream.length;
+            while (stream[this._current] !== "'" && this._current < maxLength) {
+              var current = this._current;
+              if (stream[current] === "\\" && (stream[current + 1] === "\\" || stream[current + 1] === "'")) {
+                current += 2;
+              } else {
+                current++;
+              }
+              this._current = current;
+            }
+            this._current++;
+            var literal = stream.slice(start + 1, this._current - 1);
+            return literal.replace("\\'", "'");
+          },
+          _consumeNumber: function(stream) {
+            var start = this._current;
+            this._current++;
+            var maxLength = stream.length;
+            while (isNum(stream[this._current]) && this._current < maxLength) {
+              this._current++;
+            }
+            var value = parseInt(stream.slice(start, this._current));
+            return { type: TOK_NUMBER, value, start };
+          },
+          _consumeLBracket: function(stream) {
+            var start = this._current;
+            this._current++;
+            if (stream[this._current] === "?") {
+              this._current++;
+              return { type: TOK_FILTER, value: "[?", start };
+            } else if (stream[this._current] === "]") {
+              this._current++;
+              return { type: TOK_FLATTEN, value: "[]", start };
+            } else {
+              return { type: TOK_LBRACKET, value: "[", start };
+            }
+          },
+          _consumeOperator: function(stream) {
+            var start = this._current;
+            var startingChar = stream[start];
+            this._current++;
+            if (startingChar === "!") {
+              if (stream[this._current] === "=") {
+                this._current++;
+                return { type: TOK_NE, value: "!=", start };
+              } else {
+                return { type: TOK_NOT, value: "!", start };
+              }
+            } else if (startingChar === "<") {
+              if (stream[this._current] === "=") {
+                this._current++;
+                return { type: TOK_LTE, value: "<=", start };
+              } else {
+                return { type: TOK_LT, value: "<", start };
+              }
+            } else if (startingChar === ">") {
+              if (stream[this._current] === "=") {
+                this._current++;
+                return { type: TOK_GTE, value: ">=", start };
+              } else {
+                return { type: TOK_GT, value: ">", start };
+              }
+            } else if (startingChar === "=") {
+              if (stream[this._current] === "=") {
+                this._current++;
+                return { type: TOK_EQ, value: "==", start };
+              }
+            }
+          },
+          _consumeLiteral: function(stream) {
+            this._current++;
+            var start = this._current;
+            var maxLength = stream.length;
+            var literal;
+            while (stream[this._current] !== "`" && this._current < maxLength) {
+              var current = this._current;
+              if (stream[current] === "\\" && (stream[current + 1] === "\\" || stream[current + 1] === "`")) {
+                current += 2;
+              } else {
+                current++;
+              }
+              this._current = current;
+            }
+            var literalString = trimLeft(stream.slice(start, this._current));
+            literalString = literalString.replace("\\`", "`");
+            if (this._looksLikeJSON(literalString)) {
+              literal = JSON.parse(literalString);
+            } else {
+              literal = JSON.parse('"' + literalString + '"');
+            }
+            this._current++;
+            return literal;
+          },
+          _looksLikeJSON: function(literalString) {
+            var startingChars = '[{"';
+            var jsonLiterals = ["true", "false", "null"];
+            var numberLooking = "-0123456789";
+            if (literalString === "") {
+              return false;
+            } else if (startingChars.indexOf(literalString[0]) >= 0) {
+              return true;
+            } else if (jsonLiterals.indexOf(literalString) >= 0) {
+              return true;
+            } else if (numberLooking.indexOf(literalString[0]) >= 0) {
+              try {
+                JSON.parse(literalString);
+                return true;
+              } catch (ex) {
+                return false;
+              }
+            } else {
+              return false;
+            }
+          }
+        };
+        var bindingPower = {};
+        bindingPower[TOK_EOF] = 0;
+        bindingPower[TOK_UNQUOTEDIDENTIFIER] = 0;
+        bindingPower[TOK_QUOTEDIDENTIFIER] = 0;
+        bindingPower[TOK_RBRACKET] = 0;
+        bindingPower[TOK_RPAREN] = 0;
+        bindingPower[TOK_COMMA] = 0;
+        bindingPower[TOK_RBRACE] = 0;
+        bindingPower[TOK_NUMBER] = 0;
+        bindingPower[TOK_CURRENT] = 0;
+        bindingPower[TOK_EXPREF] = 0;
+        bindingPower[TOK_PIPE] = 1;
+        bindingPower[TOK_OR] = 2;
+        bindingPower[TOK_AND] = 3;
+        bindingPower[TOK_EQ] = 5;
+        bindingPower[TOK_GT] = 5;
+        bindingPower[TOK_LT] = 5;
+        bindingPower[TOK_GTE] = 5;
+        bindingPower[TOK_LTE] = 5;
+        bindingPower[TOK_NE] = 5;
+        bindingPower[TOK_FLATTEN] = 9;
+        bindingPower[TOK_STAR] = 20;
+        bindingPower[TOK_FILTER] = 21;
+        bindingPower[TOK_DOT] = 40;
+        bindingPower[TOK_NOT] = 45;
+        bindingPower[TOK_LBRACE] = 50;
+        bindingPower[TOK_LBRACKET] = 55;
+        bindingPower[TOK_LPAREN] = 60;
+        function Parser() {
+        }
+        Parser.prototype = {
+          parse: function(expression) {
+            this._loadTokens(expression);
+            this.index = 0;
+            var ast = this.expression(0);
+            if (this._lookahead(0) !== TOK_EOF) {
+              var t2 = this._lookaheadToken(0);
+              var error = new Error("Unexpected token type: " + t2.type + ", value: " + t2.value);
+              error.name = "ParserError";
+              throw error;
+            }
+            return ast;
+          },
+          _loadTokens: function(expression) {
+            var lexer = new Lexer();
+            var tokens = lexer.tokenize(expression);
+            tokens.push({ type: TOK_EOF, value: "", start: expression.length });
+            this.tokens = tokens;
+          },
+          expression: function(rbp) {
+            var leftToken = this._lookaheadToken(0);
+            this._advance();
+            var left = this.nud(leftToken);
+            var currentToken = this._lookahead(0);
+            while (rbp < bindingPower[currentToken]) {
+              this._advance();
+              left = this.led(currentToken, left);
+              currentToken = this._lookahead(0);
+            }
+            return left;
+          },
+          _lookahead: function(number) {
+            return this.tokens[this.index + number].type;
+          },
+          _lookaheadToken: function(number) {
+            return this.tokens[this.index + number];
+          },
+          _advance: function() {
+            this.index++;
+          },
+          nud: function(token) {
+            var left;
+            var right;
+            var expression;
+            switch (token.type) {
+              case TOK_LITERAL:
+                return { type: "Literal", value: token.value };
+              case TOK_UNQUOTEDIDENTIFIER:
+                return { type: "Field", name: token.value };
+              case TOK_QUOTEDIDENTIFIER:
+                var node = { type: "Field", name: token.value };
+                if (this._lookahead(0) === TOK_LPAREN) {
+                  throw new Error("Quoted identifier not allowed for function names.");
+                }
+                return node;
+              case TOK_NOT:
+                right = this.expression(bindingPower.Not);
+                return { type: "NotExpression", children: [right] };
+              case TOK_STAR:
+                left = { type: "Identity" };
+                right = null;
+                if (this._lookahead(0) === TOK_RBRACKET) {
+                  right = { type: "Identity" };
+                } else {
+                  right = this._parseProjectionRHS(bindingPower.Star);
+                }
+                return { type: "ValueProjection", children: [left, right] };
+              case TOK_FILTER:
+                return this.led(token.type, { type: "Identity" });
+              case TOK_LBRACE:
+                return this._parseMultiselectHash();
+              case TOK_FLATTEN:
+                left = { type: TOK_FLATTEN, children: [{ type: "Identity" }] };
+                right = this._parseProjectionRHS(bindingPower.Flatten);
+                return { type: "Projection", children: [left, right] };
+              case TOK_LBRACKET:
+                if (this._lookahead(0) === TOK_NUMBER || this._lookahead(0) === TOK_COLON) {
+                  right = this._parseIndexExpression();
+                  return this._projectIfSlice({ type: "Identity" }, right);
+                } else if (this._lookahead(0) === TOK_STAR && this._lookahead(1) === TOK_RBRACKET) {
+                  this._advance();
+                  this._advance();
+                  right = this._parseProjectionRHS(bindingPower.Star);
+                  return {
+                    type: "Projection",
+                    children: [{ type: "Identity" }, right]
+                  };
+                }
+                return this._parseMultiselectList();
+              case TOK_CURRENT:
+                return { type: TOK_CURRENT };
+              case TOK_EXPREF:
+                expression = this.expression(bindingPower.Expref);
+                return { type: "ExpressionReference", children: [expression] };
+              case TOK_LPAREN:
+                var args = [];
+                while (this._lookahead(0) !== TOK_RPAREN) {
+                  if (this._lookahead(0) === TOK_CURRENT) {
+                    expression = { type: TOK_CURRENT };
+                    this._advance();
+                  } else {
+                    expression = this.expression(0);
+                  }
+                  args.push(expression);
+                }
+                this._match(TOK_RPAREN);
+                return args[0];
+              default:
+                this._errorToken(token);
+            }
+          },
+          led: function(tokenName, left) {
+            var right;
+            switch (tokenName) {
+              case TOK_DOT:
+                var rbp = bindingPower.Dot;
+                if (this._lookahead(0) !== TOK_STAR) {
+                  right = this._parseDotRHS(rbp);
+                  return { type: "Subexpression", children: [left, right] };
+                }
+                this._advance();
+                right = this._parseProjectionRHS(rbp);
+                return { type: "ValueProjection", children: [left, right] };
+              case TOK_PIPE:
+                right = this.expression(bindingPower.Pipe);
+                return { type: TOK_PIPE, children: [left, right] };
+              case TOK_OR:
+                right = this.expression(bindingPower.Or);
+                return { type: "OrExpression", children: [left, right] };
+              case TOK_AND:
+                right = this.expression(bindingPower.And);
+                return { type: "AndExpression", children: [left, right] };
+              case TOK_LPAREN:
+                var name = left.name;
+                var args = [];
+                var expression, node;
+                while (this._lookahead(0) !== TOK_RPAREN) {
+                  if (this._lookahead(0) === TOK_CURRENT) {
+                    expression = { type: TOK_CURRENT };
+                    this._advance();
+                  } else {
+                    expression = this.expression(0);
+                  }
+                  if (this._lookahead(0) === TOK_COMMA) {
+                    this._match(TOK_COMMA);
+                  }
+                  args.push(expression);
+                }
+                this._match(TOK_RPAREN);
+                node = { type: "Function", name, children: args };
+                return node;
+              case TOK_FILTER:
+                var condition = this.expression(0);
+                this._match(TOK_RBRACKET);
+                if (this._lookahead(0) === TOK_FLATTEN) {
+                  right = { type: "Identity" };
+                } else {
+                  right = this._parseProjectionRHS(bindingPower.Filter);
+                }
+                return { type: "FilterProjection", children: [left, right, condition] };
+              case TOK_FLATTEN:
+                var leftNode = { type: TOK_FLATTEN, children: [left] };
+                var rightNode = this._parseProjectionRHS(bindingPower.Flatten);
+                return { type: "Projection", children: [leftNode, rightNode] };
+              case TOK_EQ:
+              case TOK_NE:
+              case TOK_GT:
+              case TOK_GTE:
+              case TOK_LT:
+              case TOK_LTE:
+                return this._parseComparator(left, tokenName);
+              case TOK_LBRACKET:
+                var token = this._lookaheadToken(0);
+                if (token.type === TOK_NUMBER || token.type === TOK_COLON) {
+                  right = this._parseIndexExpression();
+                  return this._projectIfSlice(left, right);
+                }
+                this._match(TOK_STAR);
+                this._match(TOK_RBRACKET);
+                right = this._parseProjectionRHS(bindingPower.Star);
+                return { type: "Projection", children: [left, right] };
+              default:
+                this._errorToken(this._lookaheadToken(0));
+            }
+          },
+          _match: function(tokenType) {
+            if (this._lookahead(0) === tokenType) {
+              this._advance();
+            } else {
+              var t2 = this._lookaheadToken(0);
+              var error = new Error("Expected " + tokenType + ", got: " + t2.type);
+              error.name = "ParserError";
+              throw error;
+            }
+          },
+          _errorToken: function(token) {
+            var error = new Error("Invalid token (" + token.type + '): "' + token.value + '"');
+            error.name = "ParserError";
+            throw error;
+          },
+          _parseIndexExpression: function() {
+            if (this._lookahead(0) === TOK_COLON || this._lookahead(1) === TOK_COLON) {
+              return this._parseSliceExpression();
+            } else {
+              var node = {
+                type: "Index",
+                value: this._lookaheadToken(0).value
+              };
+              this._advance();
+              this._match(TOK_RBRACKET);
+              return node;
+            }
+          },
+          _projectIfSlice: function(left, right) {
+            var indexExpr = { type: "IndexExpression", children: [left, right] };
+            if (right.type === "Slice") {
+              return {
+                type: "Projection",
+                children: [indexExpr, this._parseProjectionRHS(bindingPower.Star)]
+              };
+            } else {
+              return indexExpr;
+            }
+          },
+          _parseSliceExpression: function() {
+            var parts = [null, null, null];
+            var index = 0;
+            var currentToken = this._lookahead(0);
+            while (currentToken !== TOK_RBRACKET && index < 3) {
+              if (currentToken === TOK_COLON) {
+                index++;
+                this._advance();
+              } else if (currentToken === TOK_NUMBER) {
+                parts[index] = this._lookaheadToken(0).value;
+                this._advance();
+              } else {
+                var t2 = this._lookahead(0);
+                var error = new Error("Syntax error, unexpected token: " + t2.value + "(" + t2.type + ")");
+                error.name = "Parsererror";
+                throw error;
+              }
+              currentToken = this._lookahead(0);
+            }
+            this._match(TOK_RBRACKET);
+            return {
+              type: "Slice",
+              children: parts
+            };
+          },
+          _parseComparator: function(left, comparator) {
+            var right = this.expression(bindingPower[comparator]);
+            return { type: "Comparator", name: comparator, children: [left, right] };
+          },
+          _parseDotRHS: function(rbp) {
+            var lookahead = this._lookahead(0);
+            var exprTokens = [TOK_UNQUOTEDIDENTIFIER, TOK_QUOTEDIDENTIFIER, TOK_STAR];
+            if (exprTokens.indexOf(lookahead) >= 0) {
+              return this.expression(rbp);
+            } else if (lookahead === TOK_LBRACKET) {
+              this._match(TOK_LBRACKET);
+              return this._parseMultiselectList();
+            } else if (lookahead === TOK_LBRACE) {
+              this._match(TOK_LBRACE);
+              return this._parseMultiselectHash();
+            }
+          },
+          _parseProjectionRHS: function(rbp) {
+            var right;
+            if (bindingPower[this._lookahead(0)] < 10) {
+              right = { type: "Identity" };
+            } else if (this._lookahead(0) === TOK_LBRACKET) {
+              right = this.expression(rbp);
+            } else if (this._lookahead(0) === TOK_FILTER) {
+              right = this.expression(rbp);
+            } else if (this._lookahead(0) === TOK_DOT) {
+              this._match(TOK_DOT);
+              right = this._parseDotRHS(rbp);
+            } else {
+              var t2 = this._lookaheadToken(0);
+              var error = new Error("Sytanx error, unexpected token: " + t2.value + "(" + t2.type + ")");
+              error.name = "ParserError";
+              throw error;
+            }
+            return right;
+          },
+          _parseMultiselectList: function() {
+            var expressions = [];
+            while (this._lookahead(0) !== TOK_RBRACKET) {
+              var expression = this.expression(0);
+              expressions.push(expression);
+              if (this._lookahead(0) === TOK_COMMA) {
+                this._match(TOK_COMMA);
+                if (this._lookahead(0) === TOK_RBRACKET) {
+                  throw new Error("Unexpected token Rbracket");
+                }
+              }
+            }
+            this._match(TOK_RBRACKET);
+            return { type: "MultiSelectList", children: expressions };
+          },
+          _parseMultiselectHash: function() {
+            var pairs = [];
+            var identifierTypes = [TOK_UNQUOTEDIDENTIFIER, TOK_QUOTEDIDENTIFIER];
+            var keyToken, keyName, value, node;
+            for (; ; ) {
+              keyToken = this._lookaheadToken(0);
+              if (identifierTypes.indexOf(keyToken.type) < 0) {
+                throw new Error("Expecting an identifier token, got: " + keyToken.type);
+              }
+              keyName = keyToken.value;
+              this._advance();
+              this._match(TOK_COLON);
+              value = this.expression(0);
+              node = { type: "KeyValuePair", name: keyName, value };
+              pairs.push(node);
+              if (this._lookahead(0) === TOK_COMMA) {
+                this._match(TOK_COMMA);
+              } else if (this._lookahead(0) === TOK_RBRACE) {
+                this._match(TOK_RBRACE);
+                break;
+              }
+            }
+            return { type: "MultiSelectHash", children: pairs };
+          }
+        };
+        function TreeInterpreter(runtime) {
+          this.runtime = runtime;
+        }
+        TreeInterpreter.prototype = {
+          search: function(node, value) {
+            return this.visit(node, value);
+          },
+          visit: function(node, value) {
+            var matched, current, result, first, second, field, left, right, collected, i2;
+            switch (node.type) {
+              case "Field":
+                if (value !== null && isObject2(value)) {
+                  field = value[node.name];
+                  if (field === void 0) {
+                    return null;
+                  } else {
+                    return field;
+                  }
+                }
+                return null;
+              case "Subexpression":
+                result = this.visit(node.children[0], value);
+                for (i2 = 1; i2 < node.children.length; i2++) {
+                  result = this.visit(node.children[1], result);
+                  if (result === null) {
+                    return null;
+                  }
+                }
+                return result;
+              case "IndexExpression":
+                left = this.visit(node.children[0], value);
+                right = this.visit(node.children[1], left);
+                return right;
+              case "Index":
+                if (!isArray3(value)) {
+                  return null;
+                }
+                var index = node.value;
+                if (index < 0) {
+                  index = value.length + index;
+                }
+                result = value[index];
+                if (result === void 0) {
+                  result = null;
+                }
+                return result;
+              case "Slice":
+                if (!isArray3(value)) {
+                  return null;
+                }
+                var sliceParams = node.children.slice(0);
+                var computed = this.computeSliceParams(value.length, sliceParams);
+                var start = computed[0];
+                var stop = computed[1];
+                var step = computed[2];
+                result = [];
+                if (step > 0) {
+                  for (i2 = start; i2 < stop; i2 += step) {
+                    result.push(value[i2]);
+                  }
+                } else {
+                  for (i2 = start; i2 > stop; i2 += step) {
+                    result.push(value[i2]);
+                  }
+                }
+                return result;
+              case "Projection":
+                var base = this.visit(node.children[0], value);
+                if (!isArray3(base)) {
+                  return null;
+                }
+                collected = [];
+                for (i2 = 0; i2 < base.length; i2++) {
+                  current = this.visit(node.children[1], base[i2]);
+                  if (current !== null) {
+                    collected.push(current);
+                  }
+                }
+                return collected;
+              case "ValueProjection":
+                base = this.visit(node.children[0], value);
+                if (!isObject2(base)) {
+                  return null;
+                }
+                collected = [];
+                var values = objValues(base);
+                for (i2 = 0; i2 < values.length; i2++) {
+                  current = this.visit(node.children[1], values[i2]);
+                  if (current !== null) {
+                    collected.push(current);
+                  }
+                }
+                return collected;
+              case "FilterProjection":
+                base = this.visit(node.children[0], value);
+                if (!isArray3(base)) {
+                  return null;
+                }
+                var filtered = [];
+                var finalResults = [];
+                for (i2 = 0; i2 < base.length; i2++) {
+                  matched = this.visit(node.children[2], base[i2]);
+                  if (!isFalse(matched)) {
+                    filtered.push(base[i2]);
+                  }
+                }
+                for (var j2 = 0; j2 < filtered.length; j2++) {
+                  current = this.visit(node.children[1], filtered[j2]);
+                  if (current !== null) {
+                    finalResults.push(current);
+                  }
+                }
+                return finalResults;
+              case "Comparator":
+                first = this.visit(node.children[0], value);
+                second = this.visit(node.children[1], value);
+                switch (node.name) {
+                  case TOK_EQ:
+                    result = strictDeepEqual(first, second);
+                    break;
+                  case TOK_NE:
+                    result = !strictDeepEqual(first, second);
+                    break;
+                  case TOK_GT:
+                    result = first > second;
+                    break;
+                  case TOK_GTE:
+                    result = first >= second;
+                    break;
+                  case TOK_LT:
+                    result = first < second;
+                    break;
+                  case TOK_LTE:
+                    result = first <= second;
+                    break;
+                  default:
+                    throw new Error("Unknown comparator: " + node.name);
+                }
+                return result;
+              case TOK_FLATTEN:
+                var original = this.visit(node.children[0], value);
+                if (!isArray3(original)) {
+                  return null;
+                }
+                var merged = [];
+                for (i2 = 0; i2 < original.length; i2++) {
+                  current = original[i2];
+                  if (isArray3(current)) {
+                    merged.push.apply(merged, current);
+                  } else {
+                    merged.push(current);
+                  }
+                }
+                return merged;
+              case "Identity":
+                return value;
+              case "MultiSelectList":
+                if (value === null) {
+                  return null;
+                }
+                collected = [];
+                for (i2 = 0; i2 < node.children.length; i2++) {
+                  collected.push(this.visit(node.children[i2], value));
+                }
+                return collected;
+              case "MultiSelectHash":
+                if (value === null) {
+                  return null;
+                }
+                collected = {};
+                var child;
+                for (i2 = 0; i2 < node.children.length; i2++) {
+                  child = node.children[i2];
+                  collected[child.name] = this.visit(child.value, value);
+                }
+                return collected;
+              case "OrExpression":
+                matched = this.visit(node.children[0], value);
+                if (isFalse(matched)) {
+                  matched = this.visit(node.children[1], value);
+                }
+                return matched;
+              case "AndExpression":
+                first = this.visit(node.children[0], value);
+                if (isFalse(first) === true) {
+                  return first;
+                }
+                return this.visit(node.children[1], value);
+              case "NotExpression":
+                first = this.visit(node.children[0], value);
+                return isFalse(first);
+              case "Literal":
+                return node.value;
+              case TOK_PIPE:
+                left = this.visit(node.children[0], value);
+                return this.visit(node.children[1], left);
+              case TOK_CURRENT:
+                return value;
+              case "Function":
+                var resolvedArgs = [];
+                for (i2 = 0; i2 < node.children.length; i2++) {
+                  resolvedArgs.push(this.visit(node.children[i2], value));
+                }
+                return this.runtime.callFunction(node.name, resolvedArgs);
+              case "ExpressionReference":
+                var refNode = node.children[0];
+                refNode.jmespathType = TOK_EXPREF;
+                return refNode;
+              default:
+                throw new Error("Unknown node type: " + node.type);
+            }
+          },
+          computeSliceParams: function(arrayLength, sliceParams) {
+            var start = sliceParams[0];
+            var stop = sliceParams[1];
+            var step = sliceParams[2];
+            var computed = [null, null, null];
+            if (step === null) {
+              step = 1;
+            } else if (step === 0) {
+              var error = new Error("Invalid slice, step cannot be 0");
+              error.name = "RuntimeError";
+              throw error;
+            }
+            var stepValueNegative = step < 0 ? true : false;
+            if (start === null) {
+              start = stepValueNegative ? arrayLength - 1 : 0;
+            } else {
+              start = this.capSliceRange(arrayLength, start, step);
+            }
+            if (stop === null) {
+              stop = stepValueNegative ? -1 : arrayLength;
+            } else {
+              stop = this.capSliceRange(arrayLength, stop, step);
+            }
+            computed[0] = start;
+            computed[1] = stop;
+            computed[2] = step;
+            return computed;
+          },
+          capSliceRange: function(arrayLength, actualValue, step) {
+            if (actualValue < 0) {
+              actualValue += arrayLength;
+              if (actualValue < 0) {
+                actualValue = step < 0 ? -1 : 0;
+              }
+            } else if (actualValue >= arrayLength) {
+              actualValue = step < 0 ? arrayLength - 1 : arrayLength;
+            }
+            return actualValue;
+          }
+        };
+        function Runtime(interpreter) {
+          this._interpreter = interpreter;
+          this.functionTable = {
+            abs: { _func: this._functionAbs, _signature: [{ types: [TYPE_NUMBER] }] },
+            avg: { _func: this._functionAvg, _signature: [{ types: [TYPE_ARRAY_NUMBER] }] },
+            ceil: { _func: this._functionCeil, _signature: [{ types: [TYPE_NUMBER] }] },
+            contains: {
+              _func: this._functionContains,
+              _signature: [
+                { types: [TYPE_STRING, TYPE_ARRAY] },
+                { types: [TYPE_ANY] }
+              ]
+            },
+            "ends_with": {
+              _func: this._functionEndsWith,
+              _signature: [{ types: [TYPE_STRING] }, { types: [TYPE_STRING] }]
+            },
+            floor: { _func: this._functionFloor, _signature: [{ types: [TYPE_NUMBER] }] },
+            length: {
+              _func: this._functionLength,
+              _signature: [{ types: [TYPE_STRING, TYPE_ARRAY, TYPE_OBJECT] }]
+            },
+            map: {
+              _func: this._functionMap,
+              _signature: [{ types: [TYPE_EXPREF] }, { types: [TYPE_ARRAY] }]
+            },
+            max: {
+              _func: this._functionMax,
+              _signature: [{ types: [TYPE_ARRAY_NUMBER, TYPE_ARRAY_STRING] }]
+            },
+            "merge": {
+              _func: this._functionMerge,
+              _signature: [{ types: [TYPE_OBJECT], variadic: true }]
+            },
+            "max_by": {
+              _func: this._functionMaxBy,
+              _signature: [{ types: [TYPE_ARRAY] }, { types: [TYPE_EXPREF] }]
+            },
+            sum: { _func: this._functionSum, _signature: [{ types: [TYPE_ARRAY_NUMBER] }] },
+            "starts_with": {
+              _func: this._functionStartsWith,
+              _signature: [{ types: [TYPE_STRING] }, { types: [TYPE_STRING] }]
+            },
+            min: {
+              _func: this._functionMin,
+              _signature: [{ types: [TYPE_ARRAY_NUMBER, TYPE_ARRAY_STRING] }]
+            },
+            "min_by": {
+              _func: this._functionMinBy,
+              _signature: [{ types: [TYPE_ARRAY] }, { types: [TYPE_EXPREF] }]
+            },
+            type: { _func: this._functionType, _signature: [{ types: [TYPE_ANY] }] },
+            keys: { _func: this._functionKeys, _signature: [{ types: [TYPE_OBJECT] }] },
+            values: { _func: this._functionValues, _signature: [{ types: [TYPE_OBJECT] }] },
+            sort: { _func: this._functionSort, _signature: [{ types: [TYPE_ARRAY_STRING, TYPE_ARRAY_NUMBER] }] },
+            "sort_by": {
+              _func: this._functionSortBy,
+              _signature: [{ types: [TYPE_ARRAY] }, { types: [TYPE_EXPREF] }]
+            },
+            join: {
+              _func: this._functionJoin,
+              _signature: [
+                { types: [TYPE_STRING] },
+                { types: [TYPE_ARRAY_STRING] }
+              ]
+            },
+            reverse: {
+              _func: this._functionReverse,
+              _signature: [{ types: [TYPE_STRING, TYPE_ARRAY] }]
+            },
+            "to_array": { _func: this._functionToArray, _signature: [{ types: [TYPE_ANY] }] },
+            "to_string": { _func: this._functionToString, _signature: [{ types: [TYPE_ANY] }] },
+            "to_number": { _func: this._functionToNumber, _signature: [{ types: [TYPE_ANY] }] },
+            "not_null": {
+              _func: this._functionNotNull,
+              _signature: [{ types: [TYPE_ANY], variadic: true }]
+            }
+          };
+        }
+        Runtime.prototype = {
+          callFunction: function(name, resolvedArgs) {
+            var functionEntry = this.functionTable[name];
+            if (functionEntry === void 0) {
+              throw new Error("Unknown function: " + name + "()");
+            }
+            this._validateArgs(name, resolvedArgs, functionEntry._signature);
+            return functionEntry._func.call(this, resolvedArgs);
+          },
+          _validateArgs: function(name, args, signature) {
+            var pluralized;
+            if (signature[signature.length - 1].variadic) {
+              if (args.length < signature.length) {
+                pluralized = signature.length === 1 ? " argument" : " arguments";
+                throw new Error("ArgumentError: " + name + "() takes at least" + signature.length + pluralized + " but received " + args.length);
+              }
+            } else if (args.length !== signature.length) {
+              pluralized = signature.length === 1 ? " argument" : " arguments";
+              throw new Error("ArgumentError: " + name + "() takes " + signature.length + pluralized + " but received " + args.length);
+            }
+            var currentSpec;
+            var actualType;
+            var typeMatched;
+            for (var i2 = 0; i2 < signature.length; i2++) {
+              typeMatched = false;
+              currentSpec = signature[i2].types;
+              actualType = this._getTypeName(args[i2]);
+              for (var j2 = 0; j2 < currentSpec.length; j2++) {
+                if (this._typeMatches(actualType, currentSpec[j2], args[i2])) {
+                  typeMatched = true;
+                  break;
+                }
+              }
+              if (!typeMatched) {
+                var expected = currentSpec.map(function(typeIdentifier) {
+                  return TYPE_NAME_TABLE[typeIdentifier];
+                }).join(",");
+                throw new Error("TypeError: " + name + "() expected argument " + (i2 + 1) + " to be type " + expected + " but received type " + TYPE_NAME_TABLE[actualType] + " instead.");
+              }
+            }
+          },
+          _typeMatches: function(actual, expected, argValue) {
+            if (expected === TYPE_ANY) {
+              return true;
+            }
+            if (expected === TYPE_ARRAY_STRING || expected === TYPE_ARRAY_NUMBER || expected === TYPE_ARRAY) {
+              if (expected === TYPE_ARRAY) {
+                return actual === TYPE_ARRAY;
+              } else if (actual === TYPE_ARRAY) {
+                var subtype;
+                if (expected === TYPE_ARRAY_NUMBER) {
+                  subtype = TYPE_NUMBER;
+                } else if (expected === TYPE_ARRAY_STRING) {
+                  subtype = TYPE_STRING;
+                }
+                for (var i2 = 0; i2 < argValue.length; i2++) {
+                  if (!this._typeMatches(this._getTypeName(argValue[i2]), subtype, argValue[i2])) {
+                    return false;
+                  }
+                }
+                return true;
+              }
+            } else {
+              return actual === expected;
+            }
+          },
+          _getTypeName: function(obj) {
+            switch (Object.prototype.toString.call(obj)) {
+              case "[object String]":
+                return TYPE_STRING;
+              case "[object Number]":
+                return TYPE_NUMBER;
+              case "[object Array]":
+                return TYPE_ARRAY;
+              case "[object Boolean]":
+                return TYPE_BOOLEAN;
+              case "[object Null]":
+                return TYPE_NULL;
+              case "[object Object]":
+                if (obj.jmespathType === TOK_EXPREF) {
+                  return TYPE_EXPREF;
+                } else {
+                  return TYPE_OBJECT;
+                }
+            }
+          },
+          _functionStartsWith: function(resolvedArgs) {
+            return resolvedArgs[0].lastIndexOf(resolvedArgs[1]) === 0;
+          },
+          _functionEndsWith: function(resolvedArgs) {
+            var searchStr = resolvedArgs[0];
+            var suffix = resolvedArgs[1];
+            return searchStr.indexOf(suffix, searchStr.length - suffix.length) !== -1;
+          },
+          _functionReverse: function(resolvedArgs) {
+            var typeName = this._getTypeName(resolvedArgs[0]);
+            if (typeName === TYPE_STRING) {
+              var originalStr = resolvedArgs[0];
+              var reversedStr = "";
+              for (var i2 = originalStr.length - 1; i2 >= 0; i2--) {
+                reversedStr += originalStr[i2];
+              }
+              return reversedStr;
+            } else {
+              var reversedArray = resolvedArgs[0].slice(0);
+              reversedArray.reverse();
+              return reversedArray;
+            }
+          },
+          _functionAbs: function(resolvedArgs) {
+            return Math.abs(resolvedArgs[0]);
+          },
+          _functionCeil: function(resolvedArgs) {
+            return Math.ceil(resolvedArgs[0]);
+          },
+          _functionAvg: function(resolvedArgs) {
+            var sum = 0;
+            var inputArray = resolvedArgs[0];
+            for (var i2 = 0; i2 < inputArray.length; i2++) {
+              sum += inputArray[i2];
+            }
+            return sum / inputArray.length;
+          },
+          _functionContains: function(resolvedArgs) {
+            return resolvedArgs[0].indexOf(resolvedArgs[1]) >= 0;
+          },
+          _functionFloor: function(resolvedArgs) {
+            return Math.floor(resolvedArgs[0]);
+          },
+          _functionLength: function(resolvedArgs) {
+            if (!isObject2(resolvedArgs[0])) {
+              return resolvedArgs[0].length;
+            } else {
+              return Object.keys(resolvedArgs[0]).length;
+            }
+          },
+          _functionMap: function(resolvedArgs) {
+            var mapped = [];
+            var interpreter = this._interpreter;
+            var exprefNode = resolvedArgs[0];
+            var elements = resolvedArgs[1];
+            for (var i2 = 0; i2 < elements.length; i2++) {
+              mapped.push(interpreter.visit(exprefNode, elements[i2]));
+            }
+            return mapped;
+          },
+          _functionMerge: function(resolvedArgs) {
+            var merged = {};
+            for (var i2 = 0; i2 < resolvedArgs.length; i2++) {
+              var current = resolvedArgs[i2];
+              for (var key in current) {
+                merged[key] = current[key];
+              }
+            }
+            return merged;
+          },
+          _functionMax: function(resolvedArgs) {
+            if (resolvedArgs[0].length > 0) {
+              var typeName = this._getTypeName(resolvedArgs[0][0]);
+              if (typeName === TYPE_NUMBER) {
+                return Math.max.apply(Math, resolvedArgs[0]);
+              } else {
+                var elements = resolvedArgs[0];
+                var maxElement = elements[0];
+                for (var i2 = 1; i2 < elements.length; i2++) {
+                  if (maxElement.localeCompare(elements[i2]) < 0) {
+                    maxElement = elements[i2];
+                  }
+                }
+                return maxElement;
+              }
+            } else {
+              return null;
+            }
+          },
+          _functionMin: function(resolvedArgs) {
+            if (resolvedArgs[0].length > 0) {
+              var typeName = this._getTypeName(resolvedArgs[0][0]);
+              if (typeName === TYPE_NUMBER) {
+                return Math.min.apply(Math, resolvedArgs[0]);
+              } else {
+                var elements = resolvedArgs[0];
+                var minElement = elements[0];
+                for (var i2 = 1; i2 < elements.length; i2++) {
+                  if (elements[i2].localeCompare(minElement) < 0) {
+                    minElement = elements[i2];
+                  }
+                }
+                return minElement;
+              }
+            } else {
+              return null;
+            }
+          },
+          _functionSum: function(resolvedArgs) {
+            var sum = 0;
+            var listToSum = resolvedArgs[0];
+            for (var i2 = 0; i2 < listToSum.length; i2++) {
+              sum += listToSum[i2];
+            }
+            return sum;
+          },
+          _functionType: function(resolvedArgs) {
+            switch (this._getTypeName(resolvedArgs[0])) {
+              case TYPE_NUMBER:
+                return "number";
+              case TYPE_STRING:
+                return "string";
+              case TYPE_ARRAY:
+                return "array";
+              case TYPE_OBJECT:
+                return "object";
+              case TYPE_BOOLEAN:
+                return "boolean";
+              case TYPE_EXPREF:
+                return "expref";
+              case TYPE_NULL:
+                return "null";
+            }
+          },
+          _functionKeys: function(resolvedArgs) {
+            return Object.keys(resolvedArgs[0]);
+          },
+          _functionValues: function(resolvedArgs) {
+            var obj = resolvedArgs[0];
+            var keys = Object.keys(obj);
+            var values = [];
+            for (var i2 = 0; i2 < keys.length; i2++) {
+              values.push(obj[keys[i2]]);
+            }
+            return values;
+          },
+          _functionJoin: function(resolvedArgs) {
+            var joinChar = resolvedArgs[0];
+            var listJoin = resolvedArgs[1];
+            return listJoin.join(joinChar);
+          },
+          _functionToArray: function(resolvedArgs) {
+            if (this._getTypeName(resolvedArgs[0]) === TYPE_ARRAY) {
+              return resolvedArgs[0];
+            } else {
+              return [resolvedArgs[0]];
+            }
+          },
+          _functionToString: function(resolvedArgs) {
+            if (this._getTypeName(resolvedArgs[0]) === TYPE_STRING) {
+              return resolvedArgs[0];
+            } else {
+              return JSON.stringify(resolvedArgs[0]);
+            }
+          },
+          _functionToNumber: function(resolvedArgs) {
+            var typeName = this._getTypeName(resolvedArgs[0]);
+            var convertedValue;
+            if (typeName === TYPE_NUMBER) {
+              return resolvedArgs[0];
+            } else if (typeName === TYPE_STRING) {
+              convertedValue = +resolvedArgs[0];
+              if (!isNaN(convertedValue)) {
+                return convertedValue;
+              }
+            }
+            return null;
+          },
+          _functionNotNull: function(resolvedArgs) {
+            for (var i2 = 0; i2 < resolvedArgs.length; i2++) {
+              if (this._getTypeName(resolvedArgs[i2]) !== TYPE_NULL) {
+                return resolvedArgs[i2];
+              }
+            }
+            return null;
+          },
+          _functionSort: function(resolvedArgs) {
+            var sortedArray = resolvedArgs[0].slice(0);
+            sortedArray.sort();
+            return sortedArray;
+          },
+          _functionSortBy: function(resolvedArgs) {
+            var sortedArray = resolvedArgs[0].slice(0);
+            if (sortedArray.length === 0) {
+              return sortedArray;
+            }
+            var interpreter = this._interpreter;
+            var exprefNode = resolvedArgs[1];
+            var requiredType = this._getTypeName(interpreter.visit(exprefNode, sortedArray[0]));
+            if ([TYPE_NUMBER, TYPE_STRING].indexOf(requiredType) < 0) {
+              throw new Error("TypeError");
+            }
+            var that = this;
+            var decorated = [];
+            for (var i2 = 0; i2 < sortedArray.length; i2++) {
+              decorated.push([i2, sortedArray[i2]]);
+            }
+            decorated.sort(function(a2, b2) {
+              var exprA = interpreter.visit(exprefNode, a2[1]);
+              var exprB = interpreter.visit(exprefNode, b2[1]);
+              if (that._getTypeName(exprA) !== requiredType) {
+                throw new Error("TypeError: expected " + requiredType + ", received " + that._getTypeName(exprA));
+              } else if (that._getTypeName(exprB) !== requiredType) {
+                throw new Error("TypeError: expected " + requiredType + ", received " + that._getTypeName(exprB));
+              }
+              if (exprA > exprB) {
+                return 1;
+              } else if (exprA < exprB) {
+                return -1;
+              } else {
+                return a2[0] - b2[0];
+              }
+            });
+            for (var j2 = 0; j2 < decorated.length; j2++) {
+              sortedArray[j2] = decorated[j2][1];
+            }
+            return sortedArray;
+          },
+          _functionMaxBy: function(resolvedArgs) {
+            var exprefNode = resolvedArgs[1];
+            var resolvedArray = resolvedArgs[0];
+            var keyFunction = this.createKeyFunction(exprefNode, [TYPE_NUMBER, TYPE_STRING]);
+            var maxNumber = -Infinity;
+            var maxRecord;
+            var current;
+            for (var i2 = 0; i2 < resolvedArray.length; i2++) {
+              current = keyFunction(resolvedArray[i2]);
+              if (current > maxNumber) {
+                maxNumber = current;
+                maxRecord = resolvedArray[i2];
+              }
+            }
+            return maxRecord;
+          },
+          _functionMinBy: function(resolvedArgs) {
+            var exprefNode = resolvedArgs[1];
+            var resolvedArray = resolvedArgs[0];
+            var keyFunction = this.createKeyFunction(exprefNode, [TYPE_NUMBER, TYPE_STRING]);
+            var minNumber = Infinity;
+            var minRecord;
+            var current;
+            for (var i2 = 0; i2 < resolvedArray.length; i2++) {
+              current = keyFunction(resolvedArray[i2]);
+              if (current < minNumber) {
+                minNumber = current;
+                minRecord = resolvedArray[i2];
+              }
+            }
+            return minRecord;
+          },
+          createKeyFunction: function(exprefNode, allowedTypes) {
+            var that = this;
+            var interpreter = this._interpreter;
+            var keyFunc = function(x2) {
+              var current = interpreter.visit(exprefNode, x2);
+              if (allowedTypes.indexOf(that._getTypeName(current)) < 0) {
+                var msg = "TypeError: expected one of " + allowedTypes + ", received " + that._getTypeName(current);
+                throw new Error(msg);
+              }
+              return current;
+            };
+            return keyFunc;
+          }
+        };
+        function compile(stream) {
+          var parser = new Parser();
+          var ast = parser.parse(stream);
+          return ast;
+        }
+        function tokenize(stream) {
+          var lexer = new Lexer();
+          return lexer.tokenize(stream);
+        }
+        function search(data, expression) {
+          var parser = new Parser();
+          var runtime = new Runtime();
+          var interpreter = new TreeInterpreter(runtime);
+          runtime._interpreter = interpreter;
+          var node = parser.parse(expression);
+          return interpreter.search(node, data);
+        }
+        exports2.tokenize = tokenize;
+        exports2.compile = compile;
+        exports2.search = search;
+        exports2.strictDeepEqual = strictDeepEqual;
+      })(typeof exports === "undefined" ? exports.jmespath = {} : exports);
+    }
+  });
   var require_timers = __commonJS({
     "src/common/cjs/timers.js"(exports, module) {
       module.exports = {
@@ -10046,12 +11521,12 @@ obis.registerPlugins([
     "src/common/cjs/promises.js"(exports, module) {
       module.exports = {
         isThennable,
-        makePromise: makePromise3,
+        makePromise,
         delay,
         unzip,
         makeIdleDetectorWithTimeout,
-        poolPromises: poolPromises3,
-        makePromisePool,
+        poolPromises,
+        makePromisePool: makePromisePool2,
         runPromisesInSequence
       };
       var { seconds, runOnce, makeDebouncer } = require_timers();
@@ -10070,7 +11545,7 @@ obis.registerPlugins([
       function isThennable(obj) {
         return obj && typeof obj.then === "function";
       }
-      function makePromise3() {
+      function makePromise() {
         let _resolve;
         let _reject;
         const promise = new Promise((resolve, reject) => {
@@ -10080,13 +11555,13 @@ obis.registerPlugins([
         return [promise, _resolve, _reject];
       }
       function delay(ms) {
-        const [promise, resolve] = makePromise3();
+        const [promise, resolve] = makePromise();
         setTimeout(resolve, ms || 0);
         return promise;
       }
       function makeIdleDetectorWithTimeout(initBouncer = () => {
       }, { withinMs = 500, timeoutInMs = seconds(5) }) {
-        const [promise, resolve, reject] = makePromise3();
+        const [promise, resolve, reject] = makePromise();
         const [resolveSoon, dontResolve] = makeDebouncer(resolve, withinMs);
         const [rejectLater, dontReject] = makeDebouncer(reject, timeoutInMs);
         const cleanup = initBouncer(resolveSoon);
@@ -10098,7 +11573,7 @@ obis.registerPlugins([
           dontReject();
         });
       }
-      function poolPromises3(limit, ...promiseMakerFns) {
+      function poolPromises(limit, ...promiseMakerFns) {
         const checkAll = () => canPromisesRun.forEach((check) => check());
         const context = makePoolCounter(limit, checkAll);
         const [pooledPromises, canPromisesRun] = promiseMakerFns.map((fn2) => makePoolAwarePromise(context, fn2)).reduce(...makeUnzipReducer());
@@ -10107,7 +11582,7 @@ obis.registerPlugins([
       }
       function makePoolAwarePromise(context, promiseMakerFn) {
         const { allowedToStartNext, bumpRunCount, unbump } = context;
-        const [promise, resolve, reject] = makePromise3();
+        const [promise, resolve, reject] = makePromise();
         const startPromise = () => {
           bumpRunCount();
           promiseMakerFn().then(resolve, reject).finally(unbump);
@@ -10122,11 +11597,11 @@ obis.registerPlugins([
           unbump: () => onChange(--running)
         };
       }
-      function makePromisePool(limit) {
+      function makePromisePool2(limit) {
         let running = 0;
         const pending = /* @__PURE__ */ new Set();
         return (promiseMakerFn) => {
-          const [promise, O2, X2] = makePromise3();
+          const [promise, O2, X2] = makePromise();
           promise.finally(() => (running -= 1, next()));
           pending.add({ promiseMakerFn, O: O2, X: X2 });
           next();
@@ -10144,7 +11619,7 @@ obis.registerPlugins([
         }
       }
       function runPromisesInSequence(initialState, ...promiseMakerFns) {
-        const [promise, resolve, reject] = makePromise3();
+        const [promise, resolve, reject] = makePromise();
         promiseMakerFns.reduce(PromiseSequenceReducer(reject), Promise.resolve(initialState)).then(resolve).catch(reject);
         return promise;
       }
@@ -10714,13 +12189,6 @@ obis.registerPlugins([
     return obj.every(isString2);
   }
   isTemplateLiteral.displayName = "isTemplateLiteral";
-  function isThisValue(value) {
-    function inObject(obj) {
-      return obj === value;
-    }
-    inObject.displayName = `isThisValue(${value})`;
-    return inObject;
-  }
   var typeErrorStringIfFnReturnsFalse = (argName, argTypeFn, arg) => {
     return argTypeFn(arg) ? void 0 : (argTypeFn.displayName || argTypeFn.name) + `(${argName}) did not return true`;
   };
@@ -10795,11 +12263,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     pushStore(payload);
     messages.emit(actions.STORE_HYDRATED);
   }
-  function store() {
+  function store2() {
     return storeHistory[storeHistory.length - 1];
   }
-  store.history = storeHistory;
-  store.hydrate = hydrate;
+  store2.history = storeHistory;
+  store2.hydrate = hydrate;
   function pushStore(nextStore) {
     storeHistory.push(nextStore);
     if (storeHistory.length > HISTORY_LIMIT) {
@@ -10830,7 +12298,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     bic: [isString2, isUnset]
   })(actions.update.ACCOUNTS);
   messages.on(actions.add.ACCOUNTS, (accounts) => {
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = fn(currentStore, (draftState) => {
       accounts.forEach((account) => {
         const err = checkSchemaForAddingAnAccount(account);
@@ -10851,7 +12319,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   });
   messages.on(actions.update.ACCOUNTS, (accounts) => {
     const unseenAccounts = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = fn(currentStore, (draftState) => {
       accounts.forEach((account) => {
         const err = checkSchemaForUpdatingAnAccount(account);
@@ -10896,7 +12364,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   })(actions.update.STATEMENTS);
   messages.on(actions.add.STATEMENTS, (statements) => {
     const existingStatements = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = fn(currentStore, (draftState) => {
       statements.forEach((statement) => {
         const err = checkSchemaForAddingAStatement(statement);
@@ -10920,7 +12388,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   });
   messages.on(actions.update.STATEMENTS, (statements) => {
     const unseenStatements = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = fn(currentStore, (draftState) => {
       statements.forEach((statement) => {
         const err = checkSchemaForUpdatingAStatement(statement);
@@ -10961,7 +12429,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   })(actions.add.ENTRIES);
   messages.on(actions.add.ENTRIES, (entries) => {
     const existingEntries = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = fn(currentStore, (draftState) => {
       entries.forEach((entry) => {
         const err = checkSchemaForAddingAnEntry(entry);
@@ -10983,13 +12451,6 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       pushStore(nextStore);
     }
   });
-  var actions2 = {
-    received: {
-      ACCOUNTS_LIST: "received/hsbc:accounts-list",
-      STATEMENTS_LIST: "received/hsbc:statements-list",
-      STATEMENT_DETAILS: "received/hsbc:statement-details"
-    }
-  };
   function dateTimeString(timestampOrDate, delim = "") {
     const date = new Date(timestampOrDate);
     return [
@@ -11007,366 +12468,6 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }
     return "" + num;
   }
-  function getCookie(name) {
-    const cookie = document.cookie.split(";").reduce((acc, keyValueStr) => {
-      const equalsPos = keyValueStr.indexOf("=");
-      const key = keyValueStr.slice(0, equalsPos).trim();
-      const value = keyValueStr.slice(equalsPos + 1).trim();
-      return {
-        ...acc,
-        [key]: value
-      };
-    }, {});
-    return cookie[name];
-  }
-  function parseDescriptionIntoPayeeAndNote(payeeAndNote) {
-    const matches = payeeAndNote.split(/\s{3,}/);
-    const [payee, ...notes] = matches.map((x2) => x2.trim().replace(/ +/g, " "));
-    return [payee, notes.join(" ")];
-  }
-  function parseHsbcDateTimeString(dateTimeString2) {
-    const rxDateTime = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
-    const matches = dateTimeString2.match(rxDateTime);
-    if (!matches) {
-      const reason = `dateTimeString does not match expected pattern: ${rxDateTime.toString()}`;
-      throw new TypeError(reason);
-    }
-    const [, year, month, day, hours, minutes, seconds] = matches;
-    return Date.UTC(year, month - 1, day, hours, minutes, seconds);
-  }
-  function hsbcBrowserTimeStamp() {
-    const now = new Date();
-    return now.getMonth() + 1 + "/" + now.getDate() + "/" + now.getFullYear() + " " + now.getHours() + ":" + zeroPad(now.getMinutes()) + ":" + zeroPad(now.getSeconds());
-  }
-  function hsbcGetJSCDataTimeStamp() {
-    const { getJSCDataTimeStamp, HSBCGLBL } = window;
-    if (typeof getJSCDataTimeStamp === "function") {
-      return getJSCDataTimeStamp();
-    }
-    if (HSBCGLBL && typeof HSBCGLBL.hsbcglblform === "function") {
-      const JSCData = HSBCGLBL.hsbcglblform();
-      return JSCData + ":" + hsbcBrowserTimeStamp();
-    }
-    return null;
-  }
-  function hsbcCommonHeaders() {
-    const headers = {
-      "Content-type": "application/json",
-      "X-HDR-Synchronizer-Token": getCookie("SYNC_TOKEN"),
-      "X-HDR-jscData": hsbcGetJSCDataTimeStamp()
-    };
-    return headers;
-  }
-  function hsbcCodes(storage = sessionStorage) {
-    const { jmespath } = obis.deps;
-    const { accountselected = "{}" } = storage;
-    const json = JSON.parse(accountselected);
-    const codesPath = `
-    {
-      ctryCde: entityIdentifier.ctryCde,
-      grpMmbr: entityIdentifier.grpMmbr
-    }
-  `;
-    const { ctryCde, grpMmbr } = jmespath.search(json, codesPath);
-    return {
-      ctryCde: ctryCde || "GB",
-      grpMmbr: grpMmbr || "HBEU"
-    };
-  }
-  var checkSchema2 = ObjTypeError("addStatementDetailInterceptor#");
-  function addAccountsInterceptor() {
-    const { addAjaxListener, AjaxRequester, jmespath, messages: messages2 } = obis.deps;
-    addAjaxListener({
-      name: "rtrvAcctSumm",
-      description: "Parse a list of accounts",
-      rx: /\/accountDataSvc\/rtrvAcctSumm/,
-      onFullResponse: (payload) => {
-        const { responseText } = payload;
-        const json = JSON.parse(responseText);
-        const entriesPath = `
-        countriesAccountList[].acctLiteWrapper[].{
-          id:                         acctIndex,
-          accountHolderName:          acctHldrFulName[0],
-          sortCodeAndAccountNumber:   displyID,
-
-          entProdTypCde: entProdTypCde,
-          entProdCatCde: entProdCatCde
-        }
-      `;
-        const entityPath = `
-        countriesAccountList[].entityID
-      `;
-        const validateEntry = (entry) => !checkSchema2({
-          id: isString2,
-          accountHolderName: isString2,
-          sortCodeAndAccountNumber: isString2
-        })("validateEntry")(entry);
-        const validateEntity = (entity2) => !checkSchema2({
-          ctryCde: isString2,
-          grpMmbr: isString2
-        })("validateEntity")(entity2);
-        const entries = jmespath.search(json, entriesPath);
-        const entity = jmespath.search(json, entityPath);
-        const entriesValid = entries.every(validateEntry);
-        const entityValid = entity.every(validateEntity);
-        if (!entriesValid || !entityValid) {
-          const reason = `rtrvAcctSumm :: Validation failed: ${entries} + ${entity}`;
-          messages2.emit(actions.error.ACCOUNTS, new TypeError(reason));
-          return;
-        }
-        const { ctryCde, grpMmbr } = entity[0];
-        const sanitizedEntity = {
-          ctryCde: ctryCde.toLowerCase(),
-          grpMmbr
-        };
-        const obisEntries = entries.map((entry) => {
-          const { sortCodeAndAccountNumber, ...restEntry } = entry;
-          const [sortCode, accountNumber] = sortCodeAndAccountNumber.split(" ");
-          return {
-            ...sanitizedEntity,
-            ...restEntry,
-            sortCode,
-            accountNumber
-          };
-        });
-        messages2.emit(actions2.received.ACCOUNTS_LIST, obisEntries);
-      }
-    });
-    return AjaxRequester({
-      name: "rtrvAcctSumm",
-      description: "Request a list of accounts",
-      method: "post",
-      url: "/gpib/channel/proxy/accountDataSvc/rtrvAcctSumm",
-      setHeaders: hsbcCommonHeaders,
-      setPayload: (options) => {
-        const err = checkSchema2({
-          ctryCde: isString2,
-          grpMmbr: isString2
-        })("AjaxRequester")(options);
-        if (err) {
-          const reason = `rtrvAcctSumm :: Invalid options: ${err}`;
-          messages2.emit(actions.error.ACCOUNTS, new TypeError(reason));
-          return;
-        }
-        const payload = {
-          accountSummaryFilter: {
-            txnTypCdes: [],
-            entityCdes: [
-              {
-                ctryCde: options.ctryCde,
-                grpMmbr: options.grpMmbr
-              }
-            ]
-          }
-        };
-        return JSON.stringify(payload);
-      }
-    });
-  }
-  var accounts_default = configureAccountsInterceptor;
-  function configureAccountsInterceptor() {
-    const { messages: messages2 } = obis.deps;
-    const { on: on2, emit } = messages2;
-    const requestAccounts = addAccountsInterceptor();
-    function _requestAccounts() {
-      requestAccounts(hsbcCodes());
-    }
-    on2(actions2.received.ACCOUNTS_LIST, (accountsResponse) => {
-      const accountsUpdate = accountsResponse.map((accountResponse) => {
-        return {
-          id: accountResponse.id,
-          accountNumber: accountResponse.accountNumber,
-          sortCode: accountResponse.sortCode,
-          name: accountResponse.accountHolderName,
-          type: accountResponse.entProdTypCde,
-          iban: LEAVE_UNCHANGED,
-          bic: LEAVE_UNCHANGED
-        };
-      });
-      emit(actions.add.ACCOUNTS, accountsUpdate);
-      emit(actions.got.ACCOUNTS, accountsResponse);
-    });
-    return {
-      canRequestAccounts: () => true,
-      requestAccounts: _requestAccounts
-    };
-  }
-  var import_promises = __toESM(require_promises());
-  var checkSchema3 = ObjTypeError("addAccountStatementsInterceptor#");
-  function addAccountStatementsInterceptor() {
-    const { addAjaxListener, AjaxRequester, jmespath, messages: messages2 } = obis.deps;
-    addAjaxListener({
-      name: "rtrvStmtAcctList",
-      description: "Parse a list of available statements in an account",
-      rx: /\/accountDataSvc\/rtrvStmtAcctList/,
-      onFullResponse: (payload) => {
-        const { responseText } = payload;
-        const json = JSON.parse(responseText);
-        const entriesPath = `
-        {
-          id:     stmtAcctList[].acctIdr.acctIndex | [0],
-          bic:    extensions[?name=='bic'].value   | [0],
-          iban:   extensions[?name=='iban'].value  | [0],
-
-          entProdCatCde: stmtAcctList[].acctIdr.entProdCatCde | [0],
-          entProdTypCde: stmtAcctList[].acctIdr.entProdTypCde | [0],
-
-          startSheet: stmtAcctList[].startSheet | [0],
-          statementIds: stmtAcctList[].stmts[?stmtType=='BASE'][].{
-            id:       stmtPart[].partId | [0],
-            endDate:  stmtEndDt
-          }
-        }
-      `;
-        const validateEntries = (entry) => !checkSchema3({
-          id: isString2,
-          bic: isString2,
-          iban: isString2,
-          entProdCatCde: isString2,
-          entProdTypCde: isString2,
-          startSheet: isNumber2,
-          statementIds: isValidStatementIds
-        })("validateEntries")(entry);
-        const entries = jmespath.search(json, entriesPath);
-        const entriesValid = validateEntries(entries);
-        if (!entriesValid) {
-          const reason = `rtrvStmtAcctList :: Validation failed: ${entries}`;
-          messages2.emit(actions.error.STATEMENTS, new TypeError(reason));
-          return;
-        }
-        messages2.emit(actions2.received.STATEMENTS_LIST, [entries]);
-      }
-    });
-    return AjaxRequester({
-      name: "rtrvStmtAcctList",
-      description: "Request a list of available statements in an account",
-      method: "post",
-      url: "/gpib/channel/proxy/accountDataSvc/rtrvStmtAcctList",
-      setHeaders: hsbcCommonHeaders,
-      setPayload: (options) => {
-        const err = checkSchema3({
-          ctryCde: isString2,
-          grpMmbr: isString2,
-          year: [isThisValue("Latest"), isString2],
-          acctIndex: isString2,
-          entProdTypCde: isString2,
-          entProdCatCde: isString2
-        })("AjaxRequester")(options);
-        if (err) {
-          const reason = `rtrvStmtAcctList :: Invalid options: ${err}`;
-          messages2.emit(actions.error.STATEMENTS, new TypeError(reason));
-          return;
-        }
-        const payload = {
-          extensions: [
-            {
-              name: "date",
-              value: options.year || "Latest"
-            }
-          ],
-          custIdr: {
-            entityID: {
-              ctryCde: options.ctryCde,
-              grpMmbr: options.grpMmbr
-            },
-            custID: " "
-          },
-          account: [
-            {
-              acctIdr: {
-                acctIndex: options.acctIndex,
-                entProdTypCde: options.entProdTypCde,
-                entProdCatCde: options.entProdCatCde
-              },
-              procFlag: " ",
-              eStmFlag: " ",
-              emailId: " "
-            }
-          ]
-        };
-        return JSON.stringify(payload);
-      }
-    });
-  }
-  function isValidStatementIds(...statementIds) {
-    return statementIds.every(({ id, endDate }) => {
-      return typeof id === "string" && typeof endDate === "string";
-    });
-  }
-  isValidStatementIds.displayName = "isValidStatementIds";
-  var statements_default = configureStatementsInterceptor;
-  function generateStatementListRequesterPayloads(accountsResponse, years = ["Latest"]) {
-    return years.map((year) => accountsResponse.map((act) => ({
-      year,
-      acctIndex: act.id,
-      ctryCde: act.ctryCde,
-      grpMmbr: act.grpMmbr,
-      entProdTypCde: act.entProdTypCde,
-      entProdCatCde: act.entProdCatCde
-    })));
-  }
-  function configureStatementsInterceptor() {
-    const { messages: messages2 } = obis.deps;
-    const { on: on2, emit } = messages2;
-    const requestStatementListForAccount = addAccountStatementsInterceptor();
-    const accountsResponse = [];
-    on2(actions.got.ACCOUNTS, (_accountsResponse) => {
-      accountsResponse.push(..._accountsResponse);
-    });
-    function updateProgressBar(max, value) {
-      emit(actions.ui.UPDATE_PROGRESS_BAR, { max, value });
-    }
-    function _requestStatements(years = ["Latest"]) {
-      const statementListRequesters = generateStatementListRequesterPayloads(accountsResponse, years).flat().map((payload) => () => {
-        const [prom, res, rej] = (0, import_promises.makePromise)();
-        const resOff = on2(actions2.received.STATEMENTS_LIST, res);
-        const rejOff = on2(actions.error.STATEMENTS, rej);
-        requestStatementListForAccount(payload);
-        updateProgressBar(statementListRequesters.length, ++count);
-        return prom.finally(() => {
-          resOff();
-          rejOff();
-        });
-      });
-      let count = 0;
-      updateProgressBar(statementListRequesters.length, count);
-      const CONCURRENT_REQUESTS_NOT_POSSIBLE_YET = 1;
-      (0, import_promises.poolPromises)(CONCURRENT_REQUESTS_NOT_POSSIBLE_YET, ...statementListRequesters).then((everything) => {
-        const fulfilled = everything.filter((x2) => x2.status === "fulfilled").map((x2) => x2.value[0]);
-        if (!fulfilled.length) {
-          const reasons = everything.filter((x2) => x2.status === "rejected").map((x2) => x2.reason);
-          emit(actions.error.STATEMENTS, reasons);
-          return;
-        }
-        const accountUpdates = fulfilled.map((x2) => ({
-          id: x2.id,
-          iban: x2.iban,
-          bic: x2.bic,
-          accountNumber: LEAVE_UNCHANGED,
-          sortCode: LEAVE_UNCHANGED,
-          name: LEAVE_UNCHANGED,
-          type: LEAVE_UNCHANGED
-        }));
-        const statementsAdded = fulfilled.map((account) => account.statementIds.map((statement) => ({
-          id: statement.id,
-          accountId: account.id,
-          endDate: new Date(statement.endDate).getTime(),
-          startDate: LEAVE_UNCHANGED,
-          startBalance: LEAVE_UNCHANGED,
-          endBalance: LEAVE_UNCHANGED
-        }))).flat();
-        emit(actions.update.ACCOUNTS, accountUpdates);
-        emit(actions.add.STATEMENTS, statementsAdded);
-        emit(actions.got.STATEMENTS);
-        accountsResponse.length = 0;
-      });
-    }
-    return {
-      canRequestStatements: () => !!accountsResponse.length,
-      requestStatements: _requestStatements
-    };
-  }
-  var import_promises2 = __toESM(require_promises());
   function convertCentsToDecimal(cents) {
     if (!cents || typeof cents !== "number") {
       return "-";
@@ -11398,287 +12499,360 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const transactionAmount = convertCentsToDecimal(-debit + credit);
     return dateTime + "_" + md5(dateTime + (index !== void 0 ? index : "") + (accountNumber || "") + (sortCode || "") + (type || "") + (payee || "") + (note || "") + transactionAmount);
   }
-  var checkSchema4 = ObjTypeError("addStatementDetailInterceptor#");
-  function addStatementDetailInterceptor() {
-    const { addAjaxListener, AjaxRequester, jmespath, messages: messages2 } = obis.deps;
-    addAjaxListener({
-      name: "rtrvStmtDetl",
-      description: "Parse a statement part",
-      rx: /\/accountDataSvc\/rtrvStmtDetl/,
-      onFullResponse: (payload) => {
-        const { data = "{}", responseText } = payload;
-        const postData = JSON.parse(data);
-        const json = JSON.parse(responseText);
-        const idsPath = `
-        {
-          accountId: acctIdr.acctIndex,
-          statementId: stmtDtl.stmtId
-        }
-      `;
-        const ids = jmespath.search(postData, idsPath);
-        const idsErr = checkSchema4({
-          accountId: isString2,
-          statementId: isString2
-        })("ids")(ids);
-        if (idsErr) {
-          const reason = `rtrvStmtDetl :: Validation failed: ${idsErr}`;
-          messages2.emit(actions.error.ENTRIES, new TypeError(reason));
-          return;
-        }
-        const balancesPath = `
-        stmtInfo.{
-          startDate:      stmtPrdDetl.stmtPrdStrtDt,
-          endDate:        stmtPrdDetl.stmtPrdEndDt,
-          endBalance:     stmtStartBal.amt,
-          startBalance:   stmtEndBal.amt
-        }
-      `;
-        const balances = jmespath.search(json, balancesPath);
-        const balancesErr = checkSchema4({
-          startDate: isString2,
-          startBalance: isNumber2,
-          endDate: isString2,
-          endBalance: isNumber2
-        })("balances")(balances);
-        if (balancesErr) {
-          const reason = `rtrvStmtDetl :: Validation failed: ${balancesErr}`;
-          messages2.emit(actions.error.ENTRIES, new TypeError(reason));
-          return;
-        }
-        const entriesPath = `
-        stmtInfo.stmtTxnDetl[].{
-          fullDescription:   txnDetail[0],
-          amount:            txnAmt.amt,
-          runningBalance:    balRunAmt.amt,
-          date:              txnDt
-        }
-      `;
-        const validateEntry = (entry) => !checkSchema4({
-          date: isString2,
-          fullDescription: isString2,
-          amount: isNumber2,
-          runningBalance: [isNumber2, isThisValue(null)]
-        })("validateEntry")(entry);
-        const entries = jmespath.search(json, entriesPath);
-        const entriesValid = entries.every(validateEntry);
-        if (!entriesValid) {
-          const reason = `rtrvStmtDetl :: Validation failed: ${entries}`;
-          messages2.emit(actions.error.ENTRIES, new TypeError(reason));
-          return;
-        }
-        const obisBalances = {
-          ...ids,
-          startDate: parseHsbcDateTimeString(balances.startDate),
-          endDate: parseHsbcDateTimeString(balances.endDate),
-          startBalance: Math.round(balances.startBalance * 100),
-          endBalance: Math.round(balances.endBalance * 100)
-        };
-        const obisEntries = entries.map((entry) => {
-          const { fullDescription, amount, runningBalance, date } = entry;
-          const [payee, note] = parseDescriptionIntoPayeeAndNote(fullDescription);
-          const debit = Math.round(Math.abs(Math.min(amount, 0)) * 100);
-          const credit = Math.round(Math.max(amount, 0) * 100);
-          const balance = Math.round(runningBalance * 100);
-          const transaction = {
-            ...ids,
-            payee,
-            note,
-            date: parseHsbcDateTimeString(date),
-            debit,
-            credit,
-            balance
-          };
-          const id = generateIdForTransaction(transaction);
-          return {
-            id,
-            ...transaction
-          };
-        });
-        messages2.emit(actions2.received.STATEMENT_DETAILS, {
-          balances: obisBalances,
-          entries: obisEntries
-        });
-      }
-    });
-    return AjaxRequester({
-      name: "rtrvStmtDetl",
-      description: "Request a statement part",
-      method: "post",
-      url: "/gpib/channel/proxy/accountDataSvc/rtrvStmtDetl",
-      setHeaders: hsbcCommonHeaders,
-      setPayload: (options) => {
-        const err = checkSchema4({
-          entProdTypCde: isString2,
-          acctIndex: isString2,
-          startSheet: isNumber2,
-          stmtId: isString2,
-          stmtDt: isString2
-        })("AjaxRequester")(options);
-        if (err) {
-          const reason = `rtrvStmtDetl :: Invalid options: ${err}`;
-          messages2.emit(actions.error.ENTRIES, new TypeError(reason));
-          return;
-        }
-        const payload = {
-          acctIdr: {
-            acctIndex: options.acctIndex,
-            entProdTypCde: options.entProdTypCde
-          },
-          startSheet: options.startSheet,
-          bulkKey: 0,
-          bulkKeyNum: 0,
-          stmtDtl: {
-            stmtId: options.stmtId,
-            stmtDt: options.stmtDt,
-            stmtType: "undefined"
-          },
-          pagingInfo: {},
-          extensions: [
-            {
-              name: " ",
-              value: "1"
-            },
-            {
-              name: " ",
-              value: "1"
-            },
-            {
-              name: " ",
-              value: "1"
-            }
-          ]
-        };
-        return JSON.stringify(payload);
-      }
-    });
-  }
-  var entries_default = configureEntriesInterceptor;
-  function generateStatementDetailsRequesterPayloads(statementsListResponse) {
-    return statementsListResponse.map((stmtList) => stmtList.statementIds.map((stmtMeta) => ({
-      entProdTypCde: stmtList.entProdTypCde,
-      acctIndex: stmtList.id,
-      startSheet: stmtList.startSheet,
-      stmtId: stmtMeta.id,
-      stmtDt: stmtMeta.endDate
-    })));
-  }
-  function configureEntriesInterceptor() {
-    const { messages: messages2 } = obis.deps;
-    const { on: on2, emit } = messages2;
-    const requestStatementDetail = addStatementDetailInterceptor();
-    const statementsListResponses = [];
-    on2(actions2.received.STATEMENTS_LIST, (_statementsListResponse) => {
-      statementsListResponses.push(..._statementsListResponse);
-    });
-    function updateProgressBar(max, value) {
-      emit(actions.ui.UPDATE_PROGRESS_BAR, { max, value });
-    }
-    function _requestEntries() {
-      const statementDetailsRequesters = generateStatementDetailsRequesterPayloads(statementsListResponses).flat().map((payload) => () => {
-        const [prom, res, rej] = (0, import_promises2.makePromise)();
-        const resOff = on2(actions2.received.STATEMENT_DETAILS, res);
-        const rejOff = on2(actions.error.ENTRIES, rej);
-        requestStatementDetail(payload);
-        updateProgressBar(statementDetailsRequesters.length, ++count);
-        return prom.finally(() => {
-          resOff();
-          rejOff();
-        });
-      });
-      let count = 0;
-      updateProgressBar(statementDetailsRequesters.length, count);
-      const CONCURRENT_REQUESTS_NOT_POSSIBLE_YET = 1;
-      (0, import_promises2.poolPromises)(CONCURRENT_REQUESTS_NOT_POSSIBLE_YET, ...statementDetailsRequesters).then((everything) => {
-        const fulfilled = everything.filter((x2) => x2.status === "fulfilled").map((x2) => x2.value);
-        if (!fulfilled.length) {
-          const reasons = everything.filter((x2) => x2.status === "rejected").map((x2) => x2.reason);
-          emit(actions.error.ENTRIES, reasons);
-          return;
-        }
-        const allBalances = fulfilled.map((x2) => x2.balances);
-        const allEntries = fulfilled.map((x2) => x2.entries).flat();
-        const statementUpdates = allBalances.map((balance) => {
-          const { statementId, startDate, endDate, startBalance, endBalance } = balance;
-          return {
-            id: statementId,
-            accountId: LEAVE_UNCHANGED,
-            endDate,
-            startDate,
-            startBalance,
-            endBalance
-          };
-        });
-        const entriesAdded = allEntries.map((entry) => {
-          const amount = entry.credit + -entry.debit;
-          const type = amount < 0 ? "WITHD" : "DEP";
-          return {
-            id: entry.id,
-            accountId: entry.accountId,
-            statementId: entry.statementId,
-            date: entry.date,
-            type,
-            payee: entry.payee,
-            note: entry.note,
-            debit: entry.debit,
-            credit: entry.credit,
-            balance: entry.balance
-          };
-        });
-        emit(actions.update.STATEMENTS, statementUpdates);
-        emit(actions.add.ENTRIES, entriesAdded);
-        emit(actions.got.ENTRIES);
-        statementsListResponses.length = 0;
-      });
-    }
-    return {
-      canRequestEntries: () => !!statementsListResponses.length,
-      requestEntries: _requestEntries
+  var import_jmespath = __toESM(require_jmespath());
+  var Nothing = () => ({
+    valueOf: () => void 0,
+    toString: () => "Nothing",
+    map: () => Nothing(),
+    chain: () => Nothing(),
+    fork: (f2) => f2(),
+    orElse: (f2) => f2(),
+    ap: () => Nothing(),
+    isNothing: true,
+    isJust: false
+  });
+  Nothing.of = () => Nothing();
+  var Just = (x2) => ({
+    valueOf: () => x2,
+    toString: () => `Just(${x2})`,
+    map: (f2) => Just(f2(x2)),
+    chain: (f2) => f2(x2),
+    fork: (_2, g2) => g2(x2),
+    orElse: () => Just(x2),
+    ap: (m) => m.map(x2),
+    isNothing: false,
+    isJust: true
+  });
+  Just.of = (x2) => Just(x2);
+  var safe = (predicate = (x2) => x2 != null) => {
+    const Maybe2 = (x2) => {
+      return predicate(x2) ? Just(x2) : Nothing();
     };
+    Maybe2.of = (x2) => Maybe2(x2);
+    return Maybe2;
+  };
+  var maybeTry = (f2) => (x2) => {
+    try {
+      return Just(f2(x2));
+    } catch (e) {
+      return Nothing();
+    }
+  };
+  var Maybe = safe();
+  var siteConfigFromHtmlBody = () => Maybe.of(document.getElementById("siteConfig")).chain(maybeTry((el) => JSON.parse(el.attributes?.value?.value))).orElse(() => Just({})).valueOf();
+  var buildHeadersFromSiteConfig = (cfg = siteConfigFromHtmlBody()) => ({
+    "x-hsbc-channel-id": cfg.channelId,
+    "x-hsbc-client-id": cfg.clientId,
+    "x-hsbc-source-system-id": cfg.sourceSystemId,
+    "x-hsbc-chnl-countrycode": cfg.countryCode,
+    "x-hsbc-chnl-group-member": cfg.groupMemberId,
+    "x-hsbc-locale": cfg.locale,
+    "x-hsbc-gbgf": cfg.globalBusinessGlobalFunction,
+    "x-hsbc-global-channel-id": cfg.globalChannelId
+  });
+  function map(pred) {
+    return (arr) => arr.map(pred);
   }
+  function onlyFulfilled(promiseResults) {
+    return promiseResults.filter((result) => result.status === "fulfilled").map((result) => result.value);
+  }
+  var liveHost = "https://www.hsbc.co.uk";
+  function makeAccountsUrl({ host = liveHost }) {
+    return [
+      host,
+      `/api`,
+      `/dcc-gb-hrfb-account-list-papi-prod-proxy/v1/accounts/domestic`
+    ].join("");
+  }
+  function makeStatementsUrl({ host = liveHost, accountId }) {
+    return [
+      host,
+      `/api`,
+      `/mmf-files-statements--gb-hrfb-prod-proxy/v2/customer-accounts/${accountId}`,
+      `/statements?statementType=REGULAR`
+    ].join("");
+  }
+  function makeTransactionsUrl({
+    host = liveHost,
+    accountId,
+    productCategoryCode,
+    transactionStartDate = "yyyy-MM-dd",
+    transactionEndDate = "yyyy-MM-dd"
+  }) {
+    return [
+      host,
+      `/api`,
+      `/dcc-gb-hrfb-account-transactions-papi-prod-proxy/v1/accounts/${productCategoryCode}-${accountId}`,
+      `/historical-transactions?`,
+      `transactionStartDate=${transactionStartDate}&`,
+      `transactionEndDate=${transactionEndDate}&`,
+      `sortCode=D&`,
+      `txnSearch=true`
+    ].join("");
+  }
+  var fetchAccounts = ({ host = "" } = {}) => fetch(makeAccountsUrl({ host }), {
+    method: "GET",
+    headers: {
+      ...buildHeadersFromSiteConfig(),
+      "content-type": "application/json",
+      accept: "application/json, text/plain, */*",
+      adrum: "isAjax:true",
+      token_type: "SESSION_TOKEN",
+      iscacheable: "false"
+    }
+  }).then((res) => res.json()).then((json) => {
+    const entriesPath = `
+        accountList[].{
+          id:                         accountIdentifier.accountNumber,
+          accountHolderName:          accountHolderName,
+          sortCodeAndAccountNumber:   accountDisplay,
+          ledgerBalance:              ledgerBalance.amount,
+          lastUpdatedDate:            lastUpdatedDate,
+
+          productCode:           accountIdentifier.productCode,
+          productCategoryCode:   accountIdentifier.productCategoryCode
+        }
+      `;
+    const entries = import_jmespath.default.search(json, entriesPath);
+    return entries;
+  });
+  var import_jmespath2 = __toESM(require_jmespath());
+  var fetchStatementsList = ({ host = "", accountId } = {}) => fetch(makeStatementsUrl({ host, accountId }), {
+    method: "GET",
+    headers: {
+      ...buildHeadersFromSiteConfig(),
+      "content-type": "application/json",
+      accept: "application/json, text/plain, */*",
+      adrum: "isAjax:true",
+      token_type: "SESSION_TOKEN",
+      iscacheable: "false"
+    }
+  }).then((res) => res.json()).then((json) => {
+    const entriesPath = `
+        statements[].{
+          "id":               statementIdentifier,
+          "accountNumber":    accountNumber,
+          "endDate":          statementDate
+        }
+      `;
+    const entries = import_jmespath2.default.search(json, entriesPath);
+    return entries;
+  });
+  var import_jmespath3 = __toESM(require_jmespath());
+  var fetchTransactions = ({
+    host = "",
+    accountId,
+    productCategoryCode,
+    transactionStartDate,
+    transactionEndDate
+  } = {}) => fetch(makeTransactionsUrl({
+    host,
+    accountId,
+    productCategoryCode,
+    transactionStartDate,
+    transactionEndDate
+  }), {
+    method: "GET",
+    headers: {
+      ...buildHeadersFromSiteConfig(),
+      "content-type": "application/json",
+      accept: "application/json, text/plain, */*",
+      adrum: "isAjax:true",
+      token_type: "SESSION_TOKEN",
+      iscacheable: "false"
+    }
+  }).then((res) => res.json()).then((json) => {
+    const entriesPath = `
+        transactionSummary[].{
+          "date":        transactionDate,
+          "payee":       transactionDescriptions[0],
+          "note":        transactionDescriptions[1:-1:] | join(' ', @),
+          "amount":      transactionAmount.amount,
+          "balance":     runningBalanceAmount.amount
+        }
+      `;
+    const entries = import_jmespath3.default.search(json, entriesPath).map((entry) => {
+      const { date, amount, balance, ...restEntry } = entry;
+      return {
+        date: new Date(date).getTime(),
+        type: amount > 0 ? "DEP" : "WITHD",
+        ...restEntry,
+        ...creditAndDebitFromAmount(amount),
+        balance: Math.round(balance * 100)
+      };
+    });
+    return entries;
+  });
+  function creditAndDebitFromAmount(amount) {
+    const [debit, credit] = (amount < 0 ? [amount, 0] : [0, amount]).map((x2) => x2 * 100).map(Math.abs).map(Math.round);
+    return { debit, credit };
+  }
+  var import_promises = __toESM(require_promises());
+  function getHost() {
+    return "";
+  }
+  var pool = (0, import_promises.makePromisePool)(3);
   obis.makePluginAvailable("hsbc-uk", () => {
-    const { requestAccounts } = accounts_default();
-    const { requestStatements } = statements_default();
-    const { requestEntries } = entries_default();
     const fetcher = obis.fetchMachine;
     const { messages: messages2 } = obis.deps;
     const { emit } = messages2;
-    let yearsToDownload;
+    const updateProgressBar = (max) => (value) => emit(actions.ui.UPDATE_PROGRESS_BAR, { max, value });
     fetcher.performTransitions({
       "idle -> getting-accounts": {
         on: actions.get.ACCOUNTS,
-        then: (requestedYearsToDownload) => {
-          yearsToDownload = requestedYearsToDownload;
-          console.log("requestedYearsToDownload = ", requestedYearsToDownload);
-          requestAccounts();
-        }
+        then: (requestedYearsToDownload) => fetchAccounts().then((accountsResponse) => {
+          const accountsUpdate = accountsResponse.map((accountResponse) => {
+            const [sortCode, accountNumber] = accountResponse.sortCodeAndAccountNumber.split(" ");
+            return {
+              id: accountResponse.id,
+              accountNumber,
+              sortCode,
+              name: accountResponse.accountHolderName,
+              type: accountResponse.productCode,
+              ledgerBalance: Math.round(accountResponse.ledgerBalance * 100),
+              lastUpdatedTimestamp: new Date(accountResponse.lastUpdatedDate).getTime(),
+              iban: LEAVE_UNCHANGED,
+              bic: LEAVE_UNCHANGED
+            };
+          });
+          emit(actions.add.ACCOUNTS, accountsUpdate);
+          emit(actions.got.ACCOUNTS, {
+            accountsResponse,
+            yearsToDownload: requestedYearsToDownload
+          });
+        }).catch(fetcher.Emit(actions.error.ACCOUNTS))
       },
       "getting-accounts -> found-accounts": {
         on: actions.got.ACCOUNTS,
-        then: () => emit(actions.get.STATEMENTS)
+        then: ({ accountsResponse, yearsToDownload }) => {
+          const statementsQueries = accountsResponse.map((accountResponse) => ({
+            host: getHost(),
+            accountId: accountResponse.id,
+            productCategoryCode: accountResponse.productCategoryCode
+          }));
+          emit(actions.get.STATEMENTS, { statementsQueries, yearsToDownload });
+        }
       },
       "getting-accounts -> failed-accounts": {
         on: actions.error.ACCOUNTS,
-        then: () => fetcher.enter("idle")
+        then: fetcher.Enter("idle")
       },
       "found-accounts -> getting-statements": {
         on: actions.get.STATEMENTS,
-        then: () => {
-          const thisYear = new Date().getFullYear();
-          const yearsToRequest = new Array(yearsToDownload).fill().map((_2, goBack) => String(thisYear - goBack));
-          requestStatements(yearsToRequest.length ? yearsToRequest : ["Latest"]);
+        then: ({ statementsQueries, yearsToDownload }) => {
+          const progress = updateProgressBar(statementsQueries.length);
+          progress(0);
+          const fetchStatementsJobs = statementsQueries.map((statementsQuery, idx) => {
+            const { accountId, productCategoryCode } = statementsQuery;
+            return pool(() => {
+              progress(idx + 1);
+              return fetchStatementsList(statementsQuery).then(map((statementsResponse) => {
+                const { endDate, accountNumber: mashed } = statementsResponse;
+                const [, sortCode1, sortCode2, sortCode3, accountNumber] = mashed.match(/^(\d{2})(\d{2})(\d{2})(\d{8})$/);
+                const sortCode = `${sortCode1}-${sortCode2}-${sortCode3}`;
+                return {
+                  id: statementsResponse.id,
+                  accountId,
+                  sortCode,
+                  accountNumber,
+                  productCategoryCode,
+                  endDate
+                };
+              }));
+            });
+          });
+          Promise.allSettled(fetchStatementsJobs).then(onlyFulfilled).then((allAcctStatements) => {
+            const allStatements = allAcctStatements.flat();
+            if (allStatements.length === 0) {
+              fetcher.emit(actions.error.STATEMENTS);
+              return;
+            }
+            const statementsUpdate = allStatements.map(({ id, accountId, endDate: endDateString }) => {
+              const endDate = new Date(endDateString);
+              const startDate = new Date(endDate);
+              startDate.setMonth(startDate.getMonth() - 1);
+              return {
+                id,
+                accountId,
+                endDate: endDate.getTime(),
+                startDate: startDate.getTime(),
+                startBalance: LEAVE_UNCHANGED,
+                endBalance: LEAVE_UNCHANGED
+              };
+            });
+            emit(actions.add.STATEMENTS, statementsUpdate);
+            emit(actions.got.STATEMENTS, { allStatements, yearsToDownload });
+          });
         }
       },
       "getting-statements -> found-statements": {
         on: actions.got.STATEMENTS,
-        then: () => emit(actions.get.ENTRIES)
+        then: ({ allStatements, yearsToDownload }) => {
+          const accountsTransactionsQueries = allStatements.map(({ id, accountId, endDate: endDateString, productCategoryCode }) => {
+            const endDate = new Date(endDateString);
+            const startDate = new Date(endDate);
+            startDate.setMonth(startDate.getMonth() - 1);
+            return {
+              host: getHost(),
+              id,
+              accountId,
+              productCategoryCode,
+              transactionStartDate: startDate.toISOString().split("T")[0],
+              transactionEndDate: endDate.toISOString().split("T")[0]
+            };
+          });
+          emit(actions.get.ENTRIES, {
+            accountsTransactionsQueries,
+            yearsToDownload
+          });
+        }
       },
       "getting-statements -> failed-statements": {
         on: actions.error.STATEMENTS,
-        then: () => fetcher.enter("found-accounts")
+        then: fetcher.Enter("idle")
       },
       "found-statements -> getting-entries": {
         on: actions.get.ENTRIES,
-        then: () => requestEntries()
+        then: ({ accountsTransactionsQueries, yearsToDownload }) => {
+          const progress = updateProgressBar(accountsTransactionsQueries.length);
+          progress(0);
+          const fetchAccountsTransactionsJobs = accountsTransactionsQueries.map((query, idx) => {
+            const { id, accountId } = query;
+            return pool(() => {
+              progress(idx + 1);
+              return fetchTransactions(query).then(map((transaction) => ({
+                accountId,
+                statementId: id,
+                ...transaction
+              })));
+            });
+          });
+          Promise.allSettled(fetchAccountsTransactionsJobs).then(onlyFulfilled).then((allTransactionsInAccount) => {
+            const allTransactions = allTransactionsInAccount.flat();
+            if (allTransactions.length === 0) {
+              fetcher.emit(actions.error.ENTRIES);
+              return;
+            }
+            allTransactions.map((transaction) => {
+              const { date, debit, credit, type, payee, note } = transaction;
+              const { accountNumber, sortCode } = store().accounts.find((acct) => acct.id === transaction.accountId);
+              return Object.assign(transaction, {
+                id: generateIdForTransaction({
+                  date,
+                  debit,
+                  credit,
+                  accountNumber,
+                  sortCode,
+                  type,
+                  payee,
+                  note
+                })
+              });
+            });
+            emit(actions.add.ENTRIES, allTransactions);
+            emit(actions.got.ENTRIES);
+          });
+        }
       },
       "getting-entries -> found-entries": {
         on: actions.got.ENTRIES,
@@ -11687,7 +12861,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       },
       "getting-entries -> failed-entries": {
         on: actions.error.ENTRIES,
-        then: () => fetcher.enter("found-statements")
+        then: fetcher.Enter("idle")
       },
       "found-entries -> download-all": {
         on: actions.ui.DOWNLOAD_STATEMENTS,
@@ -11698,6 +12872,16 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         on: actions.ui.DOWNLOADED_STATEMENTS,
         then: () => {
         }
+      }
+    });
+    fetcher.onTransitions({
+      [`
+        failed-accounts |
+      failed-statements |
+         failed-entries -> idle
+
+    `]: () => {
+        console.warn("Problem fetching data. Please try again.");
       }
     });
     fetcher.info();
