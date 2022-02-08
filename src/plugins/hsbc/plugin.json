@@ -1,5 +1,0 @@
-{
-  "name": "hsbc-uk",
-  "description": "HSBC UK",
-  "urls": ["https://*.online-banking.hsbc.co.uk/*"]
-}
