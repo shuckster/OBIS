@@ -452,7 +452,7 @@
     }
   });
   var require_jmespath = __commonJS({
-    "node_modules/.pnpm/jmespath@0.15.0/node_modules/jmespath/jmespath.js"(exports) {
+    "node_modules/.pnpm/jmespath@0.16.0/node_modules/jmespath/jmespath.js"(exports) {
       (function(exports2) {
         "use strict";
         function isArray3(obj) {
@@ -563,6 +563,18 @@
         var TYPE_NULL = 7;
         var TYPE_ARRAY_NUMBER = 8;
         var TYPE_ARRAY_STRING = 9;
+        var TYPE_NAME_TABLE = {
+          0: "number",
+          1: "any",
+          2: "string",
+          3: "array",
+          4: "object",
+          5: "boolean",
+          6: "expression",
+          7: "null",
+          8: "Array<number>",
+          9: "Array<string>"
+        };
         var TOK_EOF = "EOF";
         var TOK_UNQUOTEDIDENTIFIER = "UnquotedIdentifier";
         var TOK_QUOTEDIDENTIFIER = "QuotedIdentifier";
@@ -934,10 +946,8 @@
                 var node = { type: "Field", name: token.value };
                 if (this._lookahead(0) === TOK_LPAREN) {
                   throw new Error("Quoted identifier not allowed for function names.");
-                } else {
-                  return node;
                 }
-                break;
+                return node;
               case TOK_NOT:
                 right = this.expression(bindingPower.Not);
                 return { type: "NotExpression", children: [right] };
@@ -970,10 +980,8 @@
                     type: "Projection",
                     children: [{ type: "Identity" }, right]
                   };
-                } else {
-                  return this._parseMultiselectList();
                 }
-                break;
+                return this._parseMultiselectList();
               case TOK_CURRENT:
                 return { type: TOK_CURRENT };
               case TOK_EXPREF:
@@ -1004,12 +1012,10 @@
                 if (this._lookahead(0) !== TOK_STAR) {
                   right = this._parseDotRHS(rbp);
                   return { type: "Subexpression", children: [left, right] };
-                } else {
-                  this._advance();
-                  right = this._parseProjectionRHS(rbp);
-                  return { type: "ValueProjection", children: [left, right] };
                 }
-                break;
+                this._advance();
+                right = this._parseProjectionRHS(rbp);
+                return { type: "ValueProjection", children: [left, right] };
               case TOK_PIPE:
                 right = this.expression(bindingPower.Pipe);
                 return { type: TOK_PIPE, children: [left, right] };
@@ -1063,13 +1069,11 @@
                 if (token.type === TOK_NUMBER || token.type === TOK_COLON) {
                   right = this._parseIndexExpression();
                   return this._projectIfSlice(left, right);
-                } else {
-                  this._match(TOK_STAR);
-                  this._match(TOK_RBRACKET);
-                  right = this._parseProjectionRHS(bindingPower.Star);
-                  return { type: "Projection", children: [left, right] };
                 }
-                break;
+                this._match(TOK_STAR);
+                this._match(TOK_RBRACKET);
+                right = this._parseProjectionRHS(bindingPower.Star);
+                return { type: "Projection", children: [left, right] };
               default:
                 this._errorToken(this._lookaheadToken(0));
             }
@@ -1225,19 +1229,15 @@
             var matched, current, result, first, second, field, left, right, collected, i2;
             switch (node.type) {
               case "Field":
-                if (value === null) {
-                  return null;
-                } else if (isObject2(value)) {
+                if (value !== null && isObject2(value)) {
                   field = value[node.name];
                   if (field === void 0) {
                     return null;
                   } else {
                     return field;
                   }
-                } else {
-                  return null;
                 }
-                break;
+                return null;
               case "Subexpression":
                 result = this.visit(node.children[0], value);
                 for (i2 = 1; i2 < node.children.length; i2++) {
@@ -1583,7 +1583,10 @@
                 }
               }
               if (!typeMatched) {
-                throw new Error("TypeError: " + name + "() expected argument " + (i2 + 1) + " to be type " + currentSpec + " but received type " + actualType + " instead.");
+                var expected = currentSpec.map(function(typeIdentifier) {
+                  return TYPE_NAME_TABLE[typeIdentifier];
+                }).join(",");
+                throw new Error("TypeError: " + name + "() expected argument " + (i2 + 1) + " to be type " + expected + " but received type " + TYPE_NAME_TABLE[actualType] + " instead.");
               }
             }
           },
@@ -2011,18 +2014,18 @@
     }
   });
   var require_match_iz_cjs = __commonJS({
-    "node_modules/.pnpm/match-iz@1.12.0/node_modules/match-iz/dist/match-iz.cjs.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@2.0.4/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
       var j = Object.defineProperty;
       var z = Object.getOwnPropertyDescriptor;
       var B = Object.getOwnPropertyNames;
       var w = Object.getOwnPropertySymbols;
-      var R = Object.prototype.hasOwnProperty;
+      var W = Object.prototype.hasOwnProperty;
       var C = Object.prototype.propertyIsEnumerable;
       var G = (t) => j(t, "__esModule", { value: true });
-      var W = (t, n) => {
+      var A = (t, n) => {
         var o = {};
         for (var s in t)
-          R.call(t, s) && n.indexOf(s) < 0 && (o[s] = t[s]);
+          W.call(t, s) && n.indexOf(s) < 0 && (o[s] = t[s]);
         if (t != null && w)
           for (var s of w(t))
             n.indexOf(s) < 0 && C.call(t, s) && (o[s] = t[s]);
@@ -2035,65 +2038,69 @@
       var J = (t, n, o, s) => {
         if (n && typeof n == "object" || typeof n == "function")
           for (let r of B(n))
-            !R.call(t, r) && (o || r !== "default") && j(t, r, { get: () => n[r], enumerable: !(s = z(n, r)) || s.enumerable });
+            !W.call(t, r) && (o || r !== "default") && j(t, r, { get: () => n[r], enumerable: !(s = z(n, r)) || s.enumerable });
         return t;
       };
       var K = ((t) => (n, o) => t && t.get(n) || (o = J(G({}), n, 1), t && t.set(n, o), o))(typeof WeakMap != "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
-      var et2 = {};
-      H(et2, { against: () => E, allOf: () => Z, anyOf: () => F, cata: () => ot, defined: () => _, empty: () => I, endsWith: () => k, falsy: () => rt, gt: () => $, gte: () => d, hasOwn: () => nt, inRange: () => v, includedIn: () => tt, includes: () => a, instanceOf: () => x2, isArray: () => e, isDate: () => D, isFunction: () => i2, isNumber: () => S, isPojo: () => f, isRegExp: () => b, isString: () => g, lt: () => l, lte: () => y, match: () => T, not: () => Y2, otherwise: () => U, pluck: () => X, spread: () => it, startsWith: () => h, truthy: () => st, when: () => V });
-      var A = Object.prototype;
-      var L = A.toString;
+      var gt = {};
+      H(gt, { against: () => R, allOf: () => $, anyOf: () => E, cata: () => st, defined: () => M, empty: () => I, endsWith: () => a, falsy: () => it, gt: () => d, gte: () => l, hasOwn: () => ot, inRange: () => h, includedIn: () => nt, includes: () => tt, instanceOf: () => b, isArray: () => e, isDate: () => F, isFunction: () => i2, isNumber: () => S, isPojo: () => f, isRegExp: () => x2, isString: () => g, lt: () => y, lte: () => v, match: () => U, not: () => _, otherwise: () => V, pluck: () => Z, spread: () => ct, startsWith: () => k, truthy: () => rt, when: () => X });
+      var D = Object.prototype;
+      var L = D.toString;
       var p = (t) => (n) => typeof n === t;
-      var x2 = (t) => (n) => n instanceof t;
+      var b = (t) => (n) => n instanceof t;
       var { isArray: e } = Array;
-      var M = (t) => L.call(t) === "[object Arguments]";
-      var D = (t) => x2(Date)(t) && !isNaN(t);
+      var Q = (t) => L.call(t) === "[object Arguments]";
+      var F = (t) => b(Date)(t) && !isNaN(t);
       var i2 = p("function");
       var g = p("string");
       var S = (t) => t === t && p("number")(t);
-      var Q = (t) => t !== null && p("object")(t);
-      var b = x2(RegExp);
-      var f = (t) => t === null || !Q(t) || M(t) ? false : Object.getPrototypeOf(t) === A;
-      function T(t) {
-        return (...n) => E(...n)(t);
+      var T = (t) => t !== null && p("object")(t);
+      var x2 = b(RegExp);
+      var f = (t) => t === null || !T(t) || Q(t) ? false : Object.getPrototypeOf(t) === D;
+      function U(t) {
+        return (...n) => R(...n)(t);
       }
-      var E = (...t) => {
+      var R = (...t) => {
         let n;
         return (o) => t.find((s) => {
           let r = s(o), { matched: u, value: O } = r || {};
           return [u, O].every(i2) ? u(o) && (n = O(o), true) : r && (n = r);
         }) && n;
       };
-      var U = (t) => (n) => ({ matched: () => true, value: () => i2(t) ? t(n) : t });
-      var V = (t) => (n) => (o) => ({ matched: () => c(t, o, (s) => o = s), value: () => i2(n) ? g(o) && b(t) ? n(o.match(t)) : n(o) : n });
-      var c = (t, n, o) => f(t) ? Object.keys(t).every((s) => c(t[s], n == null ? void 0 : n[s], o)) : e(t) ? e(n) ? t.length === n.length && t.every((s, r) => c(s, n == null ? void 0 : n[r], o)) : t.some((s) => c(s, n, o)) : i2(t) ? t(n, o) : g(n) && b(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-      var X = (...t) => (n, o) => t.length === 0 || (i2(t[0]) ? t[0](n) : c(t[0], n, o)) ? (o(n), true) : false;
-      var Y2 = (t) => (n, o) => !c(t, n, o);
-      var F = (...t) => t.flat();
-      var Z = (...t) => (n, o) => t.flat().every((s) => c(s, n, o));
+      var V = (t) => (n) => ({ matched: () => true, value: () => i2(t) ? t(n) : t });
+      var X = (t) => (n) => (o) => ({ matched: () => c(t, o, (s) => o = s), value: () => i2(n) ? g(o) && x2(t) ? n(...Y2(o.match(t))) : n(o) : n });
+      var Y2 = (t) => {
+        let { groups: n } = t;
+        return n ? [n, t] : [t];
+      };
+      var c = (t, n, o) => f(t) ? Object.keys(t).every((s) => c(t[s], n == null ? void 0 : n[s], o)) : e(t) ? e(n) ? t.length === n.length && t.every((s, r) => c(s, n == null ? void 0 : n[r], o)) : t.some((s) => c(s, n, o)) : i2(t) ? t(n, o) : g(n) && x2(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+      var Z = (...t) => (n, o) => t.length === 0 || (i2(t[0]) ? t[0](n) : c(t[0], n, o)) ? (o(n), true) : false;
+      var _ = (t) => (n, o) => !c(t, n, o);
+      var E = (...t) => t.flat();
+      var $ = (...t) => (n, o) => t.flat().every((s) => c(s, n, o));
       var I = (t) => t !== t || !t && t !== 0 && t !== false || e(t) && !t.length || f(t) && !Object.keys(t).length;
-      var _ = (t) => !I(t);
-      var $ = (t) => m((n) => n > t);
-      var l = (t) => m((n) => n < t);
-      var d = (t) => m((n) => n >= t);
-      var y = (t) => m((n) => n <= t);
-      var v = (t, n) => m((o) => o >= t && o <= n);
-      var h = (t) => q((n) => n.startsWith(t));
-      var k = (t) => q((n) => n.endsWith(t));
-      var a = (t) => ct((n) => n.includes(t));
-      var tt = F;
-      var nt = (...t) => (n) => f(n) && (([o, s]) => o.length && o.every((r) => s.includes(r)))([t.flat(), Object.keys(n)]);
-      var ot = (o) => {
-        var s = o, { getValue: t } = s, n = W(s, ["getValue"]);
+      var M = (t) => !I(t);
+      var d = (t) => m((n) => n > t);
+      var y = (t) => m((n) => n < t);
+      var l = (t) => m((n) => n >= t);
+      var v = (t) => m((n) => n <= t);
+      var h = (t, n) => m((o) => o >= t && o <= n);
+      var k = (t) => q((n) => n.startsWith(t));
+      var a = (t) => q((n) => n.endsWith(t));
+      var tt = (t) => et2((n) => n.includes(t));
+      var nt = E;
+      var ot = (...t) => (n) => f(n) && (([o, s]) => o.length && o.every((r) => s.includes(r)))([t.flat(), Object.keys(n)]);
+      var st = (o) => {
+        var s = o, { getValue: t } = s, n = A(s, ["getValue"]);
         return Object.entries(n).reduce((r, [u, O]) => Object.assign(r, { [u]: (N) => (P) => ({ matched: () => O(P), value: () => i2(N) ? N(t(P)) : N }) }), {});
       };
-      var st = (t) => !!t;
-      var rt = (t) => !t;
-      var it = (t) => new Proxy({}, { get: () => t });
+      var rt = (t) => !!t;
+      var it = (t) => !t;
+      var ct = (t) => new Proxy({}, { get: () => t });
       var q = (t) => (n) => g(n) && t(n);
       var m = (t) => (n) => S(n) && t(n);
-      var ct = (t) => (n) => (e(n) || g(n)) && t(n);
-      module.exports = K(et2);
+      var et2 = (t) => (n) => (e(n) || g(n)) && t(n);
+      module.exports = K(gt);
     }
   });
   var require_fp = __commonJS({
@@ -2286,7 +2293,7 @@
       s = 0;
     if (e == null || e > v.length)
       e = v.length;
-    var n = new (v instanceof u16 ? u16 : v instanceof u32 ? u32 : u8)(e - s);
+    var n = new (v.BYTES_PER_ELEMENT == 2 ? u16 : v.BYTES_PER_ELEMENT == 4 ? u32 : u8)(e - s);
     n.set(v.subarray(s, e));
     return n;
   };
@@ -2641,7 +2648,7 @@
   var wcln = function(fn, fnStr, td2) {
     var dt = fn();
     var st = fn.toString();
-    var ks = st.slice(st.indexOf("[") + 1, st.lastIndexOf("]")).replace(/ /g, "").split(",");
+    var ks = st.slice(st.indexOf("[") + 1, st.lastIndexOf("]")).replace(/\s+/g, "").split(",");
     for (var i2 = 0; i2 < dt.length; ++i2) {
       var v = dt[i2], k = ks[i2];
       if (typeof v == "function") {
@@ -2667,8 +2674,9 @@
   var cbfs = function(v) {
     var tl = [];
     for (var k in v) {
-      if (v[k] instanceof u8 || v[k] instanceof u16 || v[k] instanceof u32)
+      if (v[k].buffer) {
         tl.push((v[k] = new v[k].constructor(v[k])).buffer);
+      }
     }
     return tl;
   };
@@ -2719,13 +2727,15 @@
   }
   var fltn = function(d, p, t, o) {
     for (var k in d) {
-      var val = d[k], n = p + k;
+      var val = d[k], n = p + k, op = o;
+      if (Array.isArray(val))
+        op = mrg(o, val[1]), val = val[0];
       if (val instanceof u8)
-        t[n] = [val, o];
-      else if (Array.isArray(val))
-        t[n] = [val[0], mrg(o, val[1])];
-      else
-        fltn(val, n + "/", t, o);
+        t[n] = [val, op];
+      else {
+        t[n += "/"] = [new u8(0), op];
+        fltn(val, n, t, o);
+      }
     }
   };
   var te = typeof TextEncoder != "undefined" && /* @__PURE__ */ new TextEncoder();
@@ -6177,7 +6187,7 @@ Check your performTransitions() config.`;
         onChange = () => {
         },
         getValueFn = () => NaN,
-        equalityFn = (a2, b3) => a2 === b3
+        equalityFn = (a2, b2) => a2 === b2
       }) {
         let currentValue = getValueFn();
         const performCheck = (...checkArgs) => {
@@ -6324,18 +6334,18 @@ Check your performTransitions() config.`;
     }
   });
   var require_match_iz_cjs = __commonJS({
-    "node_modules/.pnpm/match-iz@1.12.0/node_modules/match-iz/dist/match-iz.cjs.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@2.0.4/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
       var j2 = Object.defineProperty;
       var z3 = Object.getOwnPropertyDescriptor;
-      var B2 = Object.getOwnPropertyNames;
+      var B3 = Object.getOwnPropertyNames;
       var w3 = Object.getOwnPropertySymbols;
-      var R2 = Object.prototype.hasOwnProperty;
+      var W2 = Object.prototype.hasOwnProperty;
       var C = Object.prototype.propertyIsEnumerable;
       var G2 = (t2) => j2(t2, "__esModule", { value: true });
-      var W2 = (t2, n2) => {
+      var A2 = (t2, n2) => {
         var o2 = {};
         for (var s2 in t2)
-          R2.call(t2, s2) && n2.indexOf(s2) < 0 && (o2[s2] = t2[s2]);
+          W2.call(t2, s2) && n2.indexOf(s2) < 0 && (o2[s2] = t2[s2]);
         if (t2 != null && w3)
           for (var s2 of w3(t2))
             n2.indexOf(s2) < 0 && C.call(t2, s2) && (o2[s2] = t2[s2]);
@@ -6347,96 +6357,100 @@ Check your performTransitions() config.`;
       };
       var J = (t2, n2, o2, s2) => {
         if (n2 && typeof n2 == "object" || typeof n2 == "function")
-          for (let r2 of B2(n2))
-            !R2.call(t2, r2) && (o2 || r2 !== "default") && j2(t2, r2, { get: () => n2[r2], enumerable: !(s2 = z3(n2, r2)) || s2.enumerable });
+          for (let r2 of B3(n2))
+            !W2.call(t2, r2) && (o2 || r2 !== "default") && j2(t2, r2, { get: () => n2[r2], enumerable: !(s2 = z3(n2, r2)) || s2.enumerable });
         return t2;
       };
       var K = ((t2) => (n2, o2) => t2 && t2.get(n2) || (o2 = J(G2({}), n2, 1), t2 && t2.set(n2, o2), o2))(typeof WeakMap != "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
-      var et = {};
-      H2(et, { against: () => E3, allOf: () => Z2, anyOf: () => F3, cata: () => ot, defined: () => _2, empty: () => I2, endsWith: () => k2, falsy: () => rt, gt: () => $, gte: () => d2, hasOwn: () => nt, inRange: () => v2, includedIn: () => tt, includes: () => a2, instanceOf: () => x2, isArray: () => e2, isDate: () => D2, isFunction: () => i3, isNumber: () => S2, isPojo: () => f2, isRegExp: () => b3, isString: () => g3, lt: () => l2, lte: () => y2, match: () => T, not: () => Y2, otherwise: () => U2, pluck: () => X2, spread: () => it, startsWith: () => h2, truthy: () => st, when: () => V2 });
-      var A2 = Object.prototype;
-      var L3 = A2.toString;
+      var gt = {};
+      H2(gt, { against: () => R3, allOf: () => $, anyOf: () => E3, cata: () => st, defined: () => M2, empty: () => I2, endsWith: () => a2, falsy: () => it, gt: () => d2, gte: () => l2, hasOwn: () => ot, inRange: () => h2, includedIn: () => nt, includes: () => tt, instanceOf: () => b2, isArray: () => e2, isDate: () => F2, isFunction: () => i3, isNumber: () => S2, isPojo: () => f2, isRegExp: () => x3, isString: () => g3, lt: () => y2, lte: () => v2, match: () => U3, not: () => _2, otherwise: () => V2, pluck: () => Z2, spread: () => ct, startsWith: () => k2, truthy: () => rt, when: () => X2 });
+      var D2 = Object.prototype;
+      var L2 = D2.toString;
       var p3 = (t2) => (n2) => typeof n2 === t2;
-      var x2 = (t2) => (n2) => n2 instanceof t2;
+      var b2 = (t2) => (n2) => n2 instanceof t2;
       var { isArray: e2 } = Array;
-      var M3 = (t2) => L3.call(t2) === "[object Arguments]";
-      var D2 = (t2) => x2(Date)(t2) && !isNaN(t2);
+      var Q3 = (t2) => L2.call(t2) === "[object Arguments]";
+      var F2 = (t2) => b2(Date)(t2) && !isNaN(t2);
       var i3 = p3("function");
       var g3 = p3("string");
       var S2 = (t2) => t2 === t2 && p3("number")(t2);
-      var Q3 = (t2) => t2 !== null && p3("object")(t2);
-      var b3 = x2(RegExp);
-      var f2 = (t2) => t2 === null || !Q3(t2) || M3(t2) ? false : Object.getPrototypeOf(t2) === A2;
-      function T(t2) {
-        return (...n2) => E3(...n2)(t2);
+      var T2 = (t2) => t2 !== null && p3("object")(t2);
+      var x3 = b2(RegExp);
+      var f2 = (t2) => t2 === null || !T2(t2) || Q3(t2) ? false : Object.getPrototypeOf(t2) === D2;
+      function U3(t2) {
+        return (...n2) => R3(...n2)(t2);
       }
-      var E3 = (...t2) => {
+      var R3 = (...t2) => {
         let n2;
         return (o2) => t2.find((s2) => {
           let r2 = s2(o2), { matched: u2, value: O3 } = r2 || {};
           return [u2, O3].every(i3) ? u2(o2) && (n2 = O3(o2), true) : r2 && (n2 = r2);
         }) && n2;
       };
-      var U2 = (t2) => (n2) => ({ matched: () => true, value: () => i3(t2) ? t2(n2) : t2 });
-      var V2 = (t2) => (n2) => (o2) => ({ matched: () => c3(t2, o2, (s2) => o2 = s2), value: () => i3(n2) ? g3(o2) && b3(t2) ? n2(o2.match(t2)) : n2(o2) : n2 });
-      var c3 = (t2, n2, o2) => f2(t2) ? Object.keys(t2).every((s2) => c3(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : e2(t2) ? e2(n2) ? t2.length === n2.length && t2.every((s2, r2) => c3(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => c3(s2, n2, o2)) : i3(t2) ? t2(n2, o2) : g3(n2) && b3(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
-      var X2 = (...t2) => (n2, o2) => t2.length === 0 || (i3(t2[0]) ? t2[0](n2) : c3(t2[0], n2, o2)) ? (o2(n2), true) : false;
-      var Y2 = (t2) => (n2, o2) => !c3(t2, n2, o2);
-      var F3 = (...t2) => t2.flat();
-      var Z2 = (...t2) => (n2, o2) => t2.flat().every((s2) => c3(s2, n2, o2));
+      var V2 = (t2) => (n2) => ({ matched: () => true, value: () => i3(t2) ? t2(n2) : t2 });
+      var X2 = (t2) => (n2) => (o2) => ({ matched: () => c3(t2, o2, (s2) => o2 = s2), value: () => i3(n2) ? g3(o2) && x3(t2) ? n2(...Y2(o2.match(t2))) : n2(o2) : n2 });
+      var Y2 = (t2) => {
+        let { groups: n2 } = t2;
+        return n2 ? [n2, t2] : [t2];
+      };
+      var c3 = (t2, n2, o2) => f2(t2) ? Object.keys(t2).every((s2) => c3(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : e2(t2) ? e2(n2) ? t2.length === n2.length && t2.every((s2, r2) => c3(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => c3(s2, n2, o2)) : i3(t2) ? t2(n2, o2) : g3(n2) && x3(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
+      var Z2 = (...t2) => (n2, o2) => t2.length === 0 || (i3(t2[0]) ? t2[0](n2) : c3(t2[0], n2, o2)) ? (o2(n2), true) : false;
+      var _2 = (t2) => (n2, o2) => !c3(t2, n2, o2);
+      var E3 = (...t2) => t2.flat();
+      var $ = (...t2) => (n2, o2) => t2.flat().every((s2) => c3(s2, n2, o2));
       var I2 = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || e2(t2) && !t2.length || f2(t2) && !Object.keys(t2).length;
-      var _2 = (t2) => !I2(t2);
-      var $ = (t2) => m7((n2) => n2 > t2);
-      var l2 = (t2) => m7((n2) => n2 < t2);
-      var d2 = (t2) => m7((n2) => n2 >= t2);
-      var y2 = (t2) => m7((n2) => n2 <= t2);
-      var v2 = (t2, n2) => m7((o2) => o2 >= t2 && o2 <= n2);
-      var h2 = (t2) => q3((n2) => n2.startsWith(t2));
-      var k2 = (t2) => q3((n2) => n2.endsWith(t2));
-      var a2 = (t2) => ct((n2) => n2.includes(t2));
-      var tt = F3;
-      var nt = (...t2) => (n2) => f2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
-      var ot = (o2) => {
-        var s2 = o2, { getValue: t2 } = s2, n2 = W2(s2, ["getValue"]);
+      var M2 = (t2) => !I2(t2);
+      var d2 = (t2) => m7((n2) => n2 > t2);
+      var y2 = (t2) => m7((n2) => n2 < t2);
+      var l2 = (t2) => m7((n2) => n2 >= t2);
+      var v2 = (t2) => m7((n2) => n2 <= t2);
+      var h2 = (t2, n2) => m7((o2) => o2 >= t2 && o2 <= n2);
+      var k2 = (t2) => q3((n2) => n2.startsWith(t2));
+      var a2 = (t2) => q3((n2) => n2.endsWith(t2));
+      var tt = (t2) => et((n2) => n2.includes(t2));
+      var nt = E3;
+      var ot = (...t2) => (n2) => f2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
+      var st = (o2) => {
+        var s2 = o2, { getValue: t2 } = s2, n2 = A2(s2, ["getValue"]);
         return Object.entries(n2).reduce((r2, [u2, O3]) => Object.assign(r2, { [u2]: (N2) => (P2) => ({ matched: () => O3(P2), value: () => i3(N2) ? N2(t2(P2)) : N2 }) }), {});
       };
-      var st = (t2) => !!t2;
-      var rt = (t2) => !t2;
-      var it = (t2) => new Proxy({}, { get: () => t2 });
+      var rt = (t2) => !!t2;
+      var it = (t2) => !t2;
+      var ct = (t2) => new Proxy({}, { get: () => t2 });
       var q3 = (t2) => (n2) => g3(n2) && t2(n2);
       var m7 = (t2) => (n2) => S2(n2) && t2(n2);
-      var ct = (t2) => (n2) => (e2(n2) || g3(n2)) && t2(n2);
-      module.exports = K(et);
+      var et = (t2) => (n2) => (e2(n2) || g3(n2)) && t2(n2);
+      module.exports = K(gt);
     }
   });
   var require_fp = __commonJS({
     "src/common/cjs/fp.js"(exports, module) {
       function compose(...fns) {
-        return (...x2) => fns.reduceRight((g3, f2) => [f2(...g3)], x2)[0];
+        return (...x3) => fns.reduceRight((g3, f2) => [f2(...g3)], x3)[0];
       }
       function flow2(...fns) {
-        return (...x2) => fns.reduce((g3, f2) => [f2(...g3)], x2)[0];
+        return (...x3) => fns.reduce((g3, f2) => [f2(...g3)], x3)[0];
       }
-      function pipe3(x2, ...fns) {
-        return fns.reduce((g3, f2) => f2(g3), x2);
+      function pipe3(x3, ...fns) {
+        return fns.reduce((g3, f2) => f2(g3), x3);
       }
       function flip(fn2) {
-        return (...x2) => (...y2) => fn2(...y2)(...x2);
+        return (...x3) => (...y2) => fn2(...y2)(...x3);
       }
       function do_(f2) {
         return f2();
       }
       function memo(fn2) {
         const table = /* @__PURE__ */ new Map();
-        return (x2) => table.has(x2) ? table.get(x2) : table.set(x2, fn2(x2)).get(x2);
+        return (x3) => table.has(x3) ? table.get(x3) : table.set(x3, fn2(x3)).get(x3);
       }
       function cache(fn2) {
         const cache2 = /* @__PURE__ */ new Map();
-        return (x2) => cache2.has(x2) ? cache2.get(x2) : cache2.set(x2, fn2(x2, invalidater(cache2, x2))).get(x2);
+        return (x3) => cache2.has(x3) ? cache2.get(x3) : cache2.set(x3, fn2(x3, invalidater(cache2, x3))).get(x3);
       }
-      var invalidater = (cache2, x2) => () => cache2.delete(x2);
+      var invalidater = (cache2, x3) => () => cache2.delete(x3);
       function aside(fn2) {
-        return (x2) => (fn2(x2), x2);
+        return (x3) => (fn2(x3), x3);
       }
       module.exports = {
         compose,
@@ -6458,17 +6472,17 @@ Check your performTransitions() config.`;
         if (!isString4(str) || !str.length) {
           throw new TypeError("Please pass a non-empty string");
         }
-        return pipe3(str.replace(rxConsecutiveWildcards(), "*").split("*").map((x2) => x2.trim()).map(escapeStringForRegExp), against2(when2(hasNoWildcards)(templateMatchExact), when2(hasNoWildcardAtStart)(flow2(insertWildcards, templateMatchStart)), when2(hasNoWildcardAtEnd)(flow2(insertWildcards, templateMatchEnd)), otherwise2(insertWildcards)), ($) => new RegExp($));
+        return pipe3(str.replace(rxConsecutiveWildcards(), "*").split("*").map((x3) => x3.trim()).map(escapeStringForRegExp), against2(when2(hasNoWildcards)(templateMatchExact), when2(hasNoWildcardAtStart)(flow2(insertWildcards, templateMatchStart)), when2(hasNoWildcardAtEnd)(flow2(insertWildcards, templateMatchEnd)), otherwise2(insertWildcards)), ($) => new RegExp($));
       });
       var rxEscape = () => /[.*+?^${}()|[\]\\]/g;
       var rxConsecutiveWildcards = () => /\*{2,}/g;
-      var hasNoWildcards = (x2) => x2.length === 1;
-      var hasNoWildcardAtStart = (x2) => x2.at(0) !== "";
-      var hasNoWildcardAtEnd = (x2) => x2.at(-1) !== "";
-      var insertWildcards = (x2) => x2.join("(.*)");
-      var templateMatchExact = ([x2]) => `^${x2}$`;
-      var templateMatchStart = (x2) => `^${x2}`;
-      var templateMatchEnd = (x2) => `${x2}$`;
+      var hasNoWildcards = (x3) => x3.length === 1;
+      var hasNoWildcardAtStart = (x3) => x3.at(0) !== "";
+      var hasNoWildcardAtEnd = (x3) => x3.at(-1) !== "";
+      var insertWildcards = (x3) => x3.join("(.*)");
+      var templateMatchExact = ([x3]) => `^${x3}$`;
+      var templateMatchStart = (x3) => `^${x3}`;
+      var templateMatchEnd = (x3) => `${x3}$`;
       function escapeStringForRegExp(str) {
         if (!isString4(str)) {
           throw new TypeError("Please pass a string");
@@ -7073,7 +7087,7 @@ Check your performTransitions() config.`;
         argType
       }));
       return (fnName) => (...args) => {
-        const processedArgs = Array.from(args, (x2) => isArguments(x2) ? Array.from(x2) : x2).flat(1);
+        const processedArgs = Array.from(args, (x3) => isArguments(x3) ? Array.from(x3) : x3).flat(1);
         const err = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString2);
         if (!err.length) {
           return;
@@ -7158,7 +7172,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingAccount = draftState.accounts.find((x2) => x2.id === account.id);
+        const existingAccount = draftState.accounts.find((x3) => x3.id === account.id);
         if (existingAccount) {
           console.log("Account exists", existingAccount);
           return;
@@ -7179,7 +7193,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingAccount = draftState.accounts.find((x2) => x2.id === account.id);
+        const existingAccount = draftState.accounts.find((x3) => x3.id === account.id);
         if (!existingAccount) {
           unseenAccounts.push(account);
           return;
@@ -7224,7 +7238,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingStatement = draftState.statements.find((x2) => x2.id === statement.id);
+        const existingStatement = draftState.statements.find((x3) => x3.id === statement.id);
         if (existingStatement) {
           existingStatements.push({ newStatement: statement, existingStatement });
           return;
@@ -7248,7 +7262,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingStatement = draftState.statements.find((x2) => x2.id === statement.id);
+        const existingStatement = draftState.statements.find((x3) => x3.id === statement.id);
         if (!existingStatement) {
           unseenStatements.push(statement);
           return;
@@ -7289,7 +7303,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingEntry = draftState.entries.find((x2) => x2.id === entry.id);
+        const existingEntry = draftState.entries.find((x3) => x3.id === entry.id);
         if (existingEntry) {
           existingEntries.push({ newEntry: entry, existingEntry });
           return;
@@ -7451,12 +7465,12 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   }
   function SortByNumber(field) {
     if (field) {
-      return function sortByNumberInObject(a2, b3) {
-        return +a2[field] - +b3[field];
+      return function sortByNumberInObject(a2, b2) {
+        return +a2[field] - +b2[field];
       };
     } else {
-      return function sortByNumber(a2, b3) {
-        return +a2 - +b3;
+      return function sortByNumber(a2, b2) {
+        return +a2 - +b2;
       };
     }
   }
@@ -7746,7 +7760,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const { depsIndex } = state;
     state.depsIndex += 1;
     const prevDeps = state.depsStates[depsIndex] || [];
-    const shouldRecompute = deps === void 0 ? true : Array.isArray(deps) ? deps.length > 0 ? !deps.every((x2, i3) => x2 === prevDeps[i3]) : !state.setup : false;
+    const shouldRecompute = deps === void 0 ? true : Array.isArray(deps) ? deps.length > 0 ? !deps.every((x3, i3) => x3 === prevDeps[i3]) : !state.setup : false;
     if (deps !== void 0) {
       state.depsStates[depsIndex] = deps;
     }
@@ -7977,7 +7991,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         argType
       }));
       return (fnName) => (...args) => {
-        const processedArgs = Array.from(args, (x2) => isArguments2(x2) ? Array.from(x2) : x2).flat(1);
+        const processedArgs = Array.from(args, (x3) => isArguments2(x3) ? Array.from(x3) : x3).flat(1);
         const err = processedArgs.map(typeErrorStringFromArgument2(argMap)).filter(isString3);
         if (!err.length) {
           return;
@@ -8778,17 +8792,17 @@ Check your performTransitions() config.`;
     return { state, bot };
   }
   var w2 = Object.prototype;
-  var E2 = w2.toString;
+  var R2 = w2.toString;
   var O2 = (t2) => (n2) => typeof n2 === t2;
-  var b2 = (t2) => (n2) => n2 instanceof t2;
+  var x2 = (t2) => (n2) => n2 instanceof t2;
   var { isArray: e } = Array;
-  var F2 = (t2) => E2.call(t2) === "[object Arguments]";
+  var E2 = (t2) => R2.call(t2) === "[object Arguments]";
   var i2 = O2("function");
   var g2 = O2("string");
   var q2 = (t2) => t2 !== null && O2("object")(t2);
-  var N = b2(RegExp);
-  var p2 = (t2) => t2 === null || !q2(t2) || F2(t2) ? false : Object.getPrototypeOf(t2) === w2;
-  function L2(t2) {
+  var N = x2(RegExp);
+  var p2 = (t2) => t2 === null || !q2(t2) || E2(t2) ? false : Object.getPrototypeOf(t2) === w2;
+  function Q2(t2) {
     return (...n2) => z2(...n2)(t2);
   }
   var z2 = (...t2) => {
@@ -8798,8 +8812,12 @@ Check your performTransitions() config.`;
       return [m7, u2].every(i2) ? m7(o2) && (n2 = u2(o2), true) : r2 && (n2 = r2);
     }) && n2;
   };
-  var M2 = (t2) => (n2) => ({ matched: () => true, value: () => i2(t2) ? t2(n2) : t2 });
-  var Q2 = (t2) => (n2) => (o2) => ({ matched: () => c2(t2, o2, (s2) => o2 = s2), value: () => i2(n2) ? g2(o2) && N(t2) ? n2(o2.match(t2)) : n2(o2) : n2 });
+  var T = (t2) => (n2) => ({ matched: () => true, value: () => i2(t2) ? t2(n2) : t2 });
+  var U2 = (t2) => (n2) => (o2) => ({ matched: () => c2(t2, o2, (s2) => o2 = s2), value: () => i2(n2) ? g2(o2) && N(t2) ? n2(...B2(o2.match(t2))) : n2(o2) : n2 });
+  var B2 = (t2) => {
+    let { groups: n2 } = t2;
+    return n2 ? [n2, t2] : [t2];
+  };
   var c2 = (t2, n2, o2) => p2(t2) ? Object.keys(t2).every((s2) => c2(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : e(t2) ? e(n2) ? t2.length === n2.length && t2.every((s2, r2) => c2(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => c2(s2, n2, o2)) : i2(t2) ? t2(n2, o2) : g2(n2) && N(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
   function toVal(mix) {
     var k2, y2, str = "";
@@ -8827,12 +8845,12 @@ Check your performTransitions() config.`;
     return str;
   }
   function clsx_m_default() {
-    var i3 = 0, tmp, x2, str = "";
+    var i3 = 0, tmp, x3, str = "";
     while (i3 < arguments.length) {
       if (tmp = arguments[i3++]) {
-        if (x2 = toVal(tmp)) {
+        if (x3 = toVal(tmp)) {
           str && (str += " ");
-          str += x2;
+          str += x3;
         }
       }
     }
@@ -9044,37 +9062,37 @@ Check your performTransitions() config.`;
       }),
       handleClick: handleToggleOpen,
       disabled: !opened && !closed
-    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril4.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril4.default)(Subheader, null, L2({ ready, opened })(Q2({ ready: true, opened: true })("Hit the button below to try and download everything automatically."), Q2({ ready: true, opened: false })("Welcome! Click that button on the right to see if we can download some statements."), M2("Loading...")), /* @__PURE__ */ (0, import_mithril4.default)("br", null), /* @__PURE__ */ (0, import_mithril4.default)("br", null), fetcher.inState({
+    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril4.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril4.default)(Subheader, null, Q2({ ready, opened })(U2({ ready: true, opened: true })("Hit the button below to try and download everything automatically."), U2({ ready: true, opened: false })("Welcome! Click that button on the right to see if we can download some statements."), T("Loading...")), /* @__PURE__ */ (0, import_mithril4.default)("br", null), /* @__PURE__ */ (0, import_mithril4.default)("br", null), fetcher.inState({
       "getting-accounts": "Finding accounts...",
       "getting-statements": "Getting statements...",
       "getting-entries": "Getting transactions... (takes a moment to finish)",
-      idle: () => L2(fetcher.history().some((state2) => /^failed-/.test(state2)))(Q2(true)(/* @__PURE__ */ (0, import_mithril4.default)("span", {
+      idle: () => Q2(fetcher.history().some((state2) => /^failed-/.test(state2)))(U2(true)(/* @__PURE__ */ (0, import_mithril4.default)("span", {
         style: "font-weight: bold; color: red;"
       }, "Sorry, something went wrong. Please try again, or report a problem on the", " ", /* @__PURE__ */ (0, import_mithril4.default)("a", {
         href: "https://github.com/shuckster/OBIS/issues",
         target: "_blank",
         rel: "noopener noreferrer"
-      }, "OBIS Github repo"))), M2(""))
+      }, "OBIS Github repo"))), T(""))
     }), /* @__PURE__ */ (0, import_mithril4.default)(ProgressBar, {
       ...progressBar
     })), ready && /* @__PURE__ */ (0, import_mithril4.default)(VerticalAnimationContainer, {
       opened
     }, /* @__PURE__ */ (0, import_mithril4.default)(Accounts, null, store().accounts.map((account) => {
-      const allStatementYears = (0, import_fp.pipe)(store(), ($) => $.statements.filter((x2) => x2.accountId === account.id), ($) => $.map((x2) => new Date(x2.endDate).getFullYear()));
+      const allStatementYears = (0, import_fp.pipe)(store(), ($) => $.statements.filter((x3) => x3.accountId === account.id), ($) => $.map((x3) => new Date(x3.endDate).getFullYear()));
       const uniqueStatementYears = (0, import_fp.pipe)(allStatementYears, ($) => new Set($), ($) => [...$]);
       return /* @__PURE__ */ (0, import_mithril4.default)(Account, {
         key: account.id
       }, /* @__PURE__ */ (0, import_mithril4.default)(StatementsLoaded, null, "Statements: ", allStatementYears.length), /* @__PURE__ */ (0, import_mithril4.default)(YearsLoaded, null, uniqueStatementYears.join(" ")), /* @__PURE__ */ (0, import_mithril4.default)(AccountName, null, account.sortCode, " ", account.accountNumber));
-    })), /* @__PURE__ */ (0, import_mithril4.default)(Actions, null, L2(SUPPORTS_YEARS_SLIDER)(Q2(true)(/* @__PURE__ */ (0, import_mithril4.default)(YearsSlider, {
+    })), /* @__PURE__ */ (0, import_mithril4.default)(Actions, null, Q2(SUPPORTS_YEARS_SLIDER)(U2(true)(/* @__PURE__ */ (0, import_mithril4.default)(YearsSlider, {
       max: MAXIMUM_YEARS_TO_FETCH,
       value: yearsToFetch,
       handleUpdate: handleRangeSlider,
       disabled: !fetcher.inState("idle")
-    })), M2(/* @__PURE__ */ (0, import_mithril4.default)("div", null, "\xA0"))), /* @__PURE__ */ (0, import_mithril4.default)(Button, {
+    })), T(/* @__PURE__ */ (0, import_mithril4.default)("div", null, "\xA0"))), /* @__PURE__ */ (0, import_mithril4.default)(Button, {
       handleClick: handleFetchClick,
       className: "fetch-everything",
       disabled: !fetcher.inState("idle")
-    }, L2(SUPPORTS_YEARS_SLIDER)(Q2(true)(/* @__PURE__ */ (0, import_mithril4.default)(import_mithril4.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")), M2("Fetch statements"))), /* @__PURE__ */ (0, import_mithril4.default)(Button, {
+    }, Q2(SUPPORTS_YEARS_SLIDER)(U2(true)(/* @__PURE__ */ (0, import_mithril4.default)(import_mithril4.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")), T("Fetch statements"))), /* @__PURE__ */ (0, import_mithril4.default)(Button, {
       handleClick: handleViewStatementsClick,
       disabled: !fetcher.inState("found-entries")
     }, "View statements"), /* @__PURE__ */ (0, import_mithril4.default)(Button, {
@@ -9122,29 +9140,29 @@ Check your performTransitions() config.`;
     const [account, setAccount] = useState();
     const [accountInfo, setAccountInfo] = useState();
     useEffect(() => {
-      const account2 = accounts.find((x2) => x2.id === accountId);
+      const account2 = accounts.find((x3) => x3.id === accountId);
       const { sortCode, accountNumber } = account2 ?? UNKNOWN_ACCOUNT;
       const accountInfo2 = `${sortCode} ${accountNumber}`;
       setAccount(account2);
       setAccountInfo(accountInfo2);
     }, [accounts, accountId, setAccount, setAccountInfo]);
     const statements = useStatements();
-    const accountStatements = useMemo(() => statements.filter((x2) => x2.accountId === accountId), [statements, accountId]);
+    const accountStatements = useMemo(() => statements.filter((x3) => x3.accountId === accountId), [statements, accountId]);
     const getNewest = useCallback(() => {
       return accountStatements[0]?.id;
     }, [accountStatements]);
     const getNewerThan = useCallback((statementId) => {
-      const currentStatementIndex = accountStatements.map((x2, index) => x2.id === statementId ? index : null).filter((x2) => x2 !== null)[0];
+      const currentStatementIndex = accountStatements.map((x3, index) => x3.id === statementId ? index : null).filter((x3) => x3 !== null)[0];
       return accountStatements[Math.max(0, currentStatementIndex - 1)]?.id;
     }, [accountStatements]);
     const getOlderThan = useCallback((statementId) => {
-      const currentStatementIndex = accountStatements.map((x2, index) => x2.id === statementId ? index : null).filter((x2) => x2 !== null)[0];
+      const currentStatementIndex = accountStatements.map((x3, index) => x3.id === statementId ? index : null).filter((x3) => x3 !== null)[0];
       return accountStatements[Math.min(accountStatements.length - 1, currentStatementIndex + 1)]?.id;
     }, [accountStatements]);
     const getNearestToDate = useCallback((timestamp) => {
-      const statementsWithDateDeltas = accountStatements.map((x2) => ({
-        dateDelta: Math.abs(timestamp - x2.endDate),
-        id: x2.id
+      const statementsWithDateDeltas = accountStatements.map((x3) => ({
+        dateDelta: Math.abs(timestamp - x3.endDate),
+        id: x3.id
       })).sort(SortByNumber("dateDelta"));
       return statementsWithDateDeltas[0]?.id ?? getNewest();
     }, [accountStatements]);
@@ -9160,17 +9178,17 @@ Check your performTransitions() config.`;
   }
   function useStatementEntries(statementId) {
     const statements = useStatements();
-    const { startDate, startBalance, endDate, endBalance } = useMemo(() => statements.find((x2) => x2.id === statementId) ?? {}, [statements, statementId]);
+    const { startDate, startBalance, endDate, endBalance } = useMemo(() => statements.find((x3) => x3.id === statementId) ?? {}, [statements, statementId]);
     const entries = useEntries();
     const [statementEntries, setStatementEntries] = useState([]);
     const [totalDebit, setTotalDebit] = useState(0);
     const [totalCredit, setTotalCredit] = useState(0);
     const [creditDebitDiff, setCreditDebitDiff] = useState(0);
     useEffect(() => {
-      const statementEntries2 = entries.filter((x2) => x2.statementId === statementId);
+      const statementEntries2 = entries.filter((x3) => x3.statementId === statementId);
       setStatementEntries(statementEntries2);
-      const totalDebit2 = statementEntries2.reduce((acc, x2) => acc + x2.debit, 0);
-      const totalCredit2 = statementEntries2.reduce((acc, x2) => acc + x2.credit, 0);
+      const totalDebit2 = statementEntries2.reduce((acc, x3) => acc + x3.debit, 0);
+      const totalCredit2 = statementEntries2.reduce((acc, x3) => acc + x3.credit, 0);
       const creditDebitDiff2 = totalCredit2 - totalDebit2;
       setTotalDebit(isNaN(totalDebit2) ? 0 : totalDebit2);
       setTotalCredit(isNaN(totalCredit2) ? 0 : totalCredit2);
@@ -9196,7 +9214,251 @@ Check your performTransitions() config.`;
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          @import url('${obis.rootPath}/statement.css');
+          /* ../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-13114-DcS3tKe1ej3d/OBIS/src/ui/styles/statements-browser/all.css */
+body.obis-statements-browser {
+  font-size: 13px;
+  font-family: sans-serif;
+  text-align: left;
+  margin: 2rem 3rem 0 2rem;
+  background: #1a1a1a;
+}
+body.obis-statements-browser * {
+  color: #f5f5ee;
+  font-family: sans-serif;
+}
+body.obis-statements-browser {
+}
+body.obis-statements-browser table {
+  width: 100%;
+  border-radius: 0.5rem;
+  border-collapse: collapse;
+}
+body.obis-statements-browser thead,
+body.obis-statements-browser .year {
+  text-align: center;
+}
+body.obis-statements-browser table .currency {
+  text-align: right;
+}
+body.obis-statements-browser thead > tr > th:first-child {
+  border-top-left-radius: 0.5rem;
+}
+body.obis-statements-browser thead > tr > th:last-child {
+  border-top-right-radius: 0.5rem;
+}
+body.obis-statements-browser tfoot > tr > th:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+body.obis-statements-browser tfoot > tr > th:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
+body.obis-statements-browser td,
+body.obis-statements-browser th {
+  padding: 0.5rem 0.6rem;
+  font-size: 0.75rem;
+}
+body.obis-statements-browser .grid-container {
+  display: grid;
+  grid-template-columns: auto min-content;
+  grid-template-rows: min-content auto;
+  gap: 1rem 1rem;
+  grid-template-areas: "header spacing" "main years";
+}
+body.obis-statements-browser .header {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto;
+  gap: 0px 0px;
+  grid-template-areas: "info-and-accounts" "cursor-and-months";
+  grid-area: header;
+}
+body.obis-statements-browser .main {
+  grid-area: main;
+}
+body.obis-statements-browser .years {
+  grid-area: years;
+}
+body.obis-statements-browser .spacing {
+  grid-area: spacing;
+}
+body.obis-statements-browser .info-and-accounts {
+  height: 8rem;
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto;
+  gap: 0px 0px;
+  grid-template-areas: "info accounts";
+  grid-area: info-and-accounts;
+}
+body.obis-statements-browser .info-and-accounts .info {
+  grid-area: info;
+}
+body.obis-statements-browser .info-and-accounts .accounts {
+  grid-area: accounts;
+}
+body.obis-statements-browser .cursor-and-months {
+  height: 2rem;
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-template-rows: auto;
+  gap: 0px 0px;
+  grid-template-areas: "months cursor";
+  grid-area: cursor-and-months;
+}
+body.obis-statements-browser .cursor-and-months .months {
+  grid-area: months;
+}
+body.obis-statements-browser .cursor-and-months .cursor {
+  grid-area: cursor;
+}
+body.obis-statements-browser {
+}
+body.obis-statements-browser .header {
+  z-index: 1001;
+  top: 0;
+  position: sticky;
+  background: #1a1a1a;
+  padding: 0 0 1rem 0;
+}
+body.obis-statements-browser .header h1 {
+  margin: 1rem 0 1rem 0;
+  padding: 0;
+}
+body.obis-statements-browser .header h2 {
+  margin: 0.5rem 0 0.75rem 0;
+  padding: 0;
+}
+body.obis-statements-browser .balance-summary {
+  font-family: sans-serif;
+  font-size: 1rem;
+}
+body.obis-statements-browser .balance-summary > span {
+  background: #333;
+  border-radius: 0.5rem;
+  margin: 0 0.5rem 0 0;
+  padding: 0.5rem 1rem;
+}
+body.obis-statements-browser .balance-summary > span.black {
+  background: #2a4522;
+}
+body.obis-statements-browser .balance-summary > span.red {
+  background: #3e211f;
+}
+body.obis-statements-browser .accounts {
+  display: flex;
+  justify-content: flex-end;
+}
+body.obis-statements-browser .accounts > .account.selected {
+  border: 1px solid #b84eff;
+}
+body.obis-statements-browser .accounts > .account {
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: flex-end;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 5rem;
+  min-height: 6rem;
+  background: #272727;
+}
+body.obis-statements-browser .accounts > .account .statements-loaded {
+  font-size: 0.575rem;
+  font-weight: 600;
+  text-align: right;
+}
+body.obis-statements-browser .accounts > .account .years-loaded {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-align: right;
+  color: #aaa;
+  flex: 2;
+}
+body.obis-statements-browser .accounts > .account .account-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-align: left;
+  margin-bottom: auto;
+}
+body.obis-statements-browser .statement {
+  padding: 1rem;
+  margin-bottom: 2rem;
+  background: #222;
+  box-shadow: rgba(0, 0, 0, 0.5) 0.25rem 0.25rem 1rem;
+}
+body.obis-statements-browser table {
+  cursor: default;
+}
+body.obis-statements-browser .table-header > th {
+  z-index: 1000;
+  top: 12rem;
+  position: sticky;
+  background: #444;
+}
+body.obis-statements-browser tbody > tr:hover {
+  background: #111;
+}
+body.obis-statements-browser tbody .no-wrap {
+  white-space: nowrap;
+}
+body.obis-statements-browser tbody .no-entries {
+  padding: 2rem;
+  text-align: center;
+}
+body.obis-statements-browser tbody .negative {
+  color: #ff3f3f;
+}
+body.obis-statements-browser .table-footer > th {
+  z-index: 1000;
+  background: #d2d2d2;
+  color: black;
+}
+body.obis-statements-browser .months,
+body.obis-statements-browser .cursor {
+  display: flex;
+  justify-content: flex-end;
+}
+body.obis-statements-browser .years > div {
+  top: 1rem;
+  position: sticky;
+}
+body.obis-statements-browser .cursor > div {
+  padding: 0.75rem 1rem 0.75rem 1rem;
+  border-left: 1px solid #445;
+  border-right: 1px solid #445;
+}
+body.obis-statements-browser .months > div,
+body.obis-statements-browser .years > div > div {
+  padding: 0.75rem 0.8rem 0.75rem 0.8rem;
+  border-bottom: 1px solid #445;
+  width: 100%;
+}
+body.obis-statements-browser .months > div.selected,
+body.obis-statements-browser .years > div > div.selected {
+  background: #555;
+}
+body.obis-statements-browser .cursor > div:hover,
+body.obis-statements-browser .accounts > .account:hover,
+body.obis-statements-browser .months > div:hover,
+body.obis-statements-browser .years > div > div:hover {
+  background: #333;
+}
+body.obis-statements-browser .cursor > div,
+body.obis-statements-browser .account,
+body.obis-statements-browser .year,
+body.obis-statements-browser .month {
+  cursor: pointer;
+}
+body.obis-statements-browser .month.no-entries {
+  text-decoration: line-through;
+  color: #888;
+}
+
         </style>
       </head>
       <body
@@ -9218,7 +9480,7 @@ Check your performTransitions() config.`;
     const { selectedAccountId, handleClick } = props;
     const accounts = useAccounts();
     const clickHandler = useCallback((event2) => {
-      const accountId = event2?.composedPath().map((x2) => x2?.dataset?.account).filter(Boolean)[0];
+      const accountId = event2?.composedPath().map((x3) => x3?.dataset?.account).filter(Boolean)[0];
       handleClick(accountId);
     }, [handleClick]);
     return accounts.map((account) => /* @__PURE__ */ (0, import_mithril5.default)("div", {
@@ -9330,9 +9592,9 @@ Check your performTransitions() config.`;
       getNearestToDate
     } = useAccountStatements(accountId);
     const [selectedStatementId, setSelectedStatementId] = useState(getNewest());
-    const [selectedStatementDate, setSelectedStatementDate] = useState(accountStatements.find((x2) => x2.id === selectedStatementId)?.endDate);
+    const [selectedStatementDate, setSelectedStatementDate] = useState(accountStatements.find((x3) => x3.id === selectedStatementId)?.endDate);
     useEffect(() => {
-      const selectedStatement2 = accountStatements.find((x2) => x2.id === selectedStatementId);
+      const selectedStatement2 = accountStatements.find((x3) => x3.id === selectedStatementId);
       if (selectedStatement2) {
         setSelectedStatementDate(selectedStatement2.endDate);
       } else {
@@ -9358,8 +9620,8 @@ Check your performTransitions() config.`;
     const [years, setYears] = useState([]);
     const [months, setMonths] = useState([]);
     useEffect(() => {
-      const uniqueYears = (0, import_fp2.pipe)(accountStatements, ($) => $.map((x2) => new Date(x2.endDate)), ($) => $.map((x2) => x2.getFullYear()), ($) => new Set($), ($) => [...$]);
-      const uniqueMonths = (0, import_fp2.pipe)(accountStatements, ($) => $.map((x2) => new Date(x2.endDate)), ($) => $.filter((x2) => x2.getFullYear() == selectedYear), ($) => $.map((x2) => x2.getMonth()), ($) => new Set($), ($) => [...$]);
+      const uniqueYears = (0, import_fp2.pipe)(accountStatements, ($) => $.map((x3) => new Date(x3.endDate)), ($) => $.map((x3) => x3.getFullYear()), ($) => new Set($), ($) => [...$]);
+      const uniqueMonths = (0, import_fp2.pipe)(accountStatements, ($) => $.map((x3) => new Date(x3.endDate)), ($) => $.filter((x3) => x3.getFullYear() == selectedYear), ($) => $.map((x3) => x3.getMonth()), ($) => new Set($), ($) => [...$]);
       setYears(uniqueYears);
       setMonths(uniqueMonths);
     }, [accountStatements, selectedStatementDate, selectedYear]);
@@ -9514,18 +9776,18 @@ obis.registerPlugins([
     return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", !isNodeMode && module && module.__esModule ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
   var require_match_iz_cjs = __commonJS({
-    "node_modules/.pnpm/match-iz@1.12.0/node_modules/match-iz/dist/match-iz.cjs.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@2.0.4/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
       var j2 = Object.defineProperty;
       var z2 = Object.getOwnPropertyDescriptor;
       var B2 = Object.getOwnPropertyNames;
       var w2 = Object.getOwnPropertySymbols;
-      var R2 = Object.prototype.hasOwnProperty;
+      var W2 = Object.prototype.hasOwnProperty;
       var C = Object.prototype.propertyIsEnumerable;
       var G2 = (t2) => j2(t2, "__esModule", { value: true });
-      var W2 = (t2, n2) => {
+      var A2 = (t2, n2) => {
         var o2 = {};
         for (var s2 in t2)
-          R2.call(t2, s2) && n2.indexOf(s2) < 0 && (o2[s2] = t2[s2]);
+          W2.call(t2, s2) && n2.indexOf(s2) < 0 && (o2[s2] = t2[s2]);
         if (t2 != null && w2)
           for (var s2 of w2(t2))
             n2.indexOf(s2) < 0 && C.call(t2, s2) && (o2[s2] = t2[s2]);
@@ -9538,65 +9800,69 @@ obis.registerPlugins([
       var J = (t2, n2, o2, s2) => {
         if (n2 && typeof n2 == "object" || typeof n2 == "function")
           for (let r2 of B2(n2))
-            !R2.call(t2, r2) && (o2 || r2 !== "default") && j2(t2, r2, { get: () => n2[r2], enumerable: !(s2 = z2(n2, r2)) || s2.enumerable });
+            !W2.call(t2, r2) && (o2 || r2 !== "default") && j2(t2, r2, { get: () => n2[r2], enumerable: !(s2 = z2(n2, r2)) || s2.enumerable });
         return t2;
       };
       var K = ((t2) => (n2, o2) => t2 && t2.get(n2) || (o2 = J(G2({}), n2, 1), t2 && t2.set(n2, o2), o2))(typeof WeakMap != "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
-      var et = {};
-      H2(et, { against: () => E2, allOf: () => Z2, anyOf: () => F2, cata: () => ot, defined: () => _2, empty: () => I2, endsWith: () => k2, falsy: () => rt, gt: () => $, gte: () => d2, hasOwn: () => nt, inRange: () => v2, includedIn: () => tt, includes: () => a2, instanceOf: () => x2, isArray: () => e, isDate: () => D2, isFunction: () => i2, isNumber: () => S2, isPojo: () => f2, isRegExp: () => b2, isString: () => g2, lt: () => l2, lte: () => y2, match: () => T, not: () => Y2, otherwise: () => U2, pluck: () => X2, spread: () => it, startsWith: () => h2, truthy: () => st, when: () => V2 });
-      var A2 = Object.prototype;
-      var L2 = A2.toString;
+      var gt = {};
+      H2(gt, { against: () => R2, allOf: () => $, anyOf: () => E2, cata: () => st, defined: () => M2, empty: () => I2, endsWith: () => a2, falsy: () => it, gt: () => d2, gte: () => l2, hasOwn: () => ot, inRange: () => h2, includedIn: () => nt, includes: () => tt, instanceOf: () => b2, isArray: () => e, isDate: () => F2, isFunction: () => i2, isNumber: () => S2, isPojo: () => f2, isRegExp: () => x2, isString: () => g2, lt: () => y2, lte: () => v2, match: () => U2, not: () => _2, otherwise: () => V2, pluck: () => Z2, spread: () => ct, startsWith: () => k2, truthy: () => rt, when: () => X2 });
+      var D2 = Object.prototype;
+      var L2 = D2.toString;
       var p2 = (t2) => (n2) => typeof n2 === t2;
-      var x2 = (t2) => (n2) => n2 instanceof t2;
+      var b2 = (t2) => (n2) => n2 instanceof t2;
       var { isArray: e } = Array;
-      var M2 = (t2) => L2.call(t2) === "[object Arguments]";
-      var D2 = (t2) => x2(Date)(t2) && !isNaN(t2);
+      var Q2 = (t2) => L2.call(t2) === "[object Arguments]";
+      var F2 = (t2) => b2(Date)(t2) && !isNaN(t2);
       var i2 = p2("function");
       var g2 = p2("string");
       var S2 = (t2) => t2 === t2 && p2("number")(t2);
-      var Q2 = (t2) => t2 !== null && p2("object")(t2);
-      var b2 = x2(RegExp);
-      var f2 = (t2) => t2 === null || !Q2(t2) || M2(t2) ? false : Object.getPrototypeOf(t2) === A2;
-      function T(t2) {
-        return (...n2) => E2(...n2)(t2);
+      var T = (t2) => t2 !== null && p2("object")(t2);
+      var x2 = b2(RegExp);
+      var f2 = (t2) => t2 === null || !T(t2) || Q2(t2) ? false : Object.getPrototypeOf(t2) === D2;
+      function U2(t2) {
+        return (...n2) => R2(...n2)(t2);
       }
-      var E2 = (...t2) => {
+      var R2 = (...t2) => {
         let n2;
         return (o2) => t2.find((s2) => {
           let r2 = s2(o2), { matched: u2, value: O2 } = r2 || {};
           return [u2, O2].every(i2) ? u2(o2) && (n2 = O2(o2), true) : r2 && (n2 = r2);
         }) && n2;
       };
-      var U2 = (t2) => (n2) => ({ matched: () => true, value: () => i2(t2) ? t2(n2) : t2 });
-      var V2 = (t2) => (n2) => (o2) => ({ matched: () => c2(t2, o2, (s2) => o2 = s2), value: () => i2(n2) ? g2(o2) && b2(t2) ? n2(o2.match(t2)) : n2(o2) : n2 });
-      var c2 = (t2, n2, o2) => f2(t2) ? Object.keys(t2).every((s2) => c2(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : e(t2) ? e(n2) ? t2.length === n2.length && t2.every((s2, r2) => c2(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => c2(s2, n2, o2)) : i2(t2) ? t2(n2, o2) : g2(n2) && b2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
-      var X2 = (...t2) => (n2, o2) => t2.length === 0 || (i2(t2[0]) ? t2[0](n2) : c2(t2[0], n2, o2)) ? (o2(n2), true) : false;
-      var Y2 = (t2) => (n2, o2) => !c2(t2, n2, o2);
-      var F2 = (...t2) => t2.flat();
-      var Z2 = (...t2) => (n2, o2) => t2.flat().every((s2) => c2(s2, n2, o2));
+      var V2 = (t2) => (n2) => ({ matched: () => true, value: () => i2(t2) ? t2(n2) : t2 });
+      var X2 = (t2) => (n2) => (o2) => ({ matched: () => c2(t2, o2, (s2) => o2 = s2), value: () => i2(n2) ? g2(o2) && x2(t2) ? n2(...Y2(o2.match(t2))) : n2(o2) : n2 });
+      var Y2 = (t2) => {
+        let { groups: n2 } = t2;
+        return n2 ? [n2, t2] : [t2];
+      };
+      var c2 = (t2, n2, o2) => f2(t2) ? Object.keys(t2).every((s2) => c2(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : e(t2) ? e(n2) ? t2.length === n2.length && t2.every((s2, r2) => c2(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => c2(s2, n2, o2)) : i2(t2) ? t2(n2, o2) : g2(n2) && x2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
+      var Z2 = (...t2) => (n2, o2) => t2.length === 0 || (i2(t2[0]) ? t2[0](n2) : c2(t2[0], n2, o2)) ? (o2(n2), true) : false;
+      var _2 = (t2) => (n2, o2) => !c2(t2, n2, o2);
+      var E2 = (...t2) => t2.flat();
+      var $ = (...t2) => (n2, o2) => t2.flat().every((s2) => c2(s2, n2, o2));
       var I2 = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || e(t2) && !t2.length || f2(t2) && !Object.keys(t2).length;
-      var _2 = (t2) => !I2(t2);
-      var $ = (t2) => m((n2) => n2 > t2);
-      var l2 = (t2) => m((n2) => n2 < t2);
-      var d2 = (t2) => m((n2) => n2 >= t2);
-      var y2 = (t2) => m((n2) => n2 <= t2);
-      var v2 = (t2, n2) => m((o2) => o2 >= t2 && o2 <= n2);
-      var h2 = (t2) => q2((n2) => n2.startsWith(t2));
-      var k2 = (t2) => q2((n2) => n2.endsWith(t2));
-      var a2 = (t2) => ct((n2) => n2.includes(t2));
-      var tt = F2;
-      var nt = (...t2) => (n2) => f2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
-      var ot = (o2) => {
-        var s2 = o2, { getValue: t2 } = s2, n2 = W2(s2, ["getValue"]);
+      var M2 = (t2) => !I2(t2);
+      var d2 = (t2) => m((n2) => n2 > t2);
+      var y2 = (t2) => m((n2) => n2 < t2);
+      var l2 = (t2) => m((n2) => n2 >= t2);
+      var v2 = (t2) => m((n2) => n2 <= t2);
+      var h2 = (t2, n2) => m((o2) => o2 >= t2 && o2 <= n2);
+      var k2 = (t2) => q2((n2) => n2.startsWith(t2));
+      var a2 = (t2) => q2((n2) => n2.endsWith(t2));
+      var tt = (t2) => et((n2) => n2.includes(t2));
+      var nt = E2;
+      var ot = (...t2) => (n2) => f2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
+      var st = (o2) => {
+        var s2 = o2, { getValue: t2 } = s2, n2 = A2(s2, ["getValue"]);
         return Object.entries(n2).reduce((r2, [u2, O2]) => Object.assign(r2, { [u2]: (N) => (P2) => ({ matched: () => O2(P2), value: () => i2(N) ? N(t2(P2)) : N }) }), {});
       };
-      var st = (t2) => !!t2;
-      var rt = (t2) => !t2;
-      var it = (t2) => new Proxy({}, { get: () => t2 });
+      var rt = (t2) => !!t2;
+      var it = (t2) => !t2;
+      var ct = (t2) => new Proxy({}, { get: () => t2 });
       var q2 = (t2) => (n2) => g2(n2) && t2(n2);
       var m = (t2) => (n2) => S2(n2) && t2(n2);
-      var ct = (t2) => (n2) => (e(n2) || g2(n2)) && t2(n2);
-      module.exports = K(et);
+      var et = (t2) => (n2) => (e(n2) || g2(n2)) && t2(n2);
+      module.exports = K(gt);
     }
   });
   var require_fp = __commonJS({

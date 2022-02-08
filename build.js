@@ -203,7 +203,7 @@ const extensionManifestTemplate = {
   manifest_version: 2,
   short_name: 'OBIS',
   name: 'OBIS | Online Banking Is Shit',
-  version: '0.0.0.3',
+  version: '0.0.0.4',
   homepage_url: 'https://shuckster.github.io/OBIS/',
   author: 'Conan Theobald',
   description: `${ifLocal(
@@ -212,11 +212,10 @@ const extensionManifestTemplate = {
   content_scripts: [
     {
       matches: [],
-      css: ['ui.css', 'statement.css'],
+      css: ['ui.css'],
       js: ['obis-${pluginName}.js']
     }
   ],
-  web_accessible_resources: ['statement.css'],
   icons: {
     16: 'images/icon-16.png',
     32: 'images/icon-32.png',
@@ -290,10 +289,26 @@ function buildWebExtension() {
 }
 
 function buildExtensionContentScript(name, bundleJs) {
-  return esbuild
-    .transform(bundleJs, commonBuildOptions)
-    .then(({ code }) => code)
-    .then(writeTextFile(path.join(paths.EXTENSION_FOLDER, name)))
+  return (
+    esbuild
+      .transform(bundleJs, commonBuildOptions)
+      .then(({ code }) => code)
+      // FIXME: Dirty hack to fix Chrome warning about text/plain MIME type
+      // when serving statements.css from the extension.
+      .then(code =>
+        Promise.all([
+          Promise.resolve(code),
+          loadTextFile(path.join(paths.EXTENSION_FOLDER, 'statement.css'))
+        ])
+      )
+      .then(([code, cssToInline]) => {
+        return code.replace(
+          `@import url('\${obis.rootPath}/statement.css');`,
+          cssToInline
+        )
+      })
+      .then(writeTextFile(path.join(paths.EXTENSION_FOLDER, name)))
+  )
 }
 
 //

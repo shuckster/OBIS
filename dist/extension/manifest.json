@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "short_name": "OBIS",
   "name": "OBIS | Online Banking Is Shit",
-  "version": "0.0.0.3",
+  "version": "0.0.0.4",
   "homepage_url": "https://shuckster.github.io/OBIS/",
   "author": "Conan Theobald",
   "description": "Easily download your HSBC UK bank-statements.",
@@ -12,8 +12,7 @@
         "https://*.hsbc.co.uk/online/dashboard/*"
       ],
       "css": [
-        "ui.css",
-        "statement.css"
+        "ui.css"
       ],
       "js": [
         "obis-hsbc-uk-new-api.js"
@@ -24,16 +23,12 @@
         "https://*.online-banking.hsbc.co.uk/*"
       ],
       "css": [
-        "ui.css",
-        "statement.css"
+        "ui.css"
       ],
       "js": [
         "obis-hsbc-uk.js"
       ]
     }
-  ],
-  "web_accessible_resources": [
-    "statement.css"
   ],
   "icons": {
     "16": "images/icon-16.png",
