@@ -31,7 +31,7 @@ function getHost() {
 
 const pool = makePromisePool(3)
 
-obis.makePluginAvailable('hsbc-uk-new-api', () => {
+obis.makePluginAvailable('hsbc-uk', () => {
   const fetcher = obis.fetchMachine
   const { messages } = obis.deps
   const { emit } = messages
