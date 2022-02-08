@@ -2,6 +2,8 @@
 
 ## A JavaScript framework for downloading bank statements
 
+- [Recent updates](./CHANGELOG.md)
+
 OBIS can download statements from HSBC UK Personal Banking in a variety
 of formats. HSBC has historically been very limiting with its download
 options, and since 2021 only allows PDF downloads of your statements.
