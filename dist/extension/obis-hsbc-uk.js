@@ -2011,14 +2011,13 @@
     }
   });
   var require_match_iz_cjs = __commonJS({
-    "node_modules/.pnpm/match-iz@2.1.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@2.2.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
       var N = Object.defineProperty;
       var G = Object.getOwnPropertyDescriptor;
       var H = Object.getOwnPropertyNames;
       var w = Object.getOwnPropertySymbols;
       var W = Object.prototype.hasOwnProperty;
       var J = Object.prototype.propertyIsEnumerable;
-      var K = (t) => N(t, "__esModule", { value: true });
       var A = (t, n) => {
         var o = {};
         for (var s in t)
@@ -2032,33 +2031,34 @@
         for (var o in n)
           N(t, o, { get: n[o], enumerable: true });
       };
-      var L = (t, n, o, s) => {
+      var K = (t, n, o, s) => {
         if (n && typeof n == "object" || typeof n == "function")
           for (let r of H(n))
-            !W.call(t, r) && (o || r !== "default") && N(t, r, { get: () => n[r], enumerable: !(s = G(n, r)) || s.enumerable });
+            !W.call(t, r) && r !== o && N(t, r, { get: () => n[r], enumerable: !(s = G(n, r)) || s.enumerable });
         return t;
       };
-      var M = ((t) => (n, o) => t && t.get(n) || (o = L(K({}), n, 1), t && t.set(n, o), o))(typeof WeakMap != "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
-      var jt = {};
-      D(jt, { against: () => q, allOf: () => tt, anyOf: () => z, cata: () => Ot, defined: () => nt, empty: () => B, endsWith: () => gt, falsy: () => bt, gt: () => ot, gte: () => rt, hasOwn: () => ut, inRange: () => ct, includedIn: () => mt2, includes: () => ft, instanceOf: () => l, isArray: () => e, isDate: () => $, isFunction: () => c, isNumber: () => I, isPojo: () => b, isRegExp: () => S, isString: () => g, lt: () => st, lte: () => it, match: () => d, not: () => k, otherwise: () => v, pluck: () => a, spread: () => xt, startsWith: () => et2, truthy: () => pt, when: () => y });
+      var L = (t) => K(N({}, "__esModule", { value: true }), t);
+      var Nt = {};
+      D(Nt, { against: () => q, allOf: () => k, anyOf: () => z, cata: () => ut, defined: () => tt, empty: () => B, endsWith: () => et2, falsy: () => pt, gt: () => nt, gte: () => st, hasOwn: () => mt2, inRange: () => it, includedIn: () => ft, includes: () => gt, instanceOf: () => $, isArray: () => e, isDate: () => _, isFunction: () => c, isNumber: () => I, isPojo: () => b, isRegExp: () => S, isString: () => g, lt: () => ot, lte: () => rt, match: () => l, not: () => a, otherwise: () => d, pluck: () => h, spread: () => bt, startsWith: () => ct, truthy: () => Ot, when: () => v });
+      module.exports = L(Nt);
       var p = {};
-      D(p, { instanceOf: () => j, isArguments: () => R, isArray: () => T, isDate: () => U, isFunction: () => V, isNumber: () => Y2, isObject: () => E, isPojo: () => _, isRegExp: () => Z, isString: () => X });
+      D(p, { instanceOf: () => j, isArguments: () => R, isArray: () => Q, isDate: () => T, isFunction: () => U, isNumber: () => X, isObject: () => E, isPojo: () => Z, isRegExp: () => Y2, isString: () => V });
       var F = Object.prototype;
-      var Q = F.toString;
+      var M = F.toString;
       var O = (t) => (n) => typeof n === t;
       var j = (t) => (n) => n instanceof t;
-      var { isArray: T } = Array;
-      var R = (t) => Q.call(t) === "[object Arguments]";
-      var U = (t) => j(Date)(t) && !isNaN(t);
-      var V = O("function");
-      var X = O("string");
-      var Y2 = (t) => t === t && O("number")(t);
+      var { isArray: Q } = Array;
+      var R = (t) => M.call(t) === "[object Arguments]";
+      var T = (t) => j(Date)(t) && !isNaN(t);
+      var U = O("function");
+      var V = O("string");
+      var X = (t) => t === t && O("number")(t);
       var E = (t) => t !== null && O("object")(t);
-      var Z = j(RegExp);
-      var _ = (t) => t === null || !E(t) || R(t) ? false : Object.getPrototypeOf(t) === F;
-      var { isArray: e, isDate: $, isFunction: c, isNumber: I } = p;
-      var { isPojo: b, isRegExp: S, isString: g, instanceOf: l } = p;
-      function d(t) {
+      var Y2 = j(RegExp);
+      var Z = (t) => t === null || !E(t) || R(t) ? false : Object.getPrototypeOf(t) === F;
+      var { isArray: e, isDate: _, isFunction: c, isNumber: I } = p;
+      var { isPojo: b, isRegExp: S, isString: g, instanceOf: $ } = p;
+      function l(t) {
         return (...n) => q(...n)(t);
       }
       var q = (...t) => {
@@ -2068,40 +2068,39 @@
           return [m, u].every(c) ? m(o) && (n = u(o), true) : r && (n = r);
         }) && n;
       };
-      var v = (t) => (n) => ({ matched: () => true, value: () => c(t) ? t(n) : t });
-      var y = (t) => (n) => (o) => ({ matched: () => i2(t, o, (s) => o = s), value: () => c(n) ? g(o) && S(t) ? n(...h(o.match(t))) : n(o) : n });
-      var h = (t) => {
+      var d = (t) => (n) => ({ matched: () => true, value: () => c(t) ? t(n) : t });
+      var v = (t) => (n) => (o) => ({ matched: () => i2(t, o, (s) => o = s), value: () => c(n) ? g(o) && S(t) ? n(...y(o.match(t))) : n(o) : n });
+      var y = (t) => {
         let { groups: n } = t;
         return n ? [n, t] : [t];
       };
       var i2 = (t, n, o) => b(t) ? Object.keys(t).every((s) => i2(t[s], n == null ? void 0 : n[s], o)) : e(t) ? e(n) ? t.length === n.length && t.every((s, r) => i2(s, n == null ? void 0 : n[r], o)) : t.some((s) => i2(s, n, o)) : c(t) ? t(n, o) : g(n) && S(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-      var a = (...t) => (n, o) => t.length === 0 || (c(t[0]) ? t[0](n) : i2(t[0], n, o)) ? (o(n), true) : false;
-      var k = (t) => (n, o) => !i2(t, n, o);
-      var z = (...t) => t.flat();
-      var tt = (...t) => (n, o) => t.flat().every((s) => i2(s, n, o));
+      var h = (...t) => (n, o) => t.length === 0 || (c(t[0]) ? t[0](n) : i2(t[0], n, o)) ? (o(n), true) : false;
+      var a = (t) => (n, o) => !i2(t, n, o);
+      var z = (...t) => (n, o) => t.flat().some((s) => i2(s, n, o));
+      var k = (...t) => (n, o) => t.flat().every((s) => i2(s, n, o));
       var B = (t) => t !== t || !t && t !== 0 && t !== false || e(t) && !t.length || b(t) && !Object.keys(t).length;
-      var nt = (t) => !B(t);
-      var ot = (t) => f((n) => n > t);
-      var st = (t) => f((n) => n < t);
-      var rt = (t) => f((n) => n >= t);
-      var it = (t) => f((n) => n <= t);
-      var ct = (t, n) => f((o) => o >= Math.min(t, n) && o <= Math.max(t, n));
-      var et2 = (t) => C((n) => n.startsWith(t));
-      var gt = (t) => C((n) => n.endsWith(t));
-      var ft = (t) => Nt((n) => n.includes(t));
-      var mt2 = z;
-      var ut = (...t) => (n) => b(n) && (([o, s]) => o.length && o.every((r) => s.includes(r)))([t.flat(), Object.keys(n)]);
-      var Ot = (o) => {
+      var tt = (t) => !B(t);
+      var nt = (t) => f((n) => n > t);
+      var ot = (t) => f((n) => n < t);
+      var st = (t) => f((n) => n >= t);
+      var rt = (t) => f((n) => n <= t);
+      var it = (t, n) => f((o) => o >= Math.min(t, n) && o <= Math.max(t, n));
+      var ct = (t) => C((n) => n.startsWith(t));
+      var et2 = (t) => C((n) => n.endsWith(t));
+      var gt = (t) => xt((n) => n.includes(t));
+      var ft = z;
+      var mt2 = (...t) => (n) => b(n) && (([o, s]) => o.length && o.every((r) => s.includes(r)))([t.flat(), Object.keys(n)]);
+      var ut = (o) => {
         var s = o, { getValue: t } = s, n = A(s, ["getValue"]);
         return Object.entries(n).reduce((r, [m, u]) => Object.assign(r, { [m]: (x2) => (P) => ({ matched: () => u(P), value: () => c(x2) ? x2(t(P)) : x2 }) }), {});
       };
-      var pt = (t) => !!t;
-      var bt = (t) => !t;
-      var xt = (t) => new Proxy({}, { get: () => t });
+      var Ot = (t) => !!t;
+      var pt = (t) => !t;
+      var bt = (t) => new Proxy({}, { get: () => t });
       var C = (t) => (n) => g(n) && t(n);
       var f = (t) => (n) => I(n) && t(n);
-      var Nt = (t) => (n) => (e(n) || g(n)) && t(n);
-      module.exports = M(jt);
+      var xt = (t) => (n) => (e(n) || g(n)) && t(n);
     }
   });
   var require_fp = __commonJS({
@@ -6332,14 +6331,13 @@ Check your performTransitions() config.`;
     }
   });
   var require_match_iz_cjs = __commonJS({
-    "node_modules/.pnpm/match-iz@2.1.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@2.2.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
       var N2 = Object.defineProperty;
       var G3 = Object.getOwnPropertyDescriptor;
       var H3 = Object.getOwnPropertyNames;
       var w3 = Object.getOwnPropertySymbols;
       var W3 = Object.prototype.hasOwnProperty;
       var J2 = Object.prototype.propertyIsEnumerable;
-      var K2 = (t2) => N2(t2, "__esModule", { value: true });
       var A3 = (t2, n2) => {
         var o2 = {};
         for (var s2 in t2)
@@ -6353,33 +6351,34 @@ Check your performTransitions() config.`;
         for (var o2 in n2)
           N2(t2, o2, { get: n2[o2], enumerable: true });
       };
-      var L3 = (t2, n2, o2, s2) => {
+      var K2 = (t2, n2, o2, s2) => {
         if (n2 && typeof n2 == "object" || typeof n2 == "function")
           for (let r2 of H3(n2))
-            !W3.call(t2, r2) && (o2 || r2 !== "default") && N2(t2, r2, { get: () => n2[r2], enumerable: !(s2 = G3(n2, r2)) || s2.enumerable });
+            !W3.call(t2, r2) && r2 !== o2 && N2(t2, r2, { get: () => n2[r2], enumerable: !(s2 = G3(n2, r2)) || s2.enumerable });
         return t2;
       };
-      var M3 = ((t2) => (n2, o2) => t2 && t2.get(n2) || (o2 = L3(K2({}), n2, 1), t2 && t2.set(n2, o2), o2))(typeof WeakMap != "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
-      var jt = {};
-      D3(jt, { against: () => q3, allOf: () => tt, anyOf: () => z3, cata: () => Ot, defined: () => nt, empty: () => B3, endsWith: () => gt, falsy: () => bt, gt: () => ot, gte: () => rt, hasOwn: () => ut, inRange: () => ct, includedIn: () => mt, includes: () => ft, instanceOf: () => l3, isArray: () => e, isDate: () => $2, isFunction: () => c3, isNumber: () => I2, isPojo: () => b2, isRegExp: () => S2, isString: () => g2, lt: () => st, lte: () => it, match: () => d3, not: () => k2, otherwise: () => v2, pluck: () => a2, spread: () => xt, startsWith: () => et, truthy: () => pt, when: () => y2 });
+      var L3 = (t2) => K2(N2({}, "__esModule", { value: true }), t2);
+      var Nt = {};
+      D3(Nt, { against: () => q3, allOf: () => k2, anyOf: () => z3, cata: () => ut, defined: () => tt, empty: () => B3, endsWith: () => et, falsy: () => pt, gt: () => nt, gte: () => st, hasOwn: () => mt, inRange: () => it, includedIn: () => ft, includes: () => gt, instanceOf: () => $2, isArray: () => e, isDate: () => _3, isFunction: () => c3, isNumber: () => I2, isPojo: () => b2, isRegExp: () => S2, isString: () => g2, lt: () => ot, lte: () => rt, match: () => l3, not: () => a2, otherwise: () => d3, pluck: () => h2, spread: () => bt, startsWith: () => ct, truthy: () => Ot, when: () => v2 });
+      module.exports = L3(Nt);
       var p3 = {};
-      D3(p3, { instanceOf: () => j2, isArguments: () => R3, isArray: () => T2, isDate: () => U2, isFunction: () => V2, isNumber: () => Y2, isObject: () => E2, isPojo: () => _3, isRegExp: () => Z3, isString: () => X2 });
+      D3(p3, { instanceOf: () => j2, isArguments: () => R3, isArray: () => Q3, isDate: () => T2, isFunction: () => U2, isNumber: () => X2, isObject: () => E2, isPojo: () => Z3, isRegExp: () => Y2, isString: () => V2 });
       var F2 = Object.prototype;
-      var Q3 = F2.toString;
+      var M3 = F2.toString;
       var O3 = (t2) => (n2) => typeof n2 === t2;
       var j2 = (t2) => (n2) => n2 instanceof t2;
-      var { isArray: T2 } = Array;
-      var R3 = (t2) => Q3.call(t2) === "[object Arguments]";
-      var U2 = (t2) => j2(Date)(t2) && !isNaN(t2);
-      var V2 = O3("function");
-      var X2 = O3("string");
-      var Y2 = (t2) => t2 === t2 && O3("number")(t2);
+      var { isArray: Q3 } = Array;
+      var R3 = (t2) => M3.call(t2) === "[object Arguments]";
+      var T2 = (t2) => j2(Date)(t2) && !isNaN(t2);
+      var U2 = O3("function");
+      var V2 = O3("string");
+      var X2 = (t2) => t2 === t2 && O3("number")(t2);
       var E2 = (t2) => t2 !== null && O3("object")(t2);
-      var Z3 = j2(RegExp);
-      var _3 = (t2) => t2 === null || !E2(t2) || R3(t2) ? false : Object.getPrototypeOf(t2) === F2;
-      var { isArray: e, isDate: $2, isFunction: c3, isNumber: I2 } = p3;
-      var { isPojo: b2, isRegExp: S2, isString: g2, instanceOf: l3 } = p3;
-      function d3(t2) {
+      var Y2 = j2(RegExp);
+      var Z3 = (t2) => t2 === null || !E2(t2) || R3(t2) ? false : Object.getPrototypeOf(t2) === F2;
+      var { isArray: e, isDate: _3, isFunction: c3, isNumber: I2 } = p3;
+      var { isPojo: b2, isRegExp: S2, isString: g2, instanceOf: $2 } = p3;
+      function l3(t2) {
         return (...n2) => q3(...n2)(t2);
       }
       var q3 = (...t2) => {
@@ -6389,40 +6388,39 @@ Check your performTransitions() config.`;
           return [m8, u3].every(c3) ? m8(o2) && (n2 = u3(o2), true) : r2 && (n2 = r2);
         }) && n2;
       };
-      var v2 = (t2) => (n2) => ({ matched: () => true, value: () => c3(t2) ? t2(n2) : t2 });
-      var y2 = (t2) => (n2) => (o2) => ({ matched: () => i3(t2, o2, (s2) => o2 = s2), value: () => c3(n2) ? g2(o2) && S2(t2) ? n2(...h2(o2.match(t2))) : n2(o2) : n2 });
-      var h2 = (t2) => {
+      var d3 = (t2) => (n2) => ({ matched: () => true, value: () => c3(t2) ? t2(n2) : t2 });
+      var v2 = (t2) => (n2) => (o2) => ({ matched: () => i3(t2, o2, (s2) => o2 = s2), value: () => c3(n2) ? g2(o2) && S2(t2) ? n2(...y2(o2.match(t2))) : n2(o2) : n2 });
+      var y2 = (t2) => {
         let { groups: n2 } = t2;
         return n2 ? [n2, t2] : [t2];
       };
       var i3 = (t2, n2, o2) => b2(t2) ? Object.keys(t2).every((s2) => i3(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : e(t2) ? e(n2) ? t2.length === n2.length && t2.every((s2, r2) => i3(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => i3(s2, n2, o2)) : c3(t2) ? t2(n2, o2) : g2(n2) && S2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
-      var a2 = (...t2) => (n2, o2) => t2.length === 0 || (c3(t2[0]) ? t2[0](n2) : i3(t2[0], n2, o2)) ? (o2(n2), true) : false;
-      var k2 = (t2) => (n2, o2) => !i3(t2, n2, o2);
-      var z3 = (...t2) => t2.flat();
-      var tt = (...t2) => (n2, o2) => t2.flat().every((s2) => i3(s2, n2, o2));
+      var h2 = (...t2) => (n2, o2) => t2.length === 0 || (c3(t2[0]) ? t2[0](n2) : i3(t2[0], n2, o2)) ? (o2(n2), true) : false;
+      var a2 = (t2) => (n2, o2) => !i3(t2, n2, o2);
+      var z3 = (...t2) => (n2, o2) => t2.flat().some((s2) => i3(s2, n2, o2));
+      var k2 = (...t2) => (n2, o2) => t2.flat().every((s2) => i3(s2, n2, o2));
       var B3 = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || e(t2) && !t2.length || b2(t2) && !Object.keys(t2).length;
-      var nt = (t2) => !B3(t2);
-      var ot = (t2) => f2((n2) => n2 > t2);
-      var st = (t2) => f2((n2) => n2 < t2);
-      var rt = (t2) => f2((n2) => n2 >= t2);
-      var it = (t2) => f2((n2) => n2 <= t2);
-      var ct = (t2, n2) => f2((o2) => o2 >= Math.min(t2, n2) && o2 <= Math.max(t2, n2));
-      var et = (t2) => C2((n2) => n2.startsWith(t2));
-      var gt = (t2) => C2((n2) => n2.endsWith(t2));
-      var ft = (t2) => Nt((n2) => n2.includes(t2));
-      var mt = z3;
-      var ut = (...t2) => (n2) => b2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
-      var Ot = (o2) => {
+      var tt = (t2) => !B3(t2);
+      var nt = (t2) => f2((n2) => n2 > t2);
+      var ot = (t2) => f2((n2) => n2 < t2);
+      var st = (t2) => f2((n2) => n2 >= t2);
+      var rt = (t2) => f2((n2) => n2 <= t2);
+      var it = (t2, n2) => f2((o2) => o2 >= Math.min(t2, n2) && o2 <= Math.max(t2, n2));
+      var ct = (t2) => C2((n2) => n2.startsWith(t2));
+      var et = (t2) => C2((n2) => n2.endsWith(t2));
+      var gt = (t2) => xt((n2) => n2.includes(t2));
+      var ft = z3;
+      var mt = (...t2) => (n2) => b2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
+      var ut = (o2) => {
         var s2 = o2, { getValue: t2 } = s2, n2 = A3(s2, ["getValue"]);
         return Object.entries(n2).reduce((r2, [m8, u3]) => Object.assign(r2, { [m8]: (x3) => (P2) => ({ matched: () => u3(P2), value: () => c3(x3) ? x3(t2(P2)) : x3 }) }), {});
       };
-      var pt = (t2) => !!t2;
-      var bt = (t2) => !t2;
-      var xt = (t2) => new Proxy({}, { get: () => t2 });
+      var Ot = (t2) => !!t2;
+      var pt = (t2) => !t2;
+      var bt = (t2) => new Proxy({}, { get: () => t2 });
       var C2 = (t2) => (n2) => g2(n2) && t2(n2);
       var f2 = (t2) => (n2) => I2(n2) && t2(n2);
-      var Nt = (t2) => (n2) => (e(n2) || g2(n2)) && t2(n2);
-      module.exports = M3(jt);
+      var xt = (t2) => (n2) => (e(n2) || g2(n2)) && t2(n2);
     }
   });
   var require_fp = __commonJS({
@@ -9227,7 +9225,7 @@ Check your performTransitions() config.`;
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          /* ../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-24578-OPuQRH3jChW3/OBIS/src/ui/styles/statements-browser/all.css */
+          /* ../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-81599-pBJ2VrMDHsmH/OBIS/src/ui/styles/statements-browser/all.css */
 body.obis-statements-browser {
   font-size: 13px;
   font-family: sans-serif;
@@ -9779,14 +9777,13 @@ obis.registerPlugins([
   };
   var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
   var require_match_iz_cjs = __commonJS({
-    "node_modules/.pnpm/match-iz@2.1.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@2.2.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
       var N = Object.defineProperty;
       var G2 = Object.getOwnPropertyDescriptor;
       var H2 = Object.getOwnPropertyNames;
       var w2 = Object.getOwnPropertySymbols;
       var W2 = Object.prototype.hasOwnProperty;
       var J = Object.prototype.propertyIsEnumerable;
-      var K = (t2) => N(t2, "__esModule", { value: true });
       var A2 = (t2, n2) => {
         var o2 = {};
         for (var s2 in t2)
@@ -9800,33 +9797,34 @@ obis.registerPlugins([
         for (var o2 in n2)
           N(t2, o2, { get: n2[o2], enumerable: true });
       };
-      var L2 = (t2, n2, o2, s2) => {
+      var K = (t2, n2, o2, s2) => {
         if (n2 && typeof n2 == "object" || typeof n2 == "function")
           for (let r2 of H2(n2))
-            !W2.call(t2, r2) && (o2 || r2 !== "default") && N(t2, r2, { get: () => n2[r2], enumerable: !(s2 = G2(n2, r2)) || s2.enumerable });
+            !W2.call(t2, r2) && r2 !== o2 && N(t2, r2, { get: () => n2[r2], enumerable: !(s2 = G2(n2, r2)) || s2.enumerable });
         return t2;
       };
-      var M2 = ((t2) => (n2, o2) => t2 && t2.get(n2) || (o2 = L2(K({}), n2, 1), t2 && t2.set(n2, o2), o2))(typeof WeakMap != "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
-      var jt = {};
-      D2(jt, { against: () => q2, allOf: () => tt, anyOf: () => z2, cata: () => Ot, defined: () => nt, empty: () => B2, endsWith: () => gt, falsy: () => bt, gt: () => ot, gte: () => rt, hasOwn: () => ut, inRange: () => ct, includedIn: () => mt, includes: () => ft, instanceOf: () => l2, isArray: () => e, isDate: () => $, isFunction: () => c2, isNumber: () => I2, isPojo: () => b2, isRegExp: () => S2, isString: () => g2, lt: () => st, lte: () => it, match: () => d2, not: () => k2, otherwise: () => v2, pluck: () => a2, spread: () => xt, startsWith: () => et, truthy: () => pt, when: () => y2 });
+      var L2 = (t2) => K(N({}, "__esModule", { value: true }), t2);
+      var Nt = {};
+      D2(Nt, { against: () => q2, allOf: () => k2, anyOf: () => z2, cata: () => ut, defined: () => tt, empty: () => B2, endsWith: () => et, falsy: () => pt, gt: () => nt, gte: () => st, hasOwn: () => mt, inRange: () => it, includedIn: () => ft, includes: () => gt, instanceOf: () => $, isArray: () => e, isDate: () => _2, isFunction: () => c2, isNumber: () => I2, isPojo: () => b2, isRegExp: () => S2, isString: () => g2, lt: () => ot, lte: () => rt, match: () => l2, not: () => a2, otherwise: () => d2, pluck: () => h2, spread: () => bt, startsWith: () => ct, truthy: () => Ot, when: () => v2 });
+      module.exports = L2(Nt);
       var p2 = {};
-      D2(p2, { instanceOf: () => j2, isArguments: () => R2, isArray: () => T, isDate: () => U2, isFunction: () => V2, isNumber: () => Y2, isObject: () => E2, isPojo: () => _2, isRegExp: () => Z2, isString: () => X2 });
+      D2(p2, { instanceOf: () => j2, isArguments: () => R2, isArray: () => Q2, isDate: () => T, isFunction: () => U2, isNumber: () => X2, isObject: () => E2, isPojo: () => Z2, isRegExp: () => Y2, isString: () => V2 });
       var F2 = Object.prototype;
-      var Q2 = F2.toString;
+      var M2 = F2.toString;
       var O2 = (t2) => (n2) => typeof n2 === t2;
       var j2 = (t2) => (n2) => n2 instanceof t2;
-      var { isArray: T } = Array;
-      var R2 = (t2) => Q2.call(t2) === "[object Arguments]";
-      var U2 = (t2) => j2(Date)(t2) && !isNaN(t2);
-      var V2 = O2("function");
-      var X2 = O2("string");
-      var Y2 = (t2) => t2 === t2 && O2("number")(t2);
+      var { isArray: Q2 } = Array;
+      var R2 = (t2) => M2.call(t2) === "[object Arguments]";
+      var T = (t2) => j2(Date)(t2) && !isNaN(t2);
+      var U2 = O2("function");
+      var V2 = O2("string");
+      var X2 = (t2) => t2 === t2 && O2("number")(t2);
       var E2 = (t2) => t2 !== null && O2("object")(t2);
-      var Z2 = j2(RegExp);
-      var _2 = (t2) => t2 === null || !E2(t2) || R2(t2) ? false : Object.getPrototypeOf(t2) === F2;
-      var { isArray: e, isDate: $, isFunction: c2, isNumber: I2 } = p2;
-      var { isPojo: b2, isRegExp: S2, isString: g2, instanceOf: l2 } = p2;
-      function d2(t2) {
+      var Y2 = j2(RegExp);
+      var Z2 = (t2) => t2 === null || !E2(t2) || R2(t2) ? false : Object.getPrototypeOf(t2) === F2;
+      var { isArray: e, isDate: _2, isFunction: c2, isNumber: I2 } = p2;
+      var { isPojo: b2, isRegExp: S2, isString: g2, instanceOf: $ } = p2;
+      function l2(t2) {
         return (...n2) => q2(...n2)(t2);
       }
       var q2 = (...t2) => {
@@ -9836,40 +9834,39 @@ obis.registerPlugins([
           return [m, u2].every(c2) ? m(o2) && (n2 = u2(o2), true) : r2 && (n2 = r2);
         }) && n2;
       };
-      var v2 = (t2) => (n2) => ({ matched: () => true, value: () => c2(t2) ? t2(n2) : t2 });
-      var y2 = (t2) => (n2) => (o2) => ({ matched: () => i2(t2, o2, (s2) => o2 = s2), value: () => c2(n2) ? g2(o2) && S2(t2) ? n2(...h2(o2.match(t2))) : n2(o2) : n2 });
-      var h2 = (t2) => {
+      var d2 = (t2) => (n2) => ({ matched: () => true, value: () => c2(t2) ? t2(n2) : t2 });
+      var v2 = (t2) => (n2) => (o2) => ({ matched: () => i2(t2, o2, (s2) => o2 = s2), value: () => c2(n2) ? g2(o2) && S2(t2) ? n2(...y2(o2.match(t2))) : n2(o2) : n2 });
+      var y2 = (t2) => {
         let { groups: n2 } = t2;
         return n2 ? [n2, t2] : [t2];
       };
       var i2 = (t2, n2, o2) => b2(t2) ? Object.keys(t2).every((s2) => i2(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : e(t2) ? e(n2) ? t2.length === n2.length && t2.every((s2, r2) => i2(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => i2(s2, n2, o2)) : c2(t2) ? t2(n2, o2) : g2(n2) && S2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
-      var a2 = (...t2) => (n2, o2) => t2.length === 0 || (c2(t2[0]) ? t2[0](n2) : i2(t2[0], n2, o2)) ? (o2(n2), true) : false;
-      var k2 = (t2) => (n2, o2) => !i2(t2, n2, o2);
-      var z2 = (...t2) => t2.flat();
-      var tt = (...t2) => (n2, o2) => t2.flat().every((s2) => i2(s2, n2, o2));
+      var h2 = (...t2) => (n2, o2) => t2.length === 0 || (c2(t2[0]) ? t2[0](n2) : i2(t2[0], n2, o2)) ? (o2(n2), true) : false;
+      var a2 = (t2) => (n2, o2) => !i2(t2, n2, o2);
+      var z2 = (...t2) => (n2, o2) => t2.flat().some((s2) => i2(s2, n2, o2));
+      var k2 = (...t2) => (n2, o2) => t2.flat().every((s2) => i2(s2, n2, o2));
       var B2 = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || e(t2) && !t2.length || b2(t2) && !Object.keys(t2).length;
-      var nt = (t2) => !B2(t2);
-      var ot = (t2) => f2((n2) => n2 > t2);
-      var st = (t2) => f2((n2) => n2 < t2);
-      var rt = (t2) => f2((n2) => n2 >= t2);
-      var it = (t2) => f2((n2) => n2 <= t2);
-      var ct = (t2, n2) => f2((o2) => o2 >= Math.min(t2, n2) && o2 <= Math.max(t2, n2));
-      var et = (t2) => C((n2) => n2.startsWith(t2));
-      var gt = (t2) => C((n2) => n2.endsWith(t2));
-      var ft = (t2) => Nt((n2) => n2.includes(t2));
-      var mt = z2;
-      var ut = (...t2) => (n2) => b2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
-      var Ot = (o2) => {
+      var tt = (t2) => !B2(t2);
+      var nt = (t2) => f2((n2) => n2 > t2);
+      var ot = (t2) => f2((n2) => n2 < t2);
+      var st = (t2) => f2((n2) => n2 >= t2);
+      var rt = (t2) => f2((n2) => n2 <= t2);
+      var it = (t2, n2) => f2((o2) => o2 >= Math.min(t2, n2) && o2 <= Math.max(t2, n2));
+      var ct = (t2) => C((n2) => n2.startsWith(t2));
+      var et = (t2) => C((n2) => n2.endsWith(t2));
+      var gt = (t2) => xt((n2) => n2.includes(t2));
+      var ft = z2;
+      var mt = (...t2) => (n2) => b2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
+      var ut = (o2) => {
         var s2 = o2, { getValue: t2 } = s2, n2 = A2(s2, ["getValue"]);
         return Object.entries(n2).reduce((r2, [m, u2]) => Object.assign(r2, { [m]: (x2) => (P2) => ({ matched: () => u2(P2), value: () => c2(x2) ? x2(t2(P2)) : x2 }) }), {});
       };
-      var pt = (t2) => !!t2;
-      var bt = (t2) => !t2;
-      var xt = (t2) => new Proxy({}, { get: () => t2 });
+      var Ot = (t2) => !!t2;
+      var pt = (t2) => !t2;
+      var bt = (t2) => new Proxy({}, { get: () => t2 });
       var C = (t2) => (n2) => g2(n2) && t2(n2);
       var f2 = (t2) => (n2) => I2(n2) && t2(n2);
-      var Nt = (t2) => (n2) => (e(n2) || g2(n2)) && t2(n2);
-      module.exports = M2(jt);
+      var xt = (t2) => (n2) => (e(n2) || g2(n2)) && t2(n2);
     }
   });
   var require_fp = __commonJS({
