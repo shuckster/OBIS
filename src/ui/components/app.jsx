@@ -10,7 +10,7 @@ import {
   useState,
   useCallback
 } from 'mithril-hooks'
-import { useStatebot } from 'statebot-mithril-hooks'
+import { useStatebot } from 'statebot/hooks/mithril'
 import { match, when, otherwise } from 'match-iz'
 
 import clsx from 'clsx'

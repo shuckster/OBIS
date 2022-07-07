@@ -1,6 +1,6 @@
 import m from 'mithril'
 import { withHooks as ViewComponent, useState, useEffect } from 'mithril-hooks'
-import { useStatebotFactory } from 'statebot-mithril-hooks'
+import { useStatebotFactory } from 'statebot/hooks/mithril'
 
 import { Delay } from '@/cjs/timers'
 
