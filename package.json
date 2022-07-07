@@ -27,7 +27,7 @@
     "socket.io": "^4.5.1"
   },
   "dependencies": {
-    "clsx": "^1.2.0",
+    "clsx": "^1.2.1",
     "fflate": "^0.7.3",
     "file-saver": "^2.0.5",
     "immer": "^9.0.15",

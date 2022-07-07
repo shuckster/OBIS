@@ -2010,97 +2010,134 @@
       });
     }
   });
-  var require_match_iz_cjs = __commonJS({
-    "node_modules/.pnpm/match-iz@2.2.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
-      var N = Object.defineProperty;
-      var G = Object.getOwnPropertyDescriptor;
-      var H = Object.getOwnPropertyNames;
-      var w = Object.getOwnPropertySymbols;
+  var require_dist = __commonJS({
+    "node_modules/.pnpm/match-iz@3.8.0/node_modules/match-iz/dist/index.js"(exports, module) {
+      var x2 = Object.defineProperty;
+      var T = Object.getOwnPropertyDescriptor;
+      var U = Object.getOwnPropertyNames;
+      var O = Object.getOwnPropertySymbols;
       var W = Object.prototype.hasOwnProperty;
-      var J = Object.prototype.propertyIsEnumerable;
-      var A = (t, n) => {
+      var d = Object.prototype.propertyIsEnumerable;
+      var F = (t, n, o) => n in t ? x2(t, n, { enumerable: true, configurable: true, writable: true, value: o }) : t[n] = o;
+      var R = (t, n) => {
+        for (var o in n || (n = {}))
+          W.call(n, o) && F(t, o, n[o]);
+        if (O)
+          for (var o of O(n))
+            d.call(n, o) && F(t, o, n[o]);
+        return t;
+      };
+      var v = (t, n) => {
         var o = {};
         for (var s in t)
           W.call(t, s) && n.indexOf(s) < 0 && (o[s] = t[s]);
-        if (t != null && w)
-          for (var s of w(t))
-            n.indexOf(s) < 0 && J.call(t, s) && (o[s] = t[s]);
+        if (t != null && O)
+          for (var s of O(t))
+            n.indexOf(s) < 0 && d.call(t, s) && (o[s] = t[s]);
         return o;
       };
-      var D = (t, n) => {
+      var I = (t, n) => {
         for (var o in n)
-          N(t, o, { get: n[o], enumerable: true });
+          x2(t, o, { get: n[o], enumerable: true });
       };
-      var K = (t, n, o, s) => {
+      var X = (t, n, o, s) => {
         if (n && typeof n == "object" || typeof n == "function")
-          for (let r of H(n))
-            !W.call(t, r) && r !== o && N(t, r, { get: () => n[r], enumerable: !(s = G(n, r)) || s.enumerable });
+          for (let e of U(n))
+            !W.call(t, e) && e !== o && x2(t, e, { get: () => n[e], enumerable: !(s = T(n, e)) || s.enumerable });
         return t;
       };
-      var L = (t) => K(N({}, "__esModule", { value: true }), t);
-      var Nt = {};
-      D(Nt, { against: () => q, allOf: () => k, anyOf: () => z, cata: () => ut, defined: () => tt, empty: () => B, endsWith: () => et2, falsy: () => pt, gt: () => nt, gte: () => st, hasOwn: () => mt2, inRange: () => it, includedIn: () => ft, includes: () => gt, instanceOf: () => $, isArray: () => e, isDate: () => _, isFunction: () => c, isNumber: () => I, isPojo: () => b, isRegExp: () => S, isString: () => g, lt: () => ot, lte: () => rt, match: () => l, not: () => a, otherwise: () => d, pluck: () => h, spread: () => bt, startsWith: () => ct, truthy: () => Ot, when: () => v });
-      module.exports = L(Nt);
-      var p = {};
-      D(p, { instanceOf: () => j, isArguments: () => R, isArray: () => Q, isDate: () => T, isFunction: () => U, isNumber: () => X, isObject: () => E, isPojo: () => Z, isRegExp: () => Y2, isString: () => V });
-      var F = Object.prototype;
-      var M = F.toString;
-      var O = (t) => (n) => typeof n === t;
-      var j = (t) => (n) => n instanceof t;
-      var { isArray: Q } = Array;
-      var R = (t) => M.call(t) === "[object Arguments]";
-      var T = (t) => j(Date)(t) && !isNaN(t);
-      var U = O("function");
-      var V = O("string");
-      var X = (t) => t === t && O("number")(t);
-      var E = (t) => t !== null && O("object")(t);
-      var Y2 = j(RegExp);
-      var Z = (t) => t === null || !E(t) || R(t) ? false : Object.getPrototypeOf(t) === F;
-      var { isArray: e, isDate: _, isFunction: c, isNumber: I } = p;
-      var { isPojo: b, isRegExp: S, isString: g, instanceOf: $ } = p;
-      function l(t) {
-        return (...n) => q(...n)(t);
+      var Y2 = (t) => X(x2({}, "__esModule", { value: true }), t);
+      var Ct = {};
+      I(Ct, { against: () => G, allOf: () => K, anyOf: () => J, cata: () => Rt, deepEq: () => ft, defined: () => Nt, empty: () => L, endsWith: () => qt, eq: () => H, every: () => lt, falsy: () => It, firstOf: () => Ot, gt: () => wt, gte: () => Wt, hasOwn: () => dt, inRange: () => bt, includedIn: () => Et, includes: () => Dt, instanceOf: () => nt, isArray: () => i2, isDate: () => tt, isFunction: () => c, isNumber: () => C, isPojo: () => g, isRegExp: () => A, isStrictly: () => Ft, isString: () => f, lastOf: () => xt, lt: () => St, lte: () => Pt, match: () => et2, not: () => mt2, otherwise: () => rt, pluck: () => gt, some: () => pt, spread: () => Bt, startsWith: () => At, truthy: () => vt, when: () => it });
+      module.exports = Y2(Ct);
+      var w = {};
+      I(w, { instanceOf: () => P, isArguments: () => z, isArray: () => _, isDate: () => $, isFunction: () => j, isNumber: () => y, isObject: () => B, isPojo: () => a, isRegExp: () => k, isString: () => h });
+      var V = Object.prototype;
+      var Z = V.toString;
+      var N = (t) => (n) => typeof n === t;
+      var P = (t) => (n) => n instanceof t;
+      var { isArray: _ } = Array;
+      var z = (t) => Z.call(t) === "[object Arguments]";
+      var $ = (t) => P(Date)(t) && !isNaN(t);
+      var j = N("function");
+      var h = N("string");
+      var y = (t) => t === t && N("number")(t);
+      var B = (t) => t !== null && N("object")(t);
+      var k = P(RegExp);
+      var a = (t) => t === null || !B(t) || z(t) ? false : Object.getPrototypeOf(t) === V;
+      var { isArray: i2, isDate: tt, isFunction: c, isNumber: C } = w;
+      var { isPojo: g, isRegExp: A, isString: f, instanceOf: nt } = w;
+      var { keys: u, entries: ot, assign: st } = Object;
+      function et2(t) {
+        return (...n) => G(...n)(t);
       }
-      var q = (...t) => {
+      var G = (...t) => {
         let n;
         return (o) => t.find((s) => {
-          let r = s(o), { matched: m, value: u } = r || {};
-          return [m, u].every(c) ? m(o) && (n = u(o), true) : r && (n = r);
+          let e = s(o), { matched: l, value: p } = e || {};
+          return [l, p].every(c) ? l(o) && (n = p(o), true) : e && (n = e);
         }) && n;
       };
-      var d = (t) => (n) => ({ matched: () => true, value: () => c(t) ? t(n) : t });
-      var v = (t) => (n) => (o) => ({ matched: () => i2(t, o, (s) => o = s), value: () => c(n) ? g(o) && S(t) ? n(...y(o.match(t))) : n(o) : n });
-      var y = (t) => {
+      var rt = (t) => (n) => ({ matched: () => true, value: () => c(t) ? t(n) : t });
+      var b = (t) => (n) => (o) => ({ matched: () => r(t, o, (s) => o = s), value: () => c(n) ? f(o) && A(t) ? n(...ct(o.match(t))) : n(o) : n });
+      var it = (...t) => {
+        if (t.length === 1) {
+          let [n] = t;
+          return b(n);
+        }
+        if (t.length === 2) {
+          let [n, o] = t;
+          return b(n)(o);
+        }
+        if (t.length > 2) {
+          let n = t.slice(-1)[0], o = t.slice(0, -1);
+          return b(K(o))(n);
+        }
+        throw new Error("expected 1 or 2 arguments");
+      };
+      var ct = (t) => {
         let { groups: n } = t;
         return n ? [n, t] : [t];
       };
-      var i2 = (t, n, o) => b(t) ? Object.keys(t).every((s) => i2(t[s], n == null ? void 0 : n[s], o)) : e(t) ? e(n) ? t.length === n.length && t.every((s, r) => i2(s, n == null ? void 0 : n[r], o)) : t.some((s) => i2(s, n, o)) : c(t) ? t(n, o) : g(n) && S(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-      var h = (...t) => (n, o) => t.length === 0 || (c(t[0]) ? t[0](n) : i2(t[0], n, o)) ? (o(n), true) : false;
-      var a = (t) => (n, o) => !i2(t, n, o);
-      var z = (...t) => (n, o) => t.flat().some((s) => i2(s, n, o));
-      var k = (...t) => (n, o) => t.flat().every((s) => i2(s, n, o));
-      var B = (t) => t !== t || !t && t !== 0 && t !== false || e(t) && !t.length || b(t) && !Object.keys(t).length;
-      var tt = (t) => !B(t);
-      var nt = (t) => f((n) => n > t);
-      var ot = (t) => f((n) => n < t);
-      var st = (t) => f((n) => n >= t);
-      var rt = (t) => f((n) => n <= t);
-      var it = (t, n) => f((o) => o >= Math.min(t, n) && o <= Math.max(t, n));
-      var ct = (t) => C((n) => n.startsWith(t));
-      var et2 = (t) => C((n) => n.endsWith(t));
-      var gt = (t) => xt((n) => n.includes(t));
-      var ft = z;
-      var mt2 = (...t) => (n) => b(n) && (([o, s]) => o.length && o.every((r) => s.includes(r)))([t.flat(), Object.keys(n)]);
-      var ut = (o) => {
-        var s = o, { getValue: t } = s, n = A(s, ["getValue"]);
-        return Object.entries(n).reduce((r, [m, u]) => Object.assign(r, { [m]: (x2) => (P) => ({ matched: () => u(P), value: () => c(x2) ? x2(t(P)) : x2 }) }), {});
+      var r = (t, n, o) => g(t) ? u(t).every((s) => r(t[s], n == null ? void 0 : n[s], o)) : i2(t) ? i2(n) && t.length === n.length && t.every((s, e) => r(s, n == null ? void 0 : n[e], o)) : c(t) ? t(n, o) : f(n) && A(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+      var gt = (...t) => (n, o) => t.length === 0 || (c(t[0]) ? t[0](n) : r(t[0], n, o)) ? (o(n), true) : false;
+      var ut = (t, n) => [t, n].every(g) ? u(t).length === u(n).length : true;
+      var H = (t) => (n, o) => ut(t, n) && r(t, n, o);
+      var ft = (t) => q(t, (n) => g(n) ? H(n) : n);
+      var mt2 = (t) => (n, o) => !r(t, n, o);
+      var J = (...t) => (n, o) => t.flat().some((s) => r(s, n, o));
+      var K = (...t) => (n, o) => t.flat().every((s) => r(s, n, o));
+      var lt = (t) => Q((n) => n.every((o) => r(t, o)));
+      var pt = (t) => Q((n) => n.some((o) => r(t, o)));
+      var Ot = (...t) => D((n, o) => t.length <= n.length && r(t, n.slice(0, t.length), o));
+      var xt = (...t) => D((n, o) => t.length <= n.length && r(t, n.slice(n.length - t.length), o));
+      var L = (t) => t !== t || !t && t !== 0 && t !== false || i2(t) && !t.length || g(t) && !u(t).length;
+      var Nt = (t) => !L(t);
+      var wt = (t) => m((n) => n > t);
+      var St = (t) => m((n) => n < t);
+      var Wt = (t) => m((n) => n >= t);
+      var Pt = (t) => m((n) => n <= t);
+      var bt = (t, n) => m((o) => o >= Math.min(t, n) && o <= Math.max(t, n));
+      var At = (t) => M((n) => n.startsWith(t));
+      var qt = (t) => M((n) => n.endsWith(t));
+      var Dt = (t) => D((n) => n.includes(t));
+      var Et = J;
+      var Ft = (t) => (n) => n === t;
+      var dt = (...t) => (n) => g(n) && (([o, s]) => o.length && o.every((e) => s.includes(e)))([t.flat(), u(n)]);
+      var Rt = (o) => {
+        var s = o, { getValue: t } = s, n = v(s, ["getValue"]);
+        return ot(n).reduce((e, [l, p]) => st(e, { [l]: (S) => (E) => ({ matched: () => p(E), value: () => c(S) ? S(t(E)) : S }) }), {});
       };
-      var Ot = (t) => !!t;
-      var pt = (t) => !t;
-      var bt = (t) => new Proxy({}, { get: () => t });
-      var C = (t) => (n) => g(n) && t(n);
-      var f = (t) => (n) => I(n) && t(n);
-      var xt = (t) => (n) => (e(n) || g(n)) && t(n);
+      var vt = (t) => !!t;
+      var It = (t) => !t;
+      var Vt = (t) => (n, o) => (n[o] = q(n[o], t), n);
+      var zt = (t) => (n) => q(n, t);
+      var q = (t, n) => n(g(t) ? u(t).reduce(Vt(n), R({}, t)) : i2(t) ? t.map(zt(n)) : t);
+      var Bt = (t) => new Proxy({}, { get: () => t });
+      var M = (t) => (n) => f(n) && t(n);
+      var m = (t) => (n) => C(n) && t(n);
+      var Q = (t) => (n, o) => i2(n) && t(n, o);
+      var D = (t) => (n, o) => (i2(n) || f(n)) && t(n, o);
     }
   });
   var require_fp = __commonJS({
@@ -2146,7 +2183,7 @@
   });
   var require_regexp = __commonJS({
     "src/common/cjs/regexp.js"(exports, module) {
-      var { against: against2, when: when2, otherwise: otherwise2, isString: isString3 } = require_match_iz_cjs();
+      var { against: against2, when: when2, otherwise: otherwise2, isString: isString3 } = require_dist();
       var { pipe, flow, memo } = require_fp();
       var makeRegExpFromWildcardString3 = memo((str) => {
         if (!isString3(str) || !str.length) {
@@ -3243,9 +3280,9 @@ ${err2.map((err3) => `| ${err3}`).join("\n")}`;
   var rxLineContinuations = new RegExp(`(${rxOperators})$`);
   var rxDisallowedCharacters = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
   var rxComment = /(\/\/[^\n\r]*)/;
-  var argTypeError$1 = ArgTypeError("statebot.");
+  var argTypeError = ArgTypeError("statebot.");
   function decomposeChart(chart) {
-    const err2 = argTypeError$1({ chart: isTemplateLiteral })("decomposeChart")(chart);
+    const err2 = argTypeError({ chart: isTemplateLiteral })("decomposeChart")(chart);
     if (err2) {
       throw TypeError(err2);
     }
@@ -3549,15 +3586,15 @@ Check your performTransitions() config.`;
       }
       return isPojo2(args[0]) ? _inStateObject(...args) : _inState(...args);
     }
-    const emit = Pausable((eventName, ...args) => {
+    const emit = (eventName, ...args) => {
       const err2 = argTypeError2({ eventName: isString2 })("emit")(eventName);
       if (err2) {
         throw new TypeError(err2);
       }
       _peek(eventName);
       return events.emit(eventName, ...args);
-    });
-    const enter = Pausable((state, ...args) => {
+    };
+    const enter = (state, ...args) => {
       const err2 = argTypeError2({ state: isString2 })("enter")(state);
       if (err2) {
         throw new TypeError(err2);
@@ -3586,7 +3623,7 @@ Check your performTransitions() config.`;
       emitInternalEvent(nextRoute, ...args);
       emitInternalEvent(INTERNAL_EVENTS[ON_SWITCHED], toState, inState2, ...args);
       return true;
-    });
+    };
     function onEvent(eventName, cb) {
       const err2 = argTypeError2({ eventName: isString2, cb: isFunction2 })("onEvent")(eventName, cb);
       if (err2) {
@@ -3715,34 +3752,34 @@ Check your performTransitions() config.`;
     }
     return {
       __STATEBOT__: 1,
+      statesAvailableFromHere,
       canTransitionTo,
       currentState,
-      emit,
-      Emit,
-      enter,
-      Enter,
+      previousState,
       history: () => [...stateHistory],
-      info: () => info(),
-      inspect: () => inspect(),
+      emit: Pausable(emit),
+      Emit: Pausable(Emit),
+      enter: Pausable(enter),
+      Enter: Pausable(Enter),
       inState,
       InState,
+      info: () => info(),
+      inspect: () => inspect(),
       name: () => name,
       onEntered: enterExitMethods[ON_ENTERED],
       onEntering: enterExitMethods[ON_ENTERING],
-      onEvent,
       onExited: enterExitMethods[ON_EXITED],
       onExiting: enterExitMethods[ON_EXITING],
       onSwitched: switchMethods[ON_SWITCHED],
       onSwitching: switchMethods[ON_SWITCHING],
+      onEvent,
       onTransitions: (transitions) => applyHitcher(transitions, "onTransitions"),
+      performTransitions: (transitions) => applyHitcher(transitions, "performTransitions"),
       pause,
       paused,
       peek,
-      performTransitions: (transitions) => applyHitcher(transitions, "performTransitions"),
-      previousState,
       reset,
-      resume,
-      statesAvailableFromHere
+      resume
     };
   }
   function decomposeHitcherActions(hitcherActions) {
@@ -3793,7 +3830,6 @@ Check your performTransitions() config.`;
       routes: allRoutes
     };
   }
-  var argTypeError = ArgTypeError("statebot.");
   var import_regexp = __toESM(require_regexp());
   (function() {
     if (typeof window.CustomEvent === "function")
@@ -4238,7 +4274,7 @@ Check your performTransitions() config.`;
   };
   var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
   var require_vnode = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/render/vnode.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/render/vnode.js"(exports, module) {
       "use strict";
       function Vnode(tag, key, attrs, children, text, dom) {
         return { tag, key, attrs, children, text, dom, domSize: void 0, state: void 0, events: void 0, instance: void 0 };
@@ -4258,7 +4294,7 @@ Check your performTransitions() config.`;
           var isKeyed = input[0] != null && input[0].key != null;
           for (var i3 = 1; i3 < input.length; i3++) {
             if ((input[i3] != null && input[i3].key != null) !== isKeyed) {
-              throw new TypeError("Vnodes must either always have keys or never have keys!");
+              throw new TypeError(isKeyed && (input[i3] != null || typeof input[i3] === "boolean") ? "In fragments, vnodes must either all have keys or none have keys. You may wish to consider using an explicit keyed empty fragment, m.fragment({key: ...}), instead of a hole." : "In fragments, vnodes must either all have keys or none have keys.");
             }
           }
           for (var i3 = 0; i3 < input.length; i3++) {
@@ -4271,7 +4307,7 @@ Check your performTransitions() config.`;
     }
   });
   var require_hyperscriptVnode = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/render/hyperscriptVnode.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/render/hyperscriptVnode.js"(exports, module) {
       "use strict";
       var Vnode = require_vnode();
       module.exports = function() {
@@ -4295,14 +4331,20 @@ Check your performTransitions() config.`;
       };
     }
   });
+  var require_hasOwn = __commonJS({
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/util/hasOwn.js"(exports, module) {
+      "use strict";
+      module.exports = {}.hasOwnProperty;
+    }
+  });
   var require_hyperscript = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/render/hyperscript.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/render/hyperscript.js"(exports, module) {
       "use strict";
       var Vnode = require_vnode();
       var hyperscriptVnode = require_hyperscriptVnode();
+      var hasOwn2 = require_hasOwn();
       var selectorParser = /(?:(^|#|\.)([^#\.\[\]]+))|(\[(.+?)(?:\s*=\s*("|'|)((?:\\["'\]]|.)*?)\5)?\])/g;
       var selectorCache = {};
-      var hasOwn2 = {}.hasOwnProperty;
       function isEmpty(object2) {
         for (var key in object2)
           if (hasOwn2.call(object2, key))
@@ -4335,12 +4377,10 @@ Check your performTransitions() config.`;
       }
       function execSelector(state, vnode) {
         var attrs = vnode.attrs;
-        var children = Vnode.normalizeChildren(vnode.children);
         var hasClass = hasOwn2.call(attrs, "class");
         var className = hasClass ? attrs.class : attrs.className;
         vnode.tag = state.tag;
-        vnode.attrs = null;
-        vnode.children = void 0;
+        vnode.attrs = {};
         if (!isEmpty(state.attrs) && !isEmpty(attrs)) {
           var newAttrs = {};
           for (var key in attrs) {
@@ -4364,11 +4404,6 @@ Check your performTransitions() config.`;
             break;
           }
         }
-        if (Array.isArray(children) && children.length === 1 && children[0] != null && children[0].tag === "#") {
-          vnode.text = children[0].children;
-        } else {
-          vnode.children = children;
-        }
         return vnode;
       }
       function hyperscript(selector) {
@@ -4388,7 +4423,7 @@ Check your performTransitions() config.`;
     }
   });
   var require_trust = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/render/trust.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/render/trust.js"(exports, module) {
       "use strict";
       var Vnode = require_vnode();
       module.exports = function(html) {
@@ -4399,7 +4434,7 @@ Check your performTransitions() config.`;
     }
   });
   var require_fragment = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/render/fragment.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/render/fragment.js"(exports, module) {
       "use strict";
       var Vnode = require_vnode();
       var hyperscriptVnode = require_hyperscriptVnode();
@@ -4412,7 +4447,7 @@ Check your performTransitions() config.`;
     }
   });
   var require_hyperscript2 = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/hyperscript.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/hyperscript.js"(exports, module) {
       "use strict";
       var hyperscript = require_hyperscript();
       hyperscript.trust = require_trust();
@@ -4421,13 +4456,13 @@ Check your performTransitions() config.`;
     }
   });
   var require_polyfill = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/promise/polyfill.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/promise/polyfill.js"(exports, module) {
       "use strict";
       var PromisePolyfill = function(executor) {
         if (!(this instanceof PromisePolyfill))
-          throw new Error("Promise must be called with `new`");
+          throw new Error("Promise must be called with 'new'.");
         if (typeof executor !== "function")
-          throw new TypeError("executor must be a function");
+          throw new TypeError("executor must be a function.");
         var self2 = this, resolvers = [], rejectors = [], resolveCurrent = handler(resolvers, true), rejectCurrent = handler(rejectors, false);
         var instance = self2._instance = { resolvers, rejectors };
         var callAsync = typeof setImmediate === "function" ? setImmediate : setTimeout;
@@ -4437,7 +4472,7 @@ Check your performTransitions() config.`;
             try {
               if (shouldAbsorb && value != null && (typeof value === "object" || typeof value === "function") && typeof (then = value.then) === "function") {
                 if (value === self2)
-                  throw new TypeError("Promise can't be resolved w/ itself");
+                  throw new TypeError("Promise can't be resolved with itself.");
                 executeOnce(then.bind(value));
               } else {
                 callAsync(function() {
@@ -4452,8 +4487,8 @@ Check your performTransitions() config.`;
                   };
                 });
               }
-            } catch (e) {
-              rejectCurrent(e);
+            } catch (e2) {
+              rejectCurrent(e2);
             }
           };
         }
@@ -4469,8 +4504,8 @@ Check your performTransitions() config.`;
           var onerror = run(rejectCurrent);
           try {
             then(run(resolveCurrent), onerror);
-          } catch (e) {
-            onerror(e);
+          } catch (e2) {
+            onerror(e2);
           }
         }
         executeOnce(executor);
@@ -4484,9 +4519,9 @@ Check your performTransitions() config.`;
             else
               try {
                 resolveNext(callback(value));
-              } catch (e) {
+              } catch (e2) {
                 if (rejectNext)
-                  rejectNext(e);
+                  rejectNext(e2);
               }
           });
           if (typeof instance.retry === "function" && state === instance.state)
@@ -4558,7 +4593,7 @@ Check your performTransitions() config.`;
     }
   });
   var require_promise = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/promise/promise.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/promise/promise.js"(exports, module) {
       "use strict";
       var PromisePolyfill = require_polyfill();
       if (typeof window !== "undefined") {
@@ -4581,7 +4616,7 @@ Check your performTransitions() config.`;
     }
   });
   var require_render = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/render/render.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/render/render.js"(exports, module) {
       "use strict";
       var Vnode = require_vnode();
       module.exports = function($window) {
@@ -4596,7 +4631,7 @@ Check your performTransitions() config.`;
         }
         function checkState(vnode, original) {
           if (vnode.state !== original)
-            throw new Error("`vnode.state` must not be modified");
+            throw new Error("'vnode.state' must not be modified.");
         }
         function callHook(vnode) {
           var original = vnode.state;
@@ -4609,7 +4644,7 @@ Check your performTransitions() config.`;
         function activeElement() {
           try {
             return $doc.activeElement;
-          } catch (e) {
+          } catch (e2) {
             return null;
           }
         }
@@ -4690,12 +4725,6 @@ Check your performTransitions() config.`;
           }
           insertNode(parent, element, nextSibling);
           if (!maybeSetContentEditable(vnode)) {
-            if (vnode.text != null) {
-              if (vnode.text !== "")
-                element.textContent = vnode.text;
-              else
-                vnode.children = [Vnode("#", void 0, void 0, vnode.text, void 0, void 0)];
-            }
             if (vnode.children != null) {
               var children = vnode.children;
               createNodes(element, children, 0, children.length, hooks, null, ns);
@@ -4755,8 +4784,6 @@ Check your performTransitions() config.`;
             if (!isKeyed)
               while (start < vnodes.length && vnodes[start] == null)
                 start++;
-            if (isKeyed === null && isOldKeyed == null)
-              return;
             if (isOldKeyed !== isKeyed) {
               removeNodes(parent, old, oldStart, old.length);
               createNodes(parent, vnodes, start, vnodes.length, hooks, nextSibling, ns);
@@ -4765,22 +4792,22 @@ Check your performTransitions() config.`;
               start = start < oldStart ? start : oldStart;
               for (; start < commonLength; start++) {
                 o2 = old[start];
-                v2 = vnodes[start];
-                if (o2 === v2 || o2 == null && v2 == null)
+                v3 = vnodes[start];
+                if (o2 === v3 || o2 == null && v3 == null)
                   continue;
                 else if (o2 == null)
-                  createNode(parent, v2, hooks, ns, getNextSibling(old, start + 1, nextSibling));
-                else if (v2 == null)
+                  createNode(parent, v3, hooks, ns, getNextSibling(old, start + 1, nextSibling));
+                else if (v3 == null)
                   removeNode(parent, o2);
                 else
-                  updateNode(parent, o2, v2, hooks, getNextSibling(old, start + 1, nextSibling), ns);
+                  updateNode(parent, o2, v3, hooks, getNextSibling(old, start + 1, nextSibling), ns);
               }
               if (old.length > commonLength)
                 removeNodes(parent, old, start, old.length);
               if (vnodes.length > commonLength)
                 createNodes(parent, vnodes, start, vnodes.length, hooks, nextSibling, ns);
             } else {
-              var oldEnd = old.length - 1, end = vnodes.length - 1, map, o2, v2, oe, ve, topSibling;
+              var oldEnd = old.length - 1, end = vnodes.length - 1, map, o2, v3, oe, ve, topSibling;
               while (oldEnd >= oldStart && end >= start) {
                 oe = old[oldEnd];
                 ve = vnodes[end];
@@ -4794,22 +4821,22 @@ Check your performTransitions() config.`;
               }
               while (oldEnd >= oldStart && end >= start) {
                 o2 = old[oldStart];
-                v2 = vnodes[start];
-                if (o2.key !== v2.key)
+                v3 = vnodes[start];
+                if (o2.key !== v3.key)
                   break;
                 oldStart++, start++;
-                if (o2 !== v2)
-                  updateNode(parent, o2, v2, hooks, getNextSibling(old, oldStart, nextSibling), ns);
+                if (o2 !== v3)
+                  updateNode(parent, o2, v3, hooks, getNextSibling(old, oldStart, nextSibling), ns);
               }
               while (oldEnd >= oldStart && end >= start) {
                 if (start === end)
                   break;
-                if (o2.key !== ve.key || oe.key !== v2.key)
+                if (o2.key !== ve.key || oe.key !== v3.key)
                   break;
                 topSibling = getNextSibling(old, oldStart, nextSibling);
                 moveNodes(parent, oe, topSibling);
-                if (oe !== v2)
-                  updateNode(parent, oe, v2, hooks, topSibling, ns);
+                if (oe !== v3)
+                  updateNode(parent, oe, v3, hooks, topSibling, ns);
                 if (++start <= --end)
                   moveNodes(parent, o2, nextSibling);
                 if (o2 !== ve)
@@ -4821,7 +4848,7 @@ Check your performTransitions() config.`;
                 oe = old[oldEnd];
                 ve = vnodes[end];
                 o2 = old[oldStart];
-                v2 = vnodes[start];
+                v3 = vnodes[start];
               }
               while (oldEnd >= oldStart && end >= start) {
                 if (oe.key !== ve.key)
@@ -4869,24 +4896,24 @@ Check your performTransitions() config.`;
                     lisIndices = makeLisIndices(oldIndices);
                     li = lisIndices.length - 1;
                     for (i3 = end; i3 >= start; i3--) {
-                      v2 = vnodes[i3];
+                      v3 = vnodes[i3];
                       if (oldIndices[i3 - start] === -1)
-                        createNode(parent, v2, hooks, ns, nextSibling);
+                        createNode(parent, v3, hooks, ns, nextSibling);
                       else {
                         if (lisIndices[li] === i3 - start)
                           li--;
                         else
-                          moveNodes(parent, v2, nextSibling);
+                          moveNodes(parent, v3, nextSibling);
                       }
-                      if (v2.dom != null)
+                      if (v3.dom != null)
                         nextSibling = vnodes[i3].dom;
                     }
                   } else {
                     for (i3 = end; i3 >= start; i3--) {
-                      v2 = vnodes[i3];
+                      v3 = vnodes[i3];
                       if (oldIndices[i3 - start] === -1)
-                        createNode(parent, v2, hooks, ns, nextSibling);
-                      if (v2.dom != null)
+                        createNode(parent, v3, hooks, ns, nextSibling);
+                      if (v3.dom != null)
                         nextSibling = vnodes[i3].dom;
                     }
                   }
@@ -4965,23 +4992,10 @@ Check your performTransitions() config.`;
           if (vnode.tag === "textarea") {
             if (vnode.attrs == null)
               vnode.attrs = {};
-            if (vnode.text != null) {
-              vnode.attrs.value = vnode.text;
-              vnode.text = void 0;
-            }
           }
           updateAttrs(vnode, old.attrs, vnode.attrs, ns);
           if (!maybeSetContentEditable(vnode)) {
-            if (old.text != null && vnode.text != null && vnode.text !== "") {
-              if (old.text.toString() !== vnode.text.toString())
-                old.dom.firstChild.nodeValue = vnode.text;
-            } else {
-              if (old.text != null)
-                old.children = [Vnode("#", void 0, void 0, old.text, void 0, old.dom.firstChild)];
-              if (vnode.text != null)
-                vnode.children = [Vnode("#", void 0, void 0, vnode.text, void 0, void 0)];
-              updateNodes(element, old.children, vnode.children, hooks, null, ns);
-            }
+            updateNodes(element, old.children, vnode.children, hooks, null, ns);
           }
         }
         function updateComponent(parent, old, vnode, hooks, nextSibling, ns) {
@@ -5022,7 +5036,7 @@ Check your performTransitions() config.`;
         var lisTemp = [];
         function makeLisIndices(a2) {
           var result = [0];
-          var u3 = 0, v2 = 0, i3 = 0;
+          var u3 = 0, v3 = 0, i3 = 0;
           var il = lisTemp.length = a2.length;
           for (var i3 = 0; i3 < il; i3++)
             lisTemp[i3] = a2[i3];
@@ -5036,13 +5050,13 @@ Check your performTransitions() config.`;
               continue;
             }
             u3 = 0;
-            v2 = result.length - 1;
-            while (u3 < v2) {
-              var c3 = (u3 >>> 1) + (v2 >>> 1) + (u3 & v2 & 1);
+            v3 = result.length - 1;
+            while (u3 < v3) {
+              var c3 = (u3 >>> 1) + (v3 >>> 1) + (u3 & v3 & 1);
               if (a2[result[c3]] < a2[i3]) {
                 u3 = c3 + 1;
               } else {
-                v2 = c3;
+                v3 = c3;
               }
             }
             if (a2[i3] < a2[result[u3]]) {
@@ -5052,10 +5066,10 @@ Check your performTransitions() config.`;
             }
           }
           u3 = result.length;
-          v2 = result[u3 - 1];
+          v3 = result[u3 - 1];
           while (u3-- > 0) {
-            result[u3] = v2;
-            v2 = lisTemp[v2];
+            result[u3] = v3;
+            v3 = lisTemp[v3];
           }
           lisTemp.length = 0;
           return result;
@@ -5112,8 +5126,8 @@ Check your performTransitions() config.`;
             var content = children[0].children;
             if (vnode.dom.innerHTML !== content)
               vnode.dom.innerHTML = content;
-          } else if (vnode.text != null || children != null && children.length !== 0)
-            throw new Error("Child node of a contenteditable must be trusted");
+          } else if (children != null && children.length !== 0)
+            throw new Error("Child node of a contenteditable must be trusted.");
           return true;
         }
         function removeNodes(parent, vnodes, start, end) {
@@ -5227,12 +5241,15 @@ Check your performTransitions() config.`;
           }
         }
         function setAttrs(vnode, attrs, ns) {
+          if (vnode.tag === "input" && attrs.type != null)
+            vnode.dom.setAttribute("type", attrs.type);
+          var isFileInput = attrs != null && vnode.tag === "input" && attrs.type === "file";
           for (var key in attrs) {
-            setAttr(vnode, key, null, attrs[key], ns);
+            setAttr(vnode, key, null, attrs[key], ns, isFileInput);
           }
         }
-        function setAttr(vnode, key, old, value, ns) {
-          if (key === "key" || key === "is" || value == null || isLifecycleMethod(key) || old === value && !isFormAttribute(vnode, key) && typeof value !== "object")
+        function setAttr(vnode, key, old, value, ns, isFileInput) {
+          if (key === "key" || key === "is" || value == null || isLifecycleMethod(key) || old === value && !isFormAttribute(vnode, key) && typeof value !== "object" || key === "type" && vnode.tag === "input")
             return;
           if (key[0] === "o" && key[1] === "n")
             return updateEvent(vnode, key, value);
@@ -5242,17 +5259,18 @@ Check your performTransitions() config.`;
             updateStyle(vnode.dom, old, value);
           else if (hasPropertyKey(vnode, key, ns)) {
             if (key === "value") {
-              if ((vnode.tag === "input" || vnode.tag === "textarea") && vnode.dom.value === "" + value && vnode.dom === activeElement())
+              if ((vnode.tag === "input" || vnode.tag === "textarea") && vnode.dom.value === "" + value && (isFileInput || vnode.dom === activeElement()))
                 return;
               if (vnode.tag === "select" && old !== null && vnode.dom.value === "" + value)
                 return;
               if (vnode.tag === "option" && old !== null && vnode.dom.value === "" + value)
                 return;
+              if (isFileInput && "" + value !== "") {
+                console.error("`value` is read-only on file inputs!");
+                return;
+              }
             }
-            if (vnode.tag === "input" && key === "type")
-              vnode.dom.setAttribute(key, value);
-            else
-              vnode.dom[key] = value;
+            vnode.dom[key] = value;
           } else {
             if (typeof value === "boolean") {
               if (value)
@@ -5266,11 +5284,11 @@ Check your performTransitions() config.`;
         function removeAttr(vnode, key, old, ns) {
           if (key === "key" || key === "is" || old == null || isLifecycleMethod(key))
             return;
-          if (key[0] === "o" && key[1] === "n" && !isLifecycleMethod(key))
+          if (key[0] === "o" && key[1] === "n")
             updateEvent(vnode, key, void 0);
           else if (key === "style")
             updateStyle(vnode.dom, old, null);
-          else if (hasPropertyKey(vnode, key, ns) && key !== "className" && !(key === "value" && (vnode.tag === "option" || vnode.tag === "select" && vnode.dom.selectedIndex === -1 && vnode.dom === activeElement())) && !(vnode.tag === "input" && key === "type")) {
+          else if (hasPropertyKey(vnode, key, ns) && key !== "className" && key !== "title" && !(key === "value" && (vnode.tag === "option" || vnode.tag === "select" && vnode.dom.selectedIndex === -1 && vnode.dom === activeElement())) && !(vnode.tag === "input" && key === "type")) {
             vnode.dom[key] = null;
           } else {
             var nsLastIndex = key.indexOf(":");
@@ -5296,9 +5314,15 @@ Check your performTransitions() config.`;
             setAttr(vnode, "selectedIndex", null, attrs.selectedIndex, void 0);
         }
         function updateAttrs(vnode, old, attrs, ns) {
+          if (old && old === attrs) {
+            console.warn("Don't reuse attrs object, use new object for every redraw, this will throw in next major");
+          }
           if (attrs != null) {
+            if (vnode.tag === "input" && attrs.type != null)
+              vnode.dom.setAttribute("type", attrs.type);
+            var isFileInput = vnode.tag === "input" && attrs.type === "file";
             for (var key in attrs) {
-              setAttr(vnode, key, old && old[key], attrs[key], ns);
+              setAttr(vnode, key, old && old[key], attrs[key], ns, isFileInput);
             }
           }
           var val;
@@ -5373,6 +5397,7 @@ Check your performTransitions() config.`;
         };
         function updateEvent(vnode, key, value) {
           if (vnode.events != null) {
+            vnode.events._ = currentRedraw;
             if (vnode.events[key] === value)
               return;
             if (value != null && (typeof value === "function" || typeof value === "object")) {
@@ -5422,57 +5447,61 @@ Check your performTransitions() config.`;
           vnode.text = old.text;
           return true;
         }
+        var currentDOM;
         return function(dom, vnodes, redraw) {
           if (!dom)
-            throw new TypeError("Ensure the DOM element being passed to m.route/m.mount/m.render is not undefined.");
+            throw new TypeError("DOM element being rendered to does not exist.");
+          if (currentDOM != null && dom.contains(currentDOM)) {
+            throw new TypeError("Node is currently being rendered to and thus is locked.");
+          }
+          var prevRedraw = currentRedraw;
+          var prevDOM = currentDOM;
           var hooks = [];
           var active = activeElement();
           var namespace = dom.namespaceURI;
-          if (dom.vnodes == null)
-            dom.textContent = "";
-          vnodes = Vnode.normalizeChildren(Array.isArray(vnodes) ? vnodes : [vnodes]);
-          var prevRedraw = currentRedraw;
+          currentDOM = dom;
+          currentRedraw = typeof redraw === "function" ? redraw : void 0;
           try {
-            currentRedraw = typeof redraw === "function" ? redraw : void 0;
+            if (dom.vnodes == null)
+              dom.textContent = "";
+            vnodes = Vnode.normalizeChildren(Array.isArray(vnodes) ? vnodes : [vnodes]);
             updateNodes(dom, dom.vnodes, vnodes, hooks, null, namespace === "http://www.w3.org/1999/xhtml" ? void 0 : namespace);
+            dom.vnodes = vnodes;
+            if (active != null && activeElement() !== active && typeof active.focus === "function")
+              active.focus();
+            for (var i3 = 0; i3 < hooks.length; i3++)
+              hooks[i3]();
           } finally {
             currentRedraw = prevRedraw;
+            currentDOM = prevDOM;
           }
-          dom.vnodes = vnodes;
-          if (active != null && activeElement() !== active && typeof active.focus === "function")
-            active.focus();
-          for (var i3 = 0; i3 < hooks.length; i3++)
-            hooks[i3]();
         };
       };
     }
   });
   var require_render2 = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/render.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/render.js"(exports, module) {
       "use strict";
-      module.exports = require_render()(window);
+      module.exports = require_render()(typeof window !== "undefined" ? window : null);
     }
   });
   var require_mount_redraw = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/api/mount-redraw.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/api/mount-redraw.js"(exports, module) {
       "use strict";
       var Vnode = require_vnode();
       module.exports = function(render, schedule, console2) {
         var subscriptions = [];
-        var rendering = false;
         var pending = false;
+        var offset = -1;
         function sync() {
-          if (rendering)
-            throw new Error("Nested m.redraw.sync() call");
-          rendering = true;
-          for (var i3 = 0; i3 < subscriptions.length; i3 += 2) {
+          for (offset = 0; offset < subscriptions.length; offset += 2) {
             try {
-              render(subscriptions[i3], Vnode(subscriptions[i3 + 1]), redraw);
-            } catch (e) {
-              console2.error(e);
+              render(subscriptions[offset], Vnode(subscriptions[offset + 1]), redraw);
+            } catch (e2) {
+              console2.error(e2);
             }
           }
-          rendering = false;
+          offset = -1;
         }
         function redraw() {
           if (!pending) {
@@ -5486,12 +5515,14 @@ Check your performTransitions() config.`;
         redraw.sync = sync;
         function mount(root, component) {
           if (component != null && component.view == null && typeof component !== "function") {
-            throw new TypeError("m.mount(element, component) expects a component, not a vnode");
+            throw new TypeError("m.mount expects a component, not a vnode.");
           }
           var index = subscriptions.indexOf(root);
           if (index >= 0) {
             subscriptions.splice(index, 2);
-            render(root, [], redraw);
+            if (index <= offset)
+              offset -= 2;
+            render(root, []);
           }
           if (component != null) {
             subscriptions.push(root, component);
@@ -5503,14 +5534,14 @@ Check your performTransitions() config.`;
     }
   });
   var require_mount_redraw2 = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/mount-redraw.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/mount-redraw.js"(exports, module) {
       "use strict";
       var render = require_render2();
-      module.exports = require_mount_redraw()(render, requestAnimationFrame, console);
+      module.exports = require_mount_redraw()(render, typeof requestAnimationFrame !== "undefined" ? requestAnimationFrame : null, typeof console !== "undefined" ? console : null);
     }
   });
   var require_build = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/querystring/build.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/querystring/build.js"(exports, module) {
       "use strict";
       module.exports = function(object2) {
         if (Object.prototype.toString.call(object2) !== "[object Object]")
@@ -5536,24 +5567,25 @@ Check your performTransitions() config.`;
     }
   });
   var require_assign = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/pathname/assign.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/util/assign.js"(exports, module) {
       "use strict";
+      var hasOwn2 = require_hasOwn();
       module.exports = Object.assign || function(target, source) {
-        if (source)
-          Object.keys(source).forEach(function(key) {
+        for (var key in source) {
+          if (hasOwn2.call(source, key))
             target[key] = source[key];
-          });
+        }
       };
     }
   });
   var require_build2 = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/pathname/build.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/pathname/build.js"(exports, module) {
       "use strict";
       var buildQueryString = require_build();
       var assign = require_assign();
       module.exports = function(template, params) {
         if (/:([^\/\.-]+)(\.{3})?:/.test(template)) {
-          throw new SyntaxError("Template parameter names *must* be separated");
+          throw new SyntaxError("Template parameter names must be separated by either a '/', '-', or '.'.");
         }
         if (params == null)
           return template;
@@ -5564,10 +5596,10 @@ Check your performTransitions() config.`;
         var path = template.slice(0, pathEnd);
         var query = {};
         assign(query, params);
-        var resolved = path.replace(/:([^\/\.-]+)(\.{3})?/g, function(m8, key, variadic) {
+        var resolved = path.replace(/:([^\/\.-]+)(\.{3})?/g, function(m7, key, variadic) {
           delete query[key];
           if (params[key] == null)
-            return m8;
+            return m7;
           return variadic ? params[key] : encodeURIComponent(String(params[key]));
         });
         var newQueryIndex = resolved.indexOf("?");
@@ -5591,9 +5623,10 @@ Check your performTransitions() config.`;
     }
   });
   var require_request = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/request/request.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/request/request.js"(exports, module) {
       "use strict";
       var buildPathname = require_build2();
+      var hasOwn2 = require_hasOwn();
       module.exports = function($window, Promise2, oncompletion) {
         var callbackCount = 0;
         function PromiseProxy(executor) {
@@ -5635,10 +5668,10 @@ Check your performTransitions() config.`;
               promise2.then = function() {
                 count++;
                 var next = then.apply(promise2, arguments);
-                next.then(complete, function(e) {
+                next.then(complete, function(e2) {
                   complete();
                   if (count === 0)
-                    throw e;
+                    throw e2;
                 });
                 return wrap(next);
               };
@@ -5648,7 +5681,7 @@ Check your performTransitions() config.`;
         }
         function hasHeader(args, name) {
           for (var key in args.headers) {
-            if ({}.hasOwnProperty.call(args.headers, key) && name.test(key))
+            if (hasOwn2.call(args.headers, key) && key.toLowerCase() === name)
               return true;
           }
           return false;
@@ -5657,9 +5690,9 @@ Check your performTransitions() config.`;
           request: makeRequest(function(url, args, resolve, reject) {
             var method = args.method != null ? args.method.toUpperCase() : "GET";
             var body = args.body;
-            var assumeJSON = (args.serialize == null || args.serialize === JSON.serialize) && !(body instanceof $window.FormData);
+            var assumeJSON = (args.serialize == null || args.serialize === JSON.serialize) && !(body instanceof $window.FormData || body instanceof $window.URLSearchParams);
             var responseType = args.responseType || (typeof args.extract === "function" ? "" : "json");
-            var xhr = new $window.XMLHttpRequest(), aborted = false;
+            var xhr = new $window.XMLHttpRequest(), aborted = false, isTimeout = false;
             var original = xhr, replacedAbort;
             var abort = xhr.abort;
             xhr.abort = function() {
@@ -5667,10 +5700,10 @@ Check your performTransitions() config.`;
               abort.call(this);
             };
             xhr.open(method, url, args.async !== false, typeof args.user === "string" ? args.user : void 0, typeof args.password === "string" ? args.password : void 0);
-            if (assumeJSON && body != null && !hasHeader(args, /^content-type$/i)) {
+            if (assumeJSON && body != null && !hasHeader(args, "content-type")) {
               xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             }
-            if (typeof args.deserialize !== "function" && !hasHeader(args, /^accept$/i)) {
+            if (typeof args.deserialize !== "function" && !hasHeader(args, "accept")) {
               xhr.setRequestHeader("Accept", "application/json, text/*");
             }
             if (args.withCredentials)
@@ -5679,7 +5712,7 @@ Check your performTransitions() config.`;
               xhr.timeout = args.timeout;
             xhr.responseType = responseType;
             for (var key in args.headers) {
-              if ({}.hasOwnProperty.call(args.headers, key)) {
+              if (hasOwn2.call(args.headers, key)) {
                 xhr.setRequestHeader(key, args.headers[key]);
               }
             }
@@ -5691,8 +5724,13 @@ Check your performTransitions() config.`;
                   var success = ev.target.status >= 200 && ev.target.status < 300 || ev.target.status === 304 || /^file:\/\//i.test(url);
                   var response = ev.target.response, message;
                   if (responseType === "json") {
-                    if (!ev.target.responseType && typeof args.extract !== "function")
-                      response = JSON.parse(ev.target.responseText);
+                    if (!ev.target.responseType && typeof args.extract !== "function") {
+                      try {
+                        response = JSON.parse(ev.target.responseText);
+                      } catch (e2) {
+                        response = null;
+                      }
+                    }
                   } else if (!responseType || responseType === "text") {
                     if (response == null)
                       response = ev.target.responseText;
@@ -5706,20 +5744,36 @@ Check your performTransitions() config.`;
                   if (success)
                     resolve(response);
                   else {
-                    try {
-                      message = ev.target.responseText;
-                    } catch (e) {
-                      message = response;
-                    }
-                    var error = new Error(message);
-                    error.code = ev.target.status;
-                    error.response = response;
-                    reject(error);
+                    var completeErrorResponse = function() {
+                      try {
+                        message = ev.target.responseText;
+                      } catch (e2) {
+                        message = response;
+                      }
+                      var error = new Error(message);
+                      error.code = ev.target.status;
+                      error.response = response;
+                      reject(error);
+                    };
+                    if (xhr.status === 0) {
+                      setTimeout(function() {
+                        if (isTimeout)
+                          return;
+                        completeErrorResponse();
+                      });
+                    } else
+                      completeErrorResponse();
                   }
-                } catch (e) {
-                  reject(e);
+                } catch (e2) {
+                  reject(e2);
                 }
               }
+            };
+            xhr.ontimeout = function(ev) {
+              isTimeout = true;
+              var error = new Error("Request timed out");
+              error.code = ev.target.status;
+              reject(error);
             };
             if (typeof args.config === "function") {
               xhr = args.config(xhr, args, url) || xhr;
@@ -5735,7 +5789,7 @@ Check your performTransitions() config.`;
               xhr.send();
             else if (typeof args.serialize === "function")
               xhr.send(args.serialize(body));
-            else if (body instanceof $window.FormData)
+            else if (body instanceof $window.FormData || body instanceof $window.URLSearchParams)
               xhr.send(body);
             else
               xhr.send(JSON.stringify(body));
@@ -5761,16 +5815,23 @@ Check your performTransitions() config.`;
     }
   });
   var require_request2 = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/request.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/request.js"(exports, module) {
       "use strict";
       var PromisePolyfill = require_promise();
       var mountRedraw = require_mount_redraw2();
-      module.exports = require_request()(window, PromisePolyfill, mountRedraw.redraw);
+      module.exports = require_request()(typeof window !== "undefined" ? window : null, PromisePolyfill, mountRedraw.redraw);
     }
   });
   var require_parse = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/querystring/parse.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/querystring/parse.js"(exports, module) {
       "use strict";
+      function decodeURIComponentSave(str) {
+        try {
+          return decodeURIComponent(str);
+        } catch (err) {
+          return str;
+        }
+      }
       module.exports = function(string) {
         if (string === "" || string == null)
           return {};
@@ -5779,8 +5840,8 @@ Check your performTransitions() config.`;
         var entries = string.split("&"), counters = {}, data = {};
         for (var i3 = 0; i3 < entries.length; i3++) {
           var entry = entries[i3].split("=");
-          var key = decodeURIComponent(entry[0]);
-          var value = entry.length === 2 ? decodeURIComponent(entry[1]) : "";
+          var key = decodeURIComponentSave(entry[0]);
+          var value = entry.length === 2 ? decodeURIComponentSave(entry[1]) : "";
           if (value === "true")
             value = true;
           else if (value === "false")
@@ -5817,7 +5878,7 @@ Check your performTransitions() config.`;
     }
   });
   var require_parse2 = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/pathname/parse.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/pathname/parse.js"(exports, module) {
       "use strict";
       var parseQueryString = require_parse();
       module.exports = function(url) {
@@ -5842,16 +5903,16 @@ Check your performTransitions() config.`;
     }
   });
   var require_compileTemplate = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/pathname/compileTemplate.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/pathname/compileTemplate.js"(exports, module) {
       "use strict";
       var parsePathname = require_parse2();
       module.exports = function(template) {
         var templateData = parsePathname(template);
         var templateKeys = Object.keys(templateData.params);
         var keys2 = [];
-        var regexp = new RegExp("^" + templateData.path.replace(/:([^\/.-]+)(\.{3}|\.(?!\.)|-)?|[\\^$*+.()|\[\]{}]/g, function(m8, key, extra) {
+        var regexp = new RegExp("^" + templateData.path.replace(/:([^\/.-]+)(\.{3}|\.(?!\.)|-)?|[\\^$*+.()|\[\]{}]/g, function(m7, key, extra) {
           if (key == null)
-            return "\\" + m8;
+            return "\\" + m7;
           keys2.push({ k: key, r: extra === "..." });
           if (extra === "...")
             return "(.*)";
@@ -5877,44 +5938,162 @@ Check your performTransitions() config.`;
       };
     }
   });
+  var require_censor = __commonJS({
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/util/censor.js"(exports, module) {
+      "use strict";
+      var hasOwn2 = require_hasOwn();
+      var magic = new RegExp("^(?:key|oninit|oncreate|onbeforeupdate|onupdate|onbeforeremove|onremove)$");
+      module.exports = function(attrs, extras) {
+        var result = {};
+        if (extras != null) {
+          for (var key in attrs) {
+            if (hasOwn2.call(attrs, key) && !magic.test(key) && extras.indexOf(key) < 0) {
+              result[key] = attrs[key];
+            }
+          }
+        } else {
+          for (var key in attrs) {
+            if (hasOwn2.call(attrs, key) && !magic.test(key)) {
+              result[key] = attrs[key];
+            }
+          }
+        }
+        return result;
+      };
+    }
+  });
   var require_router = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/api/router.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/api/router.js"(exports, module) {
       "use strict";
       var Vnode = require_vnode();
-      var m8 = require_hyperscript();
+      var m7 = require_hyperscript();
       var Promise2 = require_promise();
       var buildPathname = require_build2();
       var parsePathname = require_parse2();
       var compileTemplate = require_compileTemplate();
       var assign = require_assign();
+      var censor = require_censor();
       var sentinel = {};
+      function decodeURIComponentSave(component) {
+        try {
+          return decodeURIComponent(component);
+        } catch (e2) {
+          return component;
+        }
+      }
       module.exports = function($window, mountRedraw) {
-        var fireAsync;
+        var callAsync = $window == null ? null : typeof $window.setImmediate === "function" ? $window.setImmediate : $window.setTimeout;
+        var p2 = Promise2.resolve();
+        var scheduled = false;
+        var ready = false;
+        var state = 0;
+        var compiled, fallbackRoute;
+        var currentResolver = sentinel, component, attrs, currentPath, lastUpdate;
+        var RouterRoot = {
+          onbeforeupdate: function() {
+            state = state ? 2 : 1;
+            return !(!state || sentinel === currentResolver);
+          },
+          onremove: function() {
+            $window.removeEventListener("popstate", fireAsync, false);
+            $window.removeEventListener("hashchange", resolveRoute, false);
+          },
+          view: function() {
+            if (!state || sentinel === currentResolver)
+              return;
+            var vnode = [Vnode(component, attrs.key, attrs)];
+            if (currentResolver)
+              vnode = currentResolver.render(vnode[0]);
+            return vnode;
+          }
+        };
+        var SKIP = route.SKIP = {};
+        function resolveRoute() {
+          scheduled = false;
+          var prefix = $window.location.hash;
+          if (route.prefix[0] !== "#") {
+            prefix = $window.location.search + prefix;
+            if (route.prefix[0] !== "?") {
+              prefix = $window.location.pathname + prefix;
+              if (prefix[0] !== "/")
+                prefix = "/" + prefix;
+            }
+          }
+          var path = prefix.concat().replace(/(?:%[a-f89][a-f0-9])+/gim, decodeURIComponentSave).slice(route.prefix.length);
+          var data = parsePathname(path);
+          assign(data.params, $window.history.state);
+          function reject(e2) {
+            console.error(e2);
+            setPath(fallbackRoute, null, { replace: true });
+          }
+          loop(0);
+          function loop(i3) {
+            for (; i3 < compiled.length; i3++) {
+              if (compiled[i3].check(data)) {
+                var payload = compiled[i3].component;
+                var matchedRoute = compiled[i3].route;
+                var localComp = payload;
+                var update = lastUpdate = function(comp) {
+                  if (update !== lastUpdate)
+                    return;
+                  if (comp === SKIP)
+                    return loop(i3 + 1);
+                  component = comp != null && (typeof comp.view === "function" || typeof comp === "function") ? comp : "div";
+                  attrs = data.params, currentPath = path, lastUpdate = null;
+                  currentResolver = payload.render ? payload : null;
+                  if (state === 2)
+                    mountRedraw.redraw();
+                  else {
+                    state = 2;
+                    mountRedraw.redraw.sync();
+                  }
+                };
+                if (payload.view || typeof payload === "function") {
+                  payload = {};
+                  update(localComp);
+                } else if (payload.onmatch) {
+                  p2.then(function() {
+                    return payload.onmatch(data.params, path, matchedRoute);
+                  }).then(update, path === fallbackRoute ? null : reject);
+                } else
+                  update("div");
+                return;
+              }
+            }
+            if (path === fallbackRoute) {
+              throw new Error("Could not resolve default route " + fallbackRoute + ".");
+            }
+            setPath(fallbackRoute, null, { replace: true });
+          }
+        }
+        function fireAsync() {
+          if (!scheduled) {
+            scheduled = true;
+            callAsync(resolveRoute);
+          }
+        }
         function setPath(path, data, options) {
           path = buildPathname(path, data);
-          if (fireAsync != null) {
+          if (ready) {
             fireAsync();
-            var state = options ? options.state : null;
+            var state2 = options ? options.state : null;
             var title = options ? options.title : null;
             if (options && options.replace)
-              $window.history.replaceState(state, title, route.prefix + path);
+              $window.history.replaceState(state2, title, route.prefix + path);
             else
-              $window.history.pushState(state, title, route.prefix + path);
+              $window.history.pushState(state2, title, route.prefix + path);
           } else {
             $window.location.href = route.prefix + path;
           }
         }
-        var currentResolver = sentinel, component, attrs, currentPath, lastUpdate;
-        var SKIP = route.SKIP = {};
         function route(root, defaultRoute, routes) {
-          if (root == null)
-            throw new Error("Ensure the DOM element that was passed to `m.route` is not undefined");
-          var state = 0;
-          var compiled = Object.keys(routes).map(function(route2) {
+          if (!root)
+            throw new TypeError("DOM element being rendered to does not exist.");
+          compiled = Object.keys(routes).map(function(route2) {
             if (route2[0] !== "/")
-              throw new SyntaxError("Routes must start with a `/`");
+              throw new SyntaxError("Routes must start with a '/'.");
             if (/:([^\/\.-]+)(\.{3})?:/.test(route2)) {
-              throw new SyntaxError("Route parameter names must be separated with either `/`, `.`, or `-`");
+              throw new SyntaxError("Route parameter names must be separated with either '/', '.', or '-'.");
             }
             return {
               route: route2,
@@ -5922,109 +6101,23 @@ Check your performTransitions() config.`;
               check: compileTemplate(route2)
             };
           });
-          var callAsync = typeof setImmediate === "function" ? setImmediate : setTimeout;
-          var p3 = Promise2.resolve();
-          var scheduled = false;
-          var onremove;
-          fireAsync = null;
+          fallbackRoute = defaultRoute;
           if (defaultRoute != null) {
             var defaultData = parsePathname(defaultRoute);
             if (!compiled.some(function(i3) {
               return i3.check(defaultData);
             })) {
-              throw new ReferenceError("Default route doesn't match any known routes");
+              throw new ReferenceError("Default route doesn't match any known routes.");
             }
           }
-          function resolveRoute() {
-            scheduled = false;
-            var prefix = $window.location.hash;
-            if (route.prefix[0] !== "#") {
-              prefix = $window.location.search + prefix;
-              if (route.prefix[0] !== "?") {
-                prefix = $window.location.pathname + prefix;
-                if (prefix[0] !== "/")
-                  prefix = "/" + prefix;
-              }
-            }
-            var path = prefix.concat().replace(/(?:%[a-f89][a-f0-9])+/gim, decodeURIComponent).slice(route.prefix.length);
-            var data = parsePathname(path);
-            assign(data.params, $window.history.state);
-            function fail() {
-              if (path === defaultRoute)
-                throw new Error("Could not resolve default route " + defaultRoute);
-              setPath(defaultRoute, null, { replace: true });
-            }
-            loop(0);
-            function loop(i3) {
-              for (; i3 < compiled.length; i3++) {
-                if (compiled[i3].check(data)) {
-                  var payload = compiled[i3].component;
-                  var matchedRoute = compiled[i3].route;
-                  var localComp = payload;
-                  var update = lastUpdate = function(comp) {
-                    if (update !== lastUpdate)
-                      return;
-                    if (comp === SKIP)
-                      return loop(i3 + 1);
-                    component = comp != null && (typeof comp.view === "function" || typeof comp === "function") ? comp : "div";
-                    attrs = data.params, currentPath = path, lastUpdate = null;
-                    currentResolver = payload.render ? payload : null;
-                    if (state === 2)
-                      mountRedraw.redraw();
-                    else {
-                      state = 2;
-                      mountRedraw.redraw.sync();
-                    }
-                  };
-                  if (payload.view || typeof payload === "function") {
-                    payload = {};
-                    update(localComp);
-                  } else if (payload.onmatch) {
-                    p3.then(function() {
-                      return payload.onmatch(data.params, path, matchedRoute);
-                    }).then(update, fail);
-                  } else
-                    update("div");
-                  return;
-                }
-              }
-              fail();
-            }
-          }
-          fireAsync = function() {
-            if (!scheduled) {
-              scheduled = true;
-              callAsync(resolveRoute);
-            }
-          };
           if (typeof $window.history.pushState === "function") {
-            onremove = function() {
-              $window.removeEventListener("popstate", fireAsync, false);
-            };
             $window.addEventListener("popstate", fireAsync, false);
           } else if (route.prefix[0] === "#") {
-            fireAsync = null;
-            onremove = function() {
-              $window.removeEventListener("hashchange", resolveRoute, false);
-            };
             $window.addEventListener("hashchange", resolveRoute, false);
           }
-          return mountRedraw.mount(root, {
-            onbeforeupdate: function() {
-              state = state ? 2 : 1;
-              return !(!state || sentinel === currentResolver);
-            },
-            oncreate: resolveRoute,
-            onremove,
-            view: function() {
-              if (!state || sentinel === currentResolver)
-                return;
-              var vnode = [Vnode(component, attrs.key, attrs)];
-              if (currentResolver)
-                vnode = currentResolver.render(vnode[0]);
-              return vnode;
-            }
-          });
+          ready = true;
+          mountRedraw.mount(root, RouterRoot);
+          resolveRoute();
         }
         route.set = function(path, data, options) {
           if (lastUpdate != null) {
@@ -6040,30 +6133,27 @@ Check your performTransitions() config.`;
         route.prefix = "#!";
         route.Link = {
           view: function(vnode) {
-            var options = vnode.attrs.options;
-            var attrs2 = {}, onclick, href;
-            assign(attrs2, vnode.attrs);
-            attrs2.selector = attrs2.options = attrs2.key = attrs2.oninit = attrs2.oncreate = attrs2.onbeforeupdate = attrs2.onupdate = attrs2.onbeforeremove = attrs2.onremove = null;
-            var child = m8(vnode.attrs.selector || "a", attrs2, vnode.children);
+            var child = m7(vnode.attrs.selector || "a", censor(vnode.attrs, ["options", "params", "selector", "onclick"]), vnode.children);
+            var options, onclick, href;
             if (child.attrs.disabled = Boolean(child.attrs.disabled)) {
               child.attrs.href = null;
               child.attrs["aria-disabled"] = "true";
-              child.attrs.onclick = null;
             } else {
-              onclick = child.attrs.onclick;
-              href = child.attrs.href;
+              options = vnode.attrs.options;
+              onclick = vnode.attrs.onclick;
+              href = buildPathname(child.attrs.href, vnode.attrs.params);
               child.attrs.href = route.prefix + href;
-              child.attrs.onclick = function(e) {
+              child.attrs.onclick = function(e2) {
                 var result;
                 if (typeof onclick === "function") {
-                  result = onclick.call(e.currentTarget, e);
+                  result = onclick.call(e2.currentTarget, e2);
                 } else if (onclick == null || typeof onclick !== "object") {
                 } else if (typeof onclick.handleEvent === "function") {
-                  onclick.handleEvent(e);
+                  onclick.handleEvent(e2);
                 }
-                if (result !== false && !e.defaultPrevented && (e.button === 0 || e.which === 0 || e.which === 1) && (!e.currentTarget.target || e.currentTarget.target === "_self") && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey) {
-                  e.preventDefault();
-                  e.redraw = false;
+                if (result !== false && !e2.defaultPrevented && (e2.button === 0 || e2.which === 0 || e2.which === 1) && (!e2.currentTarget.target || e2.currentTarget.target === "_self") && !e2.ctrlKey && !e2.metaKey && !e2.shiftKey && !e2.altKey) {
+                  e2.preventDefault();
+                  e2.redraw = false;
                   route.set(href, null, options);
                 }
               };
@@ -6079,37 +6169,39 @@ Check your performTransitions() config.`;
     }
   });
   var require_route = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/route.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/route.js"(exports, module) {
       "use strict";
       var mountRedraw = require_mount_redraw2();
-      module.exports = require_router()(window, mountRedraw);
+      module.exports = require_router()(typeof window !== "undefined" ? window : null, mountRedraw);
     }
   });
   var require_mithril = __commonJS({
-    "node_modules/.pnpm/mithril@2.0.4/node_modules/mithril/index.js"(exports, module) {
+    "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/index.js"(exports, module) {
       "use strict";
       var hyperscript = require_hyperscript2();
       var request = require_request2();
       var mountRedraw = require_mount_redraw2();
-      var m8 = function m9() {
+      var m7 = function m8() {
         return hyperscript.apply(this, arguments);
       };
-      m8.m = hyperscript;
-      m8.trust = hyperscript.trust;
-      m8.fragment = hyperscript.fragment;
-      m8.mount = mountRedraw.mount;
-      m8.route = require_route();
-      m8.render = require_render2();
-      m8.redraw = mountRedraw.redraw;
-      m8.request = request.request;
-      m8.jsonp = request.jsonp;
-      m8.parseQueryString = require_parse();
-      m8.buildQueryString = require_build();
-      m8.parsePathname = require_parse2();
-      m8.buildPathname = require_build2();
-      m8.vnode = require_vnode();
-      m8.PromisePolyfill = require_polyfill();
-      module.exports = m8;
+      m7.m = hyperscript;
+      m7.trust = hyperscript.trust;
+      m7.fragment = hyperscript.fragment;
+      m7.Fragment = "[";
+      m7.mount = mountRedraw.mount;
+      m7.route = require_route();
+      m7.render = require_render2();
+      m7.redraw = mountRedraw.redraw;
+      m7.request = request.request;
+      m7.jsonp = request.jsonp;
+      m7.parseQueryString = require_parse();
+      m7.buildQueryString = require_build();
+      m7.parsePathname = require_parse2();
+      m7.buildPathname = require_build2();
+      m7.vnode = require_vnode();
+      m7.PromisePolyfill = require_polyfill();
+      m7.censor = require_censor();
+      module.exports = m7;
     }
   });
   var require_timers = __commonJS({
@@ -6301,9 +6393,9 @@ Check your performTransitions() config.`;
         let running = 0;
         const pending = /* @__PURE__ */ new Set();
         return (promiseMakerFn) => {
-          const [promise, O3, X2] = makePromise2();
+          const [promise, O3, X3] = makePromise2();
           promise.finally(() => (running -= 1, next()));
-          pending.add({ promiseMakerFn, O: O3, X: X2 });
+          pending.add({ promiseMakerFn, O: O3, X: X3 });
           next();
           return promise;
         };
@@ -6330,109 +6422,146 @@ Check your performTransitions() config.`;
       }
     }
   });
-  var require_match_iz_cjs = __commonJS({
-    "node_modules/.pnpm/match-iz@2.2.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
-      var N2 = Object.defineProperty;
-      var G3 = Object.getOwnPropertyDescriptor;
-      var H3 = Object.getOwnPropertyNames;
-      var w3 = Object.getOwnPropertySymbols;
+  var require_dist = __commonJS({
+    "node_modules/.pnpm/match-iz@3.8.0/node_modules/match-iz/dist/index.js"(exports, module) {
+      var x3 = Object.defineProperty;
+      var T2 = Object.getOwnPropertyDescriptor;
+      var U3 = Object.getOwnPropertyNames;
+      var O3 = Object.getOwnPropertySymbols;
       var W3 = Object.prototype.hasOwnProperty;
-      var J2 = Object.prototype.propertyIsEnumerable;
-      var A3 = (t2, n2) => {
+      var d2 = Object.prototype.propertyIsEnumerable;
+      var F2 = (t2, n2, o2) => n2 in t2 ? x3(t2, n2, { enumerable: true, configurable: true, writable: true, value: o2 }) : t2[n2] = o2;
+      var R2 = (t2, n2) => {
+        for (var o2 in n2 || (n2 = {}))
+          W3.call(n2, o2) && F2(t2, o2, n2[o2]);
+        if (O3)
+          for (var o2 of O3(n2))
+            d2.call(n2, o2) && F2(t2, o2, n2[o2]);
+        return t2;
+      };
+      var v3 = (t2, n2) => {
         var o2 = {};
         for (var s2 in t2)
           W3.call(t2, s2) && n2.indexOf(s2) < 0 && (o2[s2] = t2[s2]);
-        if (t2 != null && w3)
-          for (var s2 of w3(t2))
-            n2.indexOf(s2) < 0 && J2.call(t2, s2) && (o2[s2] = t2[s2]);
+        if (t2 != null && O3)
+          for (var s2 of O3(t2))
+            n2.indexOf(s2) < 0 && d2.call(t2, s2) && (o2[s2] = t2[s2]);
         return o2;
       };
-      var D3 = (t2, n2) => {
+      var I3 = (t2, n2) => {
         for (var o2 in n2)
-          N2(t2, o2, { get: n2[o2], enumerable: true });
+          x3(t2, o2, { get: n2[o2], enumerable: true });
       };
-      var K2 = (t2, n2, o2, s2) => {
+      var X3 = (t2, n2, o2, s2) => {
         if (n2 && typeof n2 == "object" || typeof n2 == "function")
-          for (let r2 of H3(n2))
-            !W3.call(t2, r2) && r2 !== o2 && N2(t2, r2, { get: () => n2[r2], enumerable: !(s2 = G3(n2, r2)) || s2.enumerable });
+          for (let e2 of U3(n2))
+            !W3.call(t2, e2) && e2 !== o2 && x3(t2, e2, { get: () => n2[e2], enumerable: !(s2 = T2(n2, e2)) || s2.enumerable });
         return t2;
       };
-      var L3 = (t2) => K2(N2({}, "__esModule", { value: true }), t2);
-      var Nt = {};
-      D3(Nt, { against: () => q3, allOf: () => k2, anyOf: () => z3, cata: () => ut, defined: () => tt, empty: () => B3, endsWith: () => et, falsy: () => pt, gt: () => nt, gte: () => st, hasOwn: () => mt, inRange: () => it, includedIn: () => ft, includes: () => gt, instanceOf: () => $2, isArray: () => e, isDate: () => _3, isFunction: () => c3, isNumber: () => I2, isPojo: () => b2, isRegExp: () => S2, isString: () => g2, lt: () => ot, lte: () => rt, match: () => l3, not: () => a2, otherwise: () => d3, pluck: () => h2, spread: () => bt, startsWith: () => ct, truthy: () => Ot, when: () => v2 });
-      module.exports = L3(Nt);
-      var p3 = {};
-      D3(p3, { instanceOf: () => j2, isArguments: () => R3, isArray: () => Q3, isDate: () => T2, isFunction: () => U2, isNumber: () => X2, isObject: () => E2, isPojo: () => Z3, isRegExp: () => Y2, isString: () => V2 });
-      var F2 = Object.prototype;
-      var M3 = F2.toString;
-      var O3 = (t2) => (n2) => typeof n2 === t2;
-      var j2 = (t2) => (n2) => n2 instanceof t2;
-      var { isArray: Q3 } = Array;
-      var R3 = (t2) => M3.call(t2) === "[object Arguments]";
-      var T2 = (t2) => j2(Date)(t2) && !isNaN(t2);
-      var U2 = O3("function");
-      var V2 = O3("string");
-      var X2 = (t2) => t2 === t2 && O3("number")(t2);
-      var E2 = (t2) => t2 !== null && O3("object")(t2);
-      var Y2 = j2(RegExp);
-      var Z3 = (t2) => t2 === null || !E2(t2) || R3(t2) ? false : Object.getPrototypeOf(t2) === F2;
-      var { isArray: e, isDate: _3, isFunction: c3, isNumber: I2 } = p3;
-      var { isPojo: b2, isRegExp: S2, isString: g2, instanceOf: $2 } = p3;
-      function l3(t2) {
-        return (...n2) => q3(...n2)(t2);
+      var Y22 = (t2) => X3(x3({}, "__esModule", { value: true }), t2);
+      var Ct = {};
+      I3(Ct, { against: () => G3, allOf: () => K2, anyOf: () => J2, cata: () => Rt, deepEq: () => ft, defined: () => Nt, empty: () => L3, endsWith: () => qt, eq: () => H3, every: () => lt, falsy: () => It, firstOf: () => Ot, gt: () => wt, gte: () => Wt, hasOwn: () => dt, inRange: () => bt, includedIn: () => Et, includes: () => Dt, instanceOf: () => nt, isArray: () => i3, isDate: () => tt, isFunction: () => c3, isNumber: () => C, isPojo: () => g3, isRegExp: () => A2, isStrictly: () => Ft, isString: () => f2, lastOf: () => xt, lt: () => St, lte: () => Pt, match: () => et2, not: () => mt, otherwise: () => rt2, pluck: () => gt, some: () => pt, spread: () => Bt, startsWith: () => At, truthy: () => vt, when: () => it2 });
+      module.exports = Y22(Ct);
+      var w2 = {};
+      I3(w2, { instanceOf: () => P2, isArguments: () => z3, isArray: () => _3, isDate: () => $2, isFunction: () => j2, isNumber: () => y2, isObject: () => B2, isPojo: () => a2, isRegExp: () => k3, isString: () => h2 });
+      var V2 = Object.prototype;
+      var Z3 = V2.toString;
+      var N2 = (t2) => (n2) => typeof n2 === t2;
+      var P2 = (t2) => (n2) => n2 instanceof t2;
+      var { isArray: _3 } = Array;
+      var z3 = (t2) => Z3.call(t2) === "[object Arguments]";
+      var $2 = (t2) => P2(Date)(t2) && !isNaN(t2);
+      var j2 = N2("function");
+      var h2 = N2("string");
+      var y2 = (t2) => t2 === t2 && N2("number")(t2);
+      var B2 = (t2) => t2 !== null && N2("object")(t2);
+      var k3 = P2(RegExp);
+      var a2 = (t2) => t2 === null || !B2(t2) || z3(t2) ? false : Object.getPrototypeOf(t2) === V2;
+      var { isArray: i3, isDate: tt, isFunction: c3, isNumber: C } = w2;
+      var { isPojo: g3, isRegExp: A2, isString: f2, instanceOf: nt } = w2;
+      var { keys: u3, entries: ot, assign: st2 } = Object;
+      function et2(t2) {
+        return (...n2) => G3(...n2)(t2);
       }
-      var q3 = (...t2) => {
+      var G3 = (...t2) => {
         let n2;
         return (o2) => t2.find((s2) => {
-          let r2 = s2(o2), { matched: m8, value: u3 } = r2 || {};
-          return [m8, u3].every(c3) ? m8(o2) && (n2 = u3(o2), true) : r2 && (n2 = r2);
+          let e2 = s2(o2), { matched: l2, value: p2 } = e2 || {};
+          return [l2, p2].every(c3) ? l2(o2) && (n2 = p2(o2), true) : e2 && (n2 = e2);
         }) && n2;
       };
-      var d3 = (t2) => (n2) => ({ matched: () => true, value: () => c3(t2) ? t2(n2) : t2 });
-      var v2 = (t2) => (n2) => (o2) => ({ matched: () => i3(t2, o2, (s2) => o2 = s2), value: () => c3(n2) ? g2(o2) && S2(t2) ? n2(...y2(o2.match(t2))) : n2(o2) : n2 });
-      var y2 = (t2) => {
+      var rt2 = (t2) => (n2) => ({ matched: () => true, value: () => c3(t2) ? t2(n2) : t2 });
+      var b2 = (t2) => (n2) => (o2) => ({ matched: () => r3(t2, o2, (s2) => o2 = s2), value: () => c3(n2) ? f2(o2) && A2(t2) ? n2(...ct2(o2.match(t2))) : n2(o2) : n2 });
+      var it2 = (...t2) => {
+        if (t2.length === 1) {
+          let [n2] = t2;
+          return b2(n2);
+        }
+        if (t2.length === 2) {
+          let [n2, o2] = t2;
+          return b2(n2)(o2);
+        }
+        if (t2.length > 2) {
+          let n2 = t2.slice(-1)[0], o2 = t2.slice(0, -1);
+          return b2(K2(o2))(n2);
+        }
+        throw new Error("expected 1 or 2 arguments");
+      };
+      var ct2 = (t2) => {
         let { groups: n2 } = t2;
         return n2 ? [n2, t2] : [t2];
       };
-      var i3 = (t2, n2, o2) => b2(t2) ? Object.keys(t2).every((s2) => i3(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : e(t2) ? e(n2) ? t2.length === n2.length && t2.every((s2, r2) => i3(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => i3(s2, n2, o2)) : c3(t2) ? t2(n2, o2) : g2(n2) && S2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
-      var h2 = (...t2) => (n2, o2) => t2.length === 0 || (c3(t2[0]) ? t2[0](n2) : i3(t2[0], n2, o2)) ? (o2(n2), true) : false;
-      var a2 = (t2) => (n2, o2) => !i3(t2, n2, o2);
-      var z3 = (...t2) => (n2, o2) => t2.flat().some((s2) => i3(s2, n2, o2));
-      var k2 = (...t2) => (n2, o2) => t2.flat().every((s2) => i3(s2, n2, o2));
-      var B3 = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || e(t2) && !t2.length || b2(t2) && !Object.keys(t2).length;
-      var tt = (t2) => !B3(t2);
-      var nt = (t2) => f2((n2) => n2 > t2);
-      var ot = (t2) => f2((n2) => n2 < t2);
-      var st = (t2) => f2((n2) => n2 >= t2);
-      var rt = (t2) => f2((n2) => n2 <= t2);
-      var it = (t2, n2) => f2((o2) => o2 >= Math.min(t2, n2) && o2 <= Math.max(t2, n2));
-      var ct = (t2) => C2((n2) => n2.startsWith(t2));
-      var et = (t2) => C2((n2) => n2.endsWith(t2));
-      var gt = (t2) => xt((n2) => n2.includes(t2));
-      var ft = z3;
-      var mt = (...t2) => (n2) => b2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
-      var ut = (o2) => {
-        var s2 = o2, { getValue: t2 } = s2, n2 = A3(s2, ["getValue"]);
-        return Object.entries(n2).reduce((r2, [m8, u3]) => Object.assign(r2, { [m8]: (x3) => (P2) => ({ matched: () => u3(P2), value: () => c3(x3) ? x3(t2(P2)) : x3 }) }), {});
+      var r3 = (t2, n2, o2) => g3(t2) ? u3(t2).every((s2) => r3(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : i3(t2) ? i3(n2) && t2.length === n2.length && t2.every((s2, e2) => r3(s2, n2 == null ? void 0 : n2[e2], o2)) : c3(t2) ? t2(n2, o2) : f2(n2) && A2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
+      var gt = (...t2) => (n2, o2) => t2.length === 0 || (c3(t2[0]) ? t2[0](n2) : r3(t2[0], n2, o2)) ? (o2(n2), true) : false;
+      var ut = (t2, n2) => [t2, n2].every(g3) ? u3(t2).length === u3(n2).length : true;
+      var H3 = (t2) => (n2, o2) => ut(t2, n2) && r3(t2, n2, o2);
+      var ft = (t2) => q2(t2, (n2) => g3(n2) ? H3(n2) : n2);
+      var mt = (t2) => (n2, o2) => !r3(t2, n2, o2);
+      var J2 = (...t2) => (n2, o2) => t2.flat().some((s2) => r3(s2, n2, o2));
+      var K2 = (...t2) => (n2, o2) => t2.flat().every((s2) => r3(s2, n2, o2));
+      var lt = (t2) => Q3((n2) => n2.every((o2) => r3(t2, o2)));
+      var pt = (t2) => Q3((n2) => n2.some((o2) => r3(t2, o2)));
+      var Ot = (...t2) => D3((n2, o2) => t2.length <= n2.length && r3(t2, n2.slice(0, t2.length), o2));
+      var xt = (...t2) => D3((n2, o2) => t2.length <= n2.length && r3(t2, n2.slice(n2.length - t2.length), o2));
+      var L3 = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || i3(t2) && !t2.length || g3(t2) && !u3(t2).length;
+      var Nt = (t2) => !L3(t2);
+      var wt = (t2) => m7((n2) => n2 > t2);
+      var St = (t2) => m7((n2) => n2 < t2);
+      var Wt = (t2) => m7((n2) => n2 >= t2);
+      var Pt = (t2) => m7((n2) => n2 <= t2);
+      var bt = (t2, n2) => m7((o2) => o2 >= Math.min(t2, n2) && o2 <= Math.max(t2, n2));
+      var At = (t2) => M3((n2) => n2.startsWith(t2));
+      var qt = (t2) => M3((n2) => n2.endsWith(t2));
+      var Dt = (t2) => D3((n2) => n2.includes(t2));
+      var Et = J2;
+      var Ft = (t2) => (n2) => n2 === t2;
+      var dt = (...t2) => (n2) => g3(n2) && (([o2, s2]) => o2.length && o2.every((e2) => s2.includes(e2)))([t2.flat(), u3(n2)]);
+      var Rt = (o2) => {
+        var s2 = o2, { getValue: t2 } = s2, n2 = v3(s2, ["getValue"]);
+        return ot(n2).reduce((e2, [l2, p2]) => st2(e2, { [l2]: (S3) => (E2) => ({ matched: () => p2(E2), value: () => c3(S3) ? S3(t2(E2)) : S3 }) }), {});
       };
-      var Ot = (t2) => !!t2;
-      var pt = (t2) => !t2;
-      var bt = (t2) => new Proxy({}, { get: () => t2 });
-      var C2 = (t2) => (n2) => g2(n2) && t2(n2);
-      var f2 = (t2) => (n2) => I2(n2) && t2(n2);
-      var xt = (t2) => (n2) => (e(n2) || g2(n2)) && t2(n2);
+      var vt = (t2) => !!t2;
+      var It = (t2) => !t2;
+      var Vt = (t2) => (n2, o2) => (n2[o2] = q2(n2[o2], t2), n2);
+      var zt = (t2) => (n2) => q2(n2, t2);
+      var q2 = (t2, n2) => n2(g3(t2) ? u3(t2).reduce(Vt(n2), R2({}, t2)) : i3(t2) ? t2.map(zt(n2)) : t2);
+      var Bt = (t2) => new Proxy({}, { get: () => t2 });
+      var M3 = (t2) => (n2) => f2(n2) && t2(n2);
+      var m7 = (t2) => (n2) => C(n2) && t2(n2);
+      var Q3 = (t2) => (n2, o2) => i3(n2) && t2(n2, o2);
+      var D3 = (t2) => (n2, o2) => (i3(n2) || f2(n2)) && t2(n2, o2);
     }
   });
   var require_fp = __commonJS({
     "src/common/cjs/fp.js"(exports, module) {
       function compose(...fns) {
-        return (...x3) => fns.reduceRight((g2, f2) => [f2(...g2)], x3)[0];
+        return (...x3) => fns.reduceRight((g3, f2) => [f2(...g3)], x3)[0];
       }
       function flow2(...fns) {
-        return (...x3) => fns.reduce((g2, f2) => [f2(...g2)], x3)[0];
+        return (...x3) => fns.reduce((g3, f2) => [f2(...g3)], x3)[0];
       }
       function pipe3(x3, ...fns) {
-        return fns.reduce((g2, f2) => f2(g2), x3);
+        return fns.reduce((g3, f2) => f2(g3), x3);
       }
       function flip(fn2) {
         return (...x3) => (...y2) => fn2(...y2)(...x3);
@@ -6466,7 +6595,7 @@ Check your performTransitions() config.`;
   });
   var require_regexp = __commonJS({
     "src/common/cjs/regexp.js"(exports, module) {
-      var { against: against2, when: when2, otherwise: otherwise2, isString: isString4 } = require_match_iz_cjs();
+      var { against: against2, when: when2, otherwise: otherwise2, isString: isString4 } = require_dist();
       var { pipe: pipe3, flow: flow2, memo } = require_fp();
       var makeRegExpFromWildcardString2 = memo((str) => {
         if (!isString4(str) || !str.length) {
@@ -6495,7 +6624,7 @@ Check your performTransitions() config.`;
       };
     }
   });
-  var import_mithril6 = __toESM(require_mithril());
+  var import_mithril8 = __toESM(require_mithril());
   var import_timers3 = __toESM(require_timers());
   var import_promises2 = __toESM(require_promises());
   var actions = {
@@ -6551,10 +6680,10 @@ Check your performTransitions() config.`;
     }
   };
   function n(n2) {
-    for (var r2 = arguments.length, t2 = Array(r2 > 1 ? r2 - 1 : 0), e = 1; e < r2; e++)
-      t2[e - 1] = arguments[e];
+    for (var r3 = arguments.length, t2 = Array(r3 > 1 ? r3 - 1 : 0), e2 = 1; e2 < r3; e2++)
+      t2[e2 - 1] = arguments[e2];
     if (false) {
-      var i3 = Y[n2], o2 = i3 ? typeof i3 == "function" ? i3.apply(null, t2) : i3 : "unknown error nr: " + n2;
+      var i3 = Y2[n2], o2 = i3 ? typeof i3 == "function" ? i3.apply(null, t2) : i3 : "unknown error nr: " + n2;
       throw Error("[Immer] " + o2);
     }
     throw Error("[Immer] minified error nr: " + n2 + (t2.length ? " " + t2.map(function(n3) {
@@ -6568,36 +6697,36 @@ Check your performTransitions() config.`;
     return !!n2 && (function(n3) {
       if (!n3 || typeof n3 != "object")
         return false;
-      var r2 = Object.getPrototypeOf(n3);
-      if (r2 === null)
+      var r3 = Object.getPrototypeOf(n3);
+      if (r3 === null)
         return true;
-      var t2 = Object.hasOwnProperty.call(r2, "constructor") && r2.constructor;
+      var t2 = Object.hasOwnProperty.call(r3, "constructor") && r3.constructor;
       return t2 === Object || typeof t2 == "function" && Function.toString.call(t2) === Z;
     }(n2) || Array.isArray(n2) || !!n2[L] || !!n2.constructor[L] || s(n2) || v(n2));
   }
-  function i(n2, r2, t2) {
-    t2 === void 0 && (t2 = false), o(n2) === 0 ? (t2 ? Object.keys : nn)(n2).forEach(function(e) {
-      t2 && typeof e == "symbol" || r2(e, n2[e], n2);
-    }) : n2.forEach(function(t3, e) {
-      return r2(e, t3, n2);
+  function i(n2, r3, t2) {
+    t2 === void 0 && (t2 = false), o(n2) === 0 ? (t2 ? Object.keys : nn)(n2).forEach(function(e2) {
+      t2 && typeof e2 == "symbol" || r3(e2, n2[e2], n2);
+    }) : n2.forEach(function(t3, e2) {
+      return r3(e2, t3, n2);
     });
   }
   function o(n2) {
-    var r2 = n2[Q];
-    return r2 ? r2.i > 3 ? r2.i - 4 : r2.i : Array.isArray(n2) ? 1 : s(n2) ? 2 : v(n2) ? 3 : 0;
+    var r3 = n2[Q];
+    return r3 ? r3.i > 3 ? r3.i - 4 : r3.i : Array.isArray(n2) ? 1 : s(n2) ? 2 : v(n2) ? 3 : 0;
   }
-  function u(n2, r2) {
-    return o(n2) === 2 ? n2.has(r2) : Object.prototype.hasOwnProperty.call(n2, r2);
+  function u(n2, r3) {
+    return o(n2) === 2 ? n2.has(r3) : Object.prototype.hasOwnProperty.call(n2, r3);
   }
-  function a(n2, r2) {
-    return o(n2) === 2 ? n2.get(r2) : n2[r2];
+  function a(n2, r3) {
+    return o(n2) === 2 ? n2.get(r3) : n2[r3];
   }
-  function f(n2, r2, t2) {
-    var e = o(n2);
-    e === 2 ? n2.set(r2, t2) : e === 3 ? (n2.delete(r2), n2.add(t2)) : n2[r2] = t2;
+  function f(n2, r3, t2) {
+    var e2 = o(n2);
+    e2 === 2 ? n2.set(r3, t2) : e2 === 3 ? (n2.delete(r3), n2.add(t2)) : n2[r3] = t2;
   }
-  function c(n2, r2) {
-    return n2 === r2 ? n2 !== 0 || 1 / n2 == 1 / r2 : n2 != n2 && r2 != r2;
+  function c(n2, r3) {
+    return n2 === r3 ? n2 !== 0 || 1 / n2 == 1 / r3 : n2 != n2 && r3 != r3;
   }
   function s(n2) {
     return X && n2 instanceof Map;
@@ -6611,17 +6740,17 @@ Check your performTransitions() config.`;
   function l(n2) {
     if (Array.isArray(n2))
       return Array.prototype.slice.call(n2);
-    var r2 = rn(n2);
-    delete r2[Q];
-    for (var t2 = nn(r2), e = 0; e < t2.length; e++) {
-      var i3 = t2[e], o2 = r2[i3];
-      o2.writable === false && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (r2[i3] = { configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i3] });
+    var r3 = rn(n2);
+    delete r3[Q];
+    for (var t2 = nn(r3), e2 = 0; e2 < t2.length; e2++) {
+      var i3 = t2[e2], o2 = r3[i3];
+      o2.writable === false && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (r3[i3] = { configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i3] });
     }
-    return Object.create(Object.getPrototypeOf(n2), r2);
+    return Object.create(Object.getPrototypeOf(n2), r3);
   }
-  function d(n2, e) {
-    return e === void 0 && (e = false), y(n2) || r(n2) || !t(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e && i(n2, function(n3, r2) {
-      return d(r2, true);
+  function d(n2, e2) {
+    return e2 === void 0 && (e2 = false), y(n2) || r(n2) || !t(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e2 && i(n2, function(n3, r3) {
+      return d(r3, true);
     }, true), n2);
   }
   function h() {
@@ -6630,15 +6759,15 @@ Check your performTransitions() config.`;
   function y(n2) {
     return n2 == null || typeof n2 != "object" || Object.isFrozen(n2);
   }
-  function b(r2) {
-    var t2 = tn[r2];
-    return t2 || n(18, r2), t2;
+  function b(r3) {
+    var t2 = tn[r3];
+    return t2 || n(18, r3), t2;
   }
   function _() {
     return true, U;
   }
-  function j(n2, r2) {
-    r2 && (b("Patches"), n2.u = [], n2.s = [], n2.v = r2);
+  function j(n2, r3) {
+    r3 && (b("Patches"), n2.u = [], n2.s = [], n2.v = r3);
   }
   function O(n2) {
     g(n2), n2.p.forEach(S), n2.p = null;
@@ -6650,61 +6779,61 @@ Check your performTransitions() config.`;
     return U = { p: [], l: U, h: n2, m: true, _: 0 };
   }
   function S(n2) {
-    var r2 = n2[Q];
-    r2.i === 0 || r2.i === 1 ? r2.j() : r2.O = true;
+    var r3 = n2[Q];
+    r3.i === 0 || r3.i === 1 ? r3.j() : r3.O = true;
   }
-  function P(r2, e) {
-    e._ = e.p.length;
-    var i3 = e.p[0], o2 = r2 !== void 0 && r2 !== i3;
-    return e.h.g || b("ES5").S(e, r2, o2), o2 ? (i3[Q].P && (O(e), n(4)), t(r2) && (r2 = M(e, r2), e.l || x(e, r2)), e.u && b("Patches").M(i3[Q].t, r2, e.u, e.s)) : r2 = M(e, i3, []), O(e), e.u && e.v(e.u, e.s), r2 !== H ? r2 : void 0;
+  function P(r3, e2) {
+    e2._ = e2.p.length;
+    var i3 = e2.p[0], o2 = r3 !== void 0 && r3 !== i3;
+    return e2.h.g || b("ES5").S(e2, r3, o2), o2 ? (i3[Q].P && (O(e2), n(4)), t(r3) && (r3 = M(e2, r3), e2.l || x(e2, r3)), e2.u && b("Patches").M(i3[Q].t, r3, e2.u, e2.s)) : r3 = M(e2, i3, []), O(e2), e2.u && e2.v(e2.u, e2.s), r3 !== H ? r3 : void 0;
   }
-  function M(n2, r2, t2) {
-    if (y(r2))
-      return r2;
-    var e = r2[Q];
-    if (!e)
-      return i(r2, function(i3, o3) {
-        return A(n2, e, r2, i3, o3, t2);
-      }, true), r2;
-    if (e.A !== n2)
-      return r2;
-    if (!e.P)
-      return x(n2, e.t, true), e.t;
-    if (!e.I) {
-      e.I = true, e.A._--;
-      var o2 = e.i === 4 || e.i === 5 ? e.o = l(e.k) : e.o;
-      i(e.i === 3 ? new Set(o2) : o2, function(r3, i3) {
-        return A(n2, e, o2, r3, i3, t2);
-      }), x(n2, o2, false), t2 && n2.u && b("Patches").R(e, t2, n2.u, n2.s);
+  function M(n2, r3, t2) {
+    if (y(r3))
+      return r3;
+    var e2 = r3[Q];
+    if (!e2)
+      return i(r3, function(i3, o3) {
+        return A(n2, e2, r3, i3, o3, t2);
+      }, true), r3;
+    if (e2.A !== n2)
+      return r3;
+    if (!e2.P)
+      return x(n2, e2.t, true), e2.t;
+    if (!e2.I) {
+      e2.I = true, e2.A._--;
+      var o2 = e2.i === 4 || e2.i === 5 ? e2.o = l(e2.k) : e2.o;
+      i(e2.i === 3 ? new Set(o2) : o2, function(r4, i3) {
+        return A(n2, e2, o2, r4, i3, t2);
+      }), x(n2, o2, false), t2 && n2.u && b("Patches").R(e2, t2, n2.u, n2.s);
     }
-    return e.o;
+    return e2.o;
   }
-  function A(e, i3, o2, a2, c3, s2) {
+  function A(e2, i3, o2, a2, c3, s2) {
     if (false, r(c3)) {
-      var v2 = M(e, c3, s2 && i3 && i3.i !== 3 && !u(i3.D, a2) ? s2.concat(a2) : void 0);
-      if (f(o2, a2, v2), !r(v2))
+      var v3 = M(e2, c3, s2 && i3 && i3.i !== 3 && !u(i3.D, a2) ? s2.concat(a2) : void 0);
+      if (f(o2, a2, v3), !r(v3))
         return;
-      e.m = false;
+      e2.m = false;
     }
     if (t(c3) && !y(c3)) {
-      if (!e.h.F && e._ < 1)
+      if (!e2.h.F && e2._ < 1)
         return;
-      M(e, c3), i3 && i3.A.l || x(e, c3);
+      M(e2, c3), i3 && i3.A.l || x(e2, c3);
     }
   }
-  function x(n2, r2, t2) {
-    t2 === void 0 && (t2 = false), n2.h.F && n2.m && d(r2, t2);
+  function x(n2, r3, t2) {
+    t2 === void 0 && (t2 = false), n2.h.F && n2.m && d(r3, t2);
   }
-  function z(n2, r2) {
+  function z(n2, r3) {
     var t2 = n2[Q];
-    return (t2 ? p(t2) : n2)[r2];
+    return (t2 ? p(t2) : n2)[r3];
   }
-  function I(n2, r2) {
-    if (r2 in n2)
+  function I(n2, r3) {
+    if (r3 in n2)
       for (var t2 = Object.getPrototypeOf(n2); t2; ) {
-        var e = Object.getOwnPropertyDescriptor(t2, r2);
-        if (e)
-          return e;
+        var e2 = Object.getOwnPropertyDescriptor(t2, r3);
+        if (e2)
+          return e2;
         t2 = Object.getPrototypeOf(t2);
       }
   }
@@ -6714,33 +6843,33 @@ Check your performTransitions() config.`;
   function E(n2) {
     n2.o || (n2.o = l(n2.t));
   }
-  function R(n2, r2, t2) {
-    var e = s(r2) ? b("MapSet").N(r2, t2) : v(r2) ? b("MapSet").T(r2, t2) : n2.g ? function(n3, r3) {
-      var t3 = Array.isArray(n3), e2 = { i: t3 ? 1 : 0, A: r3 ? r3.A : _(), P: false, I: false, D: {}, l: r3, t: n3, k: null, o: null, j: null, C: false }, i3 = e2, o2 = en;
-      t3 && (i3 = [e2], o2 = on);
+  function R(n2, r3, t2) {
+    var e2 = s(r3) ? b("MapSet").N(r3, t2) : v(r3) ? b("MapSet").T(r3, t2) : n2.g ? function(n3, r4) {
+      var t3 = Array.isArray(n3), e3 = { i: t3 ? 1 : 0, A: r4 ? r4.A : _(), P: false, I: false, D: {}, l: r4, t: n3, k: null, o: null, j: null, C: false }, i3 = e3, o2 = en;
+      t3 && (i3 = [e3], o2 = on);
       var u3 = Proxy.revocable(i3, o2), a2 = u3.revoke, f2 = u3.proxy;
-      return e2.k = f2, e2.j = a2, f2;
-    }(r2, t2) : b("ES5").J(r2, t2);
-    return (t2 ? t2.A : _()).p.push(e), e;
+      return e3.k = f2, e3.j = a2, f2;
+    }(r3, t2) : b("ES5").J(r3, t2);
+    return (t2 ? t2.A : _()).p.push(e2), e2;
   }
-  function D(e) {
-    return r(e) || n(22, e), function n2(r2) {
-      if (!t(r2))
-        return r2;
-      var e2, u3 = r2[Q], c3 = o(r2);
+  function D(e2) {
+    return r(e2) || n(22, e2), function n2(r3) {
+      if (!t(r3))
+        return r3;
+      var e3, u3 = r3[Q], c3 = o(r3);
       if (u3) {
         if (!u3.P && (u3.i < 4 || !b("ES5").K(u3)))
           return u3.t;
-        u3.I = true, e2 = F(r2, c3), u3.I = false;
+        u3.I = true, e3 = F(r3, c3), u3.I = false;
       } else
-        e2 = F(r2, c3);
-      return i(e2, function(r3, t2) {
-        u3 && a(u3.t, r3) === t2 || f(e2, r3, n2(t2));
-      }), c3 === 3 ? new Set(e2) : e2;
-    }(e);
+        e3 = F(r3, c3);
+      return i(e3, function(r4, t2) {
+        u3 && a(u3.t, r4) === t2 || f(e3, r4, n2(t2));
+      }), c3 === 3 ? new Set(e3) : e3;
+    }(e2);
   }
-  function F(n2, r2) {
-    switch (r2) {
+  function F(n2, r3) {
+    switch (r3) {
       case 2:
         return new Map(n2);
       case 3:
@@ -6757,51 +6886,50 @@ Check your performTransitions() config.`;
   var H = W ? Symbol.for("immer-nothing") : ((G = {})["immer-nothing"] = true, G);
   var L = W ? Symbol.for("immer-draftable") : "__$immer_draftable";
   var Q = W ? Symbol.for("immer-state") : "__$immer_state";
-  var V = typeof Symbol != "undefined" && Symbol.iterator || "@@iterator";
   var Z = "" + Object.prototype.constructor;
   var nn = typeof Reflect != "undefined" && Reflect.ownKeys ? Reflect.ownKeys : Object.getOwnPropertySymbols !== void 0 ? function(n2) {
     return Object.getOwnPropertyNames(n2).concat(Object.getOwnPropertySymbols(n2));
   } : Object.getOwnPropertyNames;
   var rn = Object.getOwnPropertyDescriptors || function(n2) {
-    var r2 = {};
+    var r3 = {};
     return nn(n2).forEach(function(t2) {
-      r2[t2] = Object.getOwnPropertyDescriptor(n2, t2);
-    }), r2;
+      r3[t2] = Object.getOwnPropertyDescriptor(n2, t2);
+    }), r3;
   };
   var tn = {};
-  var en = { get: function(n2, r2) {
-    if (r2 === Q)
+  var en = { get: function(n2, r3) {
+    if (r3 === Q)
       return n2;
-    var e = p(n2);
-    if (!u(e, r2))
-      return function(n3, r3, t2) {
-        var e2, i4 = I(r3, t2);
-        return i4 ? "value" in i4 ? i4.value : (e2 = i4.get) === null || e2 === void 0 ? void 0 : e2.call(n3.k) : void 0;
-      }(n2, e, r2);
-    var i3 = e[r2];
-    return n2.I || !t(i3) ? i3 : i3 === z(n2.t, r2) ? (E(n2), n2.o[r2] = R(n2.A.h, i3, n2)) : i3;
-  }, has: function(n2, r2) {
-    return r2 in p(n2);
+    var e2 = p(n2);
+    if (!u(e2, r3))
+      return function(n3, r4, t2) {
+        var e3, i4 = I(r4, t2);
+        return i4 ? "value" in i4 ? i4.value : (e3 = i4.get) === null || e3 === void 0 ? void 0 : e3.call(n3.k) : void 0;
+      }(n2, e2, r3);
+    var i3 = e2[r3];
+    return n2.I || !t(i3) ? i3 : i3 === z(n2.t, r3) ? (E(n2), n2.o[r3] = R(n2.A.h, i3, n2)) : i3;
+  }, has: function(n2, r3) {
+    return r3 in p(n2);
   }, ownKeys: function(n2) {
     return Reflect.ownKeys(p(n2));
-  }, set: function(n2, r2, t2) {
-    var e = I(p(n2), r2);
-    if (e == null ? void 0 : e.set)
-      return e.set.call(n2.k, t2), true;
+  }, set: function(n2, r3, t2) {
+    var e2 = I(p(n2), r3);
+    if (e2 == null ? void 0 : e2.set)
+      return e2.set.call(n2.k, t2), true;
     if (!n2.P) {
-      var i3 = z(p(n2), r2), o2 = i3 == null ? void 0 : i3[Q];
+      var i3 = z(p(n2), r3), o2 = i3 == null ? void 0 : i3[Q];
       if (o2 && o2.t === t2)
-        return n2.o[r2] = t2, n2.D[r2] = false, true;
-      if (c(t2, i3) && (t2 !== void 0 || u(n2.t, r2)))
+        return n2.o[r3] = t2, n2.D[r3] = false, true;
+      if (c(t2, i3) && (t2 !== void 0 || u(n2.t, r3)))
         return true;
       E(n2), k(n2);
     }
-    return n2.o[r2] === t2 && typeof t2 != "number" && (t2 !== void 0 || r2 in n2.o) || (n2.o[r2] = t2, n2.D[r2] = true, true);
-  }, deleteProperty: function(n2, r2) {
-    return z(n2.t, r2) !== void 0 || r2 in n2.t ? (n2.D[r2] = false, E(n2), k(n2)) : delete n2.D[r2], n2.o && delete n2.o[r2], true;
-  }, getOwnPropertyDescriptor: function(n2, r2) {
-    var t2 = p(n2), e = Reflect.getOwnPropertyDescriptor(t2, r2);
-    return e ? { writable: true, configurable: n2.i !== 1 || r2 !== "length", enumerable: e.enumerable, value: t2[r2] } : e;
+    return n2.o[r3] === t2 && typeof t2 != "number" && (t2 !== void 0 || r3 in n2.o) || (n2.o[r3] = t2, n2.D[r3] = true, true);
+  }, deleteProperty: function(n2, r3) {
+    return z(n2.t, r3) !== void 0 || r3 in n2.t ? (n2.D[r3] = false, E(n2), k(n2)) : delete n2.D[r3], n2.o && delete n2.o[r3], true;
+  }, getOwnPropertyDescriptor: function(n2, r3) {
+    var t2 = p(n2), e2 = Reflect.getOwnPropertyDescriptor(t2, r3);
+    return e2 ? { writable: true, configurable: n2.i !== 1 || r3 !== "length", enumerable: e2.enumerable, value: t2[r3] } : e2;
   }, defineProperty: function() {
     n(11);
   }, getPrototypeOf: function(n2) {
@@ -6810,41 +6938,41 @@ Check your performTransitions() config.`;
     n(12);
   } };
   var on = {};
-  i(en, function(n2, r2) {
+  i(en, function(n2, r3) {
     on[n2] = function() {
-      return arguments[0] = arguments[0][0], r2.apply(this, arguments);
+      return arguments[0] = arguments[0][0], r3.apply(this, arguments);
     };
-  }), on.deleteProperty = function(r2, t2) {
-    return false, on.set.call(this, r2, t2, void 0);
-  }, on.set = function(r2, t2, e) {
-    return false, en.set.call(this, r2[0], t2, e, r2[0]);
+  }), on.deleteProperty = function(r3, t2) {
+    return false, on.set.call(this, r3, t2, void 0);
+  }, on.set = function(r3, t2, e2) {
+    return false, en.set.call(this, r3[0], t2, e2, r3[0]);
   };
   var un = function() {
-    function e(r2) {
-      var e2 = this;
-      this.g = B, this.F = true, this.produce = function(r3, i4, o2) {
-        if (typeof r3 == "function" && typeof i4 != "function") {
+    function e2(r3) {
+      var e3 = this;
+      this.g = B, this.F = true, this.produce = function(r4, i4, o2) {
+        if (typeof r4 == "function" && typeof i4 != "function") {
           var u3 = i4;
-          i4 = r3;
-          var a2 = e2;
+          i4 = r4;
+          var a2 = e3;
           return function(n2) {
-            var r4 = this;
+            var r5 = this;
             n2 === void 0 && (n2 = u3);
-            for (var t2 = arguments.length, e3 = Array(t2 > 1 ? t2 - 1 : 0), o3 = 1; o3 < t2; o3++)
-              e3[o3 - 1] = arguments[o3];
+            for (var t2 = arguments.length, e4 = Array(t2 > 1 ? t2 - 1 : 0), o3 = 1; o3 < t2; o3++)
+              e4[o3 - 1] = arguments[o3];
             return a2.produce(n2, function(n3) {
               var t3;
-              return (t3 = i4).call.apply(t3, [r4, n3].concat(e3));
+              return (t3 = i4).call.apply(t3, [r5, n3].concat(e4));
             });
           };
         }
         var f2;
-        if (typeof i4 != "function" && n(6), o2 !== void 0 && typeof o2 != "function" && n(7), t(r3)) {
-          var c3 = w(e2), s2 = R(e2, r3, void 0), v2 = true;
+        if (typeof i4 != "function" && n(6), o2 !== void 0 && typeof o2 != "function" && n(7), t(r4)) {
+          var c3 = w(e3), s2 = R(e3, r4, void 0), v3 = true;
           try {
-            f2 = i4(s2), v2 = false;
+            f2 = i4(s2), v3 = false;
           } finally {
-            v2 ? O(c3) : g(c3);
+            v3 ? O(c3) : g(c3);
           }
           return typeof Promise != "undefined" && f2 instanceof Promise ? f2.then(function(n2) {
             return j(c3, o2), P(n2, c3);
@@ -6852,59 +6980,59 @@ Check your performTransitions() config.`;
             throw O(c3), n2;
           }) : (j(c3, o2), P(f2, c3));
         }
-        if (!r3 || typeof r3 != "object") {
-          if ((f2 = i4(r3)) === void 0 && (f2 = r3), f2 === H && (f2 = void 0), e2.F && d(f2, true), o2) {
-            var p3 = [], l3 = [];
-            b("Patches").M(r3, f2, p3, l3), o2(p3, l3);
+        if (!r4 || typeof r4 != "object") {
+          if ((f2 = i4(r4)) === void 0 && (f2 = r4), f2 === H && (f2 = void 0), e3.F && d(f2, true), o2) {
+            var p2 = [], l2 = [];
+            b("Patches").M(r4, f2, p2, l2), o2(p2, l2);
           }
           return f2;
         }
-        n(21, r3);
-      }, this.produceWithPatches = function(n2, r3) {
+        n(21, r4);
+      }, this.produceWithPatches = function(n2, r4) {
         if (typeof n2 == "function")
-          return function(r4) {
+          return function(r5) {
             for (var t3 = arguments.length, i5 = Array(t3 > 1 ? t3 - 1 : 0), o3 = 1; o3 < t3; o3++)
               i5[o3 - 1] = arguments[o3];
-            return e2.produceWithPatches(r4, function(r5) {
-              return n2.apply(void 0, [r5].concat(i5));
+            return e3.produceWithPatches(r5, function(r6) {
+              return n2.apply(void 0, [r6].concat(i5));
             });
           };
-        var t2, i4, o2 = e2.produce(n2, r3, function(n3, r4) {
-          t2 = n3, i4 = r4;
+        var t2, i4, o2 = e3.produce(n2, r4, function(n3, r5) {
+          t2 = n3, i4 = r5;
         });
         return typeof Promise != "undefined" && o2 instanceof Promise ? o2.then(function(n3) {
           return [n3, t2, i4];
         }) : [o2, t2, i4];
-      }, typeof (r2 == null ? void 0 : r2.useProxies) == "boolean" && this.setUseProxies(r2.useProxies), typeof (r2 == null ? void 0 : r2.autoFreeze) == "boolean" && this.setAutoFreeze(r2.autoFreeze);
+      }, typeof (r3 == null ? void 0 : r3.useProxies) == "boolean" && this.setUseProxies(r3.useProxies), typeof (r3 == null ? void 0 : r3.autoFreeze) == "boolean" && this.setAutoFreeze(r3.autoFreeze);
     }
-    var i3 = e.prototype;
-    return i3.createDraft = function(e2) {
-      t(e2) || n(8), r(e2) && (e2 = D(e2));
-      var i4 = w(this), o2 = R(this, e2, void 0);
+    var i3 = e2.prototype;
+    return i3.createDraft = function(e3) {
+      t(e3) || n(8), r(e3) && (e3 = D(e3));
+      var i4 = w(this), o2 = R(this, e3, void 0);
       return o2[Q].C = true, g(i4), o2;
-    }, i3.finishDraft = function(r2, t2) {
-      var e2 = r2 && r2[Q];
-      var i4 = e2.A;
+    }, i3.finishDraft = function(r3, t2) {
+      var e3 = r3 && r3[Q];
+      var i4 = e3.A;
       return j(i4, t2), P(void 0, i4);
     }, i3.setAutoFreeze = function(n2) {
       this.F = n2;
-    }, i3.setUseProxies = function(r2) {
-      r2 && !B && n(20), this.g = r2;
+    }, i3.setUseProxies = function(r3) {
+      r3 && !B && n(20), this.g = r3;
     }, i3.applyPatches = function(n2, t2) {
-      var e2;
-      for (e2 = t2.length - 1; e2 >= 0; e2--) {
-        var i4 = t2[e2];
+      var e3;
+      for (e3 = t2.length - 1; e3 >= 0; e3--) {
+        var i4 = t2[e3];
         if (i4.path.length === 0 && i4.op === "replace") {
           n2 = i4.value;
           break;
         }
       }
-      e2 > -1 && (t2 = t2.slice(e2 + 1));
+      e3 > -1 && (t2 = t2.slice(e3 + 1));
       var o2 = b("Patches").$;
       return r(n2) ? o2(n2, t2) : this.produce(n2, function(n3) {
         return o2(n3, t2);
       });
-    }, e;
+    }, e2;
   }();
   var an = new un();
   var fn = an.produce;
@@ -6930,7 +7058,7 @@ Check your performTransitions() config.`;
     let global2;
     try {
       global2 = window;
-    } catch (e) {
+    } catch (e2) {
       global2 = self;
     }
     const BUS = "message-bus";
@@ -7711,7 +7839,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const statementDate = new Date(date);
     return "OBIS-Statements-" + statementDate.getFullYear() + "-" + dateTimeString(new Date(), "_") + ".zip";
   }
-  var import_mithril4 = __toESM(require_mithril());
+  var import_mithril5 = __toESM(require_mithril());
   var { parse: $parse, stringify: $stringify } = JSON;
   var { keys } = Object;
   var Primitive = String;
@@ -7724,7 +7852,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return index;
   };
   var stringify = (value, replacer, space) => {
-    const $2 = replacer && typeof replacer === object ? (k2, v2) => k2 === "" || -1 < replacer.indexOf(k2) ? v2 : void 0 : replacer || noop;
+    const $2 = replacer && typeof replacer === object ? (k3, v3) => k3 === "" || -1 < replacer.indexOf(k3) ? v3 : void 0 : replacer || noop;
     const known = /* @__PURE__ */ new Map();
     const input = [];
     const output = [];
@@ -7864,8 +7992,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           vnode,
           children: vnode.children
         });
-      } catch (e) {
-        console.error(e);
+      } catch (e2) {
+        console.error(e2);
       } finally {
         currentState = prevState;
       }
@@ -7888,18 +8016,18 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     };
   };
   function mitt(n2) {
-    return { all: n2 = n2 || /* @__PURE__ */ new Map(), on: function(t2, e) {
+    return { all: n2 = n2 || /* @__PURE__ */ new Map(), on: function(t2, e2) {
       var i3 = n2.get(t2);
-      i3 ? i3.push(e) : n2.set(t2, [e]);
-    }, off: function(t2, e) {
+      i3 ? i3.push(e2) : n2.set(t2, [e2]);
+    }, off: function(t2, e2) {
       var i3 = n2.get(t2);
-      i3 && (e ? i3.splice(i3.indexOf(e) >>> 0, 1) : n2.set(t2, []));
-    }, emit: function(t2, e) {
+      i3 && (e2 ? i3.splice(i3.indexOf(e2) >>> 0, 1) : n2.set(t2, []));
+    }, emit: function(t2, e2) {
       var i3 = n2.get(t2);
       i3 && i3.slice().map(function(n3) {
-        n3(e);
+        n3(e2);
       }), (i3 = n2.get("*")) && i3.slice().map(function(n3) {
-        n3(t2, e);
+        n3(t2, e2);
       });
     } };
   }
@@ -8197,9 +8325,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   var rxLineContinuations = new RegExp(`(${rxOperators})$`);
   var rxDisallowedCharacters = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
   var rxComment = /(\/\/[^\n\r]*)/;
-  var argTypeError$1 = ArgTypeError2("statebot.");
+  var argTypeError = ArgTypeError2("statebot.");
   function decomposeChart(chart2) {
-    const err = argTypeError$1({ chart: isTemplateLiteral2 })("decomposeChart")(chart2);
+    const err = argTypeError({ chart: isTemplateLiteral2 })("decomposeChart")(chart2);
     if (err) {
       throw TypeError(err);
     }
@@ -8503,15 +8631,15 @@ Check your performTransitions() config.`;
       }
       return isPojo3(args[0]) ? _inStateObject(...args) : _inState(...args);
     }
-    const emit2 = Pausable((eventName, ...args) => {
+    const emit2 = (eventName, ...args) => {
       const err = argTypeError2({ eventName: isString3 })("emit")(eventName);
       if (err) {
         throw new TypeError(err);
       }
       _peek(eventName);
       return events.emit(eventName, ...args);
-    });
-    const enter = Pausable((state, ...args) => {
+    };
+    const enter = (state, ...args) => {
       const err = argTypeError2({ state: isString3 })("enter")(state);
       if (err) {
         throw new TypeError(err);
@@ -8540,7 +8668,7 @@ Check your performTransitions() config.`;
       emitInternalEvent(nextRoute, ...args);
       emitInternalEvent(INTERNAL_EVENTS[ON_SWITCHED], toState, inState2, ...args);
       return true;
-    });
+    };
     function onEvent(eventName, cb) {
       const err = argTypeError2({ eventName: isString3, cb: isFunction3 })("onEvent")(eventName, cb);
       if (err) {
@@ -8669,34 +8797,34 @@ Check your performTransitions() config.`;
     }
     return {
       __STATEBOT__: 1,
+      statesAvailableFromHere,
       canTransitionTo,
       currentState: currentState2,
-      emit: emit2,
-      Emit: Emit3,
-      enter,
-      Enter,
+      previousState,
       history: () => [...stateHistory],
-      info: () => info(),
-      inspect: () => inspect(),
+      emit: Pausable(emit2),
+      Emit: Pausable(Emit3),
+      enter: Pausable(enter),
+      Enter: Pausable(Enter),
       inState,
       InState,
+      info: () => info(),
+      inspect: () => inspect(),
       name: () => name,
       onEntered: enterExitMethods[ON_ENTERED],
       onEntering: enterExitMethods[ON_ENTERING],
-      onEvent,
       onExited: enterExitMethods[ON_EXITED],
       onExiting: enterExitMethods[ON_EXITING],
       onSwitched: switchMethods[ON_SWITCHED],
       onSwitching: switchMethods[ON_SWITCHING],
+      onEvent,
       onTransitions: (transitions) => applyHitcher(transitions, "onTransitions"),
+      performTransitions: (transitions) => applyHitcher(transitions, "performTransitions"),
       pause,
       paused,
       peek,
-      performTransitions: (transitions) => applyHitcher(transitions, "performTransitions"),
-      previousState,
       reset,
-      resume,
-      statesAvailableFromHere
+      resume
     };
   }
   function decomposeHitcherActions(hitcherActions) {
@@ -8747,126 +8875,162 @@ Check your performTransitions() config.`;
       routes: allRoutes
     };
   }
-  var argTypeError = ArgTypeError2("statebot.");
-  function useStatebot(bot) {
-    const [state, setState] = useState(bot.currentState());
-    useEffect(() => {
-      let done = false;
-      const removeListener = bot.onSwitched((toState) => {
-        if (done) {
-          return;
+  var makeHooks = ({ Statebot: Statebot3, useEffect: useEffect2, useState: useState2, useMemo: useMemo2 }) => {
+    if (![useEffect2, useState2, useMemo2].every((x3) => typeof x3 === "function")) {
+      console.warn("Statebot Hooks unavailable: React or Mithril not found");
+    }
+    function useStatebot2(bot) {
+      const [state, setState] = useState2(bot.currentState());
+      useEffect2(() => {
+        let done = false;
+        const removeListener = bot.onSwitched((toState) => {
+          if (done) {
+            return;
+          }
+          setState(toState);
+        });
+        return () => {
+          done = true;
+          removeListener();
+        };
+      }, [bot]);
+      return state;
+    }
+    function useStatebotFactory2(name, config) {
+      const { bot, listeners } = useMemo2(() => {
+        const {
+          performTransitions = {},
+          onTransitions = {},
+          ...botConfig
+        } = config || {};
+        const bot2 = Statebot3(name, botConfig);
+        const listeners2 = [
+          bot2.performTransitions(performTransitions),
+          bot2.onTransitions(onTransitions)
+        ];
+        return {
+          bot: bot2,
+          listeners: listeners2
+        };
+      }, []);
+      useEffect2(() => () => {
+        if (typeof bot.pause === "function") {
+          bot.pause();
         }
-        setState(toState);
-      });
-      return () => {
-        done = true;
-        removeListener();
-      };
-    }, [bot]);
-    return state;
-  }
-  function useStatebotFactory(name, config) {
-    const { bot, listeners } = useMemo(() => {
-      const {
-        performTransitions = {},
-        onTransitions = {},
-        ...botConfig
-      } = config || {};
-      const bot2 = Statebot(name, botConfig);
-      const listeners2 = [
-        bot2.performTransitions(performTransitions),
-        bot2.onTransitions(onTransitions)
-      ];
-      return {
-        bot: bot2,
-        listeners: listeners2
-      };
-    }, []);
-    useEffect(() => () => {
-      if (typeof bot.pause === "function") {
-        bot.pause();
-      }
-      listeners.forEach((off) => off());
-    }, [bot, listeners]);
-    const state = useStatebot(bot);
-    return { state, bot };
-  }
-  var R2 = Object.defineProperty;
-  var q2 = (t2, n2) => {
-    for (var o2 in n2)
-      R2(t2, o2, { get: n2[o2], enumerable: true });
+        listeners.forEach((off) => off());
+      }, [bot, listeners]);
+      const state = useStatebot2(bot);
+      return { state, bot };
+    }
+    function useStatebotEvent2(bot, eventName, stateOrFn, maybeFn) {
+      useEffect2(() => {
+        let done = false;
+        function onSwitchFn(...args2) {
+          if (done) {
+            return;
+          }
+          stateOrFn(...args2);
+        }
+        function onEnterOrExitFn(...args2) {
+          if (done) {
+            return;
+          }
+          maybeFn(...args2);
+        }
+        const args = typeof maybeFn === "function" ? [stateOrFn, onEnterOrExitFn] : [onSwitchFn];
+        const removeListener = bot[eventName](...args);
+        return () => {
+          done = true;
+          removeListener();
+        };
+      }, [bot, eventName, stateOrFn, maybeFn]);
+    }
+    return {
+      useStatebot: useStatebot2,
+      useStatebotFactory: useStatebotFactory2,
+      useStatebotEvent: useStatebotEvent2
+    };
   };
-  var u2 = {};
-  q2(u2, { instanceOf: () => x2, isArguments: () => W2, isArray: () => B2, isDate: () => C, isFunction: () => G2, isNumber: () => J, isObject: () => A2, isPojo: () => L2, isRegExp: () => K, isString: () => H2 });
-  var w2 = Object.prototype;
-  var z2 = w2.toString;
-  var m2 = (t2) => (n2) => typeof n2 === t2;
-  var x2 = (t2) => (n2) => n2 instanceof t2;
-  var { isArray: B2 } = Array;
-  var W2 = (t2) => z2.call(t2) === "[object Arguments]";
-  var C = (t2) => x2(Date)(t2) && !isNaN(t2);
-  var G2 = m2("function");
-  var H2 = m2("string");
-  var J = (t2) => t2 === t2 && m2("number")(t2);
-  var A2 = (t2) => t2 !== null && m2("object")(t2);
-  var K = x2(RegExp);
-  var L2 = (t2) => t2 === null || !A2(t2) || W2(t2) ? false : Object.getPrototypeOf(t2) === w2;
-  var { isArray: O2, isDate: Z2, isFunction: c2, isNumber: M2 } = u2;
-  var { isPojo: N, isRegExp: D2, isString: p2, instanceOf: _2 } = u2;
-  function $(t2) {
-    return (...n2) => Q2(...n2)(t2);
+  var {
+    useStatebot,
+    useStatebotFactory,
+    useStatebotEvent
+  } = makeHooks({ Statebot, useEffect, useState, useMemo });
+  var D2 = Object.defineProperty;
+  var G2 = (t2, n2) => {
+    for (var o2 in n2)
+      D2(t2, o2, { get: n2[o2], enumerable: true });
+  };
+  var x2 = {};
+  G2(x2, { instanceOf: () => S2, isArguments: () => I2, isArray: () => J, isDate: () => K, isFunction: () => L2, isNumber: () => Q2, isObject: () => V, isPojo: () => U2, isRegExp: () => T, isString: () => M2 });
+  var v2 = Object.prototype;
+  var H2 = v2.toString;
+  var O2 = (t2) => (n2) => typeof n2 === t2;
+  var S2 = (t2) => (n2) => n2 instanceof t2;
+  var { isArray: J } = Array;
+  var I2 = (t2) => H2.call(t2) === "[object Arguments]";
+  var K = (t2) => S2(Date)(t2) && !isNaN(t2);
+  var L2 = O2("function");
+  var M2 = O2("string");
+  var Q2 = (t2) => t2 === t2 && O2("number")(t2);
+  var V = (t2) => t2 !== null && O2("object")(t2);
+  var T = S2(RegExp);
+  var U2 = (t2) => t2 === null || !V(t2) || I2(t2) ? false : Object.getPrototypeOf(t2) === v2;
+  var { isArray: i2, isDate: st, isFunction: g2, isNumber: X2 } = x2;
+  var { isPojo: u2, isRegExp: z2, isString: N, instanceOf: et } = x2;
+  var { keys: c2, entries: Y2, assign: Z2 } = Object;
+  function rt(t2) {
+    return (...n2) => _2(...n2)(t2);
   }
-  var Q2 = (...t2) => {
+  var _2 = (...t2) => {
     let n2;
     return (o2) => t2.find((s2) => {
-      let r2 = s2(o2), { matched: g2, value: f2 } = r2 || {};
-      return [g2, f2].every(c2) ? g2(o2) && (n2 = f2(o2), true) : r2 && (n2 = r2);
+      let r3 = s2(o2), { matched: m7, value: l2 } = r3 || {};
+      return [m7, l2].every(g2) ? m7(o2) && (n2 = l2(o2), true) : r3 && (n2 = r3);
     }) && n2;
   };
-  var l2 = (t2) => (n2) => ({ matched: () => true, value: () => c2(t2) ? t2(n2) : t2 });
-  var d2 = (t2) => (n2) => (o2) => ({ matched: () => i2(t2, o2, (s2) => o2 = s2), value: () => c2(n2) ? p2(o2) && D2(t2) ? n2(...T(o2.match(t2))) : n2(o2) : n2 });
-  var T = (t2) => {
+  var it = (t2) => (n2) => ({ matched: () => true, value: () => g2(t2) ? t2(n2) : t2 });
+  var W2 = (t2) => (n2) => (o2) => ({ matched: () => e(t2, o2, (s2) => o2 = s2), value: () => g2(n2) ? N(o2) && z2(t2) ? n2(...$(o2.match(t2))) : n2(o2) : n2 });
+  var ct = (...t2) => {
+    if (t2.length === 1) {
+      let [n2] = t2;
+      return W2(n2);
+    }
+    if (t2.length === 2) {
+      let [n2, o2] = t2;
+      return W2(n2)(o2);
+    }
+    if (t2.length > 2) {
+      let n2 = t2.slice(-1)[0], o2 = t2.slice(0, -1);
+      return W2(k2(o2))(n2);
+    }
+    throw new Error("expected 1 or 2 arguments");
+  };
+  var $ = (t2) => {
     let { groups: n2 } = t2;
     return n2 ? [n2, t2] : [t2];
   };
-  var i2 = (t2, n2, o2) => N(t2) ? Object.keys(t2).every((s2) => i2(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : O2(t2) ? O2(n2) ? t2.length === n2.length && t2.every((s2, r2) => i2(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => i2(s2, n2, o2)) : c2(t2) ? t2(n2, o2) : p2(n2) && D2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
-  function toVal(mix) {
-    var k2, y2, str = "";
-    if (typeof mix === "string" || typeof mix === "number") {
-      str += mix;
-    } else if (typeof mix === "object") {
-      if (Array.isArray(mix)) {
-        for (k2 = 0; k2 < mix.length; k2++) {
-          if (mix[k2]) {
-            if (y2 = toVal(mix[k2])) {
-              str && (str += " ");
-              str += y2;
-            }
-          }
-        }
-      } else {
-        for (k2 in mix) {
-          if (mix[k2]) {
-            str && (str += " ");
-            str += k2;
-          }
-        }
-      }
-    }
-    return str;
+  var e = (t2, n2, o2) => u2(t2) ? c2(t2).every((s2) => e(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : i2(t2) ? i2(n2) && t2.length === n2.length && t2.every((s2, r3) => e(s2, n2 == null ? void 0 : n2[r3], o2)) : g2(t2) ? t2(n2, o2) : N(n2) && z2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
+  var k2 = (...t2) => (n2, o2) => t2.flat().every((s2) => e(s2, n2, o2));
+  function r2(e2) {
+    var t2, f2, n2 = "";
+    if (typeof e2 == "string" || typeof e2 == "number")
+      n2 += e2;
+    else if (typeof e2 == "object")
+      if (Array.isArray(e2))
+        for (t2 = 0; t2 < e2.length; t2++)
+          e2[t2] && (f2 = r2(e2[t2])) && (n2 && (n2 += " "), n2 += f2);
+      else
+        for (t2 in e2)
+          e2[t2] && (n2 && (n2 += " "), n2 += t2);
+    return n2;
   }
-  function clsx_m_default() {
-    var i3 = 0, tmp, x3, str = "";
-    while (i3 < arguments.length) {
-      if (tmp = arguments[i3++]) {
-        if (x3 = toVal(tmp)) {
-          str && (str += " ");
-          str += x3;
-        }
-      }
-    }
-    return str;
+  function clsx() {
+    for (var e2, t2, f2 = 0, n2 = ""; f2 < arguments.length; )
+      (e2 = arguments[f2++]) && (t2 = r2(e2)) && (n2 && (n2 += " "), n2 += t2);
+    return n2;
   }
+  var clsx_m_default = clsx;
   var import_mithril2 = __toESM(require_mithril());
   var import_timers = __toESM(require_timers());
   var ContainerWithRef = withHooks((props) => {
@@ -8935,10 +9099,10 @@ Check your performTransitions() config.`;
       setRef: setContainerEl
     }, children));
   });
-  var import_mithril3 = __toESM(require_mithril());
+  var import_mithril4 = __toESM(require_mithril());
   var Dialog = withHooks((props) => {
     const { children, hidden } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("div", {
+    return /* @__PURE__ */ (0, import_mithril4.default)("div", {
       className: clsx_m_default("dialog", {
         hidden
       })
@@ -8946,16 +9110,16 @@ Check your performTransitions() config.`;
   });
   var Header = withHooks((props) => {
     const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("h1", null, "OBIS | ", children);
+    return /* @__PURE__ */ (0, import_mithril4.default)("h1", null, "OBIS | ", children);
   });
   var Subheader = withHooks((props) => {
     const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("h2", null, children);
+    return /* @__PURE__ */ (0, import_mithril4.default)("h2", null, children);
   });
   var Button = withHooks((props) => {
     const { children } = props || {};
     const { className, handleClick, disabled } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("button", {
+    return /* @__PURE__ */ (0, import_mithril4.default)("button", {
       className,
       onclick: handleClick,
       disabled
@@ -8963,7 +9127,7 @@ Check your performTransitions() config.`;
   });
   var YearsSlider = withHooks((props) => {
     const { value, max = 15, handleUpdate, disabled } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("input", {
+    return /* @__PURE__ */ (0, import_mithril4.default)("input", {
       className: "fetch-slider",
       type: "range",
       min: "1",
@@ -8976,44 +9140,44 @@ Check your performTransitions() config.`;
   });
   var ProgressBar = withHooks((props) => {
     const { value, max } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("progress", {
+    return /* @__PURE__ */ (0, import_mithril4.default)("progress", {
       value,
       max
     });
   });
   var Account = withHooks((props) => {
     const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("div", {
+    return /* @__PURE__ */ (0, import_mithril4.default)("div", {
       className: "account"
     }, children);
   });
   var Accounts = withHooks((props) => {
     const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("div", {
+    return /* @__PURE__ */ (0, import_mithril4.default)("div", {
       className: "accounts"
     }, children);
   });
   var StatementsLoaded = withHooks((props) => {
     const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("div", {
+    return /* @__PURE__ */ (0, import_mithril4.default)("div", {
       className: "statements-loaded"
     }, children);
   });
   var YearsLoaded = withHooks((props) => {
     const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("div", {
+    return /* @__PURE__ */ (0, import_mithril4.default)("div", {
       className: "years-loaded"
     }, children);
   });
   var AccountName = withHooks((props) => {
     const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("h3", {
+    return /* @__PURE__ */ (0, import_mithril4.default)("h3", {
       className: "account-name"
     }, children);
   });
   var Actions = withHooks((props) => {
     const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril3.default)("div", {
+    return /* @__PURE__ */ (0, import_mithril4.default)("div", {
       className: "actions"
     }, children);
   });
@@ -9064,54 +9228,54 @@ Check your performTransitions() config.`;
     const handleFetchClick = useCallback(Emit(actions.get.ACCOUNTS, yearsToFetch), [yearsToFetch]);
     const handleViewStatementsClick = useCallback(Emit(actions.ui.VIEW_STATEMENTS), []);
     const handleDownloadAllClick = useCallback(Emit(actions.ui.DOWNLOAD_STATEMENTS), []);
-    return /* @__PURE__ */ (0, import_mithril4.default)(Dialog, {
+    return /* @__PURE__ */ (0, import_mithril5.default)(Dialog, {
       hidden: !ready
-    }, ready && /* @__PURE__ */ (0, import_mithril4.default)(Button, {
+    }, ready && /* @__PURE__ */ (0, import_mithril5.default)(Button, {
       className: clsx_m_default("toggle-button", {
         opened,
         closed
       }),
       handleClick: handleToggleOpen,
       disabled: !opened && !closed
-    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril4.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril4.default)(Subheader, null, $({ ready, opened })(d2({ ready: true, opened: true })("Hit the button below to try and download everything automatically."), d2({ ready: true, opened: false })("Welcome! Click that button on the right to see if we can download some statements."), l2("Loading...")), /* @__PURE__ */ (0, import_mithril4.default)("br", null), /* @__PURE__ */ (0, import_mithril4.default)("br", null), fetcher.inState({
+    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril5.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril5.default)(Subheader, null, rt({ ready, opened })(ct({ ready: true, opened: true })("Hit the button below to try and download everything automatically."), ct({ ready: true, opened: false })("Welcome! Click that button on the right to see if we can download some statements."), it("Loading...")), /* @__PURE__ */ (0, import_mithril5.default)("br", null), /* @__PURE__ */ (0, import_mithril5.default)("br", null), fetcher.inState({
       "getting-accounts": "Finding accounts...",
       "getting-statements": "Getting statements...",
       "getting-entries": "Getting transactions... (takes a moment to finish)",
-      idle: () => $(fetcher.history().some((state2) => /^failed-/.test(state2)))(d2(true)(/* @__PURE__ */ (0, import_mithril4.default)("span", {
+      idle: () => rt(fetcher.history().some((state2) => /^failed-/.test(state2)))(ct(true)(/* @__PURE__ */ (0, import_mithril5.default)("span", {
         style: "font-weight: bold; color: red;"
-      }, "Sorry, something went wrong. Please try again, or report a problem on the", " ", /* @__PURE__ */ (0, import_mithril4.default)("a", {
+      }, "Sorry, something went wrong. Please try again, or report a problem on the", " ", /* @__PURE__ */ (0, import_mithril5.default)("a", {
         href: "https://github.com/shuckster/OBIS/issues",
         target: "_blank",
         rel: "noopener noreferrer"
-      }, "OBIS Github repo"))), l2(""))
-    }), /* @__PURE__ */ (0, import_mithril4.default)(ProgressBar, {
+      }, "OBIS Github repo"))), it(""))
+    }), /* @__PURE__ */ (0, import_mithril5.default)(ProgressBar, {
       ...progressBar
-    })), ready && /* @__PURE__ */ (0, import_mithril4.default)(VerticalAnimationContainer, {
+    })), ready && /* @__PURE__ */ (0, import_mithril5.default)(VerticalAnimationContainer, {
       opened
-    }, /* @__PURE__ */ (0, import_mithril4.default)(Accounts, null, store2().accounts.map((account) => {
+    }, /* @__PURE__ */ (0, import_mithril5.default)(Accounts, null, store2().accounts.map((account) => {
       const allStatementYears = (0, import_fp.pipe)(store2(), ($2) => $2.statements.filter((x3) => x3.accountId === account.id), ($2) => $2.map((x3) => new Date(x3.endDate).getFullYear()));
       const uniqueStatementYears = (0, import_fp.pipe)(allStatementYears, ($2) => new Set($2), ($2) => [...$2]);
-      return /* @__PURE__ */ (0, import_mithril4.default)(Account, {
+      return /* @__PURE__ */ (0, import_mithril5.default)(Account, {
         key: account.id
-      }, /* @__PURE__ */ (0, import_mithril4.default)(StatementsLoaded, null, "Statements: ", allStatementYears.length), /* @__PURE__ */ (0, import_mithril4.default)(YearsLoaded, null, uniqueStatementYears.join(" ")), /* @__PURE__ */ (0, import_mithril4.default)(AccountName, null, account.sortCode, " ", account.accountNumber));
-    })), /* @__PURE__ */ (0, import_mithril4.default)(Actions, null, $(SUPPORTS_YEARS_SLIDER)(d2(true)(/* @__PURE__ */ (0, import_mithril4.default)(YearsSlider, {
+      }, /* @__PURE__ */ (0, import_mithril5.default)(StatementsLoaded, null, "Statements: ", allStatementYears.length), /* @__PURE__ */ (0, import_mithril5.default)(YearsLoaded, null, uniqueStatementYears.join(" ")), /* @__PURE__ */ (0, import_mithril5.default)(AccountName, null, account.sortCode, " ", account.accountNumber));
+    })), /* @__PURE__ */ (0, import_mithril5.default)(Actions, null, rt(SUPPORTS_YEARS_SLIDER)(ct(true)(/* @__PURE__ */ (0, import_mithril5.default)(YearsSlider, {
       max: MAXIMUM_YEARS_TO_FETCH,
       value: yearsToFetch,
       handleUpdate: handleRangeSlider,
       disabled: !fetcher.inState("idle")
-    })), l2(/* @__PURE__ */ (0, import_mithril4.default)("div", null, "\xA0"))), /* @__PURE__ */ (0, import_mithril4.default)(Button, {
+    })), it(/* @__PURE__ */ (0, import_mithril5.default)("div", null, "\xA0"))), /* @__PURE__ */ (0, import_mithril5.default)(Button, {
       handleClick: handleFetchClick,
       className: "fetch-everything",
       disabled: !fetcher.inState("idle")
-    }, $(SUPPORTS_YEARS_SLIDER)(d2(true)(/* @__PURE__ */ (0, import_mithril4.default)(import_mithril4.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")), l2("Fetch statements"))), /* @__PURE__ */ (0, import_mithril4.default)(Button, {
+    }, rt(SUPPORTS_YEARS_SLIDER)(ct(true)(/* @__PURE__ */ (0, import_mithril5.default)(import_mithril5.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")), it("Fetch statements"))), /* @__PURE__ */ (0, import_mithril5.default)(Button, {
       handleClick: handleViewStatementsClick,
       disabled: !fetcher.inState("found-entries")
-    }, "View statements"), /* @__PURE__ */ (0, import_mithril4.default)(Button, {
+    }, "View statements"), /* @__PURE__ */ (0, import_mithril5.default)(Button, {
       handleClick: handleDownloadAllClick,
       disabled: !fetcher.inState("found-entries")
     }, "Download all"))));
   });
-  var import_mithril5 = __toESM(require_mithril());
+  var import_mithril7 = __toESM(require_mithril());
   var { messages: messages3 } = obis.deps;
   function useAccounts() {
     const [accounts, setAccounts] = useState(store2().accounts);
@@ -9225,7 +9389,7 @@ Check your performTransitions() config.`;
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          /* ../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-81599-pBJ2VrMDHsmH/OBIS/src/ui/styles/statements-browser/all.css */
+          /* ../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-18198-3SqCM54xw7Hj/OBIS/src/ui/styles/statements-browser/all.css */
 body.obis-statements-browser {
   font-size: 13px;
   font-family: sans-serif;
@@ -9494,18 +9658,18 @@ body.obis-statements-browser .month.no-entries {
       const accountId = event2?.composedPath().map((x3) => x3?.dataset?.account).filter(Boolean)[0];
       handleClick(accountId);
     }, [handleClick]);
-    return accounts.map((account) => /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    return accounts.map((account) => /* @__PURE__ */ (0, import_mithril7.default)("div", {
       onclick: clickHandler,
       key: account.id,
       "data-account": account.id,
       className: clsx_m_default("account", {
         selected: account.id === selectedAccountId
       })
-    }, /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "statements-loaded"
-    }), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "years-loaded"
-    }), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "account-name"
     }, account.sortCode, " ", account.accountNumber)));
   });
@@ -9517,7 +9681,7 @@ body.obis-statements-browser .month.no-entries {
     const _months = "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec".split("|");
     const { selectedMonth, months = [], handleClick } = props || {};
     const clickHandler = useCallback((event2) => handleClick(event2?.target?.dataset?.month), [handleClick]);
-    return _months.map((month, index) => /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    return _months.map((month, index) => /* @__PURE__ */ (0, import_mithril7.default)("div", {
       onclick: clickHandler,
       key: month,
       "data-month": index,
@@ -9530,7 +9694,7 @@ body.obis-statements-browser .month.no-entries {
   var Years = withHooks((props) => {
     const { selectedYear, years = [], handleClick } = props || {};
     const clickHandler = useCallback((event2) => handleClick(event2?.target?.dataset?.year), [handleClick]);
-    return years.map((year) => /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    return years.map((year) => /* @__PURE__ */ (0, import_mithril7.default)("div", {
       onclick: clickHandler,
       key: year,
       "data-year": year,
@@ -9550,19 +9714,19 @@ body.obis-statements-browser .month.no-entries {
       totalDebit -= debit;
       totalCredit += credit;
       runningBalance += credit - debit;
-      return /* @__PURE__ */ (0, import_mithril5.default)("tr", {
+      return /* @__PURE__ */ (0, import_mithril7.default)("tr", {
         key: id
-      }, /* @__PURE__ */ (0, import_mithril5.default)("td", {
+      }, /* @__PURE__ */ (0, import_mithril7.default)("td", {
         className: "no-wrap"
-      }, simpleDate(date)), /* @__PURE__ */ (0, import_mithril5.default)("td", null, type), /* @__PURE__ */ (0, import_mithril5.default)("td", null, payee), /* @__PURE__ */ (0, import_mithril5.default)("td", null, note), /* @__PURE__ */ (0, import_mithril5.default)("td", {
+      }, simpleDate(date)), /* @__PURE__ */ (0, import_mithril7.default)("td", null, type), /* @__PURE__ */ (0, import_mithril7.default)("td", null, payee), /* @__PURE__ */ (0, import_mithril7.default)("td", null, note), /* @__PURE__ */ (0, import_mithril7.default)("td", {
         className: "currency"
-      }, convertCentsToDecimalForDisplay(debit)), /* @__PURE__ */ (0, import_mithril5.default)("td", {
+      }, convertCentsToDecimalForDisplay(debit)), /* @__PURE__ */ (0, import_mithril7.default)("td", {
         className: "currency"
-      }, convertCentsToDecimalForDisplay(credit)), /* @__PURE__ */ (0, import_mithril5.default)("td", {
+      }, convertCentsToDecimalForDisplay(credit)), /* @__PURE__ */ (0, import_mithril7.default)("td", {
         className: clsx_m_default("currency", {
           negative: balance < 0
         })
-      }, convertCentsToDecimalForDisplay(balance)), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril5.default)("td", {
+      }, convertCentsToDecimalForDisplay(balance)), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril7.default)("td", {
         className: clsx_m_default("currency", {
           negative: runningBalance < 0
         })
@@ -9570,24 +9734,24 @@ body.obis-statements-browser .month.no-entries {
     });
     let emptyState;
     if (!rows.length) {
-      emptyState = /* @__PURE__ */ (0, import_mithril5.default)("tr", null, /* @__PURE__ */ (0, import_mithril5.default)("td", {
+      emptyState = /* @__PURE__ */ (0, import_mithril7.default)("tr", null, /* @__PURE__ */ (0, import_mithril7.default)("td", {
         className: "no-wrap no-entries",
         colspan: "8"
       }, "No entries for this period"));
     }
-    return /* @__PURE__ */ (0, import_mithril5.default)("table", {
+    return /* @__PURE__ */ (0, import_mithril7.default)("table", {
       className: "statement"
-    }, /* @__PURE__ */ (0, import_mithril5.default)("thead", null, /* @__PURE__ */ (0, import_mithril5.default)("tr", {
+    }, /* @__PURE__ */ (0, import_mithril7.default)("thead", null, /* @__PURE__ */ (0, import_mithril7.default)("tr", {
       className: "table-header"
-    }, /* @__PURE__ */ (0, import_mithril5.default)("th", null, "Date"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "Type"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "Description"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "Memo"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "Debit"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "Credit"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "Balance"), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril5.default)("th", null, "(Calculated)"))), /* @__PURE__ */ (0, import_mithril5.default)("tbody", null, rows.length ? rows : emptyState), /* @__PURE__ */ (0, import_mithril5.default)("tfoot", null, /* @__PURE__ */ (0, import_mithril5.default)("tr", {
+    }, /* @__PURE__ */ (0, import_mithril7.default)("th", null, "Date"), /* @__PURE__ */ (0, import_mithril7.default)("th", null, "Type"), /* @__PURE__ */ (0, import_mithril7.default)("th", null, "Description"), /* @__PURE__ */ (0, import_mithril7.default)("th", null, "Memo"), /* @__PURE__ */ (0, import_mithril7.default)("th", null, "Debit"), /* @__PURE__ */ (0, import_mithril7.default)("th", null, "Credit"), /* @__PURE__ */ (0, import_mithril7.default)("th", null, "Balance"), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril7.default)("th", null, "(Calculated)"))), /* @__PURE__ */ (0, import_mithril7.default)("tbody", null, rows.length ? rows : emptyState), /* @__PURE__ */ (0, import_mithril7.default)("tfoot", null, /* @__PURE__ */ (0, import_mithril7.default)("tr", {
       className: "table-footer"
-    }, /* @__PURE__ */ (0, import_mithril5.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril5.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril5.default)("th", {
+    }, /* @__PURE__ */ (0, import_mithril7.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril7.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril7.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril7.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril7.default)("th", {
       className: "currency"
-    }, convertCentsToDecimalForDisplay(totalDebit)), /* @__PURE__ */ (0, import_mithril5.default)("th", {
+    }, convertCentsToDecimalForDisplay(totalDebit)), /* @__PURE__ */ (0, import_mithril7.default)("th", {
       className: "currency"
-    }, convertCentsToDecimalForDisplay(totalCredit)), /* @__PURE__ */ (0, import_mithril5.default)("th", {
+    }, convertCentsToDecimalForDisplay(totalCredit)), /* @__PURE__ */ (0, import_mithril7.default)("th", {
       className: "currency"
-    }, convertCentsToDecimalForDisplay(endBalance)), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril5.default)("th", {
+    }, convertCentsToDecimalForDisplay(endBalance)), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril7.default)("th", {
       className: "currency"
     }, convertCentsToDecimalForDisplay(runningBalance)))));
   });
@@ -9652,53 +9816,53 @@ body.obis-statements-browser .month.no-entries {
       dateWithDifferentYear.setFullYear(year);
       setSelectedStatementId(getNearestToDate(dateWithDifferentYear));
     };
-    return /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    return /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "grid-container"
-    }, /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "header"
-    }, /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "info-and-accounts"
-    }, /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "info"
-    }, /* @__PURE__ */ (0, import_mithril5.default)(Info, null, /* @__PURE__ */ (0, import_mithril5.default)("h1", null, "OBIS | Statements Browser"), /* @__PURE__ */ (0, import_mithril5.default)("h2", null, accountInfo, " \u2022", " ", !isNaN(selectedStatementDate) && simpleDate(selectedStatementDate)), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, /* @__PURE__ */ (0, import_mithril7.default)(Info, null, /* @__PURE__ */ (0, import_mithril7.default)("h1", null, "OBIS | Statements Browser"), /* @__PURE__ */ (0, import_mithril7.default)("h2", null, accountInfo, " \u2022", " ", !isNaN(selectedStatementDate) && simpleDate(selectedStatementDate)), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "balance-summary"
-    }, totalCredit > 0 && /* @__PURE__ */ (0, import_mithril5.default)("span", null, convertCentsToDecimalForDisplay(totalCredit), " in"), totalDebit > 0 && /* @__PURE__ */ (0, import_mithril5.default)("span", null, convertCentsToDecimalForDisplay(totalDebit), " out"), creditDebitDiff !== 0 && /* @__PURE__ */ (0, import_mithril5.default)("span", {
+    }, totalCredit > 0 && /* @__PURE__ */ (0, import_mithril7.default)("span", null, convertCentsToDecimalForDisplay(totalCredit), " in"), totalDebit > 0 && /* @__PURE__ */ (0, import_mithril7.default)("span", null, convertCentsToDecimalForDisplay(totalDebit), " out"), creditDebitDiff !== 0 && /* @__PURE__ */ (0, import_mithril7.default)("span", {
       className: clsx_m_default({
         black: creditDebitDiff > 0,
         red: creditDebitDiff < 0
       })
-    }, creditDebitDiff <= 0 ? "\u{1F4C9} " : "\u{1F4C8} ", convertCentsToDecimalForDisplay(creditDebitDiff))))), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, creditDebitDiff <= 0 ? "\u{1F4C9} " : "\u{1F4C8} ", convertCentsToDecimalForDisplay(creditDebitDiff))))), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "accounts"
-    }, /* @__PURE__ */ (0, import_mithril5.default)(Accounts2, {
+    }, /* @__PURE__ */ (0, import_mithril7.default)(Accounts2, {
       selectedAccountId: accountId,
       handleClick: selectAccount
-    }))), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }))), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "cursor-and-months"
-    }, /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "months"
-    }, /* @__PURE__ */ (0, import_mithril5.default)(Months, {
+    }, /* @__PURE__ */ (0, import_mithril7.default)(Months, {
       months,
       selectedMonth,
       handleClick: selectMonth
-    })), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    })), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "cursor"
-    }, /* @__PURE__ */ (0, import_mithril5.default)(Cursor, null, /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, /* @__PURE__ */ (0, import_mithril7.default)(Cursor, null, /* @__PURE__ */ (0, import_mithril7.default)("div", {
       onclick: olderStatement
-    }, "Older"), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, "Older"), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       onclick: latestStatement
-    }, "\u2022"), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, "\u2022"), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       onclick: newerStatement
-    }, "Newer"))))), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }, "Newer"))))), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "main"
-    }, /* @__PURE__ */ (0, import_mithril5.default)(Statement, {
+    }, /* @__PURE__ */ (0, import_mithril7.default)(Statement, {
       selectedStatementId
-    })), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    })), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "years"
-    }, /* @__PURE__ */ (0, import_mithril5.default)("div", null, /* @__PURE__ */ (0, import_mithril5.default)(Years, {
+    }, /* @__PURE__ */ (0, import_mithril7.default)("div", null, /* @__PURE__ */ (0, import_mithril7.default)(Years, {
       years,
       selectedYear,
       handleClick: selectYear
-    }))), /* @__PURE__ */ (0, import_mithril5.default)("div", {
+    }))), /* @__PURE__ */ (0, import_mithril7.default)("div", {
       className: "spacing"
     }));
   });
@@ -9711,7 +9875,7 @@ body.obis-statements-browser .month.no-entries {
   window.messages = messages4;
   function viewStatements() {
     const windowRef = createStatementsWindow();
-    import_mithril6.default.mount(windowRef.document.body, StatementsPicker);
+    import_mithril8.default.mount(windowRef.document.body, StatementsPicker);
     const offClose = on2(actions.ui.CLOSE_STATEMENTS_WINDOW, () => {
       offClose();
       windowRef.close();
@@ -9722,10 +9886,10 @@ body.obis-statements-browser .month.no-entries {
     makeZip().finally(() => (0, import_promises2.delay)((0, import_timers3.seconds)(3))).finally(Emit2(actions.ui.DOWNLOADED_STATEMENTS));
   });
   function main() {
-    emit(actions.ui.RENDERING, import_mithril6.default);
+    emit(actions.ui.RENDERING, import_mithril8.default);
     const rootEl = document.querySelector("#obis-root") || document.body.appendChild(withProps(document.createElement("div"), { id: "obis-root" }));
-    import_mithril6.default.mount(rootEl, App);
-    const rafRedraw = () => requestAnimationFrame(() => import_mithril6.default.redraw());
+    import_mithril8.default.mount(rootEl, App);
+    const rafRedraw = () => requestAnimationFrame(() => import_mithril8.default.redraw());
     fetcher2.onSwitched(rafRedraw);
     on2(actions.STORE_UPDATED, rafRedraw);
     on2(actions.ui.UPDATE_PROGRESS_BAR, (metrics) => {
@@ -9776,97 +9940,134 @@ obis.registerPlugins([
     return to;
   };
   var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
-  var require_match_iz_cjs = __commonJS({
-    "node_modules/.pnpm/match-iz@2.2.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
-      var N = Object.defineProperty;
-      var G2 = Object.getOwnPropertyDescriptor;
-      var H2 = Object.getOwnPropertyNames;
-      var w2 = Object.getOwnPropertySymbols;
+  var require_dist = __commonJS({
+    "node_modules/.pnpm/match-iz@3.8.0/node_modules/match-iz/dist/index.js"(exports, module) {
+      var x2 = Object.defineProperty;
+      var T = Object.getOwnPropertyDescriptor;
+      var U2 = Object.getOwnPropertyNames;
+      var O2 = Object.getOwnPropertySymbols;
       var W2 = Object.prototype.hasOwnProperty;
-      var J = Object.prototype.propertyIsEnumerable;
-      var A2 = (t2, n2) => {
+      var d2 = Object.prototype.propertyIsEnumerable;
+      var F2 = (t2, n2, o2) => n2 in t2 ? x2(t2, n2, { enumerable: true, configurable: true, writable: true, value: o2 }) : t2[n2] = o2;
+      var R2 = (t2, n2) => {
+        for (var o2 in n2 || (n2 = {}))
+          W2.call(n2, o2) && F2(t2, o2, n2[o2]);
+        if (O2)
+          for (var o2 of O2(n2))
+            d2.call(n2, o2) && F2(t2, o2, n2[o2]);
+        return t2;
+      };
+      var v2 = (t2, n2) => {
         var o2 = {};
         for (var s2 in t2)
           W2.call(t2, s2) && n2.indexOf(s2) < 0 && (o2[s2] = t2[s2]);
-        if (t2 != null && w2)
-          for (var s2 of w2(t2))
-            n2.indexOf(s2) < 0 && J.call(t2, s2) && (o2[s2] = t2[s2]);
+        if (t2 != null && O2)
+          for (var s2 of O2(t2))
+            n2.indexOf(s2) < 0 && d2.call(t2, s2) && (o2[s2] = t2[s2]);
         return o2;
       };
-      var D2 = (t2, n2) => {
+      var I2 = (t2, n2) => {
         for (var o2 in n2)
-          N(t2, o2, { get: n2[o2], enumerable: true });
+          x2(t2, o2, { get: n2[o2], enumerable: true });
       };
-      var K = (t2, n2, o2, s2) => {
+      var X2 = (t2, n2, o2, s2) => {
         if (n2 && typeof n2 == "object" || typeof n2 == "function")
-          for (let r2 of H2(n2))
-            !W2.call(t2, r2) && r2 !== o2 && N(t2, r2, { get: () => n2[r2], enumerable: !(s2 = G2(n2, r2)) || s2.enumerable });
+          for (let e of U2(n2))
+            !W2.call(t2, e) && e !== o2 && x2(t2, e, { get: () => n2[e], enumerable: !(s2 = T(n2, e)) || s2.enumerable });
         return t2;
       };
-      var L2 = (t2) => K(N({}, "__esModule", { value: true }), t2);
-      var Nt = {};
-      D2(Nt, { against: () => q2, allOf: () => k2, anyOf: () => z2, cata: () => ut, defined: () => tt, empty: () => B2, endsWith: () => et, falsy: () => pt, gt: () => nt, gte: () => st, hasOwn: () => mt, inRange: () => it, includedIn: () => ft, includes: () => gt, instanceOf: () => $, isArray: () => e, isDate: () => _2, isFunction: () => c2, isNumber: () => I2, isPojo: () => b2, isRegExp: () => S2, isString: () => g2, lt: () => ot, lte: () => rt, match: () => l2, not: () => a2, otherwise: () => d2, pluck: () => h2, spread: () => bt, startsWith: () => ct, truthy: () => Ot, when: () => v2 });
-      module.exports = L2(Nt);
-      var p2 = {};
-      D2(p2, { instanceOf: () => j2, isArguments: () => R2, isArray: () => Q2, isDate: () => T, isFunction: () => U2, isNumber: () => X2, isObject: () => E2, isPojo: () => Z2, isRegExp: () => Y2, isString: () => V2 });
-      var F2 = Object.prototype;
-      var M2 = F2.toString;
-      var O2 = (t2) => (n2) => typeof n2 === t2;
-      var j2 = (t2) => (n2) => n2 instanceof t2;
-      var { isArray: Q2 } = Array;
-      var R2 = (t2) => M2.call(t2) === "[object Arguments]";
-      var T = (t2) => j2(Date)(t2) && !isNaN(t2);
-      var U2 = O2("function");
-      var V2 = O2("string");
-      var X2 = (t2) => t2 === t2 && O2("number")(t2);
-      var E2 = (t2) => t2 !== null && O2("object")(t2);
-      var Y2 = j2(RegExp);
-      var Z2 = (t2) => t2 === null || !E2(t2) || R2(t2) ? false : Object.getPrototypeOf(t2) === F2;
-      var { isArray: e, isDate: _2, isFunction: c2, isNumber: I2 } = p2;
-      var { isPojo: b2, isRegExp: S2, isString: g2, instanceOf: $ } = p2;
-      function l2(t2) {
-        return (...n2) => q2(...n2)(t2);
+      var Y2 = (t2) => X2(x2({}, "__esModule", { value: true }), t2);
+      var Ct = {};
+      I2(Ct, { against: () => G2, allOf: () => K, anyOf: () => J, cata: () => Rt, deepEq: () => ft, defined: () => Nt, empty: () => L2, endsWith: () => qt, eq: () => H2, every: () => lt, falsy: () => It, firstOf: () => Ot, gt: () => wt, gte: () => Wt, hasOwn: () => dt, inRange: () => bt, includedIn: () => Et, includes: () => Dt, instanceOf: () => nt, isArray: () => i2, isDate: () => tt, isFunction: () => c2, isNumber: () => C, isPojo: () => g2, isRegExp: () => A2, isStrictly: () => Ft, isString: () => f2, lastOf: () => xt, lt: () => St, lte: () => Pt, match: () => et, not: () => mt, otherwise: () => rt, pluck: () => gt, some: () => pt, spread: () => Bt, startsWith: () => At, truthy: () => vt, when: () => it });
+      module.exports = Y2(Ct);
+      var w2 = {};
+      I2(w2, { instanceOf: () => P2, isArguments: () => z2, isArray: () => _2, isDate: () => $, isFunction: () => j2, isNumber: () => y2, isObject: () => B2, isPojo: () => a2, isRegExp: () => k2, isString: () => h2 });
+      var V = Object.prototype;
+      var Z2 = V.toString;
+      var N = (t2) => (n2) => typeof n2 === t2;
+      var P2 = (t2) => (n2) => n2 instanceof t2;
+      var { isArray: _2 } = Array;
+      var z2 = (t2) => Z2.call(t2) === "[object Arguments]";
+      var $ = (t2) => P2(Date)(t2) && !isNaN(t2);
+      var j2 = N("function");
+      var h2 = N("string");
+      var y2 = (t2) => t2 === t2 && N("number")(t2);
+      var B2 = (t2) => t2 !== null && N("object")(t2);
+      var k2 = P2(RegExp);
+      var a2 = (t2) => t2 === null || !B2(t2) || z2(t2) ? false : Object.getPrototypeOf(t2) === V;
+      var { isArray: i2, isDate: tt, isFunction: c2, isNumber: C } = w2;
+      var { isPojo: g2, isRegExp: A2, isString: f2, instanceOf: nt } = w2;
+      var { keys: u2, entries: ot, assign: st } = Object;
+      function et(t2) {
+        return (...n2) => G2(...n2)(t2);
       }
-      var q2 = (...t2) => {
+      var G2 = (...t2) => {
         let n2;
         return (o2) => t2.find((s2) => {
-          let r2 = s2(o2), { matched: m, value: u2 } = r2 || {};
-          return [m, u2].every(c2) ? m(o2) && (n2 = u2(o2), true) : r2 && (n2 = r2);
+          let e = s2(o2), { matched: l2, value: p2 } = e || {};
+          return [l2, p2].every(c2) ? l2(o2) && (n2 = p2(o2), true) : e && (n2 = e);
         }) && n2;
       };
-      var d2 = (t2) => (n2) => ({ matched: () => true, value: () => c2(t2) ? t2(n2) : t2 });
-      var v2 = (t2) => (n2) => (o2) => ({ matched: () => i2(t2, o2, (s2) => o2 = s2), value: () => c2(n2) ? g2(o2) && S2(t2) ? n2(...y2(o2.match(t2))) : n2(o2) : n2 });
-      var y2 = (t2) => {
+      var rt = (t2) => (n2) => ({ matched: () => true, value: () => c2(t2) ? t2(n2) : t2 });
+      var b2 = (t2) => (n2) => (o2) => ({ matched: () => r2(t2, o2, (s2) => o2 = s2), value: () => c2(n2) ? f2(o2) && A2(t2) ? n2(...ct(o2.match(t2))) : n2(o2) : n2 });
+      var it = (...t2) => {
+        if (t2.length === 1) {
+          let [n2] = t2;
+          return b2(n2);
+        }
+        if (t2.length === 2) {
+          let [n2, o2] = t2;
+          return b2(n2)(o2);
+        }
+        if (t2.length > 2) {
+          let n2 = t2.slice(-1)[0], o2 = t2.slice(0, -1);
+          return b2(K(o2))(n2);
+        }
+        throw new Error("expected 1 or 2 arguments");
+      };
+      var ct = (t2) => {
         let { groups: n2 } = t2;
         return n2 ? [n2, t2] : [t2];
       };
-      var i2 = (t2, n2, o2) => b2(t2) ? Object.keys(t2).every((s2) => i2(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : e(t2) ? e(n2) ? t2.length === n2.length && t2.every((s2, r2) => i2(s2, n2 == null ? void 0 : n2[r2], o2)) : t2.some((s2) => i2(s2, n2, o2)) : c2(t2) ? t2(n2, o2) : g2(n2) && S2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
-      var h2 = (...t2) => (n2, o2) => t2.length === 0 || (c2(t2[0]) ? t2[0](n2) : i2(t2[0], n2, o2)) ? (o2(n2), true) : false;
-      var a2 = (t2) => (n2, o2) => !i2(t2, n2, o2);
-      var z2 = (...t2) => (n2, o2) => t2.flat().some((s2) => i2(s2, n2, o2));
-      var k2 = (...t2) => (n2, o2) => t2.flat().every((s2) => i2(s2, n2, o2));
-      var B2 = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || e(t2) && !t2.length || b2(t2) && !Object.keys(t2).length;
-      var tt = (t2) => !B2(t2);
-      var nt = (t2) => f2((n2) => n2 > t2);
-      var ot = (t2) => f2((n2) => n2 < t2);
-      var st = (t2) => f2((n2) => n2 >= t2);
-      var rt = (t2) => f2((n2) => n2 <= t2);
-      var it = (t2, n2) => f2((o2) => o2 >= Math.min(t2, n2) && o2 <= Math.max(t2, n2));
-      var ct = (t2) => C((n2) => n2.startsWith(t2));
-      var et = (t2) => C((n2) => n2.endsWith(t2));
-      var gt = (t2) => xt((n2) => n2.includes(t2));
-      var ft = z2;
-      var mt = (...t2) => (n2) => b2(n2) && (([o2, s2]) => o2.length && o2.every((r2) => s2.includes(r2)))([t2.flat(), Object.keys(n2)]);
-      var ut = (o2) => {
-        var s2 = o2, { getValue: t2 } = s2, n2 = A2(s2, ["getValue"]);
-        return Object.entries(n2).reduce((r2, [m, u2]) => Object.assign(r2, { [m]: (x2) => (P2) => ({ matched: () => u2(P2), value: () => c2(x2) ? x2(t2(P2)) : x2 }) }), {});
+      var r2 = (t2, n2, o2) => g2(t2) ? u2(t2).every((s2) => r2(t2[s2], n2 == null ? void 0 : n2[s2], o2)) : i2(t2) ? i2(n2) && t2.length === n2.length && t2.every((s2, e) => r2(s2, n2 == null ? void 0 : n2[e], o2)) : c2(t2) ? t2(n2, o2) : f2(n2) && A2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
+      var gt = (...t2) => (n2, o2) => t2.length === 0 || (c2(t2[0]) ? t2[0](n2) : r2(t2[0], n2, o2)) ? (o2(n2), true) : false;
+      var ut = (t2, n2) => [t2, n2].every(g2) ? u2(t2).length === u2(n2).length : true;
+      var H2 = (t2) => (n2, o2) => ut(t2, n2) && r2(t2, n2, o2);
+      var ft = (t2) => q2(t2, (n2) => g2(n2) ? H2(n2) : n2);
+      var mt = (t2) => (n2, o2) => !r2(t2, n2, o2);
+      var J = (...t2) => (n2, o2) => t2.flat().some((s2) => r2(s2, n2, o2));
+      var K = (...t2) => (n2, o2) => t2.flat().every((s2) => r2(s2, n2, o2));
+      var lt = (t2) => Q2((n2) => n2.every((o2) => r2(t2, o2)));
+      var pt = (t2) => Q2((n2) => n2.some((o2) => r2(t2, o2)));
+      var Ot = (...t2) => D2((n2, o2) => t2.length <= n2.length && r2(t2, n2.slice(0, t2.length), o2));
+      var xt = (...t2) => D2((n2, o2) => t2.length <= n2.length && r2(t2, n2.slice(n2.length - t2.length), o2));
+      var L2 = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || i2(t2) && !t2.length || g2(t2) && !u2(t2).length;
+      var Nt = (t2) => !L2(t2);
+      var wt = (t2) => m((n2) => n2 > t2);
+      var St = (t2) => m((n2) => n2 < t2);
+      var Wt = (t2) => m((n2) => n2 >= t2);
+      var Pt = (t2) => m((n2) => n2 <= t2);
+      var bt = (t2, n2) => m((o2) => o2 >= Math.min(t2, n2) && o2 <= Math.max(t2, n2));
+      var At = (t2) => M2((n2) => n2.startsWith(t2));
+      var qt = (t2) => M2((n2) => n2.endsWith(t2));
+      var Dt = (t2) => D2((n2) => n2.includes(t2));
+      var Et = J;
+      var Ft = (t2) => (n2) => n2 === t2;
+      var dt = (...t2) => (n2) => g2(n2) && (([o2, s2]) => o2.length && o2.every((e) => s2.includes(e)))([t2.flat(), u2(n2)]);
+      var Rt = (o2) => {
+        var s2 = o2, { getValue: t2 } = s2, n2 = v2(s2, ["getValue"]);
+        return ot(n2).reduce((e, [l2, p2]) => st(e, { [l2]: (S2) => (E2) => ({ matched: () => p2(E2), value: () => c2(S2) ? S2(t2(E2)) : S2 }) }), {});
       };
-      var Ot = (t2) => !!t2;
-      var pt = (t2) => !t2;
-      var bt = (t2) => new Proxy({}, { get: () => t2 });
-      var C = (t2) => (n2) => g2(n2) && t2(n2);
-      var f2 = (t2) => (n2) => I2(n2) && t2(n2);
-      var xt = (t2) => (n2) => (e(n2) || g2(n2)) && t2(n2);
+      var vt = (t2) => !!t2;
+      var It = (t2) => !t2;
+      var Vt = (t2) => (n2, o2) => (n2[o2] = q2(n2[o2], t2), n2);
+      var zt = (t2) => (n2) => q2(n2, t2);
+      var q2 = (t2, n2) => n2(g2(t2) ? u2(t2).reduce(Vt(n2), R2({}, t2)) : i2(t2) ? t2.map(zt(n2)) : t2);
+      var Bt = (t2) => new Proxy({}, { get: () => t2 });
+      var M2 = (t2) => (n2) => f2(n2) && t2(n2);
+      var m = (t2) => (n2) => C(n2) && t2(n2);
+      var Q2 = (t2) => (n2, o2) => i2(n2) && t2(n2, o2);
+      var D2 = (t2) => (n2, o2) => (i2(n2) || f2(n2)) && t2(n2, o2);
     }
   });
   var require_fp = __commonJS({
@@ -9912,7 +10113,7 @@ obis.registerPlugins([
   });
   var require_regexp = __commonJS({
     "src/common/cjs/regexp.js"(exports, module) {
-      var { against: against2, when: when2, otherwise: otherwise2, isString: isString3 } = require_match_iz_cjs();
+      var { against: against2, when: when2, otherwise: otherwise2, isString: isString3 } = require_dist();
       var { pipe, flow, memo } = require_fp();
       var makeRegExpFromWildcardString2 = memo((str) => {
         if (!isString3(str) || !str.length) {
@@ -11900,7 +12101,6 @@ obis.registerPlugins([
   var H = W ? Symbol.for("immer-nothing") : ((G = {})["immer-nothing"] = true, G);
   var L = W ? Symbol.for("immer-draftable") : "__$immer_draftable";
   var Q = W ? Symbol.for("immer-state") : "__$immer_state";
-  var V = typeof Symbol != "undefined" && Symbol.iterator || "@@iterator";
   var Z = "" + Object.prototype.constructor;
   var nn = typeof Reflect != "undefined" && Reflect.ownKeys ? Reflect.ownKeys : Object.getOwnPropertySymbols !== void 0 ? function(n2) {
     return Object.getOwnPropertyNames(n2).concat(Object.getOwnPropertySymbols(n2));

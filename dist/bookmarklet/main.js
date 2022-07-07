@@ -2017,98 +2017,135 @@
     }
   });
 
-  // node_modules/.pnpm/match-iz@2.2.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js
-  var require_match_iz_cjs = __commonJS({
-    "node_modules/.pnpm/match-iz@2.2.0/node_modules/match-iz/dist/cjs/match-iz.cjs.js"(exports, module) {
-      var N = Object.defineProperty;
-      var G = Object.getOwnPropertyDescriptor;
-      var H = Object.getOwnPropertyNames;
-      var w = Object.getOwnPropertySymbols;
+  // node_modules/.pnpm/match-iz@3.8.0/node_modules/match-iz/dist/index.js
+  var require_dist = __commonJS({
+    "node_modules/.pnpm/match-iz@3.8.0/node_modules/match-iz/dist/index.js"(exports, module) {
+      var x = Object.defineProperty;
+      var T = Object.getOwnPropertyDescriptor;
+      var U = Object.getOwnPropertyNames;
+      var O = Object.getOwnPropertySymbols;
       var W = Object.prototype.hasOwnProperty;
-      var J = Object.prototype.propertyIsEnumerable;
-      var A = (t, n) => {
+      var d = Object.prototype.propertyIsEnumerable;
+      var F = (t, n, o) => n in t ? x(t, n, { enumerable: true, configurable: true, writable: true, value: o }) : t[n] = o;
+      var R = (t, n) => {
+        for (var o in n || (n = {}))
+          W.call(n, o) && F(t, o, n[o]);
+        if (O)
+          for (var o of O(n))
+            d.call(n, o) && F(t, o, n[o]);
+        return t;
+      };
+      var v = (t, n) => {
         var o = {};
         for (var s in t)
           W.call(t, s) && n.indexOf(s) < 0 && (o[s] = t[s]);
-        if (t != null && w)
-          for (var s of w(t))
-            n.indexOf(s) < 0 && J.call(t, s) && (o[s] = t[s]);
+        if (t != null && O)
+          for (var s of O(t))
+            n.indexOf(s) < 0 && d.call(t, s) && (o[s] = t[s]);
         return o;
       };
-      var D = (t, n) => {
+      var I = (t, n) => {
         for (var o in n)
-          N(t, o, { get: n[o], enumerable: true });
+          x(t, o, { get: n[o], enumerable: true });
       };
-      var K = (t, n, o, s) => {
+      var X = (t, n, o, s) => {
         if (n && typeof n == "object" || typeof n == "function")
-          for (let r of H(n))
-            !W.call(t, r) && r !== o && N(t, r, { get: () => n[r], enumerable: !(s = G(n, r)) || s.enumerable });
+          for (let e of U(n))
+            !W.call(t, e) && e !== o && x(t, e, { get: () => n[e], enumerable: !(s = T(n, e)) || s.enumerable });
         return t;
       };
-      var L = (t) => K(N({}, "__esModule", { value: true }), t);
-      var Nt = {};
-      D(Nt, { against: () => q, allOf: () => k, anyOf: () => z, cata: () => ut, defined: () => tt, empty: () => B, endsWith: () => et2, falsy: () => pt, gt: () => nt, gte: () => st, hasOwn: () => mt2, inRange: () => it, includedIn: () => ft, includes: () => gt, instanceOf: () => $, isArray: () => e, isDate: () => _, isFunction: () => c, isNumber: () => I, isPojo: () => b, isRegExp: () => S, isString: () => g, lt: () => ot, lte: () => rt, match: () => l, not: () => a, otherwise: () => d, pluck: () => h, spread: () => bt, startsWith: () => ct, truthy: () => Ot, when: () => v });
-      module.exports = L(Nt);
-      var p = {};
-      D(p, { instanceOf: () => j, isArguments: () => R, isArray: () => Q, isDate: () => T, isFunction: () => U, isNumber: () => X, isObject: () => E, isPojo: () => Z, isRegExp: () => Y, isString: () => V });
-      var F = Object.prototype;
-      var M = F.toString;
-      var O = (t) => (n) => typeof n === t;
-      var j = (t) => (n) => n instanceof t;
-      var { isArray: Q } = Array;
-      var R = (t) => M.call(t) === "[object Arguments]";
-      var T = (t) => j(Date)(t) && !isNaN(t);
-      var U = O("function");
-      var V = O("string");
-      var X = (t) => t === t && O("number")(t);
-      var E = (t) => t !== null && O("object")(t);
-      var Y = j(RegExp);
-      var Z = (t) => t === null || !E(t) || R(t) ? false : Object.getPrototypeOf(t) === F;
-      var { isArray: e, isDate: _, isFunction: c, isNumber: I } = p;
-      var { isPojo: b, isRegExp: S, isString: g, instanceOf: $ } = p;
-      function l(t) {
-        return (...n) => q(...n)(t);
+      var Y = (t) => X(x({}, "__esModule", { value: true }), t);
+      var Ct = {};
+      I(Ct, { against: () => G, allOf: () => K, anyOf: () => J, cata: () => Rt, deepEq: () => ft, defined: () => Nt, empty: () => L, endsWith: () => qt, eq: () => H, every: () => lt, falsy: () => It, firstOf: () => Ot, gt: () => wt, gte: () => Wt, hasOwn: () => dt, inRange: () => bt, includedIn: () => Et, includes: () => Dt, instanceOf: () => nt, isArray: () => i, isDate: () => tt, isFunction: () => c, isNumber: () => C, isPojo: () => g, isRegExp: () => A, isStrictly: () => Ft, isString: () => f, lastOf: () => xt, lt: () => St, lte: () => Pt, match: () => et2, not: () => mt2, otherwise: () => rt, pluck: () => gt, some: () => pt, spread: () => Bt, startsWith: () => At, truthy: () => vt, when: () => it });
+      module.exports = Y(Ct);
+      var w = {};
+      I(w, { instanceOf: () => P, isArguments: () => z, isArray: () => _, isDate: () => $, isFunction: () => j, isNumber: () => y, isObject: () => B, isPojo: () => a, isRegExp: () => k, isString: () => h });
+      var V = Object.prototype;
+      var Z = V.toString;
+      var N = (t) => (n) => typeof n === t;
+      var P = (t) => (n) => n instanceof t;
+      var { isArray: _ } = Array;
+      var z = (t) => Z.call(t) === "[object Arguments]";
+      var $ = (t) => P(Date)(t) && !isNaN(t);
+      var j = N("function");
+      var h = N("string");
+      var y = (t) => t === t && N("number")(t);
+      var B = (t) => t !== null && N("object")(t);
+      var k = P(RegExp);
+      var a = (t) => t === null || !B(t) || z(t) ? false : Object.getPrototypeOf(t) === V;
+      var { isArray: i, isDate: tt, isFunction: c, isNumber: C } = w;
+      var { isPojo: g, isRegExp: A, isString: f, instanceOf: nt } = w;
+      var { keys: u, entries: ot, assign: st } = Object;
+      function et2(t) {
+        return (...n) => G(...n)(t);
       }
-      var q = (...t) => {
+      var G = (...t) => {
         let n;
         return (o) => t.find((s) => {
-          let r = s(o), { matched: m, value: u } = r || {};
-          return [m, u].every(c) ? m(o) && (n = u(o), true) : r && (n = r);
+          let e = s(o), { matched: l, value: p } = e || {};
+          return [l, p].every(c) ? l(o) && (n = p(o), true) : e && (n = e);
         }) && n;
       };
-      var d = (t) => (n) => ({ matched: () => true, value: () => c(t) ? t(n) : t });
-      var v = (t) => (n) => (o) => ({ matched: () => i(t, o, (s) => o = s), value: () => c(n) ? g(o) && S(t) ? n(...y(o.match(t))) : n(o) : n });
-      var y = (t) => {
+      var rt = (t) => (n) => ({ matched: () => true, value: () => c(t) ? t(n) : t });
+      var b = (t) => (n) => (o) => ({ matched: () => r(t, o, (s) => o = s), value: () => c(n) ? f(o) && A(t) ? n(...ct(o.match(t))) : n(o) : n });
+      var it = (...t) => {
+        if (t.length === 1) {
+          let [n] = t;
+          return b(n);
+        }
+        if (t.length === 2) {
+          let [n, o] = t;
+          return b(n)(o);
+        }
+        if (t.length > 2) {
+          let n = t.slice(-1)[0], o = t.slice(0, -1);
+          return b(K(o))(n);
+        }
+        throw new Error("expected 1 or 2 arguments");
+      };
+      var ct = (t) => {
         let { groups: n } = t;
         return n ? [n, t] : [t];
       };
-      var i = (t, n, o) => b(t) ? Object.keys(t).every((s) => i(t[s], n == null ? void 0 : n[s], o)) : e(t) ? e(n) ? t.length === n.length && t.every((s, r) => i(s, n == null ? void 0 : n[r], o)) : t.some((s) => i(s, n, o)) : c(t) ? t(n, o) : g(n) && S(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-      var h = (...t) => (n, o) => t.length === 0 || (c(t[0]) ? t[0](n) : i(t[0], n, o)) ? (o(n), true) : false;
-      var a = (t) => (n, o) => !i(t, n, o);
-      var z = (...t) => (n, o) => t.flat().some((s) => i(s, n, o));
-      var k = (...t) => (n, o) => t.flat().every((s) => i(s, n, o));
-      var B = (t) => t !== t || !t && t !== 0 && t !== false || e(t) && !t.length || b(t) && !Object.keys(t).length;
-      var tt = (t) => !B(t);
-      var nt = (t) => f((n) => n > t);
-      var ot = (t) => f((n) => n < t);
-      var st = (t) => f((n) => n >= t);
-      var rt = (t) => f((n) => n <= t);
-      var it = (t, n) => f((o) => o >= Math.min(t, n) && o <= Math.max(t, n));
-      var ct = (t) => C((n) => n.startsWith(t));
-      var et2 = (t) => C((n) => n.endsWith(t));
-      var gt = (t) => xt((n) => n.includes(t));
-      var ft = z;
-      var mt2 = (...t) => (n) => b(n) && (([o, s]) => o.length && o.every((r) => s.includes(r)))([t.flat(), Object.keys(n)]);
-      var ut = (o) => {
-        var s = o, { getValue: t } = s, n = A(s, ["getValue"]);
-        return Object.entries(n).reduce((r, [m, u]) => Object.assign(r, { [m]: (x) => (P) => ({ matched: () => u(P), value: () => c(x) ? x(t(P)) : x }) }), {});
+      var r = (t, n, o) => g(t) ? u(t).every((s) => r(t[s], n == null ? void 0 : n[s], o)) : i(t) ? i(n) && t.length === n.length && t.every((s, e) => r(s, n == null ? void 0 : n[e], o)) : c(t) ? t(n, o) : f(n) && A(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+      var gt = (...t) => (n, o) => t.length === 0 || (c(t[0]) ? t[0](n) : r(t[0], n, o)) ? (o(n), true) : false;
+      var ut = (t, n) => [t, n].every(g) ? u(t).length === u(n).length : true;
+      var H = (t) => (n, o) => ut(t, n) && r(t, n, o);
+      var ft = (t) => q(t, (n) => g(n) ? H(n) : n);
+      var mt2 = (t) => (n, o) => !r(t, n, o);
+      var J = (...t) => (n, o) => t.flat().some((s) => r(s, n, o));
+      var K = (...t) => (n, o) => t.flat().every((s) => r(s, n, o));
+      var lt = (t) => Q((n) => n.every((o) => r(t, o)));
+      var pt = (t) => Q((n) => n.some((o) => r(t, o)));
+      var Ot = (...t) => D((n, o) => t.length <= n.length && r(t, n.slice(0, t.length), o));
+      var xt = (...t) => D((n, o) => t.length <= n.length && r(t, n.slice(n.length - t.length), o));
+      var L = (t) => t !== t || !t && t !== 0 && t !== false || i(t) && !t.length || g(t) && !u(t).length;
+      var Nt = (t) => !L(t);
+      var wt = (t) => m((n) => n > t);
+      var St = (t) => m((n) => n < t);
+      var Wt = (t) => m((n) => n >= t);
+      var Pt = (t) => m((n) => n <= t);
+      var bt = (t, n) => m((o) => o >= Math.min(t, n) && o <= Math.max(t, n));
+      var At = (t) => M((n) => n.startsWith(t));
+      var qt = (t) => M((n) => n.endsWith(t));
+      var Dt = (t) => D((n) => n.includes(t));
+      var Et = J;
+      var Ft = (t) => (n) => n === t;
+      var dt = (...t) => (n) => g(n) && (([o, s]) => o.length && o.every((e) => s.includes(e)))([t.flat(), u(n)]);
+      var Rt = (o) => {
+        var s = o, { getValue: t } = s, n = v(s, ["getValue"]);
+        return ot(n).reduce((e, [l, p]) => st(e, { [l]: (S) => (E) => ({ matched: () => p(E), value: () => c(S) ? S(t(E)) : S }) }), {});
       };
-      var Ot = (t) => !!t;
-      var pt = (t) => !t;
-      var bt = (t) => new Proxy({}, { get: () => t });
-      var C = (t) => (n) => g(n) && t(n);
-      var f = (t) => (n) => I(n) && t(n);
-      var xt = (t) => (n) => (e(n) || g(n)) && t(n);
+      var vt = (t) => !!t;
+      var It = (t) => !t;
+      var Vt = (t) => (n, o) => (n[o] = q(n[o], t), n);
+      var zt = (t) => (n) => q(n, t);
+      var q = (t, n) => n(g(t) ? u(t).reduce(Vt(n), R({}, t)) : i(t) ? t.map(zt(n)) : t);
+      var Bt = (t) => new Proxy({}, { get: () => t });
+      var M = (t) => (n) => f(n) && t(n);
+      var m = (t) => (n) => C(n) && t(n);
+      var Q = (t) => (n, o) => i(n) && t(n, o);
+      var D = (t) => (n, o) => (i(n) || f(n)) && t(n, o);
     }
   });
 
@@ -2158,7 +2195,7 @@
   // src/common/cjs/regexp.js
   var require_regexp = __commonJS({
     "src/common/cjs/regexp.js"(exports, module) {
-      var { against: against2, when: when2, otherwise: otherwise2, isString: isString3 } = require_match_iz_cjs();
+      var { against: against2, when: when2, otherwise: otherwise2, isString: isString3 } = require_dist();
       var { pipe, flow, memo } = require_fp();
       var makeRegExpFromWildcardString3 = memo((str) => {
         if (!isString3(str) || !str.length) {
@@ -2952,7 +2989,7 @@
   // src/main.js
   var import_file_saver = __toESM(require_FileSaver_min());
 
-  // node_modules/.pnpm/statebot@2.9.3/node_modules/statebot/dist/esm/statebot.js
+  // node_modules/.pnpm/statebot@3.0.1/node_modules/statebot/dist/esm/statebot.js
   function mitt(n) {
     return { all: n = n || /* @__PURE__ */ new Map(), on: function(t, e) {
       var i = n.get(t);
@@ -3263,9 +3300,9 @@ ${err2.map((err3) => `| ${err3}`).join("\n")}`;
   var rxLineContinuations = new RegExp(`(${rxOperators})$`);
   var rxDisallowedCharacters = /[^a-z0-9!@#$%^&*:_+=<>|~.\x2D]/gi;
   var rxComment = /(\/\/[^\n\r]*)/;
-  var argTypeError$1 = ArgTypeError("statebot.");
+  var argTypeError = ArgTypeError("statebot.");
   function decomposeChart(chart) {
-    const err2 = argTypeError$1({ chart: isTemplateLiteral })("decomposeChart")(chart);
+    const err2 = argTypeError({ chart: isTemplateLiteral })("decomposeChart")(chart);
     if (err2) {
       throw TypeError(err2);
     }
@@ -3569,15 +3606,15 @@ Check your performTransitions() config.`;
       }
       return isPojo2(args[0]) ? _inStateObject(...args) : _inState(...args);
     }
-    const emit = Pausable((eventName, ...args) => {
+    const emit = (eventName, ...args) => {
       const err2 = argTypeError2({ eventName: isString2 })("emit")(eventName);
       if (err2) {
         throw new TypeError(err2);
       }
       _peek(eventName);
       return events.emit(eventName, ...args);
-    });
-    const enter = Pausable((state, ...args) => {
+    };
+    const enter = (state, ...args) => {
       const err2 = argTypeError2({ state: isString2 })("enter")(state);
       if (err2) {
         throw new TypeError(err2);
@@ -3606,7 +3643,7 @@ Check your performTransitions() config.`;
       emitInternalEvent(nextRoute, ...args);
       emitInternalEvent(INTERNAL_EVENTS[ON_SWITCHED], toState, inState2, ...args);
       return true;
-    });
+    };
     function onEvent(eventName, cb) {
       const err2 = argTypeError2({ eventName: isString2, cb: isFunction2 })("onEvent")(eventName, cb);
       if (err2) {
@@ -3735,34 +3772,34 @@ Check your performTransitions() config.`;
     }
     return {
       __STATEBOT__: 1,
+      statesAvailableFromHere,
       canTransitionTo,
       currentState,
-      emit,
-      Emit,
-      enter,
-      Enter,
+      previousState,
       history: () => [...stateHistory],
-      info: () => info(),
-      inspect: () => inspect(),
+      emit: Pausable(emit),
+      Emit: Pausable(Emit),
+      enter: Pausable(enter),
+      Enter: Pausable(Enter),
       inState,
       InState,
+      info: () => info(),
+      inspect: () => inspect(),
       name: () => name,
       onEntered: enterExitMethods[ON_ENTERED],
       onEntering: enterExitMethods[ON_ENTERING],
-      onEvent,
       onExited: enterExitMethods[ON_EXITED],
       onExiting: enterExitMethods[ON_EXITING],
       onSwitched: switchMethods[ON_SWITCHED],
       onSwitching: switchMethods[ON_SWITCHING],
+      onEvent,
       onTransitions: (transitions) => applyHitcher(transitions, "onTransitions"),
+      performTransitions: (transitions) => applyHitcher(transitions, "performTransitions"),
       pause,
       paused,
       peek,
-      performTransitions: (transitions) => applyHitcher(transitions, "performTransitions"),
-      previousState,
       reset,
-      resume,
-      statesAvailableFromHere
+      resume
     };
   }
   function decomposeHitcherActions(hitcherActions) {
@@ -3813,7 +3850,6 @@ Check your performTransitions() config.`;
       routes: allRoutes
     };
   }
-  var argTypeError = ArgTypeError("statebot.");
 
   // src/common/esm/bus.js
   var import_regexp = __toESM(require_regexp());
