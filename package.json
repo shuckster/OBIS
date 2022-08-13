@@ -16,9 +16,9 @@
   "devDependencies": {
     "compose-paths": "^1.2.2",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.14.48",
+    "esbuild": "^0.14.54",
     "esbuild-plugin-sass": "1.0.1",
-    "eslint": "^8.19.0",
+    "eslint": "^8.21.0",
     "eslint-plugin-mithril": "^0.2.0",
     "express": "^4.18.1",
     "glob": "^8.0.3",
@@ -37,7 +37,7 @@
     "mithril-hooks": "^0.7.1",
     "module-alias": "^2.2.2",
     "spark-md5": "^3.0.2",
-    "statebot": "^3.0.1"
+    "statebot": "^3.0.5"
   },
   "_moduleAliases": {
     "@": "src/common/"
