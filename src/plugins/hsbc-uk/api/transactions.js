@@ -36,6 +36,10 @@ export const fetchTransactions = ({
   )
     .then(res => res.json())
     .then(json => {
+      if (!Array.isArray(json.transactionSummary)) {
+        console.warn('No transactions found in JSON', { accountId, json })
+        return []
+      }
       const entriesPath = `
         transactionSummary[].{
           "date":        transactionDate,
@@ -55,6 +59,7 @@ export const fetchTransactions = ({
           balance: Math.round(balance * 100)
         }
       })
+      // NOTE: Does this always return an array?
       return entries
     })
 

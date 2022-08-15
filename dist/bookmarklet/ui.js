@@ -4637,7 +4637,7 @@ Check your performTransitions() config.`;
   }
   var argTypeError = ArgTypeError2("statebot.");
 
-  // node_modules/.pnpm/statebot-mithril-hooks@1.2.3_93d7ebbd5da01260def18f9075b11d24/node_modules/statebot-mithril-hooks/dist/esm/statebot-mithril-hooks.js
+  // node_modules/.pnpm/statebot-mithril-hooks@1.2.3_spl6xpk5uajgbxxrr6ihlmi5eq/node_modules/statebot-mithril-hooks/dist/esm/statebot-mithril-hooks.js
   function useStatebot(bot) {
     const [state, setState] = useState(bot.currentState());
     useEffect(() => {

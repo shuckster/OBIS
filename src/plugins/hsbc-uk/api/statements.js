@@ -21,6 +21,10 @@ export const fetchStatementsList = ({ host = '', accountId } = {}) =>
   })
     .then(res => res.json())
     .then(json => {
+      if (!Array.isArray(json.statements)) {
+        console.warn('No statements found in JSON', { accountId, json })
+        return []
+      }
       const entriesPath = `
         statements[].{
           "id":               statementIdentifier,
@@ -29,5 +33,6 @@ export const fetchStatementsList = ({ host = '', accountId } = {}) =>
         }
       `
       const entries = jmespath.search(json, entriesPath)
+      // NOTE: Does this always return an array?
       return entries
     })
