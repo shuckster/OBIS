@@ -51,25 +51,47 @@ obis.makePluginAvailable('hsbc-uk', () => {
             //
             // Update store
             //
-            const accountsUpdate = accountsResponse.map(accountResponse => {
-              const [sortCode, accountNumber] =
-                accountResponse.sortCodeAndAccountNumber.split(' ')
+            const accountsUpdate = accountsResponse
+              .map(accountResponse => {
+                const { sortCodeAndAccountNumber } = accountResponse
+                if (!sortCodeAndAccountNumber) {
+                  console.warn(
+                    'No sortCodeAndAccountNumber in accountResponse',
+                    { accountResponse }
+                  )
+                  return
+                }
 
-              return {
-                id: accountResponse.id,
-                accountNumber: accountNumber,
-                sortCode: sortCode,
-                name: accountResponse.accountHolderName,
-                type: accountResponse.productCode,
-                ledgerBalance: Math.round(accountResponse.ledgerBalance * 100),
-                lastUpdatedTimestamp: new Date(
-                  accountResponse.lastUpdatedDate
-                ).getTime(),
+                const [sortCode = '', accountNumber = ''] = (
+                  sortCodeAndAccountNumber || ''
+                ).split(' ')
 
-                iban: LEAVE_UNCHANGED,
-                bic: LEAVE_UNCHANGED
-              }
-            })
+                if (!sortCode || !accountNumber) {
+                  console.warn('Could not parse sortCodeAndAccountNumber', {
+                    sortCodeAndAccountNumber,
+                    accountResponse
+                  })
+                  return
+                }
+
+                return {
+                  id: accountResponse.id,
+                  accountNumber: accountNumber,
+                  sortCode: sortCode,
+                  name: accountResponse.accountHolderName,
+                  type: accountResponse.productCode,
+                  ledgerBalance: Math.round(
+                    accountResponse.ledgerBalance * 100
+                  ),
+                  lastUpdatedTimestamp: new Date(
+                    accountResponse.lastUpdatedDate
+                  ).getTime(),
+
+                  iban: LEAVE_UNCHANGED,
+                  bic: LEAVE_UNCHANGED
+                }
+              })
+              .filter(Boolean)
 
             emit(actions.add.ACCOUNTS, accountsUpdate)
             emit(actions.got.ACCOUNTS, {

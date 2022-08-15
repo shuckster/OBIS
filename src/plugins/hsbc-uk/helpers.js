@@ -61,7 +61,13 @@ function JanToJan({ refDate = new Date() } = {}) {
 }
 
 export function map(pred) {
-  return arr => arr.map(pred)
+  return arr => {
+    if (Array.isArray(arr)) {
+      return arr.map(pred)
+    }
+    console.warn('Not an array, passing-through', { arr, pred })
+    return arr
+  }
 }
 
 export function onlyFulfilled(promiseResults) {

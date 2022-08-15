@@ -2874,7 +2874,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     "x-hsbc-global-channel-id": cfg.globalChannelId
   });
   function map(pred) {
-    return (arr) => arr.map(pred);
+    return (arr) => {
+      if (Array.isArray(arr)) {
+        return arr.map(pred);
+      }
+      console.warn("Not an array, passing-through", { arr, pred });
+      return arr;
+    };
   }
   function onlyFulfilled(promiseResults) {
     return promiseResults.filter((result) => result.status === "fulfilled").map((result) => result.value);
@@ -2928,6 +2934,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       iscacheable: "false"
     }
   }).then((res) => res.json()).then((json) => {
+    if (!Array.isArray(json.accountList)) {
+      console.warn("No accounts-list found in JSON", { json });
+      return [];
+    }
     const entriesPath = `
         accountList[].{
           id:                         accountIdentifier.accountNumber,
@@ -2957,6 +2967,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       iscacheable: "false"
     }
   }).then((res) => res.json()).then((json) => {
+    if (!Array.isArray(json.statements)) {
+      console.warn("No statements found in JSON", { accountId, json });
+      return [];
+    }
     const entriesPath = `
         statements[].{
           "id":               statementIdentifier,
@@ -2993,6 +3007,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       iscacheable: "false"
     }
   }).then((res) => res.json()).then((json) => {
+    if (!Array.isArray(json.transactionSummary)) {
+      console.warn("No transactions found in JSON", { accountId, json });
+      return [];
+    }
     const entriesPath = `
         transactionSummary[].{
           "date":        transactionDate,
@@ -3035,7 +3053,19 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         on: actions.get.ACCOUNTS,
         then: (requestedYearsToDownload) => fetchAccounts().then((accountsResponse) => {
           const accountsUpdate = accountsResponse.map((accountResponse) => {
-            const [sortCode, accountNumber] = accountResponse.sortCodeAndAccountNumber.split(" ");
+            const { sortCodeAndAccountNumber } = accountResponse;
+            if (!sortCodeAndAccountNumber) {
+              console.warn("No sortCodeAndAccountNumber in accountResponse", { accountResponse });
+              return;
+            }
+            const [sortCode = "", accountNumber = ""] = (sortCodeAndAccountNumber || "").split(" ");
+            if (!sortCode || !accountNumber) {
+              console.warn("Could not parse sortCodeAndAccountNumber", {
+                sortCodeAndAccountNumber,
+                accountResponse
+              });
+              return;
+            }
             return {
               id: accountResponse.id,
               accountNumber,
@@ -3047,7 +3077,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
               iban: LEAVE_UNCHANGED,
               bic: LEAVE_UNCHANGED
             };
-          });
+          }).filter(Boolean);
           emit(actions.add.ACCOUNTS, accountsUpdate);
           emit(actions.got.ACCOUNTS, {
             accountsResponse,
