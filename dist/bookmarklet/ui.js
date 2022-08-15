@@ -16,7 +16,10 @@
     }
     return to;
   };
-  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
 
   // node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/render/vnode.js
   var require_vnode = __commonJS({
@@ -40,7 +43,9 @@
           var isKeyed = input[0] != null && input[0].key != null;
           for (var i3 = 1; i3 < input.length; i3++) {
             if ((input[i3] != null && input[i3].key != null) !== isKeyed) {
-              throw new TypeError(isKeyed && (input[i3] != null || typeof input[i3] === "boolean") ? "In fragments, vnodes must either all have keys or none have keys. You may wish to consider using an explicit keyed empty fragment, m.fragment({key: ...}), instead of a hole." : "In fragments, vnodes must either all have keys or none have keys.");
+              throw new TypeError(
+                isKeyed && (input[i3] != null || typeof input[i3] === "boolean") ? "In fragments, vnodes must either all have keys or none have keys. You may wish to consider using an explicit keyed empty fragment, m.fragment({key: ...}), instead of a hole." : "In fragments, vnodes must either all have keys or none have keys."
+              );
             }
           }
           for (var i3 = 0; i3 < input.length; i3++) {
@@ -298,15 +303,18 @@
         return this.then(null, onRejection);
       };
       PromisePolyfill.prototype.finally = function(callback) {
-        return this.then(function(value) {
-          return PromisePolyfill.resolve(callback()).then(function() {
-            return value;
-          });
-        }, function(reason) {
-          return PromisePolyfill.resolve(callback()).then(function() {
-            return PromisePolyfill.reject(reason);
-          });
-        });
+        return this.then(
+          function(value) {
+            return PromisePolyfill.resolve(callback()).then(function() {
+              return value;
+            });
+          },
+          function(reason) {
+            return PromisePolyfill.resolve(callback()).then(function() {
+              return PromisePolyfill.reject(reason);
+            });
+          }
+        );
       };
       PromisePolyfill.resolve = function(value) {
         if (value instanceof PromisePolyfill)
@@ -1696,16 +1704,19 @@
         var templateData = parsePathname(template);
         var templateKeys = Object.keys(templateData.params);
         var keys2 = [];
-        var regexp = new RegExp("^" + templateData.path.replace(/:([^\/.-]+)(\.{3}|\.(?!\.)|-)?|[\\^$*+.()|\[\]{}]/g, function(m7, key, extra) {
-          if (key == null)
-            return "\\" + m7;
-          keys2.push({ k: key, r: extra === "..." });
-          if (extra === "...")
-            return "(.*)";
-          if (extra === ".")
-            return "([^/]+)\\.";
-          return "([^/]+)" + (extra || "");
-        }) + "$");
+        var regexp = new RegExp("^" + templateData.path.replace(
+          /:([^\/.-]+)(\.{3}|\.(?!\.)|-)?|[\\^$*+.()|\[\]{}]/g,
+          function(m7, key, extra) {
+            if (key == null)
+              return "\\" + m7;
+            keys2.push({ k: key, r: extra === "..." });
+            if (extra === "...")
+              return "(.*)";
+            if (extra === ".")
+              return "([^/]+)\\.";
+            return "([^/]+)" + (extra || "");
+          }
+        ) + "$");
         return function(data) {
           for (var i3 = 0; i3 < templateKeys.length; i3++) {
             if (templateData.params[templateKeys[i3]] !== data.params[templateKeys[i3]])
@@ -1923,7 +1934,11 @@
         route.prefix = "#!";
         route.Link = {
           view: function(vnode) {
-            var child = m7(vnode.attrs.selector || "a", censor(vnode.attrs, ["options", "params", "selector", "onclick"]), vnode.children);
+            var child = m7(
+              vnode.attrs.selector || "a",
+              censor(vnode.attrs, ["options", "params", "selector", "onclick"]),
+              vnode.children
+            );
             var options, onclick, href;
             if (child.attrs.disabled = Boolean(child.attrs.disabled)) {
               child.attrs.href = null;
@@ -2405,7 +2420,16 @@
         if (!isString4(str) || !str.length) {
           throw new TypeError("Please pass a non-empty string");
         }
-        return pipe3(str.replace(rxConsecutiveWildcards(), "*").split("*").map((x3) => x3.trim()).map(escapeStringForRegExp), against2(when2(hasNoWildcards)(templateMatchExact), when2(hasNoWildcardAtStart)(flow2(insertWildcards, templateMatchStart)), when2(hasNoWildcardAtEnd)(flow2(insertWildcards, templateMatchEnd)), otherwise2(insertWildcards)), ($2) => new RegExp($2));
+        return pipe3(
+          str.replace(rxConsecutiveWildcards(), "*").split("*").map((x3) => x3.trim()).map(escapeStringForRegExp),
+          against2(
+            when2(hasNoWildcards)(templateMatchExact),
+            when2(hasNoWildcardAtStart)(flow2(insertWildcards, templateMatchStart)),
+            when2(hasNoWildcardAtEnd)(flow2(insertWildcards, templateMatchEnd)),
+            otherwise2(insertWildcards)
+          ),
+          ($2) => new RegExp($2)
+        );
       });
       var rxEscape = () => /[.*+?^${}()|[\]\\]/g;
       var rxConsecutiveWildcards = () => /\*{2,}/g;
@@ -2493,7 +2517,7 @@
     for (var r3 = arguments.length, t2 = Array(r3 > 1 ? r3 - 1 : 0), e2 = 1; e2 < r3; e2++)
       t2[e2 - 1] = arguments[e2];
     if (false) {
-      var i3 = Y[n2], o2 = i3 ? typeof i3 == "function" ? i3.apply(null, t2) : i3 : "unknown error nr: " + n2;
+      var i3 = Y[n2], o2 = i3 ? "function" == typeof i3 ? i3.apply(null, t2) : i3 : "unknown error nr: " + n2;
       throw Error("[Immer] " + o2);
     }
     throw Error("[Immer] minified error nr: " + n2 + (t2.length ? " " + t2.map(function(n3) {
@@ -2505,18 +2529,18 @@
   }
   function t(n2) {
     return !!n2 && (function(n3) {
-      if (!n3 || typeof n3 != "object")
+      if (!n3 || "object" != typeof n3)
         return false;
       var r3 = Object.getPrototypeOf(n3);
-      if (r3 === null)
+      if (null === r3)
         return true;
       var t2 = Object.hasOwnProperty.call(r3, "constructor") && r3.constructor;
-      return t2 === Object || typeof t2 == "function" && Function.toString.call(t2) === Z;
+      return t2 === Object || "function" == typeof t2 && Function.toString.call(t2) === Z;
     }(n2) || Array.isArray(n2) || !!n2[L] || !!n2.constructor[L] || s(n2) || v(n2));
   }
   function i(n2, r3, t2) {
-    t2 === void 0 && (t2 = false), o(n2) === 0 ? (t2 ? Object.keys : nn)(n2).forEach(function(e2) {
-      t2 && typeof e2 == "symbol" || r3(e2, n2[e2], n2);
+    void 0 === t2 && (t2 = false), 0 === o(n2) ? (t2 ? Object.keys : nn)(n2).forEach(function(e2) {
+      t2 && "symbol" == typeof e2 || r3(e2, n2[e2], n2);
     }) : n2.forEach(function(t3, e2) {
       return r3(e2, t3, n2);
     });
@@ -2526,17 +2550,17 @@
     return r3 ? r3.i > 3 ? r3.i - 4 : r3.i : Array.isArray(n2) ? 1 : s(n2) ? 2 : v(n2) ? 3 : 0;
   }
   function u(n2, r3) {
-    return o(n2) === 2 ? n2.has(r3) : Object.prototype.hasOwnProperty.call(n2, r3);
+    return 2 === o(n2) ? n2.has(r3) : Object.prototype.hasOwnProperty.call(n2, r3);
   }
   function a(n2, r3) {
-    return o(n2) === 2 ? n2.get(r3) : n2[r3];
+    return 2 === o(n2) ? n2.get(r3) : n2[r3];
   }
   function f(n2, r3, t2) {
     var e2 = o(n2);
-    e2 === 2 ? n2.set(r3, t2) : e2 === 3 ? (n2.delete(r3), n2.add(t2)) : n2[r3] = t2;
+    2 === e2 ? n2.set(r3, t2) : 3 === e2 ? (n2.delete(r3), n2.add(t2)) : n2[r3] = t2;
   }
   function c(n2, r3) {
-    return n2 === r3 ? n2 !== 0 || 1 / n2 == 1 / r3 : n2 != n2 && r3 != r3;
+    return n2 === r3 ? 0 !== n2 || 1 / n2 == 1 / r3 : n2 != n2 && r3 != r3;
   }
   function s(n2) {
     return X && n2 instanceof Map;
@@ -2554,12 +2578,12 @@
     delete r3[Q];
     for (var t2 = nn(r3), e2 = 0; e2 < t2.length; e2++) {
       var i3 = t2[e2], o2 = r3[i3];
-      o2.writable === false && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (r3[i3] = { configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i3] });
+      false === o2.writable && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (r3[i3] = { configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i3] });
     }
     return Object.create(Object.getPrototypeOf(n2), r3);
   }
   function d(n2, e2) {
-    return e2 === void 0 && (e2 = false), y(n2) || r(n2) || !t(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e2 && i(n2, function(n3, r3) {
+    return void 0 === e2 && (e2 = false), y(n2) || r(n2) || !t(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e2 && i(n2, function(n3, r3) {
       return d(r3, true);
     }, true), n2);
   }
@@ -2567,7 +2591,7 @@
     n(2);
   }
   function y(n2) {
-    return n2 == null || typeof n2 != "object" || Object.isFrozen(n2);
+    return null == n2 || "object" != typeof n2 || Object.isFrozen(n2);
   }
   function b(r3) {
     var t2 = tn[r3];
@@ -2590,11 +2614,11 @@
   }
   function S(n2) {
     var r3 = n2[Q];
-    r3.i === 0 || r3.i === 1 ? r3.j() : r3.O = true;
+    0 === r3.i || 1 === r3.i ? r3.j() : r3.O = true;
   }
   function P(r3, e2) {
     e2._ = e2.p.length;
-    var i3 = e2.p[0], o2 = r3 !== void 0 && r3 !== i3;
+    var i3 = e2.p[0], o2 = void 0 !== r3 && r3 !== i3;
     return e2.h.g || b("ES5").S(e2, r3, o2), o2 ? (i3[Q].P && (O(e2), n(4)), t(r3) && (r3 = M(e2, r3), e2.l || x(e2, r3)), e2.u && b("Patches").M(i3[Q].t, r3, e2.u, e2.s)) : r3 = M(e2, i3, []), O(e2), e2.u && e2.v(e2.u, e2.s), r3 !== H ? r3 : void 0;
   }
   function M(n2, r3, t2) {
@@ -2611,8 +2635,8 @@
       return x(n2, e2.t, true), e2.t;
     if (!e2.I) {
       e2.I = true, e2.A._--;
-      var o2 = e2.i === 4 || e2.i === 5 ? e2.o = l(e2.k) : e2.o;
-      i(e2.i === 3 ? new Set(o2) : o2, function(r4, i3) {
+      var o2 = 4 === e2.i || 5 === e2.i ? e2.o = l(e2.k) : e2.o;
+      i(3 === e2.i ? new Set(o2) : o2, function(r4, i3) {
         return A(n2, e2, o2, r4, i3, t2);
       }), x(n2, o2, false), t2 && n2.u && b("Patches").R(e2, t2, n2.u, n2.s);
     }
@@ -2620,7 +2644,7 @@
   }
   function A(e2, i3, o2, a2, c3, s2) {
     if (false, r(c3)) {
-      var v3 = M(e2, c3, s2 && i3 && i3.i !== 3 && !u(i3.D, a2) ? s2.concat(a2) : void 0);
+      var v3 = M(e2, c3, s2 && i3 && 3 !== i3.i && !u(i3.D, a2) ? s2.concat(a2) : void 0);
       if (f(o2, a2, v3), !r(v3))
         return;
       e2.m = false;
@@ -2632,7 +2656,7 @@
     }
   }
   function x(n2, r3, t2) {
-    t2 === void 0 && (t2 = false), n2.h.F && n2.m && d(r3, t2);
+    void 0 === t2 && (t2 = false), n2.h.F && n2.m && d(r3, t2);
   }
   function z(n2, r3) {
     var t2 = n2[Q];
@@ -2675,7 +2699,7 @@
         e3 = F(r3, c3);
       return i(e3, function(r4, t2) {
         u3 && a(u3.t, r4) === t2 || f(e3, r4, n2(t2));
-      }), c3 === 3 ? new Set(e3) : e3;
+      }), 3 === c3 ? new Set(e3) : e3;
     }(e2);
   }
   function F(n2, r3) {
@@ -2689,15 +2713,15 @@
   }
   var G;
   var U;
-  var W = typeof Symbol != "undefined" && typeof Symbol("x") == "symbol";
-  var X = typeof Map != "undefined";
-  var q = typeof Set != "undefined";
-  var B = typeof Proxy != "undefined" && Proxy.revocable !== void 0 && typeof Reflect != "undefined";
+  var W = "undefined" != typeof Symbol && "symbol" == typeof Symbol("x");
+  var X = "undefined" != typeof Map;
+  var q = "undefined" != typeof Set;
+  var B = "undefined" != typeof Proxy && void 0 !== Proxy.revocable && "undefined" != typeof Reflect;
   var H = W ? Symbol.for("immer-nothing") : ((G = {})["immer-nothing"] = true, G);
   var L = W ? Symbol.for("immer-draftable") : "__$immer_draftable";
   var Q = W ? Symbol.for("immer-state") : "__$immer_state";
   var Z = "" + Object.prototype.constructor;
-  var nn = typeof Reflect != "undefined" && Reflect.ownKeys ? Reflect.ownKeys : Object.getOwnPropertySymbols !== void 0 ? function(n2) {
+  var nn = "undefined" != typeof Reflect && Reflect.ownKeys ? Reflect.ownKeys : void 0 !== Object.getOwnPropertySymbols ? function(n2) {
     return Object.getOwnPropertyNames(n2).concat(Object.getOwnPropertySymbols(n2));
   } : Object.getOwnPropertyNames;
   var rn = Object.getOwnPropertyDescriptors || function(n2) {
@@ -2714,7 +2738,7 @@
     if (!u(e2, r3))
       return function(n3, r4, t2) {
         var e3, i4 = I(r4, t2);
-        return i4 ? "value" in i4 ? i4.value : (e3 = i4.get) === null || e3 === void 0 ? void 0 : e3.call(n3.k) : void 0;
+        return i4 ? "value" in i4 ? i4.value : null === (e3 = i4.get) || void 0 === e3 ? void 0 : e3.call(n3.k) : void 0;
       }(n2, e2, r3);
     var i3 = e2[r3];
     return n2.I || !t(i3) ? i3 : i3 === z(n2.t, r3) ? (E(n2), n2.o[r3] = R(n2.A.h, i3, n2)) : i3;
@@ -2724,22 +2748,22 @@
     return Reflect.ownKeys(p(n2));
   }, set: function(n2, r3, t2) {
     var e2 = I(p(n2), r3);
-    if (e2 == null ? void 0 : e2.set)
+    if (null == e2 ? void 0 : e2.set)
       return e2.set.call(n2.k, t2), true;
     if (!n2.P) {
-      var i3 = z(p(n2), r3), o2 = i3 == null ? void 0 : i3[Q];
+      var i3 = z(p(n2), r3), o2 = null == i3 ? void 0 : i3[Q];
       if (o2 && o2.t === t2)
         return n2.o[r3] = t2, n2.D[r3] = false, true;
-      if (c(t2, i3) && (t2 !== void 0 || u(n2.t, r3)))
+      if (c(t2, i3) && (void 0 !== t2 || u(n2.t, r3)))
         return true;
       E(n2), k(n2);
     }
-    return n2.o[r3] === t2 && typeof t2 != "number" && (t2 !== void 0 || r3 in n2.o) || (n2.o[r3] = t2, n2.D[r3] = true, true);
+    return n2.o[r3] === t2 && "number" != typeof t2 && (void 0 !== t2 || r3 in n2.o) || (n2.o[r3] = t2, n2.D[r3] = true, true);
   }, deleteProperty: function(n2, r3) {
-    return z(n2.t, r3) !== void 0 || r3 in n2.t ? (n2.D[r3] = false, E(n2), k(n2)) : delete n2.D[r3], n2.o && delete n2.o[r3], true;
+    return void 0 !== z(n2.t, r3) || r3 in n2.t ? (n2.D[r3] = false, E(n2), k(n2)) : delete n2.D[r3], n2.o && delete n2.o[r3], true;
   }, getOwnPropertyDescriptor: function(n2, r3) {
     var t2 = p(n2), e2 = Reflect.getOwnPropertyDescriptor(t2, r3);
-    return e2 ? { writable: true, configurable: n2.i !== 1 || r3 !== "length", enumerable: e2.enumerable, value: t2[r3] } : e2;
+    return e2 ? { writable: true, configurable: 1 !== n2.i || "length" !== r3, enumerable: e2.enumerable, value: t2[r3] } : e2;
   }, defineProperty: function() {
     n(11);
   }, getPrototypeOf: function(n2) {
@@ -2761,13 +2785,13 @@
     function e2(r3) {
       var e3 = this;
       this.g = B, this.F = true, this.produce = function(r4, i4, o2) {
-        if (typeof r4 == "function" && typeof i4 != "function") {
+        if ("function" == typeof r4 && "function" != typeof i4) {
           var u3 = i4;
           i4 = r4;
           var a2 = e3;
           return function(n2) {
             var r5 = this;
-            n2 === void 0 && (n2 = u3);
+            void 0 === n2 && (n2 = u3);
             for (var t2 = arguments.length, e4 = Array(t2 > 1 ? t2 - 1 : 0), o3 = 1; o3 < t2; o3++)
               e4[o3 - 1] = arguments[o3];
             return a2.produce(n2, function(n3) {
@@ -2777,21 +2801,21 @@
           };
         }
         var f2;
-        if (typeof i4 != "function" && n(6), o2 !== void 0 && typeof o2 != "function" && n(7), t(r4)) {
+        if ("function" != typeof i4 && n(6), void 0 !== o2 && "function" != typeof o2 && n(7), t(r4)) {
           var c3 = w(e3), s2 = R(e3, r4, void 0), v3 = true;
           try {
             f2 = i4(s2), v3 = false;
           } finally {
             v3 ? O(c3) : g(c3);
           }
-          return typeof Promise != "undefined" && f2 instanceof Promise ? f2.then(function(n2) {
+          return "undefined" != typeof Promise && f2 instanceof Promise ? f2.then(function(n2) {
             return j(c3, o2), P(n2, c3);
           }, function(n2) {
             throw O(c3), n2;
           }) : (j(c3, o2), P(f2, c3));
         }
-        if (!r4 || typeof r4 != "object") {
-          if ((f2 = i4(r4)) === void 0 && (f2 = r4), f2 === H && (f2 = void 0), e3.F && d(f2, true), o2) {
+        if (!r4 || "object" != typeof r4) {
+          if (void 0 === (f2 = i4(r4)) && (f2 = r4), f2 === H && (f2 = void 0), e3.F && d(f2, true), o2) {
             var p2 = [], l2 = [];
             b("Patches").M(r4, f2, p2, l2), o2(p2, l2);
           }
@@ -2799,7 +2823,7 @@
         }
         n(21, r4);
       }, this.produceWithPatches = function(n2, r4) {
-        if (typeof n2 == "function")
+        if ("function" == typeof n2)
           return function(r5) {
             for (var t3 = arguments.length, i5 = Array(t3 > 1 ? t3 - 1 : 0), o3 = 1; o3 < t3; o3++)
               i5[o3 - 1] = arguments[o3];
@@ -2810,10 +2834,10 @@
         var t2, i4, o2 = e3.produce(n2, r4, function(n3, r5) {
           t2 = n3, i4 = r5;
         });
-        return typeof Promise != "undefined" && o2 instanceof Promise ? o2.then(function(n3) {
+        return "undefined" != typeof Promise && o2 instanceof Promise ? o2.then(function(n3) {
           return [n3, t2, i4];
         }) : [o2, t2, i4];
-      }, typeof (r3 == null ? void 0 : r3.useProxies) == "boolean" && this.setUseProxies(r3.useProxies), typeof (r3 == null ? void 0 : r3.autoFreeze) == "boolean" && this.setAutoFreeze(r3.autoFreeze);
+      }, "boolean" == typeof (null == r3 ? void 0 : r3.useProxies) && this.setUseProxies(r3.useProxies), "boolean" == typeof (null == r3 ? void 0 : r3.autoFreeze) && this.setAutoFreeze(r3.autoFreeze);
     }
     var i3 = e2.prototype;
     return i3.createDraft = function(e3) {
@@ -2832,7 +2856,7 @@
       var e3;
       for (e3 = t2.length - 1; e3 >= 0; e3--) {
         var i4 = t2[e3];
-        if (i4.path.length === 0 && i4.op === "replace") {
+        if (0 === i4.path.length && "replace" === i4.op) {
           n2 = i4.value;
           break;
         }
@@ -3013,7 +3037,9 @@
       return `Argument undefined: "${argName}"`;
     }
     const permittedArgTypes = Array.isArray(argType) ? argType : [argType];
-    const errorDescs = permittedArgTypes.map((argType2) => isFunction2(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)).filter(isString2);
+    const errorDescs = permittedArgTypes.map(
+      (argType2) => isFunction2(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)
+    ).filter(isString2);
     const multipleTypesSpecified = permittedArgTypes.length > 1;
     const shouldError = multipleTypesSpecified ? errorDescs.length > 1 : errorDescs.length;
     if (shouldError) {
@@ -3028,7 +3054,10 @@
         argType
       }));
       return (fnName) => (...args) => {
-        const processedArgs = Array.from(args, (x3) => isArguments(x3) ? Array.from(x3) : x3).flat(1);
+        const processedArgs = Array.from(
+          args,
+          (x3) => isArguments(x3) ? Array.from(x3) : x3
+        ).flat(1);
         const err = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString2);
         if (!err.length) {
           return;
@@ -3181,7 +3210,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingStatement = draftState.statements.find((x3) => x3.id === statement.id);
+        const existingStatement = draftState.statements.find(
+          (x3) => x3.id === statement.id
+        );
         if (existingStatement) {
           existingStatements.push({ newStatement: statement, existingStatement });
           return;
@@ -3205,7 +3236,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingStatement = draftState.statements.find((x3) => x3.id === statement.id);
+        const existingStatement = draftState.statements.find(
+          (x3) => x3.id === statement.id
+        );
         if (!existingStatement) {
           unseenStatements.push(statement);
           return;
@@ -3279,11 +3312,15 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   // src/common/obis/utils/dates.js
   function USDateTimeString(timestampOrDate) {
     const date = new Date(timestampOrDate);
-    return String(zeroPad(date.getMonth() + 1) + "/" + zeroPad(date.getDate()) + "/" + date.getFullYear());
+    return String(
+      zeroPad(date.getMonth() + 1) + "/" + zeroPad(date.getDate()) + "/" + date.getFullYear()
+    );
   }
   function UKDateTimeString(timestampOrDate) {
     const date = new Date(timestampOrDate);
-    return String(zeroPad(date.getDate()) + "/" + zeroPad(date.getMonth() + 1) + "/" + date.getFullYear());
+    return String(
+      zeroPad(date.getDate()) + "/" + zeroPad(date.getMonth() + 1) + "/" + date.getFullYear()
+    );
   }
   function simpleDate(timestampOrDate) {
     const date = new Date(timestampOrDate);
@@ -3301,7 +3338,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       "Nov",
       "Dec"
     ];
-    return String(date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear());
+    return String(
+      date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear()
+    );
   }
   function dateTimeString(timestampOrDate, delim = "") {
     const date = new Date(timestampOrDate);
@@ -3323,7 +3362,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
 
   // src/common/obis/utils/currency.js
   function convertCentsToDecimal(cents) {
-    if (!cents || typeof cents !== "number") {
+    if (!cents || "number" !== typeof cents) {
       return "-";
     }
     const decimal = cents / 100;
@@ -3334,7 +3373,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     });
   }
   function convertCentsToDecimalForDisplay(cents) {
-    if (!cents || typeof cents !== "number") {
+    if (!cents || "number" !== typeof cents) {
       return "-";
     }
     const decimal = cents / 100;
@@ -3359,7 +3398,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         statement.entries.forEach((entry) => {
           const { debit, credit, id, date, payee, note, type } = entry;
           const transactionAmount = convertCentsToDecimal(-debit + credit);
-          csv.push('"' + csvEscape(id) + '","' + csvEscape(simpleDate(date)) + '","' + csvEscape(statement.type) + '","' + csvEscape(statement.sortCode + " " + statement.accountNumber) + '","' + csvEscape(payee) + '","' + csvEscape(note || "") + '","' + csvEscape(type) + '","' + csvEscape(transactionAmount) + '"');
+          csv.push(
+            '"' + csvEscape(id) + '","' + csvEscape(simpleDate(date)) + '","' + csvEscape(statement.type) + '","' + csvEscape(statement.sortCode + " " + statement.accountNumber) + '","' + csvEscape(payee) + '","' + csvEscape(note || "") + '","' + csvEscape(type) + '","' + csvEscape(transactionAmount) + '"'
+          );
         });
         csv.push("");
         return csv.join("\r\n");
@@ -3394,7 +3435,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         statement.entries.forEach((entry) => {
           const { debit, credit, id, date, payee, note, type } = entry;
           const transactionAmount = convertCentsToDecimal(-debit + credit);
-          csv.push('"' + csvEscape(UKDateTimeString(date)) + '","' + csvEscape(addSpaces(payee, 25) + addSpaces(note || "", 25) + type) + '","' + csvEscape(transactionAmount) + '"');
+          csv.push(
+            '"' + csvEscape(UKDateTimeString(date)) + '","' + csvEscape(addSpaces(payee, 25) + addSpaces(note || "", 25) + type) + '","' + csvEscape(transactionAmount) + '"'
+          );
         });
         csv.push("");
         return csv.join("\r\n");
@@ -3409,17 +3452,21 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       folder: "json",
       extension: "json",
       description: "JSON (JavaScript Object Notation)",
-      generate: (statement) => JSON.stringify(statement, (key, replacementValue) => {
-        if (["debit", "credit", "balance"].indexOf(key) !== -1) {
-          const float = parseFloat(convertCentsToDecimal(replacementValue));
-          if (isNaN(float)) {
-            return key === "balance" ? void 0 : 0;
-          } else {
-            return key === "debit" ? -float : float;
+      generate: (statement) => JSON.stringify(
+        statement,
+        (key, replacementValue) => {
+          if (-1 !== ["debit", "credit", "balance"].indexOf(key)) {
+            const float = parseFloat(convertCentsToDecimal(replacementValue));
+            if (isNaN(float)) {
+              return "balance" === key ? void 0 : 0;
+            } else {
+              return key === "debit" ? -float : float;
+            }
           }
-        }
-        return replacementValue;
-      }, 2)
+          return replacementValue;
+        },
+        2
+      )
     };
   }
 
@@ -3451,9 +3498,15 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           const { debit, credit, date, type, payee, note } = entry;
           const transactionAmountInCents = -debit + credit;
           runningBalanceInCents += transactionAmountInCents;
-          csv.push('"' + csvEscape(UKDateTimeString(date)) + '","' + csvEscape(type) + '","' + csvEscape(payee + (note || "")) + '","' + csvEscape(convertCentsToDecimal(transactionAmountInCents)) + '","' + csvEscape(convertCentsToDecimal(runningBalanceInCents)) + '"');
+          csv.push(
+            '"' + csvEscape(UKDateTimeString(date)) + '","' + csvEscape(type) + '","' + csvEscape(payee + (note || "")) + '","' + csvEscape(convertCentsToDecimal(transactionAmountInCents)) + '","' + csvEscape(convertCentsToDecimal(runningBalanceInCents)) + '"'
+          );
         });
-        csv.push("", "Arranged overdraft limit," + csvEscape(UKDateTimeString(statement.date)) + ",\xA30.00", "");
+        csv.push(
+          "",
+          "Arranged overdraft limit," + csvEscape(UKDateTimeString(statement.date)) + ",\xA30.00",
+          ""
+        );
         return csv.join("\r\n");
       }
     };
@@ -3509,7 +3562,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       generate: (statement) => {
         let qif;
         const latestBalanceIndex = statement.balances.length - 1;
-        qif = "!Account\nN" + qifEscape(statement.type) + "\nA" + qifEscape(statement.sortCode + "/" + statement.sortCode + statement.accountNumber) + "\n/" + qifEscape(USDateTimeString(statement.balances[latestBalanceIndex].date)) + "\n$" + qifEscape(convertCentsToDecimal(statement.balances[latestBalanceIndex].balance)) + "\nTBank\n^\n!Type:Bank\n";
+        qif = "!Account\nN" + qifEscape(statement.type) + "\nA" + qifEscape(
+          statement.sortCode + "/" + statement.sortCode + statement.accountNumber
+        ) + "\n/" + qifEscape(
+          USDateTimeString(statement.balances[latestBalanceIndex].date)
+        ) + "\n$" + qifEscape(
+          convertCentsToDecimal(statement.balances[latestBalanceIndex].balance)
+        ) + "\nTBank\n^\n!Type:Bank\n";
         statement.entries.forEach((entry) => {
           const { debit, credit, id, date, payee, note, type } = entry;
           const transactionAmount = convertCentsToDecimal(-debit + credit);
@@ -3545,14 +3604,18 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     } = fullEntry;
     const dateTime = dateTimeString(date) || "UNKNOWN_DATE";
     const transactionAmount = convertCentsToDecimal(-debit + credit);
-    return dateTime + "_" + md5(dateTime + (index !== void 0 ? index : "") + (accountNumber || "") + (sortCode || "") + (type || "") + (payee || "") + (note || "") + transactionAmount);
+    return dateTime + "_" + md5(
+      dateTime + (void 0 !== index ? index : "") + (accountNumber || "") + (sortCode || "") + (type || "") + (payee || "") + (note || "") + transactionAmount
+    );
   }
 
   // src/common/obis/statements.js
   function compatMakeStatements() {
     const { accounts, statements, entries } = store();
     const compatStatements = statements.reduce((acc, statement) => {
-      const statementAccount = accounts.find((account) => account.id === statement.accountId);
+      const statementAccount = accounts.find(
+        (account) => account.id === statement.accountId
+      );
       const statementBalances = [
         compatMakeBalance(statement, "start"),
         compatMakeBalance(statement, "end")
@@ -3870,8 +3933,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     };
   };
 
-  // node_modules/.pnpm/statebot@3.0.1/node_modules/statebot/dist/esm/statebot.js
-  function mitt(n2) {
+  // node_modules/.pnpm/mitt@3.0.0/node_modules/mitt/dist/mitt.mjs
+  function mitt_default(n2) {
     return { all: n2 = n2 || /* @__PURE__ */ new Map(), on: function(t2, e2) {
       var i3 = n2.get(t2);
       i3 ? i3.push(e2) : n2.set(t2, [e2]);
@@ -3887,6 +3950,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       });
     } };
   }
+
+  // node_modules/.pnpm/statebot@3.0.5/node_modules/statebot/dist/esm/statebot.js
   function isEventEmitter2(obj) {
     return isObject2(obj) && isFunction3(obj.emit) && (isFunction3(obj.addListener) || isFunction3(obj.on)) && (isFunction3(obj.removeListener) || isFunction3(obj.off));
   }
@@ -3960,7 +4025,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       return `Argument undefined: "${argName}"`;
     }
     const permittedArgTypes = Array.isArray(argType) ? argType : [argType];
-    const errorDescs = permittedArgTypes.map((argType2) => isFunction3(argType2) ? typeErrorStringIfFnReturnsFalse2(argName, argType2, arg) : typeErrorStringIfTypeOfFails2(argName, argType2, arg)).filter(isString3);
+    const errorDescs = permittedArgTypes.map(
+      (argType2) => isFunction3(argType2) ? typeErrorStringIfFnReturnsFalse2(argName, argType2, arg) : typeErrorStringIfTypeOfFails2(argName, argType2, arg)
+    ).filter(isString3);
     const multipleTypesSpecified = permittedArgTypes.length > 1;
     const shouldError = multipleTypesSpecified ? errorDescs.length > 1 : errorDescs.length;
     if (shouldError) {
@@ -4022,7 +4089,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     };
   }
   function uniq(input) {
-    return input.reduce((acc, one) => acc.indexOf(one) === -1 ? (acc.push(one), acc) : acc, []);
+    return input.reduce(
+      (acc, one) => acc.indexOf(one) === -1 ? (acc.push(one), acc) : acc,
+      []
+    );
   }
   function Once(fn2) {
     const { revoke, fn: _fn } = Revokable(fn2);
@@ -4115,7 +4185,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   function Definitions() {
     const dictionary = {};
     function undefine(word, definition) {
-      dictionary[word] = (dictionary[word] || []).filter((next) => next !== definition);
+      dictionary[word] = (dictionary[word] || []).filter(
+        (next) => next !== definition
+      );
       if (dictionary[word].length === 0) {
         delete dictionary[word];
       }
@@ -4183,7 +4255,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   var rxComment = /(\/\/[^\n\r]*)/;
   var argTypeError = ArgTypeError2("statebot.");
   function decomposeChart(chart2) {
-    const err = argTypeError({ chart: isTemplateLiteral2 })("decomposeChart")(chart2);
+    const err = argTypeError(
+      { chart: isTemplateLiteral2 }
+    )("decomposeChart")(chart2);
     if (err) {
       throw TypeError(err);
     }
@@ -4232,7 +4306,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return [...output];
   }
   function tokenisedLines(lines) {
-    return lines.map((line) => line.split(cxArrow).map((str) => str.split(cxPipe)));
+    return lines.map(
+      (line) => line.split(cxArrow).map((str) => str.split(cxPipe))
+    );
   }
   function decomposeRouteFromTokens(line) {
     const output = [];
@@ -4246,7 +4322,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return output;
   }
   function decomposeTransitionsFromRoute([fromStates, toStates]) {
-    return fromStates.reduce((acc, fromState) => (acc.push(...toStates.map((toState) => [fromState, toState])), acc), []);
+    return fromStates.reduce(
+      (acc, fromState) => (acc.push(...toStates.map((toState) => [fromState, toState])), acc),
+      []
+    );
   }
   var ON_EXITING = "onExiting";
   var ON_ENTERING = "onEntering";
@@ -4272,7 +4351,7 @@ ${logPrefix}: Please specify options for this machine`);
       logLevel = 3,
       historyLimit = 2
     } = options || {};
-    const events = isUndefined(options.events) ? wrapEmitter(mitt()) : isEventEmitter2(options.events) && wrapEmitter(options.events);
+    const events = isUndefined(options.events) ? wrapEmitter(mitt_default()) : isEventEmitter2(options.events) && wrapEmitter(options.events);
     if (!events) {
       throw new TypeError(`
 ${logPrefix}: Invalid event-emitter specified in options`);
@@ -4288,21 +4367,40 @@ ${logPrefix}: Invalid event-emitter specified in options`);
     const stateHistory = [startIn];
     const stateHistoryLimit = Math.max(historyLimit, 2);
     let transitionId = 0;
-    const { pause, resume, paused, Pausable } = Pausables(false, () => _console.warn(`${logPrefix}: Ignoring callback, paused`));
+    const { pause, resume, paused, Pausable } = Pausables(
+      false,
+      () => _console.warn(`${logPrefix}: Ignoring callback, paused`)
+    );
     const transitionsFromEvents = Definitions();
-    const internalEvents = wrapEmitter(mitt());
+    const internalEvents = wrapEmitter(mitt_default());
     const emitInternalEvent = Pausable(internalEvents.emit);
     function onInternalEvent(eventName, cb) {
       internalEvents.on(eventName, cb);
       return () => internalEvents.off(eventName, cb);
     }
-    const statesHandled = ReferenceCounter(logPrefix, "states", "Listening for the following state-changes", [...states]);
-    const routesHandled = ReferenceCounter(logPrefix, "transitions", "Listening for the following transitions", [...routes]);
-    const eventsHandled = ReferenceCounter(logPrefix, "events", "Listening for the following events");
+    const statesHandled = ReferenceCounter(
+      logPrefix,
+      "states",
+      "Listening for the following state-changes",
+      [...states]
+    );
+    const routesHandled = ReferenceCounter(
+      logPrefix,
+      "transitions",
+      "Listening for the following transitions",
+      [...routes]
+    );
+    const eventsHandled = ReferenceCounter(
+      logPrefix,
+      "events",
+      "Listening for the following events"
+    );
     function applyHitcher(hitcher, fnName) {
       const hitcherActions = isFunction3(hitcher) ? hitcher({ enter, emit: emit2, Enter, Emit: Emit3 }) : isPojo3(hitcher) ? hitcher : null;
       if (!isPojo3(hitcherActions)) {
-        throw new TypeError(`${logPrefix}#${fnName}(): Expected an object, or a function that returns an object`);
+        throw new TypeError(
+          `${logPrefix}#${fnName}(): Expected an object, or a function that returns an object`
+        );
       }
       const allStates = [];
       const allRoutes = [];
@@ -4319,12 +4417,16 @@ ${logPrefix}: Invalid event-emitter specified in options`);
         const invalidStates = allStates.filter((state) => !states.includes(state));
         const invalidRoutes = allRoutes.filter((route) => !routes.includes(route));
         if (invalidStates.length) {
-          _console.warn(`${logPrefix}#${fnName}(): Invalid states specified:
-` + invalidStates.map((state) => `  > "${state}"`).join("\n"));
+          _console.warn(
+            `${logPrefix}#${fnName}(): Invalid states specified:
+` + invalidStates.map((state) => `  > "${state}"`).join("\n")
+          );
         }
         if (invalidRoutes.length) {
-          _console.warn(`${logPrefix}#${fnName}(): Invalid transitions specified:
-` + invalidRoutes.map((route) => `  > "${route}"`).join("\n"));
+          _console.warn(
+            `${logPrefix}#${fnName}(): Invalid transitions specified:
+` + invalidRoutes.map((route) => `  > "${route}"`).join("\n")
+          );
         }
       }
       return () => allCleanupFns.map((fn2) => fn2());
@@ -4367,7 +4469,11 @@ ${logPrefix}: Invalid event-emitter specified in options`);
               transitionNoOp(`Event not handled: "${eventName}"`);
             }
           })
-        ].concat(configs.map(({ fromState, toState }) => transitionsFromEvents.define(`${eventName}:${fromState}`, toState)));
+        ].concat(
+          configs.map(
+            ({ fromState, toState }) => transitionsFromEvents.define(`${eventName}:${fromState}`, toState)
+          )
+        );
       }
       function runActionFor(state, actionFn, ...args) {
         const onExitingState = actionFn(...args);
@@ -4429,7 +4535,9 @@ Check your performTransitions() config.`;
       return stateHistory[stateHistory.length - 1];
     }
     function _state_canTransitionTo(...states2) {
-      const err = argTypeError2({ states: isAllStrings })("canTransitionTo")([states2]);
+      const err = argTypeError2(
+        { states: isAllStrings }
+      )("canTransitionTo")([states2]);
       if (err) {
         throw new TypeError(err);
       }
@@ -4444,7 +4552,9 @@ Check your performTransitions() config.`;
       if (testStates.length === 2 && isString3(testStates[0]) && isPojo3(testStates[1])) {
         const thisState = testStates[0];
         const { afterEmitting } = testStates[1];
-        const err = argTypeError2({ thisState: isString3, "{ afterEmitting }": isString3 })("canTransitionTo")(thisState, afterEmitting);
+        const err = argTypeError2(
+          { thisState: isString3, "{ afterEmitting }": isString3 }
+        )("canTransitionTo")(thisState, afterEmitting);
         if (err) {
           throw new TypeError(err);
         }
@@ -4454,7 +4564,9 @@ Check your performTransitions() config.`;
     }
     function statesAvailableFromHere(state) {
       const _state = !isUndefined(state) ? state : currentState2();
-      const err = argTypeError2({ state: isString3 })("statesAvailableFromHere")(_state);
+      const err = argTypeError2(
+        { state: isString3 }
+      )("statesAvailableFromHere")(_state);
       if (err) {
         throw new TypeError(err);
       }
@@ -4481,14 +4593,18 @@ Check your performTransitions() config.`;
       return match2 ? _inState(...match2.concat(fnArgs)) : null;
     }
     function inState(...args) {
-      const err = argTypeError2({ state: [isString3, isPojo3] })("inState")(args[0]);
+      const err = argTypeError2(
+        { state: [isString3, isPojo3] }
+      )("inState")(args[0]);
       if (err) {
         throw new TypeError(err);
       }
       return isPojo3(args[0]) ? _inStateObject(...args) : _inState(...args);
     }
     const emit2 = (eventName, ...args) => {
-      const err = argTypeError2({ eventName: isString3 })("emit")(eventName);
+      const err = argTypeError2(
+        { eventName: isString3 }
+      )("emit")(eventName);
       if (err) {
         throw new TypeError(err);
       }
@@ -4496,7 +4612,9 @@ Check your performTransitions() config.`;
       return events.emit(eventName, ...args);
     };
     const enter = (state, ...args) => {
-      const err = argTypeError2({ state: isString3 })("enter")(state);
+      const err = argTypeError2(
+        { state: isString3 }
+      )("enter")(state);
       if (err) {
         throw new TypeError(err);
       }
@@ -4526,7 +4644,9 @@ Check your performTransitions() config.`;
       return true;
     };
     function onEvent(eventName, cb) {
-      const err = argTypeError2({ eventName: isString3, cb: isFunction3 })("onEvent")(eventName, cb);
+      const err = argTypeError2(
+        { eventName: isString3, cb: isFunction3 }
+      )("onEvent")(eventName, cb);
       if (err) {
         throw new TypeError(err);
       }
@@ -4540,8 +4660,13 @@ Check your performTransitions() config.`;
         if (err) {
           throw new TypeError(err);
         }
-        const decreaseRefCount = statesHandled.increase(INTERNAL_EVENTS[methodName]);
-        const removeEvent = onInternalEvent(INTERNAL_EVENTS[methodName], cb);
+        const decreaseRefCount = statesHandled.increase(
+          INTERNAL_EVENTS[methodName]
+        );
+        const removeEvent = onInternalEvent(
+          INTERNAL_EVENTS[methodName],
+          cb
+        );
         return () => {
           removeEvent();
           decreaseRefCount();
@@ -4560,7 +4685,9 @@ Check your performTransitions() config.`;
       return {
         ...obj,
         [methodName]: (state, cb) => {
-          const err = argTypeError2({ state: isString3, cb: isFunction3 })(methodName)(state, cb);
+          const err = argTypeError2(
+            { state: isString3, cb: isFunction3 }
+          )(methodName)(state, cb);
           if (err) {
             throw new TypeError(err);
           }
@@ -4568,13 +4695,15 @@ Check your performTransitions() config.`;
             statesHandled.increase(state),
             statesHandled.increase(`${state}:${eventName}`)
           ];
-          const removeEvent = switchMethods[switchMethod]((toState, fromState, ...args) => {
-            if (name2.indexOf("Exit") === 0) {
-              state === fromState && cb(toState, ...args);
-            } else {
-              state === toState && cb(fromState, ...args);
+          const removeEvent = switchMethods[switchMethod](
+            (toState, fromState, ...args) => {
+              if (name2.indexOf("Exit") === 0) {
+                state === fromState && cb(toState, ...args);
+              } else {
+                state === toState && cb(fromState, ...args);
+              }
             }
-          });
+          );
           return () => {
             removeEvent();
             decreaseRefCounts.map((fn2) => fn2());
@@ -4620,13 +4749,17 @@ Check your performTransitions() config.`;
       const prevRoute = `${isUndefined(lastState) ? "[undefined]" : lastState}->${inState2}`;
       const availableStates = statesAvailableFromHere();
       if (!availableStates.length) {
-        _console.info(`${logPrefix}: ${message}
+        _console.info(
+          `${logPrefix}: ${message}
   > Previous transition: "${prevRoute}"
-  > There are no states available from "${inState2}"`);
+  > There are no states available from "${inState2}"`
+        );
       } else {
-        _console.info(`${logPrefix}: ${message}
+        _console.info(
+          `${logPrefix}: ${message}
   > Previous transition: "${prevRoute}"
-  > From "${inState2}", valid states are: [${availableStates.map((state) => `"${state}"`).join(", ")}]`);
+  > From "${inState2}", valid states are: [${availableStates.map((state) => `"${state}"`).join(", ")}]`
+        );
       }
     }
     function inspect() {
@@ -4722,7 +4855,9 @@ Check your performTransitions() config.`;
       }
       return [
         ...acc,
-        ...transitions.map(([fromState, toState]) => ({ fromState, toState, action }))
+        ...transitions.map(
+          ([fromState, toState]) => ({ fromState, toState, action })
+        )
       ];
     }, []);
     return {
@@ -4732,7 +4867,7 @@ Check your performTransitions() config.`;
     };
   }
 
-  // node_modules/.pnpm/statebot@3.0.1/node_modules/statebot/hooks/make-hooks.js
+  // node_modules/.pnpm/statebot@3.0.5/node_modules/statebot/hooks/make-hooks.js
   var makeHooks = ({ Statebot: Statebot3, useEffect: useEffect2, useState: useState2, useMemo: useMemo2 }) => {
     if (![useEffect2, useState2, useMemo2].every((x3) => typeof x3 === "function")) {
       console.warn("Statebot Hooks unavailable: React or Mithril not found");
@@ -4771,12 +4906,15 @@ Check your performTransitions() config.`;
           listeners: listeners2
         };
       }, []);
-      useEffect2(() => () => {
-        if (typeof bot.pause === "function") {
-          bot.pause();
-        }
-        listeners.forEach((off) => off());
-      }, [bot, listeners]);
+      useEffect2(
+        () => () => {
+          if (typeof bot.pause === "function") {
+            bot.pause();
+          }
+          listeners.forEach((off) => off());
+        },
+        [bot, listeners]
+      );
       const state = useStatebot2(bot);
       return { state, bot };
     }
@@ -4810,7 +4948,7 @@ Check your performTransitions() config.`;
     };
   };
 
-  // node_modules/.pnpm/statebot@3.0.1/node_modules/statebot/hooks/mithril/index.js
+  // node_modules/.pnpm/statebot@3.0.5/node_modules/statebot/hooks/mithril/index.js
   var {
     useStatebot,
     useStatebotFactory,
@@ -4878,9 +5016,9 @@ Check your performTransitions() config.`;
   // node_modules/.pnpm/clsx@1.2.1/node_modules/clsx/dist/clsx.m.js
   function r2(e2) {
     var t2, f2, n2 = "";
-    if (typeof e2 == "string" || typeof e2 == "number")
+    if ("string" == typeof e2 || "number" == typeof e2)
       n2 += e2;
-    else if (typeof e2 == "object")
+    else if ("object" == typeof e2)
       if (Array.isArray(e2))
         for (t2 = 0; t2 < e2.length; t2++)
           e2[t2] && (f2 = r2(e2[t2])) && (n2 && (n2 += " "), n2 += f2);
@@ -4957,7 +5095,10 @@ Check your performTransitions() config.`;
     }, [bot, opened]);
     const [containerEl, setContainerEl] = useState(void 0);
     const [containerHeight, setContainerHeight] = useState(void 0);
-    useEffect(() => void (containerEl && setContainerHeight(containerEl.scrollHeight)), [containerEl, children]);
+    useEffect(
+      () => void (containerEl && setContainerHeight(containerEl.scrollHeight)),
+      [containerEl, children]
+    );
     return /* @__PURE__ */ (0, import_mithril2.default)("div", {
       className: `vertical-animation-container ${state}`,
       style: `max-height: ${containerHeight}px`
@@ -5094,10 +5235,27 @@ Check your performTransitions() config.`;
     const opened = state === "opened";
     const [yearsToFetch, setYearsToFetch] = useState(DEFAULT_YEARS_TO_FETCH);
     const handleToggleOpen = useCallback(Emit(actions.ui.TOGGLE_OPEN), []);
-    const handleRangeSlider = useCallback((0, import_fp.flow)((event2) => event2?.target?.value, ($2) => parseInt($2, 10), ($2) => isNaN($2) ? DEFAULT_YEARS_TO_FETCH : $2, ($2) => setYearsToFetch($2)), [setYearsToFetch]);
-    const handleFetchClick = useCallback(Emit(actions.get.ACCOUNTS, yearsToFetch), [yearsToFetch]);
-    const handleViewStatementsClick = useCallback(Emit(actions.ui.VIEW_STATEMENTS), []);
-    const handleDownloadAllClick = useCallback(Emit(actions.ui.DOWNLOAD_STATEMENTS), []);
+    const handleRangeSlider = useCallback(
+      (0, import_fp.flow)(
+        (event2) => event2?.target?.value,
+        ($2) => parseInt($2, 10),
+        ($2) => isNaN($2) ? DEFAULT_YEARS_TO_FETCH : $2,
+        ($2) => setYearsToFetch($2)
+      ),
+      [setYearsToFetch]
+    );
+    const handleFetchClick = useCallback(
+      Emit(actions.get.ACCOUNTS, yearsToFetch),
+      [yearsToFetch]
+    );
+    const handleViewStatementsClick = useCallback(
+      Emit(actions.ui.VIEW_STATEMENTS),
+      []
+    );
+    const handleDownloadAllClick = useCallback(
+      Emit(actions.ui.DOWNLOAD_STATEMENTS),
+      []
+    );
     return /* @__PURE__ */ (0, import_mithril5.default)(Dialog, {
       hidden: !ready
     }, ready && /* @__PURE__ */ (0, import_mithril5.default)(Button, {
@@ -5107,37 +5265,68 @@ Check your performTransitions() config.`;
       }),
       handleClick: handleToggleOpen,
       disabled: !opened && !closed
-    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril5.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril5.default)(Subheader, null, rt({ ready, opened })(ct({ ready: true, opened: true })("Hit the button below to try and download everything automatically."), ct({ ready: true, opened: false })("Welcome! Click that button on the right to see if we can download some statements."), it("Loading...")), /* @__PURE__ */ (0, import_mithril5.default)("br", null), /* @__PURE__ */ (0, import_mithril5.default)("br", null), fetcher.inState({
+    }, "\u21E7"), /* @__PURE__ */ (0, import_mithril5.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril5.default)(Subheader, null, rt({ ready, opened })(
+      ct({ ready: true, opened: true })(
+        "Hit the button below to try and download everything automatically."
+      ),
+      ct({ ready: true, opened: false })(
+        "Welcome! Click that button on the right to see if we can download some statements."
+      ),
+      it("Loading...")
+    ), /* @__PURE__ */ (0, import_mithril5.default)("br", null), /* @__PURE__ */ (0, import_mithril5.default)("br", null), fetcher.inState({
       "getting-accounts": "Finding accounts...",
       "getting-statements": "Getting statements...",
       "getting-entries": "Getting transactions... (takes a moment to finish)",
-      idle: () => rt(fetcher.history().some((state2) => /^failed-/.test(state2)))(ct(true)(/* @__PURE__ */ (0, import_mithril5.default)("span", {
-        style: "font-weight: bold; color: red;"
-      }, "Sorry, something went wrong. Please try again, or report a problem on the", " ", /* @__PURE__ */ (0, import_mithril5.default)("a", {
-        href: "https://github.com/shuckster/OBIS/issues",
-        target: "_blank",
-        rel: "noopener noreferrer"
-      }, "OBIS Github repo"))), it(""))
+      idle: () => rt(fetcher.history().some((state2) => /^failed-/.test(state2)))(
+        ct(true)(
+          /* @__PURE__ */ (0, import_mithril5.default)("span", {
+            style: "font-weight: bold; color: red;"
+          }, "Sorry, something went wrong. Please try again, or report a problem on the", " ", /* @__PURE__ */ (0, import_mithril5.default)("a", {
+            href: "https://github.com/shuckster/OBIS/issues",
+            target: "_blank",
+            rel: "noopener noreferrer"
+          }, "OBIS Github repo"))
+        ),
+        it("")
+      )
     }), /* @__PURE__ */ (0, import_mithril5.default)(ProgressBar, {
       ...progressBar
     })), ready && /* @__PURE__ */ (0, import_mithril5.default)(VerticalAnimationContainer, {
       opened
     }, /* @__PURE__ */ (0, import_mithril5.default)(Accounts, null, store().accounts.map((account) => {
-      const allStatementYears = (0, import_fp.pipe)(store(), ($2) => $2.statements.filter((x3) => x3.accountId === account.id), ($2) => $2.map((x3) => new Date(x3.endDate).getFullYear()));
-      const uniqueStatementYears = (0, import_fp.pipe)(allStatementYears, ($2) => new Set($2), ($2) => [...$2]);
+      const allStatementYears = (0, import_fp.pipe)(
+        store(),
+        ($2) => $2.statements.filter((x3) => x3.accountId === account.id),
+        ($2) => $2.map((x3) => new Date(x3.endDate).getFullYear())
+      );
+      const uniqueStatementYears = (0, import_fp.pipe)(
+        allStatementYears,
+        ($2) => new Set($2),
+        ($2) => [...$2]
+      );
       return /* @__PURE__ */ (0, import_mithril5.default)(Account, {
         key: account.id
       }, /* @__PURE__ */ (0, import_mithril5.default)(StatementsLoaded, null, "Statements: ", allStatementYears.length), /* @__PURE__ */ (0, import_mithril5.default)(YearsLoaded, null, uniqueStatementYears.join(" ")), /* @__PURE__ */ (0, import_mithril5.default)(AccountName, null, account.sortCode, " ", account.accountNumber));
-    })), /* @__PURE__ */ (0, import_mithril5.default)(Actions, null, rt(SUPPORTS_YEARS_SLIDER)(ct(true)(/* @__PURE__ */ (0, import_mithril5.default)(YearsSlider, {
-      max: MAXIMUM_YEARS_TO_FETCH,
-      value: yearsToFetch,
-      handleUpdate: handleRangeSlider,
-      disabled: !fetcher.inState("idle")
-    })), it(/* @__PURE__ */ (0, import_mithril5.default)("div", null, "\xA0"))), /* @__PURE__ */ (0, import_mithril5.default)(Button, {
+    })), /* @__PURE__ */ (0, import_mithril5.default)(Actions, null, rt(SUPPORTS_YEARS_SLIDER)(
+      ct(true)(
+        /* @__PURE__ */ (0, import_mithril5.default)(YearsSlider, {
+          max: MAXIMUM_YEARS_TO_FETCH,
+          value: yearsToFetch,
+          handleUpdate: handleRangeSlider,
+          disabled: !fetcher.inState("idle")
+        })
+      ),
+      it(/* @__PURE__ */ (0, import_mithril5.default)("div", null, "\xA0"))
+    ), /* @__PURE__ */ (0, import_mithril5.default)(Button, {
       handleClick: handleFetchClick,
       className: "fetch-everything",
       disabled: !fetcher.inState("idle")
-    }, rt(SUPPORTS_YEARS_SLIDER)(ct(true)(/* @__PURE__ */ (0, import_mithril5.default)(import_mithril5.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")), it("Fetch statements"))), /* @__PURE__ */ (0, import_mithril5.default)(Button, {
+    }, rt(SUPPORTS_YEARS_SLIDER)(
+      ct(true)(
+        /* @__PURE__ */ (0, import_mithril5.default)(import_mithril5.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")
+      ),
+      it("Fetch statements")
+    )), /* @__PURE__ */ (0, import_mithril5.default)(Button, {
       handleClick: handleViewStatementsClick,
       disabled: !fetcher.inState("found-entries")
     }, "View statements"), /* @__PURE__ */ (0, import_mithril5.default)(Button, {
@@ -5198,25 +5387,37 @@ Check your performTransitions() config.`;
       setAccountInfo(accountInfo2);
     }, [accounts, accountId, setAccount, setAccountInfo]);
     const statements = useStatements();
-    const accountStatements = useMemo(() => statements.filter((x3) => x3.accountId === accountId), [statements, accountId]);
+    const accountStatements = useMemo(
+      () => statements.filter((x3) => x3.accountId === accountId),
+      [statements, accountId]
+    );
     const getNewest = useCallback(() => {
       return accountStatements[0]?.id;
     }, [accountStatements]);
-    const getNewerThan = useCallback((statementId) => {
-      const currentStatementIndex = accountStatements.map((x3, index) => x3.id === statementId ? index : null).filter((x3) => x3 !== null)[0];
-      return accountStatements[Math.max(0, currentStatementIndex - 1)]?.id;
-    }, [accountStatements]);
-    const getOlderThan = useCallback((statementId) => {
-      const currentStatementIndex = accountStatements.map((x3, index) => x3.id === statementId ? index : null).filter((x3) => x3 !== null)[0];
-      return accountStatements[Math.min(accountStatements.length - 1, currentStatementIndex + 1)]?.id;
-    }, [accountStatements]);
-    const getNearestToDate = useCallback((timestamp) => {
-      const statementsWithDateDeltas = accountStatements.map((x3) => ({
-        dateDelta: Math.abs(timestamp - x3.endDate),
-        id: x3.id
-      })).sort(SortByNumber("dateDelta"));
-      return statementsWithDateDeltas[0]?.id ?? getNewest();
-    }, [accountStatements]);
+    const getNewerThan = useCallback(
+      (statementId) => {
+        const currentStatementIndex = accountStatements.map((x3, index) => x3.id === statementId ? index : null).filter((x3) => x3 !== null)[0];
+        return accountStatements[Math.max(0, currentStatementIndex - 1)]?.id;
+      },
+      [accountStatements]
+    );
+    const getOlderThan = useCallback(
+      (statementId) => {
+        const currentStatementIndex = accountStatements.map((x3, index) => x3.id === statementId ? index : null).filter((x3) => x3 !== null)[0];
+        return accountStatements[Math.min(accountStatements.length - 1, currentStatementIndex + 1)]?.id;
+      },
+      [accountStatements]
+    );
+    const getNearestToDate = useCallback(
+      (timestamp) => {
+        const statementsWithDateDeltas = accountStatements.map((x3) => ({
+          dateDelta: Math.abs(timestamp - x3.endDate),
+          id: x3.id
+        })).sort(SortByNumber("dateDelta"));
+        return statementsWithDateDeltas[0]?.id ?? getNewest();
+      },
+      [accountStatements]
+    );
     return {
       account,
       accountInfo,
@@ -5229,7 +5430,10 @@ Check your performTransitions() config.`;
   }
   function useStatementEntries(statementId) {
     const statements = useStatements();
-    const { startDate, startBalance, endDate, endBalance } = useMemo(() => statements.find((x3) => x3.id === statementId) ?? {}, [statements, statementId]);
+    const { startDate, startBalance, endDate, endBalance } = useMemo(
+      () => statements.find((x3) => x3.id === statementId) ?? {},
+      [statements, statementId]
+    );
     const entries = useEntries();
     const [statementEntries, setStatementEntries] = useState([]);
     const [totalDebit, setTotalDebit] = useState(0);
@@ -5261,7 +5465,11 @@ Check your performTransitions() config.`;
   var import_fp2 = __toESM(require_fp());
   var STATEMENTS_KEEP_BALANCE_HISTORY = false;
   function createStatementsWindow() {
-    const windowRef = window.open("text/html", "obis", "width=1000,height=750,menubar=0,toolbar=0,status=0,scrollbars=1,resizable=1");
+    const windowRef = window.open(
+      "text/html",
+      "obis",
+      "width=1000,height=750,menubar=0,toolbar=0,status=0,scrollbars=1,resizable=1"
+    );
     windowRef.document.writeln(`
     <html>
       <head>
@@ -5288,10 +5496,13 @@ Check your performTransitions() config.`;
   var Accounts2 = withHooks((props) => {
     const { selectedAccountId, handleClick } = props;
     const accounts = useAccounts();
-    const clickHandler = useCallback((event2) => {
-      const accountId = event2?.composedPath().map((x3) => x3?.dataset?.account).filter(Boolean)[0];
-      handleClick(accountId);
-    }, [handleClick]);
+    const clickHandler = useCallback(
+      (event2) => {
+        const accountId = event2?.composedPath().map((x3) => x3?.dataset?.account).filter(Boolean)[0];
+        handleClick(accountId);
+      },
+      [handleClick]
+    );
     return accounts.map((account) => /* @__PURE__ */ (0, import_mithril7.default)("div", {
       onclick: clickHandler,
       key: account.id,
@@ -5314,7 +5525,10 @@ Check your performTransitions() config.`;
   var Months = withHooks((props) => {
     const _months = "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec".split("|");
     const { selectedMonth, months = [], handleClick } = props || {};
-    const clickHandler = useCallback((event2) => handleClick(event2?.target?.dataset?.month), [handleClick]);
+    const clickHandler = useCallback(
+      (event2) => handleClick(event2?.target?.dataset?.month),
+      [handleClick]
+    );
     return _months.map((month, index) => /* @__PURE__ */ (0, import_mithril7.default)("div", {
       onclick: clickHandler,
       key: month,
@@ -5327,7 +5541,10 @@ Check your performTransitions() config.`;
   });
   var Years = withHooks((props) => {
     const { selectedYear, years = [], handleClick } = props || {};
-    const clickHandler = useCallback((event2) => handleClick(event2?.target?.dataset?.year), [handleClick]);
+    const clickHandler = useCallback(
+      (event2) => handleClick(event2?.target?.dataset?.year),
+      [handleClick]
+    );
     return years.map((year) => /* @__PURE__ */ (0, import_mithril7.default)("div", {
       onclick: clickHandler,
       key: year,
@@ -5401,9 +5618,13 @@ Check your performTransitions() config.`;
       getNearestToDate
     } = useAccountStatements(accountId);
     const [selectedStatementId, setSelectedStatementId] = useState(getNewest());
-    const [selectedStatementDate, setSelectedStatementDate] = useState(accountStatements.find((x3) => x3.id === selectedStatementId)?.endDate);
+    const [selectedStatementDate, setSelectedStatementDate] = useState(
+      accountStatements.find((x3) => x3.id === selectedStatementId)?.endDate
+    );
     useEffect(() => {
-      const selectedStatement2 = accountStatements.find((x3) => x3.id === selectedStatementId);
+      const selectedStatement2 = accountStatements.find(
+        (x3) => x3.id === selectedStatementId
+      );
       if (selectedStatement2) {
         setSelectedStatementDate(selectedStatement2.endDate);
       } else {
@@ -5429,17 +5650,42 @@ Check your performTransitions() config.`;
     const [years, setYears] = useState([]);
     const [months, setMonths] = useState([]);
     useEffect(() => {
-      const uniqueYears = (0, import_fp2.pipe)(accountStatements, ($2) => $2.map((x3) => new Date(x3.endDate)), ($2) => $2.map((x3) => x3.getFullYear()), ($2) => new Set($2), ($2) => [...$2]);
-      const uniqueMonths = (0, import_fp2.pipe)(accountStatements, ($2) => $2.map((x3) => new Date(x3.endDate)), ($2) => $2.filter((x3) => x3.getFullYear() == selectedYear), ($2) => $2.map((x3) => x3.getMonth()), ($2) => new Set($2), ($2) => [...$2]);
+      const uniqueYears = (0, import_fp2.pipe)(
+        accountStatements,
+        ($2) => $2.map((x3) => new Date(x3.endDate)),
+        ($2) => $2.map((x3) => x3.getFullYear()),
+        ($2) => new Set($2),
+        ($2) => [...$2]
+      );
+      const uniqueMonths = (0, import_fp2.pipe)(
+        accountStatements,
+        ($2) => $2.map((x3) => new Date(x3.endDate)),
+        ($2) => $2.filter((x3) => x3.getFullYear() == selectedYear),
+        ($2) => $2.map((x3) => x3.getMonth()),
+        ($2) => new Set($2),
+        ($2) => [...$2]
+      );
       setYears(uniqueYears);
       setMonths(uniqueMonths);
     }, [accountStatements, selectedStatementDate, selectedYear]);
     const selectedStatement = useStatementEntries(selectedStatementId);
     const { totalDebit, totalCredit, creditDebitDiff } = selectedStatement;
-    const selectAccount = useCallback((accountId2) => setAccountId(accountId2), [setAccountId]);
-    const latestStatement = useCallback(() => setSelectedStatementId(getNewest()), [setSelectedStatementId, getNewest]);
-    const olderStatement = useCallback(() => setSelectedStatementId(getOlderThan(selectedStatementId)), [setSelectedStatementId, getOlderThan, selectedStatementId]);
-    const newerStatement = useCallback(() => setSelectedStatementId(getNewerThan(selectedStatementId)), [setSelectedStatementId, getNewerThan, selectedStatementId]);
+    const selectAccount = useCallback(
+      (accountId2) => setAccountId(accountId2),
+      [setAccountId]
+    );
+    const latestStatement = useCallback(
+      () => setSelectedStatementId(getNewest()),
+      [setSelectedStatementId, getNewest]
+    );
+    const olderStatement = useCallback(
+      () => setSelectedStatementId(getOlderThan(selectedStatementId)),
+      [setSelectedStatementId, getOlderThan, selectedStatementId]
+    );
+    const newerStatement = useCallback(
+      () => setSelectedStatementId(getNewerThan(selectedStatementId)),
+      [setSelectedStatementId, getNewerThan, selectedStatementId]
+    );
     const selectMonth = (month) => {
       const dateWithDifferentMonth = new Date(selectedStatementDate);
       dateWithDifferentMonth.setMonth(month);
@@ -5523,7 +5769,9 @@ Check your performTransitions() config.`;
   });
   function main() {
     emit(actions.ui.RENDERING, import_mithril8.default);
-    const rootEl = document.querySelector("#obis-root") || document.body.appendChild(withProps(document.createElement("div"), { id: "obis-root" }));
+    const rootEl = document.querySelector("#obis-root") || document.body.appendChild(
+      withProps(document.createElement("div"), { id: "obis-root" })
+    );
     import_mithril8.default.mount(rootEl, App);
     const rafRedraw = () => requestAnimationFrame(() => import_mithril8.default.redraw());
     fetcher2.onSwitched(rafRedraw);

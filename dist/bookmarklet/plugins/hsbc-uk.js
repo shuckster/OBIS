@@ -16,7 +16,10 @@
     }
     return to;
   };
-  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
 
   // node_modules/.pnpm/match-iz@3.8.0/node_modules/match-iz/dist/index.js
   var require_dist = __commonJS({
@@ -202,7 +205,16 @@
         if (!isString3(str) || !str.length) {
           throw new TypeError("Please pass a non-empty string");
         }
-        return pipe(str.replace(rxConsecutiveWildcards(), "*").split("*").map((x2) => x2.trim()).map(escapeStringForRegExp), against2(when2(hasNoWildcards)(templateMatchExact), when2(hasNoWildcardAtStart)(flow(insertWildcards, templateMatchStart)), when2(hasNoWildcardAtEnd)(flow(insertWildcards, templateMatchEnd)), otherwise2(insertWildcards)), ($) => new RegExp($));
+        return pipe(
+          str.replace(rxConsecutiveWildcards(), "*").split("*").map((x2) => x2.trim()).map(escapeStringForRegExp),
+          against2(
+            when2(hasNoWildcards)(templateMatchExact),
+            when2(hasNoWildcardAtStart)(flow(insertWildcards, templateMatchStart)),
+            when2(hasNoWildcardAtEnd)(flow(insertWildcards, templateMatchEnd)),
+            otherwise2(insertWildcards)
+          ),
+          ($) => new RegExp($)
+        );
       });
       var rxEscape = () => /[.*+?^${}()|[\]\\]/g;
       var rxConsecutiveWildcards = () => /\*{2,}/g;
@@ -676,7 +688,9 @@
             var ast = this.expression(0);
             if (this._lookahead(0) !== TOK_EOF) {
               var t2 = this._lookaheadToken(0);
-              var error = new Error("Unexpected token type: " + t2.type + ", value: " + t2.value);
+              var error = new Error(
+                "Unexpected token type: " + t2.type + ", value: " + t2.value
+              );
               error.name = "ParserError";
               throw error;
             }
@@ -1381,7 +1395,11 @@
                   subtype = TYPE_STRING;
                 }
                 for (var i2 = 0; i2 < argValue.length; i2++) {
-                  if (!this._typeMatches(this._getTypeName(argValue[i2]), subtype, argValue[i2])) {
+                  if (!this._typeMatches(
+                    this._getTypeName(argValue[i2]),
+                    subtype,
+                    argValue[i2]
+                  )) {
                     return false;
                   }
                 }
@@ -1609,7 +1627,9 @@
             }
             var interpreter = this._interpreter;
             var exprefNode = resolvedArgs[1];
-            var requiredType = this._getTypeName(interpreter.visit(exprefNode, sortedArray[0]));
+            var requiredType = this._getTypeName(
+              interpreter.visit(exprefNode, sortedArray[0])
+            );
             if ([TYPE_NUMBER, TYPE_STRING].indexOf(requiredType) < 0) {
               throw new Error("TypeError");
             }
@@ -1622,9 +1642,13 @@
               var exprA = interpreter.visit(exprefNode, a2[1]);
               var exprB = interpreter.visit(exprefNode, b2[1]);
               if (that._getTypeName(exprA) !== requiredType) {
-                throw new Error("TypeError: expected " + requiredType + ", received " + that._getTypeName(exprA));
+                throw new Error(
+                  "TypeError: expected " + requiredType + ", received " + that._getTypeName(exprA)
+                );
               } else if (that._getTypeName(exprB) !== requiredType) {
-                throw new Error("TypeError: expected " + requiredType + ", received " + that._getTypeName(exprB));
+                throw new Error(
+                  "TypeError: expected " + requiredType + ", received " + that._getTypeName(exprB)
+                );
               }
               if (exprA > exprB) {
                 return 1;
@@ -1991,7 +2015,7 @@
     for (var r2 = arguments.length, t2 = Array(r2 > 1 ? r2 - 1 : 0), e = 1; e < r2; e++)
       t2[e - 1] = arguments[e];
     if (false) {
-      var i2 = Y[n2], o2 = i2 ? typeof i2 == "function" ? i2.apply(null, t2) : i2 : "unknown error nr: " + n2;
+      var i2 = Y[n2], o2 = i2 ? "function" == typeof i2 ? i2.apply(null, t2) : i2 : "unknown error nr: " + n2;
       throw Error("[Immer] " + o2);
     }
     throw Error("[Immer] minified error nr: " + n2 + (t2.length ? " " + t2.map(function(n3) {
@@ -2003,18 +2027,18 @@
   }
   function t(n2) {
     return !!n2 && (function(n3) {
-      if (!n3 || typeof n3 != "object")
+      if (!n3 || "object" != typeof n3)
         return false;
       var r2 = Object.getPrototypeOf(n3);
-      if (r2 === null)
+      if (null === r2)
         return true;
       var t2 = Object.hasOwnProperty.call(r2, "constructor") && r2.constructor;
-      return t2 === Object || typeof t2 == "function" && Function.toString.call(t2) === Z;
+      return t2 === Object || "function" == typeof t2 && Function.toString.call(t2) === Z;
     }(n2) || Array.isArray(n2) || !!n2[L] || !!n2.constructor[L] || s(n2) || v(n2));
   }
   function i(n2, r2, t2) {
-    t2 === void 0 && (t2 = false), o(n2) === 0 ? (t2 ? Object.keys : nn)(n2).forEach(function(e) {
-      t2 && typeof e == "symbol" || r2(e, n2[e], n2);
+    void 0 === t2 && (t2 = false), 0 === o(n2) ? (t2 ? Object.keys : nn)(n2).forEach(function(e) {
+      t2 && "symbol" == typeof e || r2(e, n2[e], n2);
     }) : n2.forEach(function(t3, e) {
       return r2(e, t3, n2);
     });
@@ -2024,17 +2048,17 @@
     return r2 ? r2.i > 3 ? r2.i - 4 : r2.i : Array.isArray(n2) ? 1 : s(n2) ? 2 : v(n2) ? 3 : 0;
   }
   function u(n2, r2) {
-    return o(n2) === 2 ? n2.has(r2) : Object.prototype.hasOwnProperty.call(n2, r2);
+    return 2 === o(n2) ? n2.has(r2) : Object.prototype.hasOwnProperty.call(n2, r2);
   }
   function a(n2, r2) {
-    return o(n2) === 2 ? n2.get(r2) : n2[r2];
+    return 2 === o(n2) ? n2.get(r2) : n2[r2];
   }
   function f(n2, r2, t2) {
     var e = o(n2);
-    e === 2 ? n2.set(r2, t2) : e === 3 ? (n2.delete(r2), n2.add(t2)) : n2[r2] = t2;
+    2 === e ? n2.set(r2, t2) : 3 === e ? (n2.delete(r2), n2.add(t2)) : n2[r2] = t2;
   }
   function c(n2, r2) {
-    return n2 === r2 ? n2 !== 0 || 1 / n2 == 1 / r2 : n2 != n2 && r2 != r2;
+    return n2 === r2 ? 0 !== n2 || 1 / n2 == 1 / r2 : n2 != n2 && r2 != r2;
   }
   function s(n2) {
     return X && n2 instanceof Map;
@@ -2052,12 +2076,12 @@
     delete r2[Q];
     for (var t2 = nn(r2), e = 0; e < t2.length; e++) {
       var i2 = t2[e], o2 = r2[i2];
-      o2.writable === false && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (r2[i2] = { configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i2] });
+      false === o2.writable && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (r2[i2] = { configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i2] });
     }
     return Object.create(Object.getPrototypeOf(n2), r2);
   }
   function d(n2, e) {
-    return e === void 0 && (e = false), y(n2) || r(n2) || !t(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e && i(n2, function(n3, r2) {
+    return void 0 === e && (e = false), y(n2) || r(n2) || !t(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e && i(n2, function(n3, r2) {
       return d(r2, true);
     }, true), n2);
   }
@@ -2065,7 +2089,7 @@
     n(2);
   }
   function y(n2) {
-    return n2 == null || typeof n2 != "object" || Object.isFrozen(n2);
+    return null == n2 || "object" != typeof n2 || Object.isFrozen(n2);
   }
   function b(r2) {
     var t2 = tn[r2];
@@ -2088,11 +2112,11 @@
   }
   function S(n2) {
     var r2 = n2[Q];
-    r2.i === 0 || r2.i === 1 ? r2.j() : r2.O = true;
+    0 === r2.i || 1 === r2.i ? r2.j() : r2.O = true;
   }
   function P(r2, e) {
     e._ = e.p.length;
-    var i2 = e.p[0], o2 = r2 !== void 0 && r2 !== i2;
+    var i2 = e.p[0], o2 = void 0 !== r2 && r2 !== i2;
     return e.h.g || b("ES5").S(e, r2, o2), o2 ? (i2[Q].P && (O(e), n(4)), t(r2) && (r2 = M(e, r2), e.l || x(e, r2)), e.u && b("Patches").M(i2[Q].t, r2, e.u, e.s)) : r2 = M(e, i2, []), O(e), e.u && e.v(e.u, e.s), r2 !== H ? r2 : void 0;
   }
   function M(n2, r2, t2) {
@@ -2109,8 +2133,8 @@
       return x(n2, e.t, true), e.t;
     if (!e.I) {
       e.I = true, e.A._--;
-      var o2 = e.i === 4 || e.i === 5 ? e.o = l(e.k) : e.o;
-      i(e.i === 3 ? new Set(o2) : o2, function(r3, i2) {
+      var o2 = 4 === e.i || 5 === e.i ? e.o = l(e.k) : e.o;
+      i(3 === e.i ? new Set(o2) : o2, function(r3, i2) {
         return A(n2, e, o2, r3, i2, t2);
       }), x(n2, o2, false), t2 && n2.u && b("Patches").R(e, t2, n2.u, n2.s);
     }
@@ -2118,7 +2142,7 @@
   }
   function A(e, i2, o2, a2, c2, s2) {
     if (false, r(c2)) {
-      var v2 = M(e, c2, s2 && i2 && i2.i !== 3 && !u(i2.D, a2) ? s2.concat(a2) : void 0);
+      var v2 = M(e, c2, s2 && i2 && 3 !== i2.i && !u(i2.D, a2) ? s2.concat(a2) : void 0);
       if (f(o2, a2, v2), !r(v2))
         return;
       e.m = false;
@@ -2130,7 +2154,7 @@
     }
   }
   function x(n2, r2, t2) {
-    t2 === void 0 && (t2 = false), n2.h.F && n2.m && d(r2, t2);
+    void 0 === t2 && (t2 = false), n2.h.F && n2.m && d(r2, t2);
   }
   function z(n2, r2) {
     var t2 = n2[Q];
@@ -2173,7 +2197,7 @@
         e2 = F(r2, c2);
       return i(e2, function(r3, t2) {
         u2 && a(u2.t, r3) === t2 || f(e2, r3, n2(t2));
-      }), c2 === 3 ? new Set(e2) : e2;
+      }), 3 === c2 ? new Set(e2) : e2;
     }(e);
   }
   function F(n2, r2) {
@@ -2187,15 +2211,15 @@
   }
   var G;
   var U;
-  var W = typeof Symbol != "undefined" && typeof Symbol("x") == "symbol";
-  var X = typeof Map != "undefined";
-  var q = typeof Set != "undefined";
-  var B = typeof Proxy != "undefined" && Proxy.revocable !== void 0 && typeof Reflect != "undefined";
+  var W = "undefined" != typeof Symbol && "symbol" == typeof Symbol("x");
+  var X = "undefined" != typeof Map;
+  var q = "undefined" != typeof Set;
+  var B = "undefined" != typeof Proxy && void 0 !== Proxy.revocable && "undefined" != typeof Reflect;
   var H = W ? Symbol.for("immer-nothing") : ((G = {})["immer-nothing"] = true, G);
   var L = W ? Symbol.for("immer-draftable") : "__$immer_draftable";
   var Q = W ? Symbol.for("immer-state") : "__$immer_state";
   var Z = "" + Object.prototype.constructor;
-  var nn = typeof Reflect != "undefined" && Reflect.ownKeys ? Reflect.ownKeys : Object.getOwnPropertySymbols !== void 0 ? function(n2) {
+  var nn = "undefined" != typeof Reflect && Reflect.ownKeys ? Reflect.ownKeys : void 0 !== Object.getOwnPropertySymbols ? function(n2) {
     return Object.getOwnPropertyNames(n2).concat(Object.getOwnPropertySymbols(n2));
   } : Object.getOwnPropertyNames;
   var rn = Object.getOwnPropertyDescriptors || function(n2) {
@@ -2212,7 +2236,7 @@
     if (!u(e, r2))
       return function(n3, r3, t2) {
         var e2, i3 = I(r3, t2);
-        return i3 ? "value" in i3 ? i3.value : (e2 = i3.get) === null || e2 === void 0 ? void 0 : e2.call(n3.k) : void 0;
+        return i3 ? "value" in i3 ? i3.value : null === (e2 = i3.get) || void 0 === e2 ? void 0 : e2.call(n3.k) : void 0;
       }(n2, e, r2);
     var i2 = e[r2];
     return n2.I || !t(i2) ? i2 : i2 === z(n2.t, r2) ? (E(n2), n2.o[r2] = R(n2.A.h, i2, n2)) : i2;
@@ -2222,22 +2246,22 @@
     return Reflect.ownKeys(p(n2));
   }, set: function(n2, r2, t2) {
     var e = I(p(n2), r2);
-    if (e == null ? void 0 : e.set)
+    if (null == e ? void 0 : e.set)
       return e.set.call(n2.k, t2), true;
     if (!n2.P) {
-      var i2 = z(p(n2), r2), o2 = i2 == null ? void 0 : i2[Q];
+      var i2 = z(p(n2), r2), o2 = null == i2 ? void 0 : i2[Q];
       if (o2 && o2.t === t2)
         return n2.o[r2] = t2, n2.D[r2] = false, true;
-      if (c(t2, i2) && (t2 !== void 0 || u(n2.t, r2)))
+      if (c(t2, i2) && (void 0 !== t2 || u(n2.t, r2)))
         return true;
       E(n2), k(n2);
     }
-    return n2.o[r2] === t2 && typeof t2 != "number" && (t2 !== void 0 || r2 in n2.o) || (n2.o[r2] = t2, n2.D[r2] = true, true);
+    return n2.o[r2] === t2 && "number" != typeof t2 && (void 0 !== t2 || r2 in n2.o) || (n2.o[r2] = t2, n2.D[r2] = true, true);
   }, deleteProperty: function(n2, r2) {
-    return z(n2.t, r2) !== void 0 || r2 in n2.t ? (n2.D[r2] = false, E(n2), k(n2)) : delete n2.D[r2], n2.o && delete n2.o[r2], true;
+    return void 0 !== z(n2.t, r2) || r2 in n2.t ? (n2.D[r2] = false, E(n2), k(n2)) : delete n2.D[r2], n2.o && delete n2.o[r2], true;
   }, getOwnPropertyDescriptor: function(n2, r2) {
     var t2 = p(n2), e = Reflect.getOwnPropertyDescriptor(t2, r2);
-    return e ? { writable: true, configurable: n2.i !== 1 || r2 !== "length", enumerable: e.enumerable, value: t2[r2] } : e;
+    return e ? { writable: true, configurable: 1 !== n2.i || "length" !== r2, enumerable: e.enumerable, value: t2[r2] } : e;
   }, defineProperty: function() {
     n(11);
   }, getPrototypeOf: function(n2) {
@@ -2259,13 +2283,13 @@
     function e(r2) {
       var e2 = this;
       this.g = B, this.F = true, this.produce = function(r3, i3, o2) {
-        if (typeof r3 == "function" && typeof i3 != "function") {
+        if ("function" == typeof r3 && "function" != typeof i3) {
           var u2 = i3;
           i3 = r3;
           var a2 = e2;
           return function(n2) {
             var r4 = this;
-            n2 === void 0 && (n2 = u2);
+            void 0 === n2 && (n2 = u2);
             for (var t2 = arguments.length, e3 = Array(t2 > 1 ? t2 - 1 : 0), o3 = 1; o3 < t2; o3++)
               e3[o3 - 1] = arguments[o3];
             return a2.produce(n2, function(n3) {
@@ -2275,21 +2299,21 @@
           };
         }
         var f2;
-        if (typeof i3 != "function" && n(6), o2 !== void 0 && typeof o2 != "function" && n(7), t(r3)) {
+        if ("function" != typeof i3 && n(6), void 0 !== o2 && "function" != typeof o2 && n(7), t(r3)) {
           var c2 = w(e2), s2 = R(e2, r3, void 0), v2 = true;
           try {
             f2 = i3(s2), v2 = false;
           } finally {
             v2 ? O(c2) : g(c2);
           }
-          return typeof Promise != "undefined" && f2 instanceof Promise ? f2.then(function(n2) {
+          return "undefined" != typeof Promise && f2 instanceof Promise ? f2.then(function(n2) {
             return j(c2, o2), P(n2, c2);
           }, function(n2) {
             throw O(c2), n2;
           }) : (j(c2, o2), P(f2, c2));
         }
-        if (!r3 || typeof r3 != "object") {
-          if ((f2 = i3(r3)) === void 0 && (f2 = r3), f2 === H && (f2 = void 0), e2.F && d(f2, true), o2) {
+        if (!r3 || "object" != typeof r3) {
+          if (void 0 === (f2 = i3(r3)) && (f2 = r3), f2 === H && (f2 = void 0), e2.F && d(f2, true), o2) {
             var p2 = [], l2 = [];
             b("Patches").M(r3, f2, p2, l2), o2(p2, l2);
           }
@@ -2297,7 +2321,7 @@
         }
         n(21, r3);
       }, this.produceWithPatches = function(n2, r3) {
-        if (typeof n2 == "function")
+        if ("function" == typeof n2)
           return function(r4) {
             for (var t3 = arguments.length, i4 = Array(t3 > 1 ? t3 - 1 : 0), o3 = 1; o3 < t3; o3++)
               i4[o3 - 1] = arguments[o3];
@@ -2308,10 +2332,10 @@
         var t2, i3, o2 = e2.produce(n2, r3, function(n3, r4) {
           t2 = n3, i3 = r4;
         });
-        return typeof Promise != "undefined" && o2 instanceof Promise ? o2.then(function(n3) {
+        return "undefined" != typeof Promise && o2 instanceof Promise ? o2.then(function(n3) {
           return [n3, t2, i3];
         }) : [o2, t2, i3];
-      }, typeof (r2 == null ? void 0 : r2.useProxies) == "boolean" && this.setUseProxies(r2.useProxies), typeof (r2 == null ? void 0 : r2.autoFreeze) == "boolean" && this.setAutoFreeze(r2.autoFreeze);
+      }, "boolean" == typeof (null == r2 ? void 0 : r2.useProxies) && this.setUseProxies(r2.useProxies), "boolean" == typeof (null == r2 ? void 0 : r2.autoFreeze) && this.setAutoFreeze(r2.autoFreeze);
     }
     var i2 = e.prototype;
     return i2.createDraft = function(e2) {
@@ -2330,7 +2354,7 @@
       var e2;
       for (e2 = t2.length - 1; e2 >= 0; e2--) {
         var i3 = t2[e2];
-        if (i3.path.length === 0 && i3.op === "replace") {
+        if (0 === i3.path.length && "replace" === i3.op) {
           n2 = i3.value;
           break;
         }
@@ -2511,7 +2535,9 @@
       return `Argument undefined: "${argName}"`;
     }
     const permittedArgTypes = Array.isArray(argType) ? argType : [argType];
-    const errorDescs = permittedArgTypes.map((argType2) => isFunction2(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)).filter(isString2);
+    const errorDescs = permittedArgTypes.map(
+      (argType2) => isFunction2(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)
+    ).filter(isString2);
     const multipleTypesSpecified = permittedArgTypes.length > 1;
     const shouldError = multipleTypesSpecified ? errorDescs.length > 1 : errorDescs.length;
     if (shouldError) {
@@ -2526,7 +2552,10 @@
         argType
       }));
       return (fnName) => (...args) => {
-        const processedArgs = Array.from(args, (x2) => isArguments(x2) ? Array.from(x2) : x2).flat(1);
+        const processedArgs = Array.from(
+          args,
+          (x2) => isArguments(x2) ? Array.from(x2) : x2
+        ).flat(1);
         const err = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString2);
         if (!err.length) {
           return;
@@ -2680,7 +2709,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingStatement = draftState.statements.find((x2) => x2.id === statement.id);
+        const existingStatement = draftState.statements.find(
+          (x2) => x2.id === statement.id
+        );
         if (existingStatement) {
           existingStatements.push({ newStatement: statement, existingStatement });
           return;
@@ -2704,7 +2735,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingStatement = draftState.statements.find((x2) => x2.id === statement.id);
+        const existingStatement = draftState.statements.find(
+          (x2) => x2.id === statement.id
+        );
         if (!existingStatement) {
           unseenStatements.push(statement);
           return;
@@ -2782,7 +2815,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
 
   // src/common/obis/utils/currency.js
   function convertCentsToDecimal(cents) {
-    if (!cents || typeof cents !== "number") {
+    if (!cents || "number" !== typeof cents) {
       return "-";
     }
     const decimal = cents / 100;
@@ -2814,7 +2847,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     } = fullEntry;
     const dateTime = dateTimeString(date) || "UNKNOWN_DATE";
     const transactionAmount = convertCentsToDecimal(-debit + credit);
-    return dateTime + "_" + md5(dateTime + (index !== void 0 ? index : "") + (accountNumber || "") + (sortCode || "") + (type || "") + (payee || "") + (note || "") + transactionAmount);
+    return dateTime + "_" + md5(
+      dateTime + (void 0 !== index ? index : "") + (accountNumber || "") + (sortCode || "") + (type || "") + (payee || "") + (note || "") + transactionAmount
+    );
   }
 
   // src/plugins/hsbc-uk/api/accounts.js
@@ -2990,23 +3025,26 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     productCategoryCode,
     transactionStartDate,
     transactionEndDate
-  } = {}) => fetch(makeTransactionsUrl({
-    host,
-    accountId,
-    productCategoryCode,
-    transactionStartDate,
-    transactionEndDate
-  }), {
-    method: "GET",
-    headers: {
-      ...buildHeadersFromSiteConfig(),
-      "content-type": "application/json",
-      accept: "application/json, text/plain, */*",
-      adrum: "isAjax:true",
-      token_type: "SESSION_TOKEN",
-      iscacheable: "false"
+  } = {}) => fetch(
+    makeTransactionsUrl({
+      host,
+      accountId,
+      productCategoryCode,
+      transactionStartDate,
+      transactionEndDate
+    }),
+    {
+      method: "GET",
+      headers: {
+        ...buildHeadersFromSiteConfig(),
+        "content-type": "application/json",
+        accept: "application/json, text/plain, */*",
+        adrum: "isAjax:true",
+        token_type: "SESSION_TOKEN",
+        iscacheable: "false"
+      }
     }
-  }).then((res) => res.json()).then((json) => {
+  ).then((res) => res.json()).then((json) => {
     if (!Array.isArray(json.transactionSummary)) {
       console.warn("No transactions found in JSON", { accountId, json });
       return [];
@@ -3055,7 +3093,10 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           const accountsUpdate = accountsResponse.map((accountResponse) => {
             const { sortCodeAndAccountNumber } = accountResponse;
             if (!sortCodeAndAccountNumber) {
-              console.warn("No sortCodeAndAccountNumber in accountResponse", { accountResponse });
+              console.warn(
+                "No sortCodeAndAccountNumber in accountResponse",
+                { accountResponse }
+              );
               return;
             }
             const [sortCode = "", accountNumber = ""] = (sortCodeAndAccountNumber || "").split(" ");
@@ -3072,8 +3113,12 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
               sortCode,
               name: accountResponse.accountHolderName,
               type: accountResponse.productCode,
-              ledgerBalance: Math.round(accountResponse.ledgerBalance * 100),
-              lastUpdatedTimestamp: new Date(accountResponse.lastUpdatedDate).getTime(),
+              ledgerBalance: Math.round(
+                accountResponse.ledgerBalance * 100
+              ),
+              lastUpdatedTimestamp: new Date(
+                accountResponse.lastUpdatedDate
+              ).getTime(),
               iban: LEAVE_UNCHANGED,
               bic: LEAVE_UNCHANGED
             };
@@ -3105,44 +3150,50 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         then: ({ statementsQueries, yearsToDownload }) => {
           const progress = updateProgressBar(statementsQueries.length);
           progress(0);
-          const fetchStatementsJobs = statementsQueries.map((statementsQuery, idx) => {
-            const { accountId, productCategoryCode } = statementsQuery;
-            return pool(() => {
-              progress(idx + 1);
-              return fetchStatementsList(statementsQuery).then(map((statementsResponse) => {
-                const { endDate, accountNumber: mashed } = statementsResponse;
-                const [, sortCode1, sortCode2, sortCode3, accountNumber] = mashed.match(/^(\d{2})(\d{2})(\d{2})(\d{8})$/);
-                const sortCode = `${sortCode1}-${sortCode2}-${sortCode3}`;
-                return {
-                  id: statementsResponse.id,
-                  accountId,
-                  sortCode,
-                  accountNumber,
-                  productCategoryCode,
-                  endDate
-                };
-              }));
-            });
-          });
+          const fetchStatementsJobs = statementsQueries.map(
+            (statementsQuery, idx) => {
+              const { accountId, productCategoryCode } = statementsQuery;
+              return pool(() => {
+                progress(idx + 1);
+                return fetchStatementsList(statementsQuery).then(
+                  map((statementsResponse) => {
+                    const { endDate, accountNumber: mashed } = statementsResponse;
+                    const [, sortCode1, sortCode2, sortCode3, accountNumber] = mashed.match(/^(\d{2})(\d{2})(\d{2})(\d{8})$/);
+                    const sortCode = `${sortCode1}-${sortCode2}-${sortCode3}`;
+                    return {
+                      id: statementsResponse.id,
+                      accountId,
+                      sortCode,
+                      accountNumber,
+                      productCategoryCode,
+                      endDate
+                    };
+                  })
+                );
+              });
+            }
+          );
           Promise.allSettled(fetchStatementsJobs).then(onlyFulfilled).then((allAcctStatements) => {
             const allStatements = allAcctStatements.flat();
             if (allStatements.length === 0) {
               fetcher.emit(actions.error.STATEMENTS);
               return;
             }
-            const statementsUpdate = allStatements.map(({ id, accountId, endDate: endDateString }) => {
-              const endDate = new Date(endDateString);
-              const startDate = new Date(endDate);
-              startDate.setMonth(startDate.getMonth() - 1);
-              return {
-                id,
-                accountId,
-                endDate: endDate.getTime(),
-                startDate: startDate.getTime(),
-                startBalance: LEAVE_UNCHANGED,
-                endBalance: LEAVE_UNCHANGED
-              };
-            });
+            const statementsUpdate = allStatements.map(
+              ({ id, accountId, endDate: endDateString }) => {
+                const endDate = new Date(endDateString);
+                const startDate = new Date(endDate);
+                startDate.setMonth(startDate.getMonth() - 1);
+                return {
+                  id,
+                  accountId,
+                  endDate: endDate.getTime(),
+                  startDate: startDate.getTime(),
+                  startBalance: LEAVE_UNCHANGED,
+                  endBalance: LEAVE_UNCHANGED
+                };
+              }
+            );
             emit(actions.add.STATEMENTS, statementsUpdate);
             emit(actions.got.STATEMENTS, { allStatements, yearsToDownload });
           });
@@ -3151,19 +3202,21 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       "getting-statements -> found-statements": {
         on: actions.got.STATEMENTS,
         then: ({ allStatements, yearsToDownload }) => {
-          const accountsTransactionsQueries = allStatements.map(({ id, accountId, endDate: endDateString, productCategoryCode }) => {
-            const endDate = new Date(endDateString);
-            const startDate = new Date(endDate);
-            startDate.setMonth(startDate.getMonth() - 1);
-            return {
-              host: getHost(),
-              id,
-              accountId,
-              productCategoryCode,
-              transactionStartDate: startDate.toISOString().split("T")[0],
-              transactionEndDate: endDate.toISOString().split("T")[0]
-            };
-          });
+          const accountsTransactionsQueries = allStatements.map(
+            ({ id, accountId, endDate: endDateString, productCategoryCode }) => {
+              const endDate = new Date(endDateString);
+              const startDate = new Date(endDate);
+              startDate.setMonth(startDate.getMonth() - 1);
+              return {
+                host: getHost(),
+                id,
+                accountId,
+                productCategoryCode,
+                transactionStartDate: startDate.toISOString().split("T")[0],
+                transactionEndDate: endDate.toISOString().split("T")[0]
+              };
+            }
+          );
           emit(actions.get.ENTRIES, {
             accountsTransactionsQueries,
             yearsToDownload
@@ -3179,17 +3232,21 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         then: ({ accountsTransactionsQueries, yearsToDownload }) => {
           const progress = updateProgressBar(accountsTransactionsQueries.length);
           progress(0);
-          const fetchAccountsTransactionsJobs = accountsTransactionsQueries.map((query, idx) => {
-            const { id, accountId } = query;
-            return pool(() => {
-              progress(idx + 1);
-              return fetchTransactions(query).then(map((transaction) => ({
-                accountId,
-                statementId: id,
-                ...transaction
-              })));
-            });
-          });
+          const fetchAccountsTransactionsJobs = accountsTransactionsQueries.map(
+            (query, idx) => {
+              const { id, accountId } = query;
+              return pool(() => {
+                progress(idx + 1);
+                return fetchTransactions(query).then(
+                  map((transaction) => ({
+                    accountId,
+                    statementId: id,
+                    ...transaction
+                  }))
+                );
+              });
+            }
+          );
           Promise.allSettled(fetchAccountsTransactionsJobs).then(onlyFulfilled).then((allTransactionsInAccount) => {
             const allTransactions = allTransactionsInAccount.flat();
             if (allTransactions.length === 0) {
@@ -3198,7 +3255,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
             }
             allTransactions.map((transaction) => {
               const { date, debit, credit, type, payee, note } = transaction;
-              const { accountNumber, sortCode } = store().accounts.find((acct) => acct.id === transaction.accountId);
+              const { accountNumber, sortCode } = store().accounts.find(
+                (acct) => acct.id === transaction.accountId
+              );
               return Object.assign(transaction, {
                 id: generateIdForTransaction({
                   date,
