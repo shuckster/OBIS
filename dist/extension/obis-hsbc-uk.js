@@ -12730,7 +12730,19 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         on: actions.get.ACCOUNTS,
         then: (requestedYearsToDownload) => fetchAccounts().then((accountsResponse) => {
           const accountsUpdate = accountsResponse.map((accountResponse) => {
-            const [sortCode, accountNumber] = accountResponse.sortCodeAndAccountNumber.split(" ");
+            const { sortCodeAndAccountNumber } = accountResponse;
+            if (!sortCodeAndAccountNumber) {
+              console.warn("No sortCodeAndAccountNumber in accountResponse", { accountResponse });
+              return;
+            }
+            const [sortCode = "", accountNumber = ""] = (sortCodeAndAccountNumber || "").split(" ");
+            if (!sortCode || !accountNumber) {
+              console.warn("Could not parse sortCodeAndAccountNumber", {
+                sortCodeAndAccountNumber,
+                accountResponse
+              });
+              return;
+            }
             return {
               id: accountResponse.id,
               accountNumber,
@@ -12742,7 +12754,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
               iban: LEAVE_UNCHANGED,
               bic: LEAVE_UNCHANGED
             };
-          });
+          }).filter(Boolean);
           emit(actions.add.ACCOUNTS, accountsUpdate);
           emit(actions.got.ACCOUNTS, {
             accountsResponse,
