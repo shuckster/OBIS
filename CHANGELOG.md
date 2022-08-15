@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+15th August 2022
+
+- Bugfix: Guard against empty accounts/statements/transactions
+- Update dependencies
+
 8th February 2022
 
 - Fix styling of Statements Viewer
