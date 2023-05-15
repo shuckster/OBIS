@@ -13,7 +13,7 @@ const { makeRegExpFromWildcardString } = require('@/cjs/regexp')
 //
 
 const ENV = 'local' // mock-server only ever runs locally
-const NON_PRODUCTION_HOST_PORT = 4000
+const NON_PRODUCTION_HOST_PORT = 4001
 const ROOT_PATH = { local: '' }
 
 // APPLIED CONFIG

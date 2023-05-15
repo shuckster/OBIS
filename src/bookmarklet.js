@@ -20,7 +20,7 @@ if (!('obis' in window)) {
     },
     rootPath:
       process.env.NODE_ENV === 'local'
-        ? 'http://localhost:4000'
+        ? 'http://localhost:4001'
         : 'https://raw.githubusercontent.com/shuckster/OBIS/master/dist/bookmarklet'
   }
 
