@@ -2,7 +2,7 @@ require('module-alias/register')
 
 const fs = require('fs')
 const path = require('path')
-const glob = require('glob')
+const { glob } = require('glob')
 const esbuild = require('esbuild')
 const sassPlugin = require('esbuild-plugin-sass')
 const { composePaths } = require('compose-paths')
@@ -381,14 +381,9 @@ function metaForAllAvailablePlugins() {
 }
 
 function allPluginConfigFiles() {
-  const [promise, resolve, reject] = makePromise()
-
-  glob(paths.SRC_PLUGINS, {}, (err, files) => {
-    return err
-      ? reject(err)
-      : Promise.all(files.map(fileOnly)).then(resolve, reject)
-  })
-  return promise
+  return glob(paths.SRC_PLUGINS, {})
+    .then(files => files.map(fileOnly))
+    .then(filesOnly => Promise.all(filesOnly))
 }
 
 main()
