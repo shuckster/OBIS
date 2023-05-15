@@ -17,6 +17,10 @@
     return to;
   };
   var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
@@ -1479,6 +1483,19 @@
         function Runtime(interpreter) {
           this._interpreter = interpreter;
           this.functionTable = {
+            // name: [function, <signature>]
+            // The <signature> can be:
+            //
+            // {
+            //   args: [[type1, type2], [type1, type2]],
+            //   variadic: true|false
+            // }
+            //
+            // Each arg in the arg list is a list of valid types
+            // (if the function is overloaded and supports multiple
+            // types.  If the type is "any" then no type checking
+            // occurs on the argument.  Variadic is optional
+            // and if not provided is assumed to be false.
             abs: { _func: this._functionAbs, _signature: [{ types: [TYPE_NUMBER] }] },
             avg: { _func: this._functionAvg, _signature: [{ types: [TYPE_ARRAY_NUMBER] }] },
             ceil: { _func: this._functionCeil, _signature: [{ types: [TYPE_NUMBER] }] },
@@ -2032,19 +2049,19 @@
     }
   });
 
-  // node_modules/.pnpm/match-iz@3.9.0/node_modules/match-iz/dist/index.js
+  // node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.js
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@3.9.0/node_modules/match-iz/dist/index.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.js"(exports, module) {
       var I = Object.defineProperty;
       var _ = Object.getOwnPropertyDescriptor;
       var j = Object.getOwnPropertyNames;
       var v = Object.getOwnPropertySymbols;
-      var D = Object.prototype.hasOwnProperty;
+      var F = Object.prototype.hasOwnProperty;
       var L = Object.prototype.propertyIsEnumerable;
       var E = (t, n, e) => n in t ? I(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
       var P = (t, n) => {
         for (var e in n || (n = {}))
-          D.call(n, e) && E(t, e, n[e]);
+          F.call(n, e) && E(t, e, n[e]);
         if (v)
           for (var e of v(n))
             L.call(n, e) && E(t, e, n[e]);
@@ -2053,7 +2070,7 @@
       var q = (t, n) => {
         var e = {};
         for (var o in t)
-          D.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
+          F.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
         if (t != null && v)
           for (var o of v(t))
             n.indexOf(o) < 0 && L.call(t, o) && (e[o] = t[o]);
@@ -2066,26 +2083,26 @@
       var y = (t, n, e, o) => {
         if (n && typeof n == "object" || typeof n == "function")
           for (let r of j(n))
-            !D.call(t, r) && r !== e && I(t, r, { get: () => n[r], enumerable: !(o = _(n, r)) || o.enumerable });
+            !F.call(t, r) && r !== e && I(t, r, { get: () => n[r], enumerable: !(o = _(n, r)) || o.enumerable });
         return t;
       };
       var a = (t) => y(I({}, "__esModule", { value: true }), t);
       var yt = {};
-      R(yt, { against: () => C, allOf: () => Q, anyOf: () => K, cata: () => Tt, deepEq: () => Mt, defined: () => Vt, empty: () => T, endsWith: () => Ct, eq: () => J, every: () => Lt, falsy: () => Yt, firstOf: () => qt, getIterationLimit: () => bt, gt: () => ht, gte: () => Ht, hasOwn: () => Qt, inRange: () => $t, includedIn: () => Jt, includes: () => Gt, instanceOf: () => gt, isArray: () => l, isDate: () => ft, isFunction: () => f, isIterable: () => B, isNumber: () => $, isPojo: () => g, isRegExp: () => W, isStrictly: () => Kt, isString: () => b, lastOf: () => Rt, lt: () => zt, lte: () => Ut, match: () => vt, not: () => Et, otherwise: () => xt, pluck: () => Wt, setIterationLimit: () => Nt, some: () => Pt, spread: () => jt, startsWith: () => Bt, truthy: () => Xt, when: () => Dt });
+      R(yt, { against: () => C, allOf: () => Q, anyOf: () => K, cata: () => Tt, deepEq: () => Mt, defined: () => Vt, empty: () => T, endsWith: () => Ct, eq: () => J, every: () => Lt, falsy: () => Yt, firstOf: () => qt, getIterationLimit: () => bt, gt: () => ht, gte: () => Ht, hasOwn: () => Qt, inRange: () => $t, includedIn: () => Jt, includes: () => Gt, instanceOf: () => gt, isArray: () => l, isDate: () => ft, isFunction: () => f, isIterable: () => B, isNumber: () => $, isPojo: () => g, isRegExp: () => x, isStrictly: () => Kt, isString: () => b, lastOf: () => Rt, lt: () => zt, lte: () => Ut, match: () => vt, not: () => Et, otherwise: () => Dt, pluck: () => xt, setIterationLimit: () => Nt, some: () => Pt, spread: () => jt, startsWith: () => Bt, truthy: () => Xt, when: () => Ft });
       module.exports = a(yt);
       var d = {};
       R(d, { instanceOf: () => p, isArguments: () => h, isArray: () => tt, isDate: () => nt, isFormData: () => mt2, isFunction: () => z, isIterable: () => ut, isMap: () => it, isNumber: () => ot, isObject: () => H, isPojo: () => ct, isRegExp: () => rt, isSet: () => st, isString: () => et2 });
       var V = Object.prototype;
       var k = V.toString;
-      var x = (t) => (n) => typeof n === t;
+      var D = (t) => (n) => typeof n === t;
       var p = (t) => (n) => n instanceof t;
       var { isArray: tt } = Array;
       var h = (t) => k.call(t) === "[object Arguments]";
       var nt = (t) => p(Date)(t) && !isNaN(t);
-      var z = x("function");
-      var et2 = x("string");
-      var ot = (t) => t === t && x("number")(t);
-      var H = (t) => t !== null && x("object")(t);
+      var z = D("function");
+      var et2 = D("string");
+      var ot = (t) => t === t && D("number")(t);
+      var H = (t) => t !== null && D("object")(t);
       var rt = p(RegExp);
       var st = p(Set);
       var it = p(Map);
@@ -2093,7 +2110,7 @@
       var ut = (t) => t != null && [t[Symbol.iterator], t.next].every(z);
       var mt2 = (t) => typeof FormData != "undefined" && p(FormData)(t);
       var { isArguments: lt, isArray: l, isDate: ft, isFunction: f, isNumber: $ } = d;
-      var { isPojo: g, isRegExp: W, isString: b, instanceOf: gt } = d;
+      var { isPojo: g, isRegExp: x, isString: b, instanceOf: gt } = d;
       var { isMap: pt, isSet: Ot, isIterable: B, isFormData: wt } = d;
       var { keys: w, entries: St, assign: dt } = Object;
       var O = 2e4;
@@ -2131,32 +2148,32 @@
       };
       var G = Symbol("@@match-iz/otherwise");
       var It = (t) => (t == null ? void 0 : t[G]) === true;
-      var xt = (t) => {
+      var Dt = (t) => {
         let n = (e) => ({ matched: () => true, value: () => f(t) ? t(e) : t });
         return n[G] = true, n;
       };
-      var F = (t) => (n) => (e) => ({ matched: () => i(t, e, (o) => e = o), value: () => f(n) ? b(e) && W(t) ? n(...Ft(e.match(t))) : n(e) : n });
-      var Dt = (...t) => {
+      var W = (t) => (n) => (e) => ({ matched: () => i(t, e, (o) => e = o), value: () => f(n) ? b(e) && x(t) ? n(...Wt(e.match(t))) : n(e) : n });
+      var Ft = (...t) => {
         if (t.length === 1) {
           let [n] = t;
-          return F(n);
+          return W(n);
         }
         if (t.length === 2) {
           let [n, e] = t;
-          return F(n)(e);
+          return W(n)(e);
         }
         if (t.length > 2) {
           let n = t.slice(-1)[0], e = t.slice(0, -1);
-          return F(Q(e))(n);
+          return W(Q(e))(n);
         }
         throw new Error("Expected at least 1 argument");
       };
-      var Ft = (t) => {
+      var Wt = (t) => {
         let { groups: n } = t;
         return n ? [n, t] : [t];
       };
-      var i = (t, n, e) => g(t) ? w(t).every((o) => i(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r) => i(o, n == null ? void 0 : n[r], e)) : f(t) ? t(n, e) : b(n) && W(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-      var Wt = (...t) => (n, e) => t.length === 0 || (f(t[0]) ? t[0](n) : i(t[0], n, e)) ? (e(n), true) : false;
+      var i = (t, n, e) => g(t) ? w(t).every((o) => i(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r) => i(o, n == null ? void 0 : n[r], e)) : f(t) ? t(n, e) : b(n) && x(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+      var xt = (...t) => (n, e) => t.length === 0 || (f(t[0]) ? t[0](n) : i(t[0], n, e)) ? (e(n), true) : false;
       var At = (t, n) => [t, n].every(g) ? w(t).length === w(n).length : true;
       var J = (t) => (n, e) => At(t, n) && i(t, n, e);
       var Mt = (t) => A(t, (n) => g(n) ? J(n) : n);
@@ -2308,8 +2325,77 @@
   var u8 = Uint8Array;
   var u16 = Uint16Array;
   var u32 = Uint32Array;
-  var fleb = new u8([0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 0, 0, 0]);
-  var fdeb = new u8([0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 0, 0]);
+  var fleb = new u8([
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5,
+    5,
+    0,
+    /* unused */
+    0,
+    0,
+    /* impossible */
+    0
+  ]);
+  var fdeb = new u8([
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    4,
+    4,
+    5,
+    5,
+    6,
+    6,
+    7,
+    7,
+    8,
+    8,
+    9,
+    9,
+    10,
+    10,
+    11,
+    11,
+    12,
+    12,
+    13,
+    13,
+    /* unused */
+    0,
+    0
+  ]);
   var clim = new u8([16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]);
   var freb = function(eb, start) {
     var b = new u16(31);
@@ -2422,6 +2508,7 @@
     "filename too long",
     "stream finishing",
     "invalid zip data"
+    // determined by unknown compression method
   ];
   var err = function(ind, msg, nt) {
     var e = new Error(msg || ec[ind]);
@@ -3064,7 +3151,7 @@
     } };
   }
 
-  // node_modules/.pnpm/statebot@3.0.5/node_modules/statebot/dist/esm/statebot.js
+  // node_modules/.pnpm/statebot@3.1.3/node_modules/statebot/dist/esm/statebot.mjs
   function isEventEmitter(obj) {
     return isObject(obj) && isFunction2(obj.emit) && (isFunction2(obj.addListener) || isFunction2(obj.on)) && (isFunction2(obj.removeListener) || isFunction2(obj.off));
   }

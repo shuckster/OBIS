@@ -17,172 +17,176 @@
     return to;
   };
   var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
 
-  // node_modules/.pnpm/match-iz@3.9.0/node_modules/match-iz/dist/index.js
+  // node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.js
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@3.9.0/node_modules/match-iz/dist/index.js"(exports, module) {
-      var I2 = Object.defineProperty;
-      var _2 = Object.getOwnPropertyDescriptor;
-      var j2 = Object.getOwnPropertyNames;
-      var v2 = Object.getOwnPropertySymbols;
-      var D2 = Object.prototype.hasOwnProperty;
-      var L2 = Object.prototype.propertyIsEnumerable;
-      var E2 = (t2, n2, e) => n2 in t2 ? I2(t2, n2, { enumerable: true, configurable: true, writable: true, value: e }) : t2[n2] = e;
-      var P2 = (t2, n2) => {
-        for (var e in n2 || (n2 = {}))
-          D2.call(n2, e) && E2(t2, e, n2[e]);
-        if (v2)
-          for (var e of v2(n2))
-            L2.call(n2, e) && E2(t2, e, n2[e]);
-        return t2;
+    "node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.js"(exports, module) {
+      var I = Object.defineProperty;
+      var _ = Object.getOwnPropertyDescriptor;
+      var j = Object.getOwnPropertyNames;
+      var v = Object.getOwnPropertySymbols;
+      var F = Object.prototype.hasOwnProperty;
+      var L = Object.prototype.propertyIsEnumerable;
+      var E = (t, n, e) => n in t ? I(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
+      var P = (t, n) => {
+        for (var e in n || (n = {}))
+          F.call(n, e) && E(t, e, n[e]);
+        if (v)
+          for (var e of v(n))
+            L.call(n, e) && E(t, e, n[e]);
+        return t;
       };
-      var q2 = (t2, n2) => {
+      var q = (t, n) => {
         var e = {};
-        for (var o2 in t2)
-          D2.call(t2, o2) && n2.indexOf(o2) < 0 && (e[o2] = t2[o2]);
-        if (t2 != null && v2)
-          for (var o2 of v2(t2))
-            n2.indexOf(o2) < 0 && L2.call(t2, o2) && (e[o2] = t2[o2]);
+        for (var o in t)
+          F.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
+        if (t != null && v)
+          for (var o of v(t))
+            n.indexOf(o) < 0 && L.call(t, o) && (e[o] = t[o]);
         return e;
       };
-      var R2 = (t2, n2) => {
-        for (var e in n2)
-          I2(t2, e, { get: n2[e], enumerable: true });
+      var R = (t, n) => {
+        for (var e in n)
+          I(t, e, { get: n[e], enumerable: true });
       };
-      var y2 = (t2, n2, e, o2) => {
-        if (n2 && typeof n2 == "object" || typeof n2 == "function")
-          for (let r2 of j2(n2))
-            !D2.call(t2, r2) && r2 !== e && I2(t2, r2, { get: () => n2[r2], enumerable: !(o2 = _2(n2, r2)) || o2.enumerable });
-        return t2;
+      var y = (t, n, e, o) => {
+        if (n && typeof n == "object" || typeof n == "function")
+          for (let r of j(n))
+            !F.call(t, r) && r !== e && I(t, r, { get: () => n[r], enumerable: !(o = _(n, r)) || o.enumerable });
+        return t;
       };
-      var a2 = (t2) => y2(I2({}, "__esModule", { value: true }), t2);
+      var a = (t) => y(I({}, "__esModule", { value: true }), t);
       var yt = {};
-      R2(yt, { against: () => C, allOf: () => Q2, anyOf: () => K, cata: () => Tt, deepEq: () => Mt, defined: () => Vt, empty: () => T, endsWith: () => Ct, eq: () => J, every: () => Lt, falsy: () => Yt, firstOf: () => qt, getIterationLimit: () => bt, gt: () => ht, gte: () => Ht, hasOwn: () => Qt, inRange: () => $t, includedIn: () => Jt, includes: () => Gt, instanceOf: () => gt, isArray: () => l2, isDate: () => ft, isFunction: () => f2, isIterable: () => B2, isNumber: () => $, isPojo: () => g2, isRegExp: () => W2, isStrictly: () => Kt, isString: () => b2, lastOf: () => Rt, lt: () => zt, lte: () => Ut, match: () => vt, not: () => Et, otherwise: () => xt, pluck: () => Wt, setIterationLimit: () => Nt, some: () => Pt, spread: () => jt, startsWith: () => Bt, truthy: () => Xt, when: () => Dt });
-      module.exports = a2(yt);
-      var d2 = {};
-      R2(d2, { instanceOf: () => p2, isArguments: () => h2, isArray: () => tt, isDate: () => nt, isFormData: () => mt, isFunction: () => z2, isIterable: () => ut, isMap: () => it, isNumber: () => ot, isObject: () => H2, isPojo: () => ct, isRegExp: () => rt, isSet: () => st, isString: () => et });
+      R(yt, { against: () => C, allOf: () => Q, anyOf: () => K, cata: () => Tt, deepEq: () => Mt, defined: () => Vt, empty: () => T, endsWith: () => Ct, eq: () => J, every: () => Lt, falsy: () => Yt, firstOf: () => qt, getIterationLimit: () => bt, gt: () => ht, gte: () => Ht, hasOwn: () => Qt, inRange: () => $t, includedIn: () => Jt, includes: () => Gt, instanceOf: () => gt, isArray: () => l, isDate: () => ft, isFunction: () => f, isIterable: () => B, isNumber: () => $, isPojo: () => g, isRegExp: () => x, isStrictly: () => Kt, isString: () => b, lastOf: () => Rt, lt: () => zt, lte: () => Ut, match: () => vt, not: () => Et, otherwise: () => Dt, pluck: () => xt, setIterationLimit: () => Nt, some: () => Pt, spread: () => jt, startsWith: () => Bt, truthy: () => Xt, when: () => Ft });
+      module.exports = a(yt);
+      var d = {};
+      R(d, { instanceOf: () => p, isArguments: () => h, isArray: () => tt, isDate: () => nt, isFormData: () => mt, isFunction: () => z, isIterable: () => ut, isMap: () => it, isNumber: () => ot, isObject: () => H, isPojo: () => ct, isRegExp: () => rt, isSet: () => st, isString: () => et });
       var V = Object.prototype;
-      var k2 = V.toString;
-      var x2 = (t2) => (n2) => typeof n2 === t2;
-      var p2 = (t2) => (n2) => n2 instanceof t2;
+      var k = V.toString;
+      var D = (t) => (n) => typeof n === t;
+      var p = (t) => (n) => n instanceof t;
       var { isArray: tt } = Array;
-      var h2 = (t2) => k2.call(t2) === "[object Arguments]";
-      var nt = (t2) => p2(Date)(t2) && !isNaN(t2);
-      var z2 = x2("function");
-      var et = x2("string");
-      var ot = (t2) => t2 === t2 && x2("number")(t2);
-      var H2 = (t2) => t2 !== null && x2("object")(t2);
-      var rt = p2(RegExp);
-      var st = p2(Set);
-      var it = p2(Map);
-      var ct = (t2) => t2 === null || !H2(t2) || h2(t2) ? false : Object.getPrototypeOf(t2) === V;
-      var ut = (t2) => t2 != null && [t2[Symbol.iterator], t2.next].every(z2);
-      var mt = (t2) => typeof FormData != "undefined" && p2(FormData)(t2);
-      var { isArguments: lt, isArray: l2, isDate: ft, isFunction: f2, isNumber: $ } = d2;
-      var { isPojo: g2, isRegExp: W2, isString: b2, instanceOf: gt } = d2;
-      var { isMap: pt, isSet: Ot, isIterable: B2, isFormData: wt } = d2;
-      var { keys: w2, entries: St, assign: dt } = Object;
-      var O2 = 2e4;
-      var bt = () => O2;
-      var Nt = (t2) => {
-        let n2 = O2;
-        return O2 = t2, () => O2 = n2;
+      var h = (t) => k.call(t) === "[object Arguments]";
+      var nt = (t) => p(Date)(t) && !isNaN(t);
+      var z = D("function");
+      var et = D("string");
+      var ot = (t) => t === t && D("number")(t);
+      var H = (t) => t !== null && D("object")(t);
+      var rt = p(RegExp);
+      var st = p(Set);
+      var it = p(Map);
+      var ct = (t) => t === null || !H(t) || h(t) ? false : Object.getPrototypeOf(t) === V;
+      var ut = (t) => t != null && [t[Symbol.iterator], t.next].every(z);
+      var mt = (t) => typeof FormData != "undefined" && p(FormData)(t);
+      var { isArguments: lt, isArray: l, isDate: ft, isFunction: f, isNumber: $ } = d;
+      var { isPojo: g, isRegExp: x, isString: b, instanceOf: gt } = d;
+      var { isMap: pt, isSet: Ot, isIterable: B, isFormData: wt } = d;
+      var { keys: w, entries: St, assign: dt } = Object;
+      var O = 2e4;
+      var bt = () => O;
+      var Nt = (t) => {
+        let n = O;
+        return O = t, () => O = n;
       };
-      function vt(t2) {
-        return (...n2) => C(...n2)(t2);
+      function vt(t) {
+        return (...n) => C(...n)(t);
       }
-      var C = (...t2) => (n2) => {
-        let [e, o2] = lt(n2) ? [{}, Array.from(n2)] : pt(n2) || wt(n2) ? [{ isMap: true }, n2.entries()] : Ot(n2) ? [{ isSet: true }, n2.values()] : [{}, n2];
-        if (!B2(o2))
-          return U2(...t2)(o2).result;
-        let [r2, u2] = t2.reduce(([s2, m], S2) => It(S2) ? [S2, m] : [s2, [...m, S2]], [() => ({ value: () => {
-        } }), []]), c2 = [];
+      var C = (...t) => (n) => {
+        let [e, o] = lt(n) ? [{}, Array.from(n)] : pt(n) || wt(n) ? [{ isMap: true }, n.entries()] : Ot(n) ? [{ isSet: true }, n.values()] : [{}, n];
+        if (!B(o))
+          return U(...t)(o).result;
+        let [r, u] = t.reduce(([s, m], S) => It(S) ? [S, m] : [s, [...m, S]], [() => ({ value: () => {
+        } }), []]), c = [];
         do {
-          let { value: s2, done: m } = o2.next();
+          let { value: s, done: m } = o.next();
           if (m)
-            return r2().value();
-          c2.push(s2);
-          let { found: S2, result: Z2 } = U2(...u2)(e.isSet ? s2 : e.isMap ? { key: s2[0], value: s2[1] } : [...c2]);
-          if (S2)
-            return Z2;
-        } while (c2.length < O2 || e.isSet || e.isMap);
-        throw new Error(`Hit iterationLimit: ${O2}. Use setIterationLimit(Infinity) to disable.`);
+            return r().value();
+          c.push(s);
+          let { found: S, result: Z } = U(...u)(e.isSet ? s : e.isMap ? { key: s[0], value: s[1] } : [...c]);
+          if (S)
+            return Z;
+        } while (c.length < O || e.isSet || e.isMap);
+        throw new Error(`Hit iterationLimit: ${O}. Use setIterationLimit(Infinity) to disable.`);
       };
-      var U2 = (...t2) => {
-        let n2;
-        return (e) => ({ found: !!t2.find((r2) => {
-          let u2 = r2(e), { matched: c2, value: s2 } = u2 || {};
-          return [c2, s2].every(f2) ? c2(e) && (n2 = s2(e), true) : u2 && (n2 = u2);
-        }), result: n2 });
+      var U = (...t) => {
+        let n;
+        return (e) => ({ found: !!t.find((r) => {
+          let u = r(e), { matched: c, value: s } = u || {};
+          return [c, s].every(f) ? c(e) && (n = s(e), true) : u && (n = u);
+        }), result: n });
       };
-      var G2 = Symbol("@@match-iz/otherwise");
-      var It = (t2) => (t2 == null ? void 0 : t2[G2]) === true;
-      var xt = (t2) => {
-        let n2 = (e) => ({ matched: () => true, value: () => f2(t2) ? t2(e) : t2 });
-        return n2[G2] = true, n2;
+      var G = Symbol("@@match-iz/otherwise");
+      var It = (t) => (t == null ? void 0 : t[G]) === true;
+      var Dt = (t) => {
+        let n = (e) => ({ matched: () => true, value: () => f(t) ? t(e) : t });
+        return n[G] = true, n;
       };
-      var F2 = (t2) => (n2) => (e) => ({ matched: () => i2(t2, e, (o2) => e = o2), value: () => f2(n2) ? b2(e) && W2(t2) ? n2(...Ft(e.match(t2))) : n2(e) : n2 });
-      var Dt = (...t2) => {
-        if (t2.length === 1) {
-          let [n2] = t2;
-          return F2(n2);
+      var W = (t) => (n) => (e) => ({ matched: () => i(t, e, (o) => e = o), value: () => f(n) ? b(e) && x(t) ? n(...Wt(e.match(t))) : n(e) : n });
+      var Ft = (...t) => {
+        if (t.length === 1) {
+          let [n] = t;
+          return W(n);
         }
-        if (t2.length === 2) {
-          let [n2, e] = t2;
-          return F2(n2)(e);
+        if (t.length === 2) {
+          let [n, e] = t;
+          return W(n)(e);
         }
-        if (t2.length > 2) {
-          let n2 = t2.slice(-1)[0], e = t2.slice(0, -1);
-          return F2(Q2(e))(n2);
+        if (t.length > 2) {
+          let n = t.slice(-1)[0], e = t.slice(0, -1);
+          return W(Q(e))(n);
         }
         throw new Error("Expected at least 1 argument");
       };
-      var Ft = (t2) => {
-        let { groups: n2 } = t2;
-        return n2 ? [n2, t2] : [t2];
+      var Wt = (t) => {
+        let { groups: n } = t;
+        return n ? [n, t] : [t];
       };
-      var i2 = (t2, n2, e) => g2(t2) ? w2(t2).every((o2) => i2(t2[o2], n2 == null ? void 0 : n2[o2], e)) : l2(t2) ? l2(n2) && t2.length === n2.length && t2.every((o2, r2) => i2(o2, n2 == null ? void 0 : n2[r2], e)) : f2(t2) ? t2(n2, e) : b2(n2) && W2(t2) ? t2.test(n2) : t2 === n2 || [t2, n2].every(Number.isNaN);
-      var Wt = (...t2) => (n2, e) => t2.length === 0 || (f2(t2[0]) ? t2[0](n2) : i2(t2[0], n2, e)) ? (e(n2), true) : false;
-      var At = (t2, n2) => [t2, n2].every(g2) ? w2(t2).length === w2(n2).length : true;
-      var J = (t2) => (n2, e) => At(t2, n2) && i2(t2, n2, e);
-      var Mt = (t2) => A2(t2, (n2) => g2(n2) ? J(n2) : n2);
-      var Et = (t2) => (n2, e) => !i2(t2, n2, e);
-      var K = (...t2) => (n2, e) => t2.flat().some((o2) => i2(o2, n2, e));
-      var Q2 = (...t2) => (n2, e) => t2.flat().every((o2) => i2(o2, n2, e));
-      var Lt = (t2) => Y((n2) => n2.every((e) => i2(t2, e)));
-      var Pt = (t2) => Y((n2) => n2.some((e) => i2(t2, e)));
-      var qt = (...t2) => M2((n2, e) => t2.length <= n2.length && i2(t2, n2.slice(0, t2.length), e));
-      var Rt = (...t2) => M2((n2, e) => t2.length <= n2.length && i2(t2, n2.slice(n2.length - t2.length), e));
-      var T = (t2) => t2 !== t2 || !t2 && t2 !== 0 && t2 !== false || l2(t2) && !t2.length || g2(t2) && !w2(t2).length;
-      var Vt = (t2) => !T(t2);
-      var ht = (t2) => N((n2) => n2 > t2);
-      var zt = (t2) => N((n2) => n2 < t2);
-      var Ht = (t2) => N((n2) => n2 >= t2);
-      var Ut = (t2) => N((n2) => n2 <= t2);
-      var $t = (t2, n2) => N((e) => e >= Math.min(t2, n2) && e <= Math.max(t2, n2));
-      var Bt = (t2) => X2((n2) => n2.startsWith(t2));
-      var Ct = (t2) => X2((n2) => n2.endsWith(t2));
-      var Gt = (t2) => M2((n2) => n2.includes(t2));
+      var i = (t, n, e) => g(t) ? w(t).every((o) => i(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r) => i(o, n == null ? void 0 : n[r], e)) : f(t) ? t(n, e) : b(n) && x(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+      var xt = (...t) => (n, e) => t.length === 0 || (f(t[0]) ? t[0](n) : i(t[0], n, e)) ? (e(n), true) : false;
+      var At = (t, n) => [t, n].every(g) ? w(t).length === w(n).length : true;
+      var J = (t) => (n, e) => At(t, n) && i(t, n, e);
+      var Mt = (t) => A(t, (n) => g(n) ? J(n) : n);
+      var Et = (t) => (n, e) => !i(t, n, e);
+      var K = (...t) => (n, e) => t.flat().some((o) => i(o, n, e));
+      var Q = (...t) => (n, e) => t.flat().every((o) => i(o, n, e));
+      var Lt = (t) => Y((n) => n.every((e) => i(t, e)));
+      var Pt = (t) => Y((n) => n.some((e) => i(t, e)));
+      var qt = (...t) => M((n, e) => t.length <= n.length && i(t, n.slice(0, t.length), e));
+      var Rt = (...t) => M((n, e) => t.length <= n.length && i(t, n.slice(n.length - t.length), e));
+      var T = (t) => t !== t || !t && t !== 0 && t !== false || l(t) && !t.length || g(t) && !w(t).length;
+      var Vt = (t) => !T(t);
+      var ht = (t) => N((n) => n > t);
+      var zt = (t) => N((n) => n < t);
+      var Ht = (t) => N((n) => n >= t);
+      var Ut = (t) => N((n) => n <= t);
+      var $t = (t, n) => N((e) => e >= Math.min(t, n) && e <= Math.max(t, n));
+      var Bt = (t) => X((n) => n.startsWith(t));
+      var Ct = (t) => X((n) => n.endsWith(t));
+      var Gt = (t) => M((n) => n.includes(t));
       var Jt = K;
-      var Kt = (t2) => (n2) => n2 === t2;
-      var Qt = (...t2) => (n2) => g2(n2) && (([e, o2]) => e.length && e.every((r2) => o2.includes(r2)))([t2.flat(), w2(n2)]);
+      var Kt = (t) => (n) => n === t;
+      var Qt = (...t) => (n) => g(n) && (([e, o]) => e.length && e.every((r) => o.includes(r)))([t.flat(), w(n)]);
       var Tt = (e) => {
-        var o2 = e, { getValue: t2 } = o2, n2 = q2(o2, ["getValue"]);
-        return St(n2).reduce((r2, [u2, c2]) => dt(r2, { [u2]: (s2) => (m) => ({ matched: () => c2(m), value: () => f2(s2) ? s2(t2(m)) : s2 }) }), {});
+        var o = e, { getValue: t } = o, n = q(o, ["getValue"]);
+        return St(n).reduce((r, [u, c]) => dt(r, { [u]: (s) => (m) => ({ matched: () => c(m), value: () => f(s) ? s(t(m)) : s }) }), {});
       };
-      var Xt = (t2) => !!t2;
-      var Yt = (t2) => !t2;
-      var Zt = (t2) => (n2, e) => (n2[e] = A2(n2[e], t2), n2);
-      var _t = (t2) => (n2) => A2(n2, t2);
-      var A2 = (t2, n2) => n2(g2(t2) ? w2(t2).reduce(Zt(n2), P2({}, t2)) : l2(t2) ? t2.map(_t(n2)) : t2);
-      var jt = (t2) => new Proxy({}, { get: () => t2 });
-      var X2 = (t2) => (n2) => b2(n2) && t2(n2);
-      var N = (t2) => (n2) => $(n2) && t2(n2);
-      var Y = (t2) => (n2, e) => l2(n2) && t2(n2, e);
-      var M2 = (t2) => (n2, e) => (l2(n2) || b2(n2)) && t2(n2, e);
+      var Xt = (t) => !!t;
+      var Yt = (t) => !t;
+      var Zt = (t) => (n, e) => (n[e] = A(n[e], t), n);
+      var _t = (t) => (n) => A(n, t);
+      var A = (t, n) => n(g(t) ? w(t).reduce(Zt(n), P({}, t)) : l(t) ? t.map(_t(n)) : t);
+      var jt = (t) => new Proxy({}, { get: () => t });
+      var X = (t) => (n) => b(n) && t(n);
+      var N = (t) => (n) => $(n) && t(n);
+      var Y = (t) => (n, e) => l(n) && t(n, e);
+      var M = (t) => (n, e) => (l(n) || b(n)) && t(n, e);
     }
   });
 
@@ -190,31 +194,31 @@
   var require_fp = __commonJS({
     "src/common/cjs/fp.js"(exports, module) {
       function compose(...fns) {
-        return (...x2) => fns.reduceRight((g2, f2) => [f2(...g2)], x2)[0];
+        return (...x) => fns.reduceRight((g, f) => [f(...g)], x)[0];
       }
       function flow(...fns) {
-        return (...x2) => fns.reduce((g2, f2) => [f2(...g2)], x2)[0];
+        return (...x) => fns.reduce((g, f) => [f(...g)], x)[0];
       }
-      function pipe(x2, ...fns) {
-        return fns.reduce((g2, f2) => f2(g2), x2);
+      function pipe(x, ...fns) {
+        return fns.reduce((g, f) => f(g), x);
       }
-      function flip(fn2) {
-        return (...x2) => (...y2) => fn2(...y2)(...x2);
+      function flip(fn) {
+        return (...x) => (...y) => fn(...y)(...x);
       }
-      function do_(f2) {
-        return f2();
+      function do_(f) {
+        return f();
       }
-      function memo(fn2) {
+      function memo(fn) {
         const table = /* @__PURE__ */ new Map();
-        return (x2) => table.has(x2) ? table.get(x2) : table.set(x2, fn2(x2)).get(x2);
+        return (x) => table.has(x) ? table.get(x) : table.set(x, fn(x)).get(x);
       }
-      function cache(fn2) {
+      function cache(fn) {
         const cache2 = /* @__PURE__ */ new Map();
-        return (x2) => cache2.has(x2) ? cache2.get(x2) : cache2.set(x2, fn2(x2, invalidater(cache2, x2))).get(x2);
+        return (x) => cache2.has(x) ? cache2.get(x) : cache2.set(x, fn(x, invalidater(cache2, x))).get(x);
       }
-      var invalidater = (cache2, x2) => () => cache2.delete(x2);
-      function aside(fn2) {
-        return (x2) => (fn2(x2), x2);
+      var invalidater = (cache2, x) => () => cache2.delete(x);
+      function aside(fn) {
+        return (x) => (fn(x), x);
       }
       module.exports = {
         compose,
@@ -239,7 +243,7 @@
           throw new TypeError("Please pass a non-empty string");
         }
         return pipe(
-          str.replace(rxConsecutiveWildcards(), "*").split("*").map((x2) => x2.trim()).map(escapeStringForRegExp),
+          str.replace(rxConsecutiveWildcards(), "*").split("*").map((x) => x.trim()).map(escapeStringForRegExp),
           against2(
             when2(hasNoWildcards)(templateMatchExact),
             when2(hasNoWildcardAtStart)(flow(insertWildcards, templateMatchStart)),
@@ -251,13 +255,13 @@
       });
       var rxEscape = () => /[.*+?^${}()|[\]\\]/g;
       var rxConsecutiveWildcards = () => /\*{2,}/g;
-      var hasNoWildcards = (x2) => x2.length === 1;
-      var hasNoWildcardAtStart = (x2) => x2.at(0) !== "";
-      var hasNoWildcardAtEnd = (x2) => x2.at(-1) !== "";
-      var insertWildcards = (x2) => x2.join("(.*)");
-      var templateMatchExact = ([x2]) => `^${x2}$`;
-      var templateMatchStart = (x2) => `^${x2}`;
-      var templateMatchEnd = (x2) => `${x2}$`;
+      var hasNoWildcards = (x) => x.length === 1;
+      var hasNoWildcardAtStart = (x) => x.at(0) !== "";
+      var hasNoWildcardAtEnd = (x) => x.at(-1) !== "";
+      var insertWildcards = (x) => x.join("(.*)");
+      var templateMatchExact = ([x]) => `^${x}$`;
+      var templateMatchStart = (x) => `^${x}`;
+      var templateMatchEnd = (x) => `${x}$`;
       function escapeStringForRegExp(str) {
         if (!isString3(str)) {
           throw new TypeError("Please pass a string");
@@ -302,8 +306,8 @@
             if (first.length !== second.length) {
               return false;
             }
-            for (var i2 = 0; i2 < first.length; i2++) {
-              if (strictDeepEqual(first[i2], second[i2]) === false) {
+            for (var i = 0; i < first.length; i++) {
+              if (strictDeepEqual(first[i], second[i]) === false) {
                 return false;
               }
             }
@@ -349,18 +353,18 @@
         function objValues(obj) {
           var keys = Object.keys(obj);
           var values = [];
-          for (var i2 = 0; i2 < keys.length; i2++) {
-            values.push(obj[keys[i2]]);
+          for (var i = 0; i < keys.length; i++) {
+            values.push(obj[keys[i]]);
           }
           return values;
         }
-        function merge(a2, b2) {
+        function merge(a, b) {
           var merged = {};
-          for (var key in a2) {
-            merged[key] = a2[key];
+          for (var key in a) {
+            merged[key] = a[key];
           }
-          for (var key2 in b2) {
-            merged[key2] = b2[key2];
+          for (var key2 in b) {
+            merged[key2] = b[key2];
           }
           return merged;
         }
@@ -555,13 +559,13 @@
             this._current++;
             var maxLength = stream.length;
             while (stream[this._current] !== '"' && this._current < maxLength) {
-              var current = this._current;
-              if (stream[current] === "\\" && (stream[current + 1] === "\\" || stream[current + 1] === '"')) {
-                current += 2;
+              var current2 = this._current;
+              if (stream[current2] === "\\" && (stream[current2 + 1] === "\\" || stream[current2 + 1] === '"')) {
+                current2 += 2;
               } else {
-                current++;
+                current2++;
               }
-              this._current = current;
+              this._current = current2;
             }
             this._current++;
             return JSON.parse(stream.slice(start, this._current));
@@ -571,13 +575,13 @@
             this._current++;
             var maxLength = stream.length;
             while (stream[this._current] !== "'" && this._current < maxLength) {
-              var current = this._current;
-              if (stream[current] === "\\" && (stream[current + 1] === "\\" || stream[current + 1] === "'")) {
-                current += 2;
+              var current2 = this._current;
+              if (stream[current2] === "\\" && (stream[current2 + 1] === "\\" || stream[current2 + 1] === "'")) {
+                current2 += 2;
               } else {
-                current++;
+                current2++;
               }
-              this._current = current;
+              this._current = current2;
             }
             this._current++;
             var literal = stream.slice(start + 1, this._current - 1);
@@ -644,13 +648,13 @@
             var maxLength = stream.length;
             var literal;
             while (stream[this._current] !== "`" && this._current < maxLength) {
-              var current = this._current;
-              if (stream[current] === "\\" && (stream[current + 1] === "\\" || stream[current + 1] === "`")) {
-                current += 2;
+              var current2 = this._current;
+              if (stream[current2] === "\\" && (stream[current2 + 1] === "\\" || stream[current2 + 1] === "`")) {
+                current2 += 2;
               } else {
-                current++;
+                current2++;
               }
-              this._current = current;
+              this._current = current2;
             }
             var literalString = trimLeft(stream.slice(start, this._current));
             literalString = literalString.replace("\\`", "`");
@@ -720,9 +724,9 @@
             this.index = 0;
             var ast = this.expression(0);
             if (this._lookahead(0) !== TOK_EOF) {
-              var t2 = this._lookaheadToken(0);
+              var t = this._lookaheadToken(0);
               var error = new Error(
-                "Unexpected token type: " + t2.type + ", value: " + t2.value
+                "Unexpected token type: " + t.type + ", value: " + t.value
               );
               error.name = "ParserError";
               throw error;
@@ -905,8 +909,8 @@
             if (this._lookahead(0) === tokenType) {
               this._advance();
             } else {
-              var t2 = this._lookaheadToken(0);
-              var error = new Error("Expected " + tokenType + ", got: " + t2.type);
+              var t = this._lookaheadToken(0);
+              var error = new Error("Expected " + tokenType + ", got: " + t.type);
               error.name = "ParserError";
               throw error;
             }
@@ -952,8 +956,8 @@
                 parts[index] = this._lookaheadToken(0).value;
                 this._advance();
               } else {
-                var t2 = this._lookahead(0);
-                var error = new Error("Syntax error, unexpected token: " + t2.value + "(" + t2.type + ")");
+                var t = this._lookahead(0);
+                var error = new Error("Syntax error, unexpected token: " + t.value + "(" + t.type + ")");
                 error.name = "Parsererror";
                 throw error;
               }
@@ -994,8 +998,8 @@
               this._match(TOK_DOT);
               right = this._parseDotRHS(rbp);
             } else {
-              var t2 = this._lookaheadToken(0);
-              var error = new Error("Sytanx error, unexpected token: " + t2.value + "(" + t2.type + ")");
+              var t = this._lookaheadToken(0);
+              var error = new Error("Sytanx error, unexpected token: " + t.value + "(" + t.type + ")");
               error.name = "ParserError";
               throw error;
             }
@@ -1049,7 +1053,7 @@
             return this.visit(node, value);
           },
           visit: function(node, value) {
-            var matched, current, result, first, second, field, left, right, collected, i2;
+            var matched, current2, result, first, second, field, left, right, collected, i;
             switch (node.type) {
               case "Field":
                 if (value !== null && isObject2(value)) {
@@ -1063,7 +1067,7 @@
                 return null;
               case "Subexpression":
                 result = this.visit(node.children[0], value);
-                for (i2 = 1; i2 < node.children.length; i2++) {
+                for (i = 1; i < node.children.length; i++) {
                   result = this.visit(node.children[1], result);
                   if (result === null) {
                     return null;
@@ -1098,12 +1102,12 @@
                 var step = computed[2];
                 result = [];
                 if (step > 0) {
-                  for (i2 = start; i2 < stop; i2 += step) {
-                    result.push(value[i2]);
+                  for (i = start; i < stop; i += step) {
+                    result.push(value[i]);
                   }
                 } else {
-                  for (i2 = start; i2 > stop; i2 += step) {
-                    result.push(value[i2]);
+                  for (i = start; i > stop; i += step) {
+                    result.push(value[i]);
                   }
                 }
                 return result;
@@ -1113,10 +1117,10 @@
                   return null;
                 }
                 collected = [];
-                for (i2 = 0; i2 < base.length; i2++) {
-                  current = this.visit(node.children[1], base[i2]);
-                  if (current !== null) {
-                    collected.push(current);
+                for (i = 0; i < base.length; i++) {
+                  current2 = this.visit(node.children[1], base[i]);
+                  if (current2 !== null) {
+                    collected.push(current2);
                   }
                 }
                 return collected;
@@ -1127,10 +1131,10 @@
                 }
                 collected = [];
                 var values = objValues(base);
-                for (i2 = 0; i2 < values.length; i2++) {
-                  current = this.visit(node.children[1], values[i2]);
-                  if (current !== null) {
-                    collected.push(current);
+                for (i = 0; i < values.length; i++) {
+                  current2 = this.visit(node.children[1], values[i]);
+                  if (current2 !== null) {
+                    collected.push(current2);
                   }
                 }
                 return collected;
@@ -1141,16 +1145,16 @@
                 }
                 var filtered = [];
                 var finalResults = [];
-                for (i2 = 0; i2 < base.length; i2++) {
-                  matched = this.visit(node.children[2], base[i2]);
+                for (i = 0; i < base.length; i++) {
+                  matched = this.visit(node.children[2], base[i]);
                   if (!isFalse(matched)) {
-                    filtered.push(base[i2]);
+                    filtered.push(base[i]);
                   }
                 }
-                for (var j2 = 0; j2 < filtered.length; j2++) {
-                  current = this.visit(node.children[1], filtered[j2]);
-                  if (current !== null) {
-                    finalResults.push(current);
+                for (var j = 0; j < filtered.length; j++) {
+                  current2 = this.visit(node.children[1], filtered[j]);
+                  if (current2 !== null) {
+                    finalResults.push(current2);
                   }
                 }
                 return finalResults;
@@ -1186,12 +1190,12 @@
                   return null;
                 }
                 var merged = [];
-                for (i2 = 0; i2 < original.length; i2++) {
-                  current = original[i2];
-                  if (isArray3(current)) {
-                    merged.push.apply(merged, current);
+                for (i = 0; i < original.length; i++) {
+                  current2 = original[i];
+                  if (isArray3(current2)) {
+                    merged.push.apply(merged, current2);
                   } else {
-                    merged.push(current);
+                    merged.push(current2);
                   }
                 }
                 return merged;
@@ -1202,8 +1206,8 @@
                   return null;
                 }
                 collected = [];
-                for (i2 = 0; i2 < node.children.length; i2++) {
-                  collected.push(this.visit(node.children[i2], value));
+                for (i = 0; i < node.children.length; i++) {
+                  collected.push(this.visit(node.children[i], value));
                 }
                 return collected;
               case "MultiSelectHash":
@@ -1212,8 +1216,8 @@
                 }
                 collected = {};
                 var child;
-                for (i2 = 0; i2 < node.children.length; i2++) {
-                  child = node.children[i2];
+                for (i = 0; i < node.children.length; i++) {
+                  child = node.children[i];
                   collected[child.name] = this.visit(child.value, value);
                 }
                 return collected;
@@ -1241,8 +1245,8 @@
                 return value;
               case "Function":
                 var resolvedArgs = [];
-                for (i2 = 0; i2 < node.children.length; i2++) {
-                  resolvedArgs.push(this.visit(node.children[i2], value));
+                for (i = 0; i < node.children.length; i++) {
+                  resolvedArgs.push(this.visit(node.children[i], value));
                 }
                 return this.runtime.callFunction(node.name, resolvedArgs);
               case "ExpressionReference":
@@ -1296,6 +1300,19 @@
         function Runtime(interpreter) {
           this._interpreter = interpreter;
           this.functionTable = {
+            // name: [function, <signature>]
+            // The <signature> can be:
+            //
+            // {
+            //   args: [[type1, type2], [type1, type2]],
+            //   variadic: true|false
+            // }
+            //
+            // Each arg in the arg list is a list of valid types
+            // (if the function is overloaded and supports multiple
+            // types.  If the type is "any" then no type checking
+            // occurs on the argument.  Variadic is optional
+            // and if not provided is assumed to be false.
             abs: { _func: this._functionAbs, _signature: [{ types: [TYPE_NUMBER] }] },
             avg: { _func: this._functionAvg, _signature: [{ types: [TYPE_ARRAY_NUMBER] }] },
             ceil: { _func: this._functionCeil, _signature: [{ types: [TYPE_NUMBER] }] },
@@ -1395,12 +1412,12 @@
             var currentSpec;
             var actualType;
             var typeMatched;
-            for (var i2 = 0; i2 < signature.length; i2++) {
+            for (var i = 0; i < signature.length; i++) {
               typeMatched = false;
-              currentSpec = signature[i2].types;
-              actualType = this._getTypeName(args[i2]);
-              for (var j2 = 0; j2 < currentSpec.length; j2++) {
-                if (this._typeMatches(actualType, currentSpec[j2], args[i2])) {
+              currentSpec = signature[i].types;
+              actualType = this._getTypeName(args[i]);
+              for (var j = 0; j < currentSpec.length; j++) {
+                if (this._typeMatches(actualType, currentSpec[j], args[i])) {
                   typeMatched = true;
                   break;
                 }
@@ -1409,7 +1426,7 @@
                 var expected = currentSpec.map(function(typeIdentifier) {
                   return TYPE_NAME_TABLE[typeIdentifier];
                 }).join(",");
-                throw new Error("TypeError: " + name + "() expected argument " + (i2 + 1) + " to be type " + expected + " but received type " + TYPE_NAME_TABLE[actualType] + " instead.");
+                throw new Error("TypeError: " + name + "() expected argument " + (i + 1) + " to be type " + expected + " but received type " + TYPE_NAME_TABLE[actualType] + " instead.");
               }
             }
           },
@@ -1427,11 +1444,11 @@
                 } else if (expected === TYPE_ARRAY_STRING) {
                   subtype = TYPE_STRING;
                 }
-                for (var i2 = 0; i2 < argValue.length; i2++) {
+                for (var i = 0; i < argValue.length; i++) {
                   if (!this._typeMatches(
-                    this._getTypeName(argValue[i2]),
+                    this._getTypeName(argValue[i]),
                     subtype,
-                    argValue[i2]
+                    argValue[i]
                   )) {
                     return false;
                   }
@@ -1475,8 +1492,8 @@
             if (typeName === TYPE_STRING) {
               var originalStr = resolvedArgs[0];
               var reversedStr = "";
-              for (var i2 = originalStr.length - 1; i2 >= 0; i2--) {
-                reversedStr += originalStr[i2];
+              for (var i = originalStr.length - 1; i >= 0; i--) {
+                reversedStr += originalStr[i];
               }
               return reversedStr;
             } else {
@@ -1494,8 +1511,8 @@
           _functionAvg: function(resolvedArgs) {
             var sum = 0;
             var inputArray = resolvedArgs[0];
-            for (var i2 = 0; i2 < inputArray.length; i2++) {
-              sum += inputArray[i2];
+            for (var i = 0; i < inputArray.length; i++) {
+              sum += inputArray[i];
             }
             return sum / inputArray.length;
           },
@@ -1517,17 +1534,17 @@
             var interpreter = this._interpreter;
             var exprefNode = resolvedArgs[0];
             var elements = resolvedArgs[1];
-            for (var i2 = 0; i2 < elements.length; i2++) {
-              mapped.push(interpreter.visit(exprefNode, elements[i2]));
+            for (var i = 0; i < elements.length; i++) {
+              mapped.push(interpreter.visit(exprefNode, elements[i]));
             }
             return mapped;
           },
           _functionMerge: function(resolvedArgs) {
             var merged = {};
-            for (var i2 = 0; i2 < resolvedArgs.length; i2++) {
-              var current = resolvedArgs[i2];
-              for (var key in current) {
-                merged[key] = current[key];
+            for (var i = 0; i < resolvedArgs.length; i++) {
+              var current2 = resolvedArgs[i];
+              for (var key in current2) {
+                merged[key] = current2[key];
               }
             }
             return merged;
@@ -1540,9 +1557,9 @@
               } else {
                 var elements = resolvedArgs[0];
                 var maxElement = elements[0];
-                for (var i2 = 1; i2 < elements.length; i2++) {
-                  if (maxElement.localeCompare(elements[i2]) < 0) {
-                    maxElement = elements[i2];
+                for (var i = 1; i < elements.length; i++) {
+                  if (maxElement.localeCompare(elements[i]) < 0) {
+                    maxElement = elements[i];
                   }
                 }
                 return maxElement;
@@ -1559,9 +1576,9 @@
               } else {
                 var elements = resolvedArgs[0];
                 var minElement = elements[0];
-                for (var i2 = 1; i2 < elements.length; i2++) {
-                  if (elements[i2].localeCompare(minElement) < 0) {
-                    minElement = elements[i2];
+                for (var i = 1; i < elements.length; i++) {
+                  if (elements[i].localeCompare(minElement) < 0) {
+                    minElement = elements[i];
                   }
                 }
                 return minElement;
@@ -1573,8 +1590,8 @@
           _functionSum: function(resolvedArgs) {
             var sum = 0;
             var listToSum = resolvedArgs[0];
-            for (var i2 = 0; i2 < listToSum.length; i2++) {
-              sum += listToSum[i2];
+            for (var i = 0; i < listToSum.length; i++) {
+              sum += listToSum[i];
             }
             return sum;
           },
@@ -1603,8 +1620,8 @@
             var obj = resolvedArgs[0];
             var keys = Object.keys(obj);
             var values = [];
-            for (var i2 = 0; i2 < keys.length; i2++) {
-              values.push(obj[keys[i2]]);
+            for (var i = 0; i < keys.length; i++) {
+              values.push(obj[keys[i]]);
             }
             return values;
           },
@@ -1641,9 +1658,9 @@
             return null;
           },
           _functionNotNull: function(resolvedArgs) {
-            for (var i2 = 0; i2 < resolvedArgs.length; i2++) {
-              if (this._getTypeName(resolvedArgs[i2]) !== TYPE_NULL) {
-                return resolvedArgs[i2];
+            for (var i = 0; i < resolvedArgs.length; i++) {
+              if (this._getTypeName(resolvedArgs[i]) !== TYPE_NULL) {
+                return resolvedArgs[i];
               }
             }
             return null;
@@ -1668,12 +1685,12 @@
             }
             var that = this;
             var decorated = [];
-            for (var i2 = 0; i2 < sortedArray.length; i2++) {
-              decorated.push([i2, sortedArray[i2]]);
+            for (var i = 0; i < sortedArray.length; i++) {
+              decorated.push([i, sortedArray[i]]);
             }
-            decorated.sort(function(a2, b2) {
-              var exprA = interpreter.visit(exprefNode, a2[1]);
-              var exprB = interpreter.visit(exprefNode, b2[1]);
+            decorated.sort(function(a, b) {
+              var exprA = interpreter.visit(exprefNode, a[1]);
+              var exprB = interpreter.visit(exprefNode, b[1]);
               if (that._getTypeName(exprA) !== requiredType) {
                 throw new Error(
                   "TypeError: expected " + requiredType + ", received " + that._getTypeName(exprA)
@@ -1688,11 +1705,11 @@
               } else if (exprA < exprB) {
                 return -1;
               } else {
-                return a2[0] - b2[0];
+                return a[0] - b[0];
               }
             });
-            for (var j2 = 0; j2 < decorated.length; j2++) {
-              sortedArray[j2] = decorated[j2][1];
+            for (var j = 0; j < decorated.length; j++) {
+              sortedArray[j] = decorated[j][1];
             }
             return sortedArray;
           },
@@ -1702,12 +1719,12 @@
             var keyFunction = this.createKeyFunction(exprefNode, [TYPE_NUMBER, TYPE_STRING]);
             var maxNumber = -Infinity;
             var maxRecord;
-            var current;
-            for (var i2 = 0; i2 < resolvedArray.length; i2++) {
-              current = keyFunction(resolvedArray[i2]);
-              if (current > maxNumber) {
-                maxNumber = current;
-                maxRecord = resolvedArray[i2];
+            var current2;
+            for (var i = 0; i < resolvedArray.length; i++) {
+              current2 = keyFunction(resolvedArray[i]);
+              if (current2 > maxNumber) {
+                maxNumber = current2;
+                maxRecord = resolvedArray[i];
               }
             }
             return maxRecord;
@@ -1718,12 +1735,12 @@
             var keyFunction = this.createKeyFunction(exprefNode, [TYPE_NUMBER, TYPE_STRING]);
             var minNumber = Infinity;
             var minRecord;
-            var current;
-            for (var i2 = 0; i2 < resolvedArray.length; i2++) {
-              current = keyFunction(resolvedArray[i2]);
-              if (current < minNumber) {
-                minNumber = current;
-                minRecord = resolvedArray[i2];
+            var current2;
+            for (var i = 0; i < resolvedArray.length; i++) {
+              current2 = keyFunction(resolvedArray[i]);
+              if (current2 < minNumber) {
+                minNumber = current2;
+                minRecord = resolvedArray[i];
               }
             }
             return minRecord;
@@ -1731,13 +1748,13 @@
           createKeyFunction: function(exprefNode, allowedTypes) {
             var that = this;
             var interpreter = this._interpreter;
-            var keyFunc = function(x2) {
-              var current = interpreter.visit(exprefNode, x2);
-              if (allowedTypes.indexOf(that._getTypeName(current)) < 0) {
-                var msg = "TypeError: expected one of " + allowedTypes + ", received " + that._getTypeName(current);
+            var keyFunc = function(x) {
+              var current2 = interpreter.visit(exprefNode, x);
+              if (allowedTypes.indexOf(that._getTypeName(current2)) < 0) {
+                var msg = "TypeError: expected one of " + allowedTypes + ", received " + that._getTypeName(current2);
                 throw new Error(msg);
               }
-              return current;
+              return current2;
             };
             return keyFunc;
           }
@@ -1782,24 +1799,24 @@
         runFnWhenValueChanges,
         Delay
       };
-      function seconds(n2) {
-        const ms = n2 * 1e3;
+      function seconds(n) {
+        const ms = n * 1e3;
         return ms;
       }
-      function Delay(fn2, forMs) {
-        const [_fn] = makeDebouncer(forMs, fn2);
+      function Delay(fn, forMs) {
+        const [_fn] = makeDebouncer(forMs, fn);
         return (...args) => _fn(...args);
       }
-      function makeDebouncer(ms, fn2) {
+      function makeDebouncer(ms, fn) {
         let timerId;
         const clear = () => clearTimeout(timerId);
         const debouncedFn = (...args) => {
           clear();
-          timerId = setTimeout(fn2, ms, ...args);
+          timerId = setTimeout(fn, ms, ...args);
         };
         return [debouncedFn, clear];
       }
-      function makeThrottler(fn2, ms) {
+      function makeThrottler(fn, ms) {
         let canRun = true;
         const [throttle, clear] = makeDebouncer(ms, () => canRun = true);
         const throttledFn = (...args) => {
@@ -1807,40 +1824,40 @@
             return;
           canRun = false;
           throttle();
-          fn2(...args);
+          fn(...args);
         };
         return [throttledFn, clear];
       }
-      function runAfter(delayInMs, fn2) {
-        const [runSoon, cancel] = makeDebouncer(delayInMs, fn2);
+      function runAfter(delayInMs, fn) {
+        const [runSoon, cancel] = makeDebouncer(delayInMs, fn);
         runSoon();
         return cancel;
       }
-      function runOnce(fn2) {
+      function runOnce(fn) {
         let run = true;
         let predicateFn = () => true;
         const onceFn = (...args) => {
           if (run && predicateFn()) {
             run = false;
-            fn2(...args);
+            fn(...args);
           }
         };
-        onceFn.when = (fn3) => {
-          predicateFn = fn3;
+        onceFn.when = (fn2) => {
+          predicateFn = fn2;
           return onceFn;
         };
         return onceFn;
       }
-      function runFnPeriodically(fn2, ms = 16) {
+      function runFnPeriodically(fn, ms = 16) {
         const cleanup = () => clearInterval(timerId);
-        const timerId = setInterval(fn2, ms, { cleanup });
+        const timerId = setInterval(fn, ms, { cleanup });
         return cleanup;
       }
       function makeValueChangeDetector({
         onChange = () => {
         },
         getValueFn = () => NaN,
-        equalityFn = (a2, b2) => a2 === b2
+        equalityFn = (a, b) => a === b
       }) {
         let currentValue = getValueFn();
         const performCheck = (...checkArgs) => {
@@ -1865,8 +1882,8 @@
         });
         return performCheck;
       }
-      function runFnWhenValueChanges({ fn: fn2, getValueFn }) {
-        const performCheck = makeValueChangeDetector({ getValueFn, onChange: fn2 });
+      function runFnWhenValueChanges({ fn, getValueFn }) {
+        const performCheck = makeValueChangeDetector({ getValueFn, onChange: fn });
         const checkPeriodInMs = 16;
         const cleanup = runFnPeriodically(performCheck, checkPeriodInMs);
         return cleanup;
@@ -1934,7 +1951,7 @@
       function poolPromises(limit, ...promiseMakerFns) {
         const checkAll = () => canPromisesRun.forEach((check) => check());
         const context = makePoolCounter(limit, checkAll);
-        const [pooledPromises, canPromisesRun] = promiseMakerFns.map((fn2) => makePoolAwarePromise(context, fn2)).reduce(...makeUnzipReducer());
+        const [pooledPromises, canPromisesRun] = promiseMakerFns.map((fn) => makePoolAwarePromise(context, fn)).reduce(...makeUnzipReducer());
         checkAll();
         return Promise.allSettled(pooledPromises);
       }
@@ -1959,9 +1976,9 @@
         let running = 0;
         const pending = /* @__PURE__ */ new Set();
         return (promiseMakerFn) => {
-          const [promise, O2, X2] = makePromise();
+          const [promise, O, X] = makePromise();
           promise.finally(() => (running -= 1, next()));
-          pending.add({ promiseMakerFn, O: O2, X: X2 });
+          pending.add({ promiseMakerFn, O, X });
           next();
           return promise;
         };
@@ -2043,370 +2060,642 @@
     }
   };
 
-  // node_modules/.pnpm/immer@9.0.15/node_modules/immer/dist/immer.esm.mjs
-  function n(n2) {
-    for (var r2 = arguments.length, t2 = Array(r2 > 1 ? r2 - 1 : 0), e = 1; e < r2; e++)
-      t2[e - 1] = arguments[e];
+  // node_modules/.pnpm/immer@10.0.2/node_modules/immer/dist/immer.mjs
+  var NOTHING = Symbol.for("immer-nothing");
+  var DRAFTABLE = Symbol.for("immer-draftable");
+  var DRAFT_STATE = Symbol.for("immer-state");
+  function die(error, ...args) {
     if (false) {
-      var i2 = Y[n2], o2 = i2 ? "function" == typeof i2 ? i2.apply(null, t2) : i2 : "unknown error nr: " + n2;
-      throw Error("[Immer] " + o2);
+      const e = errors[error];
+      const msg = typeof e === "function" ? e.apply(null, args) : e;
+      throw new Error(`[Immer] ${msg}`);
     }
-    throw Error("[Immer] minified error nr: " + n2 + (t2.length ? " " + t2.map(function(n3) {
-      return "'" + n3 + "'";
-    }).join(",") : "") + ". Find the full error at: https://bit.ly/3cXEKWf");
+    throw new Error(
+      `[Immer] minified error nr: ${error}. Full error at: https://bit.ly/3cXEKWf`
+    );
   }
-  function r(n2) {
-    return !!n2 && !!n2[Q];
+  var getPrototypeOf = Object.getPrototypeOf;
+  function isDraft(value) {
+    return !!value && !!value[DRAFT_STATE];
   }
-  function t(n2) {
-    return !!n2 && (function(n3) {
-      if (!n3 || "object" != typeof n3)
-        return false;
-      var r2 = Object.getPrototypeOf(n3);
-      if (null === r2)
-        return true;
-      var t2 = Object.hasOwnProperty.call(r2, "constructor") && r2.constructor;
-      return t2 === Object || "function" == typeof t2 && Function.toString.call(t2) === Z;
-    }(n2) || Array.isArray(n2) || !!n2[L] || !!n2.constructor[L] || s(n2) || v(n2));
+  function isDraftable(value) {
+    if (!value)
+      return false;
+    return isPlainObject(value) || Array.isArray(value) || !!value[DRAFTABLE] || !!value.constructor?.[DRAFTABLE] || isMap(value) || isSet(value);
   }
-  function i(n2, r2, t2) {
-    void 0 === t2 && (t2 = false), 0 === o(n2) ? (t2 ? Object.keys : nn)(n2).forEach(function(e) {
-      t2 && "symbol" == typeof e || r2(e, n2[e], n2);
-    }) : n2.forEach(function(t3, e) {
-      return r2(e, t3, n2);
-    });
-  }
-  function o(n2) {
-    var r2 = n2[Q];
-    return r2 ? r2.i > 3 ? r2.i - 4 : r2.i : Array.isArray(n2) ? 1 : s(n2) ? 2 : v(n2) ? 3 : 0;
-  }
-  function u(n2, r2) {
-    return 2 === o(n2) ? n2.has(r2) : Object.prototype.hasOwnProperty.call(n2, r2);
-  }
-  function a(n2, r2) {
-    return 2 === o(n2) ? n2.get(r2) : n2[r2];
-  }
-  function f(n2, r2, t2) {
-    var e = o(n2);
-    2 === e ? n2.set(r2, t2) : 3 === e ? (n2.delete(r2), n2.add(t2)) : n2[r2] = t2;
-  }
-  function c(n2, r2) {
-    return n2 === r2 ? 0 !== n2 || 1 / n2 == 1 / r2 : n2 != n2 && r2 != r2;
-  }
-  function s(n2) {
-    return X && n2 instanceof Map;
-  }
-  function v(n2) {
-    return q && n2 instanceof Set;
-  }
-  function p(n2) {
-    return n2.o || n2.t;
-  }
-  function l(n2) {
-    if (Array.isArray(n2))
-      return Array.prototype.slice.call(n2);
-    var r2 = rn(n2);
-    delete r2[Q];
-    for (var t2 = nn(r2), e = 0; e < t2.length; e++) {
-      var i2 = t2[e], o2 = r2[i2];
-      false === o2.writable && (o2.writable = true, o2.configurable = true), (o2.get || o2.set) && (r2[i2] = { configurable: true, writable: true, enumerable: o2.enumerable, value: n2[i2] });
+  var objectCtorString = Object.prototype.constructor.toString();
+  function isPlainObject(value) {
+    if (!value || typeof value !== "object")
+      return false;
+    const proto = getPrototypeOf(value);
+    if (proto === null) {
+      return true;
     }
-    return Object.create(Object.getPrototypeOf(n2), r2);
+    const Ctor = Object.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+    if (Ctor === Object)
+      return true;
+    return typeof Ctor == "function" && Function.toString.call(Ctor) === objectCtorString;
   }
-  function d(n2, e) {
-    return void 0 === e && (e = false), y(n2) || r(n2) || !t(n2) ? n2 : (o(n2) > 1 && (n2.set = n2.add = n2.clear = n2.delete = h), Object.freeze(n2), e && i(n2, function(n3, r2) {
-      return d(r2, true);
-    }, true), n2);
-  }
-  function h() {
-    n(2);
-  }
-  function y(n2) {
-    return null == n2 || "object" != typeof n2 || Object.isFrozen(n2);
-  }
-  function b(r2) {
-    var t2 = tn[r2];
-    return t2 || n(18, r2), t2;
-  }
-  function _() {
-    return true, U;
-  }
-  function j(n2, r2) {
-    r2 && (b("Patches"), n2.u = [], n2.s = [], n2.v = r2);
-  }
-  function O(n2) {
-    g(n2), n2.p.forEach(S), n2.p = null;
-  }
-  function g(n2) {
-    n2 === U && (U = n2.l);
-  }
-  function w(n2) {
-    return U = { p: [], l: U, h: n2, m: true, _: 0 };
-  }
-  function S(n2) {
-    var r2 = n2[Q];
-    0 === r2.i || 1 === r2.i ? r2.j() : r2.O = true;
-  }
-  function P(r2, e) {
-    e._ = e.p.length;
-    var i2 = e.p[0], o2 = void 0 !== r2 && r2 !== i2;
-    return e.h.g || b("ES5").S(e, r2, o2), o2 ? (i2[Q].P && (O(e), n(4)), t(r2) && (r2 = M(e, r2), e.l || x(e, r2)), e.u && b("Patches").M(i2[Q].t, r2, e.u, e.s)) : r2 = M(e, i2, []), O(e), e.u && e.v(e.u, e.s), r2 !== H ? r2 : void 0;
-  }
-  function M(n2, r2, t2) {
-    if (y(r2))
-      return r2;
-    var e = r2[Q];
-    if (!e)
-      return i(r2, function(i2, o3) {
-        return A(n2, e, r2, i2, o3, t2);
-      }, true), r2;
-    if (e.A !== n2)
-      return r2;
-    if (!e.P)
-      return x(n2, e.t, true), e.t;
-    if (!e.I) {
-      e.I = true, e.A._--;
-      var o2 = 4 === e.i || 5 === e.i ? e.o = l(e.k) : e.o;
-      i(3 === e.i ? new Set(o2) : o2, function(r3, i2) {
-        return A(n2, e, o2, r3, i2, t2);
-      }), x(n2, o2, false), t2 && n2.u && b("Patches").R(e, t2, n2.u, n2.s);
-    }
-    return e.o;
-  }
-  function A(e, i2, o2, a2, c2, s2) {
-    if (false, r(c2)) {
-      var v2 = M(e, c2, s2 && i2 && 3 !== i2.i && !u(i2.D, a2) ? s2.concat(a2) : void 0);
-      if (f(o2, a2, v2), !r(v2))
-        return;
-      e.m = false;
-    }
-    if (t(c2) && !y(c2)) {
-      if (!e.h.F && e._ < 1)
-        return;
-      M(e, c2), i2 && i2.A.l || x(e, c2);
+  function each(obj, iter) {
+    if (getArchtype(obj) === 0) {
+      Object.entries(obj).forEach(([key, value]) => {
+        iter(key, value, obj);
+      });
+    } else {
+      obj.forEach((entry, index) => iter(index, entry, obj));
     }
   }
-  function x(n2, r2, t2) {
-    void 0 === t2 && (t2 = false), n2.h.F && n2.m && d(r2, t2);
+  function getArchtype(thing) {
+    const state = thing[DRAFT_STATE];
+    return state ? state.type_ : Array.isArray(thing) ? 1 : isMap(thing) ? 2 : isSet(thing) ? 3 : 0;
   }
-  function z(n2, r2) {
-    var t2 = n2[Q];
-    return (t2 ? p(t2) : n2)[r2];
+  function has(thing, prop) {
+    return getArchtype(thing) === 2 ? thing.has(prop) : Object.prototype.hasOwnProperty.call(thing, prop);
   }
-  function I(n2, r2) {
-    if (r2 in n2)
-      for (var t2 = Object.getPrototypeOf(n2); t2; ) {
-        var e = Object.getOwnPropertyDescriptor(t2, r2);
-        if (e)
-          return e;
-        t2 = Object.getPrototypeOf(t2);
+  function set(thing, propOrOldValue, value) {
+    const t = getArchtype(thing);
+    if (t === 2)
+      thing.set(propOrOldValue, value);
+    else if (t === 3) {
+      thing.add(value);
+    } else
+      thing[propOrOldValue] = value;
+  }
+  function is(x, y) {
+    if (x === y) {
+      return x !== 0 || 1 / x === 1 / y;
+    } else {
+      return x !== x && y !== y;
+    }
+  }
+  function isMap(target) {
+    return target instanceof Map;
+  }
+  function isSet(target) {
+    return target instanceof Set;
+  }
+  function latest(state) {
+    return state.copy_ || state.base_;
+  }
+  function shallowCopy(base, strict) {
+    if (isMap(base)) {
+      return new Map(base);
+    }
+    if (isSet(base)) {
+      return new Set(base);
+    }
+    if (Array.isArray(base))
+      return Array.prototype.slice.call(base);
+    if (!strict && isPlainObject(base)) {
+      if (!getPrototypeOf(base)) {
+        const obj = /* @__PURE__ */ Object.create(null);
+        return Object.assign(obj, base);
       }
-  }
-  function k(n2) {
-    n2.P || (n2.P = true, n2.l && k(n2.l));
-  }
-  function E(n2) {
-    n2.o || (n2.o = l(n2.t));
-  }
-  function R(n2, r2, t2) {
-    var e = s(r2) ? b("MapSet").N(r2, t2) : v(r2) ? b("MapSet").T(r2, t2) : n2.g ? function(n3, r3) {
-      var t3 = Array.isArray(n3), e2 = { i: t3 ? 1 : 0, A: r3 ? r3.A : _(), P: false, I: false, D: {}, l: r3, t: n3, k: null, o: null, j: null, C: false }, i2 = e2, o2 = en;
-      t3 && (i2 = [e2], o2 = on);
-      var u2 = Proxy.revocable(i2, o2), a2 = u2.revoke, f2 = u2.proxy;
-      return e2.k = f2, e2.j = a2, f2;
-    }(r2, t2) : b("ES5").J(r2, t2);
-    return (t2 ? t2.A : _()).p.push(e), e;
-  }
-  function D(e) {
-    return r(e) || n(22, e), function n2(r2) {
-      if (!t(r2))
-        return r2;
-      var e2, u2 = r2[Q], c2 = o(r2);
-      if (u2) {
-        if (!u2.P && (u2.i < 4 || !b("ES5").K(u2)))
-          return u2.t;
-        u2.I = true, e2 = F(r2, c2), u2.I = false;
-      } else
-        e2 = F(r2, c2);
-      return i(e2, function(r3, t2) {
-        u2 && a(u2.t, r3) === t2 || f(e2, r3, n2(t2));
-      }), 3 === c2 ? new Set(e2) : e2;
-    }(e);
-  }
-  function F(n2, r2) {
-    switch (r2) {
-      case 2:
-        return new Map(n2);
-      case 3:
-        return Array.from(n2);
+      return { ...base };
     }
-    return l(n2);
-  }
-  var G;
-  var U;
-  var W = "undefined" != typeof Symbol && "symbol" == typeof Symbol("x");
-  var X = "undefined" != typeof Map;
-  var q = "undefined" != typeof Set;
-  var B = "undefined" != typeof Proxy && void 0 !== Proxy.revocable && "undefined" != typeof Reflect;
-  var H = W ? Symbol.for("immer-nothing") : ((G = {})["immer-nothing"] = true, G);
-  var L = W ? Symbol.for("immer-draftable") : "__$immer_draftable";
-  var Q = W ? Symbol.for("immer-state") : "__$immer_state";
-  var Z = "" + Object.prototype.constructor;
-  var nn = "undefined" != typeof Reflect && Reflect.ownKeys ? Reflect.ownKeys : void 0 !== Object.getOwnPropertySymbols ? function(n2) {
-    return Object.getOwnPropertyNames(n2).concat(Object.getOwnPropertySymbols(n2));
-  } : Object.getOwnPropertyNames;
-  var rn = Object.getOwnPropertyDescriptors || function(n2) {
-    var r2 = {};
-    return nn(n2).forEach(function(t2) {
-      r2[t2] = Object.getOwnPropertyDescriptor(n2, t2);
-    }), r2;
-  };
-  var tn = {};
-  var en = { get: function(n2, r2) {
-    if (r2 === Q)
-      return n2;
-    var e = p(n2);
-    if (!u(e, r2))
-      return function(n3, r3, t2) {
-        var e2, i3 = I(r3, t2);
-        return i3 ? "value" in i3 ? i3.value : null === (e2 = i3.get) || void 0 === e2 ? void 0 : e2.call(n3.k) : void 0;
-      }(n2, e, r2);
-    var i2 = e[r2];
-    return n2.I || !t(i2) ? i2 : i2 === z(n2.t, r2) ? (E(n2), n2.o[r2] = R(n2.A.h, i2, n2)) : i2;
-  }, has: function(n2, r2) {
-    return r2 in p(n2);
-  }, ownKeys: function(n2) {
-    return Reflect.ownKeys(p(n2));
-  }, set: function(n2, r2, t2) {
-    var e = I(p(n2), r2);
-    if (null == e ? void 0 : e.set)
-      return e.set.call(n2.k, t2), true;
-    if (!n2.P) {
-      var i2 = z(p(n2), r2), o2 = null == i2 ? void 0 : i2[Q];
-      if (o2 && o2.t === t2)
-        return n2.o[r2] = t2, n2.D[r2] = false, true;
-      if (c(t2, i2) && (void 0 !== t2 || u(n2.t, r2)))
-        return true;
-      E(n2), k(n2);
+    const descriptors = Object.getOwnPropertyDescriptors(base);
+    delete descriptors[DRAFT_STATE];
+    let keys = Reflect.ownKeys(descriptors);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const desc = descriptors[key];
+      if (desc.writable === false) {
+        desc.writable = true;
+        desc.configurable = true;
+      }
+      if (desc.get || desc.set)
+        descriptors[key] = {
+          configurable: true,
+          writable: true,
+          // could live with !!desc.set as well here...
+          enumerable: desc.enumerable,
+          value: base[key]
+        };
     }
-    return n2.o[r2] === t2 && "number" != typeof t2 && (void 0 !== t2 || r2 in n2.o) || (n2.o[r2] = t2, n2.D[r2] = true, true);
-  }, deleteProperty: function(n2, r2) {
-    return void 0 !== z(n2.t, r2) || r2 in n2.t ? (n2.D[r2] = false, E(n2), k(n2)) : delete n2.D[r2], n2.o && delete n2.o[r2], true;
-  }, getOwnPropertyDescriptor: function(n2, r2) {
-    var t2 = p(n2), e = Reflect.getOwnPropertyDescriptor(t2, r2);
-    return e ? { writable: true, configurable: 1 !== n2.i || "length" !== r2, enumerable: e.enumerable, value: t2[r2] } : e;
-  }, defineProperty: function() {
-    n(11);
-  }, getPrototypeOf: function(n2) {
-    return Object.getPrototypeOf(n2.t);
-  }, setPrototypeOf: function() {
-    n(12);
-  } };
-  var on = {};
-  i(en, function(n2, r2) {
-    on[n2] = function() {
-      return arguments[0] = arguments[0][0], r2.apply(this, arguments);
+    return Object.create(getPrototypeOf(base), descriptors);
+  }
+  function freeze(obj, deep = false) {
+    if (isFrozen(obj) || isDraft(obj) || !isDraftable(obj))
+      return obj;
+    if (getArchtype(obj) > 1) {
+      obj.set = obj.add = obj.clear = obj.delete = dontMutateFrozenCollections;
+    }
+    Object.freeze(obj);
+    if (deep)
+      each(obj, (_key, value) => freeze(value, true), true);
+    return obj;
+  }
+  function dontMutateFrozenCollections() {
+    die(2);
+  }
+  function isFrozen(obj) {
+    return Object.isFrozen(obj);
+  }
+  var plugins = {};
+  function getPlugin(pluginKey) {
+    const plugin = plugins[pluginKey];
+    if (!plugin) {
+      die(0, pluginKey);
+    }
+    return plugin;
+  }
+  var currentScope;
+  function getCurrentScope() {
+    return currentScope;
+  }
+  function createScope(parent_, immer_) {
+    return {
+      drafts_: [],
+      parent_,
+      immer_,
+      // Whenever the modified draft contains a draft from another scope, we
+      // need to prevent auto-freezing so the unowned draft can be finalized.
+      canAutoFreeze_: true,
+      unfinalizedDrafts_: 0
     };
-  }), on.deleteProperty = function(r2, t2) {
-    return false, on.set.call(this, r2, t2, void 0);
-  }, on.set = function(r2, t2, e) {
-    return false, en.set.call(this, r2[0], t2, e, r2[0]);
-  };
-  var un = function() {
-    function e(r2) {
-      var e2 = this;
-      this.g = B, this.F = true, this.produce = function(r3, i3, o2) {
-        if ("function" == typeof r3 && "function" != typeof i3) {
-          var u2 = i3;
-          i3 = r3;
-          var a2 = e2;
-          return function(n2) {
-            var r4 = this;
-            void 0 === n2 && (n2 = u2);
-            for (var t2 = arguments.length, e3 = Array(t2 > 1 ? t2 - 1 : 0), o3 = 1; o3 < t2; o3++)
-              e3[o3 - 1] = arguments[o3];
-            return a2.produce(n2, function(n3) {
-              var t3;
-              return (t3 = i3).call.apply(t3, [r4, n3].concat(e3));
-            });
-          };
-        }
-        var f2;
-        if ("function" != typeof i3 && n(6), void 0 !== o2 && "function" != typeof o2 && n(7), t(r3)) {
-          var c2 = w(e2), s2 = R(e2, r3, void 0), v2 = true;
-          try {
-            f2 = i3(s2), v2 = false;
-          } finally {
-            v2 ? O(c2) : g(c2);
-          }
-          return "undefined" != typeof Promise && f2 instanceof Promise ? f2.then(function(n2) {
-            return j(c2, o2), P(n2, c2);
-          }, function(n2) {
-            throw O(c2), n2;
-          }) : (j(c2, o2), P(f2, c2));
-        }
-        if (!r3 || "object" != typeof r3) {
-          if (void 0 === (f2 = i3(r3)) && (f2 = r3), f2 === H && (f2 = void 0), e2.F && d(f2, true), o2) {
-            var p2 = [], l2 = [];
-            b("Patches").M(r3, f2, p2, l2), o2(p2, l2);
-          }
-          return f2;
-        }
-        n(21, r3);
-      }, this.produceWithPatches = function(n2, r3) {
-        if ("function" == typeof n2)
-          return function(r4) {
-            for (var t3 = arguments.length, i4 = Array(t3 > 1 ? t3 - 1 : 0), o3 = 1; o3 < t3; o3++)
-              i4[o3 - 1] = arguments[o3];
-            return e2.produceWithPatches(r4, function(r5) {
-              return n2.apply(void 0, [r5].concat(i4));
-            });
-          };
-        var t2, i3, o2 = e2.produce(n2, r3, function(n3, r4) {
-          t2 = n3, i3 = r4;
-        });
-        return "undefined" != typeof Promise && o2 instanceof Promise ? o2.then(function(n3) {
-          return [n3, t2, i3];
-        }) : [o2, t2, i3];
-      }, "boolean" == typeof (null == r2 ? void 0 : r2.useProxies) && this.setUseProxies(r2.useProxies), "boolean" == typeof (null == r2 ? void 0 : r2.autoFreeze) && this.setAutoFreeze(r2.autoFreeze);
+  }
+  function usePatchesInScope(scope, patchListener) {
+    if (patchListener) {
+      getPlugin("Patches");
+      scope.patches_ = [];
+      scope.inversePatches_ = [];
+      scope.patchListener_ = patchListener;
     }
-    var i2 = e.prototype;
-    return i2.createDraft = function(e2) {
-      t(e2) || n(8), r(e2) && (e2 = D(e2));
-      var i3 = w(this), o2 = R(this, e2, void 0);
-      return o2[Q].C = true, g(i3), o2;
-    }, i2.finishDraft = function(r2, t2) {
-      var e2 = r2 && r2[Q];
-      var i3 = e2.A;
-      return j(i3, t2), P(void 0, i3);
-    }, i2.setAutoFreeze = function(n2) {
-      this.F = n2;
-    }, i2.setUseProxies = function(r2) {
-      r2 && !B && n(20), this.g = r2;
-    }, i2.applyPatches = function(n2, t2) {
-      var e2;
-      for (e2 = t2.length - 1; e2 >= 0; e2--) {
-        var i3 = t2[e2];
-        if (0 === i3.path.length && "replace" === i3.op) {
-          n2 = i3.value;
+  }
+  function revokeScope(scope) {
+    leaveScope(scope);
+    scope.drafts_.forEach(revokeDraft);
+    scope.drafts_ = null;
+  }
+  function leaveScope(scope) {
+    if (scope === currentScope) {
+      currentScope = scope.parent_;
+    }
+  }
+  function enterScope(immer2) {
+    return currentScope = createScope(currentScope, immer2);
+  }
+  function revokeDraft(draft) {
+    const state = draft[DRAFT_STATE];
+    if (state.type_ === 0 || state.type_ === 1)
+      state.revoke_();
+    else
+      state.revoked_ = true;
+  }
+  function processResult(result, scope) {
+    scope.unfinalizedDrafts_ = scope.drafts_.length;
+    const baseDraft = scope.drafts_[0];
+    const isReplaced = result !== void 0 && result !== baseDraft;
+    if (isReplaced) {
+      if (baseDraft[DRAFT_STATE].modified_) {
+        revokeScope(scope);
+        die(4);
+      }
+      if (isDraftable(result)) {
+        result = finalize(scope, result);
+        if (!scope.parent_)
+          maybeFreeze(scope, result);
+      }
+      if (scope.patches_) {
+        getPlugin("Patches").generateReplacementPatches_(
+          baseDraft[DRAFT_STATE].base_,
+          result,
+          scope.patches_,
+          scope.inversePatches_
+        );
+      }
+    } else {
+      result = finalize(scope, baseDraft, []);
+    }
+    revokeScope(scope);
+    if (scope.patches_) {
+      scope.patchListener_(scope.patches_, scope.inversePatches_);
+    }
+    return result !== NOTHING ? result : void 0;
+  }
+  function finalize(rootScope, value, path) {
+    if (isFrozen(value))
+      return value;
+    const state = value[DRAFT_STATE];
+    if (!state) {
+      each(
+        value,
+        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path),
+        true
+        // See #590, don't recurse into non-enumerable of non drafted objects
+      );
+      return value;
+    }
+    if (state.scope_ !== rootScope)
+      return value;
+    if (!state.modified_) {
+      maybeFreeze(rootScope, state.base_, true);
+      return state.base_;
+    }
+    if (!state.finalized_) {
+      state.finalized_ = true;
+      state.scope_.unfinalizedDrafts_--;
+      const result = state.copy_;
+      let resultEach = result;
+      let isSet2 = false;
+      if (state.type_ === 3) {
+        resultEach = new Set(result);
+        result.clear();
+        isSet2 = true;
+      }
+      each(
+        resultEach,
+        (key, childValue) => finalizeProperty(rootScope, state, result, key, childValue, path, isSet2)
+      );
+      maybeFreeze(rootScope, result, false);
+      if (path && rootScope.patches_) {
+        getPlugin("Patches").generatePatches_(
+          state,
+          path,
+          rootScope.patches_,
+          rootScope.inversePatches_
+        );
+      }
+    }
+    return state.copy_;
+  }
+  function finalizeProperty(rootScope, parentState, targetObject, prop, childValue, rootPath, targetIsSet) {
+    if (false)
+      die(5);
+    if (isDraft(childValue)) {
+      const path = rootPath && parentState && parentState.type_ !== 3 && // Set objects are atomic since they have no keys.
+      !has(parentState.assigned_, prop) ? rootPath.concat(prop) : void 0;
+      const res = finalize(rootScope, childValue, path);
+      set(targetObject, prop, res);
+      if (isDraft(res)) {
+        rootScope.canAutoFreeze_ = false;
+      } else
+        return;
+    } else if (targetIsSet) {
+      targetObject.add(childValue);
+    }
+    if (isDraftable(childValue) && !isFrozen(childValue)) {
+      if (!rootScope.immer_.autoFreeze_ && rootScope.unfinalizedDrafts_ < 1) {
+        return;
+      }
+      finalize(rootScope, childValue);
+      if (!parentState || !parentState.scope_.parent_)
+        maybeFreeze(rootScope, childValue);
+    }
+  }
+  function maybeFreeze(scope, value, deep = false) {
+    if (!scope.parent_ && scope.immer_.autoFreeze_ && scope.canAutoFreeze_) {
+      freeze(value, deep);
+    }
+  }
+  function createProxyProxy(base, parent) {
+    const isArray3 = Array.isArray(base);
+    const state = {
+      type_: isArray3 ? 1 : 0,
+      // Track which produce call this is associated with.
+      scope_: parent ? parent.scope_ : getCurrentScope(),
+      // True for both shallow and deep changes.
+      modified_: false,
+      // Used during finalization.
+      finalized_: false,
+      // Track which properties have been assigned (true) or deleted (false).
+      assigned_: {},
+      // The parent draft state.
+      parent_: parent,
+      // The base state.
+      base_: base,
+      // The base proxy.
+      draft_: null,
+      // set below
+      // The base copy with any updated values.
+      copy_: null,
+      // Called by the `produce` function.
+      revoke_: null,
+      isManual_: false
+    };
+    let target = state;
+    let traps = objectTraps;
+    if (isArray3) {
+      target = [state];
+      traps = arrayTraps;
+    }
+    const { revoke, proxy } = Proxy.revocable(target, traps);
+    state.draft_ = proxy;
+    state.revoke_ = revoke;
+    return proxy;
+  }
+  var objectTraps = {
+    get(state, prop) {
+      if (prop === DRAFT_STATE)
+        return state;
+      const source = latest(state);
+      if (!has(source, prop)) {
+        return readPropFromProto(state, source, prop);
+      }
+      const value = source[prop];
+      if (state.finalized_ || !isDraftable(value)) {
+        return value;
+      }
+      if (value === peek(state.base_, prop)) {
+        prepareCopy(state);
+        return state.copy_[prop] = createProxy(value, state);
+      }
+      return value;
+    },
+    has(state, prop) {
+      return prop in latest(state);
+    },
+    ownKeys(state) {
+      return Reflect.ownKeys(latest(state));
+    },
+    set(state, prop, value) {
+      const desc = getDescriptorFromProto(latest(state), prop);
+      if (desc?.set) {
+        desc.set.call(state.draft_, value);
+        return true;
+      }
+      if (!state.modified_) {
+        const current2 = peek(latest(state), prop);
+        const currentState = current2?.[DRAFT_STATE];
+        if (currentState && currentState.base_ === value) {
+          state.copy_[prop] = value;
+          state.assigned_[prop] = false;
+          return true;
+        }
+        if (is(value, current2) && (value !== void 0 || has(state.base_, prop)))
+          return true;
+        prepareCopy(state);
+        markChanged(state);
+      }
+      if (state.copy_[prop] === value && // special case: handle new props with value 'undefined'
+      (value !== void 0 || prop in state.copy_) || // special case: NaN
+      Number.isNaN(value) && Number.isNaN(state.copy_[prop]))
+        return true;
+      state.copy_[prop] = value;
+      state.assigned_[prop] = true;
+      return true;
+    },
+    deleteProperty(state, prop) {
+      if (peek(state.base_, prop) !== void 0 || prop in state.base_) {
+        state.assigned_[prop] = false;
+        prepareCopy(state);
+        markChanged(state);
+      } else {
+        delete state.assigned_[prop];
+      }
+      if (state.copy_) {
+        delete state.copy_[prop];
+      }
+      return true;
+    },
+    // Note: We never coerce `desc.value` into an Immer draft, because we can't make
+    // the same guarantee in ES5 mode.
+    getOwnPropertyDescriptor(state, prop) {
+      const owner = latest(state);
+      const desc = Reflect.getOwnPropertyDescriptor(owner, prop);
+      if (!desc)
+        return desc;
+      return {
+        writable: true,
+        configurable: state.type_ !== 1 || prop !== "length",
+        enumerable: desc.enumerable,
+        value: owner[prop]
+      };
+    },
+    defineProperty() {
+      die(11);
+    },
+    getPrototypeOf(state) {
+      return getPrototypeOf(state.base_);
+    },
+    setPrototypeOf() {
+      die(12);
+    }
+  };
+  var arrayTraps = {};
+  each(objectTraps, (key, fn) => {
+    arrayTraps[key] = function() {
+      arguments[0] = arguments[0][0];
+      return fn.apply(this, arguments);
+    };
+  });
+  arrayTraps.deleteProperty = function(state, prop) {
+    if (false)
+      die(13);
+    return arrayTraps.set.call(this, state, prop, void 0);
+  };
+  arrayTraps.set = function(state, prop, value) {
+    if (false)
+      die(14);
+    return objectTraps.set.call(this, state[0], prop, value, state[0]);
+  };
+  function peek(draft, prop) {
+    const state = draft[DRAFT_STATE];
+    const source = state ? latest(state) : draft;
+    return source[prop];
+  }
+  function readPropFromProto(state, source, prop) {
+    const desc = getDescriptorFromProto(source, prop);
+    return desc ? `value` in desc ? desc.value : (
+      // This is a very special case, if the prop is a getter defined by the
+      // prototype, we should invoke it with the draft as context!
+      desc.get?.call(state.draft_)
+    ) : void 0;
+  }
+  function getDescriptorFromProto(source, prop) {
+    if (!(prop in source))
+      return void 0;
+    let proto = getPrototypeOf(source);
+    while (proto) {
+      const desc = Object.getOwnPropertyDescriptor(proto, prop);
+      if (desc)
+        return desc;
+      proto = getPrototypeOf(proto);
+    }
+    return void 0;
+  }
+  function markChanged(state) {
+    if (!state.modified_) {
+      state.modified_ = true;
+      if (state.parent_) {
+        markChanged(state.parent_);
+      }
+    }
+  }
+  function prepareCopy(state) {
+    if (!state.copy_) {
+      state.copy_ = shallowCopy(
+        state.base_,
+        state.scope_.immer_.useStrictShallowCopy_
+      );
+    }
+  }
+  var Immer2 = class {
+    constructor(config) {
+      this.autoFreeze_ = true;
+      this.useStrictShallowCopy_ = false;
+      this.produce = (base, recipe, patchListener) => {
+        if (typeof base === "function" && typeof recipe !== "function") {
+          const defaultBase = recipe;
+          recipe = base;
+          const self2 = this;
+          return function curriedProduce(base2 = defaultBase, ...args) {
+            return self2.produce(base2, (draft) => recipe.call(this, draft, ...args));
+          };
+        }
+        if (typeof recipe !== "function")
+          die(6);
+        if (patchListener !== void 0 && typeof patchListener !== "function")
+          die(7);
+        let result;
+        if (isDraftable(base)) {
+          const scope = enterScope(this);
+          const proxy = createProxy(base, void 0);
+          let hasError = true;
+          try {
+            result = recipe(proxy);
+            hasError = false;
+          } finally {
+            if (hasError)
+              revokeScope(scope);
+            else
+              leaveScope(scope);
+          }
+          usePatchesInScope(scope, patchListener);
+          return processResult(result, scope);
+        } else if (!base || typeof base !== "object") {
+          result = recipe(base);
+          if (result === void 0)
+            result = base;
+          if (result === NOTHING)
+            result = void 0;
+          if (this.autoFreeze_)
+            freeze(result, true);
+          if (patchListener) {
+            const p = [];
+            const ip = [];
+            getPlugin("Patches").generateReplacementPatches_(base, result, p, ip);
+            patchListener(p, ip);
+          }
+          return result;
+        } else
+          die(1, base);
+      };
+      this.produceWithPatches = (base, recipe) => {
+        if (typeof base === "function") {
+          return (state, ...args) => this.produceWithPatches(state, (draft) => base(draft, ...args));
+        }
+        let patches, inversePatches;
+        const result = this.produce(base, recipe, (p, ip) => {
+          patches = p;
+          inversePatches = ip;
+        });
+        return [result, patches, inversePatches];
+      };
+      if (typeof config?.autoFreeze === "boolean")
+        this.setAutoFreeze(config.autoFreeze);
+      if (typeof config?.useStrictShallowCopy === "boolean")
+        this.setUseStrictShallowCopy(config.useStrictShallowCopy);
+    }
+    createDraft(base) {
+      if (!isDraftable(base))
+        die(8);
+      if (isDraft(base))
+        base = current(base);
+      const scope = enterScope(this);
+      const proxy = createProxy(base, void 0);
+      proxy[DRAFT_STATE].isManual_ = true;
+      leaveScope(scope);
+      return proxy;
+    }
+    finishDraft(draft, patchListener) {
+      const state = draft && draft[DRAFT_STATE];
+      if (!state || !state.isManual_)
+        die(9);
+      const { scope_: scope } = state;
+      usePatchesInScope(scope, patchListener);
+      return processResult(void 0, scope);
+    }
+    /**
+     * Pass true to automatically freeze all copies created by Immer.
+     *
+     * By default, auto-freezing is enabled.
+     */
+    setAutoFreeze(value) {
+      this.autoFreeze_ = value;
+    }
+    /**
+     * Pass true to enable strict shallow copy.
+     *
+     * By default, immer does not copy the object descriptors such as getter, setter and non-enumrable properties.
+     */
+    setUseStrictShallowCopy(value) {
+      this.useStrictShallowCopy_ = value;
+    }
+    applyPatches(base, patches) {
+      let i;
+      for (i = patches.length - 1; i >= 0; i--) {
+        const patch = patches[i];
+        if (patch.path.length === 0 && patch.op === "replace") {
+          base = patch.value;
           break;
         }
       }
-      e2 > -1 && (t2 = t2.slice(e2 + 1));
-      var o2 = b("Patches").$;
-      return r(n2) ? o2(n2, t2) : this.produce(n2, function(n3) {
-        return o2(n3, t2);
-      });
-    }, e;
-  }();
-  var an = new un();
-  var fn = an.produce;
-  var cn = an.produceWithPatches.bind(an);
-  var sn = an.setAutoFreeze.bind(an);
-  var vn = an.setUseProxies.bind(an);
-  var pn = an.applyPatches.bind(an);
-  var ln = an.createDraft.bind(an);
-  var dn = an.finishDraft.bind(an);
+      if (i > -1) {
+        patches = patches.slice(i + 1);
+      }
+      const applyPatchesImpl = getPlugin("Patches").applyPatches_;
+      if (isDraft(base)) {
+        return applyPatchesImpl(base, patches);
+      }
+      return this.produce(
+        base,
+        (draft) => applyPatchesImpl(draft, patches)
+      );
+    }
+  };
+  function createProxy(value, parent) {
+    const draft = isMap(value) ? getPlugin("MapSet").proxyMap_(value, parent) : isSet(value) ? getPlugin("MapSet").proxySet_(value, parent) : createProxyProxy(value, parent);
+    const scope = parent ? parent.scope_ : getCurrentScope();
+    scope.drafts_.push(draft);
+    return draft;
+  }
+  function current(value) {
+    if (!isDraft(value))
+      die(10, value);
+    return currentImpl(value);
+  }
+  function currentImpl(value) {
+    if (!isDraftable(value) || isFrozen(value))
+      return value;
+    const state = value[DRAFT_STATE];
+    let copy;
+    if (state) {
+      if (!state.modified_)
+        return state.base_;
+      state.finalized_ = true;
+      copy = shallowCopy(value, state.scope_.immer_.useStrictShallowCopy_);
+    } else {
+      copy = shallowCopy(value, true);
+    }
+    each(copy, (key, childValue) => {
+      set(copy, key, currentImpl(childValue));
+    });
+    if (state) {
+      state.finalized_ = false;
+    }
+    return copy;
+  }
+  var immer = new Immer2();
+  var produce = immer.produce;
+  var produceWithPatches = immer.produceWithPatches.bind(
+    immer
+  );
+  var setAutoFreeze = immer.setAutoFreeze.bind(immer);
+  var setUseStrictShallowCopy = immer.setUseStrictShallowCopy.bind(immer);
+  var applyPatches = immer.applyPatches.bind(immer);
+  var createDraft = immer.createDraft.bind(immer);
+  var finishDraft = immer.finishDraft.bind(immer);
 
   // src/common/esm/bus.js
   var import_regexp = __toESM(require_regexp());
@@ -2435,7 +2724,7 @@
       const event = new CustomEvent(BUS, { detail });
       global.dispatchEvent(event);
     }
-    function on2(eventNameOrPattern, cb) {
+    function on(eventNameOrPattern, cb) {
       if (typeof cb !== "function") {
         throw new TypeError("Callback is not a function");
       }
@@ -2480,7 +2769,7 @@
       cbMap.delete(cb);
     }
     function once(eventNameOrPattern, cb) {
-      const off2 = on2(eventNameOrPattern, handle);
+      const off2 = on(eventNameOrPattern, handle);
       return off2;
       function handle(...args) {
         cb(...args);
@@ -2489,7 +2778,7 @@
     }
     return {
       emit,
-      on: on2,
+      on,
       off,
       once
     };
@@ -2587,7 +2876,7 @@
       return (fnName) => (...args) => {
         const processedArgs = Array.from(
           args,
-          (x2) => isArguments(x2) ? Array.from(x2) : x2
+          (x) => isArguments(x) ? Array.from(x) : x
         ).flat(1);
         const err = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString2);
         if (!err.length) {
@@ -2670,13 +2959,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   })(actions.update.ACCOUNTS);
   messages.on(actions.add.ACCOUNTS, (accounts) => {
     const currentStore = store2();
-    const nextStore = fn(currentStore, (draftState) => {
+    const nextStore = produce(currentStore, (draftState) => {
       accounts.forEach((account) => {
         const err = checkSchemaForAddingAnAccount(account);
         if (err) {
           throw TypeError(err);
         }
-        const existingAccount = draftState.accounts.find((x2) => x2.id === account.id);
+        const existingAccount = draftState.accounts.find((x) => x.id === account.id);
         if (existingAccount) {
           console.log("Account exists", existingAccount);
           return;
@@ -2691,13 +2980,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   messages.on(actions.update.ACCOUNTS, (accounts) => {
     const unseenAccounts = [];
     const currentStore = store2();
-    const nextStore = fn(currentStore, (draftState) => {
+    const nextStore = produce(currentStore, (draftState) => {
       accounts.forEach((account) => {
         const err = checkSchemaForUpdatingAnAccount(account);
         if (err) {
           throw TypeError(err);
         }
-        const existingAccount = draftState.accounts.find((x2) => x2.id === account.id);
+        const existingAccount = draftState.accounts.find((x) => x.id === account.id);
         if (!existingAccount) {
           unseenAccounts.push(account);
           return;
@@ -2736,14 +3025,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   messages.on(actions.add.STATEMENTS, (statements) => {
     const existingStatements = [];
     const currentStore = store2();
-    const nextStore = fn(currentStore, (draftState) => {
+    const nextStore = produce(currentStore, (draftState) => {
       statements.forEach((statement) => {
         const err = checkSchemaForAddingAStatement(statement);
         if (err) {
           throw TypeError(err);
         }
         const existingStatement = draftState.statements.find(
-          (x2) => x2.id === statement.id
+          (x) => x.id === statement.id
         );
         if (existingStatement) {
           existingStatements.push({ newStatement: statement, existingStatement });
@@ -2762,14 +3051,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   messages.on(actions.update.STATEMENTS, (statements) => {
     const unseenStatements = [];
     const currentStore = store2();
-    const nextStore = fn(currentStore, (draftState) => {
+    const nextStore = produce(currentStore, (draftState) => {
       statements.forEach((statement) => {
         const err = checkSchemaForUpdatingAStatement(statement);
         if (err) {
           throw TypeError(err);
         }
         const existingStatement = draftState.statements.find(
-          (x2) => x2.id === statement.id
+          (x) => x.id === statement.id
         );
         if (!existingStatement) {
           unseenStatements.push(statement);
@@ -2805,13 +3094,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   messages.on(actions.add.ENTRIES, (entries) => {
     const existingEntries = [];
     const currentStore = store2();
-    const nextStore = fn(currentStore, (draftState) => {
+    const nextStore = produce(currentStore, (draftState) => {
       entries.forEach((entry) => {
         const err = checkSchemaForAddingAnEntry(entry);
         if (err) {
           throw TypeError(err);
         }
-        const existingEntry = draftState.entries.find((x2) => x2.id === entry.id);
+        const existingEntry = draftState.entries.find((x) => x.id === entry.id);
         if (existingEntry) {
           existingEntries.push({ newEntry: entry, existingEntry });
           return;
@@ -2894,35 +3183,35 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     toString: () => "Nothing",
     map: () => Nothing(),
     chain: () => Nothing(),
-    fork: (f2) => f2(),
-    orElse: (f2) => f2(),
+    fork: (f) => f(),
+    orElse: (f) => f(),
     ap: () => Nothing(),
     isNothing: true,
     isJust: false
   });
   Nothing.of = () => Nothing();
-  var Just = (x2) => ({
-    valueOf: () => x2,
-    toString: () => `Just(${x2})`,
-    map: (f2) => Just(f2(x2)),
-    chain: (f2) => f2(x2),
-    fork: (_2, g2) => g2(x2),
-    orElse: () => Just(x2),
-    ap: (m) => m.map(x2),
+  var Just = (x) => ({
+    valueOf: () => x,
+    toString: () => `Just(${x})`,
+    map: (f) => Just(f(x)),
+    chain: (f) => f(x),
+    fork: (_, g) => g(x),
+    orElse: () => Just(x),
+    ap: (m) => m.map(x),
     isNothing: false,
     isJust: true
   });
-  Just.of = (x2) => Just(x2);
-  var safe = (predicate = (x2) => x2 != null) => {
-    const Maybe2 = (x2) => {
-      return predicate(x2) ? Just(x2) : Nothing();
+  Just.of = (x) => Just(x);
+  var safe = (predicate = (x) => x != null) => {
+    const Maybe2 = (x) => {
+      return predicate(x) ? Just(x) : Nothing();
     };
-    Maybe2.of = (x2) => Maybe2(x2);
+    Maybe2.of = (x) => Maybe2(x);
     return Maybe2;
   };
-  var maybeTry = (f2) => (x2) => {
+  var maybeTry = (f) => (x) => {
     try {
-      return Just(f2(x2));
+      return Just(f(x));
     } catch (e) {
       return Nothing();
     }
@@ -3104,7 +3393,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return entries;
   });
   function creditAndDebitFromAmount(amount) {
-    const [debit, credit] = (amount < 0 ? [amount, 0] : [0, amount]).map((x2) => x2 * 100).map(Math.abs).map(Math.round);
+    const [debit, credit] = (amount < 0 ? [amount, 0] : [0, amount]).map((x) => x * 100).map(Math.abs).map(Math.round);
     return { debit, credit };
   }
 
@@ -3120,6 +3409,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const { emit } = messages2;
     const updateProgressBar = (max) => (value) => emit(actions.ui.UPDATE_PROGRESS_BAR, { max, value });
     fetcher.performTransitions({
+      //
+      // Accounts
+      //
       "idle -> getting-accounts": {
         on: actions.get.ACCOUNTS,
         then: (requestedYearsToDownload) => fetchAccounts().then((accountsResponse) => {
@@ -3178,6 +3470,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         on: actions.error.ACCOUNTS,
         then: fetcher.Enter("idle")
       },
+      //
+      // Statements list
+      //
       "found-accounts -> getting-statements": {
         on: actions.get.STATEMENTS,
         then: ({ statementsQueries, yearsToDownload }) => {
@@ -3194,6 +3489,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
                     const [, sortCode1, sortCode2, sortCode3, accountNumber] = mashed.match(/^(\d{2})(\d{2})(\d{2})(\d{8})$/);
                     const sortCode = `${sortCode1}-${sortCode2}-${sortCode3}`;
                     return {
+                      //
+                      // We're only actually interested in the endDate, not
+                      // the statement-ids. Requesting transactions requires
+                      // only the account-id + a date range.
+                      //
                       id: statementsResponse.id,
                       accountId,
                       sortCode,
@@ -3260,6 +3560,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         on: actions.error.STATEMENTS,
         then: fetcher.Enter("idle")
       },
+      //
+      // Transactions
+      //
       "found-statements -> getting-entries": {
         on: actions.get.ENTRIES,
         then: ({ accountsTransactionsQueries, yearsToDownload }) => {
@@ -3318,6 +3621,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         on: actions.error.ENTRIES,
         then: fetcher.Enter("idle")
       },
+      //
+      // Downloading
+      //
       "found-entries -> download-all": {
         on: actions.ui.DOWNLOAD_STATEMENTS,
         then: () => {
@@ -3330,6 +3636,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       }
     });
     fetcher.onTransitions({
+      //
+      // Flag a problem
+      //
       [`
         failed-accounts |
       failed-statements |

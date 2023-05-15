@@ -3,7 +3,7 @@ obis.registerPlugins([
     "name": "hsbc-uk",
     "description": "HSBC UK",
     "urls": [
-      "http://localhost:4000/*",
+      "http://localhost:4001/*",
       "https://*.hsbc.co.uk/online/dashboard/*"
     ]
   }
