@@ -11,9 +11,9 @@ import { makeZip } from '@/obis/zip'
 
 import { App, progressBar } from './components/app'
 import {
-  StatementsPicker,
+  StatementsBrowser,
   createStatementsWindow
-} from './components/statements'
+} from './components/statements-browser/StatementsBrowser'
 
 const { fetchMachine: fetcher } = obis
 const { messages } = obis.deps
@@ -31,7 +31,7 @@ window.messages = messages
 
 function viewStatements() {
   const windowRef = createStatementsWindow()
-  m.mount(windowRef.document.body, StatementsPicker)
+  m.mount(windowRef.document.body, StatementsBrowser)
 
   const offClose = on(actions.ui.CLOSE_STATEMENTS_WINDOW, () => {
     offClose()

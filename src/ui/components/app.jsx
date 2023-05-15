@@ -15,21 +15,20 @@ import { match, when, otherwise } from 'match-iz'
 
 import clsx from 'clsx'
 
-import { VerticalAnimationContainer } from './animation'
-import {
-  Dialog,
-  Header,
-  Subheader,
-  Button,
-  Account,
-  Accounts,
-  StatementsLoaded,
-  YearsLoaded,
-  AccountName,
-  Actions,
-  YearsSlider,
-  ProgressBar
-} from './dialog'
+import { VerticalAnimationContainer } from './common/VerticalAnimationContainer'
+import { ProgressBar } from './common/ProgressBar'
+import { Button } from './common/Button'
+import { Subheader } from './common/Subheader'
+
+import { Account } from './obis-overlay/Account'
+import { AccountName } from './obis-overlay/AccountName'
+import { Accounts } from './obis-overlay/Accounts'
+import { Actions } from './obis-overlay/Actions'
+import { Dialog } from './obis-overlay/Dialog'
+import { Header } from './obis-overlay/Header'
+import { StatementsLoaded } from './obis-overlay/StatementsLoaded'
+import { YearsLoaded } from './obis-overlay/YearsLoaded'
+import { YearsSlider } from './obis-overlay/YearsSlider'
 
 import { Delay, seconds } from '@/cjs/timers'
 import { actions } from '@/obis/actions'

@@ -1,29 +1,23 @@
 import m from 'mithril'
-import { withHooks as ViewComponent, useState, useEffect } from 'mithril-hooks'
-import { useStatebotFactory } from 'statebot/hooks/mithril'
-
-import { Delay } from '@/cjs/timers'
-
-export const ContainerWithRef = ViewComponent(props => {
-  const { children } = props || {}
-  const { setRef = () => {} } = props || {}
-  return <div oncreate={vnode => setRef(vnode.dom)}>{children}</div>
-})
+import { withHooks as ViewComponent, useState, useEffect } from 'mithril-hooks';
+import { useStatebotFactory } from 'statebot/hooks/mithril';
+import { Delay } from '@/cjs/timers';
+import { ContainerWithRef } from './ContainerWithRef';
 
 const event = {
   TOGGLE_OPEN: 'toggle-open',
   OPEN_FINISHED: 'open-finished',
   CLOSE_FINISHED: 'close-finished'
-}
+};
 
 const chart = `
   closed -> opening -> opened
   opened -> closing -> closed
-`
+`;
 
 export const VerticalAnimationContainer = ViewComponent(props => {
-  const { children } = props || {}
-  const { opened = false, durationInMs = 250 } = props || {}
+  const { children } = props || {};
+  const { opened = false, durationInMs = 250 } = props || {};
 
   const { state, bot } = useStatebotFactory('animated-close/open', {
     chart: chart,
@@ -48,36 +42,36 @@ export const VerticalAnimationContainer = ViewComponent(props => {
         on: event.CLOSE_FINISHED
       }
     })
-  })
+  });
 
   // The user might toggle the open-state again before the
   // animation has finished. We take care of that using the
   // onSwitched() handler in this effect
-  const [firstRun, setFirstRun] = useState(true)
+  const [firstRun, setFirstRun] = useState(true);
 
   useEffect(() => {
     if (firstRun) {
-      setFirstRun(false)
-      return
+      setFirstRun(false);
+      return;
     }
 
-    const expectedState = opened ? 'opened' : 'closed'
+    const expectedState = opened ? 'opened' : 'closed';
     const removeListener = bot.onSwitched(toState => {
       if (['opened', 'closed'].includes(toState) && toState !== expectedState) {
-        bot.emit(event.TOGGLE_OPEN)
+        bot.emit(event.TOGGLE_OPEN);
       }
-    })
-    bot.emit(event.TOGGLE_OPEN)
-    return removeListener
-  }, [bot, opened])
+    });
+    bot.emit(event.TOGGLE_OPEN);
+    return removeListener;
+  }, [bot, opened]);
 
   // Get initial container height
-  const [containerEl, setContainerEl] = useState(undefined)
-  const [containerHeight, setContainerHeight] = useState(undefined)
+  const [containerEl, setContainerEl] = useState(undefined);
+  const [containerHeight, setContainerHeight] = useState(undefined);
   useEffect(
     () => void (containerEl && setContainerHeight(containerEl.scrollHeight)),
     [containerEl, children]
-  )
+  );
 
   return (
     <div
@@ -86,5 +80,5 @@ export const VerticalAnimationContainer = ViewComponent(props => {
     >
       <ContainerWithRef setRef={setContainerEl}>{children}</ContainerWithRef>
     </div>
-  )
-})
+  );
+});
