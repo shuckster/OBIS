@@ -3,6 +3,7 @@
     "target": "es2020",
     "baseUrl": "./",
     "paths": {
+      "@/flows/*": ["./src/flows/*"],
       "@/*": ["./src/common/*"]
     }
   },

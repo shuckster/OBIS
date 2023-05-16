@@ -34,6 +34,7 @@ import { Delay, seconds } from '@/cjs/timers'
 import { actions } from '@/obis/actions'
 import { store } from '@/obis/store'
 import { flow, pipe } from '@/cjs/fp'
+import { uiWidgetStates } from '@/flows/uiWidgetStates'
 
 const SUPPORTS_YEARS_SLIDER = false
 
@@ -46,13 +47,7 @@ const DEFAULT_YEARS_TO_FETCH = 3
 
 const uiMachine = Statebot('UI', {
   events: messages,
-  chart: `
-
-    loading ->
-    rendering-ui ->
-      closed -> opened -> closed
-
-  `,
+  chart: uiWidgetStates,
   startIn: process.env.HYDRATE === 'yes' ? 'opened' : 'loading',
   logLevel: 2
 })
