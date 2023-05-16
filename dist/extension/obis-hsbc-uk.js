@@ -2286,834 +2286,8 @@
       };
     }
   });
-  var import_spark_md5 = __toESM(require_spark_md5());
-  var import_jmespath = __toESM(require_jmespath());
-  var ch2 = {};
-  var wk = function(c, id, msg, transfer, cb) {
-    var w = new Worker(ch2[id] || (ch2[id] = URL.createObjectURL(new Blob([
-      c + ';addEventListener("error",function(e){e=e.error;postMessage({$e$:[e.message,e.code,e.stack]})})'
-    ], { type: "text/javascript" }))));
-    w.onmessage = function(e) {
-      var d = e.data, ed = d.$e$;
-      if (ed) {
-        var err2 = new Error(ed[0]);
-        err2["code"] = ed[1];
-        err2.stack = ed[2];
-        cb(err2, null);
-      } else
-        cb(null, d);
-    };
-    w.postMessage(msg, transfer);
-    return w;
-  };
-  var u8 = Uint8Array;
-  var u16 = Uint16Array;
-  var u32 = Uint32Array;
-  var fleb = new u8([
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    2,
-    2,
-    2,
-    2,
-    3,
-    3,
-    3,
-    3,
-    4,
-    4,
-    4,
-    4,
-    5,
-    5,
-    5,
-    5,
-    0,
-    /* unused */
-    0,
-    0,
-    /* impossible */
-    0
-  ]);
-  var fdeb = new u8([
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    2,
-    2,
-    3,
-    3,
-    4,
-    4,
-    5,
-    5,
-    6,
-    6,
-    7,
-    7,
-    8,
-    8,
-    9,
-    9,
-    10,
-    10,
-    11,
-    11,
-    12,
-    12,
-    13,
-    13,
-    /* unused */
-    0,
-    0
-  ]);
-  var clim = new u8([16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]);
-  var freb = function(eb, start) {
-    var b = new u16(31);
-    for (var i2 = 0; i2 < 31; ++i2) {
-      b[i2] = start += 1 << eb[i2 - 1];
-    }
-    var r = new u32(b[30]);
-    for (var i2 = 1; i2 < 30; ++i2) {
-      for (var j = b[i2]; j < b[i2 + 1]; ++j) {
-        r[j] = j - b[i2] << 5 | i2;
-      }
-    }
-    return [b, r];
-  };
-  var _a = freb(fleb, 2);
-  var fl = _a[0];
-  var revfl = _a[1];
-  fl[28] = 258, revfl[258] = 28;
-  var _b = freb(fdeb, 0);
-  var fd = _b[0];
-  var revfd = _b[1];
-  var rev = new u16(32768);
-  for (i = 0; i < 32768; ++i) {
-    x = (i & 43690) >>> 1 | (i & 21845) << 1;
-    x = (x & 52428) >>> 2 | (x & 13107) << 2;
-    x = (x & 61680) >>> 4 | (x & 3855) << 4;
-    rev[i] = ((x & 65280) >>> 8 | (x & 255) << 8) >>> 1;
-  }
-  var x;
-  var i;
-  var hMap = function(cd, mb, r) {
-    var s = cd.length;
-    var i2 = 0;
-    var l = new u16(mb);
-    for (; i2 < s; ++i2) {
-      if (cd[i2])
-        ++l[cd[i2] - 1];
-    }
-    var le = new u16(mb);
-    for (i2 = 0; i2 < mb; ++i2) {
-      le[i2] = le[i2 - 1] + l[i2 - 1] << 1;
-    }
-    var co;
-    if (r) {
-      co = new u16(1 << mb);
-      var rvb = 15 - mb;
-      for (i2 = 0; i2 < s; ++i2) {
-        if (cd[i2]) {
-          var sv = i2 << 4 | cd[i2];
-          var r_1 = mb - cd[i2];
-          var v = le[cd[i2] - 1]++ << r_1;
-          for (var m = v | (1 << r_1) - 1; v <= m; ++v) {
-            co[rev[v] >>> rvb] = sv;
-          }
-        }
-      }
-    } else {
-      co = new u16(s);
-      for (i2 = 0; i2 < s; ++i2) {
-        if (cd[i2]) {
-          co[i2] = rev[le[cd[i2] - 1]++] >>> 15 - cd[i2];
-        }
-      }
-    }
-    return co;
-  };
-  var flt = new u8(288);
-  for (i = 0; i < 144; ++i)
-    flt[i] = 8;
-  var i;
-  for (i = 144; i < 256; ++i)
-    flt[i] = 9;
-  var i;
-  for (i = 256; i < 280; ++i)
-    flt[i] = 7;
-  var i;
-  for (i = 280; i < 288; ++i)
-    flt[i] = 8;
-  var i;
-  var fdt = new u8(32);
-  for (i = 0; i < 32; ++i)
-    fdt[i] = 5;
-  var i;
-  var flm = /* @__PURE__ */ hMap(flt, 9, 0);
-  var fdm = /* @__PURE__ */ hMap(fdt, 5, 0);
-  var shft = function(p) {
-    return (p + 7) / 8 | 0;
-  };
-  var slc = function(v, s, e) {
-    if (s == null || s < 0)
-      s = 0;
-    if (e == null || e > v.length)
-      e = v.length;
-    var n = new (v.BYTES_PER_ELEMENT == 2 ? u16 : v.BYTES_PER_ELEMENT == 4 ? u32 : u8)(e - s);
-    n.set(v.subarray(s, e));
-    return n;
-  };
-  var ec = [
-    "unexpected EOF",
-    "invalid block type",
-    "invalid length/literal",
-    "invalid distance",
-    "stream finished",
-    "no stream handler",
-    ,
-    "no callback",
-    "invalid UTF-8 data",
-    "extra field too long",
-    "date not in range 1980-2099",
-    "filename too long",
-    "stream finishing",
-    "invalid zip data"
-    // determined by unknown compression method
-  ];
-  var err = function(ind, msg, nt) {
-    var e = new Error(msg || ec[ind]);
-    e.code = ind;
-    if (Error.captureStackTrace)
-      Error.captureStackTrace(e, err);
-    if (!nt)
-      throw e;
-    return e;
-  };
-  var wbits = function(d, p, v) {
-    v <<= p & 7;
-    var o = p / 8 | 0;
-    d[o] |= v;
-    d[o + 1] |= v >>> 8;
-  };
-  var wbits16 = function(d, p, v) {
-    v <<= p & 7;
-    var o = p / 8 | 0;
-    d[o] |= v;
-    d[o + 1] |= v >>> 8;
-    d[o + 2] |= v >>> 16;
-  };
-  var hTree = function(d, mb) {
-    var t = [];
-    for (var i2 = 0; i2 < d.length; ++i2) {
-      if (d[i2])
-        t.push({ s: i2, f: d[i2] });
-    }
-    var s = t.length;
-    var t2 = t.slice();
-    if (!s)
-      return [et, 0];
-    if (s == 1) {
-      var v = new u8(t[0].s + 1);
-      v[t[0].s] = 1;
-      return [v, 1];
-    }
-    t.sort(function(a, b) {
-      return a.f - b.f;
-    });
-    t.push({ s: -1, f: 25001 });
-    var l = t[0], r = t[1], i0 = 0, i1 = 1, i22 = 2;
-    t[0] = { s: -1, f: l.f + r.f, l, r };
-    while (i1 != s - 1) {
-      l = t[t[i0].f < t[i22].f ? i0++ : i22++];
-      r = t[i0 != i1 && t[i0].f < t[i22].f ? i0++ : i22++];
-      t[i1++] = { s: -1, f: l.f + r.f, l, r };
-    }
-    var maxSym = t2[0].s;
-    for (var i2 = 1; i2 < s; ++i2) {
-      if (t2[i2].s > maxSym)
-        maxSym = t2[i2].s;
-    }
-    var tr = new u16(maxSym + 1);
-    var mbt = ln(t[i1 - 1], tr, 0);
-    if (mbt > mb) {
-      var i2 = 0, dt = 0;
-      var lft = mbt - mb, cst = 1 << lft;
-      t2.sort(function(a, b) {
-        return tr[b.s] - tr[a.s] || a.f - b.f;
-      });
-      for (; i2 < s; ++i2) {
-        var i2_1 = t2[i2].s;
-        if (tr[i2_1] > mb) {
-          dt += cst - (1 << mbt - tr[i2_1]);
-          tr[i2_1] = mb;
-        } else
-          break;
-      }
-      dt >>>= lft;
-      while (dt > 0) {
-        var i2_2 = t2[i2].s;
-        if (tr[i2_2] < mb)
-          dt -= 1 << mb - tr[i2_2]++ - 1;
-        else
-          ++i2;
-      }
-      for (; i2 >= 0 && dt; --i2) {
-        var i2_3 = t2[i2].s;
-        if (tr[i2_3] == mb) {
-          --tr[i2_3];
-          ++dt;
-        }
-      }
-      mbt = mb;
-    }
-    return [new u8(tr), mbt];
-  };
-  var ln = function(n, l, d) {
-    return n.s == -1 ? Math.max(ln(n.l, l, d + 1), ln(n.r, l, d + 1)) : l[n.s] = d;
-  };
-  var lc = function(c) {
-    var s = c.length;
-    while (s && !c[--s])
-      ;
-    var cl = new u16(++s);
-    var cli = 0, cln = c[0], cls = 1;
-    var w = function(v) {
-      cl[cli++] = v;
-    };
-    for (var i2 = 1; i2 <= s; ++i2) {
-      if (c[i2] == cln && i2 != s)
-        ++cls;
-      else {
-        if (!cln && cls > 2) {
-          for (; cls > 138; cls -= 138)
-            w(32754);
-          if (cls > 2) {
-            w(cls > 10 ? cls - 11 << 5 | 28690 : cls - 3 << 5 | 12305);
-            cls = 0;
-          }
-        } else if (cls > 3) {
-          w(cln), --cls;
-          for (; cls > 6; cls -= 6)
-            w(8304);
-          if (cls > 2)
-            w(cls - 3 << 5 | 8208), cls = 0;
-        }
-        while (cls--)
-          w(cln);
-        cls = 1;
-        cln = c[i2];
-      }
-    }
-    return [cl.subarray(0, cli), s];
-  };
-  var clen = function(cf, cl) {
-    var l = 0;
-    for (var i2 = 0; i2 < cl.length; ++i2)
-      l += cf[i2] * cl[i2];
-    return l;
-  };
-  var wfblk = function(out, pos, dat) {
-    var s = dat.length;
-    var o = shft(pos + 2);
-    out[o] = s & 255;
-    out[o + 1] = s >>> 8;
-    out[o + 2] = out[o] ^ 255;
-    out[o + 3] = out[o + 1] ^ 255;
-    for (var i2 = 0; i2 < s; ++i2)
-      out[o + i2 + 4] = dat[i2];
-    return (o + 4 + s) * 8;
-  };
-  var wblk = function(dat, out, final, syms, lf, df, eb, li, bs, bl, p) {
-    wbits(out, p++, final);
-    ++lf[256];
-    var _a2 = hTree(lf, 15), dlt = _a2[0], mlb = _a2[1];
-    var _b2 = hTree(df, 15), ddt = _b2[0], mdb = _b2[1];
-    var _c = lc(dlt), lclt = _c[0], nlc = _c[1];
-    var _d = lc(ddt), lcdt = _d[0], ndc = _d[1];
-    var lcfreq = new u16(19);
-    for (var i2 = 0; i2 < lclt.length; ++i2)
-      lcfreq[lclt[i2] & 31]++;
-    for (var i2 = 0; i2 < lcdt.length; ++i2)
-      lcfreq[lcdt[i2] & 31]++;
-    var _e = hTree(lcfreq, 7), lct = _e[0], mlcb = _e[1];
-    var nlcc = 19;
-    for (; nlcc > 4 && !lct[clim[nlcc - 1]]; --nlcc)
-      ;
-    var flen = bl + 5 << 3;
-    var ftlen = clen(lf, flt) + clen(df, fdt) + eb;
-    var dtlen = clen(lf, dlt) + clen(df, ddt) + eb + 14 + 3 * nlcc + clen(lcfreq, lct) + (2 * lcfreq[16] + 3 * lcfreq[17] + 7 * lcfreq[18]);
-    if (flen <= ftlen && flen <= dtlen)
-      return wfblk(out, p, dat.subarray(bs, bs + bl));
-    var lm, ll, dm, dl;
-    wbits(out, p, 1 + (dtlen < ftlen)), p += 2;
-    if (dtlen < ftlen) {
-      lm = hMap(dlt, mlb, 0), ll = dlt, dm = hMap(ddt, mdb, 0), dl = ddt;
-      var llm = hMap(lct, mlcb, 0);
-      wbits(out, p, nlc - 257);
-      wbits(out, p + 5, ndc - 1);
-      wbits(out, p + 10, nlcc - 4);
-      p += 14;
-      for (var i2 = 0; i2 < nlcc; ++i2)
-        wbits(out, p + 3 * i2, lct[clim[i2]]);
-      p += 3 * nlcc;
-      var lcts = [lclt, lcdt];
-      for (var it = 0; it < 2; ++it) {
-        var clct = lcts[it];
-        for (var i2 = 0; i2 < clct.length; ++i2) {
-          var len = clct[i2] & 31;
-          wbits(out, p, llm[len]), p += lct[len];
-          if (len > 15)
-            wbits(out, p, clct[i2] >>> 5 & 127), p += clct[i2] >>> 12;
-        }
-      }
-    } else {
-      lm = flm, ll = flt, dm = fdm, dl = fdt;
-    }
-    for (var i2 = 0; i2 < li; ++i2) {
-      if (syms[i2] > 255) {
-        var len = syms[i2] >>> 18 & 31;
-        wbits16(out, p, lm[len + 257]), p += ll[len + 257];
-        if (len > 7)
-          wbits(out, p, syms[i2] >>> 23 & 31), p += fleb[len];
-        var dst = syms[i2] & 31;
-        wbits16(out, p, dm[dst]), p += dl[dst];
-        if (dst > 3)
-          wbits16(out, p, syms[i2] >>> 5 & 8191), p += fdeb[dst];
-      } else {
-        wbits16(out, p, lm[syms[i2]]), p += ll[syms[i2]];
-      }
-    }
-    wbits16(out, p, lm[256]);
-    return p + ll[256];
-  };
-  var deo = /* @__PURE__ */ new u32([65540, 131080, 131088, 131104, 262176, 1048704, 1048832, 2114560, 2117632]);
-  var et = /* @__PURE__ */ new u8(0);
-  var dflt = function(dat, lvl, plvl, pre, post, lst) {
-    var s = dat.length;
-    var o = new u8(pre + s + 5 * (1 + Math.ceil(s / 7e3)) + post);
-    var w = o.subarray(pre, o.length - post);
-    var pos = 0;
-    if (!lvl || s < 8) {
-      for (var i2 = 0; i2 <= s; i2 += 65535) {
-        var e = i2 + 65535;
-        if (e >= s) {
-          w[pos >> 3] = lst;
-        }
-        pos = wfblk(w, pos + 1, dat.subarray(i2, e));
-      }
-    } else {
-      var opt = deo[lvl - 1];
-      var n = opt >>> 13, c = opt & 8191;
-      var msk_1 = (1 << plvl) - 1;
-      var prev = new u16(32768), head = new u16(msk_1 + 1);
-      var bs1_1 = Math.ceil(plvl / 3), bs2_1 = 2 * bs1_1;
-      var hsh = function(i22) {
-        return (dat[i22] ^ dat[i22 + 1] << bs1_1 ^ dat[i22 + 2] << bs2_1) & msk_1;
-      };
-      var syms = new u32(25e3);
-      var lf = new u16(288), df = new u16(32);
-      var lc_1 = 0, eb = 0, i2 = 0, li = 0, wi = 0, bs = 0;
-      for (; i2 < s; ++i2) {
-        var hv = hsh(i2);
-        var imod = i2 & 32767, pimod = head[hv];
-        prev[imod] = pimod;
-        head[hv] = imod;
-        if (wi <= i2) {
-          var rem = s - i2;
-          if ((lc_1 > 7e3 || li > 24576) && rem > 423) {
-            pos = wblk(dat, w, 0, syms, lf, df, eb, li, bs, i2 - bs, pos);
-            li = lc_1 = eb = 0, bs = i2;
-            for (var j = 0; j < 286; ++j)
-              lf[j] = 0;
-            for (var j = 0; j < 30; ++j)
-              df[j] = 0;
-          }
-          var l = 2, d = 0, ch_1 = c, dif = imod - pimod & 32767;
-          if (rem > 2 && hv == hsh(i2 - dif)) {
-            var maxn = Math.min(n, rem) - 1;
-            var maxd = Math.min(32767, i2);
-            var ml = Math.min(258, rem);
-            while (dif <= maxd && --ch_1 && imod != pimod) {
-              if (dat[i2 + l] == dat[i2 + l - dif]) {
-                var nl = 0;
-                for (; nl < ml && dat[i2 + nl] == dat[i2 + nl - dif]; ++nl)
-                  ;
-                if (nl > l) {
-                  l = nl, d = dif;
-                  if (nl > maxn)
-                    break;
-                  var mmd = Math.min(dif, nl - 2);
-                  var md = 0;
-                  for (var j = 0; j < mmd; ++j) {
-                    var ti = i2 - dif + j + 32768 & 32767;
-                    var pti = prev[ti];
-                    var cd = ti - pti + 32768 & 32767;
-                    if (cd > md)
-                      md = cd, pimod = ti;
-                  }
-                }
-              }
-              imod = pimod, pimod = prev[imod];
-              dif += imod - pimod + 32768 & 32767;
-            }
-          }
-          if (d) {
-            syms[li++] = 268435456 | revfl[l] << 18 | revfd[d];
-            var lin = revfl[l] & 31, din = revfd[d] & 31;
-            eb += fleb[lin] + fdeb[din];
-            ++lf[257 + lin];
-            ++df[din];
-            wi = i2 + l;
-            ++lc_1;
-          } else {
-            syms[li++] = dat[i2];
-            ++lf[dat[i2]];
-          }
-        }
-      }
-      pos = wblk(dat, w, lst, syms, lf, df, eb, li, bs, i2 - bs, pos);
-      if (!lst && pos & 7)
-        pos = wfblk(w, pos + 1, et);
-    }
-    return slc(o, 0, pre + shft(pos) + post);
-  };
-  var crct = /* @__PURE__ */ function() {
-    var t = new Int32Array(256);
-    for (var i2 = 0; i2 < 256; ++i2) {
-      var c = i2, k = 9;
-      while (--k)
-        c = (c & 1 && -306674912) ^ c >>> 1;
-      t[i2] = c;
-    }
-    return t;
-  }();
-  var crc = function() {
-    var c = -1;
-    return {
-      p: function(d) {
-        var cr = c;
-        for (var i2 = 0; i2 < d.length; ++i2)
-          cr = crct[cr & 255 ^ d[i2]] ^ cr >>> 8;
-        c = cr;
-      },
-      d: function() {
-        return ~c;
-      }
-    };
-  };
-  var dopt = function(dat, opt, pre, post, st) {
-    return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 12 + opt.mem, pre, post, !st);
-  };
-  var mrg = function(a, b) {
-    var o = {};
-    for (var k in a)
-      o[k] = a[k];
-    for (var k in b)
-      o[k] = b[k];
-    return o;
-  };
-  var wcln = function(fn, fnStr, td2) {
-    var dt = fn();
-    var st = fn.toString();
-    var ks = st.slice(st.indexOf("[") + 1, st.lastIndexOf("]")).replace(/\s+/g, "").split(",");
-    for (var i2 = 0; i2 < dt.length; ++i2) {
-      var v = dt[i2], k = ks[i2];
-      if (typeof v == "function") {
-        fnStr += ";" + k + "=";
-        var st_1 = v.toString();
-        if (v.prototype) {
-          if (st_1.indexOf("[native code]") != -1) {
-            var spInd = st_1.indexOf(" ", 8) + 1;
-            fnStr += st_1.slice(spInd, st_1.indexOf("(", spInd));
-          } else {
-            fnStr += st_1;
-            for (var t in v.prototype)
-              fnStr += ";" + k + ".prototype." + t + "=" + v.prototype[t].toString();
-          }
-        } else
-          fnStr += st_1;
-      } else
-        td2[k] = v;
-    }
-    return [fnStr, td2];
-  };
-  var ch = [];
-  var cbfs = function(v) {
-    var tl = [];
-    for (var k in v) {
-      if (v[k].buffer) {
-        tl.push((v[k] = new v[k].constructor(v[k])).buffer);
-      }
-    }
-    return tl;
-  };
-  var wrkr = function(fns, init, id, cb) {
-    var _a2;
-    if (!ch[id]) {
-      var fnStr = "", td_1 = {}, m = fns.length - 1;
-      for (var i2 = 0; i2 < m; ++i2)
-        _a2 = wcln(fns[i2], fnStr, td_1), fnStr = _a2[0], td_1 = _a2[1];
-      ch[id] = wcln(fns[m], fnStr, td_1);
-    }
-    var td2 = mrg({}, ch[id][1]);
-    return wk(ch[id][0] + ";onmessage=function(e){for(var k in e.data)self[k]=e.data[k];onmessage=" + init.toString() + "}", id, td2, cbfs(td2), cb);
-  };
-  var bDflt = function() {
-    return [u8, u16, u32, fleb, fdeb, clim, revfl, revfd, flm, flt, fdm, fdt, rev, deo, et, hMap, wbits, wbits16, hTree, ln, lc, clen, wfblk, wblk, shft, slc, dflt, dopt, deflateSync, pbf];
-  };
-  var pbf = function(msg) {
-    return postMessage(msg, [msg.buffer]);
-  };
-  var cbify = function(dat, opts, fns, init, id, cb) {
-    var w = wrkr(fns, init, id, function(err2, dat2) {
-      w.terminate();
-      cb(err2, dat2);
-    });
-    w.postMessage([dat, opts], opts.consume ? [dat.buffer] : []);
-    return function() {
-      w.terminate();
-    };
-  };
-  var wbytes = function(d, b, v) {
-    for (; v; ++b)
-      d[b] = v, v >>>= 8;
-  };
-  function deflate(data, opts, cb) {
-    if (!cb)
-      cb = opts, opts = {};
-    if (typeof cb != "function")
-      err(7);
-    return cbify(data, opts, [
-      bDflt
-    ], function(ev) {
-      return pbf(deflateSync(ev.data[0], ev.data[1]));
-    }, 0, cb);
-  }
-  function deflateSync(data, opts) {
-    return dopt(data, opts || {}, 0, 0);
-  }
-  var fltn = function(d, p, t, o) {
-    for (var k in d) {
-      var val = d[k], n = p + k, op = o;
-      if (Array.isArray(val))
-        op = mrg(o, val[1]), val = val[0];
-      if (val instanceof u8)
-        t[n] = [val, op];
-      else {
-        t[n += "/"] = [new u8(0), op];
-        fltn(val, n, t, o);
-      }
-    }
-  };
-  var te = typeof TextEncoder != "undefined" && /* @__PURE__ */ new TextEncoder();
-  var td = typeof TextDecoder != "undefined" && /* @__PURE__ */ new TextDecoder();
-  var tds = 0;
-  try {
-    td.decode(et, { stream: true });
-    tds = 1;
-  } catch (e) {
-  }
-  function strToU8(str, latin1) {
-    if (latin1) {
-      var ar_1 = new u8(str.length);
-      for (var i2 = 0; i2 < str.length; ++i2)
-        ar_1[i2] = str.charCodeAt(i2);
-      return ar_1;
-    }
-    if (te)
-      return te.encode(str);
-    var l = str.length;
-    var ar = new u8(str.length + (str.length >> 1));
-    var ai = 0;
-    var w = function(v) {
-      ar[ai++] = v;
-    };
-    for (var i2 = 0; i2 < l; ++i2) {
-      if (ai + 5 > ar.length) {
-        var n = new u8(ai + 8 + (l - i2 << 1));
-        n.set(ar);
-        ar = n;
-      }
-      var c = str.charCodeAt(i2);
-      if (c < 128 || latin1)
-        w(c);
-      else if (c < 2048)
-        w(192 | c >> 6), w(128 | c & 63);
-      else if (c > 55295 && c < 57344)
-        c = 65536 + (c & 1023 << 10) | str.charCodeAt(++i2) & 1023, w(240 | c >> 18), w(128 | c >> 12 & 63), w(128 | c >> 6 & 63), w(128 | c & 63);
-      else
-        w(224 | c >> 12), w(128 | c >> 6 & 63), w(128 | c & 63);
-    }
-    return slc(ar, 0, ai);
-  }
-  var exfl = function(ex) {
-    var le = 0;
-    if (ex) {
-      for (var k in ex) {
-        var l = ex[k].length;
-        if (l > 65535)
-          err(9);
-        le += l + 4;
-      }
-    }
-    return le;
-  };
-  var wzh = function(d, b, f, fn, u, c, ce, co) {
-    var fl2 = fn.length, ex = f.extra, col = co && co.length;
-    var exl = exfl(ex);
-    wbytes(d, b, ce != null ? 33639248 : 67324752), b += 4;
-    if (ce != null)
-      d[b++] = 20, d[b++] = f.os;
-    d[b] = 20, b += 2;
-    d[b++] = f.flag << 1 | (c < 0 && 8), d[b++] = u && 8;
-    d[b++] = f.compression & 255, d[b++] = f.compression >> 8;
-    var dt = new Date(f.mtime == null ? Date.now() : f.mtime), y = dt.getFullYear() - 1980;
-    if (y < 0 || y > 119)
-      err(10);
-    wbytes(d, b, y << 25 | dt.getMonth() + 1 << 21 | dt.getDate() << 16 | dt.getHours() << 11 | dt.getMinutes() << 5 | dt.getSeconds() >>> 1), b += 4;
-    if (c != -1) {
-      wbytes(d, b, f.crc);
-      wbytes(d, b + 4, c < 0 ? -c - 2 : c);
-      wbytes(d, b + 8, f.size);
-    }
-    wbytes(d, b + 12, fl2);
-    wbytes(d, b + 14, exl), b += 16;
-    if (ce != null) {
-      wbytes(d, b, col);
-      wbytes(d, b + 6, f.attrs);
-      wbytes(d, b + 10, ce), b += 14;
-    }
-    d.set(fn, b);
-    b += fl2;
-    if (exl) {
-      for (var k in ex) {
-        var exf = ex[k], l = exf.length;
-        wbytes(d, b, +k);
-        wbytes(d, b + 2, l);
-        d.set(exf, b + 4), b += 4 + l;
-      }
-    }
-    if (col)
-      d.set(co, b), b += col;
-    return b;
-  };
-  var wzf = function(o, b, c, d, e) {
-    wbytes(o, b, 101010256);
-    wbytes(o, b + 8, c);
-    wbytes(o, b + 10, c);
-    wbytes(o, b + 12, d);
-    wbytes(o, b + 16, e);
-  };
-  function zip(data, opts, cb) {
-    if (!cb)
-      cb = opts, opts = {};
-    if (typeof cb != "function")
-      err(7);
-    var r = {};
-    fltn(data, "", r, opts);
-    var k = Object.keys(r);
-    var lft = k.length, o = 0, tot = 0;
-    var slft = lft, files = new Array(lft);
-    var term = [];
-    var tAll = function() {
-      for (var i22 = 0; i22 < term.length; ++i22)
-        term[i22]();
-    };
-    var cbd = function(a, b) {
-      mt(function() {
-        cb(a, b);
-      });
-    };
-    mt(function() {
-      cbd = cb;
-    });
-    var cbf = function() {
-      var out = new u8(tot + 22), oe = o, cdl = tot - o;
-      tot = 0;
-      for (var i22 = 0; i22 < slft; ++i22) {
-        var f = files[i22];
-        try {
-          var l = f.c.length;
-          wzh(out, tot, f, f.f, f.u, l);
-          var badd = 30 + f.f.length + exfl(f.extra);
-          var loc = tot + badd;
-          out.set(f.c, loc);
-          wzh(out, o, f, f.f, f.u, l, tot, f.m), o += 16 + badd + (f.m ? f.m.length : 0), tot = loc + l;
-        } catch (e) {
-          return cbd(e, null);
-        }
-      }
-      wzf(out, o, files.length, cdl, oe);
-      cbd(null, out);
-    };
-    if (!lft)
-      cbf();
-    var _loop_1 = function(i22) {
-      var fn = k[i22];
-      var _a2 = r[fn], file = _a2[0], p = _a2[1];
-      var c = crc(), size = file.length;
-      c.p(file);
-      var f = strToU8(fn), s = f.length;
-      var com = p.comment, m = com && strToU8(com), ms = m && m.length;
-      var exl = exfl(p.extra);
-      var compression = p.level == 0 ? 0 : 8;
-      var cbl = function(e, d) {
-        if (e) {
-          tAll();
-          cbd(e, null);
-        } else {
-          var l = d.length;
-          files[i22] = mrg(p, {
-            size,
-            crc: c.d(),
-            c: d,
-            f,
-            m,
-            u: s != fn.length || m && com.length != ms,
-            compression
-          });
-          o += 30 + s + exl + l;
-          tot += 76 + 2 * (s + exl) + (ms || 0) + l;
-          if (!--lft)
-            cbf();
-        }
-      };
-      if (s > 65535)
-        cbl(err(11, 0, 1), null);
-      if (!compression)
-        cbl(null, file);
-      else if (size < 16e4) {
-        try {
-          cbl(null, deflateSync(file, p));
-        } catch (e) {
-          cbl(e, null);
-        }
-      } else
-        term.push(deflate(file, p, cbl));
-    };
-    for (var i2 = 0; i2 < slft; ++i2) {
-      _loop_1(i2);
-    }
-    return tAll;
-  }
-  var mt = typeof queueMicrotask == "function" ? queueMicrotask : typeof setTimeout == "function" ? setTimeout : function(fn) {
-    fn();
-  };
-  var import_file_saver = __toESM(require_FileSaver_min());
+  var obisDefault = { rootPath: "." };
+  var obis2 = window.obis || (window.obis = obisDefault);
   function mitt_default(n) {
     return { all: n = n || /* @__PURE__ */ new Map(), on: function(t, e) {
       var i2 = n.get(t);
@@ -4044,91 +3218,834 @@ Check your performTransitions() config.`;
       routes: allRoutes
     };
   }
-  var import_regexp = __toESM(require_regexp());
-  (function() {
-    if (typeof window.CustomEvent === "function")
-      return false;
-    function CustomEvent2(event, params) {
-      params = params || { bubbles: false, cancelable: false, detail: null };
-      const evt = document.createEvent("CustomEvent");
-      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-      return evt;
+  var import_spark_md5 = __toESM(require_spark_md5());
+  var import_jmespath = __toESM(require_jmespath());
+  var ch2 = {};
+  var wk = function(c, id, msg, transfer, cb) {
+    var w = new Worker(ch2[id] || (ch2[id] = URL.createObjectURL(new Blob([
+      c + ';addEventListener("error",function(e){e=e.error;postMessage({$e$:[e.message,e.code,e.stack]})})'
+    ], { type: "text/javascript" }))));
+    w.onmessage = function(e) {
+      var d = e.data, ed = d.$e$;
+      if (ed) {
+        var err2 = new Error(ed[0]);
+        err2["code"] = ed[1];
+        err2.stack = ed[2];
+        cb(err2, null);
+      } else
+        cb(null, d);
+    };
+    w.postMessage(msg, transfer);
+    return w;
+  };
+  var u8 = Uint8Array;
+  var u16 = Uint16Array;
+  var u32 = Uint32Array;
+  var fleb = new u8([
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5,
+    5,
+    0,
+    /* unused */
+    0,
+    0,
+    /* impossible */
+    0
+  ]);
+  var fdeb = new u8([
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    4,
+    4,
+    5,
+    5,
+    6,
+    6,
+    7,
+    7,
+    8,
+    8,
+    9,
+    9,
+    10,
+    10,
+    11,
+    11,
+    12,
+    12,
+    13,
+    13,
+    /* unused */
+    0,
+    0
+  ]);
+  var clim = new u8([16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]);
+  var freb = function(eb, start) {
+    var b = new u16(31);
+    for (var i2 = 0; i2 < 31; ++i2) {
+      b[i2] = start += 1 << eb[i2 - 1];
     }
-    window.CustomEvent = CustomEvent2;
-  })();
-  var messages = function() {
-    let global2;
-    try {
-      global2 = window;
-    } catch (e) {
-      global2 = self;
+    var r = new u32(b[30]);
+    for (var i2 = 1; i2 < 30; ++i2) {
+      for (var j = b[i2]; j < b[i2 + 1]; ++j) {
+        r[j] = j - b[i2] << 5 | i2;
+      }
     }
-    const BUS = "message-bus";
-    const eventMap = /* @__PURE__ */ new Map();
-    function emit(eventName, ...args) {
-      const detail = { eventName, args, timestamp: Date.now() };
-      const event = new CustomEvent(BUS, { detail });
-      global2.dispatchEvent(event);
+    return [b, r];
+  };
+  var _a = freb(fleb, 2);
+  var fl = _a[0];
+  var revfl = _a[1];
+  fl[28] = 258, revfl[258] = 28;
+  var _b = freb(fdeb, 0);
+  var fd = _b[0];
+  var revfd = _b[1];
+  var rev = new u16(32768);
+  for (i = 0; i < 32768; ++i) {
+    x = (i & 43690) >>> 1 | (i & 21845) << 1;
+    x = (x & 52428) >>> 2 | (x & 13107) << 2;
+    x = (x & 61680) >>> 4 | (x & 3855) << 4;
+    rev[i] = ((x & 65280) >>> 8 | (x & 255) << 8) >>> 1;
+  }
+  var x;
+  var i;
+  var hMap = function(cd, mb, r) {
+    var s = cd.length;
+    var i2 = 0;
+    var l = new u16(mb);
+    for (; i2 < s; ++i2) {
+      if (cd[i2])
+        ++l[cd[i2] - 1];
     }
-    function on(eventNameOrPattern, cb) {
-      if (typeof cb !== "function") {
-        throw new TypeError("Callback is not a function");
-      }
-      const cbMap = eventMap.has(eventNameOrPattern) ? eventMap.get(eventNameOrPattern) : eventMap.set(eventNameOrPattern, /* @__PURE__ */ new Map()).get(eventNameOrPattern);
-      if (cbMap.has(cb)) {
-        throw new Error("Callback already deals with this event");
-      }
-      const isPlainMatcher = typeof eventNameOrPattern === "string" && eventNameOrPattern.indexOf("*") === -1;
-      const rx = typeof eventNameOrPattern === "string" ? (0, import_regexp.makeRegExpFromWildcardString)(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
-      if (rx === null) {
-        const reason = `Could not figure-out eventNameOrPattern`;
-        throw new Error(`${reason} = ${eventNameOrPattern}`);
-      }
-      const eventHandler = (event) => {
-        const { eventName = "", args = [] } = event?.detail || {};
-        const runCallback = rx.test(eventName);
-        if (runCallback) {
-          if (isPlainMatcher) {
-            cb(...args);
-          } else {
-            cb(eventName, ...args);
+    var le = new u16(mb);
+    for (i2 = 0; i2 < mb; ++i2) {
+      le[i2] = le[i2 - 1] + l[i2 - 1] << 1;
+    }
+    var co;
+    if (r) {
+      co = new u16(1 << mb);
+      var rvb = 15 - mb;
+      for (i2 = 0; i2 < s; ++i2) {
+        if (cd[i2]) {
+          var sv = i2 << 4 | cd[i2];
+          var r_1 = mb - cd[i2];
+          var v = le[cd[i2] - 1]++ << r_1;
+          for (var m = v | (1 << r_1) - 1; v <= m; ++v) {
+            co[rev[v] >>> rvb] = sv;
           }
         }
-      };
-      cbMap.set(cb, eventHandler);
-      global2.addEventListener(BUS, eventHandler);
-      return () => off(eventNameOrPattern, cb);
-    }
-    function off(eventNameOrPattern, cb) {
-      if (typeof cb !== "function") {
-        throw new TypeError("Callback is not a function");
       }
-      if (!eventMap.has(eventNameOrPattern)) {
-        throw new Error("No event-listener for that name/pattern");
-      }
-      const cbMap = eventMap.get(eventNameOrPattern);
-      if (!cbMap.has(cb)) {
-        throw new Error("Event callback not found for name/pattern");
-      }
-      const eventHandler = cbMap.get(cb);
-      global2.removeEventListener(BUS, eventHandler);
-      cbMap.delete(cb);
-    }
-    function once(eventNameOrPattern, cb) {
-      const off2 = on(eventNameOrPattern, handle);
-      return off2;
-      function handle(...args) {
-        cb(...args);
-        off2();
+    } else {
+      co = new u16(s);
+      for (i2 = 0; i2 < s; ++i2) {
+        if (cd[i2]) {
+          co[i2] = rev[le[cd[i2] - 1]++] >>> 15 - cd[i2];
+        }
       }
     }
-    return {
-      emit,
-      on,
-      off,
-      once
+    return co;
+  };
+  var flt = new u8(288);
+  for (i = 0; i < 144; ++i)
+    flt[i] = 8;
+  var i;
+  for (i = 144; i < 256; ++i)
+    flt[i] = 9;
+  var i;
+  for (i = 256; i < 280; ++i)
+    flt[i] = 7;
+  var i;
+  for (i = 280; i < 288; ++i)
+    flt[i] = 8;
+  var i;
+  var fdt = new u8(32);
+  for (i = 0; i < 32; ++i)
+    fdt[i] = 5;
+  var i;
+  var flm = /* @__PURE__ */ hMap(flt, 9, 0);
+  var fdm = /* @__PURE__ */ hMap(fdt, 5, 0);
+  var shft = function(p) {
+    return (p + 7) / 8 | 0;
+  };
+  var slc = function(v, s, e) {
+    if (s == null || s < 0)
+      s = 0;
+    if (e == null || e > v.length)
+      e = v.length;
+    var n = new (v.BYTES_PER_ELEMENT == 2 ? u16 : v.BYTES_PER_ELEMENT == 4 ? u32 : u8)(e - s);
+    n.set(v.subarray(s, e));
+    return n;
+  };
+  var ec = [
+    "unexpected EOF",
+    "invalid block type",
+    "invalid length/literal",
+    "invalid distance",
+    "stream finished",
+    "no stream handler",
+    ,
+    "no callback",
+    "invalid UTF-8 data",
+    "extra field too long",
+    "date not in range 1980-2099",
+    "filename too long",
+    "stream finishing",
+    "invalid zip data"
+    // determined by unknown compression method
+  ];
+  var err = function(ind, msg, nt) {
+    var e = new Error(msg || ec[ind]);
+    e.code = ind;
+    if (Error.captureStackTrace)
+      Error.captureStackTrace(e, err);
+    if (!nt)
+      throw e;
+    return e;
+  };
+  var wbits = function(d, p, v) {
+    v <<= p & 7;
+    var o = p / 8 | 0;
+    d[o] |= v;
+    d[o + 1] |= v >>> 8;
+  };
+  var wbits16 = function(d, p, v) {
+    v <<= p & 7;
+    var o = p / 8 | 0;
+    d[o] |= v;
+    d[o + 1] |= v >>> 8;
+    d[o + 2] |= v >>> 16;
+  };
+  var hTree = function(d, mb) {
+    var t = [];
+    for (var i2 = 0; i2 < d.length; ++i2) {
+      if (d[i2])
+        t.push({ s: i2, f: d[i2] });
+    }
+    var s = t.length;
+    var t2 = t.slice();
+    if (!s)
+      return [et, 0];
+    if (s == 1) {
+      var v = new u8(t[0].s + 1);
+      v[t[0].s] = 1;
+      return [v, 1];
+    }
+    t.sort(function(a, b) {
+      return a.f - b.f;
+    });
+    t.push({ s: -1, f: 25001 });
+    var l = t[0], r = t[1], i0 = 0, i1 = 1, i22 = 2;
+    t[0] = { s: -1, f: l.f + r.f, l, r };
+    while (i1 != s - 1) {
+      l = t[t[i0].f < t[i22].f ? i0++ : i22++];
+      r = t[i0 != i1 && t[i0].f < t[i22].f ? i0++ : i22++];
+      t[i1++] = { s: -1, f: l.f + r.f, l, r };
+    }
+    var maxSym = t2[0].s;
+    for (var i2 = 1; i2 < s; ++i2) {
+      if (t2[i2].s > maxSym)
+        maxSym = t2[i2].s;
+    }
+    var tr = new u16(maxSym + 1);
+    var mbt = ln(t[i1 - 1], tr, 0);
+    if (mbt > mb) {
+      var i2 = 0, dt = 0;
+      var lft = mbt - mb, cst = 1 << lft;
+      t2.sort(function(a, b) {
+        return tr[b.s] - tr[a.s] || a.f - b.f;
+      });
+      for (; i2 < s; ++i2) {
+        var i2_1 = t2[i2].s;
+        if (tr[i2_1] > mb) {
+          dt += cst - (1 << mbt - tr[i2_1]);
+          tr[i2_1] = mb;
+        } else
+          break;
+      }
+      dt >>>= lft;
+      while (dt > 0) {
+        var i2_2 = t2[i2].s;
+        if (tr[i2_2] < mb)
+          dt -= 1 << mb - tr[i2_2]++ - 1;
+        else
+          ++i2;
+      }
+      for (; i2 >= 0 && dt; --i2) {
+        var i2_3 = t2[i2].s;
+        if (tr[i2_3] == mb) {
+          --tr[i2_3];
+          ++dt;
+        }
+      }
+      mbt = mb;
+    }
+    return [new u8(tr), mbt];
+  };
+  var ln = function(n, l, d) {
+    return n.s == -1 ? Math.max(ln(n.l, l, d + 1), ln(n.r, l, d + 1)) : l[n.s] = d;
+  };
+  var lc = function(c) {
+    var s = c.length;
+    while (s && !c[--s])
+      ;
+    var cl = new u16(++s);
+    var cli = 0, cln = c[0], cls = 1;
+    var w = function(v) {
+      cl[cli++] = v;
     };
+    for (var i2 = 1; i2 <= s; ++i2) {
+      if (c[i2] == cln && i2 != s)
+        ++cls;
+      else {
+        if (!cln && cls > 2) {
+          for (; cls > 138; cls -= 138)
+            w(32754);
+          if (cls > 2) {
+            w(cls > 10 ? cls - 11 << 5 | 28690 : cls - 3 << 5 | 12305);
+            cls = 0;
+          }
+        } else if (cls > 3) {
+          w(cln), --cls;
+          for (; cls > 6; cls -= 6)
+            w(8304);
+          if (cls > 2)
+            w(cls - 3 << 5 | 8208), cls = 0;
+        }
+        while (cls--)
+          w(cln);
+        cls = 1;
+        cln = c[i2];
+      }
+    }
+    return [cl.subarray(0, cli), s];
+  };
+  var clen = function(cf, cl) {
+    var l = 0;
+    for (var i2 = 0; i2 < cl.length; ++i2)
+      l += cf[i2] * cl[i2];
+    return l;
+  };
+  var wfblk = function(out, pos, dat) {
+    var s = dat.length;
+    var o = shft(pos + 2);
+    out[o] = s & 255;
+    out[o + 1] = s >>> 8;
+    out[o + 2] = out[o] ^ 255;
+    out[o + 3] = out[o + 1] ^ 255;
+    for (var i2 = 0; i2 < s; ++i2)
+      out[o + i2 + 4] = dat[i2];
+    return (o + 4 + s) * 8;
+  };
+  var wblk = function(dat, out, final, syms, lf, df, eb, li, bs, bl, p) {
+    wbits(out, p++, final);
+    ++lf[256];
+    var _a2 = hTree(lf, 15), dlt = _a2[0], mlb = _a2[1];
+    var _b2 = hTree(df, 15), ddt = _b2[0], mdb = _b2[1];
+    var _c = lc(dlt), lclt = _c[0], nlc = _c[1];
+    var _d = lc(ddt), lcdt = _d[0], ndc = _d[1];
+    var lcfreq = new u16(19);
+    for (var i2 = 0; i2 < lclt.length; ++i2)
+      lcfreq[lclt[i2] & 31]++;
+    for (var i2 = 0; i2 < lcdt.length; ++i2)
+      lcfreq[lcdt[i2] & 31]++;
+    var _e = hTree(lcfreq, 7), lct = _e[0], mlcb = _e[1];
+    var nlcc = 19;
+    for (; nlcc > 4 && !lct[clim[nlcc - 1]]; --nlcc)
+      ;
+    var flen = bl + 5 << 3;
+    var ftlen = clen(lf, flt) + clen(df, fdt) + eb;
+    var dtlen = clen(lf, dlt) + clen(df, ddt) + eb + 14 + 3 * nlcc + clen(lcfreq, lct) + (2 * lcfreq[16] + 3 * lcfreq[17] + 7 * lcfreq[18]);
+    if (flen <= ftlen && flen <= dtlen)
+      return wfblk(out, p, dat.subarray(bs, bs + bl));
+    var lm, ll, dm, dl;
+    wbits(out, p, 1 + (dtlen < ftlen)), p += 2;
+    if (dtlen < ftlen) {
+      lm = hMap(dlt, mlb, 0), ll = dlt, dm = hMap(ddt, mdb, 0), dl = ddt;
+      var llm = hMap(lct, mlcb, 0);
+      wbits(out, p, nlc - 257);
+      wbits(out, p + 5, ndc - 1);
+      wbits(out, p + 10, nlcc - 4);
+      p += 14;
+      for (var i2 = 0; i2 < nlcc; ++i2)
+        wbits(out, p + 3 * i2, lct[clim[i2]]);
+      p += 3 * nlcc;
+      var lcts = [lclt, lcdt];
+      for (var it = 0; it < 2; ++it) {
+        var clct = lcts[it];
+        for (var i2 = 0; i2 < clct.length; ++i2) {
+          var len = clct[i2] & 31;
+          wbits(out, p, llm[len]), p += lct[len];
+          if (len > 15)
+            wbits(out, p, clct[i2] >>> 5 & 127), p += clct[i2] >>> 12;
+        }
+      }
+    } else {
+      lm = flm, ll = flt, dm = fdm, dl = fdt;
+    }
+    for (var i2 = 0; i2 < li; ++i2) {
+      if (syms[i2] > 255) {
+        var len = syms[i2] >>> 18 & 31;
+        wbits16(out, p, lm[len + 257]), p += ll[len + 257];
+        if (len > 7)
+          wbits(out, p, syms[i2] >>> 23 & 31), p += fleb[len];
+        var dst = syms[i2] & 31;
+        wbits16(out, p, dm[dst]), p += dl[dst];
+        if (dst > 3)
+          wbits16(out, p, syms[i2] >>> 5 & 8191), p += fdeb[dst];
+      } else {
+        wbits16(out, p, lm[syms[i2]]), p += ll[syms[i2]];
+      }
+    }
+    wbits16(out, p, lm[256]);
+    return p + ll[256];
+  };
+  var deo = /* @__PURE__ */ new u32([65540, 131080, 131088, 131104, 262176, 1048704, 1048832, 2114560, 2117632]);
+  var et = /* @__PURE__ */ new u8(0);
+  var dflt = function(dat, lvl, plvl, pre, post, lst) {
+    var s = dat.length;
+    var o = new u8(pre + s + 5 * (1 + Math.ceil(s / 7e3)) + post);
+    var w = o.subarray(pre, o.length - post);
+    var pos = 0;
+    if (!lvl || s < 8) {
+      for (var i2 = 0; i2 <= s; i2 += 65535) {
+        var e = i2 + 65535;
+        if (e >= s) {
+          w[pos >> 3] = lst;
+        }
+        pos = wfblk(w, pos + 1, dat.subarray(i2, e));
+      }
+    } else {
+      var opt = deo[lvl - 1];
+      var n = opt >>> 13, c = opt & 8191;
+      var msk_1 = (1 << plvl) - 1;
+      var prev = new u16(32768), head = new u16(msk_1 + 1);
+      var bs1_1 = Math.ceil(plvl / 3), bs2_1 = 2 * bs1_1;
+      var hsh = function(i22) {
+        return (dat[i22] ^ dat[i22 + 1] << bs1_1 ^ dat[i22 + 2] << bs2_1) & msk_1;
+      };
+      var syms = new u32(25e3);
+      var lf = new u16(288), df = new u16(32);
+      var lc_1 = 0, eb = 0, i2 = 0, li = 0, wi = 0, bs = 0;
+      for (; i2 < s; ++i2) {
+        var hv = hsh(i2);
+        var imod = i2 & 32767, pimod = head[hv];
+        prev[imod] = pimod;
+        head[hv] = imod;
+        if (wi <= i2) {
+          var rem = s - i2;
+          if ((lc_1 > 7e3 || li > 24576) && rem > 423) {
+            pos = wblk(dat, w, 0, syms, lf, df, eb, li, bs, i2 - bs, pos);
+            li = lc_1 = eb = 0, bs = i2;
+            for (var j = 0; j < 286; ++j)
+              lf[j] = 0;
+            for (var j = 0; j < 30; ++j)
+              df[j] = 0;
+          }
+          var l = 2, d = 0, ch_1 = c, dif = imod - pimod & 32767;
+          if (rem > 2 && hv == hsh(i2 - dif)) {
+            var maxn = Math.min(n, rem) - 1;
+            var maxd = Math.min(32767, i2);
+            var ml = Math.min(258, rem);
+            while (dif <= maxd && --ch_1 && imod != pimod) {
+              if (dat[i2 + l] == dat[i2 + l - dif]) {
+                var nl = 0;
+                for (; nl < ml && dat[i2 + nl] == dat[i2 + nl - dif]; ++nl)
+                  ;
+                if (nl > l) {
+                  l = nl, d = dif;
+                  if (nl > maxn)
+                    break;
+                  var mmd = Math.min(dif, nl - 2);
+                  var md = 0;
+                  for (var j = 0; j < mmd; ++j) {
+                    var ti = i2 - dif + j + 32768 & 32767;
+                    var pti = prev[ti];
+                    var cd = ti - pti + 32768 & 32767;
+                    if (cd > md)
+                      md = cd, pimod = ti;
+                  }
+                }
+              }
+              imod = pimod, pimod = prev[imod];
+              dif += imod - pimod + 32768 & 32767;
+            }
+          }
+          if (d) {
+            syms[li++] = 268435456 | revfl[l] << 18 | revfd[d];
+            var lin = revfl[l] & 31, din = revfd[d] & 31;
+            eb += fleb[lin] + fdeb[din];
+            ++lf[257 + lin];
+            ++df[din];
+            wi = i2 + l;
+            ++lc_1;
+          } else {
+            syms[li++] = dat[i2];
+            ++lf[dat[i2]];
+          }
+        }
+      }
+      pos = wblk(dat, w, lst, syms, lf, df, eb, li, bs, i2 - bs, pos);
+      if (!lst && pos & 7)
+        pos = wfblk(w, pos + 1, et);
+    }
+    return slc(o, 0, pre + shft(pos) + post);
+  };
+  var crct = /* @__PURE__ */ function() {
+    var t = new Int32Array(256);
+    for (var i2 = 0; i2 < 256; ++i2) {
+      var c = i2, k = 9;
+      while (--k)
+        c = (c & 1 && -306674912) ^ c >>> 1;
+      t[i2] = c;
+    }
+    return t;
   }();
+  var crc = function() {
+    var c = -1;
+    return {
+      p: function(d) {
+        var cr = c;
+        for (var i2 = 0; i2 < d.length; ++i2)
+          cr = crct[cr & 255 ^ d[i2]] ^ cr >>> 8;
+        c = cr;
+      },
+      d: function() {
+        return ~c;
+      }
+    };
+  };
+  var dopt = function(dat, opt, pre, post, st) {
+    return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 12 + opt.mem, pre, post, !st);
+  };
+  var mrg = function(a, b) {
+    var o = {};
+    for (var k in a)
+      o[k] = a[k];
+    for (var k in b)
+      o[k] = b[k];
+    return o;
+  };
+  var wcln = function(fn, fnStr, td2) {
+    var dt = fn();
+    var st = fn.toString();
+    var ks = st.slice(st.indexOf("[") + 1, st.lastIndexOf("]")).replace(/\s+/g, "").split(",");
+    for (var i2 = 0; i2 < dt.length; ++i2) {
+      var v = dt[i2], k = ks[i2];
+      if (typeof v == "function") {
+        fnStr += ";" + k + "=";
+        var st_1 = v.toString();
+        if (v.prototype) {
+          if (st_1.indexOf("[native code]") != -1) {
+            var spInd = st_1.indexOf(" ", 8) + 1;
+            fnStr += st_1.slice(spInd, st_1.indexOf("(", spInd));
+          } else {
+            fnStr += st_1;
+            for (var t in v.prototype)
+              fnStr += ";" + k + ".prototype." + t + "=" + v.prototype[t].toString();
+          }
+        } else
+          fnStr += st_1;
+      } else
+        td2[k] = v;
+    }
+    return [fnStr, td2];
+  };
+  var ch = [];
+  var cbfs = function(v) {
+    var tl = [];
+    for (var k in v) {
+      if (v[k].buffer) {
+        tl.push((v[k] = new v[k].constructor(v[k])).buffer);
+      }
+    }
+    return tl;
+  };
+  var wrkr = function(fns, init, id, cb) {
+    var _a2;
+    if (!ch[id]) {
+      var fnStr = "", td_1 = {}, m = fns.length - 1;
+      for (var i2 = 0; i2 < m; ++i2)
+        _a2 = wcln(fns[i2], fnStr, td_1), fnStr = _a2[0], td_1 = _a2[1];
+      ch[id] = wcln(fns[m], fnStr, td_1);
+    }
+    var td2 = mrg({}, ch[id][1]);
+    return wk(ch[id][0] + ";onmessage=function(e){for(var k in e.data)self[k]=e.data[k];onmessage=" + init.toString() + "}", id, td2, cbfs(td2), cb);
+  };
+  var bDflt = function() {
+    return [u8, u16, u32, fleb, fdeb, clim, revfl, revfd, flm, flt, fdm, fdt, rev, deo, et, hMap, wbits, wbits16, hTree, ln, lc, clen, wfblk, wblk, shft, slc, dflt, dopt, deflateSync, pbf];
+  };
+  var pbf = function(msg) {
+    return postMessage(msg, [msg.buffer]);
+  };
+  var cbify = function(dat, opts, fns, init, id, cb) {
+    var w = wrkr(fns, init, id, function(err2, dat2) {
+      w.terminate();
+      cb(err2, dat2);
+    });
+    w.postMessage([dat, opts], opts.consume ? [dat.buffer] : []);
+    return function() {
+      w.terminate();
+    };
+  };
+  var wbytes = function(d, b, v) {
+    for (; v; ++b)
+      d[b] = v, v >>>= 8;
+  };
+  function deflate(data, opts, cb) {
+    if (!cb)
+      cb = opts, opts = {};
+    if (typeof cb != "function")
+      err(7);
+    return cbify(data, opts, [
+      bDflt
+    ], function(ev) {
+      return pbf(deflateSync(ev.data[0], ev.data[1]));
+    }, 0, cb);
+  }
+  function deflateSync(data, opts) {
+    return dopt(data, opts || {}, 0, 0);
+  }
+  var fltn = function(d, p, t, o) {
+    for (var k in d) {
+      var val = d[k], n = p + k, op = o;
+      if (Array.isArray(val))
+        op = mrg(o, val[1]), val = val[0];
+      if (val instanceof u8)
+        t[n] = [val, op];
+      else {
+        t[n += "/"] = [new u8(0), op];
+        fltn(val, n, t, o);
+      }
+    }
+  };
+  var te = typeof TextEncoder != "undefined" && /* @__PURE__ */ new TextEncoder();
+  var td = typeof TextDecoder != "undefined" && /* @__PURE__ */ new TextDecoder();
+  var tds = 0;
+  try {
+    td.decode(et, { stream: true });
+    tds = 1;
+  } catch (e) {
+  }
+  function strToU8(str, latin1) {
+    if (latin1) {
+      var ar_1 = new u8(str.length);
+      for (var i2 = 0; i2 < str.length; ++i2)
+        ar_1[i2] = str.charCodeAt(i2);
+      return ar_1;
+    }
+    if (te)
+      return te.encode(str);
+    var l = str.length;
+    var ar = new u8(str.length + (str.length >> 1));
+    var ai = 0;
+    var w = function(v) {
+      ar[ai++] = v;
+    };
+    for (var i2 = 0; i2 < l; ++i2) {
+      if (ai + 5 > ar.length) {
+        var n = new u8(ai + 8 + (l - i2 << 1));
+        n.set(ar);
+        ar = n;
+      }
+      var c = str.charCodeAt(i2);
+      if (c < 128 || latin1)
+        w(c);
+      else if (c < 2048)
+        w(192 | c >> 6), w(128 | c & 63);
+      else if (c > 55295 && c < 57344)
+        c = 65536 + (c & 1023 << 10) | str.charCodeAt(++i2) & 1023, w(240 | c >> 18), w(128 | c >> 12 & 63), w(128 | c >> 6 & 63), w(128 | c & 63);
+      else
+        w(224 | c >> 12), w(128 | c >> 6 & 63), w(128 | c & 63);
+    }
+    return slc(ar, 0, ai);
+  }
+  var exfl = function(ex) {
+    var le = 0;
+    if (ex) {
+      for (var k in ex) {
+        var l = ex[k].length;
+        if (l > 65535)
+          err(9);
+        le += l + 4;
+      }
+    }
+    return le;
+  };
+  var wzh = function(d, b, f, fn, u, c, ce, co) {
+    var fl2 = fn.length, ex = f.extra, col = co && co.length;
+    var exl = exfl(ex);
+    wbytes(d, b, ce != null ? 33639248 : 67324752), b += 4;
+    if (ce != null)
+      d[b++] = 20, d[b++] = f.os;
+    d[b] = 20, b += 2;
+    d[b++] = f.flag << 1 | (c < 0 && 8), d[b++] = u && 8;
+    d[b++] = f.compression & 255, d[b++] = f.compression >> 8;
+    var dt = new Date(f.mtime == null ? Date.now() : f.mtime), y = dt.getFullYear() - 1980;
+    if (y < 0 || y > 119)
+      err(10);
+    wbytes(d, b, y << 25 | dt.getMonth() + 1 << 21 | dt.getDate() << 16 | dt.getHours() << 11 | dt.getMinutes() << 5 | dt.getSeconds() >>> 1), b += 4;
+    if (c != -1) {
+      wbytes(d, b, f.crc);
+      wbytes(d, b + 4, c < 0 ? -c - 2 : c);
+      wbytes(d, b + 8, f.size);
+    }
+    wbytes(d, b + 12, fl2);
+    wbytes(d, b + 14, exl), b += 16;
+    if (ce != null) {
+      wbytes(d, b, col);
+      wbytes(d, b + 6, f.attrs);
+      wbytes(d, b + 10, ce), b += 14;
+    }
+    d.set(fn, b);
+    b += fl2;
+    if (exl) {
+      for (var k in ex) {
+        var exf = ex[k], l = exf.length;
+        wbytes(d, b, +k);
+        wbytes(d, b + 2, l);
+        d.set(exf, b + 4), b += 4 + l;
+      }
+    }
+    if (col)
+      d.set(co, b), b += col;
+    return b;
+  };
+  var wzf = function(o, b, c, d, e) {
+    wbytes(o, b, 101010256);
+    wbytes(o, b + 8, c);
+    wbytes(o, b + 10, c);
+    wbytes(o, b + 12, d);
+    wbytes(o, b + 16, e);
+  };
+  function zip(data, opts, cb) {
+    if (!cb)
+      cb = opts, opts = {};
+    if (typeof cb != "function")
+      err(7);
+    var r = {};
+    fltn(data, "", r, opts);
+    var k = Object.keys(r);
+    var lft = k.length, o = 0, tot = 0;
+    var slft = lft, files = new Array(lft);
+    var term = [];
+    var tAll = function() {
+      for (var i22 = 0; i22 < term.length; ++i22)
+        term[i22]();
+    };
+    var cbd = function(a, b) {
+      mt(function() {
+        cb(a, b);
+      });
+    };
+    mt(function() {
+      cbd = cb;
+    });
+    var cbf = function() {
+      var out = new u8(tot + 22), oe = o, cdl = tot - o;
+      tot = 0;
+      for (var i22 = 0; i22 < slft; ++i22) {
+        var f = files[i22];
+        try {
+          var l = f.c.length;
+          wzh(out, tot, f, f.f, f.u, l);
+          var badd = 30 + f.f.length + exfl(f.extra);
+          var loc = tot + badd;
+          out.set(f.c, loc);
+          wzh(out, o, f, f.f, f.u, l, tot, f.m), o += 16 + badd + (f.m ? f.m.length : 0), tot = loc + l;
+        } catch (e) {
+          return cbd(e, null);
+        }
+      }
+      wzf(out, o, files.length, cdl, oe);
+      cbd(null, out);
+    };
+    if (!lft)
+      cbf();
+    var _loop_1 = function(i22) {
+      var fn = k[i22];
+      var _a2 = r[fn], file = _a2[0], p = _a2[1];
+      var c = crc(), size = file.length;
+      c.p(file);
+      var f = strToU8(fn), s = f.length;
+      var com = p.comment, m = com && strToU8(com), ms = m && m.length;
+      var exl = exfl(p.extra);
+      var compression = p.level == 0 ? 0 : 8;
+      var cbl = function(e, d) {
+        if (e) {
+          tAll();
+          cbd(e, null);
+        } else {
+          var l = d.length;
+          files[i22] = mrg(p, {
+            size,
+            crc: c.d(),
+            c: d,
+            f,
+            m,
+            u: s != fn.length || m && com.length != ms,
+            compression
+          });
+          o += 30 + s + exl + l;
+          tot += 76 + 2 * (s + exl) + (ms || 0) + l;
+          if (!--lft)
+            cbf();
+        }
+      };
+      if (s > 65535)
+        cbl(err(11, 0, 1), null);
+      if (!compression)
+        cbl(null, file);
+      else if (size < 16e4) {
+        try {
+          cbl(null, deflateSync(file, p));
+        } catch (e) {
+          cbl(e, null);
+        }
+      } else
+        term.push(deflate(file, p, cbl));
+    };
+    for (var i2 = 0; i2 < slft; ++i2) {
+      _loop_1(i2);
+    }
+    return tAll;
+  }
+  var mt = typeof queueMicrotask == "function" ? queueMicrotask : typeof setTimeout == "function" ? setTimeout : function(fn) {
+    fn();
+  };
+  var import_file_saver = __toESM(require_FileSaver_min());
   var addAjaxListener = function() {
     attachAjaxEventRepeater();
     function onRx(eventName, options) {
@@ -4242,7 +4159,91 @@ Check your performTransitions() config.`;
     window.XMLHttpRequest.prototype.send = sendReplacement;
     console.log("attachAjaxEventRepeater");
   }
-  var import_regexp2 = __toESM(require_regexp());
+  var import_regexp = __toESM(require_regexp());
+  (function() {
+    if (typeof window.CustomEvent === "function")
+      return false;
+    function CustomEvent2(event, params) {
+      params = params || { bubbles: false, cancelable: false, detail: null };
+      const evt = document.createEvent("CustomEvent");
+      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+      return evt;
+    }
+    window.CustomEvent = CustomEvent2;
+  })();
+  var messages = function() {
+    let global2;
+    try {
+      global2 = window;
+    } catch (e) {
+      global2 = self;
+    }
+    const BUS = "message-bus";
+    const eventMap = /* @__PURE__ */ new Map();
+    function emit(eventName, ...args) {
+      const detail = { eventName, args, timestamp: Date.now() };
+      const event = new CustomEvent(BUS, { detail });
+      global2.dispatchEvent(event);
+    }
+    function on(eventNameOrPattern, cb) {
+      if (typeof cb !== "function") {
+        throw new TypeError("Callback is not a function");
+      }
+      const cbMap = eventMap.has(eventNameOrPattern) ? eventMap.get(eventNameOrPattern) : eventMap.set(eventNameOrPattern, /* @__PURE__ */ new Map()).get(eventNameOrPattern);
+      if (cbMap.has(cb)) {
+        throw new Error("Callback already deals with this event");
+      }
+      const isPlainMatcher = typeof eventNameOrPattern === "string" && eventNameOrPattern.indexOf("*") === -1;
+      const rx = typeof eventNameOrPattern === "string" ? (0, import_regexp.makeRegExpFromWildcardString)(eventNameOrPattern) : eventNameOrPattern instanceof RegExp ? eventNameOrPattern : null;
+      if (rx === null) {
+        const reason = `Could not figure-out eventNameOrPattern`;
+        throw new Error(`${reason} = ${eventNameOrPattern}`);
+      }
+      const eventHandler = (event) => {
+        const { eventName = "", args = [] } = event?.detail || {};
+        const runCallback = rx.test(eventName);
+        if (runCallback) {
+          if (isPlainMatcher) {
+            cb(...args);
+          } else {
+            cb(eventName, ...args);
+          }
+        }
+      };
+      cbMap.set(cb, eventHandler);
+      global2.addEventListener(BUS, eventHandler);
+      return () => off(eventNameOrPattern, cb);
+    }
+    function off(eventNameOrPattern, cb) {
+      if (typeof cb !== "function") {
+        throw new TypeError("Callback is not a function");
+      }
+      if (!eventMap.has(eventNameOrPattern)) {
+        throw new Error("No event-listener for that name/pattern");
+      }
+      const cbMap = eventMap.get(eventNameOrPattern);
+      if (!cbMap.has(cb)) {
+        throw new Error("Event callback not found for name/pattern");
+      }
+      const eventHandler = cbMap.get(cb);
+      global2.removeEventListener(BUS, eventHandler);
+      cbMap.delete(cb);
+    }
+    function once(eventNameOrPattern, cb) {
+      const off2 = on(eventNameOrPattern, handle);
+      return off2;
+      function handle(...args) {
+        cb(...args);
+        off2();
+      }
+    }
+    return {
+      emit,
+      on,
+      off,
+      once
+    };
+  }();
   var actions = {
     OBIS_READY: "obis-ready",
     FIRST_RUN: "first-run",
@@ -4295,13 +4296,6 @@ Check your performTransitions() config.`;
       ENTRIES: "update/entries"
     }
   };
-  messages.on(actions.ui.RENDERING, (m) => {
-    m.Fragment = {
-      view: function(vnode) {
-        return vnode.children;
-      }
-    };
-  });
   var obisFetchFlow = `
 
   // Happy path
@@ -4322,22 +4316,9 @@ Check your performTransitions() config.`;
     (getting-entries -> failed-entries -> idle)
 
 `;
-  var obisDefault = { rootPath: "." };
-  var obis2 = window.obis || (window.obis = obisDefault);
   obis2.pluginRegistry = /* @__PURE__ */ new Map();
   var getPluginMeta = (name) => obis2.pluginRegistry.has(name) ? obis2.pluginRegistry.get(name) : obis2.pluginRegistry.set(name, {}).get(name);
-  addObisDependencies(obis2);
-  if (document.title !== "OBIS :: Statements Browser") {
-    main();
-  }
-  function main() {
-    if (obis2.fromBookmarklet) {
-      loadObisInChunks(obis2);
-    } else {
-      loadObisAsBundle(obis2);
-    }
-  }
-  function addObisDependencies(obis22) {
+  function extendObisNamespace(obis22) {
     obis22.deps = {
       addAjaxListener,
       AjaxRequester,
@@ -4371,27 +4352,7 @@ Check your performTransitions() config.`;
       messages.emit(actions.plugin.ALL_REGISTERED);
     };
   }
-  function loadObisAsBundle(obis22) {
-    messages.on(actions.plugin.AVAILABLE, (name) => {
-      obis22.plugin = getPluginMeta(name);
-      const { loaderFn } = obis22.plugin;
-      if (typeof loaderFn !== "function") {
-        const reason = `Plugin "${name}" did not provide a valid load-function: ${loaderFn}`;
-        throw new TypeError(reason);
-      }
-      loaderFn();
-      messages.emit(actions.plugin.LOADED);
-    });
-    let waitingOn = 2;
-    function checkReady() {
-      waitingOn -= 1;
-      if (waitingOn === 0) {
-        messages.emit(actions.OBIS_READY);
-      }
-    }
-    messages.on(actions.ui.LOADED, checkReady);
-    messages.on(actions.plugin.LOADED, checkReady);
-  }
+  var import_regexp2 = __toESM(require_regexp());
   function loadObisInChunks(obis22) {
     const { rootPath, pluginRegistry } = obis22;
     const loadQueue = [`${rootPath}/plugins.js`];
@@ -4466,6 +4427,45 @@ Check your performTransitions() config.`;
       }
     };
     loadQueuedFiles();
+  }
+  function loadObisAsBundle(obis22) {
+    messages.on(actions.plugin.AVAILABLE, (name) => {
+      obis22.plugin = getPluginMeta(name);
+      const { loaderFn } = obis22.plugin;
+      if (typeof loaderFn !== "function") {
+        const reason = `Plugin "${name}" did not provide a valid load-function: ${loaderFn}`;
+        throw new TypeError(reason);
+      }
+      loaderFn();
+      messages.emit(actions.plugin.LOADED);
+    });
+    let waitingOn = 2;
+    function checkReady() {
+      waitingOn -= 1;
+      if (waitingOn === 0) {
+        messages.emit(actions.OBIS_READY);
+      }
+    }
+    messages.on(actions.ui.LOADED, checkReady);
+    messages.on(actions.plugin.LOADED, checkReady);
+  }
+  messages.on(actions.ui.RENDERING, (m) => {
+    m.Fragment = {
+      view: function(vnode) {
+        return vnode.children;
+      }
+    };
+  });
+  extendObisNamespace(obis2);
+  if (document.title !== "OBIS :: Statements Browser") {
+    main();
+  }
+  function main() {
+    if (obis2.fromBookmarklet) {
+      loadObisInChunks(obis2);
+    } else {
+      loadObisAsBundle(obis2);
+    }
   }
 })();
 (() => {
@@ -5825,10 +5825,10 @@ Check your performTransitions() config.`;
         var path = template.slice(0, pathEnd);
         var query = {};
         assign(query, params);
-        var resolved = path.replace(/:([^\/\.-]+)(\.{3})?/g, function(m25, key, variadic) {
+        var resolved = path.replace(/:([^\/\.-]+)(\.{3})?/g, function(m29, key, variadic) {
           delete query[key];
           if (params[key] == null)
-            return m25;
+            return m29;
           return variadic ? params[key] : encodeURIComponent(String(params[key]));
         });
         var newQueryIndex = resolved.indexOf("?");
@@ -6145,9 +6145,9 @@ Check your performTransitions() config.`;
           // don't also accidentally escape `-` and make it harder to detect it to
           // ban it from template parameters.
           /:([^\/.-]+)(\.{3}|\.(?!\.)|-)?|[\\^$*+.()|\[\]{}]/g,
-          function(m25, key, extra) {
+          function(m29, key, extra) {
             if (key == null)
-              return "\\" + m25;
+              return "\\" + m29;
             keys.push({ k: key, r: extra === "..." });
             if (extra === "...")
               return "(.*)";
@@ -6202,7 +6202,7 @@ Check your performTransitions() config.`;
     "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/api/router.js"(exports, module) {
       "use strict";
       var Vnode = require_vnode();
-      var m25 = require_hyperscript();
+      var m29 = require_hyperscript();
       var Promise2 = require_promise();
       var buildPathname = require_build2();
       var parsePathname = require_parse2();
@@ -6369,7 +6369,7 @@ Check your performTransitions() config.`;
         route.prefix = "#!";
         route.Link = {
           view: function(vnode) {
-            var child = m25(
+            var child = m29(
               vnode.attrs.selector || "a",
               censor(vnode.attrs, ["options", "params", "selector", "onclick"]),
               vnode.children
@@ -6427,27 +6427,27 @@ Check your performTransitions() config.`;
       var hyperscript = require_hyperscript2();
       var request = require_request2();
       var mountRedraw = require_mount_redraw2();
-      var m25 = function m26() {
+      var m29 = function m30() {
         return hyperscript.apply(this, arguments);
       };
-      m25.m = hyperscript;
-      m25.trust = hyperscript.trust;
-      m25.fragment = hyperscript.fragment;
-      m25.Fragment = "[";
-      m25.mount = mountRedraw.mount;
-      m25.route = require_route();
-      m25.render = require_render2();
-      m25.redraw = mountRedraw.redraw;
-      m25.request = request.request;
-      m25.jsonp = request.jsonp;
-      m25.parseQueryString = require_parse();
-      m25.buildQueryString = require_build();
-      m25.parsePathname = require_parse2();
-      m25.buildPathname = require_build2();
-      m25.vnode = require_vnode();
-      m25.PromisePolyfill = require_polyfill();
-      m25.censor = require_censor();
-      module.exports = m25;
+      m29.m = hyperscript;
+      m29.trust = hyperscript.trust;
+      m29.fragment = hyperscript.fragment;
+      m29.Fragment = "[";
+      m29.mount = mountRedraw.mount;
+      m29.route = require_route();
+      m29.render = require_render2();
+      m29.redraw = mountRedraw.redraw;
+      m29.request = request.request;
+      m29.jsonp = request.jsonp;
+      m29.parseQueryString = require_parse();
+      m29.buildQueryString = require_build();
+      m29.parsePathname = require_parse2();
+      m29.buildPathname = require_build2();
+      m29.vnode = require_vnode();
+      m29.PromisePolyfill = require_polyfill();
+      m29.censor = require_censor();
+      module.exports = m29;
     }
   });
   var require_timers = __commonJS({
@@ -6744,11 +6744,11 @@ Check your performTransitions() config.`;
         let [e, o] = lt(n) ? [{}, Array.from(n)] : pt2(n) || wt(n) ? [{ isMap: true }, n.entries()] : Ot(n) ? [{ isSet: true }, n.values()] : [{}, n];
         if (!B(o))
           return U2(...t)(o).result;
-        let [r2, u] = t.reduce(([s2, m25], S) => It(S) ? [S, m25] : [s2, [...m25, S]], [() => ({ value: () => {
+        let [r2, u] = t.reduce(([s2, m29], S) => It(S) ? [S, m29] : [s2, [...m29, S]], [() => ({ value: () => {
         } }), []]), c = [];
         do {
-          let { value: s2, done: m25 } = o.next();
-          if (m25)
+          let { value: s2, done: m29 } = o.next();
+          if (m29)
             return r2().value();
           c.push(s2);
           let { found: S, result: Z2 } = U2(...u)(e.isSet ? s2 : e.isMap ? { key: s2[0], value: s2[1] } : [...c]);
@@ -6817,7 +6817,7 @@ Check your performTransitions() config.`;
       var Qt = (...t) => (n) => g2(n) && (([e, o]) => e.length && e.every((r2) => o.includes(r2)))([t.flat(), w2(n)]);
       var Tt = (e) => {
         var o = e, { getValue: t } = o, n = q2(o, ["getValue"]);
-        return St(n).reduce((r2, [u, c]) => dt(r2, { [u]: (s2) => (m25) => ({ matched: () => c(m25), value: () => f2(s2) ? s2(t(m25)) : s2 }) }), {});
+        return St(n).reduce((r2, [u, c]) => dt(r2, { [u]: (s2) => (m29) => ({ matched: () => c(m29), value: () => f2(s2) ? s2(t(m29)) : s2 }) }), {});
       };
       var Xt = (t) => !!t;
       var Yt = (t) => !t;
@@ -6912,7 +6912,7 @@ Check your performTransitions() config.`;
       };
     }
   });
-  var import_mithril26 = __toESM(require_mithril());
+  var import_mithril30 = __toESM(require_mithril());
   var import_timers3 = __toESM(require_timers());
   var import_promises2 = __toESM(require_promises());
   var actions = {
@@ -8441,7 +8441,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const statementDate = new Date(date);
     return "OBIS-Statements-" + statementDate.getFullYear() + "-" + dateTimeString(/* @__PURE__ */ new Date(), "_") + ".zip";
   }
-  var import_mithril17 = __toESM(require_mithril());
+  var progressBar = {
+    max: 0,
+    value: 0
+  };
+  var import_mithril22 = __toESM(require_mithril());
   var import_mithril = __toESM(require_mithril(), 1);
   var { parse: $parse, stringify: $stringify } = JSON;
   var Primitive = String;
@@ -9646,90 +9650,25 @@ Check your performTransitions() config.`;
     useState,
     useMemo
   });
-  var A = Object.defineProperty;
-  var G = (t, n) => {
-    for (var e in n)
-      A(t, e, { get: n[e], enumerable: true });
-  };
-  var d = {};
-  G(d, { instanceOf: () => l, isArguments: () => R, isArray: () => K, isDate: () => Q, isFormData: () => a, isFunction: () => V, isIterable: () => y, isMap: () => _, isNumber: () => X, isObject: () => h, isPojo: () => j, isRegExp: () => Y, isSet: () => Z, isString: () => T });
-  var q = Object.prototype;
-  var J = q.toString;
-  var v = (t) => (n) => typeof n === t;
-  var l = (t) => (n) => n instanceof t;
-  var { isArray: K } = Array;
-  var R = (t) => J.call(t) === "[object Arguments]";
-  var Q = (t) => l(Date)(t) && !isNaN(t);
-  var V = v("function");
-  var T = v("string");
-  var X = (t) => t === t && v("number")(t);
-  var h = (t) => t !== null && v("object")(t);
-  var Y = l(RegExp);
-  var Z = l(Set);
-  var _ = l(Map);
-  var j = (t) => t === null || !h(t) || R(t) ? false : Object.getPrototypeOf(t) === q;
-  var y = (t) => t != null && [t[Symbol.iterator], t.next].every(V);
-  var a = (t) => typeof FormData != "undefined" && l(FormData)(t);
-  var { isArguments: k, isArray: g, isDate: bt, isFunction: O, isNumber: tt } = d;
-  var { isPojo: w, isRegExp: H, isString: I, instanceOf: Nt } = d;
-  var { isMap: nt, isSet: et, isIterable: ot, isFormData: rt } = d;
-  var { keys: p, entries: st, assign: it } = Object;
-  var f = 2e4;
-  function Dt(t) {
-    return (...n) => ct(...n)(t);
-  }
-  var ct = (...t) => (n) => {
-    let [e, o] = k(n) ? [{}, Array.from(n)] : nt(n) || rt(n) ? [{ isMap: true }, n.entries()] : et(n) ? [{ isSet: true }, n.values()] : [{}, n];
-    if (!ot(o))
-      return z(...t)(o).result;
-    let [i, u] = t.reduce(([r2, m25], S) => ut(S) ? [S, m25] : [r2, [...m25, S]], [() => ({ value: () => {
-    } }), []]), c = [];
-    do {
-      let { value: r2, done: m25 } = o.next();
-      if (m25)
-        return i().value();
-      c.push(r2);
-      let { found: S, result: C } = z(...u)(e.isSet ? r2 : e.isMap ? { key: r2[0], value: r2[1] } : [...c]);
-      if (S)
-        return C;
-    } while (c.length < f || e.isSet || e.isMap);
-    throw new Error(`Hit iterationLimit: ${f}. Use setIterationLimit(Infinity) to disable.`);
-  };
-  var z = (...t) => {
-    let n;
-    return (e) => ({ found: !!t.find((i) => {
-      let u = i(e), { matched: c, value: r2 } = u || {};
-      return [c, r2].every(O) ? c(e) && (n = r2(e), true) : u && (n = u);
-    }), result: n });
-  };
-  var U = Symbol("@@match-iz/otherwise");
-  var ut = (t) => (t == null ? void 0 : t[U]) === true;
-  var Ft = (t) => {
-    let n = (e) => ({ matched: () => true, value: () => O(t) ? t(e) : t });
-    return n[U] = true, n;
-  };
-  var D = (t) => (n) => (e) => ({ matched: () => s(t, e, (o) => e = o), value: () => O(n) ? I(e) && H(t) ? n(...mt(e.match(t))) : n(e) : n });
-  var Wt = (...t) => {
-    if (t.length === 1) {
-      let [n] = t;
-      return D(n);
-    }
-    if (t.length === 2) {
-      let [n, e] = t;
-      return D(n)(e);
-    }
-    if (t.length > 2) {
-      let n = t.slice(-1)[0], e = t.slice(0, -1);
-      return D(pt(e))(n);
-    }
-    throw new Error("Expected at least 1 argument");
-  };
-  var mt = (t) => {
-    let { groups: n } = t;
-    return n ? [n, t] : [t];
-  };
-  var s = (t, n, e) => w(t) ? p(t).every((o) => s(t[o], n == null ? void 0 : n[o], e)) : g(t) ? g(n) && t.length === n.length && t.every((o, i) => s(o, n == null ? void 0 : n[i], e)) : O(t) ? t(n, e) : I(n) && H(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-  var pt = (...t) => (n, e) => t.flat().every((o) => s(o, n, e));
+  var import_timers2 = __toESM(require_timers());
+  var uiWidgetStates = `
+
+  loading ->
+  rendering-ui ->
+
+    closed -> opened -> closed
+
+`;
+  var SUPPORTS_YEARS_SLIDER = false;
+  var MAXIMUM_YEARS_TO_FETCH = 10;
+  var DEFAULT_YEARS_TO_FETCH = 3;
+  var STATEMENTS_KEEP_BALANCE_HISTORY = false;
+  var import_mithril2 = __toESM(require_mithril());
+  var Header = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril2.default)("h1", null, "OBIS | ", children);
+  });
+  var import_mithril8 = __toESM(require_mithril());
   function r(e) {
     var t, f2, n = "";
     if ("string" == typeof e || "number" == typeof e)
@@ -9749,14 +9688,14 @@ Check your performTransitions() config.`;
     return n;
   }
   var clsx_m_default = clsx;
-  var import_mithril3 = __toESM(require_mithril());
+  var import_mithril4 = __toESM(require_mithril());
   var import_timers = __toESM(require_timers());
-  var import_mithril2 = __toESM(require_mithril());
+  var import_mithril3 = __toESM(require_mithril());
   var ContainerWithRef = withHooks((props) => {
     const { children } = props || {};
     const { setRef = () => {
     } } = props || {};
-    return /* @__PURE__ */ (0, import_mithril2.default)("div", { oncreate: (vnode) => setRef(vnode.dom) }, children);
+    return /* @__PURE__ */ (0, import_mithril3.default)("div", { oncreate: (vnode) => setRef(vnode.dom) }, children);
   });
   var event = {
     TOGGLE_OPEN: "toggle-open",
@@ -9814,55 +9753,25 @@ Check your performTransitions() config.`;
       () => void (containerEl && setContainerHeight(containerEl.scrollHeight)),
       [containerEl, children]
     );
-    return /* @__PURE__ */ (0, import_mithril3.default)(
+    return /* @__PURE__ */ (0, import_mithril4.default)(
       "div",
       {
         className: `vertical-animation-container ${state}`,
         style: `max-height: ${containerHeight}px`
       },
-      /* @__PURE__ */ (0, import_mithril3.default)(ContainerWithRef, { setRef: setContainerEl }, children)
+      /* @__PURE__ */ (0, import_mithril4.default)(ContainerWithRef, { setRef: setContainerEl }, children)
     );
-  });
-  var import_mithril5 = __toESM(require_mithril());
-  var ProgressBar = withHooks((props) => {
-    const { value, max } = props || {};
-    return /* @__PURE__ */ (0, import_mithril5.default)("progress", { value, max });
   });
   var import_mithril6 = __toESM(require_mithril());
   var Button = withHooks((props) => {
     const { children } = props || {};
-    const { className, handleClick, disabled } = props || {};
+    const { className, onClick: handleClick, disabled } = props || {};
     return /* @__PURE__ */ (0, import_mithril6.default)("button", { className, onclick: handleClick, disabled }, children);
   });
   var import_mithril7 = __toESM(require_mithril());
-  var Subheader = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril7.default)("h2", null, children);
-  });
-  var import_mithril8 = __toESM(require_mithril());
-  var Account = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril8.default)("div", { className: "account" }, children);
-  });
-  var import_mithril9 = __toESM(require_mithril());
-  var AccountName = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril9.default)("h3", { className: "account-name" }, children);
-  });
-  var import_mithril10 = __toESM(require_mithril());
-  var Accounts = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril10.default)("div", { className: "accounts" }, children);
-  });
-  var import_mithril11 = __toESM(require_mithril());
-  var Actions = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril11.default)("div", { className: "actions" }, children);
-  });
-  var import_mithril12 = __toESM(require_mithril());
   var Dialog = withHooks((props) => {
     const { children, hidden } = props || {};
-    return /* @__PURE__ */ (0, import_mithril12.default)(
+    return /* @__PURE__ */ (0, import_mithril7.default)(
       "div",
       {
         className: clsx_m_default("dialog", {
@@ -9872,31 +9781,142 @@ Check your performTransitions() config.`;
       children
     );
   });
-  var import_mithril13 = __toESM(require_mithril());
-  var Header = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril13.default)("h1", null, "OBIS | ", children);
+  var ObisOverlayWidget = withHooks((props) => {
+    const {
+      ready = true,
+      opened = false,
+      alwaysVisibleSlot = null,
+      toggledSlot = null,
+      onToggle: handleToggle = () => {
+      }
+    } = props || {};
+    const closed = !opened;
+    return /* @__PURE__ */ (0, import_mithril8.default)(Dialog, { hidden: !ready }, ready && /* @__PURE__ */ (0, import_mithril8.default)(
+      Button,
+      {
+        className: clsx_m_default("toggle-button", { opened, closed }),
+        onClick: handleToggle,
+        disabled: !ready
+      },
+      "\u21E7"
+    ), alwaysVisibleSlot, /* @__PURE__ */ (0, import_mithril8.default)(VerticalAnimationContainer, { opened }, toggledSlot));
   });
-  var import_mithril14 = __toESM(require_mithril());
-  var StatementsLoaded = withHooks((props) => {
+  var import_mithril11 = __toESM(require_mithril());
+  var A = Object.defineProperty;
+  var G = (t, n) => {
+    for (var e in n)
+      A(t, e, { get: n[e], enumerable: true });
+  };
+  var d = {};
+  G(d, { instanceOf: () => l, isArguments: () => R, isArray: () => K, isDate: () => Q, isFormData: () => a, isFunction: () => V, isIterable: () => y, isMap: () => _, isNumber: () => X, isObject: () => h, isPojo: () => j, isRegExp: () => Y, isSet: () => Z, isString: () => T });
+  var q = Object.prototype;
+  var J = q.toString;
+  var v = (t) => (n) => typeof n === t;
+  var l = (t) => (n) => n instanceof t;
+  var { isArray: K } = Array;
+  var R = (t) => J.call(t) === "[object Arguments]";
+  var Q = (t) => l(Date)(t) && !isNaN(t);
+  var V = v("function");
+  var T = v("string");
+  var X = (t) => t === t && v("number")(t);
+  var h = (t) => t !== null && v("object")(t);
+  var Y = l(RegExp);
+  var Z = l(Set);
+  var _ = l(Map);
+  var j = (t) => t === null || !h(t) || R(t) ? false : Object.getPrototypeOf(t) === q;
+  var y = (t) => t != null && [t[Symbol.iterator], t.next].every(V);
+  var a = (t) => typeof FormData != "undefined" && l(FormData)(t);
+  var { isArguments: k, isArray: g, isDate: bt, isFunction: O, isNumber: tt } = d;
+  var { isPojo: w, isRegExp: H, isString: I, instanceOf: Nt } = d;
+  var { isMap: nt, isSet: et, isIterable: ot, isFormData: rt } = d;
+  var { keys: p, entries: st, assign: it } = Object;
+  var f = 2e4;
+  function Dt(t) {
+    return (...n) => ct(...n)(t);
+  }
+  var ct = (...t) => (n) => {
+    let [e, o] = k(n) ? [{}, Array.from(n)] : nt(n) || rt(n) ? [{ isMap: true }, n.entries()] : et(n) ? [{ isSet: true }, n.values()] : [{}, n];
+    if (!ot(o))
+      return z(...t)(o).result;
+    let [i, u] = t.reduce(([r2, m29], S) => ut(S) ? [S, m29] : [r2, [...m29, S]], [() => ({ value: () => {
+    } }), []]), c = [];
+    do {
+      let { value: r2, done: m29 } = o.next();
+      if (m29)
+        return i().value();
+      c.push(r2);
+      let { found: S, result: C } = z(...u)(e.isSet ? r2 : e.isMap ? { key: r2[0], value: r2[1] } : [...c]);
+      if (S)
+        return C;
+    } while (c.length < f || e.isSet || e.isMap);
+    throw new Error(`Hit iterationLimit: ${f}. Use setIterationLimit(Infinity) to disable.`);
+  };
+  var z = (...t) => {
+    let n;
+    return (e) => ({ found: !!t.find((i) => {
+      let u = i(e), { matched: c, value: r2 } = u || {};
+      return [c, r2].every(O) ? c(e) && (n = r2(e), true) : u && (n = u);
+    }), result: n });
+  };
+  var U = Symbol("@@match-iz/otherwise");
+  var ut = (t) => (t == null ? void 0 : t[U]) === true;
+  var Ft = (t) => {
+    let n = (e) => ({ matched: () => true, value: () => O(t) ? t(e) : t });
+    return n[U] = true, n;
+  };
+  var D = (t) => (n) => (e) => ({ matched: () => s(t, e, (o) => e = o), value: () => O(n) ? I(e) && H(t) ? n(...mt(e.match(t))) : n(e) : n });
+  var Wt = (...t) => {
+    if (t.length === 1) {
+      let [n] = t;
+      return D(n);
+    }
+    if (t.length === 2) {
+      let [n, e] = t;
+      return D(n)(e);
+    }
+    if (t.length > 2) {
+      let n = t.slice(-1)[0], e = t.slice(0, -1);
+      return D(pt(e))(n);
+    }
+    throw new Error("Expected at least 1 argument");
+  };
+  var mt = (t) => {
+    let { groups: n } = t;
+    return n ? [n, t] : [t];
+  };
+  var s = (t, n, e) => w(t) ? p(t).every((o) => s(t[o], n == null ? void 0 : n[o], e)) : g(t) ? g(n) && t.length === n.length && t.every((o, i) => s(o, n == null ? void 0 : n[i], e)) : O(t) ? t(n, e) : I(n) && H(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+  var pt = (...t) => (n, e) => t.flat().every((o) => s(o, n, e));
+  var import_mithril9 = __toESM(require_mithril());
+  var Actions = withHooks((props) => {
     const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril14.default)("div", { className: "statements-loaded" }, children);
+    return /* @__PURE__ */ (0, import_mithril9.default)("div", { className: "actions" }, children);
   });
-  var import_mithril15 = __toESM(require_mithril());
-  var YearsLoaded = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril15.default)("div", { className: "years-loaded" }, children);
-  });
-  var import_mithril16 = __toESM(require_mithril());
+  var import_mithril10 = __toESM(require_mithril());
+  var import_fp = __toESM(require_fp());
   var YearsSlider = withHooks((props) => {
-    const { value, max = 15, handleUpdate, disabled } = props || {};
-    return /* @__PURE__ */ (0, import_mithril16.default)(
+    const {
+      value,
+      maxYears = 15,
+      defaultYears = 7,
+      onUpdate,
+      disabled
+    } = props || {};
+    const handleUpdate = useCallback(
+      (0, import_fp.flow)(
+        (event2) => event2?.target?.value,
+        ($) => parseInt($, 10),
+        ($) => isNaN($) ? defaultYears : $,
+        ($) => onUpdate($)
+      ),
+      [onUpdate, defaultYears]
+    );
+    return /* @__PURE__ */ (0, import_mithril10.default)(
       "input",
       {
         className: "fetch-slider",
         type: "range",
         min: "1",
-        max,
+        max: maxYears,
         oninput: handleUpdate,
         onchange: handleUpdate,
         value,
@@ -9904,23 +9924,157 @@ Check your performTransitions() config.`;
       }
     );
   });
-  var import_timers2 = __toESM(require_timers());
-  var import_fp = __toESM(require_fp());
-  var SUPPORTS_YEARS_SLIDER = false;
   var { fetchMachine: fetcher } = obis;
+  var YearsAndActionButtons = withHooks((props) => {
+    const {
+      onYearsChanged,
+      onFetch: handleFetchClick,
+      onViewStatements: handleViewStatementsClick2,
+      onDownloadAll: handleDownloadAllClick2
+    } = props || {};
+    const [yearsToFetch, setYearsToFetch] = useState(DEFAULT_YEARS_TO_FETCH);
+    const handleYearsChanged = useCallback(
+      (years) => {
+        setYearsToFetch(years);
+        onYearsChanged(years);
+      },
+      [onYearsChanged]
+    );
+    return /* @__PURE__ */ (0, import_mithril11.default)(Actions, null, Dt(SUPPORTS_YEARS_SLIDER)(
+      Wt(true)(
+        /* @__PURE__ */ (0, import_mithril11.default)(
+          YearsSlider,
+          {
+            maxYears: MAXIMUM_YEARS_TO_FETCH,
+            defaultYears: DEFAULT_YEARS_TO_FETCH,
+            value: yearsToFetch,
+            onUpdate: handleYearsChanged,
+            disabled: !fetcher.inState("idle")
+          }
+        )
+      ),
+      Ft(/* @__PURE__ */ (0, import_mithril11.default)("div", null, "\xA0"))
+    ), /* @__PURE__ */ (0, import_mithril11.default)(
+      Button,
+      {
+        onClick: handleFetchClick,
+        className: "fetch-everything",
+        disabled: !fetcher.inState("idle")
+      },
+      Dt(SUPPORTS_YEARS_SLIDER)(
+        Wt(true)(
+          /* @__PURE__ */ (0, import_mithril11.default)(import_mithril11.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")
+        ),
+        Ft("Fetch statements")
+      )
+    ), /* @__PURE__ */ (0, import_mithril11.default)(
+      Button,
+      {
+        onClick: handleViewStatementsClick2,
+        disabled: !fetcher.inState("found-entries")
+      },
+      "View statements"
+    ), /* @__PURE__ */ (0, import_mithril11.default)(
+      Button,
+      {
+        onClick: handleDownloadAllClick2,
+        disabled: !fetcher.inState("found-entries")
+      },
+      "Download all"
+    ));
+  });
+  var import_mithril17 = __toESM(require_mithril());
+  var import_fp2 = __toESM(require_fp());
+  var import_mithril12 = __toESM(require_mithril());
+  var Account = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril12.default)("div", { className: "account" }, children);
+  });
+  var import_mithril13 = __toESM(require_mithril());
+  var AccountName = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril13.default)("h3", { className: "account-name" }, children);
+  });
+  var import_mithril14 = __toESM(require_mithril());
+  var Accounts = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril14.default)("div", { className: "accounts" }, children);
+  });
+  var import_mithril15 = __toESM(require_mithril());
+  var StatementsLoaded = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril15.default)("div", { className: "statements-loaded" }, children);
+  });
+  var import_mithril16 = __toESM(require_mithril());
+  var YearsLoaded = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril16.default)("div", { className: "years-loaded" }, children);
+  });
+  var ListOfAccountCards = withHooks(() => {
+    return /* @__PURE__ */ (0, import_mithril17.default)(Accounts, null, store2().accounts.map((account) => {
+      const allStatementYears = (0, import_fp2.pipe)(
+        store2(),
+        ($) => $.statements.filter((x) => x.accountId === account.id),
+        ($) => $.map((x) => new Date(x.endDate).getFullYear())
+      );
+      const uniqueStatementYears = (0, import_fp2.pipe)(
+        allStatementYears,
+        ($) => new Set($),
+        ($) => [...$]
+      );
+      return /* @__PURE__ */ (0, import_mithril17.default)(Account, { key: account.id }, /* @__PURE__ */ (0, import_mithril17.default)(StatementsLoaded, null, "Statements: ", allStatementYears.length), /* @__PURE__ */ (0, import_mithril17.default)(YearsLoaded, null, uniqueStatementYears.join(" ")), /* @__PURE__ */ (0, import_mithril17.default)(AccountName, null, account.sortCode, " ", account.accountNumber));
+    }));
+  });
+  var import_mithril21 = __toESM(require_mithril());
+  var import_mithril18 = __toESM(require_mithril());
+  var ProgressBar = withHooks((props) => {
+    const { value, max } = props || {};
+    return /* @__PURE__ */ (0, import_mithril18.default)("progress", { value, max });
+  });
+  var import_mithril19 = __toESM(require_mithril());
+  var Subheader = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril19.default)("h2", null, children);
+  });
+  var import_mithril20 = __toESM(require_mithril());
+  var ShowHelpOnError = withHooks(() => {
+    return /* @__PURE__ */ (0, import_mithril20.default)("span", { style: "font-weight: bold; color: red;" }, "Sorry, something went wrong. Please try again, or report a problem on the", " ", /* @__PURE__ */ (0, import_mithril20.default)(
+      "a",
+      {
+        href: "https://github.com/shuckster/OBIS/issues",
+        target: "_blank",
+        rel: "noopener noreferrer"
+      },
+      "OBIS Github repo"
+    ));
+  });
+  var { fetchMachine: fetcher2 } = obis;
+  var HelpAndProgressBar = withHooks((props) => {
+    const { ready, opened } = props || {};
+    return /* @__PURE__ */ (0, import_mithril21.default)(Subheader, null, Dt({ ready, opened })(
+      Wt({ ready: true, opened: true })(
+        'Hit the "Fetch" button below to try and download everything automatically.'
+      ),
+      Wt({ ready: true, opened: false })(
+        "Welcome! Click that button on the right to see if we can download some statements."
+      ),
+      Ft("Loading...")
+    ), /* @__PURE__ */ (0, import_mithril21.default)("br", null), /* @__PURE__ */ (0, import_mithril21.default)("br", null), fetcher2.inState({
+      "getting-accounts": "Finding accounts...",
+      "getting-statements": "Getting statements...",
+      "getting-entries": "Getting transactions... (takes a moment to finish)",
+      idle: () => Dt(fetcher2.history().some((state) => /^failed-/.test(state)))(
+        Wt(true)(/* @__PURE__ */ (0, import_mithril21.default)(ShowHelpOnError, null)),
+        Ft("")
+      )
+    }), /* @__PURE__ */ (0, import_mithril21.default)(ProgressBar, { ...progressBar }));
+  });
+  var { fetchMachine: fetcher3 } = obis;
   var { Statebot: Statebot2, messages: messages2 } = obis.deps;
-  var { Emit } = fetcher;
-  var MAXIMUM_YEARS_TO_FETCH = 10;
-  var DEFAULT_YEARS_TO_FETCH = 3;
+  var { Emit } = fetcher3;
   var uiMachine = Statebot2("UI", {
     events: messages2,
-    chart: `
-
-    loading ->
-    rendering-ui ->
-      closed -> opened -> closed
-
-  `,
+    chart: uiWidgetStates,
     startIn: false ? "opened" : "loading",
     logLevel: 2
   });
@@ -9936,130 +10090,38 @@ Check your performTransitions() config.`;
       on: actions.ui.TOGGLE_OPEN
     }
   });
-  var progressBar = {
-    max: 0,
-    value: 0
-  };
+  var handleToggleOpen = Emit(actions.ui.TOGGLE_OPEN);
+  var handleViewStatementsClick = Emit(actions.ui.VIEW_STATEMENTS);
+  var handleDownloadAllClick = Emit(actions.ui.DOWNLOAD_STATEMENTS);
   var App = withHooks(() => {
     const state = useStatebot(uiMachine);
     const ready = !["idle", "loading"].includes(state);
-    const closed = state === "closed";
     const opened = state === "opened";
     const [yearsToFetch, setYearsToFetch] = useState(DEFAULT_YEARS_TO_FETCH);
-    const handleToggleOpen = useCallback(Emit(actions.ui.TOGGLE_OPEN), []);
-    const handleRangeSlider = useCallback(
-      (0, import_fp.flow)(
-        (event2) => event2?.target?.value,
-        ($) => parseInt($, 10),
-        ($) => isNaN($) ? DEFAULT_YEARS_TO_FETCH : $,
-        ($) => setYearsToFetch($)
-      ),
-      [setYearsToFetch]
-    );
     const handleFetchClick = useCallback(
       Emit(actions.get.ACCOUNTS, yearsToFetch),
       [yearsToFetch]
     );
-    const handleViewStatementsClick = useCallback(
-      Emit(actions.ui.VIEW_STATEMENTS),
-      []
-    );
-    const handleDownloadAllClick = useCallback(
-      Emit(actions.ui.DOWNLOAD_STATEMENTS),
-      []
-    );
-    return /* @__PURE__ */ (0, import_mithril17.default)(Dialog, { hidden: !ready }, ready && /* @__PURE__ */ (0, import_mithril17.default)(
-      Button,
+    return /* @__PURE__ */ (0, import_mithril22.default)(
+      ObisOverlayWidget,
       {
-        className: clsx_m_default("toggle-button", {
-          opened,
-          closed
-        }),
-        handleClick: handleToggleOpen,
-        disabled: !opened && !closed
-      },
-      "\u21E7"
-    ), /* @__PURE__ */ (0, import_mithril17.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril17.default)(Subheader, null, Dt({ ready, opened })(
-      Wt({ ready: true, opened: true })(
-        "Hit the button below to try and download everything automatically."
-      ),
-      Wt({ ready: true, opened: false })(
-        "Welcome! Click that button on the right to see if we can download some statements."
-      ),
-      Ft("Loading...")
-    ), /* @__PURE__ */ (0, import_mithril17.default)("br", null), /* @__PURE__ */ (0, import_mithril17.default)("br", null), fetcher.inState({
-      "getting-accounts": "Finding accounts...",
-      "getting-statements": "Getting statements...",
-      "getting-entries": "Getting transactions... (takes a moment to finish)",
-      idle: () => Dt(fetcher.history().some((state2) => /^failed-/.test(state2)))(
-        Wt(true)(
-          /* @__PURE__ */ (0, import_mithril17.default)("span", { style: "font-weight: bold; color: red;" }, "Sorry, something went wrong. Please try again, or report a problem on the", " ", /* @__PURE__ */ (0, import_mithril17.default)(
-            "a",
-            {
-              href: "https://github.com/shuckster/OBIS/issues",
-              target: "_blank",
-              rel: "noopener noreferrer"
-            },
-            "OBIS Github repo"
-          ))
-        ),
-        Ft("")
-      )
-    }), /* @__PURE__ */ (0, import_mithril17.default)(ProgressBar, { ...progressBar })), ready && /* @__PURE__ */ (0, import_mithril17.default)(VerticalAnimationContainer, { opened }, /* @__PURE__ */ (0, import_mithril17.default)(Accounts, null, store2().accounts.map((account) => {
-      const allStatementYears = (0, import_fp.pipe)(
-        store2(),
-        ($) => $.statements.filter((x) => x.accountId === account.id),
-        ($) => $.map((x) => new Date(x.endDate).getFullYear())
-      );
-      const uniqueStatementYears = (0, import_fp.pipe)(
-        allStatementYears,
-        ($) => new Set($),
-        ($) => [...$]
-      );
-      return /* @__PURE__ */ (0, import_mithril17.default)(Account, { key: account.id }, /* @__PURE__ */ (0, import_mithril17.default)(StatementsLoaded, null, "Statements: ", allStatementYears.length), /* @__PURE__ */ (0, import_mithril17.default)(YearsLoaded, null, uniqueStatementYears.join(" ")), /* @__PURE__ */ (0, import_mithril17.default)(AccountName, null, account.sortCode, " ", account.accountNumber));
-    })), /* @__PURE__ */ (0, import_mithril17.default)(Actions, null, Dt(SUPPORTS_YEARS_SLIDER)(
-      Wt(true)(
-        /* @__PURE__ */ (0, import_mithril17.default)(
-          YearsSlider,
+        ready,
+        opened,
+        onToggle: handleToggleOpen,
+        alwaysVisibleSlot: /* @__PURE__ */ (0, import_mithril22.default)(import_mithril22.default.Fragment, null, /* @__PURE__ */ (0, import_mithril22.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril22.default)(HelpAndProgressBar, { ready, opened })),
+        toggledSlot: /* @__PURE__ */ (0, import_mithril22.default)(import_mithril22.default.Fragment, null, ready && /* @__PURE__ */ (0, import_mithril22.default)(import_mithril22.default.Fragment, null, /* @__PURE__ */ (0, import_mithril22.default)(ListOfAccountCards, null), /* @__PURE__ */ (0, import_mithril22.default)(
+          YearsAndActionButtons,
           {
-            max: MAXIMUM_YEARS_TO_FETCH,
-            value: yearsToFetch,
-            handleUpdate: handleRangeSlider,
-            disabled: !fetcher.inState("idle")
+            onYearsChanged: setYearsToFetch,
+            onFetch: handleFetchClick,
+            onViewStatements: handleViewStatementsClick,
+            onDownloadAll: handleDownloadAllClick
           }
-        )
-      ),
-      Ft(/* @__PURE__ */ (0, import_mithril17.default)("div", null, "\xA0"))
-    ), /* @__PURE__ */ (0, import_mithril17.default)(
-      Button,
-      {
-        handleClick: handleFetchClick,
-        className: "fetch-everything",
-        disabled: !fetcher.inState("idle")
-      },
-      Dt(SUPPORTS_YEARS_SLIDER)(
-        Wt(true)(
-          /* @__PURE__ */ (0, import_mithril17.default)(import_mithril17.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")
-        ),
-        Ft("Fetch statements")
-      )
-    ), /* @__PURE__ */ (0, import_mithril17.default)(
-      Button,
-      {
-        handleClick: handleViewStatementsClick,
-        disabled: !fetcher.inState("found-entries")
-      },
-      "View statements"
-    ), /* @__PURE__ */ (0, import_mithril17.default)(
-      Button,
-      {
-        handleClick: handleDownloadAllClick,
-        disabled: !fetcher.inState("found-entries")
-      },
-      "Download all"
-    ))));
+        )))
+      }
+    );
   });
-  var import_mithril25 = __toESM(require_mithril());
+  var import_mithril29 = __toESM(require_mithril());
   var { messages: messages3 } = obis.deps;
   function useAccounts() {
     const [accounts, setAccounts] = useState(store2().accounts);
@@ -10179,13 +10241,13 @@ Check your performTransitions() config.`;
       creditDebitDiff
     };
   }
-  var import_fp2 = __toESM(require_fp());
-  var import_mithril19 = __toESM(require_mithril());
+  var import_fp3 = __toESM(require_fp());
+  var import_mithril24 = __toESM(require_mithril());
   var Info = withHooks((props) => {
     const { children = [] } = props || {};
     return children;
   });
-  var import_mithril20 = __toESM(require_mithril());
+  var import_mithril25 = __toESM(require_mithril());
   var Accounts2 = withHooks((props) => {
     const { selectedAccountId, handleClick } = props;
     const accounts = useAccounts();
@@ -10196,7 +10258,7 @@ Check your performTransitions() config.`;
       },
       [handleClick]
     );
-    return accounts.map((account) => /* @__PURE__ */ (0, import_mithril20.default)(
+    return accounts.map((account) => /* @__PURE__ */ (0, import_mithril25.default)(
       "div",
       {
         onclick: clickHandler,
@@ -10206,17 +10268,16 @@ Check your performTransitions() config.`;
           selected: account.id === selectedAccountId
         })
       },
-      /* @__PURE__ */ (0, import_mithril20.default)("div", { className: "statements-loaded" }),
-      /* @__PURE__ */ (0, import_mithril20.default)("div", { className: "years-loaded" }),
-      /* @__PURE__ */ (0, import_mithril20.default)("div", { className: "account-name" }, account.sortCode, " ", account.accountNumber)
+      /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "statements-loaded" }),
+      /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "years-loaded" }),
+      /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "account-name" }, account.sortCode, " ", account.accountNumber)
     ));
   });
-  var import_mithril21 = __toESM(require_mithril());
   var Cursor = withHooks((props) => {
     const { children = [] } = props || {};
     return children;
   });
-  var import_mithril22 = __toESM(require_mithril());
+  var import_mithril26 = __toESM(require_mithril());
   var Months = withHooks((props) => {
     const _months = "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec".split("|");
     const { selectedMonth, months = [], handleClick } = props || {};
@@ -10224,7 +10285,7 @@ Check your performTransitions() config.`;
       (event2) => handleClick(event2?.target?.dataset?.month),
       [handleClick]
     );
-    return _months.map((month, index) => /* @__PURE__ */ (0, import_mithril22.default)(
+    return _months.map((month, index) => /* @__PURE__ */ (0, import_mithril26.default)(
       "div",
       {
         onclick: clickHandler,
@@ -10238,14 +10299,14 @@ Check your performTransitions() config.`;
       month
     ));
   });
-  var import_mithril23 = __toESM(require_mithril());
+  var import_mithril27 = __toESM(require_mithril());
   var Years = withHooks((props) => {
     const { selectedYear, years = [], handleClick } = props || {};
     const clickHandler = useCallback(
       (event2) => handleClick(event2?.target?.dataset?.year),
       [handleClick]
     );
-    return years.map((year) => /* @__PURE__ */ (0, import_mithril23.default)(
+    return years.map((year) => /* @__PURE__ */ (0, import_mithril27.default)(
       "div",
       {
         onclick: clickHandler,
@@ -10258,7 +10319,7 @@ Check your performTransitions() config.`;
       year
     ));
   });
-  var import_mithril24 = __toESM(require_mithril());
+  var import_mithril28 = __toESM(require_mithril());
   var Statement = withHooks((props) => {
     const { selectedStatementId } = props;
     const { entries, startBalance, endBalance } = useStatementEntries(selectedStatementId);
@@ -10270,7 +10331,7 @@ Check your performTransitions() config.`;
       totalDebit -= debit;
       totalCredit += credit;
       runningBalance += credit - debit;
-      return /* @__PURE__ */ (0, import_mithril24.default)("tr", { key: id }, /* @__PURE__ */ (0, import_mithril24.default)("td", { className: "no-wrap" }, simpleDate(date)), /* @__PURE__ */ (0, import_mithril24.default)("td", null, type), /* @__PURE__ */ (0, import_mithril24.default)("td", null, payee), /* @__PURE__ */ (0, import_mithril24.default)("td", null, note), /* @__PURE__ */ (0, import_mithril24.default)("td", { className: "currency" }, convertCentsToDecimalForDisplay(debit)), /* @__PURE__ */ (0, import_mithril24.default)("td", { className: "currency" }, convertCentsToDecimalForDisplay(credit)), /* @__PURE__ */ (0, import_mithril24.default)(
+      return /* @__PURE__ */ (0, import_mithril28.default)("tr", { key: id }, /* @__PURE__ */ (0, import_mithril28.default)("td", { className: "no-wrap" }, simpleDate(date)), /* @__PURE__ */ (0, import_mithril28.default)("td", null, type), /* @__PURE__ */ (0, import_mithril28.default)("td", null, payee), /* @__PURE__ */ (0, import_mithril28.default)("td", null, note), /* @__PURE__ */ (0, import_mithril28.default)("td", { className: "currency" }, convertCentsToDecimalForDisplay(debit)), /* @__PURE__ */ (0, import_mithril28.default)("td", { className: "currency" }, convertCentsToDecimalForDisplay(credit)), /* @__PURE__ */ (0, import_mithril28.default)(
         "td",
         {
           className: clsx_m_default("currency", {
@@ -10278,7 +10339,7 @@ Check your performTransitions() config.`;
           })
         },
         convertCentsToDecimalForDisplay(balance)
-      ), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril24.default)(
+      ), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril28.default)(
         "td",
         {
           className: clsx_m_default("currency", {
@@ -10290,11 +10351,10 @@ Check your performTransitions() config.`;
     });
     let emptyState;
     if (!rows.length) {
-      emptyState = /* @__PURE__ */ (0, import_mithril24.default)("tr", null, /* @__PURE__ */ (0, import_mithril24.default)("td", { className: "no-wrap no-entries", colspan: "8" }, "No entries for this period"));
+      emptyState = /* @__PURE__ */ (0, import_mithril28.default)("tr", null, /* @__PURE__ */ (0, import_mithril28.default)("td", { className: "no-wrap no-entries", colspan: "8" }, "No entries for this period"));
     }
-    return /* @__PURE__ */ (0, import_mithril24.default)("table", { className: "statement" }, /* @__PURE__ */ (0, import_mithril24.default)("thead", null, /* @__PURE__ */ (0, import_mithril24.default)("tr", { className: "table-header" }, /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Date"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Type"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Description"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Memo"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Debit"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Credit"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Balance"), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril24.default)("th", null, "(Calculated)"))), /* @__PURE__ */ (0, import_mithril24.default)("tbody", null, rows.length ? rows : emptyState), /* @__PURE__ */ (0, import_mithril24.default)("tfoot", null, /* @__PURE__ */ (0, import_mithril24.default)("tr", { className: "table-footer" }, /* @__PURE__ */ (0, import_mithril24.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril24.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(totalDebit)), /* @__PURE__ */ (0, import_mithril24.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(totalCredit)), /* @__PURE__ */ (0, import_mithril24.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(endBalance)), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril24.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(runningBalance)))));
+    return /* @__PURE__ */ (0, import_mithril28.default)("table", { className: "statement" }, /* @__PURE__ */ (0, import_mithril28.default)("thead", null, /* @__PURE__ */ (0, import_mithril28.default)("tr", { className: "table-header" }, /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Date"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Type"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Description"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Memo"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Debit"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Credit"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Balance"), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril28.default)("th", null, "(Calculated)"))), /* @__PURE__ */ (0, import_mithril28.default)("tbody", null, rows.length ? rows : emptyState), /* @__PURE__ */ (0, import_mithril28.default)("tfoot", null, /* @__PURE__ */ (0, import_mithril28.default)("tr", { className: "table-footer" }, /* @__PURE__ */ (0, import_mithril28.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril28.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(totalDebit)), /* @__PURE__ */ (0, import_mithril28.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(totalCredit)), /* @__PURE__ */ (0, import_mithril28.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(endBalance)), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril28.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(runningBalance)))));
   });
-  var STATEMENTS_KEEP_BALANCE_HISTORY = false;
   function createStatementsWindow() {
     const windowRef = window.open(
       "text/html",
@@ -10307,7 +10367,7 @@ Check your performTransitions() config.`;
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          /* ../../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-37188-JSrsZYm3oco5/OBIS/src/ui/styles/statements-browser/all.css */
+          /* ../../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-77544-BlSShICvynJS/OBIS/src/ui/styles/statements-browser/all.css */
 body.obis-statements-browser {
   font-size: 13px;
   font-family: sans-serif;
@@ -10609,14 +10669,14 @@ body.obis-statements-browser .month.no-entries {
     const [years, setYears] = useState([]);
     const [months, setMonths] = useState([]);
     useEffect(() => {
-      const uniqueYears = (0, import_fp2.pipe)(
+      const uniqueYears = (0, import_fp3.pipe)(
         accountStatements,
         ($) => $.map((x) => new Date(x.endDate)),
         ($) => $.map((x) => x.getFullYear()),
         ($) => new Set($),
         ($) => [...$]
       );
-      const uniqueMonths = (0, import_fp2.pipe)(
+      const uniqueMonths = (0, import_fp3.pipe)(
         accountStatements,
         ($) => $.map((x) => new Date(x.endDate)),
         ($) => $.filter((x) => x.getFullYear() == selectedYear),
@@ -10655,7 +10715,7 @@ body.obis-statements-browser .month.no-entries {
       dateWithDifferentYear.setFullYear(year);
       setSelectedStatementId(getNearestToDate(dateWithDifferentYear));
     };
-    return /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "grid-container" }, /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "header" }, /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "info-and-accounts" }, /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "info" }, /* @__PURE__ */ (0, import_mithril25.default)(Info, null, /* @__PURE__ */ (0, import_mithril25.default)("h1", null, "OBIS | Statements Browser"), /* @__PURE__ */ (0, import_mithril25.default)("h2", null, accountInfo, " \u2022", " ", !isNaN(selectedStatementDate) && simpleDate(selectedStatementDate)), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "balance-summary" }, totalCredit > 0 && /* @__PURE__ */ (0, import_mithril25.default)("span", null, convertCentsToDecimalForDisplay(totalCredit), " in"), totalDebit > 0 && /* @__PURE__ */ (0, import_mithril25.default)("span", null, convertCentsToDecimalForDisplay(totalDebit), " out"), creditDebitDiff !== 0 && /* @__PURE__ */ (0, import_mithril25.default)(
+    return /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "grid-container" }, /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "header" }, /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "info-and-accounts" }, /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "info" }, /* @__PURE__ */ (0, import_mithril29.default)(Info, null, /* @__PURE__ */ (0, import_mithril29.default)("h1", null, "OBIS | Statements Browser"), /* @__PURE__ */ (0, import_mithril29.default)("h2", null, accountInfo, " \u2022", " ", !isNaN(selectedStatementDate) && simpleDate(selectedStatementDate)), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "balance-summary" }, totalCredit > 0 && /* @__PURE__ */ (0, import_mithril29.default)("span", null, convertCentsToDecimalForDisplay(totalCredit), " in"), totalDebit > 0 && /* @__PURE__ */ (0, import_mithril29.default)("span", null, convertCentsToDecimalForDisplay(totalDebit), " out"), creditDebitDiff !== 0 && /* @__PURE__ */ (0, import_mithril29.default)(
       "span",
       {
         className: clsx_m_default({
@@ -10665,38 +10725,38 @@ body.obis-statements-browser .month.no-entries {
       },
       creditDebitDiff <= 0 ? "\u{1F4C9} " : "\u{1F4C8} ",
       convertCentsToDecimalForDisplay(creditDebitDiff)
-    )))), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "accounts" }, /* @__PURE__ */ (0, import_mithril25.default)(
+    )))), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "accounts" }, /* @__PURE__ */ (0, import_mithril29.default)(
       Accounts2,
       {
         selectedAccountId: accountId,
         handleClick: selectAccount
       }
-    ))), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "cursor-and-months" }, /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "months" }, /* @__PURE__ */ (0, import_mithril25.default)(
+    ))), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "cursor-and-months" }, /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "months" }, /* @__PURE__ */ (0, import_mithril29.default)(
       Months,
       {
         months,
         selectedMonth,
         handleClick: selectMonth
       }
-    )), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "cursor" }, /* @__PURE__ */ (0, import_mithril25.default)(Cursor, null, /* @__PURE__ */ (0, import_mithril25.default)("div", { onclick: olderStatement }, "Older"), /* @__PURE__ */ (0, import_mithril25.default)("div", { onclick: latestStatement }, "\u2022"), /* @__PURE__ */ (0, import_mithril25.default)("div", { onclick: newerStatement }, "Newer"))))), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "main" }, /* @__PURE__ */ (0, import_mithril25.default)(Statement, { selectedStatementId })), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "years" }, /* @__PURE__ */ (0, import_mithril25.default)("div", null, /* @__PURE__ */ (0, import_mithril25.default)(
+    )), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "cursor" }, /* @__PURE__ */ (0, import_mithril29.default)(Cursor, null, /* @__PURE__ */ (0, import_mithril29.default)("div", { onclick: olderStatement }, "Older"), /* @__PURE__ */ (0, import_mithril29.default)("div", { onclick: latestStatement }, "\u2022"), /* @__PURE__ */ (0, import_mithril29.default)("div", { onclick: newerStatement }, "Newer"))))), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "main" }, /* @__PURE__ */ (0, import_mithril29.default)(Statement, { selectedStatementId })), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "years" }, /* @__PURE__ */ (0, import_mithril29.default)("div", null, /* @__PURE__ */ (0, import_mithril29.default)(
       Years,
       {
         years,
         selectedYear,
         handleClick: selectYear
       }
-    ))), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "spacing" }));
+    ))), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "spacing" }));
   });
-  var { fetchMachine: fetcher2 } = obis;
+  var { fetchMachine: fetcher4 } = obis;
   var { messages: messages4 } = obis.deps;
   var { on, emit } = messages4;
-  var { Emit: Emit2 } = fetcher2;
+  var { Emit: Emit2 } = fetcher4;
   window.store = store2;
   window.actions = actions;
   window.messages = messages4;
   function viewStatements() {
     const windowRef = createStatementsWindow();
-    import_mithril26.default.mount(windowRef.document.body, StatementsBrowser);
+    import_mithril30.default.mount(windowRef.document.body, StatementsBrowser);
     const offClose = on(actions.ui.CLOSE_STATEMENTS_WINDOW, () => {
       offClose();
       windowRef.close();
@@ -10707,13 +10767,13 @@ body.obis-statements-browser .month.no-entries {
     makeZip().finally(() => (0, import_promises2.delay)((0, import_timers3.seconds)(3))).finally(Emit2(actions.ui.DOWNLOADED_STATEMENTS));
   });
   function main() {
-    emit(actions.ui.RENDERING, import_mithril26.default);
+    emit(actions.ui.RENDERING, import_mithril30.default);
     const rootEl = document.querySelector("#obis-root") || document.body.appendChild(
       withProps(document.createElement("div"), { id: "obis-root" })
     );
-    import_mithril26.default.mount(rootEl, App);
-    const rafRedraw = () => requestAnimationFrame(() => import_mithril26.default.redraw());
-    fetcher2.onSwitched(rafRedraw);
+    import_mithril30.default.mount(rootEl, App);
+    const rafRedraw = () => requestAnimationFrame(() => import_mithril30.default.redraw());
+    fetcher4.onSwitched(rafRedraw);
     on(actions.STORE_UPDATED, rafRedraw);
     on(actions.ui.UPDATE_PROGRESS_BAR, (metrics) => {
       const newMax = metrics.max;

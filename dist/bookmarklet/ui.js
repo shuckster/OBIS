@@ -1387,10 +1387,10 @@
         var path = template.slice(0, pathEnd);
         var query = {};
         assign(query, params);
-        var resolved = path.replace(/:([^\/\.-]+)(\.{3})?/g, function(m25, key, variadic) {
+        var resolved = path.replace(/:([^\/\.-]+)(\.{3})?/g, function(m29, key, variadic) {
           delete query[key];
           if (params[key] == null)
-            return m25;
+            return m29;
           return variadic ? params[key] : encodeURIComponent(String(params[key]));
         });
         var newQueryIndex = resolved.indexOf("?");
@@ -1717,9 +1717,9 @@
           // don't also accidentally escape `-` and make it harder to detect it to
           // ban it from template parameters.
           /:([^\/.-]+)(\.{3}|\.(?!\.)|-)?|[\\^$*+.()|\[\]{}]/g,
-          function(m25, key, extra) {
+          function(m29, key, extra) {
             if (key == null)
-              return "\\" + m25;
+              return "\\" + m29;
             keys.push({ k: key, r: extra === "..." });
             if (extra === "...")
               return "(.*)";
@@ -1778,7 +1778,7 @@
     "node_modules/.pnpm/mithril@2.2.2/node_modules/mithril/api/router.js"(exports, module) {
       "use strict";
       var Vnode = require_vnode();
-      var m25 = require_hyperscript();
+      var m29 = require_hyperscript();
       var Promise2 = require_promise();
       var buildPathname = require_build2();
       var parsePathname = require_parse2();
@@ -1945,7 +1945,7 @@
         route.prefix = "#!";
         route.Link = {
           view: function(vnode) {
-            var child = m25(
+            var child = m29(
               vnode.attrs.selector || "a",
               censor(vnode.attrs, ["options", "params", "selector", "onclick"]),
               vnode.children
@@ -2007,27 +2007,27 @@
       var hyperscript = require_hyperscript2();
       var request = require_request2();
       var mountRedraw = require_mount_redraw2();
-      var m25 = function m26() {
+      var m29 = function m30() {
         return hyperscript.apply(this, arguments);
       };
-      m25.m = hyperscript;
-      m25.trust = hyperscript.trust;
-      m25.fragment = hyperscript.fragment;
-      m25.Fragment = "[";
-      m25.mount = mountRedraw.mount;
-      m25.route = require_route();
-      m25.render = require_render2();
-      m25.redraw = mountRedraw.redraw;
-      m25.request = request.request;
-      m25.jsonp = request.jsonp;
-      m25.parseQueryString = require_parse();
-      m25.buildQueryString = require_build();
-      m25.parsePathname = require_parse2();
-      m25.buildPathname = require_build2();
-      m25.vnode = require_vnode();
-      m25.PromisePolyfill = require_polyfill();
-      m25.censor = require_censor();
-      module.exports = m25;
+      m29.m = hyperscript;
+      m29.trust = hyperscript.trust;
+      m29.fragment = hyperscript.fragment;
+      m29.Fragment = "[";
+      m29.mount = mountRedraw.mount;
+      m29.route = require_route();
+      m29.render = require_render2();
+      m29.redraw = mountRedraw.redraw;
+      m29.request = request.request;
+      m29.jsonp = request.jsonp;
+      m29.parseQueryString = require_parse();
+      m29.buildQueryString = require_build();
+      m29.parsePathname = require_parse2();
+      m29.buildPathname = require_build2();
+      m29.vnode = require_vnode();
+      m29.PromisePolyfill = require_polyfill();
+      m29.censor = require_censor();
+      module.exports = m29;
     }
   });
 
@@ -2330,11 +2330,11 @@
         let [e, o] = lt(n) ? [{}, Array.from(n)] : pt2(n) || wt(n) ? [{ isMap: true }, n.entries()] : Ot(n) ? [{ isSet: true }, n.values()] : [{}, n];
         if (!B(o))
           return U2(...t)(o).result;
-        let [r2, u] = t.reduce(([s2, m25], S) => It(S) ? [S, m25] : [s2, [...m25, S]], [() => ({ value: () => {
+        let [r2, u] = t.reduce(([s2, m29], S) => It(S) ? [S, m29] : [s2, [...m29, S]], [() => ({ value: () => {
         } }), []]), c = [];
         do {
-          let { value: s2, done: m25 } = o.next();
-          if (m25)
+          let { value: s2, done: m29 } = o.next();
+          if (m29)
             return r2().value();
           c.push(s2);
           let { found: S, result: Z2 } = U2(...u)(e.isSet ? s2 : e.isMap ? { key: s2[0], value: s2[1] } : [...c]);
@@ -2403,7 +2403,7 @@
       var Qt = (...t) => (n) => g2(n) && (([e, o]) => e.length && e.every((r2) => o.includes(r2)))([t.flat(), w2(n)]);
       var Tt = (e) => {
         var o = e, { getValue: t } = o, n = q2(o, ["getValue"]);
-        return St(n).reduce((r2, [u, c]) => dt(r2, { [u]: (s2) => (m25) => ({ matched: () => c(m25), value: () => f2(s2) ? s2(t(m25)) : s2 }) }), {});
+        return St(n).reduce((r2, [u, c]) => dt(r2, { [u]: (s2) => (m29) => ({ matched: () => c(m29), value: () => f2(s2) ? s2(t(m29)) : s2 }) }), {});
       };
       var Xt = (t) => !!t;
       var Yt = (t) => !t;
@@ -2504,7 +2504,7 @@
   });
 
   // src/ui/index.js
-  var import_mithril26 = __toESM(require_mithril());
+  var import_mithril30 = __toESM(require_mithril());
   var import_timers3 = __toESM(require_timers());
   var import_promises2 = __toESM(require_promises());
 
@@ -4076,8 +4076,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return "OBIS-Statements-" + statementDate.getFullYear() + "-" + dateTimeString(/* @__PURE__ */ new Date(), "_") + ".zip";
   }
 
+  // src/ui/store/progressBar.js
+  var progressBar = {
+    max: 0,
+    value: 0
+  };
+
   // src/ui/components/app.jsx
-  var import_mithril17 = __toESM(require_mithril());
+  var import_mithril22 = __toESM(require_mithril());
 
   // node_modules/.pnpm/mithril-hooks@0.7.2_mithril@2.2.2/node_modules/mithril-hooks/dist/mithril-hooks.module.js
   var import_mithril = __toESM(require_mithril(), 1);
@@ -5293,91 +5299,34 @@ Check your performTransitions() config.`;
     useMemo
   });
 
-  // node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.mjs
-  var A = Object.defineProperty;
-  var G = (t, n) => {
-    for (var e in n)
-      A(t, e, { get: n[e], enumerable: true });
-  };
-  var d = {};
-  G(d, { instanceOf: () => l, isArguments: () => R, isArray: () => K, isDate: () => Q, isFormData: () => a, isFunction: () => V, isIterable: () => y, isMap: () => _, isNumber: () => X, isObject: () => h, isPojo: () => j, isRegExp: () => Y, isSet: () => Z, isString: () => T });
-  var q = Object.prototype;
-  var J = q.toString;
-  var v = (t) => (n) => typeof n === t;
-  var l = (t) => (n) => n instanceof t;
-  var { isArray: K } = Array;
-  var R = (t) => J.call(t) === "[object Arguments]";
-  var Q = (t) => l(Date)(t) && !isNaN(t);
-  var V = v("function");
-  var T = v("string");
-  var X = (t) => t === t && v("number")(t);
-  var h = (t) => t !== null && v("object")(t);
-  var Y = l(RegExp);
-  var Z = l(Set);
-  var _ = l(Map);
-  var j = (t) => t === null || !h(t) || R(t) ? false : Object.getPrototypeOf(t) === q;
-  var y = (t) => t != null && [t[Symbol.iterator], t.next].every(V);
-  var a = (t) => typeof FormData != "undefined" && l(FormData)(t);
-  var { isArguments: k, isArray: g, isDate: bt, isFunction: O, isNumber: tt } = d;
-  var { isPojo: w, isRegExp: H, isString: I, instanceOf: Nt } = d;
-  var { isMap: nt, isSet: et, isIterable: ot, isFormData: rt } = d;
-  var { keys: p, entries: st, assign: it } = Object;
-  var f = 2e4;
-  function Dt(t) {
-    return (...n) => ct(...n)(t);
-  }
-  var ct = (...t) => (n) => {
-    let [e, o] = k(n) ? [{}, Array.from(n)] : nt(n) || rt(n) ? [{ isMap: true }, n.entries()] : et(n) ? [{ isSet: true }, n.values()] : [{}, n];
-    if (!ot(o))
-      return z(...t)(o).result;
-    let [i, u] = t.reduce(([r2, m25], S) => ut(S) ? [S, m25] : [r2, [...m25, S]], [() => ({ value: () => {
-    } }), []]), c = [];
-    do {
-      let { value: r2, done: m25 } = o.next();
-      if (m25)
-        return i().value();
-      c.push(r2);
-      let { found: S, result: C } = z(...u)(e.isSet ? r2 : e.isMap ? { key: r2[0], value: r2[1] } : [...c]);
-      if (S)
-        return C;
-    } while (c.length < f || e.isSet || e.isMap);
-    throw new Error(`Hit iterationLimit: ${f}. Use setIterationLimit(Infinity) to disable.`);
-  };
-  var z = (...t) => {
-    let n;
-    return (e) => ({ found: !!t.find((i) => {
-      let u = i(e), { matched: c, value: r2 } = u || {};
-      return [c, r2].every(O) ? c(e) && (n = r2(e), true) : u && (n = u);
-    }), result: n });
-  };
-  var U = Symbol("@@match-iz/otherwise");
-  var ut = (t) => (t == null ? void 0 : t[U]) === true;
-  var Ft = (t) => {
-    let n = (e) => ({ matched: () => true, value: () => O(t) ? t(e) : t });
-    return n[U] = true, n;
-  };
-  var D = (t) => (n) => (e) => ({ matched: () => s(t, e, (o) => e = o), value: () => O(n) ? I(e) && H(t) ? n(...mt(e.match(t))) : n(e) : n });
-  var Wt = (...t) => {
-    if (t.length === 1) {
-      let [n] = t;
-      return D(n);
-    }
-    if (t.length === 2) {
-      let [n, e] = t;
-      return D(n)(e);
-    }
-    if (t.length > 2) {
-      let n = t.slice(-1)[0], e = t.slice(0, -1);
-      return D(pt(e))(n);
-    }
-    throw new Error("Expected at least 1 argument");
-  };
-  var mt = (t) => {
-    let { groups: n } = t;
-    return n ? [n, t] : [t];
-  };
-  var s = (t, n, e) => w(t) ? p(t).every((o) => s(t[o], n == null ? void 0 : n[o], e)) : g(t) ? g(n) && t.length === n.length && t.every((o, i) => s(o, n == null ? void 0 : n[i], e)) : O(t) ? t(n, e) : I(n) && H(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-  var pt = (...t) => (n, e) => t.flat().every((o) => s(o, n, e));
+  // src/ui/components/app.jsx
+  var import_timers2 = __toESM(require_timers());
+
+  // src/flows/uiWidgetStates.js
+  var uiWidgetStates = `
+
+  loading ->
+  rendering-ui ->
+
+    closed -> opened -> closed
+
+`;
+
+  // src/ui/components/constants.js
+  var SUPPORTS_YEARS_SLIDER = false;
+  var MAXIMUM_YEARS_TO_FETCH = 10;
+  var DEFAULT_YEARS_TO_FETCH = 3;
+  var STATEMENTS_KEEP_BALANCE_HISTORY = false;
+
+  // src/ui/components/obis-overlay-widget/atoms/Header.jsx
+  var import_mithril2 = __toESM(require_mithril());
+  var Header = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril2.default)("h1", null, "OBIS | ", children);
+  });
+
+  // src/ui/components/obis-overlay-widget/_ObisOverlayWidget.jsx
+  var import_mithril8 = __toESM(require_mithril());
 
   // node_modules/.pnpm/clsx@1.2.1/node_modules/clsx/dist/clsx.m.js
   function r(e) {
@@ -5401,16 +5350,16 @@ Check your performTransitions() config.`;
   var clsx_m_default = clsx;
 
   // src/ui/components/common/VerticalAnimationContainer.jsx
-  var import_mithril3 = __toESM(require_mithril());
+  var import_mithril4 = __toESM(require_mithril());
   var import_timers = __toESM(require_timers());
 
   // src/ui/components/common/ContainerWithRef.jsx
-  var import_mithril2 = __toESM(require_mithril());
+  var import_mithril3 = __toESM(require_mithril());
   var ContainerWithRef = withHooks((props) => {
     const { children } = props || {};
     const { setRef = () => {
     } } = props || {};
-    return /* @__PURE__ */ (0, import_mithril2.default)("div", { oncreate: (vnode) => setRef(vnode.dom) }, children);
+    return /* @__PURE__ */ (0, import_mithril3.default)("div", { oncreate: (vnode) => setRef(vnode.dom) }, children);
   });
 
   // src/ui/components/common/VerticalAnimationContainer.jsx
@@ -5470,71 +5419,29 @@ Check your performTransitions() config.`;
       () => void (containerEl && setContainerHeight(containerEl.scrollHeight)),
       [containerEl, children]
     );
-    return /* @__PURE__ */ (0, import_mithril3.default)(
+    return /* @__PURE__ */ (0, import_mithril4.default)(
       "div",
       {
         className: `vertical-animation-container ${state}`,
         style: `max-height: ${containerHeight}px`
       },
-      /* @__PURE__ */ (0, import_mithril3.default)(ContainerWithRef, { setRef: setContainerEl }, children)
+      /* @__PURE__ */ (0, import_mithril4.default)(ContainerWithRef, { setRef: setContainerEl }, children)
     );
-  });
-
-  // src/ui/components/common/ProgressBar.jsx
-  var import_mithril5 = __toESM(require_mithril());
-  var ProgressBar = withHooks((props) => {
-    const { value, max } = props || {};
-    return /* @__PURE__ */ (0, import_mithril5.default)("progress", { value, max });
   });
 
   // src/ui/components/common/Button.jsx
   var import_mithril6 = __toESM(require_mithril());
   var Button = withHooks((props) => {
     const { children } = props || {};
-    const { className, handleClick, disabled } = props || {};
+    const { className, onClick: handleClick, disabled } = props || {};
     return /* @__PURE__ */ (0, import_mithril6.default)("button", { className, onclick: handleClick, disabled }, children);
   });
 
-  // src/ui/components/common/Subheader.jsx
+  // src/ui/components/common/Dialog.jsx
   var import_mithril7 = __toESM(require_mithril());
-  var Subheader = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril7.default)("h2", null, children);
-  });
-
-  // src/ui/components/obis-overlay/Account.jsx
-  var import_mithril8 = __toESM(require_mithril());
-  var Account = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril8.default)("div", { className: "account" }, children);
-  });
-
-  // src/ui/components/obis-overlay/AccountName.jsx
-  var import_mithril9 = __toESM(require_mithril());
-  var AccountName = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril9.default)("h3", { className: "account-name" }, children);
-  });
-
-  // src/ui/components/obis-overlay/Accounts.jsx
-  var import_mithril10 = __toESM(require_mithril());
-  var Accounts = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril10.default)("div", { className: "accounts" }, children);
-  });
-
-  // src/ui/components/obis-overlay/Actions.jsx
-  var import_mithril11 = __toESM(require_mithril());
-  var Actions = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril11.default)("div", { className: "actions" }, children);
-  });
-
-  // src/ui/components/obis-overlay/Dialog.jsx
-  var import_mithril12 = __toESM(require_mithril());
   var Dialog = withHooks((props) => {
     const { children, hidden } = props || {};
-    return /* @__PURE__ */ (0, import_mithril12.default)(
+    return /* @__PURE__ */ (0, import_mithril7.default)(
       "div",
       {
         className: clsx_m_default("dialog", {
@@ -5545,38 +5452,151 @@ Check your performTransitions() config.`;
     );
   });
 
-  // src/ui/components/obis-overlay/Header.jsx
-  var import_mithril13 = __toESM(require_mithril());
-  var Header = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril13.default)("h1", null, "OBIS | ", children);
+  // src/ui/components/obis-overlay-widget/_ObisOverlayWidget.jsx
+  var ObisOverlayWidget = withHooks((props) => {
+    const {
+      ready = true,
+      opened = false,
+      alwaysVisibleSlot = null,
+      toggledSlot = null,
+      onToggle: handleToggle = () => {
+      }
+    } = props || {};
+    const closed = !opened;
+    return /* @__PURE__ */ (0, import_mithril8.default)(Dialog, { hidden: !ready }, ready && /* @__PURE__ */ (0, import_mithril8.default)(
+      Button,
+      {
+        className: clsx_m_default("toggle-button", { opened, closed }),
+        onClick: handleToggle,
+        disabled: !ready
+      },
+      "\u21E7"
+    ), alwaysVisibleSlot, /* @__PURE__ */ (0, import_mithril8.default)(VerticalAnimationContainer, { opened }, toggledSlot));
   });
 
-  // src/ui/components/obis-overlay/StatementsLoaded.jsx
-  var import_mithril14 = __toESM(require_mithril());
-  var StatementsLoaded = withHooks((props) => {
+  // src/ui/components/obis-overlay-widget/YearsAndActionButtons.jsx
+  var import_mithril11 = __toESM(require_mithril());
+
+  // node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.mjs
+  var A = Object.defineProperty;
+  var G = (t, n) => {
+    for (var e in n)
+      A(t, e, { get: n[e], enumerable: true });
+  };
+  var d = {};
+  G(d, { instanceOf: () => l, isArguments: () => R, isArray: () => K, isDate: () => Q, isFormData: () => a, isFunction: () => V, isIterable: () => y, isMap: () => _, isNumber: () => X, isObject: () => h, isPojo: () => j, isRegExp: () => Y, isSet: () => Z, isString: () => T });
+  var q = Object.prototype;
+  var J = q.toString;
+  var v = (t) => (n) => typeof n === t;
+  var l = (t) => (n) => n instanceof t;
+  var { isArray: K } = Array;
+  var R = (t) => J.call(t) === "[object Arguments]";
+  var Q = (t) => l(Date)(t) && !isNaN(t);
+  var V = v("function");
+  var T = v("string");
+  var X = (t) => t === t && v("number")(t);
+  var h = (t) => t !== null && v("object")(t);
+  var Y = l(RegExp);
+  var Z = l(Set);
+  var _ = l(Map);
+  var j = (t) => t === null || !h(t) || R(t) ? false : Object.getPrototypeOf(t) === q;
+  var y = (t) => t != null && [t[Symbol.iterator], t.next].every(V);
+  var a = (t) => typeof FormData != "undefined" && l(FormData)(t);
+  var { isArguments: k, isArray: g, isDate: bt, isFunction: O, isNumber: tt } = d;
+  var { isPojo: w, isRegExp: H, isString: I, instanceOf: Nt } = d;
+  var { isMap: nt, isSet: et, isIterable: ot, isFormData: rt } = d;
+  var { keys: p, entries: st, assign: it } = Object;
+  var f = 2e4;
+  function Dt(t) {
+    return (...n) => ct(...n)(t);
+  }
+  var ct = (...t) => (n) => {
+    let [e, o] = k(n) ? [{}, Array.from(n)] : nt(n) || rt(n) ? [{ isMap: true }, n.entries()] : et(n) ? [{ isSet: true }, n.values()] : [{}, n];
+    if (!ot(o))
+      return z(...t)(o).result;
+    let [i, u] = t.reduce(([r2, m29], S) => ut(S) ? [S, m29] : [r2, [...m29, S]], [() => ({ value: () => {
+    } }), []]), c = [];
+    do {
+      let { value: r2, done: m29 } = o.next();
+      if (m29)
+        return i().value();
+      c.push(r2);
+      let { found: S, result: C } = z(...u)(e.isSet ? r2 : e.isMap ? { key: r2[0], value: r2[1] } : [...c]);
+      if (S)
+        return C;
+    } while (c.length < f || e.isSet || e.isMap);
+    throw new Error(`Hit iterationLimit: ${f}. Use setIterationLimit(Infinity) to disable.`);
+  };
+  var z = (...t) => {
+    let n;
+    return (e) => ({ found: !!t.find((i) => {
+      let u = i(e), { matched: c, value: r2 } = u || {};
+      return [c, r2].every(O) ? c(e) && (n = r2(e), true) : u && (n = u);
+    }), result: n });
+  };
+  var U = Symbol("@@match-iz/otherwise");
+  var ut = (t) => (t == null ? void 0 : t[U]) === true;
+  var Ft = (t) => {
+    let n = (e) => ({ matched: () => true, value: () => O(t) ? t(e) : t });
+    return n[U] = true, n;
+  };
+  var D = (t) => (n) => (e) => ({ matched: () => s(t, e, (o) => e = o), value: () => O(n) ? I(e) && H(t) ? n(...mt(e.match(t))) : n(e) : n });
+  var Wt = (...t) => {
+    if (t.length === 1) {
+      let [n] = t;
+      return D(n);
+    }
+    if (t.length === 2) {
+      let [n, e] = t;
+      return D(n)(e);
+    }
+    if (t.length > 2) {
+      let n = t.slice(-1)[0], e = t.slice(0, -1);
+      return D(pt(e))(n);
+    }
+    throw new Error("Expected at least 1 argument");
+  };
+  var mt = (t) => {
+    let { groups: n } = t;
+    return n ? [n, t] : [t];
+  };
+  var s = (t, n, e) => w(t) ? p(t).every((o) => s(t[o], n == null ? void 0 : n[o], e)) : g(t) ? g(n) && t.length === n.length && t.every((o, i) => s(o, n == null ? void 0 : n[i], e)) : O(t) ? t(n, e) : I(n) && H(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+  var pt = (...t) => (n, e) => t.flat().every((o) => s(o, n, e));
+
+  // src/ui/components/obis-overlay-widget/atoms/Actions.jsx
+  var import_mithril9 = __toESM(require_mithril());
+  var Actions = withHooks((props) => {
     const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril14.default)("div", { className: "statements-loaded" }, children);
+    return /* @__PURE__ */ (0, import_mithril9.default)("div", { className: "actions" }, children);
   });
 
-  // src/ui/components/obis-overlay/YearsLoaded.jsx
-  var import_mithril15 = __toESM(require_mithril());
-  var YearsLoaded = withHooks((props) => {
-    const { children } = props || {};
-    return /* @__PURE__ */ (0, import_mithril15.default)("div", { className: "years-loaded" }, children);
-  });
-
-  // src/ui/components/obis-overlay/YearsSlider.jsx
-  var import_mithril16 = __toESM(require_mithril());
+  // src/ui/components/obis-overlay-widget/YearsSlider.jsx
+  var import_mithril10 = __toESM(require_mithril());
+  var import_fp = __toESM(require_fp());
   var YearsSlider = withHooks((props) => {
-    const { value, max = 15, handleUpdate, disabled } = props || {};
-    return /* @__PURE__ */ (0, import_mithril16.default)(
+    const {
+      value,
+      maxYears = 15,
+      defaultYears = 7,
+      onUpdate,
+      disabled
+    } = props || {};
+    const handleUpdate = useCallback(
+      (0, import_fp.flow)(
+        (event2) => event2?.target?.value,
+        ($) => parseInt($, 10),
+        ($) => isNaN($) ? defaultYears : $,
+        ($) => onUpdate($)
+      ),
+      [onUpdate, defaultYears]
+    );
+    return /* @__PURE__ */ (0, import_mithril10.default)(
       "input",
       {
         className: "fetch-slider",
         type: "range",
         min: "1",
-        max,
+        max: maxYears,
         oninput: handleUpdate,
         onchange: handleUpdate,
         value,
@@ -5585,24 +5605,184 @@ Check your performTransitions() config.`;
     );
   });
 
-  // src/ui/components/app.jsx
-  var import_timers2 = __toESM(require_timers());
-  var import_fp = __toESM(require_fp());
-  var SUPPORTS_YEARS_SLIDER = false;
+  // src/ui/components/obis-overlay-widget/YearsAndActionButtons.jsx
   var { fetchMachine: fetcher } = obis;
+  var YearsAndActionButtons = withHooks((props) => {
+    const {
+      onYearsChanged,
+      onFetch: handleFetchClick,
+      onViewStatements: handleViewStatementsClick2,
+      onDownloadAll: handleDownloadAllClick2
+    } = props || {};
+    const [yearsToFetch, setYearsToFetch] = useState(DEFAULT_YEARS_TO_FETCH);
+    const handleYearsChanged = useCallback(
+      (years) => {
+        setYearsToFetch(years);
+        onYearsChanged(years);
+      },
+      [onYearsChanged]
+    );
+    return /* @__PURE__ */ (0, import_mithril11.default)(Actions, null, Dt(SUPPORTS_YEARS_SLIDER)(
+      Wt(true)(
+        /* @__PURE__ */ (0, import_mithril11.default)(
+          YearsSlider,
+          {
+            maxYears: MAXIMUM_YEARS_TO_FETCH,
+            defaultYears: DEFAULT_YEARS_TO_FETCH,
+            value: yearsToFetch,
+            onUpdate: handleYearsChanged,
+            disabled: !fetcher.inState("idle")
+          }
+        )
+      ),
+      Ft(/* @__PURE__ */ (0, import_mithril11.default)("div", null, "\xA0"))
+    ), /* @__PURE__ */ (0, import_mithril11.default)(
+      Button,
+      {
+        onClick: handleFetchClick,
+        className: "fetch-everything",
+        disabled: !fetcher.inState("idle")
+      },
+      Dt(SUPPORTS_YEARS_SLIDER)(
+        Wt(true)(
+          /* @__PURE__ */ (0, import_mithril11.default)(import_mithril11.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")
+        ),
+        Ft("Fetch statements")
+      )
+    ), /* @__PURE__ */ (0, import_mithril11.default)(
+      Button,
+      {
+        onClick: handleViewStatementsClick2,
+        disabled: !fetcher.inState("found-entries")
+      },
+      "View statements"
+    ), /* @__PURE__ */ (0, import_mithril11.default)(
+      Button,
+      {
+        onClick: handleDownloadAllClick2,
+        disabled: !fetcher.inState("found-entries")
+      },
+      "Download all"
+    ));
+  });
+
+  // src/ui/components/obis-overlay-widget/ListOfAccountCards.jsx
+  var import_mithril17 = __toESM(require_mithril());
+  var import_fp2 = __toESM(require_fp());
+
+  // src/ui/components/obis-overlay-widget/atoms/Account.jsx
+  var import_mithril12 = __toESM(require_mithril());
+  var Account = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril12.default)("div", { className: "account" }, children);
+  });
+
+  // src/ui/components/obis-overlay-widget/atoms/AccountName.jsx
+  var import_mithril13 = __toESM(require_mithril());
+  var AccountName = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril13.default)("h3", { className: "account-name" }, children);
+  });
+
+  // src/ui/components/obis-overlay-widget/atoms/Accounts.jsx
+  var import_mithril14 = __toESM(require_mithril());
+  var Accounts = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril14.default)("div", { className: "accounts" }, children);
+  });
+
+  // src/ui/components/obis-overlay-widget/atoms/StatementsLoaded.jsx
+  var import_mithril15 = __toESM(require_mithril());
+  var StatementsLoaded = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril15.default)("div", { className: "statements-loaded" }, children);
+  });
+
+  // src/ui/components/obis-overlay-widget/atoms/YearsLoaded.jsx
+  var import_mithril16 = __toESM(require_mithril());
+  var YearsLoaded = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril16.default)("div", { className: "years-loaded" }, children);
+  });
+
+  // src/ui/components/obis-overlay-widget/ListOfAccountCards.jsx
+  var ListOfAccountCards = withHooks(() => {
+    return /* @__PURE__ */ (0, import_mithril17.default)(Accounts, null, store().accounts.map((account) => {
+      const allStatementYears = (0, import_fp2.pipe)(
+        store(),
+        ($) => $.statements.filter((x) => x.accountId === account.id),
+        ($) => $.map((x) => new Date(x.endDate).getFullYear())
+      );
+      const uniqueStatementYears = (0, import_fp2.pipe)(
+        allStatementYears,
+        ($) => new Set($),
+        ($) => [...$]
+      );
+      return /* @__PURE__ */ (0, import_mithril17.default)(Account, { key: account.id }, /* @__PURE__ */ (0, import_mithril17.default)(StatementsLoaded, null, "Statements: ", allStatementYears.length), /* @__PURE__ */ (0, import_mithril17.default)(YearsLoaded, null, uniqueStatementYears.join(" ")), /* @__PURE__ */ (0, import_mithril17.default)(AccountName, null, account.sortCode, " ", account.accountNumber));
+    }));
+  });
+
+  // src/ui/components/obis-overlay-widget/HelpAndProgressBar.jsx
+  var import_mithril21 = __toESM(require_mithril());
+
+  // src/ui/components/common/ProgressBar.jsx
+  var import_mithril18 = __toESM(require_mithril());
+  var ProgressBar = withHooks((props) => {
+    const { value, max } = props || {};
+    return /* @__PURE__ */ (0, import_mithril18.default)("progress", { value, max });
+  });
+
+  // src/ui/components/common/Subheader.jsx
+  var import_mithril19 = __toESM(require_mithril());
+  var Subheader = withHooks((props) => {
+    const { children } = props || {};
+    return /* @__PURE__ */ (0, import_mithril19.default)("h2", null, children);
+  });
+
+  // src/ui/components/common/ShowHelpOnError.jsx
+  var import_mithril20 = __toESM(require_mithril());
+  var ShowHelpOnError = withHooks(() => {
+    return /* @__PURE__ */ (0, import_mithril20.default)("span", { style: "font-weight: bold; color: red;" }, "Sorry, something went wrong. Please try again, or report a problem on the", " ", /* @__PURE__ */ (0, import_mithril20.default)(
+      "a",
+      {
+        href: "https://github.com/shuckster/OBIS/issues",
+        target: "_blank",
+        rel: "noopener noreferrer"
+      },
+      "OBIS Github repo"
+    ));
+  });
+
+  // src/ui/components/obis-overlay-widget/HelpAndProgressBar.jsx
+  var { fetchMachine: fetcher2 } = obis;
+  var HelpAndProgressBar = withHooks((props) => {
+    const { ready, opened } = props || {};
+    return /* @__PURE__ */ (0, import_mithril21.default)(Subheader, null, Dt({ ready, opened })(
+      Wt({ ready: true, opened: true })(
+        'Hit the "Fetch" button below to try and download everything automatically.'
+      ),
+      Wt({ ready: true, opened: false })(
+        "Welcome! Click that button on the right to see if we can download some statements."
+      ),
+      Ft("Loading...")
+    ), /* @__PURE__ */ (0, import_mithril21.default)("br", null), /* @__PURE__ */ (0, import_mithril21.default)("br", null), fetcher2.inState({
+      "getting-accounts": "Finding accounts...",
+      "getting-statements": "Getting statements...",
+      "getting-entries": "Getting transactions... (takes a moment to finish)",
+      idle: () => Dt(fetcher2.history().some((state) => /^failed-/.test(state)))(
+        Wt(true)(/* @__PURE__ */ (0, import_mithril21.default)(ShowHelpOnError, null)),
+        Ft("")
+      )
+    }), /* @__PURE__ */ (0, import_mithril21.default)(ProgressBar, { ...progressBar }));
+  });
+
+  // src/ui/components/app.jsx
+  var { fetchMachine: fetcher3 } = obis;
   var { Statebot: Statebot2, messages: messages2 } = obis.deps;
-  var { Emit } = fetcher;
-  var MAXIMUM_YEARS_TO_FETCH = 10;
-  var DEFAULT_YEARS_TO_FETCH = 3;
+  var { Emit } = fetcher3;
   var uiMachine = Statebot2("UI", {
     events: messages2,
-    chart: `
-
-    loading ->
-    rendering-ui ->
-      closed -> opened -> closed
-
-  `,
+    chart: uiWidgetStates,
     startIn: false ? "opened" : "loading",
     logLevel: 2
   });
@@ -5618,132 +5798,40 @@ Check your performTransitions() config.`;
       on: actions.ui.TOGGLE_OPEN
     }
   });
-  var progressBar = {
-    max: 0,
-    value: 0
-  };
+  var handleToggleOpen = Emit(actions.ui.TOGGLE_OPEN);
+  var handleViewStatementsClick = Emit(actions.ui.VIEW_STATEMENTS);
+  var handleDownloadAllClick = Emit(actions.ui.DOWNLOAD_STATEMENTS);
   var App = withHooks(() => {
     const state = useStatebot(uiMachine);
     const ready = !["idle", "loading"].includes(state);
-    const closed = state === "closed";
     const opened = state === "opened";
     const [yearsToFetch, setYearsToFetch] = useState(DEFAULT_YEARS_TO_FETCH);
-    const handleToggleOpen = useCallback(Emit(actions.ui.TOGGLE_OPEN), []);
-    const handleRangeSlider = useCallback(
-      (0, import_fp.flow)(
-        (event2) => event2?.target?.value,
-        ($) => parseInt($, 10),
-        ($) => isNaN($) ? DEFAULT_YEARS_TO_FETCH : $,
-        ($) => setYearsToFetch($)
-      ),
-      [setYearsToFetch]
-    );
     const handleFetchClick = useCallback(
       Emit(actions.get.ACCOUNTS, yearsToFetch),
       [yearsToFetch]
     );
-    const handleViewStatementsClick = useCallback(
-      Emit(actions.ui.VIEW_STATEMENTS),
-      []
-    );
-    const handleDownloadAllClick = useCallback(
-      Emit(actions.ui.DOWNLOAD_STATEMENTS),
-      []
-    );
-    return /* @__PURE__ */ (0, import_mithril17.default)(Dialog, { hidden: !ready }, ready && /* @__PURE__ */ (0, import_mithril17.default)(
-      Button,
+    return /* @__PURE__ */ (0, import_mithril22.default)(
+      ObisOverlayWidget,
       {
-        className: clsx_m_default("toggle-button", {
-          opened,
-          closed
-        }),
-        handleClick: handleToggleOpen,
-        disabled: !opened && !closed
-      },
-      "\u21E7"
-    ), /* @__PURE__ */ (0, import_mithril17.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril17.default)(Subheader, null, Dt({ ready, opened })(
-      Wt({ ready: true, opened: true })(
-        "Hit the button below to try and download everything automatically."
-      ),
-      Wt({ ready: true, opened: false })(
-        "Welcome! Click that button on the right to see if we can download some statements."
-      ),
-      Ft("Loading...")
-    ), /* @__PURE__ */ (0, import_mithril17.default)("br", null), /* @__PURE__ */ (0, import_mithril17.default)("br", null), fetcher.inState({
-      "getting-accounts": "Finding accounts...",
-      "getting-statements": "Getting statements...",
-      "getting-entries": "Getting transactions... (takes a moment to finish)",
-      idle: () => Dt(fetcher.history().some((state2) => /^failed-/.test(state2)))(
-        Wt(true)(
-          /* @__PURE__ */ (0, import_mithril17.default)("span", { style: "font-weight: bold; color: red;" }, "Sorry, something went wrong. Please try again, or report a problem on the", " ", /* @__PURE__ */ (0, import_mithril17.default)(
-            "a",
-            {
-              href: "https://github.com/shuckster/OBIS/issues",
-              target: "_blank",
-              rel: "noopener noreferrer"
-            },
-            "OBIS Github repo"
-          ))
-        ),
-        Ft("")
-      )
-    }), /* @__PURE__ */ (0, import_mithril17.default)(ProgressBar, { ...progressBar })), ready && /* @__PURE__ */ (0, import_mithril17.default)(VerticalAnimationContainer, { opened }, /* @__PURE__ */ (0, import_mithril17.default)(Accounts, null, store().accounts.map((account) => {
-      const allStatementYears = (0, import_fp.pipe)(
-        store(),
-        ($) => $.statements.filter((x) => x.accountId === account.id),
-        ($) => $.map((x) => new Date(x.endDate).getFullYear())
-      );
-      const uniqueStatementYears = (0, import_fp.pipe)(
-        allStatementYears,
-        ($) => new Set($),
-        ($) => [...$]
-      );
-      return /* @__PURE__ */ (0, import_mithril17.default)(Account, { key: account.id }, /* @__PURE__ */ (0, import_mithril17.default)(StatementsLoaded, null, "Statements: ", allStatementYears.length), /* @__PURE__ */ (0, import_mithril17.default)(YearsLoaded, null, uniqueStatementYears.join(" ")), /* @__PURE__ */ (0, import_mithril17.default)(AccountName, null, account.sortCode, " ", account.accountNumber));
-    })), /* @__PURE__ */ (0, import_mithril17.default)(Actions, null, Dt(SUPPORTS_YEARS_SLIDER)(
-      Wt(true)(
-        /* @__PURE__ */ (0, import_mithril17.default)(
-          YearsSlider,
+        ready,
+        opened,
+        onToggle: handleToggleOpen,
+        alwaysVisibleSlot: /* @__PURE__ */ (0, import_mithril22.default)(import_mithril22.default.Fragment, null, /* @__PURE__ */ (0, import_mithril22.default)(Header, null, obis.plugin.description), /* @__PURE__ */ (0, import_mithril22.default)(HelpAndProgressBar, { ready, opened })),
+        toggledSlot: /* @__PURE__ */ (0, import_mithril22.default)(import_mithril22.default.Fragment, null, ready && /* @__PURE__ */ (0, import_mithril22.default)(import_mithril22.default.Fragment, null, /* @__PURE__ */ (0, import_mithril22.default)(ListOfAccountCards, null), /* @__PURE__ */ (0, import_mithril22.default)(
+          YearsAndActionButtons,
           {
-            max: MAXIMUM_YEARS_TO_FETCH,
-            value: yearsToFetch,
-            handleUpdate: handleRangeSlider,
-            disabled: !fetcher.inState("idle")
+            onYearsChanged: setYearsToFetch,
+            onFetch: handleFetchClick,
+            onViewStatements: handleViewStatementsClick,
+            onDownloadAll: handleDownloadAllClick
           }
-        )
-      ),
-      Ft(/* @__PURE__ */ (0, import_mithril17.default)("div", null, "\xA0"))
-    ), /* @__PURE__ */ (0, import_mithril17.default)(
-      Button,
-      {
-        handleClick: handleFetchClick,
-        className: "fetch-everything",
-        disabled: !fetcher.inState("idle")
-      },
-      Dt(SUPPORTS_YEARS_SLIDER)(
-        Wt(true)(
-          /* @__PURE__ */ (0, import_mithril17.default)(import_mithril17.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")
-        ),
-        Ft("Fetch statements")
-      )
-    ), /* @__PURE__ */ (0, import_mithril17.default)(
-      Button,
-      {
-        handleClick: handleViewStatementsClick,
-        disabled: !fetcher.inState("found-entries")
-      },
-      "View statements"
-    ), /* @__PURE__ */ (0, import_mithril17.default)(
-      Button,
-      {
-        handleClick: handleDownloadAllClick,
-        disabled: !fetcher.inState("found-entries")
-      },
-      "Download all"
-    ))));
+        )))
+      }
+    );
   });
 
-  // src/ui/components/statements-browser/StatementsBrowser.jsx
-  var import_mithril25 = __toESM(require_mithril());
+  // src/ui/components/statements-browser/_StatementsBrowser.jsx
+  var import_mithril29 = __toESM(require_mithril());
 
   // src/ui/store/base.js
   var { messages: messages3 } = obis.deps;
@@ -5868,18 +5956,18 @@ Check your performTransitions() config.`;
     };
   }
 
-  // src/ui/components/statements-browser/StatementsBrowser.jsx
-  var import_fp2 = __toESM(require_fp());
+  // src/ui/components/statements-browser/_StatementsBrowser.jsx
+  var import_fp3 = __toESM(require_fp());
 
-  // src/ui/components/statements-browser/Info.jsx
-  var import_mithril19 = __toESM(require_mithril());
+  // src/ui/components/statements-browser/atoms/Info.jsx
+  var import_mithril24 = __toESM(require_mithril());
   var Info = withHooks((props) => {
     const { children = [] } = props || {};
     return children;
   });
 
   // src/ui/components/statements-browser/Accounts.jsx
-  var import_mithril20 = __toESM(require_mithril());
+  var import_mithril25 = __toESM(require_mithril());
   var Accounts2 = withHooks((props) => {
     const { selectedAccountId, handleClick } = props;
     const accounts = useAccounts();
@@ -5890,7 +5978,7 @@ Check your performTransitions() config.`;
       },
       [handleClick]
     );
-    return accounts.map((account) => /* @__PURE__ */ (0, import_mithril20.default)(
+    return accounts.map((account) => /* @__PURE__ */ (0, import_mithril25.default)(
       "div",
       {
         onclick: clickHandler,
@@ -5900,21 +5988,20 @@ Check your performTransitions() config.`;
           selected: account.id === selectedAccountId
         })
       },
-      /* @__PURE__ */ (0, import_mithril20.default)("div", { className: "statements-loaded" }),
-      /* @__PURE__ */ (0, import_mithril20.default)("div", { className: "years-loaded" }),
-      /* @__PURE__ */ (0, import_mithril20.default)("div", { className: "account-name" }, account.sortCode, " ", account.accountNumber)
+      /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "statements-loaded" }),
+      /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "years-loaded" }),
+      /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "account-name" }, account.sortCode, " ", account.accountNumber)
     ));
   });
 
-  // src/ui/components/statements-browser/Cursor.jsx
-  var import_mithril21 = __toESM(require_mithril());
+  // src/ui/components/statements-browser/atoms/Cursor.jsx
   var Cursor = withHooks((props) => {
     const { children = [] } = props || {};
     return children;
   });
 
   // src/ui/components/statements-browser/Months.jsx
-  var import_mithril22 = __toESM(require_mithril());
+  var import_mithril26 = __toESM(require_mithril());
   var Months = withHooks((props) => {
     const _months = "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec".split("|");
     const { selectedMonth, months = [], handleClick } = props || {};
@@ -5922,7 +6009,7 @@ Check your performTransitions() config.`;
       (event2) => handleClick(event2?.target?.dataset?.month),
       [handleClick]
     );
-    return _months.map((month, index) => /* @__PURE__ */ (0, import_mithril22.default)(
+    return _months.map((month, index) => /* @__PURE__ */ (0, import_mithril26.default)(
       "div",
       {
         onclick: clickHandler,
@@ -5938,14 +6025,14 @@ Check your performTransitions() config.`;
   });
 
   // src/ui/components/statements-browser/Years.jsx
-  var import_mithril23 = __toESM(require_mithril());
+  var import_mithril27 = __toESM(require_mithril());
   var Years = withHooks((props) => {
     const { selectedYear, years = [], handleClick } = props || {};
     const clickHandler = useCallback(
       (event2) => handleClick(event2?.target?.dataset?.year),
       [handleClick]
     );
-    return years.map((year) => /* @__PURE__ */ (0, import_mithril23.default)(
+    return years.map((year) => /* @__PURE__ */ (0, import_mithril27.default)(
       "div",
       {
         onclick: clickHandler,
@@ -5960,7 +6047,7 @@ Check your performTransitions() config.`;
   });
 
   // src/ui/components/statements-browser/Statement.jsx
-  var import_mithril24 = __toESM(require_mithril());
+  var import_mithril28 = __toESM(require_mithril());
   var Statement = withHooks((props) => {
     const { selectedStatementId } = props;
     const { entries, startBalance, endBalance } = useStatementEntries(selectedStatementId);
@@ -5972,7 +6059,7 @@ Check your performTransitions() config.`;
       totalDebit -= debit;
       totalCredit += credit;
       runningBalance += credit - debit;
-      return /* @__PURE__ */ (0, import_mithril24.default)("tr", { key: id }, /* @__PURE__ */ (0, import_mithril24.default)("td", { className: "no-wrap" }, simpleDate(date)), /* @__PURE__ */ (0, import_mithril24.default)("td", null, type), /* @__PURE__ */ (0, import_mithril24.default)("td", null, payee), /* @__PURE__ */ (0, import_mithril24.default)("td", null, note), /* @__PURE__ */ (0, import_mithril24.default)("td", { className: "currency" }, convertCentsToDecimalForDisplay(debit)), /* @__PURE__ */ (0, import_mithril24.default)("td", { className: "currency" }, convertCentsToDecimalForDisplay(credit)), /* @__PURE__ */ (0, import_mithril24.default)(
+      return /* @__PURE__ */ (0, import_mithril28.default)("tr", { key: id }, /* @__PURE__ */ (0, import_mithril28.default)("td", { className: "no-wrap" }, simpleDate(date)), /* @__PURE__ */ (0, import_mithril28.default)("td", null, type), /* @__PURE__ */ (0, import_mithril28.default)("td", null, payee), /* @__PURE__ */ (0, import_mithril28.default)("td", null, note), /* @__PURE__ */ (0, import_mithril28.default)("td", { className: "currency" }, convertCentsToDecimalForDisplay(debit)), /* @__PURE__ */ (0, import_mithril28.default)("td", { className: "currency" }, convertCentsToDecimalForDisplay(credit)), /* @__PURE__ */ (0, import_mithril28.default)(
         "td",
         {
           className: clsx_m_default("currency", {
@@ -5980,7 +6067,7 @@ Check your performTransitions() config.`;
           })
         },
         convertCentsToDecimalForDisplay(balance)
-      ), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril24.default)(
+      ), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril28.default)(
         "td",
         {
           className: clsx_m_default("currency", {
@@ -5992,13 +6079,12 @@ Check your performTransitions() config.`;
     });
     let emptyState;
     if (!rows.length) {
-      emptyState = /* @__PURE__ */ (0, import_mithril24.default)("tr", null, /* @__PURE__ */ (0, import_mithril24.default)("td", { className: "no-wrap no-entries", colspan: "8" }, "No entries for this period"));
+      emptyState = /* @__PURE__ */ (0, import_mithril28.default)("tr", null, /* @__PURE__ */ (0, import_mithril28.default)("td", { className: "no-wrap no-entries", colspan: "8" }, "No entries for this period"));
     }
-    return /* @__PURE__ */ (0, import_mithril24.default)("table", { className: "statement" }, /* @__PURE__ */ (0, import_mithril24.default)("thead", null, /* @__PURE__ */ (0, import_mithril24.default)("tr", { className: "table-header" }, /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Date"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Type"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Description"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Memo"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Debit"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Credit"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "Balance"), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril24.default)("th", null, "(Calculated)"))), /* @__PURE__ */ (0, import_mithril24.default)("tbody", null, rows.length ? rows : emptyState), /* @__PURE__ */ (0, import_mithril24.default)("tfoot", null, /* @__PURE__ */ (0, import_mithril24.default)("tr", { className: "table-footer" }, /* @__PURE__ */ (0, import_mithril24.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril24.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril24.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(totalDebit)), /* @__PURE__ */ (0, import_mithril24.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(totalCredit)), /* @__PURE__ */ (0, import_mithril24.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(endBalance)), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril24.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(runningBalance)))));
+    return /* @__PURE__ */ (0, import_mithril28.default)("table", { className: "statement" }, /* @__PURE__ */ (0, import_mithril28.default)("thead", null, /* @__PURE__ */ (0, import_mithril28.default)("tr", { className: "table-header" }, /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Date"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Type"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Description"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Memo"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Debit"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Credit"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "Balance"), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril28.default)("th", null, "(Calculated)"))), /* @__PURE__ */ (0, import_mithril28.default)("tbody", null, rows.length ? rows : emptyState), /* @__PURE__ */ (0, import_mithril28.default)("tfoot", null, /* @__PURE__ */ (0, import_mithril28.default)("tr", { className: "table-footer" }, /* @__PURE__ */ (0, import_mithril28.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril28.default)("th", null, "\xA0"), /* @__PURE__ */ (0, import_mithril28.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(totalDebit)), /* @__PURE__ */ (0, import_mithril28.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(totalCredit)), /* @__PURE__ */ (0, import_mithril28.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(endBalance)), STATEMENTS_KEEP_BALANCE_HISTORY && /* @__PURE__ */ (0, import_mithril28.default)("th", { className: "currency" }, convertCentsToDecimalForDisplay(runningBalance)))));
   });
 
-  // src/ui/components/statements-browser/StatementsBrowser.jsx
-  var STATEMENTS_KEEP_BALANCE_HISTORY = false;
+  // src/ui/components/statements-browser/_StatementsBrowser.jsx
   function createStatementsWindow() {
     const windowRef = window.open(
       "text/html",
@@ -6069,14 +6155,14 @@ Check your performTransitions() config.`;
     const [years, setYears] = useState([]);
     const [months, setMonths] = useState([]);
     useEffect(() => {
-      const uniqueYears = (0, import_fp2.pipe)(
+      const uniqueYears = (0, import_fp3.pipe)(
         accountStatements,
         ($) => $.map((x) => new Date(x.endDate)),
         ($) => $.map((x) => x.getFullYear()),
         ($) => new Set($),
         ($) => [...$]
       );
-      const uniqueMonths = (0, import_fp2.pipe)(
+      const uniqueMonths = (0, import_fp3.pipe)(
         accountStatements,
         ($) => $.map((x) => new Date(x.endDate)),
         ($) => $.filter((x) => x.getFullYear() == selectedYear),
@@ -6115,7 +6201,7 @@ Check your performTransitions() config.`;
       dateWithDifferentYear.setFullYear(year);
       setSelectedStatementId(getNearestToDate(dateWithDifferentYear));
     };
-    return /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "grid-container" }, /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "header" }, /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "info-and-accounts" }, /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "info" }, /* @__PURE__ */ (0, import_mithril25.default)(Info, null, /* @__PURE__ */ (0, import_mithril25.default)("h1", null, "OBIS | Statements Browser"), /* @__PURE__ */ (0, import_mithril25.default)("h2", null, accountInfo, " \u2022", " ", !isNaN(selectedStatementDate) && simpleDate(selectedStatementDate)), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "balance-summary" }, totalCredit > 0 && /* @__PURE__ */ (0, import_mithril25.default)("span", null, convertCentsToDecimalForDisplay(totalCredit), " in"), totalDebit > 0 && /* @__PURE__ */ (0, import_mithril25.default)("span", null, convertCentsToDecimalForDisplay(totalDebit), " out"), creditDebitDiff !== 0 && /* @__PURE__ */ (0, import_mithril25.default)(
+    return /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "grid-container" }, /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "header" }, /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "info-and-accounts" }, /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "info" }, /* @__PURE__ */ (0, import_mithril29.default)(Info, null, /* @__PURE__ */ (0, import_mithril29.default)("h1", null, "OBIS | Statements Browser"), /* @__PURE__ */ (0, import_mithril29.default)("h2", null, accountInfo, " \u2022", " ", !isNaN(selectedStatementDate) && simpleDate(selectedStatementDate)), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "balance-summary" }, totalCredit > 0 && /* @__PURE__ */ (0, import_mithril29.default)("span", null, convertCentsToDecimalForDisplay(totalCredit), " in"), totalDebit > 0 && /* @__PURE__ */ (0, import_mithril29.default)("span", null, convertCentsToDecimalForDisplay(totalDebit), " out"), creditDebitDiff !== 0 && /* @__PURE__ */ (0, import_mithril29.default)(
       "span",
       {
         className: clsx_m_default({
@@ -6125,40 +6211,40 @@ Check your performTransitions() config.`;
       },
       creditDebitDiff <= 0 ? "\u{1F4C9} " : "\u{1F4C8} ",
       convertCentsToDecimalForDisplay(creditDebitDiff)
-    )))), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "accounts" }, /* @__PURE__ */ (0, import_mithril25.default)(
+    )))), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "accounts" }, /* @__PURE__ */ (0, import_mithril29.default)(
       Accounts2,
       {
         selectedAccountId: accountId,
         handleClick: selectAccount
       }
-    ))), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "cursor-and-months" }, /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "months" }, /* @__PURE__ */ (0, import_mithril25.default)(
+    ))), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "cursor-and-months" }, /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "months" }, /* @__PURE__ */ (0, import_mithril29.default)(
       Months,
       {
         months,
         selectedMonth,
         handleClick: selectMonth
       }
-    )), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "cursor" }, /* @__PURE__ */ (0, import_mithril25.default)(Cursor, null, /* @__PURE__ */ (0, import_mithril25.default)("div", { onclick: olderStatement }, "Older"), /* @__PURE__ */ (0, import_mithril25.default)("div", { onclick: latestStatement }, "\u2022"), /* @__PURE__ */ (0, import_mithril25.default)("div", { onclick: newerStatement }, "Newer"))))), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "main" }, /* @__PURE__ */ (0, import_mithril25.default)(Statement, { selectedStatementId })), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "years" }, /* @__PURE__ */ (0, import_mithril25.default)("div", null, /* @__PURE__ */ (0, import_mithril25.default)(
+    )), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "cursor" }, /* @__PURE__ */ (0, import_mithril29.default)(Cursor, null, /* @__PURE__ */ (0, import_mithril29.default)("div", { onclick: olderStatement }, "Older"), /* @__PURE__ */ (0, import_mithril29.default)("div", { onclick: latestStatement }, "\u2022"), /* @__PURE__ */ (0, import_mithril29.default)("div", { onclick: newerStatement }, "Newer"))))), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "main" }, /* @__PURE__ */ (0, import_mithril29.default)(Statement, { selectedStatementId })), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "years" }, /* @__PURE__ */ (0, import_mithril29.default)("div", null, /* @__PURE__ */ (0, import_mithril29.default)(
       Years,
       {
         years,
         selectedYear,
         handleClick: selectYear
       }
-    ))), /* @__PURE__ */ (0, import_mithril25.default)("div", { className: "spacing" }));
+    ))), /* @__PURE__ */ (0, import_mithril29.default)("div", { className: "spacing" }));
   });
 
   // src/ui/index.js
-  var { fetchMachine: fetcher2 } = obis;
+  var { fetchMachine: fetcher4 } = obis;
   var { messages: messages4 } = obis.deps;
   var { on, emit } = messages4;
-  var { Emit: Emit2 } = fetcher2;
+  var { Emit: Emit2 } = fetcher4;
   window.store = store;
   window.actions = actions;
   window.messages = messages4;
   function viewStatements() {
     const windowRef = createStatementsWindow();
-    import_mithril26.default.mount(windowRef.document.body, StatementsBrowser);
+    import_mithril30.default.mount(windowRef.document.body, StatementsBrowser);
     const offClose = on(actions.ui.CLOSE_STATEMENTS_WINDOW, () => {
       offClose();
       windowRef.close();
@@ -6169,13 +6255,13 @@ Check your performTransitions() config.`;
     makeZip().finally(() => (0, import_promises2.delay)((0, import_timers3.seconds)(3))).finally(Emit2(actions.ui.DOWNLOADED_STATEMENTS));
   });
   function main() {
-    emit(actions.ui.RENDERING, import_mithril26.default);
+    emit(actions.ui.RENDERING, import_mithril30.default);
     const rootEl = document.querySelector("#obis-root") || document.body.appendChild(
       withProps(document.createElement("div"), { id: "obis-root" })
     );
-    import_mithril26.default.mount(rootEl, App);
-    const rafRedraw = () => requestAnimationFrame(() => import_mithril26.default.redraw());
-    fetcher2.onSwitched(rafRedraw);
+    import_mithril30.default.mount(rootEl, App);
+    const rafRedraw = () => requestAnimationFrame(() => import_mithril30.default.redraw());
+    fetcher4.onSwitched(rafRedraw);
     on(actions.STORE_UPDATED, rafRedraw);
     on(actions.ui.UPDATE_PROGRESS_BAR, (metrics) => {
       const newMax = metrics.max;
