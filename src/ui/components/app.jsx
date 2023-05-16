@@ -15,11 +15,19 @@ import { match, when, otherwise } from 'match-iz'
 
 import clsx from 'clsx'
 
+import { Delay, seconds } from '@/cjs/timers'
+import { actions } from '@/obis/actions'
+import { store } from '@/obis/store'
+import { flow, pipe } from '@/cjs/fp'
+import { uiWidgetStates } from '@/flows/uiWidgetStates'
+
+// General Components
 import { VerticalAnimationContainer } from './common/VerticalAnimationContainer'
 import { ProgressBar } from './common/ProgressBar'
 import { Button } from './common/Button'
 import { Subheader } from './common/Subheader'
 
+// Widget Components
 import { Account } from './obis-overlay-widget/Account'
 import { AccountName } from './obis-overlay-widget/AccountName'
 import { Accounts } from './obis-overlay-widget/Accounts'
@@ -29,12 +37,6 @@ import { Header } from './obis-overlay-widget/Header'
 import { StatementsLoaded } from './obis-overlay-widget/StatementsLoaded'
 import { YearsLoaded } from './obis-overlay-widget/YearsLoaded'
 import { YearsSlider } from './obis-overlay-widget/YearsSlider'
-
-import { Delay, seconds } from '@/cjs/timers'
-import { actions } from '@/obis/actions'
-import { store } from '@/obis/store'
-import { flow, pipe } from '@/cjs/fp'
-import { uiWidgetStates } from '@/flows/uiWidgetStates'
 
 const SUPPORTS_YEARS_SLIDER = false
 

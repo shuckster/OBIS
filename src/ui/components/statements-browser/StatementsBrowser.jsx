@@ -18,9 +18,11 @@ import { actions } from '@/obis/actions'
 import { simpleDate } from '@/obis/utils/dates'
 import { convertCentsToDecimalForDisplay } from '@/obis/utils/currency'
 
-import { useAccounts } from '../../store/base'
-import { useAccountStatements, useStatementEntries } from '../../store/derived'
+import { useAccounts } from '@/store/base'
+import { useAccountStatements, useStatementEntries } from '@/store/derived'
 import { pipe } from '@/cjs/fp'
+
+// Widget Components
 import { Info } from './Info'
 import { Accounts } from './Accounts'
 import { Cursor } from './Cursor'

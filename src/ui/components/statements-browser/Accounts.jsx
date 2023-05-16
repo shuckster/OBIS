@@ -1,7 +1,7 @@
 import m from 'mithril'
 import { withHooks as ViewComponent, useCallback } from 'mithril-hooks'
 import clsx from 'clsx'
-import { useAccounts } from '../../store/base'
+import { useAccounts } from '@/store/base'
 
 export const Accounts = ViewComponent(props => {
   const { selectedAccountId, handleClick } = props
