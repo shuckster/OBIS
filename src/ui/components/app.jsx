@@ -11,41 +11,22 @@ import {
   useCallback
 } from 'mithril-hooks'
 import { useStatebot } from 'statebot/hooks/mithril'
-import { match, when, otherwise } from 'match-iz'
-
-import clsx from 'clsx'
 
 import { Delay, seconds } from '@/cjs/timers'
 import { actions } from '@/obis/actions'
-import { store } from '@/obis/store'
-import { flow, pipe } from '@/cjs/fp'
 import { uiWidgetStates } from '@/flows/uiWidgetStates'
+import { DEFAULT_YEARS_TO_FETCH } from './constants'
 
-// General Components
-import { VerticalAnimationContainer } from './common/VerticalAnimationContainer'
-import { ProgressBar } from './common/ProgressBar'
-import { Button } from './common/Button'
-import { Subheader } from './common/Subheader'
-
-// Widget Components
-import { Account } from './obis-overlay-widget/Account'
-import { AccountName } from './obis-overlay-widget/AccountName'
-import { Accounts } from './obis-overlay-widget/Accounts'
-import { Actions } from './obis-overlay-widget/Actions'
-import { Dialog } from './obis-overlay-widget/Dialog'
-import { Header } from './obis-overlay-widget/Header'
-import { StatementsLoaded } from './obis-overlay-widget/StatementsLoaded'
-import { YearsLoaded } from './obis-overlay-widget/YearsLoaded'
-import { YearsSlider } from './obis-overlay-widget/YearsSlider'
-
-const SUPPORTS_YEARS_SLIDER = false
+// Components
+import { Header } from './obis-overlay-widget/atoms/Header'
+import { ObisOverlayWidget } from './obis-overlay-widget/_ObisOverlayWidget'
+import { YearsAndActionButtons } from './obis-overlay-widget/YearsAndActionButtons'
+import { ListOfAccountCards } from './obis-overlay-widget/ListOfAccountCards'
+import { HelpAndProgressBar } from './obis-overlay-widget/HelpAndProgressBar'
 
 const { fetchMachine: fetcher } = obis
 const { Statebot, messages } = obis.deps
 const { Emit } = fetcher
-
-const MAXIMUM_YEARS_TO_FETCH = 10
-const DEFAULT_YEARS_TO_FETCH = 3
 
 const uiMachine = Statebot('UI', {
   events: messages,
@@ -71,173 +52,47 @@ uiMachine.performTransitions({
 // Main UI component
 //
 
-export const progressBar = {
-  max: 0,
-  value: 0
-}
+const handleToggleOpen = Emit(actions.ui.TOGGLE_OPEN)
+const handleViewStatementsClick = Emit(actions.ui.VIEW_STATEMENTS)
+const handleDownloadAllClick = Emit(actions.ui.DOWNLOAD_STATEMENTS)
 
 export const App = ViewComponent(() => {
   const state = useStatebot(uiMachine)
   const ready = !['idle', 'loading'].includes(state)
-  const closed = state === 'closed'
   const opened = state === 'opened'
 
   const [yearsToFetch, setYearsToFetch] = useState(DEFAULT_YEARS_TO_FETCH)
-
-  const handleToggleOpen = useCallback(Emit(actions.ui.TOGGLE_OPEN), [])
-
-  const handleRangeSlider = useCallback(
-    flow(
-      event => event?.target?.value,
-      $ => parseInt($, 10),
-      $ => (isNaN($) ? DEFAULT_YEARS_TO_FETCH : $),
-      $ => setYearsToFetch($)
-    ),
-    [setYearsToFetch]
-  )
-
   const handleFetchClick = useCallback(
     Emit(actions.get.ACCOUNTS, yearsToFetch),
     [yearsToFetch]
   )
 
-  const handleViewStatementsClick = useCallback(
-    Emit(actions.ui.VIEW_STATEMENTS),
-    []
-  )
-
-  const handleDownloadAllClick = useCallback(
-    Emit(actions.ui.DOWNLOAD_STATEMENTS),
-    []
-  )
-
   return (
-    <Dialog hidden={!ready}>
-      {ready && (
-        <Button
-          className={clsx('toggle-button', {
-            opened: opened,
-            closed: closed
-          })}
-          handleClick={handleToggleOpen}
-          disabled={!opened && !closed}
-        >
-          {'\u21E7'}
-        </Button>
-      )}
-
-      <Header>{obis.plugin.description}</Header>
-
-      <Subheader>
-        {match({ ready, opened })(
-          when({ ready: true, opened: true })(
-            'Hit the button below to try and download everything automatically.'
-          ),
-          when({ ready: true, opened: false })(
-            'Welcome! Click that button on the right to see if we can download some statements.'
-          ),
-          otherwise('Loading...')
-        )}
-        <br />
-        <br />
-        {fetcher.inState({
-          'getting-accounts': 'Finding accounts...',
-          'getting-statements': 'Getting statements...',
-          'getting-entries':
-            'Getting transactions... (takes a moment to finish)',
-          idle: () =>
-            match(fetcher.history().some(state => /^failed-/.test(state)))(
-              when(true)(
-                <span style="font-weight: bold; color: red;">
-                  Sorry, something went wrong. Please try again, or report a
-                  problem on the{' '}
-                  <a
-                    href="https://github.com/shuckster/OBIS/issues"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    OBIS Github repo
-                  </a>
-                </span>
-              ),
-              otherwise('')
-            )
-        })}
-        <ProgressBar {...progressBar} />
-      </Subheader>
-
-      {ready && (
-        <VerticalAnimationContainer opened={opened}>
-          <Accounts>
-            {store().accounts.map(account => {
-              const allStatementYears = pipe(
-                store(),
-                $ => $.statements.filter(x => x.accountId === account.id),
-                $ => $.map(x => new Date(x.endDate).getFullYear())
-              )
-
-              const uniqueStatementYears = pipe(
-                allStatementYears,
-                $ => new Set($),
-                $ => [...$]
-              )
-
-              return (
-                <Account key={account.id}>
-                  <StatementsLoaded>
-                    Statements: {allStatementYears.length}
-                  </StatementsLoaded>
-                  <YearsLoaded>{uniqueStatementYears.join(' ')}</YearsLoaded>
-                  <AccountName>
-                    {account.sortCode} {account.accountNumber}
-                  </AccountName>
-                </Account>
-              )
-            })}
-          </Accounts>
-
-          <Actions>
-            {match(SUPPORTS_YEARS_SLIDER)(
-              when(true)(
-                <YearsSlider
-                  max={MAXIMUM_YEARS_TO_FETCH}
-                  value={yearsToFetch}
-                  handleUpdate={handleRangeSlider}
-                  disabled={!fetcher.inState('idle')}
-                />
-              ),
-              otherwise(<div>&nbsp;</div>)
-            )}
-
-            <Button
-              handleClick={handleFetchClick}
-              className="fetch-everything"
-              disabled={!fetcher.inState('idle')}
-            >
-              {match(SUPPORTS_YEARS_SLIDER)(
-                when(true)(
-                  <>
-                    Fetch {yearsToFetch} {yearsToFetch == 1 ? 'year' : 'years'}
-                  </>
-                ),
-                otherwise('Fetch statements')
-              )}
-            </Button>
-            <Button
-              handleClick={handleViewStatementsClick}
-              disabled={!fetcher.inState('found-entries')}
-            >
-              View statements
-            </Button>
-            <Button
-              handleClick={handleDownloadAllClick}
-              disabled={!fetcher.inState('found-entries')}
-            >
-              Download all
-            </Button>
-          </Actions>
-        </VerticalAnimationContainer>
-      )}
-    </Dialog>
+    <ObisOverlayWidget
+      ready={ready}
+      opened={opened}
+      onToggle={handleToggleOpen}
+      alwaysVisibleSlot={
+        <>
+          <Header>{obis.plugin.description}</Header>
+          <HelpAndProgressBar ready={ready} opened={opened} />
+        </>
+      }
+      toggledSlot={
+        <>
+          {ready && (
+            <>
+              <ListOfAccountCards />
+              <YearsAndActionButtons
+                onYearsChanged={setYearsToFetch}
+                onFetch={handleFetchClick}
+                onViewStatements={handleViewStatementsClick}
+                onDownloadAll={handleDownloadAllClick}
+              />
+            </>
+          )}
+        </>
+      }
+    />
   )
 })

@@ -22,15 +22,13 @@ import { useAccounts } from '@/store/base'
 import { useAccountStatements, useStatementEntries } from '@/store/derived'
 import { pipe } from '@/cjs/fp'
 
-// Widget Components
-import { Info } from './Info'
+// Components
+import { Info } from './atoms/Info'
 import { Accounts } from './Accounts'
-import { Cursor } from './Cursor'
+import { Cursor } from './atoms/Cursor'
 import { Months } from './Months'
 import { Years } from './Years'
 import { Statement } from './Statement'
-
-export const STATEMENTS_KEEP_BALANCE_HISTORY = false
 
 export function createStatementsWindow() {
   const windowRef = window.open(

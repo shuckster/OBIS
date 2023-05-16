@@ -8,12 +8,13 @@ import { delay } from '@/cjs/promises'
 import { actions } from '@/obis/actions'
 import { store } from '@/obis/store'
 import { makeZip } from '@/obis/zip'
+import { progressBar } from '@/store/progressBar'
 
-import { App, progressBar } from './components/app'
+import { App } from './components/app'
 import {
   StatementsBrowser,
   createStatementsWindow
-} from './components/statements-browser/StatementsBrowser'
+} from './components/statements-browser/_StatementsBrowser'
 
 const { fetchMachine: fetcher } = obis
 const { messages } = obis.deps

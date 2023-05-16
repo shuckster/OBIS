@@ -1,4 +1,4 @@
-import m from 'mithril'
+// import m from 'mithril'
 import { withHooks as ViewComponent } from 'mithril-hooks'
 
 export const Cursor = ViewComponent(props => {

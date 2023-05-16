@@ -1,10 +1,12 @@
 import m from 'mithril'
 import { withHooks as ViewComponent } from 'mithril-hooks'
 import clsx from 'clsx'
+
 import { simpleDate } from '@/obis/utils/dates'
 import { convertCentsToDecimalForDisplay } from '@/obis/utils/currency'
 import { useStatementEntries } from '@/store/derived'
-import { STATEMENTS_KEEP_BALANCE_HISTORY } from './StatementsBrowser'
+
+import { STATEMENTS_KEEP_BALANCE_HISTORY } from '../constants'
 
 export const Statement = ViewComponent(props => {
   const { selectedStatementId } = props
