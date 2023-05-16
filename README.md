@@ -93,6 +93,7 @@ Many thanks to these contributors:
 
 - @lesterw1
 - @masterell
+- @prisonblues
 
 🙏
 
