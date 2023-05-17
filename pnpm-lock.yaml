@@ -11,7 +11,7 @@ specifiers:
   express: ^4.18.2
   fflate: ^0.7.4
   file-saver: ^2.0.5
-  glob: ^10.2.4
+  glob: ^10.2.5
   immer: ^10.0.2
   jmespath: ^0.16.0
   match-iz: ^3.10.0
@@ -45,7 +45,7 @@ devDependencies:
   eslint: 8.40.0
   eslint-plugin-mithril: 0.2.0
   express: 4.18.2
-  glob: 10.2.4
+  glob: 10.2.5
   nodemon: 2.0.22
   rimraf: 5.0.0
   socket.io: 4.6.1
@@ -358,11 +358,11 @@ packages:
   /@types/cors/2.8.13:
     resolution: {integrity: sha512-RG8AStHlUiV5ysZQKq97copd2UmVYw3/pRMLefISZ3S1hK104Cwm7iLQ3fTKx+lsUH2CE8FlLaYeEA2LSeqYUA==}
     dependencies:
-      '@types/node': 20.1.4
+      '@types/node': 20.1.7
     dev: true
 
-  /@types/node/20.1.4:
-    resolution: {integrity: sha512-At4pvmIOki8yuwLtd7BNHl3CiWNbtclUbNtScGx4OHfBd4/oWoJC8KRCIxXwkdndzhxOsPXihrsOoydxBjlE9Q==}
+  /@types/node/20.1.7:
+    resolution: {integrity: sha512-WCuw/o4GSwDGMoonES8rcvwsig77dGCMbZDrZr2x4ZZiNW4P/gcoZXe/0twgtobcTkmg9TuKflxYL/DuwDyJzg==}
     dev: true
 
   /abbrev/1.1.1:
@@ -732,7 +732,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.13
-      '@types/node': 20.1.4
+      '@types/node': 20.1.7
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -1170,16 +1170,16 @@ packages:
       is-glob: 4.0.3
     dev: true
 
-  /glob/10.2.4:
-    resolution: {integrity: sha512-fDboBse/sl1oXSLhIp0FcCJgzW9KmhC/q8ULTKC82zc+DL3TL7FNb8qlt5qqXN53MsKEUSIcb+7DLmEygOE5Yw==}
+  /glob/10.2.5:
+    resolution: {integrity: sha512-Gj+dFYPZ5hc5dazjXzB0iHg2jKWJZYMjITXYPBRQ/xc2Buw7H0BINknRTwURJ6IC6MEFpYbLvtgVb3qD+DwyuA==}
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
     dependencies:
       foreground-child: 3.1.1
       jackspeak: 2.2.0
       minimatch: 9.0.0
-      minipass: 6.0.1
-      path-scurry: 1.9.1
+      minipass: 6.0.2
+      path-scurry: 1.9.2
     dev: true
 
   /glob/7.2.3:
@@ -1590,8 +1590,8 @@ packages:
       brace-expansion: 2.0.1
     dev: true
 
-  /minipass/6.0.1:
-    resolution: {integrity: sha512-Tenl5QPpgozlOGBiveNYHg2f6y+VpxsXRoIHFUVJuSmTonXRAE6q9b8Mp/O46762/2AlW4ye4Nkyvx0fgWDKbw==}
+  /minipass/6.0.2:
+    resolution: {integrity: sha512-MzWSV5nYVT7mVyWCwn2o7JH13w2TBRmmSqSRCKzTw+lmft9X4z+3wjvs06Tzijo5z4W/kahUCDpRXTF+ZrmF/w==}
     engines: {node: '>=16 || 14 >=14.17'}
     dev: true
 
@@ -1765,12 +1765,12 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /path-scurry/1.9.1:
-    resolution: {integrity: sha512-UgmoiySyjFxP6tscZDgWGEAgsW5ok8W3F5CJDnnH2pozwSTGE6eH7vwTotMwATWA2r5xqdkKdxYPkwlJjAI/3g==}
+  /path-scurry/1.9.2:
+    resolution: {integrity: sha512-qSDLy2aGFPm8i4rsbHd4MNyTcrzHFsLQykrtbuGRknZZCBBVXSv2tSCDN2Cg6Rt/GFRw8GoW9y9Ecw5rIPG1sg==}
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       lru-cache: 9.1.1
-      minipass: 6.0.1
+      minipass: 6.0.2
     dev: true
 
   /path-to-regexp/0.1.7:
@@ -1873,7 +1873,7 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
-      glob: 10.2.4
+      glob: 10.2.5
     dev: true
 
   /run-parallel/1.2.0:
