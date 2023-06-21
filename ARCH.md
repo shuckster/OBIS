@@ -12,31 +12,31 @@ The OBIS UI is built with [Mithril.js](https://mithril.js.org/) and [Statebot](h
 ## Application state-chart
 
 ```mermaid
-stateDiagram
-%% Happy path
-%%
-  idle --> getting_accounts
-  getting_accounts --> found_accounts
-  found_accounts --> getting_statements
-  getting_statements --> found_statements
-  found_statements --> getting_entries
-  getting_entries --> found_entries
 
-%% Downloading Zip
-%%
-  found_entries --> download_all
-  download_all --> found_entries
+stateDiagram-v2
+  %% Happy path
+  %%
+    idle --> getting_accounts
+    getting_accounts --> found_accounts
+    found_accounts --> getting_statements
+    getting_statements --> found_statements
+    found_statements --> getting_entries
+    getting_entries --> found_entries
 
-%% Failures
-%%
-  getting_accounts --> failed_accounts
+  %% Downloading Zip
+  %%
+    found_entries --> download_all
+    download_all --> found_entries
+
+  %% Failures
+  %%
+    getting_accounts --> failed_accounts
     failed_accounts --> idle
+    getting_statements --> failed_statements
+    failed_statements --> idle
+    getting_entries --> failed_entries
+    failed_entries --> idle
 
-  getting_statements --> failed_statements
-    failed_statements --> found_accounts
-
-  getting_entries --> failed_entries
-    failed_entries --> found_statements
 ```
 
 The HSBC UK parser uses [JMESPath](https://jmespath.org/), which takes a great
