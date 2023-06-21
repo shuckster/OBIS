@@ -36,11 +36,11 @@ const uiMachine = Statebot('UI', {
 })
 
 uiMachine.performTransitions({
-  'loading -> rendering-ui': {
+  'loading -> rendering_ui': {
     on: actions.ui.RENDERED,
     then: Delay(Emit(actions.FIRST_RUN), seconds(0.1))
   },
-  'rendering-ui -> closed': {
+  'rendering_ui -> closed': {
     on: actions.FIRST_RUN
   },
   'closed -> opened -> closed': {

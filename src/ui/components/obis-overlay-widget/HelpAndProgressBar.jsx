@@ -28,11 +28,11 @@ export const HelpAndProgressBar = ViewComponent(props => {
       <br />
       <br />
       {fetcher.inState({
-        'getting-accounts': 'Finding accounts...',
-        'getting-statements': 'Getting statements...',
-        'getting-entries': 'Getting transactions... (takes a moment to finish)',
+        getting_accounts: 'Finding accounts...',
+        getting_statements: 'Getting statements...',
+        getting_entries: 'Getting transactions... (takes a moment to finish)',
         idle: () =>
-          match(fetcher.history().some(state => /^failed-/.test(state)))(
+          match(fetcher.history().some(state => /^failed_/.test(state)))(
             when(true)(<ShowHelpOnError />),
             otherwise('')
           )

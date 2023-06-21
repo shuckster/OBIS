@@ -69,13 +69,13 @@ export const YearsAndActionButtons = ViewComponent(props => {
       </Button>
       <Button
         onClick={handleViewStatementsClick}
-        disabled={!fetcher.inState('found-entries')}
+        disabled={!fetcher.inState('found_entries')}
       >
         View statements
       </Button>
       <Button
         onClick={handleDownloadAllClick}
-        disabled={!fetcher.inState('found-entries')}
+        disabled={!fetcher.inState('found_entries')}
       >
         Download all
       </Button>

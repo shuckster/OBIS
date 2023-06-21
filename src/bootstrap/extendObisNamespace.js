@@ -27,7 +27,7 @@ export function extendObisNamespace(obis) {
 
   obis.fetchMachine = Statebot('fetcher', {
     events: messages,
-    startIn: process.env.HYDRATE === 'yes' ? 'found-entries' : 'idle',
+    startIn: process.env.HYDRATE === 'yes' ? 'found_entries' : 'idle',
     chart: obisFetchFlow,
     logLevel: 2
   })

@@ -1,24 +1,35 @@
+import { mermaid } from 'statebot'
+
 /**
  * Flow for the accounts/statements fetcher
  */
 
-export const obisFetchFlow = `
+export const obisFetchFlow = mermaid(`
+::: mermaid
 
-  // Happy path
-  //
-    [idle] -> getting-accounts ->
-    [found-accounts] -> getting-statements ->
-    [found-statements] -> getting-entries ->
-    [found-entries]
+stateDiagram-v2
+  %% Happy path
+  %%
+    idle --> getting_accounts
+    getting_accounts --> found_accounts
+    found_accounts --> getting_statements
+    getting_statements --> found_statements
+    found_statements --> getting_entries
+    getting_entries --> found_entries
 
-  // Downloading Zip
-  //
-    found-entries -> [download-all] -> found-entries
+  %% Downloading Zip
+  %%
+    found_entries --> download_all
+    download_all --> found_entries
 
-  // Failures
-  //
-    (getting-accounts -> failed-accounts -> idle)
-    (getting-statements -> failed-statements -> idle)
-    (getting-entries -> failed-entries -> idle)
+  %% Failures
+  %%
+    getting_accounts --> failed_accounts
+    failed_accounts --> idle
+    getting_statements --> failed_statements
+    failed_statements --> idle
+    getting_entries --> failed_entries
+    failed_entries --> idle
 
-`
+:::
+`)

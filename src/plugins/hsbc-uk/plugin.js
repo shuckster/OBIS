@@ -43,7 +43,7 @@ obis.makePluginAvailable('hsbc-uk', () => {
     //
     // Accounts
     //
-    'idle -> getting-accounts': {
+    'idle -> getting_accounts': {
       on: actions.get.ACCOUNTS,
       then: requestedYearsToDownload =>
         fetchAccounts()
@@ -102,7 +102,7 @@ obis.makePluginAvailable('hsbc-uk', () => {
           .catch(fetcher.Emit(actions.error.ACCOUNTS))
     },
 
-    'getting-accounts -> found-accounts': {
+    'getting_accounts -> found_accounts': {
       on: actions.got.ACCOUNTS,
       then: ({ accountsResponse, yearsToDownload }) => {
         //
@@ -118,7 +118,7 @@ obis.makePluginAvailable('hsbc-uk', () => {
       }
     },
 
-    'getting-accounts -> failed-accounts': {
+    'getting_accounts -> failed_accounts': {
       on: actions.error.ACCOUNTS,
       then: fetcher.Enter('idle')
     },
@@ -126,7 +126,7 @@ obis.makePluginAvailable('hsbc-uk', () => {
     //
     // Statements list
     //
-    'found-accounts -> getting-statements': {
+    'found_accounts -> getting_statements': {
       on: actions.get.STATEMENTS,
       then: ({ statementsQueries, yearsToDownload }) => {
         const progress = updateProgressBar(statementsQueries.length)
@@ -200,7 +200,7 @@ obis.makePluginAvailable('hsbc-uk', () => {
       }
     },
 
-    'getting-statements -> found-statements': {
+    'getting_statements -> found_statements': {
       on: actions.got.STATEMENTS,
       then: ({ allStatements, yearsToDownload }) => {
         //
@@ -229,7 +229,7 @@ obis.makePluginAvailable('hsbc-uk', () => {
       }
     },
 
-    'getting-statements -> failed-statements': {
+    'getting_statements -> failed_statements': {
       on: actions.error.STATEMENTS,
       then: fetcher.Enter('idle')
     },
@@ -237,7 +237,7 @@ obis.makePluginAvailable('hsbc-uk', () => {
     //
     // Transactions
     //
-    'found-statements -> getting-entries': {
+    'found_statements -> getting_entries': {
       on: actions.get.ENTRIES,
       then: ({ accountsTransactionsQueries, yearsToDownload }) => {
         const progress = updateProgressBar(accountsTransactionsQueries.length)
@@ -295,12 +295,12 @@ obis.makePluginAvailable('hsbc-uk', () => {
       }
     },
 
-    'getting-entries -> found-entries': {
+    'getting_entries -> found_entries': {
       on: actions.got.ENTRIES,
       then: () => {}
     },
 
-    'getting-entries -> failed-entries': {
+    'getting_entries -> failed_entries': {
       on: actions.error.ENTRIES,
       then: fetcher.Enter('idle')
     },
@@ -308,12 +308,12 @@ obis.makePluginAvailable('hsbc-uk', () => {
     //
     // Downloading
     //
-    'found-entries -> download-all': {
+    'found_entries -> download_all': {
       on: actions.ui.DOWNLOAD_STATEMENTS,
       then: () => {}
     },
 
-    'download-all -> found-entries': {
+    'download_all -> found_entries': {
       on: actions.ui.DOWNLOADED_STATEMENTS,
       then: () => {}
     }
@@ -324,9 +324,9 @@ obis.makePluginAvailable('hsbc-uk', () => {
     // Flag a problem
     //
     [`
-        failed-accounts |
-      failed-statements |
-         failed-entries -> idle
+        failed_accounts |
+      failed_statements |
+         failed_entries -> idle
 
     `]: () => {
       console.warn('Problem fetching data. Please try again.')
