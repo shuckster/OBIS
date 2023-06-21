@@ -117,7 +117,8 @@ function maybeRunMockServer() {
 const commonBuildOptions = {
   define: BUILD_REPLACEMENTS,
   minify: MINIFY_DISTRIBUTION,
-  sourcemap: SOURCE_MAPS
+  sourcemap: SOURCE_MAPS,
+  target: 'es2020'
 }
 
 function buildBookmarklet() {
