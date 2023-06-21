@@ -2043,166 +2043,183 @@
     }
   });
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.js"(exports, module) {
-      var I = Object.defineProperty;
-      var _ = Object.getOwnPropertyDescriptor;
-      var j = Object.getOwnPropertyNames;
-      var v = Object.getOwnPropertySymbols;
-      var F = Object.prototype.hasOwnProperty;
-      var L = Object.prototype.propertyIsEnumerable;
-      var E = (t, n, e) => n in t ? I(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
-      var P = (t, n) => {
+    "node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js"(exports, module) {
+      var x2 = Object.defineProperty;
+      var y = Object.getOwnPropertyDescriptor;
+      var k = Object.getOwnPropertyNames;
+      var N = Object.getOwnPropertySymbols;
+      var D = Object.prototype.hasOwnProperty;
+      var q = Object.prototype.propertyIsEnumerable;
+      var P = (t, n, e) => n in t ? x2(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
+      var C = (t, n) => {
         for (var e in n || (n = {}))
-          F.call(n, e) && E(t, e, n[e]);
-        if (v)
-          for (var e of v(n))
-            L.call(n, e) && E(t, e, n[e]);
+          D.call(n, e) && P(t, e, n[e]);
+        if (N)
+          for (var e of N(n))
+            q.call(n, e) && P(t, e, n[e]);
         return t;
       };
-      var q = (t, n) => {
+      var H = (t, n) => {
         var e = {};
         for (var o in t)
-          F.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
-        if (t != null && v)
-          for (var o of v(t))
-            n.indexOf(o) < 0 && L.call(t, o) && (e[o] = t[o]);
+          D.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
+        if (t != null && N)
+          for (var o of N(t))
+            n.indexOf(o) < 0 && q.call(t, o) && (e[o] = t[o]);
         return e;
       };
       var R = (t, n) => {
         for (var e in n)
-          I(t, e, { get: n[e], enumerable: true });
+          x2(t, e, { get: n[e], enumerable: true });
       };
-      var y = (t, n, e, o) => {
+      var tt = (t, n, e, o) => {
         if (n && typeof n == "object" || typeof n == "function")
-          for (let r of j(n))
-            !F.call(t, r) && r !== e && I(t, r, { get: () => n[r], enumerable: !(o = _(n, r)) || o.enumerable });
+          for (let r of k(n))
+            !D.call(t, r) && r !== e && x2(t, r, { get: () => n[r], enumerable: !(o = y(n, r)) || o.enumerable });
         return t;
       };
-      var a = (t) => y(I({}, "__esModule", { value: true }), t);
-      var yt = {};
-      R(yt, { against: () => C, allOf: () => Q, anyOf: () => K, cata: () => Tt, deepEq: () => Mt, defined: () => Vt, empty: () => T, endsWith: () => Ct, eq: () => J, every: () => Lt, falsy: () => Yt, firstOf: () => qt, getIterationLimit: () => bt, gt: () => ht, gte: () => Ht, hasOwn: () => Qt, inRange: () => $t, includedIn: () => Jt, includes: () => Gt, instanceOf: () => gt, isArray: () => l, isDate: () => ft, isFunction: () => f, isIterable: () => B, isNumber: () => $, isPojo: () => g, isRegExp: () => x2, isStrictly: () => Kt, isString: () => b, lastOf: () => Rt, lt: () => zt, lte: () => Ut, match: () => vt, not: () => Et, otherwise: () => Dt, pluck: () => xt, setIterationLimit: () => Nt, some: () => Pt, spread: () => jt, startsWith: () => Bt, truthy: () => Xt, when: () => Ft });
-      module.exports = a(yt);
-      var d = {};
-      R(d, { instanceOf: () => p, isArguments: () => h, isArray: () => tt, isDate: () => nt, isFormData: () => mt2, isFunction: () => z, isIterable: () => ut, isMap: () => it, isNumber: () => ot, isObject: () => H, isPojo: () => ct, isRegExp: () => rt, isSet: () => st, isString: () => et2 });
+      var nt = (t) => tt(x2({}, "__esModule", { value: true }), t);
+      var nn = {};
+      R(nn, { against: () => K, allOf: () => Y, anyOf: () => X, cata: () => Zt, deepEq: () => Pt, defined: () => $t, empty: () => Z, endsWith: () => Kt, eq: () => T, every: () => Ct, falsy: () => jt, firstOf: () => Rt, getIterationLimit: () => xt, gt: () => at, gte: () => Bt, hasOwn: () => Yt, inRange: () => Ut, includedIn: () => Tt, includes: () => Qt, instanceOf: () => dt, isArray: () => l, isDate: () => wt, isFunction: () => m, isIterable: () => G, isNumber: () => U, isPojo: () => g, isRegExp: () => A, isStrictly: () => Xt, isString: () => b, lastOf: () => Vt, lt: () => zt, lte: () => Jt, match: () => Dt, not: () => qt, otherwise: () => Ft, pluck: () => Mt, setIterationLimit: () => Et, some: () => Ht, spread: () => tn, startsWith: () => Gt, truthy: () => _t, when: () => Wt });
+      module.exports = nt(nn);
+      var h = {};
+      R(h, { instanceOf: () => d, isArguments: () => $, isArray: () => ot, isDate: () => rt, isFormData: () => gt, isFunction: () => a, isIterable: () => mt2, isMap: () => ft, isNumber: () => it, isObject: () => z, isPojo: () => lt, isRegExp: () => ct, isSet: () => ut, isString: () => st });
       var V = Object.prototype;
-      var k = V.toString;
-      var D = (t) => (n) => typeof n === t;
-      var p = (t) => (n) => n instanceof t;
-      var { isArray: tt } = Array;
-      var h = (t) => k.call(t) === "[object Arguments]";
-      var nt = (t) => p(Date)(t) && !isNaN(t);
-      var z = D("function");
-      var et2 = D("string");
-      var ot = (t) => t === t && D("number")(t);
-      var H = (t) => t !== null && D("object")(t);
-      var rt = p(RegExp);
-      var st = p(Set);
-      var it = p(Map);
-      var ct = (t) => t === null || !H(t) || h(t) ? false : Object.getPrototypeOf(t) === V;
-      var ut = (t) => t != null && [t[Symbol.iterator], t.next].every(z);
-      var mt2 = (t) => typeof FormData != "undefined" && p(FormData)(t);
-      var { isArguments: lt, isArray: l, isDate: ft, isFunction: f, isNumber: $ } = d;
-      var { isPojo: g, isRegExp: x2, isString: b, instanceOf: gt } = d;
-      var { isMap: pt, isSet: Ot, isIterable: B, isFormData: wt } = d;
-      var { keys: w, entries: St, assign: dt } = Object;
+      var et2 = V.toString;
+      var E = (t) => (n) => typeof n === t;
+      var d = (t) => (n) => n instanceof t;
+      var { isArray: ot } = Array;
+      var $ = (t) => et2.call(t) === "[object Arguments]";
+      var rt = (t) => d(Date)(t) && !isNaN(t);
+      var a = E("function");
+      var st = E("string");
+      var it = (t) => t === t && E("number")(t);
+      var z = (t) => t !== null && E("object")(t);
+      var ct = d(RegExp);
+      var ut = d(Set);
+      var ft = d(Map);
+      var lt = (t) => t === null || !z(t) || $(t) ? false : Object.getPrototypeOf(t) === V;
+      var mt2 = (t) => t != null && [t[Symbol.iterator], t.next].every(a);
+      var gt = (t) => typeof FormData != "undefined" && d(FormData)(t);
+      var { isArguments: pt, isArray: l, isDate: wt, isFunction: m, isNumber: U } = h;
+      var { isPojo: g, isRegExp: A, isString: b, instanceOf: dt } = h;
+      var { isMap: Ot, isSet: St, isIterable: G, isFormData: ht } = h;
+      var { keys: S, entries: bt, assign: vt } = Object;
       var O = 2e4;
-      var bt = () => O;
-      var Nt = (t) => {
+      var Nt = true;
+      var xt = () => O;
+      var Et = (t) => {
         let n = O;
         return O = t, () => O = n;
       };
-      function vt(t) {
-        return (...n) => C(...n)(t);
+      function It(t, n) {
+        for (let e = t.length - 1; e >= 0; e--)
+          if (n(t[e]))
+            return t[e];
       }
-      var C = (...t) => (n) => {
-        let [e, o] = lt(n) ? [{}, Array.from(n)] : pt(n) || wt(n) ? [{ isMap: true }, n.entries()] : Ot(n) ? [{ isSet: true }, n.values()] : [{}, n];
-        if (!B(o))
-          return U(...t)(o).result;
-        let [r, u] = t.reduce(([s, m], S) => It(S) ? [S, m] : [s, [...m, S]], [() => ({ value: () => {
+      function B(t, n) {
+        if (Nt && !W(n)) {
+          let e = `Exhausted all patterns without finding a match for input: ${JSON.stringify(t)}. Handle it, or use otherwise() for the fall-through case.`;
+          throw new Error(e);
+        }
+      }
+      function Dt(t) {
+        return (...n) => K(...n)(t);
+      }
+      var K = (...t) => (n) => {
+        let [e, o] = pt(n) ? [{}, Array.from(n)] : Ot(n) || ht(n) ? [{ isMap: true }, n.entries()] : St(n) ? [{ isSet: true }, n.values()] : [{}, n];
+        if (!G(o)) {
+          let s = o, { found: w, result: f } = J(...t)(s);
+          if (w)
+            return f;
+          let I = It(t, W);
+          return B(s, I), f;
+        }
+        let r = o, [u, p] = t.reduce(([s, w], f) => W(f) ? [f, w] : [s, [...w, f]], [() => ({ value: () => {
         } }), []]), c = [];
         do {
-          let { value: s, done: m } = o.next();
-          if (m)
-            return r().value();
+          let { value: s, done: w } = r.next();
+          if (w)
+            return B(r, u), u().value();
           c.push(s);
-          let { found: S, result: Z } = U(...u)(e.isSet ? s : e.isMap ? { key: s[0], value: s[1] } : [...c]);
-          if (S)
-            return Z;
+          let { found: f, result: I } = J(...p)(e.isSet ? s : e.isMap ? { key: s[0], value: s[1] } : [...c]);
+          if (f)
+            return I;
         } while (c.length < O || e.isSet || e.isMap);
         throw new Error(`Hit iterationLimit: ${O}. Use setIterationLimit(Infinity) to disable.`);
       };
-      var U = (...t) => {
+      var J = (...t) => {
         let n;
         return (e) => ({ found: !!t.find((r) => {
-          let u = r(e), { matched: c, value: s } = u || {};
-          return [c, s].every(f) ? c(e) && (n = s(e), true) : u && (n = u);
+          let u = r(e), { matched: p, value: c } = u || {};
+          return [p, c].every(m) ? p(e) && (n = c(e), true) : u && (n = u);
         }), result: n });
       };
-      var G = Symbol("@@match-iz/otherwise");
-      var It = (t) => (t == null ? void 0 : t[G]) === true;
-      var Dt = (t) => {
-        let n = (e) => ({ matched: () => true, value: () => f(t) ? t(e) : t });
-        return n[G] = true, n;
+      var Q = Symbol("@@match-iz/otherwise");
+      var W = (t) => (t == null ? void 0 : t[Q]) === true;
+      var Ft = (t) => {
+        let n = (e) => ({ matched: () => true, value: () => m(t) ? t(e) : t });
+        return n[Q] = true, n;
       };
-      var W = (t) => (n) => (e) => ({ matched: () => i2(t, e, (o) => e = o), value: () => f(n) ? b(e) && x2(t) ? n(...Wt(e.match(t))) : n(e) : n });
-      var Ft = (...t) => {
+      var F = (t) => (n) => (e) => ({ matched: () => i2(t, e, (o) => e = o), value: () => m(n) ? b(e) && A(t) ? n(...At(e.match(t))) : n(e) : n });
+      var Wt = (...t) => {
         if (t.length === 1) {
           let [n] = t;
-          return W(n);
+          return F(n);
         }
         if (t.length === 2) {
           let [n, e] = t;
-          return W(n)(e);
+          return F(n)(e);
         }
         if (t.length > 2) {
           let n = t.slice(-1)[0], e = t.slice(0, -1);
-          return W(Q(e))(n);
+          return F(Y(e))(n);
         }
         throw new Error("Expected at least 1 argument");
       };
-      var Wt = (t) => {
+      var At = (t) => {
         let { groups: n } = t;
         return n ? [n, t] : [t];
       };
-      var i2 = (t, n, e) => g(t) ? w(t).every((o) => i2(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r) => i2(o, n == null ? void 0 : n[r], e)) : f(t) ? t(n, e) : b(n) && x2(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-      var xt = (...t) => (n, e) => t.length === 0 || (f(t[0]) ? t[0](n) : i2(t[0], n, e)) ? (e(n), true) : false;
-      var At = (t, n) => [t, n].every(g) ? w(t).length === w(n).length : true;
-      var J = (t) => (n, e) => At(t, n) && i2(t, n, e);
-      var Mt = (t) => A(t, (n) => g(n) ? J(n) : n);
-      var Et = (t) => (n, e) => !i2(t, n, e);
-      var K = (...t) => (n, e) => t.flat().some((o) => i2(o, n, e));
-      var Q = (...t) => (n, e) => t.flat().every((o) => i2(o, n, e));
-      var Lt = (t) => Y((n) => n.every((e) => i2(t, e)));
-      var Pt = (t) => Y((n) => n.some((e) => i2(t, e)));
-      var qt = (...t) => M((n, e) => t.length <= n.length && i2(t, n.slice(0, t.length), e));
-      var Rt = (...t) => M((n, e) => t.length <= n.length && i2(t, n.slice(n.length - t.length), e));
-      var T = (t) => t !== t || !t && t !== 0 && t !== false || l(t) && !t.length || g(t) && !w(t).length;
-      var Vt = (t) => !T(t);
-      var ht = (t) => N((n) => n > t);
-      var zt = (t) => N((n) => n < t);
-      var Ht = (t) => N((n) => n >= t);
-      var Ut = (t) => N((n) => n <= t);
-      var $t = (t, n) => N((e) => e >= Math.min(t, n) && e <= Math.max(t, n));
-      var Bt = (t) => X((n) => n.startsWith(t));
-      var Ct = (t) => X((n) => n.endsWith(t));
-      var Gt = (t) => M((n) => n.includes(t));
-      var Jt = K;
-      var Kt = (t) => (n) => n === t;
-      var Qt = (...t) => (n) => g(n) && (([e, o]) => e.length && e.every((r) => o.includes(r)))([t.flat(), w(n)]);
-      var Tt = (e) => {
-        var o = e, { getValue: t } = o, n = q(o, ["getValue"]);
-        return St(n).reduce((r, [u, c]) => dt(r, { [u]: (s) => (m) => ({ matched: () => c(m), value: () => f(s) ? s(t(m)) : s }) }), {});
+      var i2 = (t, n, e) => g(t) ? S(t).every((o) => i2(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r) => i2(o, n == null ? void 0 : n[r], e)) : m(t) ? t(n, e) : b(n) && A(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+      var Mt = (...t) => (n, e) => t.length === 0 || (m(t[0]) ? t[0](n) : i2(t[0], n, e)) ? (e(n), true) : false;
+      var Lt = (t, n) => [t, n].every(g) ? S(t).length === S(n).length : true;
+      var T = (t) => (n, e) => Lt(t, n) && i2(t, n, e);
+      var Pt = (t) => M(t, (n) => g(n) ? T(n) : n);
+      var qt = (t) => (n, e) => !i2(t, n, e);
+      var X = (...t) => (n, e) => t.flat().some((o) => i2(o, n, e));
+      var Y = (...t) => (n, e) => t.flat().every((o) => i2(o, n, e));
+      var Ct = (t) => j((n) => n.every((e) => i2(t, e)));
+      var Ht = (t) => j((n) => n.some((e) => i2(t, e)));
+      var Rt = (...t) => L((n, e) => t.length <= n.length && i2(t, n.slice(0, t.length), e));
+      var Vt = (...t) => L((n, e) => t.length <= n.length && i2(t, n.slice(n.length - t.length), e));
+      var Z = (t) => t !== t || !t && t !== 0 && t !== false || l(t) && !t.length || g(t) && !S(t).length;
+      var $t = (t) => !Z(t);
+      var at = (t) => v((n) => n > t);
+      var zt = (t) => v((n) => n < t);
+      var Bt = (t) => v((n) => n >= t);
+      var Jt = (t) => v((n) => n <= t);
+      var Ut = (t, n) => v((e) => e >= Math.min(t, n) && e <= Math.max(t, n));
+      var Gt = (t) => _((n) => n.startsWith(t));
+      var Kt = (t) => _((n) => n.endsWith(t));
+      var Qt = (t) => L((n) => n.includes(t));
+      var Tt = X;
+      var Xt = (t) => (n) => n === t;
+      var Yt = (...t) => (n) => g(n) && (([e, o]) => e.length && e.every((r) => o.includes(r)))([t.flat(), S(n)]);
+      var Zt = (e) => {
+        var o = e, { getValue: t } = o, n = H(o, ["getValue"]);
+        return bt(n).reduce((r, [u, p]) => vt(r, { [u]: (c) => (s) => ({ matched: () => p(s), value: () => m(c) ? c(t(s)) : c }) }), {});
       };
-      var Xt = (t) => !!t;
-      var Yt = (t) => !t;
-      var Zt = (t) => (n, e) => (n[e] = A(n[e], t), n);
-      var _t = (t) => (n) => A(n, t);
-      var A = (t, n) => n(g(t) ? w(t).reduce(Zt(n), P({}, t)) : l(t) ? t.map(_t(n)) : t);
-      var jt = (t) => new Proxy({}, { get: () => t });
-      var X = (t) => (n) => b(n) && t(n);
-      var N = (t) => (n) => $(n) && t(n);
-      var Y = (t) => (n, e) => l(n) && t(n, e);
-      var M = (t) => (n, e) => (l(n) || b(n)) && t(n, e);
+      var _t = (t) => !!t;
+      var jt = (t) => !t;
+      var yt = (t) => (n, e) => (n[e] = M(n[e], t), n);
+      var kt = (t) => (n) => M(n, t);
+      var M = (t, n) => n(g(t) ? S(t).reduce(yt(n), C({}, t)) : l(t) ? t.map(kt(n)) : t);
+      var tn = (t) => new Proxy({}, { get: () => t });
+      var _ = (t) => (n) => b(n) && t(n);
+      var v = (t) => (n) => U(n) && t(n);
+      var j = (t) => (n, e) => l(n) && t(n, e);
+      var L = (t) => (n, e) => (l(n) || b(n)) && t(n, e);
     }
   });
   var require_fp = __commonJS({
@@ -3218,6 +3235,17 @@ Check your performTransitions() config.`;
       routes: allRoutes
     };
   }
+  var rxFrontMatter = /---[\r\n]+[\w\W]*---[\r\n]+[\r\n\s]*/m;
+  var rxMermaidHeader = /stateDiagram(-v2)?[\r\n\s]*/g;
+  var rxMermaidDirection = /direction\s+(TB|TD|BT|RL|LR)[\r\n\s]*/g;
+  var rxMermaidComment = /%%/g;
+  var rxMermaidArrow = /-->/g;
+  var rxMermaidStartState = /\[\*\]\s*-->/g;
+  var rxMermaidStopState = /-->\s*\[\*\]/g;
+  var rxMermaidPreviewVsts = /::: ?mermaid([\s\S]*?):::/g;
+  function mermaid(mmd) {
+    return linesFrom(mmd).join("\n").replace(rxMermaidPreviewVsts, "$1").replace(rxFrontMatter, "").replace(rxMermaidHeader, "").replace(rxMermaidDirection, "").replace(rxMermaidComment, "//").replace(rxMermaidStartState, "__START__ -->").replace(rxMermaidStopState, "--> __STOP__").replace(rxMermaidArrow, cxArrow);
+  }
   var import_spark_md5 = __toESM(require_spark_md5());
   var import_jmespath = __toESM(require_jmespath());
   var ch2 = {};
@@ -3240,7 +3268,7 @@ Check your performTransitions() config.`;
   };
   var u8 = Uint8Array;
   var u16 = Uint16Array;
-  var u32 = Uint32Array;
+  var i32 = Int32Array;
   var fleb = new u8([
     0,
     0,
@@ -3318,27 +3346,27 @@ Check your performTransitions() config.`;
     for (var i2 = 0; i2 < 31; ++i2) {
       b[i2] = start += 1 << eb[i2 - 1];
     }
-    var r = new u32(b[30]);
+    var r = new i32(b[30]);
     for (var i2 = 1; i2 < 30; ++i2) {
       for (var j = b[i2]; j < b[i2 + 1]; ++j) {
         r[j] = j - b[i2] << 5 | i2;
       }
     }
-    return [b, r];
+    return { b, r };
   };
   var _a = freb(fleb, 2);
-  var fl = _a[0];
-  var revfl = _a[1];
+  var fl = _a.b;
+  var revfl = _a.r;
   fl[28] = 258, revfl[258] = 28;
   var _b = freb(fdeb, 0);
-  var fd = _b[0];
-  var revfd = _b[1];
+  var fd = _b.b;
+  var revfd = _b.r;
   var rev = new u16(32768);
   for (i = 0; i < 32768; ++i) {
-    x = (i & 43690) >>> 1 | (i & 21845) << 1;
-    x = (x & 52428) >>> 2 | (x & 13107) << 2;
-    x = (x & 61680) >>> 4 | (x & 3855) << 4;
-    rev[i] = ((x & 65280) >>> 8 | (x & 255) << 8) >>> 1;
+    x = (i & 43690) >> 1 | (i & 21845) << 1;
+    x = (x & 52428) >> 2 | (x & 13107) << 2;
+    x = (x & 61680) >> 4 | (x & 3855) << 4;
+    rev[i] = ((x & 65280) >> 8 | (x & 255) << 8) >> 1;
   }
   var x;
   var i;
@@ -3351,7 +3379,7 @@ Check your performTransitions() config.`;
         ++l[cd[i2] - 1];
     }
     var le = new u16(mb);
-    for (i2 = 0; i2 < mb; ++i2) {
+    for (i2 = 1; i2 < mb; ++i2) {
       le[i2] = le[i2 - 1] + l[i2 - 1] << 1;
     }
     var co;
@@ -3364,7 +3392,7 @@ Check your performTransitions() config.`;
           var r_1 = mb - cd[i2];
           var v = le[cd[i2] - 1]++ << r_1;
           for (var m = v | (1 << r_1) - 1; v <= m; ++v) {
-            co[rev[v] >>> rvb] = sv;
+            co[rev[v] >> rvb] = sv;
           }
         }
       }
@@ -3372,7 +3400,7 @@ Check your performTransitions() config.`;
       co = new u16(s);
       for (i2 = 0; i2 < s; ++i2) {
         if (cd[i2]) {
-          co[i2] = rev[le[cd[i2] - 1]++] >>> 15 - cd[i2];
+          co[i2] = rev[le[cd[i2] - 1]++] >> 15 - cd[i2];
         }
       }
     }
@@ -3405,7 +3433,7 @@ Check your performTransitions() config.`;
       s = 0;
     if (e == null || e > v.length)
       e = v.length;
-    var n = new (v.BYTES_PER_ELEMENT == 2 ? u16 : v.BYTES_PER_ELEMENT == 4 ? u32 : u8)(e - s);
+    var n = new u8(e - s);
     n.set(v.subarray(s, e));
     return n;
   };
@@ -3439,14 +3467,14 @@ Check your performTransitions() config.`;
     v <<= p & 7;
     var o = p / 8 | 0;
     d[o] |= v;
-    d[o + 1] |= v >>> 8;
+    d[o + 1] |= v >> 8;
   };
   var wbits16 = function(d, p, v) {
     v <<= p & 7;
     var o = p / 8 | 0;
     d[o] |= v;
-    d[o + 1] |= v >>> 8;
-    d[o + 2] |= v >>> 16;
+    d[o + 1] |= v >> 8;
+    d[o + 2] |= v >> 16;
   };
   var hTree = function(d, mb) {
     var t = [];
@@ -3457,11 +3485,11 @@ Check your performTransitions() config.`;
     var s = t.length;
     var t2 = t.slice();
     if (!s)
-      return [et, 0];
+      return { t: et, l: 0 };
     if (s == 1) {
       var v = new u8(t[0].s + 1);
       v[t[0].s] = 1;
-      return [v, 1];
+      return { t: v, l: 1 };
     }
     t.sort(function(a, b) {
       return a.f - b.f;
@@ -3495,7 +3523,7 @@ Check your performTransitions() config.`;
         } else
           break;
       }
-      dt >>>= lft;
+      dt >>= lft;
       while (dt > 0) {
         var i2_2 = t2[i2].s;
         if (tr[i2_2] < mb)
@@ -3512,7 +3540,7 @@ Check your performTransitions() config.`;
       }
       mbt = mb;
     }
-    return [new u8(tr), mbt];
+    return { t: new u8(tr), l: mbt };
   };
   var ln = function(n, l, d) {
     return n.s == -1 ? Math.max(ln(n.l, l, d + 1), ln(n.r, l, d + 1)) : l[n.s] = d;
@@ -3550,7 +3578,7 @@ Check your performTransitions() config.`;
         cln = c[i2];
       }
     }
-    return [cl.subarray(0, cli), s];
+    return { c: cl.subarray(0, cli), n: s };
   };
   var clen = function(cf, cl) {
     var l = 0;
@@ -3562,7 +3590,7 @@ Check your performTransitions() config.`;
     var s = dat.length;
     var o = shft(pos + 2);
     out[o] = s & 255;
-    out[o + 1] = s >>> 8;
+    out[o + 1] = s >> 8;
     out[o + 2] = out[o] ^ 255;
     out[o + 3] = out[o + 1] ^ 255;
     for (var i2 = 0; i2 < s; ++i2)
@@ -3572,23 +3600,23 @@ Check your performTransitions() config.`;
   var wblk = function(dat, out, final, syms, lf, df, eb, li, bs, bl, p) {
     wbits(out, p++, final);
     ++lf[256];
-    var _a2 = hTree(lf, 15), dlt = _a2[0], mlb = _a2[1];
-    var _b2 = hTree(df, 15), ddt = _b2[0], mdb = _b2[1];
-    var _c = lc(dlt), lclt = _c[0], nlc = _c[1];
-    var _d = lc(ddt), lcdt = _d[0], ndc = _d[1];
+    var _a2 = hTree(lf, 15), dlt = _a2.t, mlb = _a2.l;
+    var _b2 = hTree(df, 15), ddt = _b2.t, mdb = _b2.l;
+    var _c = lc(dlt), lclt = _c.c, nlc = _c.n;
+    var _d = lc(ddt), lcdt = _d.c, ndc = _d.n;
     var lcfreq = new u16(19);
     for (var i2 = 0; i2 < lclt.length; ++i2)
-      lcfreq[lclt[i2] & 31]++;
+      ++lcfreq[lclt[i2] & 31];
     for (var i2 = 0; i2 < lcdt.length; ++i2)
-      lcfreq[lcdt[i2] & 31]++;
-    var _e = hTree(lcfreq, 7), lct = _e[0], mlcb = _e[1];
+      ++lcfreq[lcdt[i2] & 31];
+    var _e = hTree(lcfreq, 7), lct = _e.t, mlcb = _e.l;
     var nlcc = 19;
     for (; nlcc > 4 && !lct[clim[nlcc - 1]]; --nlcc)
       ;
     var flen = bl + 5 << 3;
     var ftlen = clen(lf, flt) + clen(df, fdt) + eb;
-    var dtlen = clen(lf, dlt) + clen(df, ddt) + eb + 14 + 3 * nlcc + clen(lcfreq, lct) + (2 * lcfreq[16] + 3 * lcfreq[17] + 7 * lcfreq[18]);
-    if (flen <= ftlen && flen <= dtlen)
+    var dtlen = clen(lf, dlt) + clen(df, ddt) + eb + 14 + 3 * nlcc + clen(lcfreq, lct) + 2 * lcfreq[16] + 3 * lcfreq[17] + 7 * lcfreq[18];
+    if (bs >= 0 && flen <= ftlen && flen <= dtlen)
       return wfblk(out, p, dat.subarray(bs, bs + bl));
     var lm, ll, dm, dl;
     wbits(out, p, 1 + (dtlen < ftlen)), p += 2;
@@ -3609,64 +3637,60 @@ Check your performTransitions() config.`;
           var len = clct[i2] & 31;
           wbits(out, p, llm[len]), p += lct[len];
           if (len > 15)
-            wbits(out, p, clct[i2] >>> 5 & 127), p += clct[i2] >>> 12;
+            wbits(out, p, clct[i2] >> 5 & 127), p += clct[i2] >> 12;
         }
       }
     } else {
       lm = flm, ll = flt, dm = fdm, dl = fdt;
     }
     for (var i2 = 0; i2 < li; ++i2) {
-      if (syms[i2] > 255) {
-        var len = syms[i2] >>> 18 & 31;
+      var sym = syms[i2];
+      if (sym > 255) {
+        var len = sym >> 18 & 31;
         wbits16(out, p, lm[len + 257]), p += ll[len + 257];
         if (len > 7)
-          wbits(out, p, syms[i2] >>> 23 & 31), p += fleb[len];
-        var dst = syms[i2] & 31;
+          wbits(out, p, sym >> 23 & 31), p += fleb[len];
+        var dst = sym & 31;
         wbits16(out, p, dm[dst]), p += dl[dst];
         if (dst > 3)
-          wbits16(out, p, syms[i2] >>> 5 & 8191), p += fdeb[dst];
+          wbits16(out, p, sym >> 5 & 8191), p += fdeb[dst];
       } else {
-        wbits16(out, p, lm[syms[i2]]), p += ll[syms[i2]];
+        wbits16(out, p, lm[sym]), p += ll[sym];
       }
     }
     wbits16(out, p, lm[256]);
     return p + ll[256];
   };
-  var deo = /* @__PURE__ */ new u32([65540, 131080, 131088, 131104, 262176, 1048704, 1048832, 2114560, 2117632]);
+  var deo = /* @__PURE__ */ new i32([65540, 131080, 131088, 131104, 262176, 1048704, 1048832, 2114560, 2117632]);
   var et = /* @__PURE__ */ new u8(0);
-  var dflt = function(dat, lvl, plvl, pre, post, lst) {
-    var s = dat.length;
+  var dflt = function(dat, lvl, plvl, pre, post, st) {
+    var s = st.z || dat.length;
     var o = new u8(pre + s + 5 * (1 + Math.ceil(s / 7e3)) + post);
     var w = o.subarray(pre, o.length - post);
-    var pos = 0;
-    if (!lvl || s < 8) {
-      for (var i2 = 0; i2 <= s; i2 += 65535) {
-        var e = i2 + 65535;
-        if (e >= s) {
-          w[pos >> 3] = lst;
-        }
-        pos = wfblk(w, pos + 1, dat.subarray(i2, e));
-      }
-    } else {
+    var lst = st.l;
+    var pos = (st.r || 0) & 7;
+    if (lvl) {
+      if (pos)
+        w[0] = st.r >> 3;
       var opt = deo[lvl - 1];
-      var n = opt >>> 13, c = opt & 8191;
+      var n = opt >> 13, c = opt & 8191;
       var msk_1 = (1 << plvl) - 1;
-      var prev = new u16(32768), head = new u16(msk_1 + 1);
+      var prev = st.p || new u16(32768), head = st.h || new u16(msk_1 + 1);
       var bs1_1 = Math.ceil(plvl / 3), bs2_1 = 2 * bs1_1;
       var hsh = function(i22) {
         return (dat[i22] ^ dat[i22 + 1] << bs1_1 ^ dat[i22 + 2] << bs2_1) & msk_1;
       };
-      var syms = new u32(25e3);
+      var syms = new i32(25e3);
       var lf = new u16(288), df = new u16(32);
-      var lc_1 = 0, eb = 0, i2 = 0, li = 0, wi = 0, bs = 0;
-      for (; i2 < s; ++i2) {
+      var lc_1 = 0, eb = 0, i2 = st.i || 0, li = 0, wi = st.w || 0, bs = 0;
+      for (; i2 + 2 < s; ++i2) {
         var hv = hsh(i2);
         var imod = i2 & 32767, pimod = head[hv];
         prev[imod] = pimod;
         head[hv] = imod;
         if (wi <= i2) {
           var rem = s - i2;
-          if ((lc_1 > 7e3 || li > 24576) && rem > 423) {
+          if ((lc_1 > 7e3 || li > 24576) && (rem > 423 || !lst)) {
             pos = wblk(dat, w, 0, syms, lf, df, eb, li, bs, i2 - bs, pos);
             li = lc_1 = eb = 0, bs = i2;
             for (var j = 0; j < 286; ++j)
@@ -3691,16 +3715,16 @@ Check your performTransitions() config.`;
                   var mmd = Math.min(dif, nl - 2);
                   var md = 0;
                   for (var j = 0; j < mmd; ++j) {
-                    var ti = i2 - dif + j + 32768 & 32767;
+                    var ti = i2 - dif + j & 32767;
                     var pti = prev[ti];
-                    var cd = ti - pti + 32768 & 32767;
+                    var cd = ti - pti & 32767;
                     if (cd > md)
                       md = cd, pimod = ti;
                   }
                 }
               }
               imod = pimod, pimod = prev[imod];
-              dif += imod - pimod + 32768 & 32767;
+              dif += imod - pimod & 32767;
             }
           }
           if (d) {
@@ -3717,9 +3741,26 @@ Check your performTransitions() config.`;
           }
         }
       }
+      for (i2 = Math.max(i2, wi); i2 < s; ++i2) {
+        syms[li++] = dat[i2];
+        ++lf[dat[i2]];
+      }
       pos = wblk(dat, w, lst, syms, lf, df, eb, li, bs, i2 - bs, pos);
-      if (!lst && pos & 7)
-        pos = wfblk(w, pos + 1, et);
+      if (!lst) {
+        st.r = pos & 7 | w[pos / 8 | 0] << 3;
+        pos -= 7;
+        st.h = head, st.p = prev, st.i = i2, st.w = wi;
+      }
+    } else {
+      for (var i2 = st.w || 0; i2 < s + lst; i2 += 65535) {
+        var e = i2 + 65535;
+        if (e >= s) {
+          w[pos / 8 | 0] = lst;
+          e = s;
+        }
+        pos = wfblk(w, pos + 1, dat.subarray(i2, e));
+      }
+      st.i = s;
     }
     return slc(o, 0, pre + shft(pos) + post);
   };
@@ -3748,7 +3789,18 @@ Check your performTransitions() config.`;
     };
   };
   var dopt = function(dat, opt, pre, post, st) {
-    return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 12 + opt.mem, pre, post, !st);
+    if (!st) {
+      st = { l: 1 };
+      if (opt.dictionary) {
+        var dict = opt.dictionary.subarray(-32768);
+        var newDat = new u8(dict.length + dat.length);
+        newDat.set(dict);
+        newDat.set(dat, dict.length);
+        dat = newDat;
+        st.w = dict.length;
+      }
+    }
+    return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 12 + opt.mem, pre, post, st);
   };
   var mrg = function(a, b) {
     var o = {};
@@ -3781,7 +3833,7 @@ Check your performTransitions() config.`;
       } else
         td2[k] = v;
     }
-    return [fnStr, td2];
+    return fnStr;
   };
   var ch = [];
   var cbfs = function(v) {
@@ -3794,18 +3846,17 @@ Check your performTransitions() config.`;
     return tl;
   };
   var wrkr = function(fns, init, id, cb) {
-    var _a2;
     if (!ch[id]) {
       var fnStr = "", td_1 = {}, m = fns.length - 1;
       for (var i2 = 0; i2 < m; ++i2)
-        _a2 = wcln(fns[i2], fnStr, td_1), fnStr = _a2[0], td_1 = _a2[1];
-      ch[id] = wcln(fns[m], fnStr, td_1);
+        fnStr = wcln(fns[i2], fnStr, td_1);
+      ch[id] = { c: wcln(fns[m], fnStr, td_1), e: td_1 };
     }
-    var td2 = mrg({}, ch[id][1]);
-    return wk(ch[id][0] + ";onmessage=function(e){for(var k in e.data)self[k]=e.data[k];onmessage=" + init.toString() + "}", id, td2, cbfs(td2), cb);
+    var td2 = mrg({}, ch[id].e);
+    return wk(ch[id].c + ";onmessage=function(e){for(var k in e.data)self[k]=e.data[k];onmessage=" + init.toString() + "}", id, td2, cbfs(td2), cb);
   };
   var bDflt = function() {
-    return [u8, u16, u32, fleb, fdeb, clim, revfl, revfd, flm, flt, fdm, fdt, rev, deo, et, hMap, wbits, wbits16, hTree, ln, lc, clen, wfblk, wblk, shft, slc, dflt, dopt, deflateSync, pbf];
+    return [u8, u16, i32, fleb, fdeb, clim, revfl, revfd, flm, flt, fdm, fdt, rev, deo, et, hMap, wbits, wbits16, hTree, ln, lc, clen, wfblk, wblk, shft, slc, dflt, dopt, deflateSync, pbf];
   };
   var pbf = function(msg) {
     return postMessage(msg, [msg.buffer]);
@@ -3916,7 +3967,7 @@ Check your performTransitions() config.`;
     var dt = new Date(f.mtime == null ? Date.now() : f.mtime), y = dt.getFullYear() - 1980;
     if (y < 0 || y > 119)
       err(10);
-    wbytes(d, b, y << 25 | dt.getMonth() + 1 << 21 | dt.getDate() << 16 | dt.getHours() << 11 | dt.getMinutes() << 5 | dt.getSeconds() >>> 1), b += 4;
+    wbytes(d, b, y << 25 | dt.getMonth() + 1 << 21 | dt.getDate() << 16 | dt.getHours() << 11 | dt.getMinutes() << 5 | dt.getSeconds() >> 1), b += 4;
     if (c != -1) {
       wbytes(d, b, f.crc);
       wbytes(d, b + 4, c < 0 ? -c - 2 : c);
@@ -4296,26 +4347,35 @@ Check your performTransitions() config.`;
       ENTRIES: "update/entries"
     }
   };
-  var obisFetchFlow = `
+  var obisFetchFlow = mermaid(`
+::: mermaid
 
-  // Happy path
-  //
-    [idle] -> getting-accounts ->
-    [found-accounts] -> getting-statements ->
-    [found-statements] -> getting-entries ->
-    [found-entries]
+stateDiagram-v2
+  %% Happy path
+  %%
+    idle --> getting_accounts
+    getting_accounts --> found_accounts
+    found_accounts --> getting_statements
+    getting_statements --> found_statements
+    found_statements --> getting_entries
+    getting_entries --> found_entries
 
-  // Downloading Zip
-  //
-    found-entries -> [download-all] -> found-entries
+  %% Downloading Zip
+  %%
+    found_entries --> download_all
+    download_all --> found_entries
 
-  // Failures
-  //
-    (getting-accounts -> failed-accounts -> idle)
-    (getting-statements -> failed-statements -> idle)
-    (getting-entries -> failed-entries -> idle)
+  %% Failures
+  %%
+    getting_accounts --> failed_accounts
+    failed_accounts --> idle
+    getting_statements --> failed_statements
+    failed_statements --> idle
+    getting_entries --> failed_entries
+    failed_entries --> idle
 
-`;
+:::
+`);
   obis2.pluginRegistry = /* @__PURE__ */ new Map();
   var getPluginMeta = (name) => obis2.pluginRegistry.has(name) ? obis2.pluginRegistry.get(name) : obis2.pluginRegistry.set(name, {}).get(name);
   function extendObisNamespace(obis22) {
@@ -4331,7 +4391,7 @@ Check your performTransitions() config.`;
     };
     obis22.fetchMachine = Statebot("fetcher", {
       events: messages,
-      startIn: false ? "found-entries" : "idle",
+      startIn: false ? "found_entries" : "idle",
       chart: obisFetchFlow,
       logLevel: 2
     });
@@ -5018,22 +5078,22 @@ Check your performTransitions() config.`;
               start = start < oldStart ? start : oldStart;
               for (; start < commonLength; start++) {
                 o = old[start];
-                v2 = vnodes[start];
-                if (o === v2 || o == null && v2 == null)
+                v = vnodes[start];
+                if (o === v || o == null && v == null)
                   continue;
                 else if (o == null)
-                  createNode(parent, v2, hooks, ns, getNextSibling(old, start + 1, nextSibling));
-                else if (v2 == null)
+                  createNode(parent, v, hooks, ns, getNextSibling(old, start + 1, nextSibling));
+                else if (v == null)
                   removeNode(parent, o);
                 else
-                  updateNode(parent, o, v2, hooks, getNextSibling(old, start + 1, nextSibling), ns);
+                  updateNode(parent, o, v, hooks, getNextSibling(old, start + 1, nextSibling), ns);
               }
               if (old.length > commonLength)
                 removeNodes(parent, old, start, old.length);
               if (vnodes.length > commonLength)
                 createNodes(parent, vnodes, start, vnodes.length, hooks, nextSibling, ns);
             } else {
-              var oldEnd = old.length - 1, end = vnodes.length - 1, map, o, v2, oe, ve, topSibling;
+              var oldEnd = old.length - 1, end = vnodes.length - 1, map, o, v, oe, ve, topSibling;
               while (oldEnd >= oldStart && end >= start) {
                 oe = old[oldEnd];
                 ve = vnodes[end];
@@ -5047,22 +5107,22 @@ Check your performTransitions() config.`;
               }
               while (oldEnd >= oldStart && end >= start) {
                 o = old[oldStart];
-                v2 = vnodes[start];
-                if (o.key !== v2.key)
+                v = vnodes[start];
+                if (o.key !== v.key)
                   break;
                 oldStart++, start++;
-                if (o !== v2)
-                  updateNode(parent, o, v2, hooks, getNextSibling(old, oldStart, nextSibling), ns);
+                if (o !== v)
+                  updateNode(parent, o, v, hooks, getNextSibling(old, oldStart, nextSibling), ns);
               }
               while (oldEnd >= oldStart && end >= start) {
                 if (start === end)
                   break;
-                if (o.key !== ve.key || oe.key !== v2.key)
+                if (o.key !== ve.key || oe.key !== v.key)
                   break;
                 topSibling = getNextSibling(old, oldStart, nextSibling);
                 moveNodes(parent, oe, topSibling);
-                if (oe !== v2)
-                  updateNode(parent, oe, v2, hooks, topSibling, ns);
+                if (oe !== v)
+                  updateNode(parent, oe, v, hooks, topSibling, ns);
                 if (++start <= --end)
                   moveNodes(parent, o, nextSibling);
                 if (o !== ve)
@@ -5074,7 +5134,7 @@ Check your performTransitions() config.`;
                 oe = old[oldEnd];
                 ve = vnodes[end];
                 o = old[oldStart];
-                v2 = vnodes[start];
+                v = vnodes[start];
               }
               while (oldEnd >= oldStart && end >= start) {
                 if (oe.key !== ve.key)
@@ -5122,24 +5182,24 @@ Check your performTransitions() config.`;
                     lisIndices = makeLisIndices(oldIndices);
                     li = lisIndices.length - 1;
                     for (i = end; i >= start; i--) {
-                      v2 = vnodes[i];
+                      v = vnodes[i];
                       if (oldIndices[i - start] === -1)
-                        createNode(parent, v2, hooks, ns, nextSibling);
+                        createNode(parent, v, hooks, ns, nextSibling);
                       else {
                         if (lisIndices[li] === i - start)
                           li--;
                         else
-                          moveNodes(parent, v2, nextSibling);
+                          moveNodes(parent, v, nextSibling);
                       }
-                      if (v2.dom != null)
+                      if (v.dom != null)
                         nextSibling = vnodes[i].dom;
                     }
                   } else {
                     for (i = end; i >= start; i--) {
-                      v2 = vnodes[i];
+                      v = vnodes[i];
                       if (oldIndices[i - start] === -1)
-                        createNode(parent, v2, hooks, ns, nextSibling);
-                      if (v2.dom != null)
+                        createNode(parent, v, hooks, ns, nextSibling);
+                      if (v.dom != null)
                         nextSibling = vnodes[i].dom;
                     }
                   }
@@ -5262,7 +5322,7 @@ Check your performTransitions() config.`;
         var lisTemp = [];
         function makeLisIndices(a2) {
           var result = [0];
-          var u = 0, v2 = 0, i = 0;
+          var u = 0, v = 0, i = 0;
           var il = lisTemp.length = a2.length;
           for (var i = 0; i < il; i++)
             lisTemp[i] = a2[i];
@@ -5276,13 +5336,13 @@ Check your performTransitions() config.`;
               continue;
             }
             u = 0;
-            v2 = result.length - 1;
-            while (u < v2) {
-              var c = (u >>> 1) + (v2 >>> 1) + (u & v2 & 1);
+            v = result.length - 1;
+            while (u < v) {
+              var c = (u >>> 1) + (v >>> 1) + (u & v & 1);
               if (a2[result[c]] < a2[i]) {
                 u = c + 1;
               } else {
-                v2 = c;
+                v = c;
               }
             }
             if (a2[i] < a2[result[u]]) {
@@ -5292,10 +5352,10 @@ Check your performTransitions() config.`;
             }
           }
           u = result.length;
-          v2 = result[u - 1];
+          v = result[u - 1];
           while (u-- > 0) {
-            result[u] = v2;
-            v2 = lisTemp[v2];
+            result[u] = v;
+            v = lisTemp[v];
           }
           lisTemp.length = 0;
           return result;
@@ -6669,196 +6729,213 @@ Check your performTransitions() config.`;
     }
   });
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.js"(exports, module) {
-      var I2 = Object.defineProperty;
-      var _2 = Object.getOwnPropertyDescriptor;
-      var j2 = Object.getOwnPropertyNames;
-      var v2 = Object.getOwnPropertySymbols;
-      var F = Object.prototype.hasOwnProperty;
-      var L = Object.prototype.propertyIsEnumerable;
-      var E = (t, n, e) => n in t ? I2(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
-      var P = (t, n) => {
+    "node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js"(exports, module) {
+      var x2 = Object.defineProperty;
+      var y2 = Object.getOwnPropertyDescriptor;
+      var k2 = Object.getOwnPropertyNames;
+      var N2 = Object.getOwnPropertySymbols;
+      var D2 = Object.prototype.hasOwnProperty;
+      var q = Object.prototype.propertyIsEnumerable;
+      var P = (t, n, e) => n in t ? x2(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
+      var C = (t, n) => {
         for (var e in n || (n = {}))
-          F.call(n, e) && E(t, e, n[e]);
-        if (v2)
-          for (var e of v2(n))
-            L.call(n, e) && E(t, e, n[e]);
+          D2.call(n, e) && P(t, e, n[e]);
+        if (N2)
+          for (var e of N2(n))
+            q.call(n, e) && P(t, e, n[e]);
         return t;
       };
-      var q2 = (t, n) => {
+      var H2 = (t, n) => {
         var e = {};
         for (var o in t)
-          F.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
-        if (t != null && v2)
-          for (var o of v2(t))
-            n.indexOf(o) < 0 && L.call(t, o) && (e[o] = t[o]);
+          D2.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
+        if (t != null && N2)
+          for (var o of N2(t))
+            n.indexOf(o) < 0 && q.call(t, o) && (e[o] = t[o]);
         return e;
       };
       var R2 = (t, n) => {
         for (var e in n)
-          I2(t, e, { get: n[e], enumerable: true });
+          x2(t, e, { get: n[e], enumerable: true });
       };
-      var y2 = (t, n, e, o) => {
+      var tt2 = (t, n, e, o) => {
         if (n && typeof n == "object" || typeof n == "function")
-          for (let r2 of j2(n))
-            !F.call(t, r2) && r2 !== e && I2(t, r2, { get: () => n[r2], enumerable: !(o = _2(n, r2)) || o.enumerable });
+          for (let r2 of k2(n))
+            !D2.call(t, r2) && r2 !== e && x2(t, r2, { get: () => n[r2], enumerable: !(o = y2(n, r2)) || o.enumerable });
         return t;
       };
-      var a2 = (t) => y2(I2({}, "__esModule", { value: true }), t);
-      var yt = {};
-      R2(yt, { against: () => C, allOf: () => Q2, anyOf: () => K2, cata: () => Tt, deepEq: () => Mt, defined: () => Vt, empty: () => T2, endsWith: () => Ct, eq: () => J2, every: () => Lt, falsy: () => Yt, firstOf: () => qt, getIterationLimit: () => bt2, gt: () => ht, gte: () => Ht, hasOwn: () => Qt, inRange: () => $t, includedIn: () => Jt, includes: () => Gt, instanceOf: () => gt, isArray: () => l2, isDate: () => ft, isFunction: () => f2, isIterable: () => B, isNumber: () => $, isPojo: () => g2, isRegExp: () => x, isStrictly: () => Kt, isString: () => b, lastOf: () => Rt, lt: () => zt, lte: () => Ut, match: () => vt, not: () => Et, otherwise: () => Dt2, pluck: () => xt, setIterationLimit: () => Nt2, some: () => Pt, spread: () => jt, startsWith: () => Bt, truthy: () => Xt, when: () => Ft2 });
-      module.exports = a2(yt);
-      var d2 = {};
-      R2(d2, { instanceOf: () => p2, isArguments: () => h2, isArray: () => tt2, isDate: () => nt2, isFormData: () => mt2, isFunction: () => z2, isIterable: () => ut2, isMap: () => it2, isNumber: () => ot2, isObject: () => H2, isPojo: () => ct2, isRegExp: () => rt2, isSet: () => st2, isString: () => et2 });
+      var nt2 = (t) => tt2(x2({}, "__esModule", { value: true }), t);
+      var nn = {};
+      R2(nn, { against: () => K2, allOf: () => Y2, anyOf: () => X2, cata: () => Zt, deepEq: () => Pt, defined: () => $t, empty: () => Z2, endsWith: () => Kt, eq: () => T2, every: () => Ct, falsy: () => jt, firstOf: () => Rt, getIterationLimit: () => xt2, gt: () => at, gte: () => Bt, hasOwn: () => Yt, inRange: () => Ut, includedIn: () => Tt, includes: () => Qt, instanceOf: () => dt, isArray: () => l, isDate: () => wt, isFunction: () => m29, isIterable: () => G, isNumber: () => U, isPojo: () => g2, isRegExp: () => A, isStrictly: () => Xt, isString: () => b, lastOf: () => Vt, lt: () => zt, lte: () => Jt, match: () => Dt, not: () => qt, otherwise: () => Ft2, pluck: () => Mt, setIterationLimit: () => Et2, some: () => Ht, spread: () => tn, startsWith: () => Gt, truthy: () => _t, when: () => Wt2 });
+      module.exports = nt2(nn);
+      var h2 = {};
+      R2(h2, { instanceOf: () => d2, isArguments: () => $2, isArray: () => ot2, isDate: () => rt2, isFormData: () => gt2, isFunction: () => a2, isIterable: () => mt2, isMap: () => ft2, isNumber: () => it2, isObject: () => z2, isPojo: () => lt2, isRegExp: () => ct2, isSet: () => ut2, isString: () => st2 });
       var V2 = Object.prototype;
-      var k2 = V2.toString;
-      var D2 = (t) => (n) => typeof n === t;
-      var p2 = (t) => (n) => n instanceof t;
-      var { isArray: tt2 } = Array;
-      var h2 = (t) => k2.call(t) === "[object Arguments]";
-      var nt2 = (t) => p2(Date)(t) && !isNaN(t);
-      var z2 = D2("function");
-      var et2 = D2("string");
-      var ot2 = (t) => t === t && D2("number")(t);
-      var H2 = (t) => t !== null && D2("object")(t);
-      var rt2 = p2(RegExp);
-      var st2 = p2(Set);
-      var it2 = p2(Map);
-      var ct2 = (t) => t === null || !H2(t) || h2(t) ? false : Object.getPrototypeOf(t) === V2;
-      var ut2 = (t) => t != null && [t[Symbol.iterator], t.next].every(z2);
-      var mt2 = (t) => typeof FormData != "undefined" && p2(FormData)(t);
-      var { isArguments: lt, isArray: l2, isDate: ft, isFunction: f2, isNumber: $ } = d2;
-      var { isPojo: g2, isRegExp: x, isString: b, instanceOf: gt } = d2;
-      var { isMap: pt2, isSet: Ot, isIterable: B, isFormData: wt } = d2;
-      var { keys: w2, entries: St, assign: dt } = Object;
+      var et2 = V2.toString;
+      var E = (t) => (n) => typeof n === t;
+      var d2 = (t) => (n) => n instanceof t;
+      var { isArray: ot2 } = Array;
+      var $2 = (t) => et2.call(t) === "[object Arguments]";
+      var rt2 = (t) => d2(Date)(t) && !isNaN(t);
+      var a2 = E("function");
+      var st2 = E("string");
+      var it2 = (t) => t === t && E("number")(t);
+      var z2 = (t) => t !== null && E("object")(t);
+      var ct2 = d2(RegExp);
+      var ut2 = d2(Set);
+      var ft2 = d2(Map);
+      var lt2 = (t) => t === null || !z2(t) || $2(t) ? false : Object.getPrototypeOf(t) === V2;
+      var mt2 = (t) => t != null && [t[Symbol.iterator], t.next].every(a2);
+      var gt2 = (t) => typeof FormData != "undefined" && d2(FormData)(t);
+      var { isArguments: pt2, isArray: l, isDate: wt, isFunction: m29, isNumber: U } = h2;
+      var { isPojo: g2, isRegExp: A, isString: b, instanceOf: dt } = h2;
+      var { isMap: Ot, isSet: St2, isIterable: G, isFormData: ht } = h2;
+      var { keys: S2, entries: bt, assign: vt } = Object;
       var O2 = 2e4;
-      var bt2 = () => O2;
-      var Nt2 = (t) => {
+      var Nt = true;
+      var xt2 = () => O2;
+      var Et2 = (t) => {
         let n = O2;
         return O2 = t, () => O2 = n;
       };
-      function vt(t) {
-        return (...n) => C(...n)(t);
+      function It(t, n) {
+        for (let e = t.length - 1; e >= 0; e--)
+          if (n(t[e]))
+            return t[e];
       }
-      var C = (...t) => (n) => {
-        let [e, o] = lt(n) ? [{}, Array.from(n)] : pt2(n) || wt(n) ? [{ isMap: true }, n.entries()] : Ot(n) ? [{ isSet: true }, n.values()] : [{}, n];
-        if (!B(o))
-          return U2(...t)(o).result;
-        let [r2, u] = t.reduce(([s2, m29], S) => It(S) ? [S, m29] : [s2, [...m29, S]], [() => ({ value: () => {
+      function B2(t, n) {
+        if (Nt && !W(n)) {
+          let e = `Exhausted all patterns without finding a match for input: ${JSON.stringify(t)}. Handle it, or use otherwise() for the fall-through case.`;
+          throw new Error(e);
+        }
+      }
+      function Dt(t) {
+        return (...n) => K2(...n)(t);
+      }
+      var K2 = (...t) => (n) => {
+        let [e, o] = pt2(n) ? [{}, Array.from(n)] : Ot(n) || ht(n) ? [{ isMap: true }, n.entries()] : St2(n) ? [{ isSet: true }, n.values()] : [{}, n];
+        if (!G(o)) {
+          let s2 = o, { found: w2, result: f } = J2(...t)(s2);
+          if (w2)
+            return f;
+          let I2 = It(t, W);
+          return B2(s2, I2), f;
+        }
+        let r2 = o, [u, p2] = t.reduce(([s2, w2], f) => W(f) ? [f, w2] : [s2, [...w2, f]], [() => ({ value: () => {
         } }), []]), c = [];
         do {
-          let { value: s2, done: m29 } = o.next();
-          if (m29)
-            return r2().value();
+          let { value: s2, done: w2 } = r2.next();
+          if (w2)
+            return B2(r2, u), u().value();
           c.push(s2);
-          let { found: S, result: Z2 } = U2(...u)(e.isSet ? s2 : e.isMap ? { key: s2[0], value: s2[1] } : [...c]);
-          if (S)
-            return Z2;
+          let { found: f, result: I2 } = J2(...p2)(e.isSet ? s2 : e.isMap ? { key: s2[0], value: s2[1] } : [...c]);
+          if (f)
+            return I2;
         } while (c.length < O2 || e.isSet || e.isMap);
         throw new Error(`Hit iterationLimit: ${O2}. Use setIterationLimit(Infinity) to disable.`);
       };
-      var U2 = (...t) => {
+      var J2 = (...t) => {
         let n;
         return (e) => ({ found: !!t.find((r2) => {
-          let u = r2(e), { matched: c, value: s2 } = u || {};
-          return [c, s2].every(f2) ? c(e) && (n = s2(e), true) : u && (n = u);
+          let u = r2(e), { matched: p2, value: c } = u || {};
+          return [p2, c].every(m29) ? p2(e) && (n = c(e), true) : u && (n = u);
         }), result: n });
       };
-      var G2 = Symbol("@@match-iz/otherwise");
-      var It = (t) => (t == null ? void 0 : t[G2]) === true;
-      var Dt2 = (t) => {
-        let n = (e) => ({ matched: () => true, value: () => f2(t) ? t(e) : t });
-        return n[G2] = true, n;
+      var Q2 = Symbol("@@match-iz/otherwise");
+      var W = (t) => (t == null ? void 0 : t[Q2]) === true;
+      var Ft2 = (t) => {
+        let n = (e) => ({ matched: () => true, value: () => m29(t) ? t(e) : t });
+        return n[Q2] = true, n;
       };
-      var W = (t) => (n) => (e) => ({ matched: () => i(t, e, (o) => e = o), value: () => f2(n) ? b(e) && x(t) ? n(...Wt2(e.match(t))) : n(e) : n });
-      var Ft2 = (...t) => {
+      var F = (t) => (n) => (e) => ({ matched: () => i(t, e, (o) => e = o), value: () => m29(n) ? b(e) && A(t) ? n(...At2(e.match(t))) : n(e) : n });
+      var Wt2 = (...t) => {
         if (t.length === 1) {
           let [n] = t;
-          return W(n);
+          return F(n);
         }
         if (t.length === 2) {
           let [n, e] = t;
-          return W(n)(e);
+          return F(n)(e);
         }
         if (t.length > 2) {
           let n = t.slice(-1)[0], e = t.slice(0, -1);
-          return W(Q2(e))(n);
+          return F(Y2(e))(n);
         }
         throw new Error("Expected at least 1 argument");
       };
-      var Wt2 = (t) => {
+      var At2 = (t) => {
         let { groups: n } = t;
         return n ? [n, t] : [t];
       };
-      var i = (t, n, e) => g2(t) ? w2(t).every((o) => i(t[o], n == null ? void 0 : n[o], e)) : l2(t) ? l2(n) && t.length === n.length && t.every((o, r2) => i(o, n == null ? void 0 : n[r2], e)) : f2(t) ? t(n, e) : b(n) && x(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-      var xt = (...t) => (n, e) => t.length === 0 || (f2(t[0]) ? t[0](n) : i(t[0], n, e)) ? (e(n), true) : false;
-      var At = (t, n) => [t, n].every(g2) ? w2(t).length === w2(n).length : true;
-      var J2 = (t) => (n, e) => At(t, n) && i(t, n, e);
-      var Mt = (t) => A2(t, (n) => g2(n) ? J2(n) : n);
-      var Et = (t) => (n, e) => !i(t, n, e);
-      var K2 = (...t) => (n, e) => t.flat().some((o) => i(o, n, e));
-      var Q2 = (...t) => (n, e) => t.flat().every((o) => i(o, n, e));
-      var Lt = (t) => Y2((n) => n.every((e) => i(t, e)));
-      var Pt = (t) => Y2((n) => n.some((e) => i(t, e)));
-      var qt = (...t) => M((n, e) => t.length <= n.length && i(t, n.slice(0, t.length), e));
-      var Rt = (...t) => M((n, e) => t.length <= n.length && i(t, n.slice(n.length - t.length), e));
-      var T2 = (t) => t !== t || !t && t !== 0 && t !== false || l2(t) && !t.length || g2(t) && !w2(t).length;
-      var Vt = (t) => !T2(t);
-      var ht = (t) => N((n) => n > t);
-      var zt = (t) => N((n) => n < t);
-      var Ht = (t) => N((n) => n >= t);
-      var Ut = (t) => N((n) => n <= t);
-      var $t = (t, n) => N((e) => e >= Math.min(t, n) && e <= Math.max(t, n));
-      var Bt = (t) => X2((n) => n.startsWith(t));
-      var Ct = (t) => X2((n) => n.endsWith(t));
-      var Gt = (t) => M((n) => n.includes(t));
-      var Jt = K2;
-      var Kt = (t) => (n) => n === t;
-      var Qt = (...t) => (n) => g2(n) && (([e, o]) => e.length && e.every((r2) => o.includes(r2)))([t.flat(), w2(n)]);
-      var Tt = (e) => {
-        var o = e, { getValue: t } = o, n = q2(o, ["getValue"]);
-        return St(n).reduce((r2, [u, c]) => dt(r2, { [u]: (s2) => (m29) => ({ matched: () => c(m29), value: () => f2(s2) ? s2(t(m29)) : s2 }) }), {});
+      var i = (t, n, e) => g2(t) ? S2(t).every((o) => i(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r2) => i(o, n == null ? void 0 : n[r2], e)) : m29(t) ? t(n, e) : b(n) && A(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+      var Mt = (...t) => (n, e) => t.length === 0 || (m29(t[0]) ? t[0](n) : i(t[0], n, e)) ? (e(n), true) : false;
+      var Lt = (t, n) => [t, n].every(g2) ? S2(t).length === S2(n).length : true;
+      var T2 = (t) => (n, e) => Lt(t, n) && i(t, n, e);
+      var Pt = (t) => M2(t, (n) => g2(n) ? T2(n) : n);
+      var qt = (t) => (n, e) => !i(t, n, e);
+      var X2 = (...t) => (n, e) => t.flat().some((o) => i(o, n, e));
+      var Y2 = (...t) => (n, e) => t.flat().every((o) => i(o, n, e));
+      var Ct = (t) => j2((n) => n.every((e) => i(t, e)));
+      var Ht = (t) => j2((n) => n.some((e) => i(t, e)));
+      var Rt = (...t) => L((n, e) => t.length <= n.length && i(t, n.slice(0, t.length), e));
+      var Vt = (...t) => L((n, e) => t.length <= n.length && i(t, n.slice(n.length - t.length), e));
+      var Z2 = (t) => t !== t || !t && t !== 0 && t !== false || l(t) && !t.length || g2(t) && !S2(t).length;
+      var $t = (t) => !Z2(t);
+      var at = (t) => v((n) => n > t);
+      var zt = (t) => v((n) => n < t);
+      var Bt = (t) => v((n) => n >= t);
+      var Jt = (t) => v((n) => n <= t);
+      var Ut = (t, n) => v((e) => e >= Math.min(t, n) && e <= Math.max(t, n));
+      var Gt = (t) => _2((n) => n.startsWith(t));
+      var Kt = (t) => _2((n) => n.endsWith(t));
+      var Qt = (t) => L((n) => n.includes(t));
+      var Tt = X2;
+      var Xt = (t) => (n) => n === t;
+      var Yt = (...t) => (n) => g2(n) && (([e, o]) => e.length && e.every((r2) => o.includes(r2)))([t.flat(), S2(n)]);
+      var Zt = (e) => {
+        var o = e, { getValue: t } = o, n = H2(o, ["getValue"]);
+        return bt(n).reduce((r2, [u, p2]) => vt(r2, { [u]: (c) => (s2) => ({ matched: () => p2(s2), value: () => m29(c) ? c(t(s2)) : c }) }), {});
       };
-      var Xt = (t) => !!t;
-      var Yt = (t) => !t;
-      var Zt = (t) => (n, e) => (n[e] = A2(n[e], t), n);
-      var _t = (t) => (n) => A2(n, t);
-      var A2 = (t, n) => n(g2(t) ? w2(t).reduce(Zt(n), P({}, t)) : l2(t) ? t.map(_t(n)) : t);
-      var jt = (t) => new Proxy({}, { get: () => t });
-      var X2 = (t) => (n) => b(n) && t(n);
-      var N = (t) => (n) => $(n) && t(n);
-      var Y2 = (t) => (n, e) => l2(n) && t(n, e);
-      var M = (t) => (n, e) => (l2(n) || b(n)) && t(n, e);
+      var _t = (t) => !!t;
+      var jt = (t) => !t;
+      var yt = (t) => (n, e) => (n[e] = M2(n[e], t), n);
+      var kt = (t) => (n) => M2(n, t);
+      var M2 = (t, n) => n(g2(t) ? S2(t).reduce(yt(n), C({}, t)) : l(t) ? t.map(kt(n)) : t);
+      var tn = (t) => new Proxy({}, { get: () => t });
+      var _2 = (t) => (n) => b(n) && t(n);
+      var v = (t) => (n) => U(n) && t(n);
+      var j2 = (t) => (n, e) => l(n) && t(n, e);
+      var L = (t) => (n, e) => (l(n) || b(n)) && t(n, e);
     }
   });
   var require_fp = __commonJS({
     "src/common/cjs/fp.js"(exports, module) {
       function compose(...fns) {
-        return (...x) => fns.reduceRight((g2, f2) => [f2(...g2)], x)[0];
+        return (...x2) => fns.reduceRight((g2, f) => [f(...g2)], x2)[0];
       }
       function flow2(...fns) {
-        return (...x) => fns.reduce((g2, f2) => [f2(...g2)], x)[0];
+        return (...x2) => fns.reduce((g2, f) => [f(...g2)], x2)[0];
       }
-      function pipe3(x, ...fns) {
-        return fns.reduce((g2, f2) => f2(g2), x);
+      function pipe3(x2, ...fns) {
+        return fns.reduce((g2, f) => f(g2), x2);
       }
       function flip(fn) {
-        return (...x) => (...y2) => fn(...y2)(...x);
+        return (...x2) => (...y2) => fn(...y2)(...x2);
       }
-      function do_(f2) {
-        return f2();
+      function do_(f) {
+        return f();
       }
       function memo(fn) {
         const table = /* @__PURE__ */ new Map();
-        return (x) => table.has(x) ? table.get(x) : table.set(x, fn(x)).get(x);
+        return (x2) => table.has(x2) ? table.get(x2) : table.set(x2, fn(x2)).get(x2);
       }
       function cache(fn) {
         const cache2 = /* @__PURE__ */ new Map();
-        return (x) => cache2.has(x) ? cache2.get(x) : cache2.set(x, fn(x, invalidater(cache2, x))).get(x);
+        return (x2) => cache2.has(x2) ? cache2.get(x2) : cache2.set(x2, fn(x2, invalidater(cache2, x2))).get(x2);
       }
-      var invalidater = (cache2, x) => () => cache2.delete(x);
+      var invalidater = (cache2, x2) => () => cache2.delete(x2);
       function aside(fn) {
-        return (x) => (fn(x), x);
+        return (x2) => (fn(x2), x2);
       }
       module.exports = {
         compose,
@@ -6881,25 +6958,25 @@ Check your performTransitions() config.`;
           throw new TypeError("Please pass a non-empty string");
         }
         return pipe3(
-          str.replace(rxConsecutiveWildcards(), "*").split("*").map((x) => x.trim()).map(escapeStringForRegExp),
+          str.replace(rxConsecutiveWildcards(), "*").split("*").map((x2) => x2.trim()).map(escapeStringForRegExp),
           against2(
             when2(hasNoWildcards)(templateMatchExact),
             when2(hasNoWildcardAtStart)(flow2(insertWildcards, templateMatchStart)),
             when2(hasNoWildcardAtEnd)(flow2(insertWildcards, templateMatchEnd)),
             otherwise2(insertWildcards)
           ),
-          ($) => new RegExp($)
+          ($2) => new RegExp($2)
         );
       });
       var rxEscape = () => /[.*+?^${}()|[\]\\]/g;
       var rxConsecutiveWildcards = () => /\*{2,}/g;
-      var hasNoWildcards = (x) => x.length === 1;
-      var hasNoWildcardAtStart = (x) => x.at(0) !== "";
-      var hasNoWildcardAtEnd = (x) => x.at(-1) !== "";
-      var insertWildcards = (x) => x.join("(.*)");
-      var templateMatchExact = ([x]) => `^${x}$`;
-      var templateMatchStart = (x) => `^${x}`;
-      var templateMatchEnd = (x) => `${x}$`;
+      var hasNoWildcards = (x2) => x2.length === 1;
+      var hasNoWildcardAtStart = (x2) => x2.at(0) !== "";
+      var hasNoWildcardAtEnd = (x2) => x2.at(-1) !== "";
+      var insertWildcards = (x2) => x2.join("(.*)");
+      var templateMatchExact = ([x2]) => `^${x2}$`;
+      var templateMatchStart = (x2) => `^${x2}`;
+      var templateMatchEnd = (x2) => `${x2}$`;
       function escapeStringForRegExp(str) {
         if (!isString4(str)) {
           throw new TypeError("Please pass a string");
@@ -7027,11 +7104,11 @@ Check your performTransitions() config.`;
     } else
       thing[propOrOldValue] = value;
   }
-  function is(x, y2) {
-    if (x === y2) {
-      return x !== 0 || 1 / x === 1 / y2;
+  function is(x2, y2) {
+    if (x2 === y2) {
+      return x2 !== 0 || 1 / x2 === 1 / y2;
     } else {
-      return x !== x && y2 !== y2;
+      return x2 !== x2 && y2 !== y2;
     }
   }
   function isMap(target) {
@@ -7778,7 +7855,7 @@ Check your performTransitions() config.`;
       return (fnName) => (...args) => {
         const processedArgs = Array.from(
           args,
-          (x) => isArguments(x) ? Array.from(x) : x
+          (x2) => isArguments(x2) ? Array.from(x2) : x2
         ).flat(1);
         const err = processedArgs.map(typeErrorStringFromArgument(argMap)).filter(isString2);
         if (!err.length) {
@@ -7864,7 +7941,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingAccount = draftState.accounts.find((x) => x.id === account.id);
+        const existingAccount = draftState.accounts.find((x2) => x2.id === account.id);
         if (existingAccount) {
           console.log("Account exists", existingAccount);
           return;
@@ -7885,7 +7962,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingAccount = draftState.accounts.find((x) => x.id === account.id);
+        const existingAccount = draftState.accounts.find((x2) => x2.id === account.id);
         if (!existingAccount) {
           unseenAccounts.push(account);
           return;
@@ -7931,7 +8008,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           throw TypeError(err);
         }
         const existingStatement = draftState.statements.find(
-          (x) => x.id === statement.id
+          (x2) => x2.id === statement.id
         );
         if (existingStatement) {
           existingStatements.push({ newStatement: statement, existingStatement });
@@ -7957,7 +8034,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           throw TypeError(err);
         }
         const existingStatement = draftState.statements.find(
-          (x) => x.id === statement.id
+          (x2) => x2.id === statement.id
         );
         if (!existingStatement) {
           unseenStatements.push(statement);
@@ -7999,7 +8076,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         if (err) {
           throw TypeError(err);
         }
-        const existingEntry = draftState.entries.find((x) => x.id === entry.id);
+        const existingEntry = draftState.entries.find((x2) => x2.id === entry.id);
         if (existingEntry) {
           existingEntries.push({ newEntry: entry, existingEntry });
           return;
@@ -8458,11 +8535,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     return index;
   };
   var stringify = (value, replacer, space) => {
-    const $ = replacer && typeof replacer === object ? (k2, v2) => k2 === "" || -1 < replacer.indexOf(k2) ? v2 : void 0 : replacer || noop;
+    const $2 = replacer && typeof replacer === object ? (k2, v) => k2 === "" || -1 < replacer.indexOf(k2) ? v : void 0 : replacer || noop;
     const known = /* @__PURE__ */ new Map();
     const input = [];
     const output = [];
-    let i = +set2(known, input, $.call({ "": value }, "", value));
+    let i = +set2(known, input, $2.call({ "": value }, "", value));
     let firstRun = !i;
     while (i < input.length) {
       firstRun = true;
@@ -8474,7 +8551,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         firstRun = !firstRun;
         return value2;
       }
-      const after = $.call(this, key, value2);
+      const after = $2.call(this, key, value2);
       switch (typeof after) {
         case object:
           if (after === null)
@@ -8496,7 +8573,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const { depsIndex } = state;
     state.depsIndex += 1;
     const prevDeps = state.depsStates[depsIndex] || [];
-    const shouldRecompute = deps === void 0 ? true : Array.isArray(deps) ? deps.length > 0 ? !deps.every((x, i) => x === prevDeps[i]) : !state.setup : false;
+    const shouldRecompute = deps === void 0 ? true : Array.isArray(deps) ? deps.length > 0 ? !deps.every((x2, i) => x2 === prevDeps[i]) : !state.setup : false;
     if (deps !== void 0) {
       state.depsStates[depsIndex] = deps;
     }
@@ -8741,7 +8818,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         argType
       }));
       return (fnName) => (...args) => {
-        const processedArgs = Array.from(args, (x) => isArguments2(x) ? Array.from(x) : x).flat(1);
+        const processedArgs = Array.from(args, (x2) => isArguments2(x2) ? Array.from(x2) : x2).flat(1);
         const err = processedArgs.map(typeErrorStringFromArgument2(argMap)).filter(isString3);
         if (!err.length) {
           return;
@@ -9565,8 +9642,19 @@ Check your performTransitions() config.`;
       routes: allRoutes
     };
   }
+  var rxFrontMatter = /---[\r\n]+[\w\W]*---[\r\n]+[\r\n\s]*/m;
+  var rxMermaidHeader = /stateDiagram(-v2)?[\r\n\s]*/g;
+  var rxMermaidDirection = /direction\s+(TB|TD|BT|RL|LR)[\r\n\s]*/g;
+  var rxMermaidComment = /%%/g;
+  var rxMermaidArrow = /-->/g;
+  var rxMermaidStartState = /\[\*\]\s*-->/g;
+  var rxMermaidStopState = /-->\s*\[\*\]/g;
+  var rxMermaidPreviewVsts = /::: ?mermaid([\s\S]*?):::/g;
+  function mermaid(mmd) {
+    return linesFrom(mmd).join("\n").replace(rxMermaidPreviewVsts, "$1").replace(rxFrontMatter, "").replace(rxMermaidHeader, "").replace(rxMermaidDirection, "").replace(rxMermaidComment, "//").replace(rxMermaidStartState, "__START__ -->").replace(rxMermaidStopState, "--> __STOP__").replace(rxMermaidArrow, cxArrow);
+  }
   var makeHooks = ({ Statebot: Statebot3, useEffect: useEffect2, useState: useState2, useMemo: useMemo2 }) => {
-    if (![useEffect2, useState2, useMemo2].every((x) => typeof x === "function")) {
+    if (![useEffect2, useState2, useMemo2].every((x2) => typeof x2 === "function")) {
       console.warn("Statebot Hooks unavailable: React or Mithril not found");
     }
     function useStatebot2(bot) {
@@ -9651,14 +9739,17 @@ Check your performTransitions() config.`;
     useMemo
   });
   var import_timers2 = __toESM(require_timers());
-  var uiWidgetStates = `
+  var uiWidgetStates = mermaid(`
+::: mermaid
 
-  loading ->
-  rendering-ui ->
+stateDiagram-v2
+  loading --> rendering_ui
+  rendering_ui --> closed
+  closed --> opened
+  opened --> closed
 
-    closed -> opened -> closed
-
-`;
+:::
+`);
   var SUPPORTS_YEARS_SLIDER = false;
   var MAXIMUM_YEARS_TO_FETCH = 10;
   var DEFAULT_YEARS_TO_FETCH = 3;
@@ -9670,21 +9761,21 @@ Check your performTransitions() config.`;
   });
   var import_mithril8 = __toESM(require_mithril());
   function r(e) {
-    var t, f2, n = "";
+    var t, f, n = "";
     if ("string" == typeof e || "number" == typeof e)
       n += e;
     else if ("object" == typeof e)
       if (Array.isArray(e))
         for (t = 0; t < e.length; t++)
-          e[t] && (f2 = r(e[t])) && (n && (n += " "), n += f2);
+          e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
       else
         for (t in e)
           e[t] && (n && (n += " "), n += t);
     return n;
   }
   function clsx() {
-    for (var e, t, f2 = 0, n = ""; f2 < arguments.length; )
-      (e = arguments[f2++]) && (t = r(e)) && (n && (n += " "), n += t);
+    for (var e, t, f = 0, n = ""; f < arguments.length; )
+      (e = arguments[f++]) && (t = r(e)) && (n && (n += " "), n += t);
     return n;
   }
   var clsx_m_default = clsx;
@@ -9802,90 +9893,107 @@ Check your performTransitions() config.`;
     ), alwaysVisibleSlot, /* @__PURE__ */ (0, import_mithril8.default)(VerticalAnimationContainer, { opened }, toggledSlot));
   });
   var import_mithril11 = __toESM(require_mithril());
-  var A = Object.defineProperty;
-  var G = (t, n) => {
+  var M = Object.defineProperty;
+  var K = (t, n) => {
     for (var e in n)
-      A(t, e, { get: n[e], enumerable: true });
+      M(t, e, { get: n[e], enumerable: true });
   };
-  var d = {};
-  G(d, { instanceOf: () => l, isArguments: () => R, isArray: () => K, isDate: () => Q, isFormData: () => a, isFunction: () => V, isIterable: () => y, isMap: () => _, isNumber: () => X, isObject: () => h, isPojo: () => j, isRegExp: () => Y, isSet: () => Z, isString: () => T });
-  var q = Object.prototype;
-  var J = q.toString;
-  var v = (t) => (n) => typeof n === t;
-  var l = (t) => (n) => n instanceof t;
-  var { isArray: K } = Array;
-  var R = (t) => J.call(t) === "[object Arguments]";
-  var Q = (t) => l(Date)(t) && !isNaN(t);
-  var V = v("function");
-  var T = v("string");
-  var X = (t) => t === t && v("number")(t);
-  var h = (t) => t !== null && v("object")(t);
-  var Y = l(RegExp);
-  var Z = l(Set);
-  var _ = l(Map);
-  var j = (t) => t === null || !h(t) || R(t) ? false : Object.getPrototypeOf(t) === q;
-  var y = (t) => t != null && [t[Symbol.iterator], t.next].every(V);
-  var a = (t) => typeof FormData != "undefined" && l(FormData)(t);
-  var { isArguments: k, isArray: g, isDate: bt, isFunction: O, isNumber: tt } = d;
-  var { isPojo: w, isRegExp: H, isString: I, instanceOf: Nt } = d;
-  var { isMap: nt, isSet: et, isIterable: ot, isFormData: rt } = d;
-  var { keys: p, entries: st, assign: it } = Object;
-  var f = 2e4;
-  function Dt(t) {
-    return (...n) => ct(...n)(t);
+  var h = {};
+  K(h, { instanceOf: () => g, isArguments: () => R, isArray: () => T, isDate: () => X, isFormData: () => nt, isFunction: () => V, isIterable: () => tt, isMap: () => y, isNumber: () => Z, isObject: () => $, isPojo: () => k, isRegExp: () => _, isSet: () => j, isString: () => Y });
+  var H = Object.prototype;
+  var Q = H.toString;
+  var N = (t) => (n) => typeof n === t;
+  var g = (t) => (n) => n instanceof t;
+  var { isArray: T } = Array;
+  var R = (t) => Q.call(t) === "[object Arguments]";
+  var X = (t) => g(Date)(t) && !isNaN(t);
+  var V = N("function");
+  var Y = N("string");
+  var Z = (t) => t === t && N("number")(t);
+  var $ = (t) => t !== null && N("object")(t);
+  var _ = g(RegExp);
+  var j = g(Set);
+  var y = g(Map);
+  var k = (t) => t === null || !$(t) || R(t) ? false : Object.getPrototypeOf(t) === H;
+  var tt = (t) => t != null && [t[Symbol.iterator], t.next].every(V);
+  var nt = (t) => typeof FormData != "undefined" && g(FormData)(t);
+  var { isArguments: et, isArray: w, isDate: xt, isFunction: O, isNumber: ot } = h;
+  var { isPojo: S, isRegExp: B, isString: x, instanceOf: Et } = h;
+  var { isMap: rt, isSet: st, isIterable: it, isFormData: ct } = h;
+  var { keys: d, entries: ut, assign: ft } = Object;
+  var p = 2e4;
+  var lt = true;
+  function mt(t, n) {
+    for (let e = t.length - 1; e >= 0; e--)
+      if (n(t[e]))
+        return t[e];
   }
-  var ct = (...t) => (n) => {
-    let [e, o] = k(n) ? [{}, Array.from(n)] : nt(n) || rt(n) ? [{ isMap: true }, n.entries()] : et(n) ? [{ isSet: true }, n.values()] : [{}, n];
-    if (!ot(o))
-      return z(...t)(o).result;
-    let [i, u] = t.reduce(([r2, m29], S) => ut(S) ? [S, m29] : [r2, [...m29, S]], [() => ({ value: () => {
+  function a(t, n) {
+    if (lt && !D(n)) {
+      let e = `Exhausted all patterns without finding a match for input: ${JSON.stringify(t)}. Handle it, or use otherwise() for the fall-through case.`;
+      throw new Error(e);
+    }
+  }
+  function Ft(t) {
+    return (...n) => gt(...n)(t);
+  }
+  var gt = (...t) => (n) => {
+    let [e, o] = et(n) ? [{}, Array.from(n)] : rt(n) || ct(n) ? [{ isMap: true }, n.entries()] : st(n) ? [{ isSet: true }, n.values()] : [{}, n];
+    if (!it(o)) {
+      let r2 = o, { found: m29, result: f } = z(...t)(r2);
+      if (m29)
+        return f;
+      let E = mt(t, D);
+      return a(r2, E), f;
+    }
+    let i = o, [u, l] = t.reduce(([r2, m29], f) => D(f) ? [f, m29] : [r2, [...m29, f]], [() => ({ value: () => {
     } }), []]), c = [];
     do {
-      let { value: r2, done: m29 } = o.next();
+      let { value: r2, done: m29 } = i.next();
       if (m29)
-        return i().value();
+        return a(i, u), u().value();
       c.push(r2);
-      let { found: S, result: C } = z(...u)(e.isSet ? r2 : e.isMap ? { key: r2[0], value: r2[1] } : [...c]);
-      if (S)
-        return C;
-    } while (c.length < f || e.isSet || e.isMap);
-    throw new Error(`Hit iterationLimit: ${f}. Use setIterationLimit(Infinity) to disable.`);
+      let { found: f, result: E } = z(...l)(e.isSet ? r2 : e.isMap ? { key: r2[0], value: r2[1] } : [...c]);
+      if (f)
+        return E;
+    } while (c.length < p || e.isSet || e.isMap);
+    throw new Error(`Hit iterationLimit: ${p}. Use setIterationLimit(Infinity) to disable.`);
   };
   var z = (...t) => {
     let n;
     return (e) => ({ found: !!t.find((i) => {
-      let u = i(e), { matched: c, value: r2 } = u || {};
-      return [c, r2].every(O) ? c(e) && (n = r2(e), true) : u && (n = u);
+      let u = i(e), { matched: l, value: c } = u || {};
+      return [l, c].every(O) ? l(e) && (n = c(e), true) : u && (n = u);
     }), result: n });
   };
-  var U = Symbol("@@match-iz/otherwise");
-  var ut = (t) => (t == null ? void 0 : t[U]) === true;
-  var Ft = (t) => {
+  var J = Symbol("@@match-iz/otherwise");
+  var D = (t) => (t == null ? void 0 : t[J]) === true;
+  var Wt = (t) => {
     let n = (e) => ({ matched: () => true, value: () => O(t) ? t(e) : t });
-    return n[U] = true, n;
+    return n[J] = true, n;
   };
-  var D = (t) => (n) => (e) => ({ matched: () => s(t, e, (o) => e = o), value: () => O(n) ? I(e) && H(t) ? n(...mt(e.match(t))) : n(e) : n });
-  var Wt = (...t) => {
+  var I = (t) => (n) => (e) => ({ matched: () => s(t, e, (o) => e = o), value: () => O(n) ? x(e) && B(t) ? n(...pt(e.match(t))) : n(e) : n });
+  var At = (...t) => {
     if (t.length === 1) {
       let [n] = t;
-      return D(n);
+      return I(n);
     }
     if (t.length === 2) {
       let [n, e] = t;
-      return D(n)(e);
+      return I(n)(e);
     }
     if (t.length > 2) {
       let n = t.slice(-1)[0], e = t.slice(0, -1);
-      return D(pt(e))(n);
+      return I(St(e))(n);
     }
     throw new Error("Expected at least 1 argument");
   };
-  var mt = (t) => {
+  var pt = (t) => {
     let { groups: n } = t;
     return n ? [n, t] : [t];
   };
-  var s = (t, n, e) => w(t) ? p(t).every((o) => s(t[o], n == null ? void 0 : n[o], e)) : g(t) ? g(n) && t.length === n.length && t.every((o, i) => s(o, n == null ? void 0 : n[i], e)) : O(t) ? t(n, e) : I(n) && H(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-  var pt = (...t) => (n, e) => t.flat().every((o) => s(o, n, e));
+  var s = (t, n, e) => S(t) ? d(t).every((o) => s(t[o], n == null ? void 0 : n[o], e)) : w(t) ? w(n) && t.length === n.length && t.every((o, i) => s(o, n == null ? void 0 : n[i], e)) : O(t) ? t(n, e) : x(n) && B(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+  var St = (...t) => (n, e) => t.flat().every((o) => s(o, n, e));
   var import_mithril9 = __toESM(require_mithril());
   var Actions = withHooks((props) => {
     const { children } = props || {};
@@ -9904,9 +10012,9 @@ Check your performTransitions() config.`;
     const handleUpdate = useCallback(
       (0, import_fp.flow)(
         (event2) => event2?.target?.value,
-        ($) => parseInt($, 10),
-        ($) => isNaN($) ? defaultYears : $,
-        ($) => onUpdate($)
+        ($2) => parseInt($2, 10),
+        ($2) => isNaN($2) ? defaultYears : $2,
+        ($2) => onUpdate($2)
       ),
       [onUpdate, defaultYears]
     );
@@ -9940,8 +10048,8 @@ Check your performTransitions() config.`;
       },
       [onYearsChanged]
     );
-    return /* @__PURE__ */ (0, import_mithril11.default)(Actions, null, Dt(SUPPORTS_YEARS_SLIDER)(
-      Wt(true)(
+    return /* @__PURE__ */ (0, import_mithril11.default)(Actions, null, Ft(SUPPORTS_YEARS_SLIDER)(
+      At(true)(
         /* @__PURE__ */ (0, import_mithril11.default)(
           YearsSlider,
           {
@@ -9953,7 +10061,7 @@ Check your performTransitions() config.`;
           }
         )
       ),
-      Ft(/* @__PURE__ */ (0, import_mithril11.default)("div", null, "\xA0"))
+      Wt(/* @__PURE__ */ (0, import_mithril11.default)("div", null, "\xA0"))
     ), /* @__PURE__ */ (0, import_mithril11.default)(
       Button,
       {
@@ -9961,24 +10069,24 @@ Check your performTransitions() config.`;
         className: "fetch-everything",
         disabled: !fetcher.inState("idle")
       },
-      Dt(SUPPORTS_YEARS_SLIDER)(
-        Wt(true)(
+      Ft(SUPPORTS_YEARS_SLIDER)(
+        At(true)(
           /* @__PURE__ */ (0, import_mithril11.default)(import_mithril11.default.Fragment, null, "Fetch ", yearsToFetch, " ", yearsToFetch == 1 ? "year" : "years")
         ),
-        Ft("Fetch statements")
+        Wt("Fetch statements")
       )
     ), /* @__PURE__ */ (0, import_mithril11.default)(
       Button,
       {
         onClick: handleViewStatementsClick2,
-        disabled: !fetcher.inState("found-entries")
+        disabled: !fetcher.inState("found_entries")
       },
       "View statements"
     ), /* @__PURE__ */ (0, import_mithril11.default)(
       Button,
       {
         onClick: handleDownloadAllClick2,
-        disabled: !fetcher.inState("found-entries")
+        disabled: !fetcher.inState("found_entries")
       },
       "Download all"
     ));
@@ -10014,13 +10122,13 @@ Check your performTransitions() config.`;
     return /* @__PURE__ */ (0, import_mithril17.default)(Accounts, null, store2().accounts.map((account) => {
       const allStatementYears = (0, import_fp2.pipe)(
         store2(),
-        ($) => $.statements.filter((x) => x.accountId === account.id),
-        ($) => $.map((x) => new Date(x.endDate).getFullYear())
+        ($2) => $2.statements.filter((x2) => x2.accountId === account.id),
+        ($2) => $2.map((x2) => new Date(x2.endDate).getFullYear())
       );
       const uniqueStatementYears = (0, import_fp2.pipe)(
         allStatementYears,
-        ($) => new Set($),
-        ($) => [...$]
+        ($2) => new Set($2),
+        ($2) => [...$2]
       );
       return /* @__PURE__ */ (0, import_mithril17.default)(Account, { key: account.id }, /* @__PURE__ */ (0, import_mithril17.default)(StatementsLoaded, null, "Statements: ", allStatementYears.length), /* @__PURE__ */ (0, import_mithril17.default)(YearsLoaded, null, uniqueStatementYears.join(" ")), /* @__PURE__ */ (0, import_mithril17.default)(AccountName, null, account.sortCode, " ", account.accountNumber));
     }));
@@ -10051,21 +10159,21 @@ Check your performTransitions() config.`;
   var { fetchMachine: fetcher2 } = obis;
   var HelpAndProgressBar = withHooks((props) => {
     const { ready, opened } = props || {};
-    return /* @__PURE__ */ (0, import_mithril21.default)(Subheader, null, Dt({ ready, opened })(
-      Wt({ ready: true, opened: true })(
+    return /* @__PURE__ */ (0, import_mithril21.default)(Subheader, null, Ft({ ready, opened })(
+      At({ ready: true, opened: true })(
         'Hit the "Fetch" button below to try and download everything automatically.'
       ),
-      Wt({ ready: true, opened: false })(
+      At({ ready: true, opened: false })(
         "Welcome! Click that button on the right to see if we can download some statements."
       ),
-      Ft("Loading...")
+      Wt("Loading...")
     ), /* @__PURE__ */ (0, import_mithril21.default)("br", null), /* @__PURE__ */ (0, import_mithril21.default)("br", null), fetcher2.inState({
-      "getting-accounts": "Finding accounts...",
-      "getting-statements": "Getting statements...",
-      "getting-entries": "Getting transactions... (takes a moment to finish)",
-      idle: () => Dt(fetcher2.history().some((state) => /^failed-/.test(state)))(
-        Wt(true)(/* @__PURE__ */ (0, import_mithril21.default)(ShowHelpOnError, null)),
-        Ft("")
+      getting_accounts: "Finding accounts...",
+      getting_statements: "Getting statements...",
+      getting_entries: "Getting transactions... (takes a moment to finish)",
+      idle: () => Ft(fetcher2.history().some((state) => /^failed_/.test(state)))(
+        At(true)(/* @__PURE__ */ (0, import_mithril21.default)(ShowHelpOnError, null)),
+        Wt("")
       )
     }), /* @__PURE__ */ (0, import_mithril21.default)(ProgressBar, { ...progressBar }));
   });
@@ -10079,11 +10187,11 @@ Check your performTransitions() config.`;
     logLevel: 2
   });
   uiMachine.performTransitions({
-    "loading -> rendering-ui": {
+    "loading -> rendering_ui": {
       on: actions.ui.RENDERED,
       then: (0, import_timers2.Delay)(Emit(actions.FIRST_RUN), (0, import_timers2.seconds)(0.1))
     },
-    "rendering-ui -> closed": {
+    "rendering_ui -> closed": {
       on: actions.FIRST_RUN
     },
     "closed -> opened -> closed": {
@@ -10161,7 +10269,7 @@ Check your performTransitions() config.`;
     const [account, setAccount] = useState();
     const [accountInfo, setAccountInfo] = useState();
     useEffect(() => {
-      const account2 = accounts.find((x) => x.id === accountId);
+      const account2 = accounts.find((x2) => x2.id === accountId);
       const { sortCode, accountNumber } = account2 ?? UNKNOWN_ACCOUNT;
       const accountInfo2 = `${sortCode} ${accountNumber}`;
       setAccount(account2);
@@ -10169,7 +10277,7 @@ Check your performTransitions() config.`;
     }, [accounts, accountId, setAccount, setAccountInfo]);
     const statements = useStatements();
     const accountStatements = useMemo(
-      () => statements.filter((x) => x.accountId === accountId),
+      () => statements.filter((x2) => x2.accountId === accountId),
       [statements, accountId]
     );
     const getNewest = useCallback(() => {
@@ -10177,23 +10285,23 @@ Check your performTransitions() config.`;
     }, [accountStatements]);
     const getNewerThan = useCallback(
       (statementId) => {
-        const currentStatementIndex = accountStatements.map((x, index) => x.id === statementId ? index : null).filter((x) => x !== null)[0];
+        const currentStatementIndex = accountStatements.map((x2, index) => x2.id === statementId ? index : null).filter((x2) => x2 !== null)[0];
         return accountStatements[Math.max(0, currentStatementIndex - 1)]?.id;
       },
       [accountStatements]
     );
     const getOlderThan = useCallback(
       (statementId) => {
-        const currentStatementIndex = accountStatements.map((x, index) => x.id === statementId ? index : null).filter((x) => x !== null)[0];
+        const currentStatementIndex = accountStatements.map((x2, index) => x2.id === statementId ? index : null).filter((x2) => x2 !== null)[0];
         return accountStatements[Math.min(accountStatements.length - 1, currentStatementIndex + 1)]?.id;
       },
       [accountStatements]
     );
     const getNearestToDate = useCallback(
       (timestamp) => {
-        const statementsWithDateDeltas = accountStatements.map((x) => ({
-          dateDelta: Math.abs(timestamp - x.endDate),
-          id: x.id
+        const statementsWithDateDeltas = accountStatements.map((x2) => ({
+          dateDelta: Math.abs(timestamp - x2.endDate),
+          id: x2.id
         })).sort(SortByNumber("dateDelta"));
         return statementsWithDateDeltas[0]?.id ?? getNewest();
       },
@@ -10212,7 +10320,7 @@ Check your performTransitions() config.`;
   function useStatementEntries(statementId) {
     const statements = useStatements();
     const { startDate, startBalance, endDate, endBalance } = useMemo(
-      () => statements.find((x) => x.id === statementId) ?? {},
+      () => statements.find((x2) => x2.id === statementId) ?? {},
       [statements, statementId]
     );
     const entries = useEntries();
@@ -10221,10 +10329,10 @@ Check your performTransitions() config.`;
     const [totalCredit, setTotalCredit] = useState(0);
     const [creditDebitDiff, setCreditDebitDiff] = useState(0);
     useEffect(() => {
-      const statementEntries2 = entries.filter((x) => x.statementId === statementId);
+      const statementEntries2 = entries.filter((x2) => x2.statementId === statementId);
       setStatementEntries(statementEntries2);
-      const totalDebit2 = statementEntries2.reduce((acc, x) => acc + x.debit, 0);
-      const totalCredit2 = statementEntries2.reduce((acc, x) => acc + x.credit, 0);
+      const totalDebit2 = statementEntries2.reduce((acc, x2) => acc + x2.debit, 0);
+      const totalCredit2 = statementEntries2.reduce((acc, x2) => acc + x2.credit, 0);
       const creditDebitDiff2 = totalCredit2 - totalDebit2;
       setTotalDebit(isNaN(totalDebit2) ? 0 : totalDebit2);
       setTotalCredit(isNaN(totalCredit2) ? 0 : totalCredit2);
@@ -10253,7 +10361,7 @@ Check your performTransitions() config.`;
     const accounts = useAccounts();
     const clickHandler = useCallback(
       (event2) => {
-        const accountId = event2?.composedPath().map((x) => x?.dataset?.account).filter(Boolean)[0];
+        const accountId = event2?.composedPath().map((x2) => x2?.dataset?.account).filter(Boolean)[0];
         handleClick(accountId);
       },
       [handleClick]
@@ -10367,7 +10475,7 @@ Check your performTransitions() config.`;
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          /* ../../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-77544-BlSShICvynJS/OBIS/src/ui/styles/statements-browser/all.css */
+          /* ../../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-88726-vSxvST7Qa1y7/OBIS/src/ui/styles/statements-browser/all.css */
 body.obis-statements-browser {
   font-size: 13px;
   font-family: sans-serif;
@@ -10638,11 +10746,11 @@ body.obis-statements-browser .month.no-entries {
     } = useAccountStatements(accountId);
     const [selectedStatementId, setSelectedStatementId] = useState(getNewest());
     const [selectedStatementDate, setSelectedStatementDate] = useState(
-      accountStatements.find((x) => x.id === selectedStatementId)?.endDate
+      accountStatements.find((x2) => x2.id === selectedStatementId)?.endDate
     );
     useEffect(() => {
       const selectedStatement2 = accountStatements.find(
-        (x) => x.id === selectedStatementId
+        (x2) => x2.id === selectedStatementId
       );
       if (selectedStatement2) {
         setSelectedStatementDate(selectedStatement2.endDate);
@@ -10671,18 +10779,18 @@ body.obis-statements-browser .month.no-entries {
     useEffect(() => {
       const uniqueYears = (0, import_fp3.pipe)(
         accountStatements,
-        ($) => $.map((x) => new Date(x.endDate)),
-        ($) => $.map((x) => x.getFullYear()),
-        ($) => new Set($),
-        ($) => [...$]
+        ($2) => $2.map((x2) => new Date(x2.endDate)),
+        ($2) => $2.map((x2) => x2.getFullYear()),
+        ($2) => new Set($2),
+        ($2) => [...$2]
       );
       const uniqueMonths = (0, import_fp3.pipe)(
         accountStatements,
-        ($) => $.map((x) => new Date(x.endDate)),
-        ($) => $.filter((x) => x.getFullYear() == selectedYear),
-        ($) => $.map((x) => x.getMonth()),
-        ($) => new Set($),
-        ($) => [...$]
+        ($2) => $2.map((x2) => new Date(x2.endDate)),
+        ($2) => $2.filter((x2) => x2.getFullYear() == selectedYear),
+        ($2) => $2.map((x2) => x2.getMonth()),
+        ($2) => new Set($2),
+        ($2) => [...$2]
       );
       setYears(uniqueYears);
       setMonths(uniqueMonths);
@@ -10835,166 +10943,183 @@ obis.registerPlugins([
     mod
   ));
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.js"(exports, module) {
-      var I = Object.defineProperty;
-      var _ = Object.getOwnPropertyDescriptor;
-      var j = Object.getOwnPropertyNames;
-      var v = Object.getOwnPropertySymbols;
-      var F = Object.prototype.hasOwnProperty;
-      var L = Object.prototype.propertyIsEnumerable;
-      var E = (t, n, e) => n in t ? I(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
-      var P = (t, n) => {
+    "node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js"(exports, module) {
+      var x = Object.defineProperty;
+      var y = Object.getOwnPropertyDescriptor;
+      var k = Object.getOwnPropertyNames;
+      var N = Object.getOwnPropertySymbols;
+      var D = Object.prototype.hasOwnProperty;
+      var q = Object.prototype.propertyIsEnumerable;
+      var P = (t, n, e) => n in t ? x(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
+      var C = (t, n) => {
         for (var e in n || (n = {}))
-          F.call(n, e) && E(t, e, n[e]);
-        if (v)
-          for (var e of v(n))
-            L.call(n, e) && E(t, e, n[e]);
+          D.call(n, e) && P(t, e, n[e]);
+        if (N)
+          for (var e of N(n))
+            q.call(n, e) && P(t, e, n[e]);
         return t;
       };
-      var q = (t, n) => {
+      var H = (t, n) => {
         var e = {};
         for (var o in t)
-          F.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
-        if (t != null && v)
-          for (var o of v(t))
-            n.indexOf(o) < 0 && L.call(t, o) && (e[o] = t[o]);
+          D.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
+        if (t != null && N)
+          for (var o of N(t))
+            n.indexOf(o) < 0 && q.call(t, o) && (e[o] = t[o]);
         return e;
       };
       var R = (t, n) => {
         for (var e in n)
-          I(t, e, { get: n[e], enumerable: true });
+          x(t, e, { get: n[e], enumerable: true });
       };
-      var y = (t, n, e, o) => {
+      var tt = (t, n, e, o) => {
         if (n && typeof n == "object" || typeof n == "function")
-          for (let r of j(n))
-            !F.call(t, r) && r !== e && I(t, r, { get: () => n[r], enumerable: !(o = _(n, r)) || o.enumerable });
+          for (let r of k(n))
+            !D.call(t, r) && r !== e && x(t, r, { get: () => n[r], enumerable: !(o = y(n, r)) || o.enumerable });
         return t;
       };
-      var a = (t) => y(I({}, "__esModule", { value: true }), t);
-      var yt = {};
-      R(yt, { against: () => C, allOf: () => Q, anyOf: () => K, cata: () => Tt, deepEq: () => Mt, defined: () => Vt, empty: () => T, endsWith: () => Ct, eq: () => J, every: () => Lt, falsy: () => Yt, firstOf: () => qt, getIterationLimit: () => bt, gt: () => ht, gte: () => Ht, hasOwn: () => Qt, inRange: () => $t, includedIn: () => Jt, includes: () => Gt, instanceOf: () => gt, isArray: () => l, isDate: () => ft, isFunction: () => f, isIterable: () => B, isNumber: () => $, isPojo: () => g, isRegExp: () => x, isStrictly: () => Kt, isString: () => b, lastOf: () => Rt, lt: () => zt, lte: () => Ut, match: () => vt, not: () => Et, otherwise: () => Dt, pluck: () => xt, setIterationLimit: () => Nt, some: () => Pt, spread: () => jt, startsWith: () => Bt, truthy: () => Xt, when: () => Ft });
-      module.exports = a(yt);
-      var d = {};
-      R(d, { instanceOf: () => p, isArguments: () => h, isArray: () => tt, isDate: () => nt, isFormData: () => mt, isFunction: () => z, isIterable: () => ut, isMap: () => it, isNumber: () => ot, isObject: () => H, isPojo: () => ct, isRegExp: () => rt, isSet: () => st, isString: () => et });
+      var nt = (t) => tt(x({}, "__esModule", { value: true }), t);
+      var nn = {};
+      R(nn, { against: () => K, allOf: () => Y, anyOf: () => X, cata: () => Zt, deepEq: () => Pt, defined: () => $t, empty: () => Z, endsWith: () => Kt, eq: () => T, every: () => Ct, falsy: () => jt, firstOf: () => Rt, getIterationLimit: () => xt, gt: () => at, gte: () => Bt, hasOwn: () => Yt, inRange: () => Ut, includedIn: () => Tt, includes: () => Qt, instanceOf: () => dt, isArray: () => l, isDate: () => wt, isFunction: () => m, isIterable: () => G, isNumber: () => U, isPojo: () => g, isRegExp: () => A, isStrictly: () => Xt, isString: () => b, lastOf: () => Vt, lt: () => zt, lte: () => Jt, match: () => Dt, not: () => qt, otherwise: () => Ft, pluck: () => Mt, setIterationLimit: () => Et, some: () => Ht, spread: () => tn, startsWith: () => Gt, truthy: () => _t, when: () => Wt });
+      module.exports = nt(nn);
+      var h = {};
+      R(h, { instanceOf: () => d, isArguments: () => $, isArray: () => ot, isDate: () => rt, isFormData: () => gt, isFunction: () => a, isIterable: () => mt, isMap: () => ft, isNumber: () => it, isObject: () => z, isPojo: () => lt, isRegExp: () => ct, isSet: () => ut, isString: () => st });
       var V = Object.prototype;
-      var k = V.toString;
-      var D = (t) => (n) => typeof n === t;
-      var p = (t) => (n) => n instanceof t;
-      var { isArray: tt } = Array;
-      var h = (t) => k.call(t) === "[object Arguments]";
-      var nt = (t) => p(Date)(t) && !isNaN(t);
-      var z = D("function");
-      var et = D("string");
-      var ot = (t) => t === t && D("number")(t);
-      var H = (t) => t !== null && D("object")(t);
-      var rt = p(RegExp);
-      var st = p(Set);
-      var it = p(Map);
-      var ct = (t) => t === null || !H(t) || h(t) ? false : Object.getPrototypeOf(t) === V;
-      var ut = (t) => t != null && [t[Symbol.iterator], t.next].every(z);
-      var mt = (t) => typeof FormData != "undefined" && p(FormData)(t);
-      var { isArguments: lt, isArray: l, isDate: ft, isFunction: f, isNumber: $ } = d;
-      var { isPojo: g, isRegExp: x, isString: b, instanceOf: gt } = d;
-      var { isMap: pt, isSet: Ot, isIterable: B, isFormData: wt } = d;
-      var { keys: w, entries: St, assign: dt } = Object;
+      var et = V.toString;
+      var E = (t) => (n) => typeof n === t;
+      var d = (t) => (n) => n instanceof t;
+      var { isArray: ot } = Array;
+      var $ = (t) => et.call(t) === "[object Arguments]";
+      var rt = (t) => d(Date)(t) && !isNaN(t);
+      var a = E("function");
+      var st = E("string");
+      var it = (t) => t === t && E("number")(t);
+      var z = (t) => t !== null && E("object")(t);
+      var ct = d(RegExp);
+      var ut = d(Set);
+      var ft = d(Map);
+      var lt = (t) => t === null || !z(t) || $(t) ? false : Object.getPrototypeOf(t) === V;
+      var mt = (t) => t != null && [t[Symbol.iterator], t.next].every(a);
+      var gt = (t) => typeof FormData != "undefined" && d(FormData)(t);
+      var { isArguments: pt, isArray: l, isDate: wt, isFunction: m, isNumber: U } = h;
+      var { isPojo: g, isRegExp: A, isString: b, instanceOf: dt } = h;
+      var { isMap: Ot, isSet: St, isIterable: G, isFormData: ht } = h;
+      var { keys: S, entries: bt, assign: vt } = Object;
       var O = 2e4;
-      var bt = () => O;
-      var Nt = (t) => {
+      var Nt = true;
+      var xt = () => O;
+      var Et = (t) => {
         let n = O;
         return O = t, () => O = n;
       };
-      function vt(t) {
-        return (...n) => C(...n)(t);
+      function It(t, n) {
+        for (let e = t.length - 1; e >= 0; e--)
+          if (n(t[e]))
+            return t[e];
       }
-      var C = (...t) => (n) => {
-        let [e, o] = lt(n) ? [{}, Array.from(n)] : pt(n) || wt(n) ? [{ isMap: true }, n.entries()] : Ot(n) ? [{ isSet: true }, n.values()] : [{}, n];
-        if (!B(o))
-          return U(...t)(o).result;
-        let [r, u] = t.reduce(([s, m], S) => It(S) ? [S, m] : [s, [...m, S]], [() => ({ value: () => {
+      function B(t, n) {
+        if (Nt && !W(n)) {
+          let e = `Exhausted all patterns without finding a match for input: ${JSON.stringify(t)}. Handle it, or use otherwise() for the fall-through case.`;
+          throw new Error(e);
+        }
+      }
+      function Dt(t) {
+        return (...n) => K(...n)(t);
+      }
+      var K = (...t) => (n) => {
+        let [e, o] = pt(n) ? [{}, Array.from(n)] : Ot(n) || ht(n) ? [{ isMap: true }, n.entries()] : St(n) ? [{ isSet: true }, n.values()] : [{}, n];
+        if (!G(o)) {
+          let s = o, { found: w, result: f } = J(...t)(s);
+          if (w)
+            return f;
+          let I = It(t, W);
+          return B(s, I), f;
+        }
+        let r = o, [u, p] = t.reduce(([s, w], f) => W(f) ? [f, w] : [s, [...w, f]], [() => ({ value: () => {
         } }), []]), c = [];
         do {
-          let { value: s, done: m } = o.next();
-          if (m)
-            return r().value();
+          let { value: s, done: w } = r.next();
+          if (w)
+            return B(r, u), u().value();
           c.push(s);
-          let { found: S, result: Z } = U(...u)(e.isSet ? s : e.isMap ? { key: s[0], value: s[1] } : [...c]);
-          if (S)
-            return Z;
+          let { found: f, result: I } = J(...p)(e.isSet ? s : e.isMap ? { key: s[0], value: s[1] } : [...c]);
+          if (f)
+            return I;
         } while (c.length < O || e.isSet || e.isMap);
         throw new Error(`Hit iterationLimit: ${O}. Use setIterationLimit(Infinity) to disable.`);
       };
-      var U = (...t) => {
+      var J = (...t) => {
         let n;
         return (e) => ({ found: !!t.find((r) => {
-          let u = r(e), { matched: c, value: s } = u || {};
-          return [c, s].every(f) ? c(e) && (n = s(e), true) : u && (n = u);
+          let u = r(e), { matched: p, value: c } = u || {};
+          return [p, c].every(m) ? p(e) && (n = c(e), true) : u && (n = u);
         }), result: n });
       };
-      var G = Symbol("@@match-iz/otherwise");
-      var It = (t) => (t == null ? void 0 : t[G]) === true;
-      var Dt = (t) => {
-        let n = (e) => ({ matched: () => true, value: () => f(t) ? t(e) : t });
-        return n[G] = true, n;
+      var Q = Symbol("@@match-iz/otherwise");
+      var W = (t) => (t == null ? void 0 : t[Q]) === true;
+      var Ft = (t) => {
+        let n = (e) => ({ matched: () => true, value: () => m(t) ? t(e) : t });
+        return n[Q] = true, n;
       };
-      var W = (t) => (n) => (e) => ({ matched: () => i(t, e, (o) => e = o), value: () => f(n) ? b(e) && x(t) ? n(...Wt(e.match(t))) : n(e) : n });
-      var Ft = (...t) => {
+      var F = (t) => (n) => (e) => ({ matched: () => i(t, e, (o) => e = o), value: () => m(n) ? b(e) && A(t) ? n(...At(e.match(t))) : n(e) : n });
+      var Wt = (...t) => {
         if (t.length === 1) {
           let [n] = t;
-          return W(n);
+          return F(n);
         }
         if (t.length === 2) {
           let [n, e] = t;
-          return W(n)(e);
+          return F(n)(e);
         }
         if (t.length > 2) {
           let n = t.slice(-1)[0], e = t.slice(0, -1);
-          return W(Q(e))(n);
+          return F(Y(e))(n);
         }
         throw new Error("Expected at least 1 argument");
       };
-      var Wt = (t) => {
+      var At = (t) => {
         let { groups: n } = t;
         return n ? [n, t] : [t];
       };
-      var i = (t, n, e) => g(t) ? w(t).every((o) => i(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r) => i(o, n == null ? void 0 : n[r], e)) : f(t) ? t(n, e) : b(n) && x(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-      var xt = (...t) => (n, e) => t.length === 0 || (f(t[0]) ? t[0](n) : i(t[0], n, e)) ? (e(n), true) : false;
-      var At = (t, n) => [t, n].every(g) ? w(t).length === w(n).length : true;
-      var J = (t) => (n, e) => At(t, n) && i(t, n, e);
-      var Mt = (t) => A(t, (n) => g(n) ? J(n) : n);
-      var Et = (t) => (n, e) => !i(t, n, e);
-      var K = (...t) => (n, e) => t.flat().some((o) => i(o, n, e));
-      var Q = (...t) => (n, e) => t.flat().every((o) => i(o, n, e));
-      var Lt = (t) => Y((n) => n.every((e) => i(t, e)));
-      var Pt = (t) => Y((n) => n.some((e) => i(t, e)));
-      var qt = (...t) => M((n, e) => t.length <= n.length && i(t, n.slice(0, t.length), e));
-      var Rt = (...t) => M((n, e) => t.length <= n.length && i(t, n.slice(n.length - t.length), e));
-      var T = (t) => t !== t || !t && t !== 0 && t !== false || l(t) && !t.length || g(t) && !w(t).length;
-      var Vt = (t) => !T(t);
-      var ht = (t) => N((n) => n > t);
-      var zt = (t) => N((n) => n < t);
-      var Ht = (t) => N((n) => n >= t);
-      var Ut = (t) => N((n) => n <= t);
-      var $t = (t, n) => N((e) => e >= Math.min(t, n) && e <= Math.max(t, n));
-      var Bt = (t) => X((n) => n.startsWith(t));
-      var Ct = (t) => X((n) => n.endsWith(t));
-      var Gt = (t) => M((n) => n.includes(t));
-      var Jt = K;
-      var Kt = (t) => (n) => n === t;
-      var Qt = (...t) => (n) => g(n) && (([e, o]) => e.length && e.every((r) => o.includes(r)))([t.flat(), w(n)]);
-      var Tt = (e) => {
-        var o = e, { getValue: t } = o, n = q(o, ["getValue"]);
-        return St(n).reduce((r, [u, c]) => dt(r, { [u]: (s) => (m) => ({ matched: () => c(m), value: () => f(s) ? s(t(m)) : s }) }), {});
+      var i = (t, n, e) => g(t) ? S(t).every((o) => i(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r) => i(o, n == null ? void 0 : n[r], e)) : m(t) ? t(n, e) : b(n) && A(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+      var Mt = (...t) => (n, e) => t.length === 0 || (m(t[0]) ? t[0](n) : i(t[0], n, e)) ? (e(n), true) : false;
+      var Lt = (t, n) => [t, n].every(g) ? S(t).length === S(n).length : true;
+      var T = (t) => (n, e) => Lt(t, n) && i(t, n, e);
+      var Pt = (t) => M(t, (n) => g(n) ? T(n) : n);
+      var qt = (t) => (n, e) => !i(t, n, e);
+      var X = (...t) => (n, e) => t.flat().some((o) => i(o, n, e));
+      var Y = (...t) => (n, e) => t.flat().every((o) => i(o, n, e));
+      var Ct = (t) => j((n) => n.every((e) => i(t, e)));
+      var Ht = (t) => j((n) => n.some((e) => i(t, e)));
+      var Rt = (...t) => L((n, e) => t.length <= n.length && i(t, n.slice(0, t.length), e));
+      var Vt = (...t) => L((n, e) => t.length <= n.length && i(t, n.slice(n.length - t.length), e));
+      var Z = (t) => t !== t || !t && t !== 0 && t !== false || l(t) && !t.length || g(t) && !S(t).length;
+      var $t = (t) => !Z(t);
+      var at = (t) => v((n) => n > t);
+      var zt = (t) => v((n) => n < t);
+      var Bt = (t) => v((n) => n >= t);
+      var Jt = (t) => v((n) => n <= t);
+      var Ut = (t, n) => v((e) => e >= Math.min(t, n) && e <= Math.max(t, n));
+      var Gt = (t) => _((n) => n.startsWith(t));
+      var Kt = (t) => _((n) => n.endsWith(t));
+      var Qt = (t) => L((n) => n.includes(t));
+      var Tt = X;
+      var Xt = (t) => (n) => n === t;
+      var Yt = (...t) => (n) => g(n) && (([e, o]) => e.length && e.every((r) => o.includes(r)))([t.flat(), S(n)]);
+      var Zt = (e) => {
+        var o = e, { getValue: t } = o, n = H(o, ["getValue"]);
+        return bt(n).reduce((r, [u, p]) => vt(r, { [u]: (c) => (s) => ({ matched: () => p(s), value: () => m(c) ? c(t(s)) : c }) }), {});
       };
-      var Xt = (t) => !!t;
-      var Yt = (t) => !t;
-      var Zt = (t) => (n, e) => (n[e] = A(n[e], t), n);
-      var _t = (t) => (n) => A(n, t);
-      var A = (t, n) => n(g(t) ? w(t).reduce(Zt(n), P({}, t)) : l(t) ? t.map(_t(n)) : t);
-      var jt = (t) => new Proxy({}, { get: () => t });
-      var X = (t) => (n) => b(n) && t(n);
-      var N = (t) => (n) => $(n) && t(n);
-      var Y = (t) => (n, e) => l(n) && t(n, e);
-      var M = (t) => (n, e) => (l(n) || b(n)) && t(n, e);
+      var _t = (t) => !!t;
+      var jt = (t) => !t;
+      var yt = (t) => (n, e) => (n[e] = M(n[e], t), n);
+      var kt = (t) => (n) => M(n, t);
+      var M = (t, n) => n(g(t) ? S(t).reduce(yt(n), C({}, t)) : l(t) ? t.map(kt(n)) : t);
+      var tn = (t) => new Proxy({}, { get: () => t });
+      var _ = (t) => (n) => b(n) && t(n);
+      var v = (t) => (n) => U(n) && t(n);
+      var j = (t) => (n, e) => l(n) && t(n, e);
+      var L = (t) => (n, e) => (l(n) || b(n)) && t(n, e);
     }
   });
   var require_fp = __commonJS({
@@ -14176,7 +14301,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       //
       // Accounts
       //
-      "idle -> getting-accounts": {
+      "idle -> getting_accounts": {
         on: actions.get.ACCOUNTS,
         then: (requestedYearsToDownload) => fetchAccounts().then((accountsResponse) => {
           const accountsUpdate = accountsResponse.map((accountResponse) => {
@@ -14219,7 +14344,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           });
         }).catch(fetcher.Emit(actions.error.ACCOUNTS))
       },
-      "getting-accounts -> found-accounts": {
+      "getting_accounts -> found_accounts": {
         on: actions.got.ACCOUNTS,
         then: ({ accountsResponse, yearsToDownload }) => {
           const statementsQueries = accountsResponse.map((accountResponse) => ({
@@ -14230,14 +14355,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           emit(actions.get.STATEMENTS, { statementsQueries, yearsToDownload });
         }
       },
-      "getting-accounts -> failed-accounts": {
+      "getting_accounts -> failed_accounts": {
         on: actions.error.ACCOUNTS,
         then: fetcher.Enter("idle")
       },
       //
       // Statements list
       //
-      "found-accounts -> getting-statements": {
+      "found_accounts -> getting_statements": {
         on: actions.get.STATEMENTS,
         then: ({ statementsQueries, yearsToDownload }) => {
           const progress = updateProgressBar(statementsQueries.length);
@@ -14296,7 +14421,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           });
         }
       },
-      "getting-statements -> found-statements": {
+      "getting_statements -> found_statements": {
         on: actions.got.STATEMENTS,
         then: ({ allStatements, yearsToDownload }) => {
           const accountsTransactionsQueries = allStatements.map(
@@ -14320,14 +14445,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           });
         }
       },
-      "getting-statements -> failed-statements": {
+      "getting_statements -> failed_statements": {
         on: actions.error.STATEMENTS,
         then: fetcher.Enter("idle")
       },
       //
       // Transactions
       //
-      "found-statements -> getting-entries": {
+      "found_statements -> getting_entries": {
         on: actions.get.ENTRIES,
         then: ({ accountsTransactionsQueries, yearsToDownload }) => {
           const progress = updateProgressBar(accountsTransactionsQueries.length);
@@ -14376,24 +14501,24 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           });
         }
       },
-      "getting-entries -> found-entries": {
+      "getting_entries -> found_entries": {
         on: actions.got.ENTRIES,
         then: () => {
         }
       },
-      "getting-entries -> failed-entries": {
+      "getting_entries -> failed_entries": {
         on: actions.error.ENTRIES,
         then: fetcher.Enter("idle")
       },
       //
       // Downloading
       //
-      "found-entries -> download-all": {
+      "found_entries -> download_all": {
         on: actions.ui.DOWNLOAD_STATEMENTS,
         then: () => {
         }
       },
-      "download-all -> found-entries": {
+      "download_all -> found_entries": {
         on: actions.ui.DOWNLOADED_STATEMENTS,
         then: () => {
         }
@@ -14404,9 +14529,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       // Flag a problem
       //
       [`
-        failed-accounts |
-      failed-statements |
-         failed-entries -> idle
+        failed_accounts |
+      failed_statements |
+         failed_entries -> idle
 
     `]: () => {
         console.warn("Problem fetching data. Please try again.");

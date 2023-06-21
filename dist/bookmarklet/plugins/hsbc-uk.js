@@ -25,168 +25,185 @@
     mod
   ));
 
-  // node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.js
+  // node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@3.10.0/node_modules/match-iz/dist/index.js"(exports, module) {
-      var I = Object.defineProperty;
-      var _ = Object.getOwnPropertyDescriptor;
-      var j = Object.getOwnPropertyNames;
-      var v = Object.getOwnPropertySymbols;
-      var F = Object.prototype.hasOwnProperty;
-      var L = Object.prototype.propertyIsEnumerable;
-      var E = (t, n, e) => n in t ? I(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
-      var P = (t, n) => {
+    "node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js"(exports, module) {
+      var x = Object.defineProperty;
+      var y = Object.getOwnPropertyDescriptor;
+      var k = Object.getOwnPropertyNames;
+      var N = Object.getOwnPropertySymbols;
+      var D = Object.prototype.hasOwnProperty;
+      var q = Object.prototype.propertyIsEnumerable;
+      var P = (t, n, e) => n in t ? x(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
+      var C = (t, n) => {
         for (var e in n || (n = {}))
-          F.call(n, e) && E(t, e, n[e]);
-        if (v)
-          for (var e of v(n))
-            L.call(n, e) && E(t, e, n[e]);
+          D.call(n, e) && P(t, e, n[e]);
+        if (N)
+          for (var e of N(n))
+            q.call(n, e) && P(t, e, n[e]);
         return t;
       };
-      var q = (t, n) => {
+      var H = (t, n) => {
         var e = {};
         for (var o in t)
-          F.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
-        if (t != null && v)
-          for (var o of v(t))
-            n.indexOf(o) < 0 && L.call(t, o) && (e[o] = t[o]);
+          D.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
+        if (t != null && N)
+          for (var o of N(t))
+            n.indexOf(o) < 0 && q.call(t, o) && (e[o] = t[o]);
         return e;
       };
       var R = (t, n) => {
         for (var e in n)
-          I(t, e, { get: n[e], enumerable: true });
+          x(t, e, { get: n[e], enumerable: true });
       };
-      var y = (t, n, e, o) => {
+      var tt = (t, n, e, o) => {
         if (n && typeof n == "object" || typeof n == "function")
-          for (let r of j(n))
-            !F.call(t, r) && r !== e && I(t, r, { get: () => n[r], enumerable: !(o = _(n, r)) || o.enumerable });
+          for (let r of k(n))
+            !D.call(t, r) && r !== e && x(t, r, { get: () => n[r], enumerable: !(o = y(n, r)) || o.enumerable });
         return t;
       };
-      var a = (t) => y(I({}, "__esModule", { value: true }), t);
-      var yt = {};
-      R(yt, { against: () => C, allOf: () => Q, anyOf: () => K, cata: () => Tt, deepEq: () => Mt, defined: () => Vt, empty: () => T, endsWith: () => Ct, eq: () => J, every: () => Lt, falsy: () => Yt, firstOf: () => qt, getIterationLimit: () => bt, gt: () => ht, gte: () => Ht, hasOwn: () => Qt, inRange: () => $t, includedIn: () => Jt, includes: () => Gt, instanceOf: () => gt, isArray: () => l, isDate: () => ft, isFunction: () => f, isIterable: () => B, isNumber: () => $, isPojo: () => g, isRegExp: () => x, isStrictly: () => Kt, isString: () => b, lastOf: () => Rt, lt: () => zt, lte: () => Ut, match: () => vt, not: () => Et, otherwise: () => Dt, pluck: () => xt, setIterationLimit: () => Nt, some: () => Pt, spread: () => jt, startsWith: () => Bt, truthy: () => Xt, when: () => Ft });
-      module.exports = a(yt);
-      var d = {};
-      R(d, { instanceOf: () => p, isArguments: () => h, isArray: () => tt, isDate: () => nt, isFormData: () => mt, isFunction: () => z, isIterable: () => ut, isMap: () => it, isNumber: () => ot, isObject: () => H, isPojo: () => ct, isRegExp: () => rt, isSet: () => st, isString: () => et });
+      var nt = (t) => tt(x({}, "__esModule", { value: true }), t);
+      var nn = {};
+      R(nn, { against: () => K, allOf: () => Y, anyOf: () => X, cata: () => Zt, deepEq: () => Pt, defined: () => $t, empty: () => Z, endsWith: () => Kt, eq: () => T, every: () => Ct, falsy: () => jt, firstOf: () => Rt, getIterationLimit: () => xt, gt: () => at, gte: () => Bt, hasOwn: () => Yt, inRange: () => Ut, includedIn: () => Tt, includes: () => Qt, instanceOf: () => dt, isArray: () => l, isDate: () => wt, isFunction: () => m, isIterable: () => G, isNumber: () => U, isPojo: () => g, isRegExp: () => A, isStrictly: () => Xt, isString: () => b, lastOf: () => Vt, lt: () => zt, lte: () => Jt, match: () => Dt, not: () => qt, otherwise: () => Ft, pluck: () => Mt, setIterationLimit: () => Et, some: () => Ht, spread: () => tn, startsWith: () => Gt, truthy: () => _t, when: () => Wt });
+      module.exports = nt(nn);
+      var h = {};
+      R(h, { instanceOf: () => d, isArguments: () => $, isArray: () => ot, isDate: () => rt, isFormData: () => gt, isFunction: () => a, isIterable: () => mt, isMap: () => ft, isNumber: () => it, isObject: () => z, isPojo: () => lt, isRegExp: () => ct, isSet: () => ut, isString: () => st });
       var V = Object.prototype;
-      var k = V.toString;
-      var D = (t) => (n) => typeof n === t;
-      var p = (t) => (n) => n instanceof t;
-      var { isArray: tt } = Array;
-      var h = (t) => k.call(t) === "[object Arguments]";
-      var nt = (t) => p(Date)(t) && !isNaN(t);
-      var z = D("function");
-      var et = D("string");
-      var ot = (t) => t === t && D("number")(t);
-      var H = (t) => t !== null && D("object")(t);
-      var rt = p(RegExp);
-      var st = p(Set);
-      var it = p(Map);
-      var ct = (t) => t === null || !H(t) || h(t) ? false : Object.getPrototypeOf(t) === V;
-      var ut = (t) => t != null && [t[Symbol.iterator], t.next].every(z);
-      var mt = (t) => typeof FormData != "undefined" && p(FormData)(t);
-      var { isArguments: lt, isArray: l, isDate: ft, isFunction: f, isNumber: $ } = d;
-      var { isPojo: g, isRegExp: x, isString: b, instanceOf: gt } = d;
-      var { isMap: pt, isSet: Ot, isIterable: B, isFormData: wt } = d;
-      var { keys: w, entries: St, assign: dt } = Object;
+      var et = V.toString;
+      var E = (t) => (n) => typeof n === t;
+      var d = (t) => (n) => n instanceof t;
+      var { isArray: ot } = Array;
+      var $ = (t) => et.call(t) === "[object Arguments]";
+      var rt = (t) => d(Date)(t) && !isNaN(t);
+      var a = E("function");
+      var st = E("string");
+      var it = (t) => t === t && E("number")(t);
+      var z = (t) => t !== null && E("object")(t);
+      var ct = d(RegExp);
+      var ut = d(Set);
+      var ft = d(Map);
+      var lt = (t) => t === null || !z(t) || $(t) ? false : Object.getPrototypeOf(t) === V;
+      var mt = (t) => t != null && [t[Symbol.iterator], t.next].every(a);
+      var gt = (t) => typeof FormData != "undefined" && d(FormData)(t);
+      var { isArguments: pt, isArray: l, isDate: wt, isFunction: m, isNumber: U } = h;
+      var { isPojo: g, isRegExp: A, isString: b, instanceOf: dt } = h;
+      var { isMap: Ot, isSet: St, isIterable: G, isFormData: ht } = h;
+      var { keys: S, entries: bt, assign: vt } = Object;
       var O = 2e4;
-      var bt = () => O;
-      var Nt = (t) => {
+      var Nt = true;
+      var xt = () => O;
+      var Et = (t) => {
         let n = O;
         return O = t, () => O = n;
       };
-      function vt(t) {
-        return (...n) => C(...n)(t);
+      function It(t, n) {
+        for (let e = t.length - 1; e >= 0; e--)
+          if (n(t[e]))
+            return t[e];
       }
-      var C = (...t) => (n) => {
-        let [e, o] = lt(n) ? [{}, Array.from(n)] : pt(n) || wt(n) ? [{ isMap: true }, n.entries()] : Ot(n) ? [{ isSet: true }, n.values()] : [{}, n];
-        if (!B(o))
-          return U(...t)(o).result;
-        let [r, u] = t.reduce(([s, m], S) => It(S) ? [S, m] : [s, [...m, S]], [() => ({ value: () => {
+      function B(t, n) {
+        if (Nt && !W(n)) {
+          let e = `Exhausted all patterns without finding a match for input: ${JSON.stringify(t)}. Handle it, or use otherwise() for the fall-through case.`;
+          throw new Error(e);
+        }
+      }
+      function Dt(t) {
+        return (...n) => K(...n)(t);
+      }
+      var K = (...t) => (n) => {
+        let [e, o] = pt(n) ? [{}, Array.from(n)] : Ot(n) || ht(n) ? [{ isMap: true }, n.entries()] : St(n) ? [{ isSet: true }, n.values()] : [{}, n];
+        if (!G(o)) {
+          let s = o, { found: w, result: f } = J(...t)(s);
+          if (w)
+            return f;
+          let I = It(t, W);
+          return B(s, I), f;
+        }
+        let r = o, [u, p] = t.reduce(([s, w], f) => W(f) ? [f, w] : [s, [...w, f]], [() => ({ value: () => {
         } }), []]), c = [];
         do {
-          let { value: s, done: m } = o.next();
-          if (m)
-            return r().value();
+          let { value: s, done: w } = r.next();
+          if (w)
+            return B(r, u), u().value();
           c.push(s);
-          let { found: S, result: Z } = U(...u)(e.isSet ? s : e.isMap ? { key: s[0], value: s[1] } : [...c]);
-          if (S)
-            return Z;
+          let { found: f, result: I } = J(...p)(e.isSet ? s : e.isMap ? { key: s[0], value: s[1] } : [...c]);
+          if (f)
+            return I;
         } while (c.length < O || e.isSet || e.isMap);
         throw new Error(`Hit iterationLimit: ${O}. Use setIterationLimit(Infinity) to disable.`);
       };
-      var U = (...t) => {
+      var J = (...t) => {
         let n;
         return (e) => ({ found: !!t.find((r) => {
-          let u = r(e), { matched: c, value: s } = u || {};
-          return [c, s].every(f) ? c(e) && (n = s(e), true) : u && (n = u);
+          let u = r(e), { matched: p, value: c } = u || {};
+          return [p, c].every(m) ? p(e) && (n = c(e), true) : u && (n = u);
         }), result: n });
       };
-      var G = Symbol("@@match-iz/otherwise");
-      var It = (t) => (t == null ? void 0 : t[G]) === true;
-      var Dt = (t) => {
-        let n = (e) => ({ matched: () => true, value: () => f(t) ? t(e) : t });
-        return n[G] = true, n;
+      var Q = Symbol("@@match-iz/otherwise");
+      var W = (t) => (t == null ? void 0 : t[Q]) === true;
+      var Ft = (t) => {
+        let n = (e) => ({ matched: () => true, value: () => m(t) ? t(e) : t });
+        return n[Q] = true, n;
       };
-      var W = (t) => (n) => (e) => ({ matched: () => i(t, e, (o) => e = o), value: () => f(n) ? b(e) && x(t) ? n(...Wt(e.match(t))) : n(e) : n });
-      var Ft = (...t) => {
+      var F = (t) => (n) => (e) => ({ matched: () => i(t, e, (o) => e = o), value: () => m(n) ? b(e) && A(t) ? n(...At(e.match(t))) : n(e) : n });
+      var Wt = (...t) => {
         if (t.length === 1) {
           let [n] = t;
-          return W(n);
+          return F(n);
         }
         if (t.length === 2) {
           let [n, e] = t;
-          return W(n)(e);
+          return F(n)(e);
         }
         if (t.length > 2) {
           let n = t.slice(-1)[0], e = t.slice(0, -1);
-          return W(Q(e))(n);
+          return F(Y(e))(n);
         }
         throw new Error("Expected at least 1 argument");
       };
-      var Wt = (t) => {
+      var At = (t) => {
         let { groups: n } = t;
         return n ? [n, t] : [t];
       };
-      var i = (t, n, e) => g(t) ? w(t).every((o) => i(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r) => i(o, n == null ? void 0 : n[r], e)) : f(t) ? t(n, e) : b(n) && x(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-      var xt = (...t) => (n, e) => t.length === 0 || (f(t[0]) ? t[0](n) : i(t[0], n, e)) ? (e(n), true) : false;
-      var At = (t, n) => [t, n].every(g) ? w(t).length === w(n).length : true;
-      var J = (t) => (n, e) => At(t, n) && i(t, n, e);
-      var Mt = (t) => A(t, (n) => g(n) ? J(n) : n);
-      var Et = (t) => (n, e) => !i(t, n, e);
-      var K = (...t) => (n, e) => t.flat().some((o) => i(o, n, e));
-      var Q = (...t) => (n, e) => t.flat().every((o) => i(o, n, e));
-      var Lt = (t) => Y((n) => n.every((e) => i(t, e)));
-      var Pt = (t) => Y((n) => n.some((e) => i(t, e)));
-      var qt = (...t) => M((n, e) => t.length <= n.length && i(t, n.slice(0, t.length), e));
-      var Rt = (...t) => M((n, e) => t.length <= n.length && i(t, n.slice(n.length - t.length), e));
-      var T = (t) => t !== t || !t && t !== 0 && t !== false || l(t) && !t.length || g(t) && !w(t).length;
-      var Vt = (t) => !T(t);
-      var ht = (t) => N((n) => n > t);
-      var zt = (t) => N((n) => n < t);
-      var Ht = (t) => N((n) => n >= t);
-      var Ut = (t) => N((n) => n <= t);
-      var $t = (t, n) => N((e) => e >= Math.min(t, n) && e <= Math.max(t, n));
-      var Bt = (t) => X((n) => n.startsWith(t));
-      var Ct = (t) => X((n) => n.endsWith(t));
-      var Gt = (t) => M((n) => n.includes(t));
-      var Jt = K;
-      var Kt = (t) => (n) => n === t;
-      var Qt = (...t) => (n) => g(n) && (([e, o]) => e.length && e.every((r) => o.includes(r)))([t.flat(), w(n)]);
-      var Tt = (e) => {
-        var o = e, { getValue: t } = o, n = q(o, ["getValue"]);
-        return St(n).reduce((r, [u, c]) => dt(r, { [u]: (s) => (m) => ({ matched: () => c(m), value: () => f(s) ? s(t(m)) : s }) }), {});
+      var i = (t, n, e) => g(t) ? S(t).every((o) => i(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r) => i(o, n == null ? void 0 : n[r], e)) : m(t) ? t(n, e) : b(n) && A(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
+      var Mt = (...t) => (n, e) => t.length === 0 || (m(t[0]) ? t[0](n) : i(t[0], n, e)) ? (e(n), true) : false;
+      var Lt = (t, n) => [t, n].every(g) ? S(t).length === S(n).length : true;
+      var T = (t) => (n, e) => Lt(t, n) && i(t, n, e);
+      var Pt = (t) => M(t, (n) => g(n) ? T(n) : n);
+      var qt = (t) => (n, e) => !i(t, n, e);
+      var X = (...t) => (n, e) => t.flat().some((o) => i(o, n, e));
+      var Y = (...t) => (n, e) => t.flat().every((o) => i(o, n, e));
+      var Ct = (t) => j((n) => n.every((e) => i(t, e)));
+      var Ht = (t) => j((n) => n.some((e) => i(t, e)));
+      var Rt = (...t) => L((n, e) => t.length <= n.length && i(t, n.slice(0, t.length), e));
+      var Vt = (...t) => L((n, e) => t.length <= n.length && i(t, n.slice(n.length - t.length), e));
+      var Z = (t) => t !== t || !t && t !== 0 && t !== false || l(t) && !t.length || g(t) && !S(t).length;
+      var $t = (t) => !Z(t);
+      var at = (t) => v((n) => n > t);
+      var zt = (t) => v((n) => n < t);
+      var Bt = (t) => v((n) => n >= t);
+      var Jt = (t) => v((n) => n <= t);
+      var Ut = (t, n) => v((e) => e >= Math.min(t, n) && e <= Math.max(t, n));
+      var Gt = (t) => _((n) => n.startsWith(t));
+      var Kt = (t) => _((n) => n.endsWith(t));
+      var Qt = (t) => L((n) => n.includes(t));
+      var Tt = X;
+      var Xt = (t) => (n) => n === t;
+      var Yt = (...t) => (n) => g(n) && (([e, o]) => e.length && e.every((r) => o.includes(r)))([t.flat(), S(n)]);
+      var Zt = (e) => {
+        var o = e, { getValue: t } = o, n = H(o, ["getValue"]);
+        return bt(n).reduce((r, [u, p]) => vt(r, { [u]: (c) => (s) => ({ matched: () => p(s), value: () => m(c) ? c(t(s)) : c }) }), {});
       };
-      var Xt = (t) => !!t;
-      var Yt = (t) => !t;
-      var Zt = (t) => (n, e) => (n[e] = A(n[e], t), n);
-      var _t = (t) => (n) => A(n, t);
-      var A = (t, n) => n(g(t) ? w(t).reduce(Zt(n), P({}, t)) : l(t) ? t.map(_t(n)) : t);
-      var jt = (t) => new Proxy({}, { get: () => t });
-      var X = (t) => (n) => b(n) && t(n);
-      var N = (t) => (n) => $(n) && t(n);
-      var Y = (t) => (n, e) => l(n) && t(n, e);
-      var M = (t) => (n, e) => (l(n) || b(n)) && t(n, e);
+      var _t = (t) => !!t;
+      var jt = (t) => !t;
+      var yt = (t) => (n, e) => (n[e] = M(n[e], t), n);
+      var kt = (t) => (n) => M(n, t);
+      var M = (t, n) => n(g(t) ? S(t).reduce(yt(n), C({}, t)) : l(t) ? t.map(kt(n)) : t);
+      var tn = (t) => new Proxy({}, { get: () => t });
+      var _ = (t) => (n) => b(n) && t(n);
+      var v = (t) => (n) => U(n) && t(n);
+      var j = (t) => (n, e) => l(n) && t(n, e);
+      var L = (t) => (n, e) => (l(n) || b(n)) && t(n, e);
     }
   });
 
@@ -3412,7 +3429,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       //
       // Accounts
       //
-      "idle -> getting-accounts": {
+      "idle -> getting_accounts": {
         on: actions.get.ACCOUNTS,
         then: (requestedYearsToDownload) => fetchAccounts().then((accountsResponse) => {
           const accountsUpdate = accountsResponse.map((accountResponse) => {
@@ -3455,7 +3472,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           });
         }).catch(fetcher.Emit(actions.error.ACCOUNTS))
       },
-      "getting-accounts -> found-accounts": {
+      "getting_accounts -> found_accounts": {
         on: actions.got.ACCOUNTS,
         then: ({ accountsResponse, yearsToDownload }) => {
           const statementsQueries = accountsResponse.map((accountResponse) => ({
@@ -3466,14 +3483,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           emit(actions.get.STATEMENTS, { statementsQueries, yearsToDownload });
         }
       },
-      "getting-accounts -> failed-accounts": {
+      "getting_accounts -> failed_accounts": {
         on: actions.error.ACCOUNTS,
         then: fetcher.Enter("idle")
       },
       //
       // Statements list
       //
-      "found-accounts -> getting-statements": {
+      "found_accounts -> getting_statements": {
         on: actions.get.STATEMENTS,
         then: ({ statementsQueries, yearsToDownload }) => {
           const progress = updateProgressBar(statementsQueries.length);
@@ -3532,7 +3549,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           });
         }
       },
-      "getting-statements -> found-statements": {
+      "getting_statements -> found_statements": {
         on: actions.got.STATEMENTS,
         then: ({ allStatements, yearsToDownload }) => {
           const accountsTransactionsQueries = allStatements.map(
@@ -3556,14 +3573,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           });
         }
       },
-      "getting-statements -> failed-statements": {
+      "getting_statements -> failed_statements": {
         on: actions.error.STATEMENTS,
         then: fetcher.Enter("idle")
       },
       //
       // Transactions
       //
-      "found-statements -> getting-entries": {
+      "found_statements -> getting_entries": {
         on: actions.get.ENTRIES,
         then: ({ accountsTransactionsQueries, yearsToDownload }) => {
           const progress = updateProgressBar(accountsTransactionsQueries.length);
@@ -3612,24 +3629,24 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           });
         }
       },
-      "getting-entries -> found-entries": {
+      "getting_entries -> found_entries": {
         on: actions.got.ENTRIES,
         then: () => {
         }
       },
-      "getting-entries -> failed-entries": {
+      "getting_entries -> failed_entries": {
         on: actions.error.ENTRIES,
         then: fetcher.Enter("idle")
       },
       //
       // Downloading
       //
-      "found-entries -> download-all": {
+      "found_entries -> download_all": {
         on: actions.ui.DOWNLOAD_STATEMENTS,
         then: () => {
         }
       },
-      "download-all -> found-entries": {
+      "download_all -> found_entries": {
         on: actions.ui.DOWNLOADED_STATEMENTS,
         then: () => {
         }
@@ -3640,9 +3657,9 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       // Flag a problem
       //
       [`
-        failed-accounts |
-      failed-statements |
-         failed-entries -> idle
+        failed_accounts |
+      failed_statements |
+         failed_entries -> idle
 
     `]: () => {
         console.warn("Problem fetching data. Please try again.");
