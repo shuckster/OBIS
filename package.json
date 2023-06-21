@@ -14,28 +14,28 @@
     "build:all": "pnpm run build:clean ; cross-env NODE_ENV=production pnpm run build"
   },
   "devDependencies": {
-    "compose-paths": "^1.2.2",
+    "compose-paths": "^1.2.3",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.17.19",
+    "esbuild": "^0.18.6",
     "esbuild-plugin-sass": "1.0.1",
-    "eslint": "^8.40.0",
+    "eslint": "^8.43.0",
     "eslint-plugin-mithril": "^0.2.0",
     "express": "^4.18.2",
-    "glob": "^10.2.5",
+    "fflate": "^0.8.0",
+    "glob": "^10.2.7",
+    "match-iz": "^4.0.1",
     "nodemon": "^2.0.22",
-    "rimraf": "^5.0.0",
-    "socket.io": "^4.6.1"
+    "rimraf": "^5.0.1",
+    "socket.io": "^4.6.2"
   },
   "dependencies": {
     "clsx": "^1.2.1",
-    "fflate": "^0.7.4",
     "file-saver": "^2.0.5",
     "immer": "^10.0.2",
     "jmespath": "^0.16.0",
-    "match-iz": "^3.10.0",
     "mithril": "^2.2.2",
     "mithril-hooks": "^0.7.2",
-    "module-alias": "^2.2.2",
+    "module-alias": "^2.2.3",
     "spark-md5": "^3.0.2",
     "statebot": "^3.1.3"
   },
