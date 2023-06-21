@@ -80,12 +80,8 @@ OBIS was written by [Conan Theobald](https://github.com/shuckster/).
 
 ## Contributing
 
-To support my efforts with this project please consider checking out the
-accountancy company I work for: [Crunch](https://www.crunch.co.uk/).
-
-If you'd rather not change your accountancy solution but OBIS has
-made managing your finances a little less shit, you can
-[buy me a coffee](https://www.buymeacoffee.com/shuckster). :)
+To support my efforts with this project please consider
+[buying me a coffee](https://www.buymeacoffee.com/shuckster). :)
 
 ## Credits
 
