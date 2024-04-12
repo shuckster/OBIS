@@ -20,7 +20,7 @@
     "esbuild-plugin-sass": "1.0.1",
     "eslint": "^8.43.0",
     "eslint-plugin-mithril": "^0.2.0",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "fflate": "^0.8.0",
     "glob": "^10.2.7",
     "match-iz": "^4.0.1",
