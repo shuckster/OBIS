@@ -17,7 +17,7 @@ OBIS currently supports _only_ HSBC UK, but other parsers are possible.
 
 ## How to use it
 
-### ...as a Web Extension
+### 🟢 ...as a `🌍 Browser Extension`
 
 The easiest way to use OBIS is to install it as an Extension into Google
 Chrome. You can either build it yourself or download it from the Chrome
@@ -33,7 +33,7 @@ To build it yourself:
 
 You'll see the OBIS interface after logging-in to your HSBC account.
 
-### ...as a bookmarklet
+### 🟡 ...as a `📖 bookmarklet`
 
 I use this mode when developing OBIS, but it also used to be the _only_
 way to run it:
