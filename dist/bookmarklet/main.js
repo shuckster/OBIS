@@ -2049,9 +2049,9 @@
     }
   });
 
-  // node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js
+  // node_modules/.pnpm/match-iz@4.0.4/node_modules/match-iz/dist/index.js
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@4.0.4/node_modules/match-iz/dist/index.js"(exports, module) {
       var x = Object.defineProperty;
       var y = Object.getOwnPropertyDescriptor;
       var k = Object.getOwnPropertyNames;
@@ -2320,7 +2320,7 @@
   var obisDefault = { rootPath: "." };
   var obis = window.obis || (window.obis = obisDefault);
 
-  // node_modules/.pnpm/mitt@3.0.0/node_modules/mitt/dist/mitt.mjs
+  // node_modules/.pnpm/mitt@3.0.1/node_modules/mitt/dist/mitt.mjs
   function mitt_default(n) {
     return { all: n = n || /* @__PURE__ */ new Map(), on: function(t, e) {
       var i = n.get(t);
@@ -3269,7 +3269,7 @@ Check your performTransitions() config.`;
   var import_spark_md5 = __toESM(require_spark_md5());
   var import_jmespath = __toESM(require_jmespath());
 
-  // node_modules/.pnpm/fflate@0.8.0/node_modules/fflate/esm/browser.js
+  // node_modules/.pnpm/fflate@0.8.2/node_modules/fflate/esm/browser.js
   var ch2 = {};
   var wk = function(c, id, msg, transfer, cb) {
     var w = new Worker(ch2[id] || (ch2[id] = URL.createObjectURL(new Blob([
@@ -3455,9 +3455,7 @@ Check your performTransitions() config.`;
       s = 0;
     if (e == null || e > v.length)
       e = v.length;
-    var n = new u8(e - s);
-    n.set(v.subarray(s, e));
-    return n;
+    return new u8(v.subarray(s, e));
   };
   var ec = [
     "unexpected EOF",
@@ -3822,7 +3820,7 @@ Check your performTransitions() config.`;
         st.w = dict.length;
       }
     }
-    return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 12 + opt.mem, pre, post, st);
+    return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? st.l ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 20 : 12 + opt.mem, pre, post, st);
   };
   var mrg = function(a, b) {
     var o = {};

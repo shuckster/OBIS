@@ -2043,7 +2043,7 @@
     }
   });
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@4.0.4/node_modules/match-iz/dist/index.js"(exports, module) {
       var x2 = Object.defineProperty;
       var y = Object.getOwnPropertyDescriptor;
       var k = Object.getOwnPropertyNames;
@@ -3433,9 +3433,7 @@ Check your performTransitions() config.`;
       s = 0;
     if (e == null || e > v.length)
       e = v.length;
-    var n = new u8(e - s);
-    n.set(v.subarray(s, e));
-    return n;
+    return new u8(v.subarray(s, e));
   };
   var ec = [
     "unexpected EOF",
@@ -3800,7 +3798,7 @@ Check your performTransitions() config.`;
         st.w = dict.length;
       }
     }
-    return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 12 + opt.mem, pre, post, st);
+    return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? st.l ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 20 : 12 + opt.mem, pre, post, st);
   };
   var mrg = function(a, b) {
     var o = {};
@@ -6729,7 +6727,7 @@ stateDiagram-v2
     }
   });
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@4.0.4/node_modules/match-iz/dist/index.js"(exports, module) {
       var x2 = Object.defineProperty;
       var y2 = Object.getOwnPropertyDescriptor;
       var k2 = Object.getOwnPropertyNames;
@@ -7081,8 +7079,8 @@ stateDiagram-v2
   }
   function each(obj, iter) {
     if (getArchtype(obj) === 0) {
-      Object.entries(obj).forEach(([key, value]) => {
-        iter(key, value, obj);
+      Reflect.ownKeys(obj).forEach((key) => {
+        iter(key, obj[key], obj);
       });
     } else {
       obj.forEach((entry, index) => iter(index, entry, obj));
@@ -7129,33 +7127,36 @@ stateDiagram-v2
     }
     if (Array.isArray(base))
       return Array.prototype.slice.call(base);
-    if (!strict && isPlainObject(base)) {
-      if (!getPrototypeOf(base)) {
-        const obj = /* @__PURE__ */ Object.create(null);
-        return Object.assign(obj, base);
+    const isPlain = isPlainObject(base);
+    if (strict === true || strict === "class_only" && !isPlain) {
+      const descriptors = Object.getOwnPropertyDescriptors(base);
+      delete descriptors[DRAFT_STATE];
+      let keys = Reflect.ownKeys(descriptors);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const desc = descriptors[key];
+        if (desc.writable === false) {
+          desc.writable = true;
+          desc.configurable = true;
+        }
+        if (desc.get || desc.set)
+          descriptors[key] = {
+            configurable: true,
+            writable: true,
+            // could live with !!desc.set as well here...
+            enumerable: desc.enumerable,
+            value: base[key]
+          };
       }
-      return { ...base };
-    }
-    const descriptors = Object.getOwnPropertyDescriptors(base);
-    delete descriptors[DRAFT_STATE];
-    let keys = Reflect.ownKeys(descriptors);
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const desc = descriptors[key];
-      if (desc.writable === false) {
-        desc.writable = true;
-        desc.configurable = true;
+      return Object.create(getPrototypeOf(base), descriptors);
+    } else {
+      const proto = getPrototypeOf(base);
+      if (proto !== null && isPlain) {
+        return { ...base };
       }
-      if (desc.get || desc.set)
-        descriptors[key] = {
-          configurable: true,
-          writable: true,
-          // could live with !!desc.set as well here...
-          enumerable: desc.enumerable,
-          value: base[key]
-        };
+      const obj = Object.create(proto);
+      return Object.assign(obj, base);
     }
-    return Object.create(getPrototypeOf(base), descriptors);
   }
   function freeze(obj, deep = false) {
     if (isFrozen(obj) || isDraft(obj) || !isDraftable(obj))
@@ -7165,7 +7166,7 @@ stateDiagram-v2
     }
     Object.freeze(obj);
     if (deep)
-      each(obj, (_key, value) => freeze(value, true), true);
+      Object.entries(obj).forEach(([key, value]) => freeze(value, true));
     return obj;
   }
   function dontMutateFrozenCollections() {
@@ -7263,9 +7264,7 @@ stateDiagram-v2
     if (!state) {
       each(
         value,
-        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path),
-        true
-        // See #590, don't recurse into non-enumerable of non drafted objects
+        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path)
       );
       return value;
     }
@@ -7322,7 +7321,7 @@ stateDiagram-v2
         return;
       }
       finalize(rootScope, childValue);
-      if (!parentState || !parentState.scope_.parent_)
+      if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && Object.prototype.propertyIsEnumerable.call(targetObject, prop))
         maybeFreeze(rootScope, childValue);
     }
   }
@@ -10475,7 +10474,7 @@ stateDiagram-v2
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          /* ../../../../../var/folders/74/5b1jhx655yg17x4s7m5bxsvr0000gn/T/tmp-88726-vSxvST7Qa1y7/OBIS/src/ui/styles/statements-browser/all.css */
+          /* ../../../../../../var/folders/w4/hfh1mppx6yq64yvgrvgx_04w0000gn/T/tmp-82494-5JgunDcxLDPi/master/src/ui/styles/statements-browser/all.css */
 body.obis-statements-browser {
   font-size: 13px;
   font-family: sans-serif;
@@ -10943,7 +10942,7 @@ obis.registerPlugins([
     mod
   ));
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@4.0.4/node_modules/match-iz/dist/index.js"(exports, module) {
       var x = Object.defineProperty;
       var y = Object.getOwnPropertyDescriptor;
       var k = Object.getOwnPropertyNames;
@@ -13017,8 +13016,8 @@ obis.registerPlugins([
   }
   function each(obj, iter) {
     if (getArchtype(obj) === 0) {
-      Object.entries(obj).forEach(([key, value]) => {
-        iter(key, value, obj);
+      Reflect.ownKeys(obj).forEach((key) => {
+        iter(key, obj[key], obj);
       });
     } else {
       obj.forEach((entry, index) => iter(index, entry, obj));
@@ -13065,33 +13064,36 @@ obis.registerPlugins([
     }
     if (Array.isArray(base))
       return Array.prototype.slice.call(base);
-    if (!strict && isPlainObject(base)) {
-      if (!getPrototypeOf(base)) {
-        const obj = /* @__PURE__ */ Object.create(null);
-        return Object.assign(obj, base);
+    const isPlain = isPlainObject(base);
+    if (strict === true || strict === "class_only" && !isPlain) {
+      const descriptors = Object.getOwnPropertyDescriptors(base);
+      delete descriptors[DRAFT_STATE];
+      let keys = Reflect.ownKeys(descriptors);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const desc = descriptors[key];
+        if (desc.writable === false) {
+          desc.writable = true;
+          desc.configurable = true;
+        }
+        if (desc.get || desc.set)
+          descriptors[key] = {
+            configurable: true,
+            writable: true,
+            // could live with !!desc.set as well here...
+            enumerable: desc.enumerable,
+            value: base[key]
+          };
       }
-      return { ...base };
-    }
-    const descriptors = Object.getOwnPropertyDescriptors(base);
-    delete descriptors[DRAFT_STATE];
-    let keys = Reflect.ownKeys(descriptors);
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const desc = descriptors[key];
-      if (desc.writable === false) {
-        desc.writable = true;
-        desc.configurable = true;
+      return Object.create(getPrototypeOf(base), descriptors);
+    } else {
+      const proto = getPrototypeOf(base);
+      if (proto !== null && isPlain) {
+        return { ...base };
       }
-      if (desc.get || desc.set)
-        descriptors[key] = {
-          configurable: true,
-          writable: true,
-          // could live with !!desc.set as well here...
-          enumerable: desc.enumerable,
-          value: base[key]
-        };
+      const obj = Object.create(proto);
+      return Object.assign(obj, base);
     }
-    return Object.create(getPrototypeOf(base), descriptors);
   }
   function freeze(obj, deep = false) {
     if (isFrozen(obj) || isDraft(obj) || !isDraftable(obj))
@@ -13101,7 +13103,7 @@ obis.registerPlugins([
     }
     Object.freeze(obj);
     if (deep)
-      each(obj, (_key, value) => freeze(value, true), true);
+      Object.entries(obj).forEach(([key, value]) => freeze(value, true));
     return obj;
   }
   function dontMutateFrozenCollections() {
@@ -13199,9 +13201,7 @@ obis.registerPlugins([
     if (!state) {
       each(
         value,
-        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path),
-        true
-        // See #590, don't recurse into non-enumerable of non drafted objects
+        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path)
       );
       return value;
     }
@@ -13258,7 +13258,7 @@ obis.registerPlugins([
         return;
       }
       finalize(rootScope, childValue);
-      if (!parentState || !parentState.scope_.parent_)
+      if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && Object.prototype.propertyIsEnumerable.call(targetObject, prop))
         maybeFreeze(rootScope, childValue);
     }
   }

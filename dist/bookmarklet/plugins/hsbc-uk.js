@@ -25,9 +25,9 @@
     mod
   ));
 
-  // node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js
+  // node_modules/.pnpm/match-iz@4.0.4/node_modules/match-iz/dist/index.js
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@4.0.1/node_modules/match-iz/dist/index.js"(exports, module) {
+    "node_modules/.pnpm/match-iz@4.0.4/node_modules/match-iz/dist/index.js"(exports, module) {
       var x = Object.defineProperty;
       var y = Object.getOwnPropertyDescriptor;
       var k = Object.getOwnPropertyNames;
@@ -2077,7 +2077,7 @@
     }
   };
 
-  // node_modules/.pnpm/immer@10.0.2/node_modules/immer/dist/immer.mjs
+  // node_modules/.pnpm/immer@10.1.1/node_modules/immer/dist/immer.mjs
   var NOTHING = Symbol.for("immer-nothing");
   var DRAFTABLE = Symbol.for("immer-draftable");
   var DRAFT_STATE = Symbol.for("immer-state");
@@ -2115,8 +2115,8 @@
   }
   function each(obj, iter) {
     if (getArchtype(obj) === 0) {
-      Object.entries(obj).forEach(([key, value]) => {
-        iter(key, value, obj);
+      Reflect.ownKeys(obj).forEach((key) => {
+        iter(key, obj[key], obj);
       });
     } else {
       obj.forEach((entry, index) => iter(index, entry, obj));
@@ -2163,33 +2163,36 @@
     }
     if (Array.isArray(base))
       return Array.prototype.slice.call(base);
-    if (!strict && isPlainObject(base)) {
-      if (!getPrototypeOf(base)) {
-        const obj = /* @__PURE__ */ Object.create(null);
-        return Object.assign(obj, base);
+    const isPlain = isPlainObject(base);
+    if (strict === true || strict === "class_only" && !isPlain) {
+      const descriptors = Object.getOwnPropertyDescriptors(base);
+      delete descriptors[DRAFT_STATE];
+      let keys = Reflect.ownKeys(descriptors);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const desc = descriptors[key];
+        if (desc.writable === false) {
+          desc.writable = true;
+          desc.configurable = true;
+        }
+        if (desc.get || desc.set)
+          descriptors[key] = {
+            configurable: true,
+            writable: true,
+            // could live with !!desc.set as well here...
+            enumerable: desc.enumerable,
+            value: base[key]
+          };
       }
-      return { ...base };
-    }
-    const descriptors = Object.getOwnPropertyDescriptors(base);
-    delete descriptors[DRAFT_STATE];
-    let keys = Reflect.ownKeys(descriptors);
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const desc = descriptors[key];
-      if (desc.writable === false) {
-        desc.writable = true;
-        desc.configurable = true;
+      return Object.create(getPrototypeOf(base), descriptors);
+    } else {
+      const proto = getPrototypeOf(base);
+      if (proto !== null && isPlain) {
+        return { ...base };
       }
-      if (desc.get || desc.set)
-        descriptors[key] = {
-          configurable: true,
-          writable: true,
-          // could live with !!desc.set as well here...
-          enumerable: desc.enumerable,
-          value: base[key]
-        };
+      const obj = Object.create(proto);
+      return Object.assign(obj, base);
     }
-    return Object.create(getPrototypeOf(base), descriptors);
   }
   function freeze(obj, deep = false) {
     if (isFrozen(obj) || isDraft(obj) || !isDraftable(obj))
@@ -2199,7 +2202,7 @@
     }
     Object.freeze(obj);
     if (deep)
-      each(obj, (_key, value) => freeze(value, true), true);
+      Object.entries(obj).forEach(([key, value]) => freeze(value, true));
     return obj;
   }
   function dontMutateFrozenCollections() {
@@ -2297,9 +2300,7 @@
     if (!state) {
       each(
         value,
-        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path),
-        true
-        // See #590, don't recurse into non-enumerable of non drafted objects
+        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path)
       );
       return value;
     }
@@ -2356,7 +2357,7 @@
         return;
       }
       finalize(rootScope, childValue);
-      if (!parentState || !parentState.scope_.parent_)
+      if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && Object.prototype.propertyIsEnumerable.call(targetObject, prop))
         maybeFreeze(rootScope, childValue);
     }
   }
