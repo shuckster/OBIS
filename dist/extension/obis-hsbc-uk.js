@@ -10474,7 +10474,7 @@ stateDiagram-v2
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          /* ../../../../../../var/folders/w4/hfh1mppx6yq64yvgrvgx_04w0000gn/T/tmp-82494-5JgunDcxLDPi/master/src/ui/styles/statements-browser/all.css */
+          /* ../../../../../../var/folders/w4/hfh1mppx6yq64yvgrvgx_04w0000gn/T/tmp-83143-0tAIthZsTWnf/master/src/ui/styles/statements-browser/all.css */
 body.obis-statements-browser {
   font-size: 13px;
   font-family: sans-serif;
