@@ -201,7 +201,7 @@ function buildPlugins() {
 //
 
 const extensionManifestTemplate = {
-  manifest_version: 2,
+  manifest_version: 3,
   short_name: 'OBIS',
   name: 'OBIS | Online Banking Is Shit',
   version: '0.0.0.5',
@@ -222,6 +222,12 @@ const extensionManifestTemplate = {
     32: 'images/icon-32.png',
     48: 'images/icon-48.png',
     128: 'images/icon-128.png'
+  },
+  permissions: [
+    'scripting'
+  ],
+  background: {
+    service_worker: 'background.js'
   }
 }
 
