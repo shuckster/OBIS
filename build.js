@@ -225,10 +225,7 @@ const extensionManifestTemplate = {
   },
   permissions: [
     'scripting'
-  ],
-  background: {
-    service_worker: 'background.js'
-  }
+  ]
 }
 
 function buildWebExtension() {
