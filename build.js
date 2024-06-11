@@ -204,7 +204,7 @@ const extensionManifestTemplate = {
   manifest_version: 3,
   short_name: 'OBIS',
   name: 'OBIS | Online Banking Is Shit',
-  version: '0.0.0.5',
+  version: '0.0.0.6',
   homepage_url: 'https://shuckster.github.io/OBIS/',
   author: 'Conan Theobald',
   description: `${ifLocal(
