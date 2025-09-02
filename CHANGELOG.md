@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+2nd September 2025
+
+- Bugfix: Update to V3 Manifest
+- Bugfix: Update transactions API URL, access namespace
+- Update: No need for background worker
+
 15th August 2022
 
 - Bugfix: Guard against empty accounts/statements/transactions
