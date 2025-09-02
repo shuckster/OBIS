@@ -19,21 +19,51 @@ function makeStatementsUrl({ host = liveHost, accountId }) {
   ].join('')
 }
 
+// function makeTransactionsUrl({
+//   host = liveHost,
+//   accountId,
+//   productCategoryCode,
+//   transactionStartDate = 'yyyy-MM-dd',
+//   transactionEndDate = 'yyyy-MM-dd'
+// }) {
+//   return [
+//     host,
+//     `/api`,
+//     `/dcc-gb-hrfb-account-transactions-papi-prod-proxy/v1/accounts/${productCategoryCode}-${accountId}`,
+//     `/historical-transactions?`,
+//     `transactionStartDate=${transactionStartDate}&`,
+//     `transactionEndDate=${transactionEndDate}&`,
+//     `sortCode=D&`,
+//     `txnSearch=true`
+//   ].join('')
+// }
+
 function makeTransactionsUrl({
   host = liveHost,
   accountId,
-  productCategoryCode,
+  // productCategoryCode,
   transactionStartDate = 'yyyy-MM-dd',
   transactionEndDate = 'yyyy-MM-dd'
 }) {
-  return [
+  const baseUrl = [
     host,
-    `/api`,
-    `/dcc-gb-hrfb-account-transactions-papi-prod-proxy/v1/accounts/${productCategoryCode}-${accountId}`,
-    `/historical-transactions?`,
-    `transactionStartDate=${transactionStartDate}&`,
-    `transactionEndDate=${transactionEndDate}&`,
-    `sortCode=D&`,
-    `txnSearch=true`
-  ].join('')
+    "/api",
+    "/wpb-mmf-gb-hrfb-pa-account-transactions-prod-proxy",
+    "/v2",
+    "/transactions"
+  ].join("");
+
+  const params = new URLSearchParams({
+    identifier: accountId,
+    limit: "500",
+    transactionCategory: "HISTORIC",
+    identifierType: "ACCOUNT",
+    transactionStartDate,
+    transactionEndDate,
+    txnSearch: "true",
+  });
+
+  const url = `${baseUrl}?${params.toString()}`;
+  return url;
 }
+
