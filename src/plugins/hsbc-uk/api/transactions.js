@@ -36,12 +36,13 @@ export const fetchTransactions = ({
   )
     .then(res => res.json())
     .then(json => {
-      if (!Array.isArray(json.transactionSummary)) {
+      const transactionsKey = "transactions";
+      if (!Array.isArray(json[transactionsKey])) {
         console.warn('No transactions found in JSON', { accountId, json })
         return []
       }
       const entriesPath = `
-        transactionSummary[].{
+        ${transactionsKey}[].{
           "date":        transactionDate,
           "payee":       transactionDescriptions[0],
           "note":        transactionDescriptions[1:-1:] | join(' ', @),
