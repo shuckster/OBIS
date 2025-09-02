@@ -3281,20 +3281,28 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   function makeTransactionsUrl({
     host = liveHost,
     accountId,
-    productCategoryCode,
+    // productCategoryCode,
     transactionStartDate = "yyyy-MM-dd",
     transactionEndDate = "yyyy-MM-dd"
   }) {
-    return [
+    const baseUrl = [
       host,
-      `/api`,
-      `/dcc-gb-hrfb-account-transactions-papi-prod-proxy/v1/accounts/${productCategoryCode}-${accountId}`,
-      `/historical-transactions?`,
-      `transactionStartDate=${transactionStartDate}&`,
-      `transactionEndDate=${transactionEndDate}&`,
-      `sortCode=D&`,
-      `txnSearch=true`
+      "/api",
+      "/wpb-mmf-gb-hrfb-pa-account-transactions-prod-proxy",
+      "/v2",
+      "/transactions"
     ].join("");
+    const params = new URLSearchParams({
+      identifier: accountId,
+      limit: "500",
+      transactionCategory: "HISTORIC",
+      identifierType: "ACCOUNT",
+      transactionStartDate,
+      transactionEndDate,
+      txnSearch: "true"
+    });
+    const url = `${baseUrl}?${params.toString()}`;
+    return url;
   }
 
   // src/plugins/hsbc-uk/api/accounts.js
@@ -3385,12 +3393,13 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       }
     }
   ).then((res) => res.json()).then((json) => {
-    if (!Array.isArray(json.transactionSummary)) {
+    const transactionsKey = "transactions";
+    if (!Array.isArray(json[transactionsKey])) {
       console.warn("No transactions found in JSON", { accountId, json });
       return [];
     }
     const entriesPath = `
-        transactionSummary[].{
+        ${transactionsKey}[].{
           "date":        transactionDate,
           "payee":       transactionDescriptions[0],
           "note":        transactionDescriptions[1:-1:] | join(' ', @),
