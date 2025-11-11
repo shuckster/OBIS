@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+11th November 2025
+
+- Feature: Add Balance, Sort Code, and raw Account Number to CSV output. Thanks to @prisonblues in issue [#15](https://github.com/shuckster/OBIS/issues/15)
+
 2nd September 2025
 
 - Bugfix: Update to V3 Manifest
