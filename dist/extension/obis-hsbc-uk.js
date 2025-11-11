@@ -8178,14 +8178,14 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       description: "CSV RFC4180 (Excel, Numbers)",
       generate: (statement) => {
         const csv = [
-          '"Transaction ID","Date","Account type","Account number","Payee","Memo","Type","Amount"',
+          '"Transaction ID","Date","Account type","Account number","Payee","Memo","Type","Amount","Balance","Sort code","Account number only"',
           ""
         ];
         statement.entries.forEach((entry) => {
-          const { debit, credit, id, date, payee, note, type } = entry;
+          const { debit, credit, id, date, payee, note, type, balance } = entry;
           const transactionAmount = convertCentsToDecimal(-debit + credit);
           csv.push(
-            '"' + csvEscape(id) + '","' + csvEscape(simpleDate(date)) + '","' + csvEscape(statement.type) + '","' + csvEscape(statement.sortCode + " " + statement.accountNumber) + '","' + csvEscape(payee) + '","' + csvEscape(note || "") + '","' + csvEscape(type) + '","' + csvEscape(transactionAmount) + '"'
+            '"' + csvEscape(id) + '","' + csvEscape(simpleDate(date)) + '","' + csvEscape(statement.type) + '","' + csvEscape(statement.sortCode + " " + statement.accountNumber) + '","' + csvEscape(payee) + '","' + csvEscape(note || "") + '","' + csvEscape(type) + '","' + csvEscape(transactionAmount) + '","' + csvEscape(convertCentsToDecimal(balance)) + '","' + csvEscape(statement.sortCode) + '","' + csvEscape(statement.accountNumber) + '"'
           );
         });
         csv.push("");
@@ -10474,7 +10474,7 @@ stateDiagram-v2
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          /* ../../../../../../var/folders/w4/hfh1mppx6yq64yvgrvgx_04w0000gn/T/tmp-71412-EwcmBa8DuMu4/master/src/ui/styles/statements-browser/all.css */
+          /* ../../tmp/tmp-17560-Bneg9y60JjKE/OBIS/src/ui/styles/statements-browser/all.css */
 body.obis-statements-browser {
   font-size: 13px;
   font-family: sans-serif;
