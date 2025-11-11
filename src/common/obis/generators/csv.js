@@ -11,12 +11,12 @@ export function makeGenerator() {
 
     generate: statement => {
       const csv = [
-        '"Transaction ID","Date","Account type","Account number","Payee","Memo","Type","Amount"',
+        '"Transaction ID","Date","Account type","Account number","Payee","Memo","Type","Amount","Balance","Sort code","Account number only"',
         ''
       ]
 
       statement.entries.forEach(entry => {
-        const { debit, credit, id, date, payee, note, type } = entry
+        const { debit, credit, id, date, payee, note, type, balance } = entry
         const transactionAmount = convertCentsToDecimal(-debit + credit)
 
         csv.push(
@@ -43,6 +43,15 @@ export function makeGenerator() {
             '",' +
             '"' +
             csvEscape(transactionAmount) +
+            '",' +
+            '"' +
+            csvEscape(convertCentsToDecimal(balance)) +
+            '",' +
+            '"' +
+            csvEscape(statement.sortCode) +
+            '",' +
+            '"' +
+            csvEscape(statement.accountNumber) +
             '"'
         )
       })
