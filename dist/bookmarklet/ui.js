@@ -2546,6 +2546,8 @@
       VIEW_STATEMENTS: "ui/view-statements",
       DOWNLOAD_STATEMENTS: "ui/download-statements",
       DOWNLOADED_STATEMENTS: "ui/downloaded-statements",
+      DOWNLOAD_CC_PDFS: "ui/download-cc-pdfs",
+      DOWNLOADED_CC_PDFS: "ui/downloaded-cc-pdfs",
       UPDATE_PROGRESS_BAR: "ui/update-progress-bar",
       STATEMENTS_WINDOW_READY: "ui/statements-window-ready",
       STATEMENTS_WINDOW_CLOSED: "ui/statements-window-closed",
@@ -3443,11 +3445,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     pushStore(payload);
     messages.emit(actions.STORE_HYDRATED);
   }
-  function store() {
+  function store2() {
     return storeHistory[storeHistory.length - 1];
   }
-  store.history = storeHistory;
-  store.hydrate = hydrate;
+  store2.history = storeHistory;
+  store2.hydrate = hydrate;
   function pushStore(nextStore) {
     storeHistory.push(nextStore);
     if (storeHistory.length > HISTORY_LIMIT) {
@@ -3477,7 +3479,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     bic: [isString2, isUnset]
   })(actions.update.ACCOUNTS);
   messages.on(actions.add.ACCOUNTS, (accounts) => {
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = produce(currentStore, (draftState) => {
       accounts.forEach((account) => {
         const err = checkSchemaForAddingAnAccount(account);
@@ -3498,7 +3500,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   });
   messages.on(actions.update.ACCOUNTS, (accounts) => {
     const unseenAccounts = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = produce(currentStore, (draftState) => {
       accounts.forEach((account) => {
         const err = checkSchemaForUpdatingAnAccount(account);
@@ -3543,7 +3545,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   })(actions.update.STATEMENTS);
   messages.on(actions.add.STATEMENTS, (statements) => {
     const existingStatements = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = produce(currentStore, (draftState) => {
       statements.forEach((statement) => {
         const err = checkSchemaForAddingAStatement(statement);
@@ -3569,7 +3571,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   });
   messages.on(actions.update.STATEMENTS, (statements) => {
     const unseenStatements = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = produce(currentStore, (draftState) => {
       statements.forEach((statement) => {
         const err = checkSchemaForUpdatingAStatement(statement);
@@ -3612,7 +3614,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   })(actions.add.ENTRIES);
   messages.on(actions.add.ENTRIES, (entries) => {
     const existingEntries = [];
-    const currentStore = store();
+    const currentStore = store2();
     const nextStore = produce(currentStore, (draftState) => {
       entries.forEach((entry) => {
         const err = checkSchemaForAddingAnEntry(entry);
@@ -3951,7 +3953,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
 
   // src/common/obis/statements.js
   function compatMakeStatements() {
-    const { accounts, statements, entries } = store();
+    const { accounts, statements, entries } = store2();
     const compatStatements = statements.reduce((acc, statement) => {
       const statementAccount = accounts.find(
         (account) => account.id === statement.accountId
@@ -4092,6 +4094,42 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const { date } = statement;
     const statementDate = new Date(date);
     return "OBIS-Statements-" + statementDate.getFullYear() + "-" + dateTimeString(/* @__PURE__ */ new Date(), "_") + ".zip";
+  }
+  async function makePdfZip() {
+    if (typeof obis.fetchAllCcStatementPdfs !== "function") {
+      console.error("[OBIS] No PDF fetcher registered - is a supported plugin loaded?");
+      return;
+    }
+    const ccAccounts = store().accounts.filter((a2) => a2.isCreditCard);
+    if (ccAccounts.length === 0) {
+      console.warn("[OBIS] No CC accounts found for PDF download");
+      return;
+    }
+    console.log("[OBIS] Found", ccAccounts.length, "CC accounts for PDF download");
+    let totalSaved = 0;
+    const savePdf = (pdf) => {
+      console.log("[OBIS] Saving PDF:", pdf.filename, "bytes:", pdf.bytes?.length);
+      const blob = new Blob([pdf.bytes], { type: "application/pdf" });
+      saveAs(blob, pdf.filename);
+      totalSaved++;
+      console.log(`[OBIS] Saved PDF ${totalSaved}: ${pdf.filename}`);
+    };
+    for (const cc of ccAccounts) {
+      console.log("[OBIS] Fetching PDFs for CC account:", cc.accountNumber);
+      try {
+        await obis.fetchAllCcStatementPdfs({
+          host: "",
+          accountId: cc.id,
+          cardLastFour: cc.accountNumber,
+          // This is the last 4 digits of the card
+          onPdfReady: savePdf
+          // Save each PDF immediately
+        });
+      } catch (err) {
+        console.error("[OBIS] Failed to fetch PDFs for CC account:", cc.accountNumber, err);
+      }
+    }
+    console.log("[OBIS] Total PDFs saved:", totalSaved);
   }
 
   // src/ui/store/progressBar.js
@@ -5661,8 +5699,10 @@ stateDiagram-v2
       onYearsChanged,
       onFetch: handleFetchClick,
       onViewStatements: handleViewStatementsClick2,
-      onDownloadAll: handleDownloadAllClick2
+      onDownloadAll: handleDownloadAllClick2,
+      onDownloadCcPdfs: handleDownloadCcPdfsClick2
     } = props || {};
+    const hasCcAccounts = store().accounts.some((a2) => a2.isCreditCard);
     const [yearsToFetch, setYearsToFetch] = useState(DEFAULT_YEARS_TO_FETCH);
     const handleYearsChanged = useCallback(
       (years) => {
@@ -5712,6 +5752,13 @@ stateDiagram-v2
         disabled: !fetcher.inState("found_entries")
       },
       "Download all"
+    ), hasCcAccounts && /* @__PURE__ */ (0, import_mithril11.default)(
+      Button,
+      {
+        onClick: handleDownloadCcPdfsClick2,
+        disabled: !fetcher.inState("found_entries")
+      },
+      "CC PDFs"
     ));
   });
 
@@ -5756,9 +5803,9 @@ stateDiagram-v2
 
   // src/ui/components/obis-overlay-widget/ListOfAccountCards.jsx
   var ListOfAccountCards = withHooks(() => {
-    return /* @__PURE__ */ (0, import_mithril17.default)(Accounts, null, store().accounts.map((account) => {
+    return /* @__PURE__ */ (0, import_mithril17.default)(Accounts, null, store2().accounts.map((account) => {
       const allStatementYears = (0, import_fp2.pipe)(
-        store(),
+        store2(),
         ($2) => $2.statements.filter((x2) => x2.accountId === account.id),
         ($2) => $2.map((x2) => new Date(x2.endDate).getFullYear())
       );
@@ -5850,6 +5897,7 @@ stateDiagram-v2
   var handleToggleOpen = Emit(actions.ui.TOGGLE_OPEN);
   var handleViewStatementsClick = Emit(actions.ui.VIEW_STATEMENTS);
   var handleDownloadAllClick = Emit(actions.ui.DOWNLOAD_STATEMENTS);
+  var handleDownloadCcPdfsClick = Emit(actions.ui.DOWNLOAD_CC_PDFS);
   var App = withHooks(() => {
     const state = useStatebot(uiMachine);
     const ready = !["idle", "loading"].includes(state);
@@ -5872,7 +5920,8 @@ stateDiagram-v2
             onYearsChanged: setYearsToFetch,
             onFetch: handleFetchClick,
             onViewStatements: handleViewStatementsClick,
-            onDownloadAll: handleDownloadAllClick
+            onDownloadAll: handleDownloadAllClick,
+            onDownloadCcPdfs: handleDownloadCcPdfsClick
           }
         )))
       }
@@ -5885,20 +5934,20 @@ stateDiagram-v2
   // src/ui/store/base.js
   var { messages: messages3 } = obis.deps;
   function useAccounts() {
-    const [accounts, setAccounts] = useState(store().accounts);
+    const [accounts, setAccounts] = useState(store2().accounts);
     useEffect(() => {
       const off = messages3.on(actions.STORE_UPDATED, () => {
-        setAccounts(store().accounts);
+        setAccounts(store2().accounts);
       });
       return () => off();
     }, []);
     return accounts;
   }
   function useStatements() {
-    const [statements, setStatements] = useState(store().statements);
+    const [statements, setStatements] = useState(store2().statements);
     useEffect(() => {
       const off = messages3.on(actions.STORE_UPDATED, () => {
-        const sortedStatements = [...store().statements].sort(SortByNumber("endDate")).reverse();
+        const sortedStatements = [...store2().statements].sort(SortByNumber("endDate")).reverse();
         setStatements(sortedStatements);
       });
       return () => off();
@@ -5906,10 +5955,10 @@ stateDiagram-v2
     return statements;
   }
   function useEntries() {
-    const [entries, setEntries] = useState(store().entries);
+    const [entries, setEntries] = useState(store2().entries);
     useEffect(() => {
       const off = messages3.on(actions.STORE_UPDATED, () => {
-        const sortedEntries = [...store().entries].sort(SortByNumber("date")).reverse();
+        const sortedEntries = [...store2().entries].sort(SortByNumber("date")).reverse();
         setEntries(sortedEntries);
       });
       return () => off();
@@ -6288,7 +6337,7 @@ stateDiagram-v2
   var { messages: messages4 } = obis.deps;
   var { on, emit } = messages4;
   var { Emit: Emit2 } = fetcher4;
-  window.store = store;
+  window.store = store2;
   window.actions = actions;
   window.messages = messages4;
   function viewStatements() {
@@ -6302,6 +6351,9 @@ stateDiagram-v2
   on(actions.ui.VIEW_STATEMENTS, viewStatements);
   on(actions.ui.DOWNLOAD_STATEMENTS, () => {
     makeZip().finally(() => (0, import_promises2.delay)((0, import_timers3.seconds)(3))).finally(Emit2(actions.ui.DOWNLOADED_STATEMENTS));
+  });
+  on(actions.ui.DOWNLOAD_CC_PDFS, () => {
+    makePdfZip().finally(() => (0, import_promises2.delay)((0, import_timers3.seconds)(3))).finally(Emit2(actions.ui.DOWNLOADED_CC_PDFS));
   });
   function main() {
     emit(actions.ui.RENDERING, import_mithril30.default);

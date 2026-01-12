@@ -1914,7 +1914,7 @@
       module.exports = {
         isThennable,
         makePromise,
-        delay,
+        delay: delay2,
         unzip,
         makeIdleDetectorWithTimeout,
         poolPromises,
@@ -1946,7 +1946,7 @@
         });
         return [promise, _resolve, _reject];
       }
-      function delay(ms) {
+      function delay2(ms) {
         const [promise, resolve] = makePromise();
         setTimeout(resolve, ms || 0);
         return promise;
@@ -2044,6 +2044,8 @@
       VIEW_STATEMENTS: "ui/view-statements",
       DOWNLOAD_STATEMENTS: "ui/download-statements",
       DOWNLOADED_STATEMENTS: "ui/downloaded-statements",
+      DOWNLOAD_CC_PDFS: "ui/download-cc-pdfs",
+      DOWNLOADED_CC_PDFS: "ui/downloaded-cc-pdfs",
       UPDATE_PROGRESS_BAR: "ui/update-progress-bar",
       STATEMENTS_WINDOW_READY: "ui/statements-window-ready",
       STATEMENTS_WINDOW_CLOSED: "ui/statements-window-closed",
@@ -3304,6 +3306,56 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const url = `${baseUrl}?${params.toString()}`;
     return url;
   }
+  function makeCreditCardTransactionsUrl({
+    host = liveHost,
+    cardIdentifier,
+    transactionType = "UN_BILLED",
+    // 'UN_BILLED' for pending, 'BILLED' for posted
+    nextPageIndex = null,
+    transactionStartDate = null,
+    // Optional: 'yyyy-MM-dd' format
+    transactionEndDate = null
+    // Optional: 'yyyy-MM-dd' format
+  }) {
+    const baseUrl = [
+      host,
+      "/api",
+      "/wpb-mmf-gb-hrfb-pa-account-transactions-prod-proxy",
+      "/v2",
+      "/transactions"
+    ].join("");
+    const params = new URLSearchParams({
+      identifier: cardIdentifier,
+      identifierType: "CARD",
+      transactionType,
+      transactionCategory: "HISTORIC",
+      limit: "500"
+    });
+    if (nextPageIndex) {
+      params.set("nextPageIndex", nextPageIndex);
+    }
+    if (transactionStartDate) {
+      params.set("transactionStartDate", transactionStartDate);
+    }
+    if (transactionEndDate) {
+      params.set("transactionEndDate", transactionEndDate);
+    }
+    return `${baseUrl}?${params.toString()}`;
+  }
+  function makeStatementPdfUrl({
+    host = liveHost,
+    statementIdentifier
+  }) {
+    return [
+      host,
+      "/api",
+      "/mmf-files-statements--gb-hrfb-prod-proxy",
+      "/v2",
+      "/statements/",
+      statementIdentifier,
+      "/statement-files"
+    ].join("");
+  }
 
   // src/plugins/hsbc-uk/api/accounts.js
   var fetchAccounts = ({ host = "" } = {}) => fetch(makeAccountsUrl({ host }), {
@@ -3323,14 +3375,16 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }
     const entriesPath = `
         accountList[].{
-          id:                         accountIdentifier.accountNumber,
-          accountHolderName:          accountHolderName,
-          sortCodeAndAccountNumber:   accountDisplay,
-          ledgerBalance:              ledgerBalance.amount,
-          lastUpdatedDate:            lastUpdatedDate,
+          id:                             accountIdentifier.accountNumber,
+          accountHolderName:              accountHolderName,
+          sortCodeAndAccountNumber:       accountDisplay,
+          ledgerBalance:                  ledgerBalance.amount,
+          availableBalance:               availableBalance.amount,
+          lastUpdatedDate:                lastUpdatedDate,
 
-          productCode:           accountIdentifier.productCode,
-          productCategoryCode:   accountIdentifier.productCategoryCode
+          productCode:                    accountIdentifier.productCode,
+          productCategoryCode:            accountIdentifier.productCategoryCode,
+          normalisedProductCategoryCode:  accountIdentifier.normalisedProductCategoryCode
         }
       `;
     const entries = import_jmespath.default.search(json, entriesPath);
@@ -3364,6 +3418,82 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const entries = import_jmespath2.default.search(json, entriesPath);
     return entries;
   });
+  var fetchStatementPdf = async ({ host = "", statementIdentifier, statementDate, accountNumber, cardLastFour } = {}) => {
+    const url = makeStatementPdfUrl({ host, statementIdentifier });
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        ...buildHeadersFromSiteConfig(),
+        "content-type": "application/json",
+        accept: "application/json, text/plain, */*",
+        adrum: "isAjax:true",
+        token_type: "SESSION_TOKEN",
+        iscacheable: "true"
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    const arrayBuffer = await response.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    const firstChars = new TextDecoder().decode(bytes.slice(0, 50));
+    const displayNumber = cardLastFour || accountNumber.slice(-4);
+    const filename = `CC_Statement_${displayNumber}_${statementDate}.pdf`;
+    if (firstChars.startsWith("%PDF")) {
+      return { bytes, filename };
+    }
+    if (firstChars.startsWith("data:")) {
+      const text = new TextDecoder().decode(bytes);
+      const base64Match = text.match(/^data:application\/pdf;base64,(.+)$/);
+      if (base64Match) {
+        const binaryString = atob(base64Match[1]);
+        const pdfBytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          pdfBytes[i] = binaryString.charCodeAt(i);
+        }
+        return { bytes: pdfBytes, filename };
+      }
+    }
+    console.error("[OBIS] Unknown PDF format, first 100 chars:", firstChars.substring(0, 100));
+    throw new Error("Unknown PDF response format");
+  };
+  var RATE_LIMIT_MS = 5e3;
+  var DEBUG_LIMIT = 0;
+  var delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  var fetchAllCcStatementPdfs = async ({ host = "", accountId, cardLastFour, onProgress, onPdfReady } = {}) => {
+    const statements = await fetchStatementsList({ host, accountId });
+    const limit = DEBUG_LIMIT > 0 ? Math.min(DEBUG_LIMIT, statements.length) : statements.length;
+    console.log(`[OBIS] Found ${statements.length} CC statements, fetching ${limit}, estimated time: ${Math.ceil(limit * RATE_LIMIT_MS / 6e4)} minutes`);
+    let successCount = 0;
+    for (let i = 0; i < limit; i++) {
+      const statement = statements[i];
+      if (onProgress) {
+        onProgress(i + 1, limit);
+      }
+      try {
+        console.log(`[OBIS] Downloading PDF ${i + 1}/${limit}: ${statement.endDate}`);
+        const pdf = await fetchStatementPdf({
+          host,
+          statementIdentifier: statement.id,
+          statementDate: statement.endDate,
+          accountNumber: statement.accountNumber,
+          cardLastFour
+        });
+        console.log(`[OBIS] Got PDF: ${pdf.filename}, ${pdf.bytes.length} bytes`);
+        if (onPdfReady) {
+          onPdfReady(pdf);
+        }
+        successCount++;
+        if (i < limit - 1) {
+          await delay(RATE_LIMIT_MS);
+        }
+      } catch (err) {
+        console.error(`[OBIS] Failed to download PDF for ${statement.endDate}:`, err);
+      }
+    }
+    console.log("[OBIS] Finished fetching", successCount, "PDFs");
+    return successCount;
+  };
 
   // src/plugins/hsbc-uk/api/transactions.js
   var import_jmespath3 = __toESM(require_jmespath());
@@ -3423,6 +3553,76 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const [debit, credit] = (amount < 0 ? [amount, 0] : [0, amount]).map((x) => x * 100).map(Math.abs).map(Math.round);
     return { debit, credit };
   }
+  var fetchCreditCardTransactions = async ({
+    host = "",
+    cardIdentifier,
+    transactionType = "UN_BILLED"
+  } = {}) => {
+    const allEntries = [];
+    let nextPageIndex = null;
+    let pageNum = 1;
+    const MAX_PAGES = 50;
+    console.log("[OBIS] CC Transaction params:", { cardIdentifier: cardIdentifier?.slice(-30), transactionType });
+    do {
+      const url = makeCreditCardTransactionsUrl({
+        host,
+        cardIdentifier,
+        transactionType,
+        nextPageIndex
+      });
+      console.log(`[OBIS] CC Transaction fetch page ${pageNum}:`, url.slice(0, 120) + "...");
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          ...buildHeadersFromSiteConfig(),
+          "content-type": "application/json",
+          accept: "application/json, text/plain, */*",
+          adrum: "isAjax:true",
+          token_type: "SESSION_TOKEN",
+          iscacheable: "false"
+        }
+      });
+      const json = await response.json();
+      if (!Array.isArray(json.transactions)) {
+        console.warn("No credit card transactions found in JSON", { cardIdentifier, transactionType, pageNum, json });
+        break;
+      }
+      const entriesPath = `
+      transactions[].{
+        "date":                   transactionDate,
+        "payee":                  transactionDescriptions[0],
+        "note":                   transactionDescriptions[1:-1:] | join(' ', @),
+        "amount":                 transactionAmount.amount,
+        "creditDebitCode":        transactionCreditDebitCode,
+        "transactionReference":   transactionReferenceNumber,
+        "category":               categoryOfTransaction
+      }
+    `;
+      const entries = import_jmespath3.default.search(json, entriesPath).map((entry) => {
+        const { date, amount, creditDebitCode, ...restEntry } = entry;
+        const isCredit = creditDebitCode === "CREDIT_TRANSACTION";
+        const absAmount = Math.abs(amount);
+        return {
+          date: new Date(date).getTime(),
+          type: isCredit ? "DEP" : "WITHD",
+          ...restEntry,
+          debit: isCredit ? 0 : Math.round(absAmount * 100),
+          credit: isCredit ? Math.round(absAmount * 100) : 0,
+          balance: 0
+          // Credit cards don't have running balance per transaction
+        };
+      });
+      allEntries.push(...entries);
+      console.log(`[OBIS] CC Transaction page ${pageNum}: got ${entries.length} entries (total: ${allEntries.length})`);
+      nextPageIndex = json.pagination?.nextPageIndex || null;
+      pageNum++;
+    } while (nextPageIndex && pageNum <= MAX_PAGES);
+    if (pageNum > MAX_PAGES) {
+      console.warn(`[OBIS] CC Transaction pagination stopped at ${MAX_PAGES} pages`);
+    }
+    console.log(`[OBIS] CC Transaction ${transactionType} complete: ${allEntries.length} total entries`);
+    return allEntries;
+  };
 
   // src/plugins/hsbc-uk/plugin.js
   var import_promises = __toESM(require_promises());
@@ -3443,7 +3643,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         on: actions.get.ACCOUNTS,
         then: (requestedYearsToDownload) => fetchAccounts().then((accountsResponse) => {
           const accountsUpdate = accountsResponse.map((accountResponse) => {
-            const { sortCodeAndAccountNumber } = accountResponse;
+            const { sortCodeAndAccountNumber, normalisedProductCategoryCode } = accountResponse;
+            const isCreditCard = normalisedProductCategoryCode === "CC";
             if (!sortCodeAndAccountNumber) {
               console.warn(
                 "No sortCodeAndAccountNumber in accountResponse",
@@ -3451,13 +3652,23 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
               );
               return;
             }
-            const [sortCode = "", accountNumber = ""] = (sortCodeAndAccountNumber || "").split(" ");
-            if (!sortCode || !accountNumber) {
-              console.warn("Could not parse sortCodeAndAccountNumber", {
-                sortCodeAndAccountNumber,
-                accountResponse
-              });
-              return;
+            let sortCode = "";
+            let accountNumber = "";
+            if (isCreditCard) {
+              const match2 = sortCodeAndAccountNumber.match(/(\d{4})$/);
+              accountNumber = match2 ? match2[1] : sortCodeAndAccountNumber;
+              sortCode = "";
+            } else {
+              const parts = (sortCodeAndAccountNumber || "").split(" ");
+              sortCode = parts[0] || "";
+              accountNumber = parts[1] || "";
+              if (!sortCode || !accountNumber) {
+                console.warn("Could not parse sortCodeAndAccountNumber", {
+                  sortCodeAndAccountNumber,
+                  accountResponse
+                });
+                return;
+              }
             }
             return {
               id: accountResponse.id,
@@ -3468,13 +3679,20 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
               ledgerBalance: Math.round(
                 accountResponse.ledgerBalance * 100
               ),
+              availableBalance: accountResponse.availableBalance ? Math.round(accountResponse.availableBalance * 100) : LEAVE_UNCHANGED,
               lastUpdatedTimestamp: new Date(
                 accountResponse.lastUpdatedDate
               ).getTime(),
+              isCreditCard,
               iban: LEAVE_UNCHANGED,
               bic: LEAVE_UNCHANGED
             };
           }).filter(Boolean);
+          console.log("[OBIS] Storing accounts:", accountsUpdate.map((a) => ({
+            id: a.id.slice(-20),
+            accountNumber: a.accountNumber,
+            isCreditCard: a.isCreditCard
+          })));
           emit(actions.add.ACCOUNTS, accountsUpdate);
           emit(actions.got.ACCOUNTS, {
             accountsResponse,
@@ -3485,12 +3703,31 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       "getting_accounts -> found_accounts": {
         on: actions.got.ACCOUNTS,
         then: ({ accountsResponse, yearsToDownload }) => {
-          const statementsQueries = accountsResponse.map((accountResponse) => ({
+          const supportedForStatements = ["CHQ", "SAV"];
+          const regularAccounts = accountsResponse.filter(
+            (a) => supportedForStatements.includes(a.normalisedProductCategoryCode)
+          );
+          const creditCardAccounts = accountsResponse.filter(
+            (a) => a.normalisedProductCategoryCode === "CC"
+          );
+          const skippedAccounts = accountsResponse.filter(
+            (a) => !supportedForStatements.includes(a.normalisedProductCategoryCode) && a.normalisedProductCategoryCode !== "CC"
+          );
+          console.log("[OBIS] Account types found:", {
+            regular: regularAccounts.map((a) => ({ id: a.id.slice(-20), type: a.normalisedProductCategoryCode })),
+            creditCards: creditCardAccounts.map((a) => ({ id: a.id.slice(-20), type: a.normalisedProductCategoryCode })),
+            skipped: skippedAccounts.map((a) => ({ id: a.id.slice(-20), type: a.normalisedProductCategoryCode }))
+          });
+          const statementsQueries = regularAccounts.map((accountResponse) => ({
             host: getHost(),
             accountId: accountResponse.id,
             productCategoryCode: accountResponse.productCategoryCode
           }));
-          emit(actions.get.STATEMENTS, { statementsQueries, yearsToDownload });
+          emit(actions.get.STATEMENTS, {
+            statementsQueries,
+            creditCardAccounts,
+            yearsToDownload
+          });
         }
       },
       "getting_accounts -> failed_accounts": {
@@ -3502,7 +3739,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       //
       "found_accounts -> getting_statements": {
         on: actions.get.STATEMENTS,
-        then: ({ statementsQueries, yearsToDownload }) => {
+        then: ({ statementsQueries, creditCardAccounts = [], yearsToDownload }) => {
           const progress = updateProgressBar(statementsQueries.length);
           progress(0);
           const fetchStatementsJobs = statementsQueries.map(
@@ -3526,7 +3763,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
                       sortCode,
                       accountNumber,
                       productCategoryCode,
-                      endDate
+                      endDate,
+                      isCreditCard: false
                     };
                   })
                 );
@@ -3534,21 +3772,46 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
             }
           );
           Promise.allSettled(fetchStatementsJobs).then(onlyFulfilled).then((allAcctStatements) => {
-            const allStatements = allAcctStatements.flat();
+            const regularStatements = allAcctStatements.flat();
+            console.log("[OBIS] Creating CC statements for:", creditCardAccounts.length, "credit cards");
+            const ccStatements = creditCardAccounts.map((cc) => {
+              const now = /* @__PURE__ */ new Date();
+              const lastFour = cc.sortCodeAndAccountNumber.match(/(\d{4})$/)?.[1] || "****";
+              console.log("[OBIS] CC account:", {
+                display: cc.sortCodeAndAccountNumber,
+                lastFour,
+                name: cc.accountHolderName,
+                id: cc.id.slice(-30)
+              });
+              return {
+                id: `${cc.id}-all`,
+                accountId: cc.id,
+                sortCode: "",
+                accountNumber: lastFour,
+                productCategoryCode: cc.productCategoryCode,
+                endDate: now.toISOString().split("T")[0],
+                isCreditCard: true,
+                cardName: `${cc.accountHolderName} (${lastFour})`
+              };
+            });
+            console.log("[OBIS] Created CC statements:", ccStatements.map((s) => ({ id: s.id.slice(-20) })));
+            const allStatements = [...regularStatements, ...ccStatements];
             if (allStatements.length === 0) {
               fetcher.emit(actions.error.STATEMENTS);
               return;
             }
             const statementsUpdate = allStatements.map(
-              ({ id, accountId, endDate: endDateString }) => {
+              ({ id, accountId, endDate: endDateString, isCreditCard }) => {
                 const endDate = new Date(endDateString);
                 const startDate = new Date(endDate);
-                startDate.setMonth(startDate.getMonth() - 1);
+                if (!isCreditCard) {
+                  startDate.setMonth(startDate.getMonth() - 1);
+                }
                 return {
                   id,
                   accountId,
                   endDate: endDate.getTime(),
-                  startDate: startDate.getTime(),
+                  startDate: isCreditCard ? 0 : startDate.getTime(),
                   startBalance: LEAVE_UNCHANGED,
                   endBalance: LEAVE_UNCHANGED
                 };
@@ -3562,15 +3825,40 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       "getting_statements -> found_statements": {
         on: actions.got.STATEMENTS,
         then: ({ allStatements, yearsToDownload }) => {
-          const accountsTransactionsQueries = allStatements.map(
-            ({ id, accountId, endDate: endDateString, productCategoryCode }) => {
+          const accountsTransactionsQueries = allStatements.flatMap(
+            ({ id, accountId, endDate: endDateString, productCategoryCode, isCreditCard }) => {
               const endDate = new Date(endDateString);
               const startDate = new Date(endDate);
               startDate.setMonth(startDate.getMonth() - 1);
+              if (isCreditCard) {
+                console.log("[OBIS] Building CC transaction queries:", {
+                  statementId: id.slice(-20),
+                  cardIdentifier: accountId.slice(-30)
+                });
+                return [
+                  {
+                    host: getHost(),
+                    id,
+                    accountId,
+                    isCreditCard: true,
+                    transactionType: "UN_BILLED",
+                    cardIdentifier: accountId
+                  },
+                  {
+                    host: getHost(),
+                    id,
+                    accountId,
+                    isCreditCard: true,
+                    transactionType: "BILLED",
+                    cardIdentifier: accountId
+                  }
+                ];
+              }
               return {
                 host: getHost(),
                 id,
                 accountId,
+                isCreditCard: false,
                 productCategoryCode,
                 transactionStartDate: startDate.toISOString().split("T")[0],
                 transactionEndDate: endDate.toISOString().split("T")[0]
@@ -3597,10 +3885,24 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           progress(0);
           const fetchAccountsTransactionsJobs = accountsTransactionsQueries.map(
             (query, idx) => {
-              const { id, accountId } = query;
+              const { id, accountId, isCreditCard, transactionType } = query;
               return pool(() => {
                 progress(idx + 1);
-                return fetchTransactions(query).then(
+                console.log("[OBIS] Fetching transactions:", {
+                  isCreditCard,
+                  transactionType: transactionType || "N/A",
+                  statementId: id.slice(-20),
+                  accountId: accountId.slice(-30)
+                });
+                const fetchPromise = isCreditCard ? fetchCreditCardTransactions(query) : fetchTransactions(query);
+                return fetchPromise.then((transactions) => {
+                  console.log("[OBIS] Fetched transactions:", {
+                    count: transactions.length,
+                    isCreditCard,
+                    transactionType: transactionType || "N/A"
+                  });
+                  return transactions;
+                }).then(
                   map((transaction) => ({
                     accountId,
                     statementId: id,
@@ -3616,11 +3918,21 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
               fetcher.emit(actions.error.ENTRIES);
               return;
             }
+            console.log("[OBIS] Processing transactions:", allTransactions.length);
+            console.log("[OBIS] Store accounts:", store().accounts.map((a) => ({ id: a.id.slice(-20), accountNumber: a.accountNumber })));
             allTransactions.map((transaction) => {
               const { date, debit, credit, type, payee, note } = transaction;
-              const { accountNumber, sortCode } = store().accounts.find(
+              const account = store().accounts.find(
                 (acct) => acct.id === transaction.accountId
               );
+              if (!account) {
+                console.warn("[OBIS] Could not find account for transaction:", {
+                  accountId: transaction.accountId.slice(-30),
+                  payee
+                });
+                return transaction;
+              }
+              const { accountNumber, sortCode } = account;
               return Object.assign(transaction, {
                 id: generateIdForTransaction({
                   date,
@@ -3634,8 +3946,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
                 })
               });
             });
+            console.log("[OBIS] Emitting add.ENTRIES with", allTransactions.length, "transactions");
             emit(actions.add.ENTRIES, allTransactions);
+            console.log("[OBIS] Emitting got.ENTRIES to transition to found_entries");
             emit(actions.got.ENTRIES);
+            console.log("[OBIS] State machine should now be in found_entries");
           });
         }
       },
@@ -3675,6 +3990,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         console.warn("Problem fetching data. Please try again.");
       }
     });
+    obis.fetchAllCcStatementPdfs = fetchAllCcStatementPdfs;
     fetcher.info();
   });
 })();

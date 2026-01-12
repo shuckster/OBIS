@@ -4313,6 +4313,8 @@ Check your performTransitions() config.`;
       VIEW_STATEMENTS: "ui/view-statements",
       DOWNLOAD_STATEMENTS: "ui/download-statements",
       DOWNLOADED_STATEMENTS: "ui/downloaded-statements",
+      DOWNLOAD_CC_PDFS: "ui/download-cc-pdfs",
+      DOWNLOADED_CC_PDFS: "ui/downloaded-cc-pdfs",
       UPDATE_PROGRESS_BAR: "ui/update-progress-bar",
       STATEMENTS_WINDOW_READY: "ui/statements-window-ready",
       STATEMENTS_WINDOW_CLOSED: "ui/statements-window-closed",
@@ -7010,6 +7012,8 @@ stateDiagram-v2
       VIEW_STATEMENTS: "ui/view-statements",
       DOWNLOAD_STATEMENTS: "ui/download-statements",
       DOWNLOADED_STATEMENTS: "ui/downloaded-statements",
+      DOWNLOAD_CC_PDFS: "ui/download-cc-pdfs",
+      DOWNLOADED_CC_PDFS: "ui/downloaded-cc-pdfs",
       UPDATE_PROGRESS_BAR: "ui/update-progress-bar",
       STATEMENTS_WINDOW_READY: "ui/statements-window-ready",
       STATEMENTS_WINDOW_CLOSED: "ui/statements-window-closed",
@@ -8516,6 +8520,42 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const { date } = statement;
     const statementDate = new Date(date);
     return "OBIS-Statements-" + statementDate.getFullYear() + "-" + dateTimeString(/* @__PURE__ */ new Date(), "_") + ".zip";
+  }
+  async function makePdfZip() {
+    if (typeof obis.fetchAllCcStatementPdfs !== "function") {
+      console.error("[OBIS] No PDF fetcher registered - is a supported plugin loaded?");
+      return;
+    }
+    const ccAccounts = store().accounts.filter((a2) => a2.isCreditCard);
+    if (ccAccounts.length === 0) {
+      console.warn("[OBIS] No CC accounts found for PDF download");
+      return;
+    }
+    console.log("[OBIS] Found", ccAccounts.length, "CC accounts for PDF download");
+    let totalSaved = 0;
+    const savePdf = (pdf) => {
+      console.log("[OBIS] Saving PDF:", pdf.filename, "bytes:", pdf.bytes?.length);
+      const blob = new Blob([pdf.bytes], { type: "application/pdf" });
+      saveAs(blob, pdf.filename);
+      totalSaved++;
+      console.log(`[OBIS] Saved PDF ${totalSaved}: ${pdf.filename}`);
+    };
+    for (const cc of ccAccounts) {
+      console.log("[OBIS] Fetching PDFs for CC account:", cc.accountNumber);
+      try {
+        await obis.fetchAllCcStatementPdfs({
+          host: "",
+          accountId: cc.id,
+          cardLastFour: cc.accountNumber,
+          // This is the last 4 digits of the card
+          onPdfReady: savePdf
+          // Save each PDF immediately
+        });
+      } catch (err) {
+        console.error("[OBIS] Failed to fetch PDFs for CC account:", cc.accountNumber, err);
+      }
+    }
+    console.log("[OBIS] Total PDFs saved:", totalSaved);
   }
   var progressBar = {
     max: 0,
@@ -10037,8 +10077,10 @@ stateDiagram-v2
       onYearsChanged,
       onFetch: handleFetchClick,
       onViewStatements: handleViewStatementsClick2,
-      onDownloadAll: handleDownloadAllClick2
+      onDownloadAll: handleDownloadAllClick2,
+      onDownloadCcPdfs: handleDownloadCcPdfsClick2
     } = props || {};
+    const hasCcAccounts = store().accounts.some((a2) => a2.isCreditCard);
     const [yearsToFetch, setYearsToFetch] = useState(DEFAULT_YEARS_TO_FETCH);
     const handleYearsChanged = useCallback(
       (years) => {
@@ -10088,6 +10130,13 @@ stateDiagram-v2
         disabled: !fetcher.inState("found_entries")
       },
       "Download all"
+    ), hasCcAccounts && /* @__PURE__ */ (0, import_mithril11.default)(
+      Button,
+      {
+        onClick: handleDownloadCcPdfsClick2,
+        disabled: !fetcher.inState("found_entries")
+      },
+      "CC PDFs"
     ));
   });
   var import_mithril17 = __toESM(require_mithril());
@@ -10200,6 +10249,7 @@ stateDiagram-v2
   var handleToggleOpen = Emit(actions.ui.TOGGLE_OPEN);
   var handleViewStatementsClick = Emit(actions.ui.VIEW_STATEMENTS);
   var handleDownloadAllClick = Emit(actions.ui.DOWNLOAD_STATEMENTS);
+  var handleDownloadCcPdfsClick = Emit(actions.ui.DOWNLOAD_CC_PDFS);
   var App = withHooks(() => {
     const state = useStatebot(uiMachine);
     const ready = !["idle", "loading"].includes(state);
@@ -10222,7 +10272,8 @@ stateDiagram-v2
             onYearsChanged: setYearsToFetch,
             onFetch: handleFetchClick,
             onViewStatements: handleViewStatementsClick,
-            onDownloadAll: handleDownloadAllClick
+            onDownloadAll: handleDownloadAllClick,
+            onDownloadCcPdfs: handleDownloadCcPdfsClick
           }
         )))
       }
@@ -10474,7 +10525,7 @@ stateDiagram-v2
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          /* ../../tmp/tmp-17560-Bneg9y60JjKE/OBIS/src/ui/styles/statements-browser/all.css */
+          /* ../../../../../var/folders/47/lvwmxh_s0677mjvbkp6g5g3h0000gp/T/tmp-39628-ma5qltD9Kwcu/obis/src/ui/styles/statements-browser/all.css */
 body.obis-statements-browser {
   font-size: 13px;
   font-family: sans-serif;
@@ -10872,6 +10923,9 @@ body.obis-statements-browser .month.no-entries {
   on(actions.ui.VIEW_STATEMENTS, viewStatements);
   on(actions.ui.DOWNLOAD_STATEMENTS, () => {
     makeZip().finally(() => (0, import_promises2.delay)((0, import_timers3.seconds)(3))).finally(Emit2(actions.ui.DOWNLOADED_STATEMENTS));
+  });
+  on(actions.ui.DOWNLOAD_CC_PDFS, () => {
+    makePdfZip().finally(() => (0, import_promises2.delay)((0, import_timers3.seconds)(3))).finally(Emit2(actions.ui.DOWNLOADED_CC_PDFS));
   });
   function main() {
     emit(actions.ui.RENDERING, import_mithril30.default);
@@ -12819,7 +12873,7 @@ obis.registerPlugins([
       module.exports = {
         isThennable,
         makePromise,
-        delay,
+        delay: delay2,
         unzip,
         makeIdleDetectorWithTimeout,
         poolPromises,
@@ -12851,7 +12905,7 @@ obis.registerPlugins([
         });
         return [promise, _resolve, _reject];
       }
-      function delay(ms) {
+      function delay2(ms) {
         const [promise, resolve] = makePromise();
         setTimeout(resolve, ms || 0);
         return promise;
@@ -12947,6 +13001,8 @@ obis.registerPlugins([
       VIEW_STATEMENTS: "ui/view-statements",
       DOWNLOAD_STATEMENTS: "ui/download-statements",
       DOWNLOADED_STATEMENTS: "ui/downloaded-statements",
+      DOWNLOAD_CC_PDFS: "ui/download-cc-pdfs",
+      DOWNLOADED_CC_PDFS: "ui/downloaded-cc-pdfs",
       UPDATE_PROGRESS_BAR: "ui/update-progress-bar",
       STATEMENTS_WINDOW_READY: "ui/statements-window-ready",
       STATEMENTS_WINDOW_CLOSED: "ui/statements-window-closed",
@@ -14183,6 +14239,56 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const url = `${baseUrl}?${params.toString()}`;
     return url;
   }
+  function makeCreditCardTransactionsUrl({
+    host = liveHost,
+    cardIdentifier,
+    transactionType = "UN_BILLED",
+    // 'UN_BILLED' for pending, 'BILLED' for posted
+    nextPageIndex = null,
+    transactionStartDate = null,
+    // Optional: 'yyyy-MM-dd' format
+    transactionEndDate = null
+    // Optional: 'yyyy-MM-dd' format
+  }) {
+    const baseUrl = [
+      host,
+      "/api",
+      "/wpb-mmf-gb-hrfb-pa-account-transactions-prod-proxy",
+      "/v2",
+      "/transactions"
+    ].join("");
+    const params = new URLSearchParams({
+      identifier: cardIdentifier,
+      identifierType: "CARD",
+      transactionType,
+      transactionCategory: "HISTORIC",
+      limit: "500"
+    });
+    if (nextPageIndex) {
+      params.set("nextPageIndex", nextPageIndex);
+    }
+    if (transactionStartDate) {
+      params.set("transactionStartDate", transactionStartDate);
+    }
+    if (transactionEndDate) {
+      params.set("transactionEndDate", transactionEndDate);
+    }
+    return `${baseUrl}?${params.toString()}`;
+  }
+  function makeStatementPdfUrl({
+    host = liveHost,
+    statementIdentifier
+  }) {
+    return [
+      host,
+      "/api",
+      "/mmf-files-statements--gb-hrfb-prod-proxy",
+      "/v2",
+      "/statements/",
+      statementIdentifier,
+      "/statement-files"
+    ].join("");
+  }
   var fetchAccounts = ({ host = "" } = {}) => fetch(makeAccountsUrl({ host }), {
     method: "GET",
     headers: {
@@ -14200,14 +14306,16 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     }
     const entriesPath = `
         accountList[].{
-          id:                         accountIdentifier.accountNumber,
-          accountHolderName:          accountHolderName,
-          sortCodeAndAccountNumber:   accountDisplay,
-          ledgerBalance:              ledgerBalance.amount,
-          lastUpdatedDate:            lastUpdatedDate,
+          id:                             accountIdentifier.accountNumber,
+          accountHolderName:              accountHolderName,
+          sortCodeAndAccountNumber:       accountDisplay,
+          ledgerBalance:                  ledgerBalance.amount,
+          availableBalance:               availableBalance.amount,
+          lastUpdatedDate:                lastUpdatedDate,
 
-          productCode:           accountIdentifier.productCode,
-          productCategoryCode:   accountIdentifier.productCategoryCode
+          productCode:                    accountIdentifier.productCode,
+          productCategoryCode:            accountIdentifier.productCategoryCode,
+          normalisedProductCategoryCode:  accountIdentifier.normalisedProductCategoryCode
         }
       `;
     const entries = import_jmespath.default.search(json, entriesPath);
@@ -14239,6 +14347,82 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const entries = import_jmespath2.default.search(json, entriesPath);
     return entries;
   });
+  var fetchStatementPdf = async ({ host = "", statementIdentifier, statementDate, accountNumber, cardLastFour } = {}) => {
+    const url = makeStatementPdfUrl({ host, statementIdentifier });
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        ...buildHeadersFromSiteConfig(),
+        "content-type": "application/json",
+        accept: "application/json, text/plain, */*",
+        adrum: "isAjax:true",
+        token_type: "SESSION_TOKEN",
+        iscacheable: "true"
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    const arrayBuffer = await response.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    const firstChars = new TextDecoder().decode(bytes.slice(0, 50));
+    const displayNumber = cardLastFour || accountNumber.slice(-4);
+    const filename = `CC_Statement_${displayNumber}_${statementDate}.pdf`;
+    if (firstChars.startsWith("%PDF")) {
+      return { bytes, filename };
+    }
+    if (firstChars.startsWith("data:")) {
+      const text = new TextDecoder().decode(bytes);
+      const base64Match = text.match(/^data:application\/pdf;base64,(.+)$/);
+      if (base64Match) {
+        const binaryString = atob(base64Match[1]);
+        const pdfBytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          pdfBytes[i] = binaryString.charCodeAt(i);
+        }
+        return { bytes: pdfBytes, filename };
+      }
+    }
+    console.error("[OBIS] Unknown PDF format, first 100 chars:", firstChars.substring(0, 100));
+    throw new Error("Unknown PDF response format");
+  };
+  var RATE_LIMIT_MS = 5e3;
+  var DEBUG_LIMIT = 0;
+  var delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  var fetchAllCcStatementPdfs = async ({ host = "", accountId, cardLastFour, onProgress, onPdfReady } = {}) => {
+    const statements = await fetchStatementsList({ host, accountId });
+    const limit = DEBUG_LIMIT > 0 ? Math.min(DEBUG_LIMIT, statements.length) : statements.length;
+    console.log(`[OBIS] Found ${statements.length} CC statements, fetching ${limit}, estimated time: ${Math.ceil(limit * RATE_LIMIT_MS / 6e4)} minutes`);
+    let successCount = 0;
+    for (let i = 0; i < limit; i++) {
+      const statement = statements[i];
+      if (onProgress) {
+        onProgress(i + 1, limit);
+      }
+      try {
+        console.log(`[OBIS] Downloading PDF ${i + 1}/${limit}: ${statement.endDate}`);
+        const pdf = await fetchStatementPdf({
+          host,
+          statementIdentifier: statement.id,
+          statementDate: statement.endDate,
+          accountNumber: statement.accountNumber,
+          cardLastFour
+        });
+        console.log(`[OBIS] Got PDF: ${pdf.filename}, ${pdf.bytes.length} bytes`);
+        if (onPdfReady) {
+          onPdfReady(pdf);
+        }
+        successCount++;
+        if (i < limit - 1) {
+          await delay(RATE_LIMIT_MS);
+        }
+      } catch (err) {
+        console.error(`[OBIS] Failed to download PDF for ${statement.endDate}:`, err);
+      }
+    }
+    console.log("[OBIS] Finished fetching", successCount, "PDFs");
+    return successCount;
+  };
   var import_jmespath3 = __toESM(require_jmespath());
   var fetchTransactions = ({
     host = "",
@@ -14296,6 +14480,76 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
     const [debit, credit] = (amount < 0 ? [amount, 0] : [0, amount]).map((x) => x * 100).map(Math.abs).map(Math.round);
     return { debit, credit };
   }
+  var fetchCreditCardTransactions = async ({
+    host = "",
+    cardIdentifier,
+    transactionType = "UN_BILLED"
+  } = {}) => {
+    const allEntries = [];
+    let nextPageIndex = null;
+    let pageNum = 1;
+    const MAX_PAGES = 50;
+    console.log("[OBIS] CC Transaction params:", { cardIdentifier: cardIdentifier?.slice(-30), transactionType });
+    do {
+      const url = makeCreditCardTransactionsUrl({
+        host,
+        cardIdentifier,
+        transactionType,
+        nextPageIndex
+      });
+      console.log(`[OBIS] CC Transaction fetch page ${pageNum}:`, url.slice(0, 120) + "...");
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          ...buildHeadersFromSiteConfig(),
+          "content-type": "application/json",
+          accept: "application/json, text/plain, */*",
+          adrum: "isAjax:true",
+          token_type: "SESSION_TOKEN",
+          iscacheable: "false"
+        }
+      });
+      const json = await response.json();
+      if (!Array.isArray(json.transactions)) {
+        console.warn("No credit card transactions found in JSON", { cardIdentifier, transactionType, pageNum, json });
+        break;
+      }
+      const entriesPath = `
+      transactions[].{
+        "date":                   transactionDate,
+        "payee":                  transactionDescriptions[0],
+        "note":                   transactionDescriptions[1:-1:] | join(' ', @),
+        "amount":                 transactionAmount.amount,
+        "creditDebitCode":        transactionCreditDebitCode,
+        "transactionReference":   transactionReferenceNumber,
+        "category":               categoryOfTransaction
+      }
+    `;
+      const entries = import_jmespath3.default.search(json, entriesPath).map((entry) => {
+        const { date, amount, creditDebitCode, ...restEntry } = entry;
+        const isCredit = creditDebitCode === "CREDIT_TRANSACTION";
+        const absAmount = Math.abs(amount);
+        return {
+          date: new Date(date).getTime(),
+          type: isCredit ? "DEP" : "WITHD",
+          ...restEntry,
+          debit: isCredit ? 0 : Math.round(absAmount * 100),
+          credit: isCredit ? Math.round(absAmount * 100) : 0,
+          balance: 0
+          // Credit cards don't have running balance per transaction
+        };
+      });
+      allEntries.push(...entries);
+      console.log(`[OBIS] CC Transaction page ${pageNum}: got ${entries.length} entries (total: ${allEntries.length})`);
+      nextPageIndex = json.pagination?.nextPageIndex || null;
+      pageNum++;
+    } while (nextPageIndex && pageNum <= MAX_PAGES);
+    if (pageNum > MAX_PAGES) {
+      console.warn(`[OBIS] CC Transaction pagination stopped at ${MAX_PAGES} pages`);
+    }
+    console.log(`[OBIS] CC Transaction ${transactionType} complete: ${allEntries.length} total entries`);
+    return allEntries;
+  };
   var import_promises = __toESM(require_promises());
   function getHost() {
     return "";
@@ -14314,7 +14568,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         on: actions.get.ACCOUNTS,
         then: (requestedYearsToDownload) => fetchAccounts().then((accountsResponse) => {
           const accountsUpdate = accountsResponse.map((accountResponse) => {
-            const { sortCodeAndAccountNumber } = accountResponse;
+            const { sortCodeAndAccountNumber, normalisedProductCategoryCode } = accountResponse;
+            const isCreditCard = normalisedProductCategoryCode === "CC";
             if (!sortCodeAndAccountNumber) {
               console.warn(
                 "No sortCodeAndAccountNumber in accountResponse",
@@ -14322,13 +14577,23 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
               );
               return;
             }
-            const [sortCode = "", accountNumber = ""] = (sortCodeAndAccountNumber || "").split(" ");
-            if (!sortCode || !accountNumber) {
-              console.warn("Could not parse sortCodeAndAccountNumber", {
-                sortCodeAndAccountNumber,
-                accountResponse
-              });
-              return;
+            let sortCode = "";
+            let accountNumber = "";
+            if (isCreditCard) {
+              const match2 = sortCodeAndAccountNumber.match(/(\d{4})$/);
+              accountNumber = match2 ? match2[1] : sortCodeAndAccountNumber;
+              sortCode = "";
+            } else {
+              const parts = (sortCodeAndAccountNumber || "").split(" ");
+              sortCode = parts[0] || "";
+              accountNumber = parts[1] || "";
+              if (!sortCode || !accountNumber) {
+                console.warn("Could not parse sortCodeAndAccountNumber", {
+                  sortCodeAndAccountNumber,
+                  accountResponse
+                });
+                return;
+              }
             }
             return {
               id: accountResponse.id,
@@ -14339,13 +14604,20 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
               ledgerBalance: Math.round(
                 accountResponse.ledgerBalance * 100
               ),
+              availableBalance: accountResponse.availableBalance ? Math.round(accountResponse.availableBalance * 100) : LEAVE_UNCHANGED,
               lastUpdatedTimestamp: new Date(
                 accountResponse.lastUpdatedDate
               ).getTime(),
+              isCreditCard,
               iban: LEAVE_UNCHANGED,
               bic: LEAVE_UNCHANGED
             };
           }).filter(Boolean);
+          console.log("[OBIS] Storing accounts:", accountsUpdate.map((a) => ({
+            id: a.id.slice(-20),
+            accountNumber: a.accountNumber,
+            isCreditCard: a.isCreditCard
+          })));
           emit(actions.add.ACCOUNTS, accountsUpdate);
           emit(actions.got.ACCOUNTS, {
             accountsResponse,
@@ -14356,12 +14628,31 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       "getting_accounts -> found_accounts": {
         on: actions.got.ACCOUNTS,
         then: ({ accountsResponse, yearsToDownload }) => {
-          const statementsQueries = accountsResponse.map((accountResponse) => ({
+          const supportedForStatements = ["CHQ", "SAV"];
+          const regularAccounts = accountsResponse.filter(
+            (a) => supportedForStatements.includes(a.normalisedProductCategoryCode)
+          );
+          const creditCardAccounts = accountsResponse.filter(
+            (a) => a.normalisedProductCategoryCode === "CC"
+          );
+          const skippedAccounts = accountsResponse.filter(
+            (a) => !supportedForStatements.includes(a.normalisedProductCategoryCode) && a.normalisedProductCategoryCode !== "CC"
+          );
+          console.log("[OBIS] Account types found:", {
+            regular: regularAccounts.map((a) => ({ id: a.id.slice(-20), type: a.normalisedProductCategoryCode })),
+            creditCards: creditCardAccounts.map((a) => ({ id: a.id.slice(-20), type: a.normalisedProductCategoryCode })),
+            skipped: skippedAccounts.map((a) => ({ id: a.id.slice(-20), type: a.normalisedProductCategoryCode }))
+          });
+          const statementsQueries = regularAccounts.map((accountResponse) => ({
             host: getHost(),
             accountId: accountResponse.id,
             productCategoryCode: accountResponse.productCategoryCode
           }));
-          emit(actions.get.STATEMENTS, { statementsQueries, yearsToDownload });
+          emit(actions.get.STATEMENTS, {
+            statementsQueries,
+            creditCardAccounts,
+            yearsToDownload
+          });
         }
       },
       "getting_accounts -> failed_accounts": {
@@ -14373,7 +14664,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       //
       "found_accounts -> getting_statements": {
         on: actions.get.STATEMENTS,
-        then: ({ statementsQueries, yearsToDownload }) => {
+        then: ({ statementsQueries, creditCardAccounts = [], yearsToDownload }) => {
           const progress = updateProgressBar(statementsQueries.length);
           progress(0);
           const fetchStatementsJobs = statementsQueries.map(
@@ -14397,7 +14688,8 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
                       sortCode,
                       accountNumber,
                       productCategoryCode,
-                      endDate
+                      endDate,
+                      isCreditCard: false
                     };
                   })
                 );
@@ -14405,21 +14697,46 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
             }
           );
           Promise.allSettled(fetchStatementsJobs).then(onlyFulfilled).then((allAcctStatements) => {
-            const allStatements = allAcctStatements.flat();
+            const regularStatements = allAcctStatements.flat();
+            console.log("[OBIS] Creating CC statements for:", creditCardAccounts.length, "credit cards");
+            const ccStatements = creditCardAccounts.map((cc) => {
+              const now = /* @__PURE__ */ new Date();
+              const lastFour = cc.sortCodeAndAccountNumber.match(/(\d{4})$/)?.[1] || "****";
+              console.log("[OBIS] CC account:", {
+                display: cc.sortCodeAndAccountNumber,
+                lastFour,
+                name: cc.accountHolderName,
+                id: cc.id.slice(-30)
+              });
+              return {
+                id: `${cc.id}-all`,
+                accountId: cc.id,
+                sortCode: "",
+                accountNumber: lastFour,
+                productCategoryCode: cc.productCategoryCode,
+                endDate: now.toISOString().split("T")[0],
+                isCreditCard: true,
+                cardName: `${cc.accountHolderName} (${lastFour})`
+              };
+            });
+            console.log("[OBIS] Created CC statements:", ccStatements.map((s) => ({ id: s.id.slice(-20) })));
+            const allStatements = [...regularStatements, ...ccStatements];
             if (allStatements.length === 0) {
               fetcher.emit(actions.error.STATEMENTS);
               return;
             }
             const statementsUpdate = allStatements.map(
-              ({ id, accountId, endDate: endDateString }) => {
+              ({ id, accountId, endDate: endDateString, isCreditCard }) => {
                 const endDate = new Date(endDateString);
                 const startDate = new Date(endDate);
-                startDate.setMonth(startDate.getMonth() - 1);
+                if (!isCreditCard) {
+                  startDate.setMonth(startDate.getMonth() - 1);
+                }
                 return {
                   id,
                   accountId,
                   endDate: endDate.getTime(),
-                  startDate: startDate.getTime(),
+                  startDate: isCreditCard ? 0 : startDate.getTime(),
                   startBalance: LEAVE_UNCHANGED,
                   endBalance: LEAVE_UNCHANGED
                 };
@@ -14433,15 +14750,40 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       "getting_statements -> found_statements": {
         on: actions.got.STATEMENTS,
         then: ({ allStatements, yearsToDownload }) => {
-          const accountsTransactionsQueries = allStatements.map(
-            ({ id, accountId, endDate: endDateString, productCategoryCode }) => {
+          const accountsTransactionsQueries = allStatements.flatMap(
+            ({ id, accountId, endDate: endDateString, productCategoryCode, isCreditCard }) => {
               const endDate = new Date(endDateString);
               const startDate = new Date(endDate);
               startDate.setMonth(startDate.getMonth() - 1);
+              if (isCreditCard) {
+                console.log("[OBIS] Building CC transaction queries:", {
+                  statementId: id.slice(-20),
+                  cardIdentifier: accountId.slice(-30)
+                });
+                return [
+                  {
+                    host: getHost(),
+                    id,
+                    accountId,
+                    isCreditCard: true,
+                    transactionType: "UN_BILLED",
+                    cardIdentifier: accountId
+                  },
+                  {
+                    host: getHost(),
+                    id,
+                    accountId,
+                    isCreditCard: true,
+                    transactionType: "BILLED",
+                    cardIdentifier: accountId
+                  }
+                ];
+              }
               return {
                 host: getHost(),
                 id,
                 accountId,
+                isCreditCard: false,
                 productCategoryCode,
                 transactionStartDate: startDate.toISOString().split("T")[0],
                 transactionEndDate: endDate.toISOString().split("T")[0]
@@ -14468,10 +14810,24 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
           progress(0);
           const fetchAccountsTransactionsJobs = accountsTransactionsQueries.map(
             (query, idx) => {
-              const { id, accountId } = query;
+              const { id, accountId, isCreditCard, transactionType } = query;
               return pool(() => {
                 progress(idx + 1);
-                return fetchTransactions(query).then(
+                console.log("[OBIS] Fetching transactions:", {
+                  isCreditCard,
+                  transactionType: transactionType || "N/A",
+                  statementId: id.slice(-20),
+                  accountId: accountId.slice(-30)
+                });
+                const fetchPromise = isCreditCard ? fetchCreditCardTransactions(query) : fetchTransactions(query);
+                return fetchPromise.then((transactions) => {
+                  console.log("[OBIS] Fetched transactions:", {
+                    count: transactions.length,
+                    isCreditCard,
+                    transactionType: transactionType || "N/A"
+                  });
+                  return transactions;
+                }).then(
                   map((transaction) => ({
                     accountId,
                     statementId: id,
@@ -14487,11 +14843,21 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
               fetcher.emit(actions.error.ENTRIES);
               return;
             }
+            console.log("[OBIS] Processing transactions:", allTransactions.length);
+            console.log("[OBIS] Store accounts:", store().accounts.map((a) => ({ id: a.id.slice(-20), accountNumber: a.accountNumber })));
             allTransactions.map((transaction) => {
               const { date, debit, credit, type, payee, note } = transaction;
-              const { accountNumber, sortCode } = store().accounts.find(
+              const account = store().accounts.find(
                 (acct) => acct.id === transaction.accountId
               );
+              if (!account) {
+                console.warn("[OBIS] Could not find account for transaction:", {
+                  accountId: transaction.accountId.slice(-30),
+                  payee
+                });
+                return transaction;
+              }
+              const { accountNumber, sortCode } = account;
               return Object.assign(transaction, {
                 id: generateIdForTransaction({
                   date,
@@ -14505,8 +14871,11 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
                 })
               });
             });
+            console.log("[OBIS] Emitting add.ENTRIES with", allTransactions.length, "transactions");
             emit(actions.add.ENTRIES, allTransactions);
+            console.log("[OBIS] Emitting got.ENTRIES to transition to found_entries");
             emit(actions.got.ENTRIES);
+            console.log("[OBIS] State machine should now be in found_entries");
           });
         }
       },
@@ -14546,6 +14915,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
         console.warn("Problem fetching data. Please try again.");
       }
     });
+    obis.fetchAllCcStatementPdfs = fetchAllCcStatementPdfs;
     fetcher.info();
   });
 })();

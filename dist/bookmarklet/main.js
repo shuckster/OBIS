@@ -4343,6 +4343,8 @@ Check your performTransitions() config.`;
       VIEW_STATEMENTS: "ui/view-statements",
       DOWNLOAD_STATEMENTS: "ui/download-statements",
       DOWNLOADED_STATEMENTS: "ui/downloaded-statements",
+      DOWNLOAD_CC_PDFS: "ui/download-cc-pdfs",
+      DOWNLOADED_CC_PDFS: "ui/downloaded-cc-pdfs",
       UPDATE_PROGRESS_BAR: "ui/update-progress-bar",
       STATEMENTS_WINDOW_READY: "ui/statements-window-ready",
       STATEMENTS_WINDOW_CLOSED: "ui/statements-window-closed",
