@@ -1,4 +1,4 @@
-export { makeAccountsUrl, makeStatementsUrl, makeTransactionsUrl }
+export { makeAccountsUrl, makeStatementsUrl, makeTransactionsUrl, makeCreditCardTransactionsUrl }
 
 const liveHost = 'https://www.hsbc.co.uk'
 
@@ -65,5 +65,44 @@ function makeTransactionsUrl({
 
   const url = `${baseUrl}?${params.toString()}`;
   return url;
+}
+
+function makeCreditCardTransactionsUrl({
+  host = liveHost,
+  cardIdentifier,
+  transactionType = 'UN_BILLED',  // 'UN_BILLED' for pending, 'BILLED' for posted
+  nextPageIndex = null,
+  transactionStartDate = null,  // Optional: 'yyyy-MM-dd' format
+  transactionEndDate = null     // Optional: 'yyyy-MM-dd' format
+}) {
+  const baseUrl = [
+    host,
+    "/api",
+    "/wpb-mmf-gb-hrfb-pa-account-transactions-prod-proxy",
+    "/v2",
+    "/transactions"
+  ].join("");
+
+  const params = new URLSearchParams({
+    identifier: cardIdentifier,
+    identifierType: "CARD",
+    transactionType,
+    transactionCategory: "HISTORIC",
+    limit: "500"
+  });
+
+  if (nextPageIndex) {
+    params.set('nextPageIndex', nextPageIndex)
+  }
+
+  // Optional date range for fetching older transactions
+  if (transactionStartDate) {
+    params.set('transactionStartDate', transactionStartDate)
+  }
+  if (transactionEndDate) {
+    params.set('transactionEndDate', transactionEndDate)
+  }
+
+  return `${baseUrl}?${params.toString()}`;
 }
 

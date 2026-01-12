@@ -27,14 +27,16 @@ export const fetchAccounts = ({ host = '' } = {}) =>
       }
       const entriesPath = `
         accountList[].{
-          id:                         accountIdentifier.accountNumber,
-          accountHolderName:          accountHolderName,
-          sortCodeAndAccountNumber:   accountDisplay,
-          ledgerBalance:              ledgerBalance.amount,
-          lastUpdatedDate:            lastUpdatedDate,
+          id:                             accountIdentifier.accountNumber,
+          accountHolderName:              accountHolderName,
+          sortCodeAndAccountNumber:       accountDisplay,
+          ledgerBalance:                  ledgerBalance.amount,
+          availableBalance:               availableBalance.amount,
+          lastUpdatedDate:                lastUpdatedDate,
 
-          productCode:           accountIdentifier.productCode,
-          productCategoryCode:   accountIdentifier.productCategoryCode
+          productCode:                    accountIdentifier.productCode,
+          productCategoryCode:            accountIdentifier.productCategoryCode,
+          normalisedProductCategoryCode:  accountIdentifier.normalisedProductCategoryCode
         }
       `
       const entries = jmespath.search(json, entriesPath)
