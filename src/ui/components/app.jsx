@@ -55,6 +55,7 @@ uiMachine.performTransitions({
 const handleToggleOpen = Emit(actions.ui.TOGGLE_OPEN)
 const handleViewStatementsClick = Emit(actions.ui.VIEW_STATEMENTS)
 const handleDownloadAllClick = Emit(actions.ui.DOWNLOAD_STATEMENTS)
+const handleDownloadCcPdfsClick = Emit(actions.ui.DOWNLOAD_CC_PDFS)
 
 export const App = ViewComponent(() => {
   const state = useStatebot(uiMachine)
@@ -88,6 +89,7 @@ export const App = ViewComponent(() => {
                 onFetch={handleFetchClick}
                 onViewStatements={handleViewStatementsClick}
                 onDownloadAll={handleDownloadAllClick}
+                onDownloadCcPdfs={handleDownloadCcPdfsClick}
               />
             </>
           )}

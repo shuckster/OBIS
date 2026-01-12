@@ -1,4 +1,4 @@
-export { makeAccountsUrl, makeStatementsUrl, makeTransactionsUrl, makeCreditCardTransactionsUrl }
+export { makeAccountsUrl, makeStatementsUrl, makeTransactionsUrl, makeCreditCardTransactionsUrl, makeStatementPdfUrl }
 
 const liveHost = 'https://www.hsbc.co.uk'
 
@@ -104,5 +104,20 @@ function makeCreditCardTransactionsUrl({
   }
 
   return `${baseUrl}?${params.toString()}`;
+}
+
+function makeStatementPdfUrl({
+  host = liveHost,
+  statementIdentifier
+}) {
+  return [
+    host,
+    "/api",
+    "/mmf-files-statements--gb-hrfb-prod-proxy",
+    "/v2",
+    "/statements/",
+    statementIdentifier,
+    "/statement-files"
+  ].join("");
 }
 

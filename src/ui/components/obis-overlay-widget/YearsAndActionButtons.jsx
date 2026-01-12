@@ -1,4 +1,4 @@
-/* globals obis */
+/* globals obis, store */
 
 import m from 'mithril'
 import {
@@ -26,8 +26,12 @@ export const YearsAndActionButtons = ViewComponent(props => {
     onYearsChanged,
     onFetch: handleFetchClick,
     onViewStatements: handleViewStatementsClick,
-    onDownloadAll: handleDownloadAllClick
+    onDownloadAll: handleDownloadAllClick,
+    onDownloadCcPdfs: handleDownloadCcPdfsClick
   } = props || {}
+
+  // Check if there are any CC accounts
+  const hasCcAccounts = store().accounts.some(a => a.isCreditCard)
 
   const [yearsToFetch, setYearsToFetch] = useState(DEFAULT_YEARS_TO_FETCH)
   const handleYearsChanged = useCallback(
@@ -79,6 +83,14 @@ export const YearsAndActionButtons = ViewComponent(props => {
       >
         Download all
       </Button>
+      {hasCcAccounts && (
+        <Button
+          onClick={handleDownloadCcPdfsClick}
+          disabled={!fetcher.inState('found_entries')}
+        >
+          CC PDFs
+        </Button>
+      )}
     </Actions>
   )
 })

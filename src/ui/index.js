@@ -7,7 +7,7 @@ import { seconds } from '@/cjs/timers'
 import { delay } from '@/cjs/promises'
 import { actions } from '@/obis/actions'
 import { store } from '@/obis/store'
-import { makeZip } from '@/obis/zip'
+import { makeZip, makePdfZip } from '@/obis/zip'
 import { progressBar } from '@/store/progressBar'
 
 import { App } from './components/app'
@@ -45,6 +45,12 @@ on(actions.ui.DOWNLOAD_STATEMENTS, () => {
   makeZip()
     .finally(() => delay(seconds(3)))
     .finally(Emit(actions.ui.DOWNLOADED_STATEMENTS))
+})
+
+on(actions.ui.DOWNLOAD_CC_PDFS, () => {
+  makePdfZip()
+    .finally(() => delay(seconds(3)))
+    .finally(Emit(actions.ui.DOWNLOADED_CC_PDFS))
 })
 
 //
