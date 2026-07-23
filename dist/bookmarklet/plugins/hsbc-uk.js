@@ -6,7 +6,11 @@
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
   var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+    try {
+      return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+    } catch (e) {
+      throw mod = 0, e;
+    }
   };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
@@ -25,185 +29,200 @@
     mod
   ));
 
-  // node_modules/.pnpm/match-iz@4.0.4/node_modules/match-iz/dist/index.js
+  // node_modules/.pnpm/match-iz@5.1.1/node_modules/match-iz/dist/index.js
   var require_dist = __commonJS({
-    "node_modules/.pnpm/match-iz@4.0.4/node_modules/match-iz/dist/index.js"(exports, module) {
-      var x = Object.defineProperty;
-      var y = Object.getOwnPropertyDescriptor;
-      var k = Object.getOwnPropertyNames;
-      var N = Object.getOwnPropertySymbols;
-      var D = Object.prototype.hasOwnProperty;
-      var q = Object.prototype.propertyIsEnumerable;
-      var P = (t, n, e) => n in t ? x(t, n, { enumerable: true, configurable: true, writable: true, value: e }) : t[n] = e;
-      var C = (t, n) => {
-        for (var e in n || (n = {}))
-          D.call(n, e) && P(t, e, n[e]);
-        if (N)
-          for (var e of N(n))
-            q.call(n, e) && P(t, e, n[e]);
+    "node_modules/.pnpm/match-iz@5.1.1/node_modules/match-iz/dist/index.js"(exports, module) {
+      var N = Object.defineProperty;
+      var rt = Object.getOwnPropertyDescriptor;
+      var ot = Object.getOwnPropertyNames;
+      var y = Object.getOwnPropertySymbols;
+      var M = Object.prototype.hasOwnProperty;
+      var C = Object.prototype.propertyIsEnumerable;
+      var z = (t, e, n) => e in t ? N(t, e, { enumerable: true, configurable: true, writable: true, value: n }) : t[e] = n;
+      var H = (t, e) => {
+        for (var n in e || (e = {})) M.call(e, n) && z(t, n, e[n]);
+        if (y) for (var n of y(e)) C.call(e, n) && z(t, n, e[n]);
         return t;
       };
-      var H = (t, n) => {
-        var e = {};
-        for (var o in t)
-          D.call(t, o) && n.indexOf(o) < 0 && (e[o] = t[o]);
-        if (t != null && N)
-          for (var o of N(t))
-            n.indexOf(o) < 0 && q.call(t, o) && (e[o] = t[o]);
-        return e;
+      var V = (t, e) => {
+        var n = {};
+        for (var s in t) M.call(t, s) && e.indexOf(s) < 0 && (n[s] = t[s]);
+        if (t != null && y) for (var s of y(t)) e.indexOf(s) < 0 && C.call(t, s) && (n[s] = t[s]);
+        return n;
       };
-      var R = (t, n) => {
-        for (var e in n)
-          x(t, e, { get: n[e], enumerable: true });
+      var $ = (t, e) => {
+        for (var n in e) N(t, n, { get: e[n], enumerable: true });
       };
-      var tt = (t, n, e, o) => {
-        if (n && typeof n == "object" || typeof n == "function")
-          for (let r of k(n))
-            !D.call(t, r) && r !== e && x(t, r, { get: () => n[r], enumerable: !(o = y(n, r)) || o.enumerable });
+      var it = (t, e, n, s) => {
+        if (e && typeof e == "object" || typeof e == "function") for (let r of ot(e)) !M.call(t, r) && r !== n && N(t, r, { get: () => e[r], enumerable: !(s = rt(e, r)) || s.enumerable });
         return t;
       };
-      var nt = (t) => tt(x({}, "__esModule", { value: true }), t);
-      var nn = {};
-      R(nn, { against: () => K, allOf: () => Y, anyOf: () => X, cata: () => Zt, deepEq: () => Pt, defined: () => $t, empty: () => Z, endsWith: () => Kt, eq: () => T, every: () => Ct, falsy: () => jt, firstOf: () => Rt, getIterationLimit: () => xt, gt: () => at, gte: () => Bt, hasOwn: () => Yt, inRange: () => Ut, includedIn: () => Tt, includes: () => Qt, instanceOf: () => dt, isArray: () => l, isDate: () => wt, isFunction: () => m, isIterable: () => G, isNumber: () => U, isPojo: () => g, isRegExp: () => A, isStrictly: () => Xt, isString: () => b, lastOf: () => Vt, lt: () => zt, lte: () => Jt, match: () => Dt, not: () => qt, otherwise: () => Ft, pluck: () => Mt, setIterationLimit: () => Et, some: () => Ht, spread: () => tn, startsWith: () => Gt, truthy: () => _t, when: () => Wt });
-      module.exports = nt(nn);
-      var h = {};
-      R(h, { instanceOf: () => d, isArguments: () => $, isArray: () => ot, isDate: () => rt, isFormData: () => gt, isFunction: () => a, isIterable: () => mt, isMap: () => ft, isNumber: () => it, isObject: () => z, isPojo: () => lt, isRegExp: () => ct, isSet: () => ut, isString: () => st });
-      var V = Object.prototype;
-      var et = V.toString;
-      var E = (t) => (n) => typeof n === t;
-      var d = (t) => (n) => n instanceof t;
-      var { isArray: ot } = Array;
-      var $ = (t) => et.call(t) === "[object Arguments]";
-      var rt = (t) => d(Date)(t) && !isNaN(t);
-      var a = E("function");
-      var st = E("string");
-      var it = (t) => t === t && E("number")(t);
-      var z = (t) => t !== null && E("object")(t);
-      var ct = d(RegExp);
-      var ut = d(Set);
-      var ft = d(Map);
-      var lt = (t) => t === null || !z(t) || $(t) ? false : Object.getPrototypeOf(t) === V;
-      var mt = (t) => t != null && [t[Symbol.iterator], t.next].every(a);
-      var gt = (t) => typeof FormData != "undefined" && d(FormData)(t);
-      var { isArguments: pt, isArray: l, isDate: wt, isFunction: m, isNumber: U } = h;
-      var { isPojo: g, isRegExp: A, isString: b, instanceOf: dt } = h;
-      var { isMap: Ot, isSet: St, isIterable: G, isFormData: ht } = h;
-      var { keys: S, entries: bt, assign: vt } = Object;
-      var O = 2e4;
-      var Nt = true;
-      var xt = () => O;
-      var Et = (t) => {
-        let n = O;
-        return O = t, () => O = n;
+      var ct = (t) => it(N({}, "__esModule", { value: true }), t);
+      var le = {};
+      $(le, { against: () => Z, allOf: () => tt, anyOf: () => k, cata: () => se, deepEq: () => Ht, defined: () => Gt, empty: () => et, endsWith: () => xt, eq: () => x, every: () => $t, falsy: () => oe, firstOf: () => Jt, getIterationLimit: () => It, gt: () => Qt, gte: () => Xt, hasOwn: () => ne, inRange: () => Zt, includedIn: () => te, includes: () => kt, instanceOf: () => vt, isArray: () => p, isDate: () => bt, isFunction: () => a, isIterable: () => Y, isNumber: () => X, isPojo: () => d, isRegExp: () => P, isStrictly: () => ee, isString: () => v, lastOf: () => Ut, lt: () => Tt, lte: () => Yt, match: () => Kt, not: () => Vt, otherwise: () => Wt, pluck: () => qt, rest: () => zt, setIterationLimit: () => Mt, some: () => Bt, spread: () => ue, startsWith: () => _t, truthy: () => re, when: () => Lt });
+      module.exports = ct(le);
+      var b = {};
+      $(b, { instanceOf: () => w, isArguments: () => J, isArray: () => lt, isDate: () => ft, isFormData: () => Ot, isFunction: () => U, isIterable: () => wt, isMap: () => dt, isNumber: () => gt, isObject: () => G, isPojo: () => ht, isRegExp: () => pt, isSet: () => at, isString: () => mt });
+      var B = Object.prototype;
+      var ut = B.toString;
+      var D = (t) => (e) => typeof e === t;
+      var w = (t) => (e) => e instanceof t;
+      function m(t, e) {
+        let n = { [e]: function(...s) {
+          return t.apply(this, s);
+        } }[e];
+        return Object.defineProperty(n, "name", { value: e }), n;
+      }
+      var lt = m(Array.isArray, "isArray");
+      var J = m((t) => ut.call(t) === "[object Arguments]", "isArguments");
+      var ft = m((t) => w(Date)(t) && !isNaN(t), "isDate");
+      var U = m(D("function"), "isFunction");
+      var mt = m(D("string"), "isString");
+      var gt = m((t) => t === t && D("number")(t), "isNumber");
+      var G = m((t) => t !== null && D("object")(t), "isObject");
+      var pt = m(w(RegExp), "isRegExp");
+      var at = m(w(Set), "isSet");
+      var dt = m(w(Map), "isMap");
+      var ht = m((t) => t === null || !G(t) || J(t) ? false : Object.getPrototypeOf(t) === B, "isPojo");
+      var wt = m((t) => t != null && [t[Symbol.iterator], t.next].every(U), "isIterable");
+      var Ot = m((t) => typeof FormData != "undefined" && w(FormData)(t), "isFormData");
+      var { isArguments: St, isArray: p, isDate: bt, isFunction: a, isNumber: X } = b;
+      var { isPojo: d, isRegExp: P, isString: v, instanceOf: vt } = b;
+      var { isMap: Ft, isSet: yt, isIterable: Y, isFormData: Nt } = b;
+      var { keys: h, entries: Dt, assign: E } = Object;
+      var O2 = 2e4;
+      var Et = true;
+      var It = () => O2;
+      var Mt = (t) => {
+        let e = O2;
+        return O2 = t, () => O2 = e;
       };
-      function It(t, n) {
-        for (let e = t.length - 1; e >= 0; e--)
-          if (n(t[e]))
-            return t[e];
+      function At(t, e) {
+        for (let n = t.length - 1; n >= 0; n--) if (e(t[n])) return t[n];
       }
-      function B(t, n) {
-        if (Nt && !W(n)) {
-          let e = `Exhausted all patterns without finding a match for input: ${JSON.stringify(t)}. Handle it, or use otherwise() for the fall-through case.`;
-          throw new Error(e);
+      function Q(t, e) {
+        if (Et && !K(e)) {
+          let n = `Exhausted all patterns without finding a match for input: ${JSON.stringify(t)}. Handle it, or use otherwise() for the fall-through case.`;
+          throw new Error(n);
         }
       }
-      function Dt(t) {
-        return (...n) => K(...n)(t);
+      function Kt(t) {
+        return (...e) => Z(...e)(t);
       }
-      var K = (...t) => (n) => {
-        let [e, o] = pt(n) ? [{}, Array.from(n)] : Ot(n) || ht(n) ? [{ isMap: true }, n.entries()] : St(n) ? [{ isSet: true }, n.values()] : [{}, n];
-        if (!G(o)) {
-          let s = o, { found: w, result: f } = J(...t)(s);
-          if (w)
-            return f;
-          let I = It(t, W);
-          return B(s, I), f;
+      var Z = (...t) => (e) => {
+        let [n, s] = St(e) ? [{}, Array.from(e)] : Ft(e) || Nt(e) ? [{ isMap: true }, e.entries()] : yt(e) ? [{ isSet: true }, e.values()] : [{}, e];
+        if (!Y(s)) {
+          let i = s, { found: g, result: f } = T(...t)(i);
+          if (g) return f;
+          let S = At(t, K);
+          return Q(i, S), f;
         }
-        let r = o, [u, p] = t.reduce(([s, w], f) => W(f) ? [f, w] : [s, [...w, f]], [() => ({ value: () => {
-        } }), []]), c = [];
+        let r = s, [c, u] = t.reduce(([i, g], f) => K(f) ? [f, g] : [i, [...g, f]], [() => ({ value: () => {
+        } }), []]), o = [];
         do {
-          let { value: s, done: w } = r.next();
-          if (w)
-            return B(r, u), u().value();
-          c.push(s);
-          let { found: f, result: I } = J(...p)(e.isSet ? s : e.isMap ? { key: s[0], value: s[1] } : [...c]);
-          if (f)
-            return I;
-        } while (c.length < O || e.isSet || e.isMap);
-        throw new Error(`Hit iterationLimit: ${O}. Use setIterationLimit(Infinity) to disable.`);
+          let { value: i, done: g } = r.next();
+          if (g) return Q(r, c), c().value();
+          o.push(i);
+          let { found: f, result: S } = T(...u)(n.isSet ? i : n.isMap ? { key: i[0], value: i[1] } : [...o]);
+          if (f) return S;
+        } while (o.length < O2 || n.isSet || n.isMap);
+        throw new Error(`Hit iterationLimit: ${O2}. Use setIterationLimit(Infinity) to disable.`);
       };
-      var J = (...t) => {
-        let n;
-        return (e) => ({ found: !!t.find((r) => {
-          let u = r(e), { matched: p, value: c } = u || {};
-          return [p, c].every(m) ? p(e) && (n = c(e), true) : u && (n = u);
-        }), result: n });
+      var T = (...t) => {
+        let e;
+        return (n) => ({ found: !!t.find((r) => {
+          let c = r(n), { matched: u, value: o } = c || {};
+          return [u, o].every(a) ? u(n) && (e = o(n), true) : c && (e = c);
+        }), result: e });
       };
-      var Q = Symbol("@@match-iz/otherwise");
-      var W = (t) => (t == null ? void 0 : t[Q]) === true;
-      var Ft = (t) => {
-        let n = (e) => ({ matched: () => true, value: () => m(t) ? t(e) : t });
-        return n[Q] = true, n;
+      var R = "@@match-iz/rest";
+      var Pt = (t) => a(t == null ? void 0 : t[R]);
+      var Rt = (t) => t[R];
+      var _ = /* @__PURE__ */ Symbol("@@match-iz/otherwise");
+      var K = (t) => (t == null ? void 0 : t[_]) === true;
+      var Wt = (t) => {
+        let e = (n) => ({ matched: () => true, value: () => a(t) ? t(n) : t });
+        return e[_] = true, e;
       };
-      var F = (t) => (n) => (e) => ({ matched: () => i(t, e, (o) => e = o), value: () => m(n) ? b(e) && A(t) ? n(...At(e.match(t))) : n(e) : n });
-      var Wt = (...t) => {
+      var A = (t) => (e) => (n) => {
+        let s = { haystack: n };
+        return { matched: () => l(t, n, (r) => n = r, s), value: () => a(e) ? v(n) && P(t) ? e(...jt(n.match(t))) : e(n, s.rest) : e };
+      };
+      var Lt = (...t) => {
         if (t.length === 1) {
-          let [n] = t;
-          return F(n);
+          let [e] = t;
+          return A(e);
         }
         if (t.length === 2) {
-          let [n, e] = t;
-          return F(n)(e);
+          let [e, n] = t;
+          return A(e)(n);
         }
         if (t.length > 2) {
-          let n = t.slice(-1)[0], e = t.slice(0, -1);
-          return F(Y(e))(n);
+          let e = t.slice(-1)[0], n = t.slice(0, -1);
+          return A(tt(n))(e);
         }
         throw new Error("Expected at least 1 argument");
       };
-      var At = (t) => {
-        let { groups: n } = t;
-        return n ? [n, t] : [t];
+      var jt = (t) => {
+        let { groups: e } = t;
+        return e ? [e, t] : [t];
       };
-      var i = (t, n, e) => g(t) ? S(t).every((o) => i(t[o], n == null ? void 0 : n[o], e)) : l(t) ? l(n) && t.length === n.length && t.every((o, r) => i(o, n == null ? void 0 : n[r], e)) : m(t) ? t(n, e) : b(n) && A(t) ? t.test(n) : t === n || [t, n].every(Number.isNaN);
-      var Mt = (...t) => (n, e) => t.length === 0 || (m(t[0]) ? t[0](n) : i(t[0], n, e)) ? (e(n), true) : false;
-      var Lt = (t, n) => [t, n].every(g) ? S(t).length === S(n).length : true;
-      var T = (t) => (n, e) => Lt(t, n) && i(t, n, e);
-      var Pt = (t) => M(t, (n) => g(n) ? T(n) : n);
-      var qt = (t) => (n, e) => !i(t, n, e);
-      var X = (...t) => (n, e) => t.flat().some((o) => i(o, n, e));
-      var Y = (...t) => (n, e) => t.flat().every((o) => i(o, n, e));
-      var Ct = (t) => j((n) => n.every((e) => i(t, e)));
-      var Ht = (t) => j((n) => n.some((e) => i(t, e)));
-      var Rt = (...t) => L((n, e) => t.length <= n.length && i(t, n.slice(0, t.length), e));
-      var Vt = (...t) => L((n, e) => t.length <= n.length && i(t, n.slice(n.length - t.length), e));
-      var Z = (t) => t !== t || !t && t !== 0 && t !== false || l(t) && !t.length || g(t) && !S(t).length;
-      var $t = (t) => !Z(t);
-      var at = (t) => v((n) => n > t);
-      var zt = (t) => v((n) => n < t);
-      var Bt = (t) => v((n) => n >= t);
-      var Jt = (t) => v((n) => n <= t);
-      var Ut = (t, n) => v((e) => e >= Math.min(t, n) && e <= Math.max(t, n));
-      var Gt = (t) => _((n) => n.startsWith(t));
-      var Kt = (t) => _((n) => n.endsWith(t));
-      var Qt = (t) => L((n) => n.includes(t));
-      var Tt = X;
-      var Xt = (t) => (n) => n === t;
-      var Yt = (...t) => (n) => g(n) && (([e, o]) => e.length && e.every((r) => o.includes(r)))([t.flat(), S(n)]);
-      var Zt = (e) => {
-        var o = e, { getValue: t } = o, n = H(o, ["getValue"]);
-        return bt(n).reduce((r, [u, p]) => vt(r, { [u]: (c) => (s) => ({ matched: () => p(s), value: () => m(c) ? c(t(s)) : c }) }), {});
+      var l = (t, e, n, s = { haystack: e }) => d(t) ? h(t).every((r) => (s.consumedKeys = s.consumedKeys || [], s.consumedKeys.push(r), s.key = r, l(t[r], e == null ? void 0 : e[r], n, s))) : p(t) ? p(e) && t.every((r, c) => {
+        let u = Pt(r) ? Rt(r) : r;
+        return s.key = c, l(u, e == null ? void 0 : e[c], n, s);
+      }) : a(t) ? t(e, n, s) : v(e) && P(t) ? t.test(e) : t === e || [t, e].every(Number.isNaN);
+      var qt = (...t) => (e, n, s) => t.length === 0 || (a(t[0]) ? t[0](e) : l(t[0], e, n, s)) ? (n(e), true) : false;
+      var zt = (...t) => {
+        let e = t.length === 0 ? () => true : t[0], n = () => e, s = (c) => (u, o) => E(u, { [o]: c.haystack[o] }), r = (c, u) => E(c, { [u]: e });
+        return { [R]: (c, u, o) => {
+          if (d(o.haystack)) {
+            let i = [], g = h(o.haystack).reduce((q, I) => ((o.consumedKeys || []).includes(I) ? i.push(I) : q.push(I), q), []), f = i.reduce(s(o), {}), S = g.reduce(r, {}), j = l(E({}, f, S), o.haystack, u);
+            return j && (o.rest = g.reduce(s(o), {})), j;
+          }
+          if (p(o.haystack)) {
+            let i = o.haystack.slice(0, o.key), g = o.haystack.slice(o.key).map(n), f = l(i.concat(g), o.haystack, u);
+            return f && (o.rest = o.haystack.slice(o.key)), f;
+          }
+          return false;
+        } };
       };
-      var _t = (t) => !!t;
-      var jt = (t) => !t;
-      var yt = (t) => (n, e) => (n[e] = M(n[e], t), n);
-      var kt = (t) => (n) => M(n, t);
-      var M = (t, n) => n(g(t) ? S(t).reduce(yt(n), C({}, t)) : l(t) ? t.map(kt(n)) : t);
-      var tn = (t) => new Proxy({}, { get: () => t });
-      var _ = (t) => (n) => b(n) && t(n);
-      var v = (t) => (n) => U(n) && t(n);
-      var j = (t) => (n, e) => l(n) && t(n, e);
-      var L = (t) => (n, e) => (l(n) || b(n)) && t(n, e);
+      var Ct = (t, e) => [t, e].every(p) ? t.length === e.length : [t, e].every(d) ? h(t).length === h(e).length : true;
+      var x = (t) => (e, n, s) => Ct(t, e) && l(t, e, n, s);
+      var Ht = (t) => W(t, (e) => d(e) ? x(e) : e);
+      var Vt = (t) => (e, n, s) => !l(t, e, n, s);
+      var k = (...t) => (e, n, s) => t.flat().some((r) => l(r, e, n, s));
+      var tt = (...t) => (e, n, s) => t.flat().every((r) => l(r, e, n, s));
+      var $t = (t) => st((e, n, s) => e.every((r) => l(t, r, n, s)));
+      var Bt = (t) => st((e, n, s) => e.some((r) => l(t, r, n, s)));
+      var Jt = (...t) => L((e, n, s) => t.length <= e.length && l(t, e.slice(0, t.length), n, s));
+      var Ut = (...t) => L((e, n, s) => t.length <= e.length && l(t, e.slice(e.length - t.length), n, s));
+      var et = (t) => t !== t || !t && t !== 0 && t !== false || p(t) && !t.length || d(t) && !h(t).length;
+      var Gt = (t) => !et(t);
+      var Qt = (t) => F((e) => e > t);
+      var Tt = (t) => F((e) => e < t);
+      var Xt = (t) => F((e) => e >= t);
+      var Yt = (t) => F((e) => e <= t);
+      var Zt = (t, e) => F((n) => n >= Math.min(t, e) && n <= Math.max(t, e));
+      var _t = (t) => nt((e) => e.startsWith(t));
+      var xt = (t) => nt((e) => e.endsWith(t));
+      var kt = (t) => L((e) => e.includes(t));
+      var te = k;
+      var ee = (t) => (e) => e === t;
+      var ne = (...t) => (e) => d(e) && (([n, s]) => n.length && n.every((r) => s.includes(r)))([t.flat(), h(e)]);
+      var se = (n) => {
+        var s = n, { getValue: t } = s, e = V(s, ["getValue"]);
+        return Dt(e).reduce((r, [c, u]) => E(r, { [c]: (o) => (i) => ({ matched: () => u(i), value: () => a(o) ? o(t(i)) : o }) }), {});
+      };
+      var re = (t) => !!t;
+      var oe = (t) => !t;
+      var ie = (t) => (e, n) => (e[n] = W(e[n], t), e);
+      var ce = (t) => (e) => W(e, t);
+      var W = (t, e) => e(d(t) ? h(t).reduce(ie(e), H({}, t)) : p(t) ? t.map(ce(e)) : t);
+      var ue = (t) => new Proxy({}, { get: () => t });
+      var nt = (t) => (e) => v(e) && t(e);
+      var F = (t) => (e) => X(e) && t(e);
+      var st = (t) => (e, n, s) => p(e) && t(e, n, s);
+      var L = (t) => (e, n, s) => (p(e) || v(e)) && t(e, n, s);
     }
   });
 
@@ -297,7 +316,7 @@
     "node_modules/.pnpm/jmespath@0.16.0/node_modules/jmespath/jmespath.js"(exports) {
       (function(exports2) {
         "use strict";
-        function isArray3(obj) {
+        function isArray4(obj) {
           if (obj !== null) {
             return Object.prototype.toString.call(obj) === "[object Array]";
           } else {
@@ -319,7 +338,7 @@
           if (firstType !== Object.prototype.toString.call(second)) {
             return false;
           }
-          if (isArray3(first) === true) {
+          if (isArray4(first) === true) {
             if (first.length !== second.length) {
               return false;
             }
@@ -354,7 +373,7 @@
         function isFalse(obj) {
           if (obj === "" || obj === false || obj === null) {
             return true;
-          } else if (isArray3(obj) && obj.length === 0) {
+          } else if (isArray4(obj) && obj.length === 0) {
             return true;
           } else if (isObject2(obj)) {
             for (var key in obj) {
@@ -1096,7 +1115,7 @@
                 right = this.visit(node.children[1], left);
                 return right;
               case "Index":
-                if (!isArray3(value)) {
+                if (!isArray4(value)) {
                   return null;
                 }
                 var index = node.value;
@@ -1109,7 +1128,7 @@
                 }
                 return result;
               case "Slice":
-                if (!isArray3(value)) {
+                if (!isArray4(value)) {
                   return null;
                 }
                 var sliceParams = node.children.slice(0);
@@ -1130,7 +1149,7 @@
                 return result;
               case "Projection":
                 var base = this.visit(node.children[0], value);
-                if (!isArray3(base)) {
+                if (!isArray4(base)) {
                   return null;
                 }
                 collected = [];
@@ -1157,7 +1176,7 @@
                 return collected;
               case "FilterProjection":
                 base = this.visit(node.children[0], value);
-                if (!isArray3(base)) {
+                if (!isArray4(base)) {
                   return null;
                 }
                 var filtered = [];
@@ -1203,13 +1222,13 @@
                 return result;
               case TOK_FLATTEN:
                 var original = this.visit(node.children[0], value);
-                if (!isArray3(original)) {
+                if (!isArray4(original)) {
                   return null;
                 }
                 var merged = [];
                 for (i = 0; i < original.length; i++) {
                   current2 = original[i];
-                  if (isArray3(current2)) {
+                  if (isArray4(current2)) {
                     merged.push.apply(merged, current2);
                   } else {
                     merged.push(current2);
@@ -1837,8 +1856,7 @@
         let canRun = true;
         const [throttle, clear] = makeDebouncer(ms, () => canRun = true);
         const throttledFn = (...args) => {
-          if (!canRun)
-            return;
+          if (!canRun) return;
           canRun = false;
           throttle();
           fn(...args);
@@ -1993,9 +2011,9 @@
         let running = 0;
         const pending = /* @__PURE__ */ new Set();
         return (promiseMakerFn) => {
-          const [promise, O, X] = makePromise();
+          const [promise, O2, X] = makePromise();
           promise.finally(() => (running -= 1, next()));
-          pending.add({ promiseMakerFn, O, X });
+          pending.add({ promiseMakerFn, O: O2, X });
           next();
           return promise;
         };
@@ -2077,45 +2095,58 @@
     }
   };
 
-  // node_modules/.pnpm/immer@10.1.1/node_modules/immer/dist/immer.mjs
-  var NOTHING = Symbol.for("immer-nothing");
-  var DRAFTABLE = Symbol.for("immer-draftable");
-  var DRAFT_STATE = Symbol.for("immer-state");
+  // node_modules/.pnpm/immer@11.1.15/node_modules/immer/dist/immer.mjs
+  var NOTHING = /* @__PURE__ */ Symbol.for("immer-nothing");
+  var DRAFTABLE = /* @__PURE__ */ Symbol.for("immer-draftable");
+  var DRAFT_STATE = /* @__PURE__ */ Symbol.for("immer-state");
   function die(error, ...args) {
     if (false) {
       const e = errors[error];
-      const msg = typeof e === "function" ? e.apply(null, args) : e;
+      const msg = isFunction2(e) ? e.apply(null, args) : e;
       throw new Error(`[Immer] ${msg}`);
     }
     throw new Error(
       `[Immer] minified error nr: ${error}. Full error at: https://bit.ly/3cXEKWf`
     );
   }
-  var getPrototypeOf = Object.getPrototypeOf;
-  function isDraft(value) {
-    return !!value && !!value[DRAFT_STATE];
-  }
+  var O = Object;
+  var getPrototypeOf = O.getPrototypeOf;
+  var CONSTRUCTOR = "constructor";
+  var PROTOTYPE = "prototype";
+  var CONFIGURABLE = "configurable";
+  var ENUMERABLE = "enumerable";
+  var WRITABLE = "writable";
+  var VALUE = "value";
+  var isDraft = (value) => !!value && !!value[DRAFT_STATE];
   function isDraftable(value) {
     if (!value)
       return false;
-    return isPlainObject(value) || Array.isArray(value) || !!value[DRAFTABLE] || !!value.constructor?.[DRAFTABLE] || isMap(value) || isSet(value);
+    return isPlainObject(value) || isArray2(value) || !!value[DRAFTABLE] || !!value[CONSTRUCTOR]?.[DRAFTABLE] || isMap(value) || isSet(value);
   }
-  var objectCtorString = Object.prototype.constructor.toString();
+  var objectCtorString = O[PROTOTYPE][CONSTRUCTOR].toString();
+  var cachedCtorStrings = /* @__PURE__ */ new WeakMap();
   function isPlainObject(value) {
-    if (!value || typeof value !== "object")
+    if (!value || !isObjectish(value))
       return false;
     const proto = getPrototypeOf(value);
-    if (proto === null) {
+    if (proto === null || proto === O[PROTOTYPE])
       return true;
-    }
-    const Ctor = Object.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+    const Ctor = O.hasOwnProperty.call(proto, CONSTRUCTOR) && proto[CONSTRUCTOR];
     if (Ctor === Object)
       return true;
-    return typeof Ctor == "function" && Function.toString.call(Ctor) === objectCtorString;
+    if (!isFunction2(Ctor))
+      return false;
+    let ctorString = cachedCtorStrings.get(Ctor);
+    if (ctorString === void 0) {
+      ctorString = Function.toString.call(Ctor);
+      cachedCtorStrings.set(Ctor, ctorString);
+    }
+    return ctorString === objectCtorString;
   }
-  function each(obj, iter) {
+  function each(obj, iter, strict = true) {
     if (getArchtype(obj) === 0) {
-      Reflect.ownKeys(obj).forEach((key) => {
+      const keys = strict ? Reflect.ownKeys(obj) : O.keys(obj);
+      keys.forEach((key) => {
         iter(key, obj[key], obj);
       });
     } else {
@@ -2124,20 +2155,21 @@
   }
   function getArchtype(thing) {
     const state = thing[DRAFT_STATE];
-    return state ? state.type_ : Array.isArray(thing) ? 1 : isMap(thing) ? 2 : isSet(thing) ? 3 : 0;
+    return state ? state.type_ : isArray2(thing) ? 1 : isMap(thing) ? 2 : isSet(thing) ? 3 : 0;
   }
-  function has(thing, prop) {
-    return getArchtype(thing) === 2 ? thing.has(prop) : Object.prototype.hasOwnProperty.call(thing, prop);
-  }
-  function set(thing, propOrOldValue, value) {
-    const t = getArchtype(thing);
-    if (t === 2)
+  var has = (thing, prop, type = getArchtype(thing)) => type === 2 ? thing.has(prop) : O[PROTOTYPE].hasOwnProperty.call(thing, prop);
+  var get = (thing, prop, type = getArchtype(thing)) => (
+    // @ts-ignore
+    type === 2 ? thing.get(prop) : thing[prop]
+  );
+  var set = (thing, propOrOldValue, value, type = getArchtype(thing)) => {
+    if (type === 2)
       thing.set(propOrOldValue, value);
-    else if (t === 3) {
+    else if (type === 3) {
       thing.add(value);
     } else
       thing[propOrOldValue] = value;
-  }
+  };
   function is(x, y) {
     if (x === y) {
       return x !== 0 || 1 / x === 1 / y;
@@ -2145,15 +2177,18 @@
       return x !== x && y !== y;
     }
   }
-  function isMap(target) {
-    return target instanceof Map;
+  var isArray2 = Array.isArray;
+  var isMap = (target) => target instanceof Map;
+  var isSet = (target) => target instanceof Set;
+  var isObjectish = (target) => typeof target === "object";
+  var isFunction2 = (target) => typeof target === "function";
+  var isBoolean = (target) => typeof target === "boolean";
+  function isArrayIndex(value) {
+    const n = +value;
+    return Number.isInteger(n) && String(n) === value;
   }
-  function isSet(target) {
-    return target instanceof Set;
-  }
-  function latest(state) {
-    return state.copy_ || state.base_;
-  }
+  var latest = (state) => state.copy_ || state.base_;
+  var getFinalValue = (state) => state.modified_ ? state.copy_ : state.base_;
   function shallowCopy(base, strict) {
     if (isMap(base)) {
       return new Map(base);
@@ -2161,56 +2196,75 @@
     if (isSet(base)) {
       return new Set(base);
     }
-    if (Array.isArray(base))
-      return Array.prototype.slice.call(base);
+    if (isArray2(base))
+      return Array[PROTOTYPE].slice.call(base);
     const isPlain = isPlainObject(base);
     if (strict === true || strict === "class_only" && !isPlain) {
-      const descriptors = Object.getOwnPropertyDescriptors(base);
+      const descriptors = O.getOwnPropertyDescriptors(base);
       delete descriptors[DRAFT_STATE];
       let keys = Reflect.ownKeys(descriptors);
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         const desc = descriptors[key];
-        if (desc.writable === false) {
-          desc.writable = true;
-          desc.configurable = true;
+        if (desc[WRITABLE] === false) {
+          desc[WRITABLE] = true;
+          desc[CONFIGURABLE] = true;
         }
         if (desc.get || desc.set)
           descriptors[key] = {
-            configurable: true,
-            writable: true,
+            [CONFIGURABLE]: true,
+            [WRITABLE]: true,
             // could live with !!desc.set as well here...
-            enumerable: desc.enumerable,
-            value: base[key]
+            [ENUMERABLE]: desc[ENUMERABLE],
+            [VALUE]: base[key]
           };
       }
-      return Object.create(getPrototypeOf(base), descriptors);
+      return O.create(getPrototypeOf(base), descriptors);
     } else {
       const proto = getPrototypeOf(base);
       if (proto !== null && isPlain) {
         return { ...base };
       }
-      const obj = Object.create(proto);
-      return Object.assign(obj, base);
+      const obj = O.create(proto);
+      return O.assign(obj, base);
     }
   }
   function freeze(obj, deep = false) {
     if (isFrozen(obj) || isDraft(obj) || !isDraftable(obj))
       return obj;
     if (getArchtype(obj) > 1) {
-      obj.set = obj.add = obj.clear = obj.delete = dontMutateFrozenCollections;
+      O.defineProperties(obj, {
+        set: dontMutateMethodOverride,
+        add: dontMutateMethodOverride,
+        clear: dontMutateMethodOverride,
+        delete: dontMutateMethodOverride
+      });
     }
-    Object.freeze(obj);
+    O.freeze(obj);
     if (deep)
-      Object.entries(obj).forEach(([key, value]) => freeze(value, true));
+      each(
+        obj,
+        (_key, value) => {
+          freeze(value, true);
+        },
+        false
+      );
     return obj;
   }
   function dontMutateFrozenCollections() {
     die(2);
   }
+  var dontMutateMethodOverride = {
+    [VALUE]: dontMutateFrozenCollections
+  };
   function isFrozen(obj) {
-    return Object.isFrozen(obj);
+    if (obj === null || !isObjectish(obj))
+      return true;
+    return O.isFrozen(obj);
   }
+  var PluginMapSet = "MapSet";
+  var PluginPatches = "Patches";
+  var PluginArrayMethods = "ArrayMethods";
   var plugins = {};
   function getPlugin(pluginKey) {
     const plugin = plugins[pluginKey];
@@ -2219,24 +2273,25 @@
     }
     return plugin;
   }
+  var isPluginLoaded = (pluginKey) => !!plugins[pluginKey];
   var currentScope;
-  function getCurrentScope() {
-    return currentScope;
-  }
-  function createScope(parent_, immer_) {
-    return {
-      drafts_: [],
-      parent_,
-      immer_,
-      // Whenever the modified draft contains a draft from another scope, we
-      // need to prevent auto-freezing so the unowned draft can be finalized.
-      canAutoFreeze_: true,
-      unfinalizedDrafts_: 0
-    };
-  }
+  var getCurrentScope = () => currentScope;
+  var createScope = (parent_, immer_) => ({
+    drafts_: [],
+    parent_,
+    immer_,
+    // Whenever the modified draft contains a draft from another scope, we
+    // need to prevent auto-freezing so the unowned draft can be finalized.
+    canAutoFreeze_: true,
+    unfinalizedDrafts_: 0,
+    handledSet_: /* @__PURE__ */ new Set(),
+    processedForPatches_: /* @__PURE__ */ new Set(),
+    mapSetPlugin_: isPluginLoaded(PluginMapSet) ? getPlugin(PluginMapSet) : void 0,
+    arrayMethodsPlugin_: isPluginLoaded(PluginArrayMethods) ? getPlugin(PluginArrayMethods) : void 0
+  });
   function usePatchesInScope(scope, patchListener) {
     if (patchListener) {
-      getPlugin("Patches");
+      scope.patchPlugin_ = getPlugin(PluginPatches);
       scope.patches_ = [];
       scope.inversePatches_ = [];
       scope.patchListener_ = patchListener;
@@ -2252,9 +2307,7 @@
       currentScope = scope.parent_;
     }
   }
-  function enterScope(immer2) {
-    return currentScope = createScope(currentScope, immer2);
-  }
+  var enterScope = (immer2) => currentScope = createScope(currentScope, immer2);
   function revokeDraft(draft) {
     const state = draft[DRAFT_STATE];
     if (state.type_ === 0 || state.type_ === 1)
@@ -2273,103 +2326,170 @@
       }
       if (isDraftable(result)) {
         result = finalize(scope, result);
-        if (!scope.parent_)
-          maybeFreeze(scope, result);
       }
-      if (scope.patches_) {
-        getPlugin("Patches").generateReplacementPatches_(
+      const { patchPlugin_ } = scope;
+      if (patchPlugin_) {
+        patchPlugin_.generateReplacementPatches_(
           baseDraft[DRAFT_STATE].base_,
           result,
-          scope.patches_,
-          scope.inversePatches_
+          scope
         );
       }
     } else {
-      result = finalize(scope, baseDraft, []);
+      result = finalize(scope, baseDraft);
     }
+    maybeFreeze(scope, result, true);
     revokeScope(scope);
     if (scope.patches_) {
       scope.patchListener_(scope.patches_, scope.inversePatches_);
     }
     return result !== NOTHING ? result : void 0;
   }
-  function finalize(rootScope, value, path) {
+  function finalize(rootScope, value) {
     if (isFrozen(value))
       return value;
     const state = value[DRAFT_STATE];
     if (!state) {
-      each(
-        value,
-        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path)
-      );
+      const finalValue = handleValue(value, rootScope.handledSet_, rootScope);
+      return finalValue;
+    }
+    if (!isSameScope(state, rootScope)) {
       return value;
     }
-    if (state.scope_ !== rootScope)
-      return value;
     if (!state.modified_) {
-      maybeFreeze(rootScope, state.base_, true);
       return state.base_;
     }
     if (!state.finalized_) {
-      state.finalized_ = true;
-      state.scope_.unfinalizedDrafts_--;
-      const result = state.copy_;
-      let resultEach = result;
-      let isSet2 = false;
-      if (state.type_ === 3) {
-        resultEach = new Set(result);
-        result.clear();
-        isSet2 = true;
+      const { callbacks_ } = state;
+      if (callbacks_) {
+        while (callbacks_.length > 0) {
+          const callback = callbacks_.pop();
+          callback(rootScope);
+        }
       }
-      each(
-        resultEach,
-        (key, childValue) => finalizeProperty(rootScope, state, result, key, childValue, path, isSet2)
-      );
-      maybeFreeze(rootScope, result, false);
-      if (path && rootScope.patches_) {
-        getPlugin("Patches").generatePatches_(
-          state,
-          path,
-          rootScope.patches_,
-          rootScope.inversePatches_
-        );
-      }
+      generatePatchesAndFinalize(state, rootScope);
     }
     return state.copy_;
-  }
-  function finalizeProperty(rootScope, parentState, targetObject, prop, childValue, rootPath, targetIsSet) {
-    if (false)
-      die(5);
-    if (isDraft(childValue)) {
-      const path = rootPath && parentState && parentState.type_ !== 3 && // Set objects are atomic since they have no keys.
-      !has(parentState.assigned_, prop) ? rootPath.concat(prop) : void 0;
-      const res = finalize(rootScope, childValue, path);
-      set(targetObject, prop, res);
-      if (isDraft(res)) {
-        rootScope.canAutoFreeze_ = false;
-      } else
-        return;
-    } else if (targetIsSet) {
-      targetObject.add(childValue);
-    }
-    if (isDraftable(childValue) && !isFrozen(childValue)) {
-      if (!rootScope.immer_.autoFreeze_ && rootScope.unfinalizedDrafts_ < 1) {
-        return;
-      }
-      finalize(rootScope, childValue);
-      if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && Object.prototype.propertyIsEnumerable.call(targetObject, prop))
-        maybeFreeze(rootScope, childValue);
-    }
   }
   function maybeFreeze(scope, value, deep = false) {
     if (!scope.parent_ && scope.immer_.autoFreeze_ && scope.canAutoFreeze_) {
       freeze(value, deep);
     }
   }
+  function markStateFinalized(state) {
+    state.finalized_ = true;
+    state.scope_.unfinalizedDrafts_--;
+  }
+  var isSameScope = (state, rootScope) => state.scope_ === rootScope;
+  var EMPTY_LOCATIONS_RESULT = [];
+  function updateDraftInParent(parent, draftValue, finalizedValue, originalKey) {
+    const parentCopy = latest(parent);
+    const parentType = parent.type_;
+    if (originalKey !== void 0) {
+      const currentValue = get(parentCopy, originalKey, parentType);
+      if (currentValue === draftValue) {
+        set(parentCopy, originalKey, finalizedValue, parentType);
+        return;
+      }
+    }
+    if (!parent.draftLocations_) {
+      const draftLocations = parent.draftLocations_ = /* @__PURE__ */ new Map();
+      each(parentCopy, (key, value) => {
+        if (isDraft(value)) {
+          const keys = draftLocations.get(value) || [];
+          keys.push(key);
+          draftLocations.set(value, keys);
+        }
+      });
+    }
+    const locations = parent.draftLocations_.get(draftValue) ?? EMPTY_LOCATIONS_RESULT;
+    for (const location of locations) {
+      set(parentCopy, location, finalizedValue, parentType);
+    }
+  }
+  function registerChildFinalizationCallback(parent, child, key) {
+    parent.callbacks_.push(function childCleanup(rootScope) {
+      const state = child;
+      if (!state || !isSameScope(state, rootScope)) {
+        return;
+      }
+      rootScope.mapSetPlugin_?.fixSetContents(state);
+      const finalizedValue = getFinalValue(state);
+      updateDraftInParent(parent, state.draft_ ?? state, finalizedValue, key);
+      generatePatchesAndFinalize(state, rootScope);
+    });
+  }
+  function generatePatchesAndFinalize(state, rootScope) {
+    const shouldFinalize = state.modified_ && !state.finalized_ && (state.type_ === 3 || state.type_ === 1 && state.allIndicesReassigned_ || (state.assigned_?.size ?? 0) > 0);
+    if (shouldFinalize) {
+      const { patchPlugin_ } = rootScope;
+      if (patchPlugin_) {
+        const basePath = patchPlugin_.getPath(state);
+        if (basePath) {
+          patchPlugin_.generatePatches_(state, basePath, rootScope);
+        }
+      }
+      markStateFinalized(state);
+    }
+  }
+  function handleCrossReference(target, key, value) {
+    const { scope_ } = target;
+    if (isDraft(value)) {
+      const state = value[DRAFT_STATE];
+      if (isSameScope(state, scope_)) {
+        state.callbacks_.push(function crossReferenceCleanup() {
+          prepareCopy(target);
+          const finalizedValue = getFinalValue(state);
+          updateDraftInParent(target, value, finalizedValue, key);
+        });
+      }
+    } else if (isDraftable(value)) {
+      target.callbacks_.push(function nestedDraftCleanup() {
+        const targetCopy = latest(target);
+        if (target.type_ === 3) {
+          if (targetCopy.has(value)) {
+            handleValue(value, scope_.handledSet_, scope_);
+          }
+        } else {
+          if (get(targetCopy, key, target.type_) === value) {
+            if (scope_.drafts_.length > 1 && (target.assigned_.get(key) ?? false) === true && target.copy_) {
+              handleValue(
+                get(target.copy_, key, target.type_),
+                scope_.handledSet_,
+                scope_
+              );
+            }
+          }
+        }
+      });
+    }
+  }
+  function handleValue(target, handledSet, rootScope) {
+    if (!rootScope.immer_.autoFreeze_ && rootScope.unfinalizedDrafts_ < 1) {
+      return target;
+    }
+    if (isDraft(target) || handledSet.has(target) || !isDraftable(target) || isFrozen(target)) {
+      return target;
+    }
+    handledSet.add(target);
+    each(target, (key, value) => {
+      if (isDraft(value)) {
+        const state = value[DRAFT_STATE];
+        if (isSameScope(state, rootScope)) {
+          const updatedValue = getFinalValue(state);
+          set(target, key, updatedValue, target.type_);
+          markStateFinalized(state);
+        }
+      } else if (isDraftable(value)) {
+        handleValue(value, handledSet, rootScope);
+      }
+    });
+    return target;
+  }
   function createProxyProxy(base, parent) {
-    const isArray3 = Array.isArray(base);
+    const baseIsArray = isArray2(base);
     const state = {
-      type_: isArray3 ? 1 : 0,
+      type_: baseIsArray ? 1 : 0,
       // Track which produce call this is associated with.
       scope_: parent ? parent.scope_ : getCurrentScope(),
       // True for both shallow and deep changes.
@@ -2377,7 +2497,8 @@
       // Used during finalization.
       finalized_: false,
       // Track which properties have been assigned (true) or deleted (false).
-      assigned_: {},
+      // actually instantiated in `prepareCopy()`
+      assigned_: void 0,
       // The parent draft state.
       parent_: parent,
       // The base state.
@@ -2389,34 +2510,50 @@
       copy_: null,
       // Called by the `produce` function.
       revoke_: null,
-      isManual_: false
+      isManual_: false,
+      // `callbacks` actually gets assigned in `createProxy`
+      callbacks_: void 0
     };
     let target = state;
     let traps = objectTraps;
-    if (isArray3) {
+    if (baseIsArray) {
       target = [state];
       traps = arrayTraps;
     }
     const { revoke, proxy } = Proxy.revocable(target, traps);
     state.draft_ = proxy;
     state.revoke_ = revoke;
-    return proxy;
+    return [proxy, state];
   }
   var objectTraps = {
     get(state, prop) {
       if (prop === DRAFT_STATE)
         return state;
+      let arrayPlugin = state.scope_.arrayMethodsPlugin_;
+      const isArrayWithStringProp = state.type_ === 1 && typeof prop === "string";
+      if (isArrayWithStringProp) {
+        if (arrayPlugin?.isArrayOperationMethod(prop)) {
+          return arrayPlugin.createMethodInterceptor(state, prop);
+        }
+      }
       const source = latest(state);
-      if (!has(source, prop)) {
+      if (!has(source, prop, state.type_)) {
         return readPropFromProto(state, source, prop);
       }
       const value = source[prop];
       if (state.finalized_ || !isDraftable(value)) {
         return value;
       }
-      if (value === peek(state.base_, prop)) {
+      if (isArrayWithStringProp && state.operationMethod && arrayPlugin?.isMutatingArrayMethod(
+        state.operationMethod
+      ) && isArrayIndex(prop)) {
+        return value;
+      }
+      if (value === peek(state.base_, prop) || isRelocatedBaseRef(state, prop, value)) {
         prepareCopy(state);
-        return state.copy_[prop] = createProxy(value, state);
+        const childKey = state.type_ === 1 ? +prop : prop;
+        const childDraft = createProxy(state.scope_, value, state, childKey);
+        return state.copy_[childKey] = childDraft;
       }
       return value;
     },
@@ -2437,29 +2574,30 @@
         const currentState = current2?.[DRAFT_STATE];
         if (currentState && currentState.base_ === value) {
           state.copy_[prop] = value;
-          state.assigned_[prop] = false;
+          state.assigned_.set(prop, false);
           return true;
         }
-        if (is(value, current2) && (value !== void 0 || has(state.base_, prop)))
+        if (is(value, current2) && (value !== void 0 || has(state.base_, prop, state.type_)))
           return true;
         prepareCopy(state);
         markChanged(state);
       }
       if (state.copy_[prop] === value && // special case: handle new props with value 'undefined'
-      (value !== void 0 || prop in state.copy_) || // special case: NaN
+      (value !== void 0 || has(state.copy_, prop, state.type_)) || // special case: NaN
       Number.isNaN(value) && Number.isNaN(state.copy_[prop]))
         return true;
       state.copy_[prop] = value;
-      state.assigned_[prop] = true;
+      state.assigned_.set(prop, true);
+      handleCrossReference(state, prop, value);
       return true;
     },
     deleteProperty(state, prop) {
+      prepareCopy(state);
       if (peek(state.base_, prop) !== void 0 || prop in state.base_) {
-        state.assigned_[prop] = false;
-        prepareCopy(state);
+        state.assigned_.set(prop, false);
         markChanged(state);
       } else {
-        delete state.assigned_[prop];
+        state.assigned_.delete(prop);
       }
       if (state.copy_) {
         delete state.copy_[prop];
@@ -2474,10 +2612,10 @@
       if (!desc)
         return desc;
       return {
-        writable: true,
-        configurable: state.type_ !== 1 || prop !== "length",
-        enumerable: desc.enumerable,
-        value: owner[prop]
+        [WRITABLE]: true,
+        [CONFIGURABLE]: state.type_ !== 1 || prop !== "length",
+        [ENUMERABLE]: desc[ENUMERABLE],
+        [VALUE]: owner[prop]
       };
     },
     defineProperty() {
@@ -2491,12 +2629,14 @@
     }
   };
   var arrayTraps = {};
-  each(objectTraps, (key, fn) => {
+  for (let key in objectTraps) {
+    let fn = objectTraps[key];
     arrayTraps[key] = function() {
-      arguments[0] = arguments[0][0];
-      return fn.apply(this, arguments);
+      const args = arguments;
+      args[0] = args[0][0];
+      return fn.apply(this, args);
     };
-  });
+  }
   arrayTraps.deleteProperty = function(state, prop) {
     if (false)
       die(13);
@@ -2512,9 +2652,15 @@
     const source = state ? latest(state) : draft;
     return source[prop];
   }
+  function isRelocatedBaseRef(state, prop, value) {
+    if (state.type_ !== 1 || !state.allIndicesReassigned_ || state.assigned_?.get(prop) || !isDraftable(value) || value[DRAFT_STATE]) {
+      return false;
+    }
+    return state.baseRefs_.has(value);
+  }
   function readPropFromProto(state, source, prop) {
     const desc = getDescriptorFromProto(source, prop);
-    return desc ? `value` in desc ? desc.value : (
+    return desc ? VALUE in desc ? desc[VALUE] : (
       // This is a very special case, if the prop is a getter defined by the
       // prototype, we should invoke it with the draft as context!
       desc.get?.call(state.draft_)
@@ -2542,6 +2688,7 @@
   }
   function prepareCopy(state) {
     if (!state.copy_) {
+      state.assigned_ = /* @__PURE__ */ new Map();
       state.copy_ = shallowCopy(
         state.base_,
         state.scope_.immer_.useStrictShallowCopy_
@@ -2552,8 +2699,9 @@
     constructor(config) {
       this.autoFreeze_ = true;
       this.useStrictShallowCopy_ = false;
+      this.useStrictIteration_ = false;
       this.produce = (base, recipe, patchListener) => {
-        if (typeof base === "function" && typeof recipe !== "function") {
+        if (isFunction2(base) && !isFunction2(recipe)) {
           const defaultBase = recipe;
           recipe = base;
           const self2 = this;
@@ -2561,14 +2709,14 @@
             return self2.produce(base2, (draft) => recipe.call(this, draft, ...args));
           };
         }
-        if (typeof recipe !== "function")
+        if (!isFunction2(recipe))
           die(6);
-        if (patchListener !== void 0 && typeof patchListener !== "function")
+        if (patchListener !== void 0 && !isFunction2(patchListener))
           die(7);
         let result;
         if (isDraftable(base)) {
           const scope = enterScope(this);
-          const proxy = createProxy(base, void 0);
+          const proxy = createProxy(scope, base, void 0);
           let hasError = true;
           try {
             result = recipe(proxy);
@@ -2581,7 +2729,7 @@
           }
           usePatchesInScope(scope, patchListener);
           return processResult(result, scope);
-        } else if (!base || typeof base !== "object") {
+        } else if (!base || !isObjectish(base)) {
           result = recipe(base);
           if (result === void 0)
             result = base;
@@ -2592,7 +2740,10 @@
           if (patchListener) {
             const p = [];
             const ip = [];
-            getPlugin("Patches").generateReplacementPatches_(base, result, p, ip);
+            getPlugin(PluginPatches).generateReplacementPatches_(base, result, {
+              patches_: p,
+              inversePatches_: ip
+            });
             patchListener(p, ip);
           }
           return result;
@@ -2600,7 +2751,7 @@
           die(1, base);
       };
       this.produceWithPatches = (base, recipe) => {
-        if (typeof base === "function") {
+        if (isFunction2(base)) {
           return (state, ...args) => this.produceWithPatches(state, (draft) => base(draft, ...args));
         }
         let patches, inversePatches;
@@ -2610,10 +2761,12 @@
         });
         return [result, patches, inversePatches];
       };
-      if (typeof config?.autoFreeze === "boolean")
+      if (isBoolean(config?.autoFreeze))
         this.setAutoFreeze(config.autoFreeze);
-      if (typeof config?.useStrictShallowCopy === "boolean")
+      if (isBoolean(config?.useStrictShallowCopy))
         this.setUseStrictShallowCopy(config.useStrictShallowCopy);
+      if (isBoolean(config?.useStrictIteration))
+        this.setUseStrictIteration(config.useStrictIteration);
     }
     createDraft(base) {
       if (!isDraftable(base))
@@ -2621,7 +2774,7 @@
       if (isDraft(base))
         base = current(base);
       const scope = enterScope(this);
-      const proxy = createProxy(base, void 0);
+      const proxy = createProxy(scope, base, void 0);
       proxy[DRAFT_STATE].isManual_ = true;
       leaveScope(scope);
       return proxy;
@@ -2650,6 +2803,18 @@
     setUseStrictShallowCopy(value) {
       this.useStrictShallowCopy_ = value;
     }
+    /**
+     * Pass false to use faster iteration that skips non-enumerable properties
+     * but still handles symbols for compatibility.
+     *
+     * By default, strict iteration is enabled (includes all own properties).
+     */
+    setUseStrictIteration(value) {
+      this.useStrictIteration_ = value;
+    }
+    shouldUseStrictIteration() {
+      return this.useStrictIteration_;
+    }
     applyPatches(base, patches) {
       let i;
       for (i = patches.length - 1; i >= 0; i--) {
@@ -2662,7 +2827,7 @@
       if (i > -1) {
         patches = patches.slice(i + 1);
       }
-      const applyPatchesImpl = getPlugin("Patches").applyPatches_;
+      const applyPatchesImpl = getPlugin(PluginPatches).applyPatches_;
       if (isDraft(base)) {
         return applyPatchesImpl(base, patches);
       }
@@ -2672,10 +2837,23 @@
       );
     }
   };
-  function createProxy(value, parent) {
-    const draft = isMap(value) ? getPlugin("MapSet").proxyMap_(value, parent) : isSet(value) ? getPlugin("MapSet").proxySet_(value, parent) : createProxyProxy(value, parent);
-    const scope = parent ? parent.scope_ : getCurrentScope();
+  function createProxy(rootScope, value, parent, key) {
+    const [draft, state] = isMap(value) ? getPlugin(PluginMapSet).proxyMap_(value, parent) : isSet(value) ? getPlugin(PluginMapSet).proxySet_(value, parent) : createProxyProxy(value, parent);
+    const scope = parent?.scope_ ?? getCurrentScope();
     scope.drafts_.push(draft);
+    state.callbacks_ = parent?.callbacks_ ?? [];
+    state.key_ = key;
+    if (parent && key !== void 0) {
+      registerChildFinalizationCallback(parent, state, key);
+    } else {
+      state.callbacks_.push(function rootDraftCleanup(rootScope2) {
+        rootScope2.mapSetPlugin_?.fixSetContents(state);
+        const { patchPlugin_ } = rootScope2;
+        if (state.modified_ && patchPlugin_) {
+          patchPlugin_.generatePatches_(state, [], rootScope2);
+        }
+      });
+    }
     return draft;
   }
   function current(value) {
@@ -2688,17 +2866,23 @@
       return value;
     const state = value[DRAFT_STATE];
     let copy;
+    let strict = true;
     if (state) {
       if (!state.modified_)
         return state.base_;
       state.finalized_ = true;
       copy = shallowCopy(value, state.scope_.immer_.useStrictShallowCopy_);
+      strict = state.scope_.immer_.shouldUseStrictIteration();
     } else {
       copy = shallowCopy(value, true);
     }
-    each(copy, (key, childValue) => {
-      set(copy, key, currentImpl(childValue));
-    });
+    each(
+      copy,
+      (key, childValue) => {
+        set(copy, key, currentImpl(childValue));
+      },
+      strict
+    );
     if (state) {
       state.finalized_ = false;
     }
@@ -2706,20 +2890,11 @@
   }
   var immer = new Immer2();
   var produce = immer.produce;
-  var produceWithPatches = immer.produceWithPatches.bind(
-    immer
-  );
-  var setAutoFreeze = immer.setAutoFreeze.bind(immer);
-  var setUseStrictShallowCopy = immer.setUseStrictShallowCopy.bind(immer);
-  var applyPatches = immer.applyPatches.bind(immer);
-  var createDraft = immer.createDraft.bind(immer);
-  var finishDraft = immer.finishDraft.bind(immer);
 
   // src/common/esm/bus.js
   var import_regexp = __toESM(require_regexp());
   (function() {
-    if (typeof window.CustomEvent === "function")
-      return false;
+    if (typeof window.CustomEvent === "function") return false;
     function CustomEvent2(event, params) {
       params = params || { bubbles: false, cancelable: false, detail: null };
       const evt = document.createEvent("CustomEvent");
@@ -2728,11 +2903,11 @@
     }
     window.CustomEvent = CustomEvent2;
   })();
-  var messages = function() {
+  var messages = (function() {
     let global;
     try {
       global = window;
-    } catch (e) {
+    } catch {
       global = self;
     }
     const BUS = "message-bus";
@@ -2800,33 +2975,33 @@
       off,
       once
     };
-  }();
+  })();
 
   // src/common/esm/types.js
   function isEventEmitter(obj) {
-    return isObject(obj) && isFunction2(obj.emit) && (isFunction2(obj.addListener) || isFunction2(obj.on)) && (isFunction2(obj.removeListener) || isFunction2(obj.off));
+    return isObject(obj) && isFunction3(obj.emit) && (isFunction3(obj.addListener) || isFunction3(obj.on)) && (isFunction3(obj.removeListener) || isFunction3(obj.off));
   }
   isEventEmitter.displayName = "isEventEmitter";
   function isUnset(obj) {
     return obj === null || obj === void 0;
   }
-  isArray2.displayName = "isUnset";
-  function isArray2(obj) {
+  isArray3.displayName = "isUnset";
+  function isArray3(obj) {
     return Array.isArray(obj);
   }
-  isArray2.displayName = "isArray";
+  isArray3.displayName = "isArray";
   function isArguments(obj) {
     return Object.prototype.toString.call(obj) === "[object Arguments]";
   }
   isArguments.displayName = "isArguments";
-  function isBoolean(obj) {
+  function isBoolean2(obj) {
     return obj === true || obj === false;
   }
-  isBoolean.displayName = "isBoolean";
-  function isFunction2(obj) {
+  isBoolean2.displayName = "isBoolean";
+  function isFunction3(obj) {
     return typeof obj === "function";
   }
-  isFunction2.displayName = "isFunction";
+  isFunction3.displayName = "isFunction";
   function isString2(obj) {
     return typeof obj === "string";
   }
@@ -2854,7 +3029,7 @@
     if (isString2(obj)) {
       return true;
     }
-    if (!isArray2(obj)) {
+    if (!isArray3(obj)) {
       return false;
     }
     return obj.every(isString2);
@@ -2876,7 +3051,7 @@
     }
     const permittedArgTypes = Array.isArray(argType) ? argType : [argType];
     const errorDescs = permittedArgTypes.map(
-      (argType2) => isFunction2(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)
+      (argType2) => isFunction3(argType2) ? typeErrorStringIfFnReturnsFalse(argName, argType2, arg) : typeErrorStringIfTypeOfFails(argName, argType2, arg)
     ).filter(isString2);
     const multipleTypesSpecified = permittedArgTypes.length > 1;
     const shouldError = multipleTypesSpecified ? errorDescs.length > 1 : errorDescs.length;
@@ -3230,7 +3405,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
   var maybeTry = (f) => (x) => {
     try {
       return Just(f(x));
-    } catch (e) {
+    } catch {
       return Nothing();
     }
   };
@@ -3592,7 +3767,7 @@ ${err.map((err2) => `| ${err2}`).join("\n")}`;
       //
       "found_statements -> getting_entries": {
         on: actions.get.ENTRIES,
-        then: ({ accountsTransactionsQueries, yearsToDownload }) => {
+        then: ({ accountsTransactionsQueries }) => {
           const progress = updateProgressBar(accountsTransactionsQueries.length);
           progress(0);
           const fetchAccountsTransactionsJobs = accountsTransactionsQueries.map(
