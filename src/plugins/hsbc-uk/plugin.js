@@ -23,8 +23,7 @@ import { makePromisePool } from '@/cjs/promises'
 //   })
 // )
 
-const liveHost = 'https://www.hsbc.co.uk'
-
+// Same-origin on the live bank site and on the local mock-server.
 function getHost() {
   return ''
 }
@@ -239,7 +238,7 @@ obis.makePluginAvailable('hsbc-uk', () => {
     //
     'found_statements -> getting_entries': {
       on: actions.get.ENTRIES,
-      then: ({ accountsTransactionsQueries, yearsToDownload }) => {
+      then: ({ accountsTransactionsQueries }) => {
         const progress = updateProgressBar(accountsTransactionsQueries.length)
         progress(0)
 

@@ -5,7 +5,6 @@
 import { makeRegExpFromWildcardString } from '@/cjs/regexp'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#polyfill
-// eslint-disable-next-line no-extra-semi
 ;(function () {
   if (typeof window.CustomEvent === 'function') return false
 
@@ -23,7 +22,7 @@ const messages = (function () {
   let global
   try {
     global = window
-  } catch (e) {
+  } catch {
     global = self
   }
 
