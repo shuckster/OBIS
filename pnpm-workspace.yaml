@@ -1,4 +1,20 @@
+# pnpm v11+ reads project settings from this file (not package.json "pnpm").
 allowBuilds:
   esbuild: true
+minimumReleaseAgeExclude:
+  - brace-expansion@5.0.8
 onlyBuiltDependencies:
   - esbuild
+
+# Force patched transitive versions for Dependabot-flagged packages.
+# Direct deps are already current; these sit under socket.io / eslint /
+# esbuild-plugin-sass / nodemon / mithril-hooks.
+overrides:
+  ws: ^8.21.1
+  flatted: ^3.4.3
+  immutable: ^4.3.9
+  tmp: ^0.2.7
+  picomatch@2: 2.3.2
+  brace-expansion@1: ^1.1.16
+  brace-expansion@5: ^5.0.8
+  minimatch@3: ^3.1.5
