@@ -31,13 +31,17 @@ import { Years } from './Years'
 import { Statement } from './Statement'
 
 export function createStatementsWindow() {
+  // When any window features are passed, browsers that still honour the
+  // legacy feature flags default scrollbars to off unless set explicitly.
+  // That leaves a fixed 1000x750 popup with no way to scroll long statements.
   const windowRef = window.open(
-    'text/html',
+    'about:blank',
     'obis',
-    'width=1000,height=750' // ,menubar=no,toolbar=no,status=no,scrollbars=yes,resizable=yes
+    'width=1000,height=750,scrollbars=yes,resizable=yes'
   )
 
   windowRef.document.writeln(`
+    <!DOCTYPE html>
     <html>
       <head>
         <title>OBIS :: Statements Browser</title>
