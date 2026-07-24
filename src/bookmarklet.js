@@ -8,6 +8,7 @@ if (!('obis' in window)) {
   window.obis = {
     fromBookmarklet: true,
     loadScript: function (url, cb) {
+      if (!url.startsWith(this.rootPath)) return
       var el = document.createElement('script')
       el.src = url
       el.type = 'text/javascript'
