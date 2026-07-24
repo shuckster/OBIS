@@ -2099,8 +2099,39 @@
   var NOTHING = /* @__PURE__ */ Symbol.for("immer-nothing");
   var DRAFTABLE = /* @__PURE__ */ Symbol.for("immer-draftable");
   var DRAFT_STATE = /* @__PURE__ */ Symbol.for("immer-state");
+  var errors = true ? [
+    // All error codes, starting by 0:
+    function(plugin) {
+      return `The plugin for '${plugin}' has not been loaded into Immer. To enable the plugin, import and call \`enable${plugin}()\` when initializing your application.`;
+    },
+    function(thing) {
+      return `produce can only be called on things that are draftable: plain objects, arrays, Map, Set or classes that are marked with '[immerable]: true'. Got '${thing}'`;
+    },
+    "This object has been frozen and should not be mutated",
+    function(data) {
+      return "Cannot use a proxy that has been revoked. Did you pass an object from inside an immer function to an async process? " + data;
+    },
+    "An immer producer returned a new value *and* modified its draft. Either return a new value *or* modify the draft.",
+    "Immer forbids circular references",
+    "The first or second argument to `produce` must be a function",
+    "The third argument to `produce` must be a function or undefined",
+    "First argument to `createDraft` must be a plain object, an array, or an immerable object",
+    "First argument to `finishDraft` must be a draft returned by `createDraft`",
+    function(thing) {
+      return `'current' expects a draft, got: ${thing}`;
+    },
+    "Object.defineProperty() cannot be used on an Immer draft",
+    "Object.setPrototypeOf() cannot be used on an Immer draft",
+    "Immer only supports deleting array indices",
+    "Immer only supports setting array indices and the 'length' property",
+    function(thing) {
+      return `'original' expects a draft, got: ${thing}`;
+    }
+    // Note: if more errors are added, the errorOffset in Patches.ts should be increased
+    // See Patches.ts for additional errors
+  ] : [];
   function die(error, ...args) {
-    if (false) {
+    if (true) {
       const e = errors[error];
       const msg = isFunction2(e) ? e.apply(null, args) : e;
       throw new Error(`[Immer] ${msg}`);
@@ -2638,12 +2669,12 @@
     };
   }
   arrayTraps.deleteProperty = function(state, prop) {
-    if (false)
+    if (isNaN(parseInt(prop)))
       die(13);
     return arrayTraps.set.call(this, state, prop, void 0);
   };
   arrayTraps.set = function(state, prop, value) {
-    if (false)
+    if (prop !== "length" && isNaN(parseInt(prop)))
       die(14);
     return objectTraps.set.call(this, state[0], prop, value, state[0]);
   };
