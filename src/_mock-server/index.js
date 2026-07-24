@@ -126,10 +126,23 @@ function detectHeader(_path) {
 // MAIN
 //
 
+function csrfProtect(req, res, next) {
+  if (req.method === 'POST') {
+    const origin = req.headers.origin || req.headers.referer || ''
+    if (!origin.startsWith(`http://localhost:${HOST_PORT}`)) {
+      res.writeHead(403)
+      return res.end('Forbidden: CSRF check failed')
+    }
+  }
+  next()
+}
+
 function main() {
   const app = express()
   const server = http.createServer(app)
   const io = require('socket.io')(server)
+
+  app.use(csrfProtect)
 
   // Bootstrap
 
