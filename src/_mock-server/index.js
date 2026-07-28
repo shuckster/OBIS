@@ -1,6 +1,8 @@
 const path = require('path')
 const http = require('http')
 const express = require('express')
+const cookieParser = require('cookie-parser')
+const { doubleCsrf } = require('csrf-csrf')
 
 require('module-alias/register')
 
@@ -20,6 +22,13 @@ const ROOT_PATH = { local: '' }
 
 const BASE_URL = ROOT_PATH[ENV]
 const HOST_PORT = NON_PRODUCTION_HOST_PORT
+
+const { doubleCsrfProtection, generateToken } = doubleCsrf({
+  getSecret: () => process.env.CSRF_SECRET || 'obis-dev-secret',
+  cookieName: 'x-csrf-token',
+  cookieOptions: { sameSite: 'strict', secure: false, httpOnly: true },
+  getTokenFromRequest: req => req.headers['x-csrf-token'],
+})
 
 //
 // PATHS
@@ -126,23 +135,18 @@ function detectHeader(_path) {
 // MAIN
 //
 
-function csrfProtect(req, res, next) {
-  if (req.method === 'POST') {
-    const origin = req.headers.origin || req.headers.referer || ''
-    if (!origin.startsWith(`http://localhost:${HOST_PORT}`)) {
-      res.writeHead(403)
-      return res.end('Forbidden: CSRF check failed')
-    }
-  }
-  next()
-}
-
 function main() {
   const app = express()
   const server = http.createServer(app)
   const io = require('socket.io')(server)
 
-  app.use(csrfProtect)
+  app.use(cookieParser())
+  if (process.env.CSRF_ENABLED) {
+    app.use(doubleCsrfProtection)
+  }
+  app.get('/csrf-token', (req, res) => {
+    res.json({ token: generateToken(req, res) })
+  })
 
   // Bootstrap
 
