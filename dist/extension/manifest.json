@@ -5,11 +5,10 @@
   "version": "0.0.0.8",
   "homepage_url": "https://shuckster.github.io/OBIS/",
   "author": "Conan Theobald",
-  "description": "(DEBUGGING) Easily download your HSBC UK bank-statements.",
+  "description": "Easily download your HSBC UK bank-statements.",
   "content_scripts": [
     {
       "matches": [
-        "http://localhost:4001/*",
         "https://*.hsbc.co.uk/online/dashboard/*"
       ],
       "css": [

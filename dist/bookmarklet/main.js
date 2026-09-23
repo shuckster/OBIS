@@ -4443,7 +4443,7 @@ stateDiagram-v2
     };
     obis2.fetchMachine = Statebot("fetcher", {
       events: messages,
-      startIn: true ? "found_entries" : "idle",
+      startIn: false ? "found_entries" : "idle",
       chart: obisFetchFlow,
       logLevel: 2
     });

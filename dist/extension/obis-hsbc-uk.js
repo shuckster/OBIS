@@ -4407,7 +4407,7 @@ stateDiagram-v2
     };
     obis22.fetchMachine = Statebot("fetcher", {
       events: messages,
-      startIn: true ? "found_entries" : "idle",
+      startIn: false ? "found_entries" : "idle",
       chart: obisFetchFlow,
       logLevel: 2
     });
@@ -6652,39 +6652,8 @@ stateDiagram-v2
   var NOTHING = /* @__PURE__ */ Symbol.for("immer-nothing");
   var DRAFTABLE = /* @__PURE__ */ Symbol.for("immer-draftable");
   var DRAFT_STATE = /* @__PURE__ */ Symbol.for("immer-state");
-  var errors = true ? [
-    // All error codes, starting by 0:
-    function(plugin) {
-      return `The plugin for '${plugin}' has not been loaded into Immer. To enable the plugin, import and call \`enable${plugin}()\` when initializing your application.`;
-    },
-    function(thing) {
-      return `produce can only be called on things that are draftable: plain objects, arrays, Map, Set or classes that are marked with '[immerable]: true'. Got '${thing}'`;
-    },
-    "This object has been frozen and should not be mutated",
-    function(data) {
-      return "Cannot use a proxy that has been revoked. Did you pass an object from inside an immer function to an async process? " + data;
-    },
-    "An immer producer returned a new value *and* modified its draft. Either return a new value *or* modify the draft.",
-    "Immer forbids circular references",
-    "The first or second argument to `produce` must be a function",
-    "The third argument to `produce` must be a function or undefined",
-    "First argument to `createDraft` must be a plain object, an array, or an immerable object",
-    "First argument to `finishDraft` must be a draft returned by `createDraft`",
-    function(thing) {
-      return `'current' expects a draft, got: ${thing}`;
-    },
-    "Object.defineProperty() cannot be used on an Immer draft",
-    "Object.setPrototypeOf() cannot be used on an Immer draft",
-    "Immer only supports deleting array indices",
-    "Immer only supports setting array indices and the 'length' property",
-    function(thing) {
-      return `'original' expects a draft, got: ${thing}`;
-    }
-    // Note: if more errors are added, the errorOffset in Patches.ts should be increased
-    // See Patches.ts for additional errors
-  ] : [];
   function die(error, ...args) {
-    if (true) {
+    if (false) {
       const e = errors[error];
       const msg = isFunction2(e) ? e.apply(null, args) : e;
       throw new Error(`[Immer] ${msg}`);
@@ -7222,12 +7191,12 @@ stateDiagram-v2
     };
   }
   arrayTraps.deleteProperty = function(state, prop) {
-    if (isNaN(parseInt(prop)))
+    if (false)
       die(13);
     return arrayTraps.set.call(this, state, prop, void 0);
   };
   arrayTraps.set = function(state, prop, value) {
-    if (prop !== "length" && isNaN(parseInt(prop)))
+    if (false)
       die(14);
     return objectTraps.set.call(this, state[0], prop, value, state[0]);
   };
@@ -9985,7 +9954,7 @@ stateDiagram-v2
   var uiMachine = Statebot2("UI", {
     events: messages2,
     chart: uiWidgetStates,
-    startIn: true ? "opened" : "loading",
+    startIn: false ? "opened" : "loading",
     logLevel: 2
   });
   uiMachine.performTransitions({
@@ -10277,7 +10246,7 @@ stateDiagram-v2
       <head>
         <title>OBIS :: Statements Browser</title>
         <style type="text/css">
-          /* ../../../../../../private/var/folders/w4/hfh1mppx6yq64yvgrvgx_04w0000gn/T/tmp-88161-MSa21OkzyPMS/master/src/ui/styles/statements-browser/all.css */
+          /* ../../../../../../private/var/folders/w4/hfh1mppx6yq64yvgrvgx_04w0000gn/T/tmp-92011-f1I7tn6I3JKE/master/src/ui/styles/statements-browser/all.css */
 body.obis-statements-browser {
   font-size: 13px;
   font-family: sans-serif;
@@ -12803,39 +12772,8 @@ obis.registerPlugins([
   var NOTHING = /* @__PURE__ */ Symbol.for("immer-nothing");
   var DRAFTABLE = /* @__PURE__ */ Symbol.for("immer-draftable");
   var DRAFT_STATE = /* @__PURE__ */ Symbol.for("immer-state");
-  var errors = true ? [
-    // All error codes, starting by 0:
-    function(plugin) {
-      return `The plugin for '${plugin}' has not been loaded into Immer. To enable the plugin, import and call \`enable${plugin}()\` when initializing your application.`;
-    },
-    function(thing) {
-      return `produce can only be called on things that are draftable: plain objects, arrays, Map, Set or classes that are marked with '[immerable]: true'. Got '${thing}'`;
-    },
-    "This object has been frozen and should not be mutated",
-    function(data) {
-      return "Cannot use a proxy that has been revoked. Did you pass an object from inside an immer function to an async process? " + data;
-    },
-    "An immer producer returned a new value *and* modified its draft. Either return a new value *or* modify the draft.",
-    "Immer forbids circular references",
-    "The first or second argument to `produce` must be a function",
-    "The third argument to `produce` must be a function or undefined",
-    "First argument to `createDraft` must be a plain object, an array, or an immerable object",
-    "First argument to `finishDraft` must be a draft returned by `createDraft`",
-    function(thing) {
-      return `'current' expects a draft, got: ${thing}`;
-    },
-    "Object.defineProperty() cannot be used on an Immer draft",
-    "Object.setPrototypeOf() cannot be used on an Immer draft",
-    "Immer only supports deleting array indices",
-    "Immer only supports setting array indices and the 'length' property",
-    function(thing) {
-      return `'original' expects a draft, got: ${thing}`;
-    }
-    // Note: if more errors are added, the errorOffset in Patches.ts should be increased
-    // See Patches.ts for additional errors
-  ] : [];
   function die(error, ...args) {
-    if (true) {
+    if (false) {
       const e = errors[error];
       const msg = isFunction2(e) ? e.apply(null, args) : e;
       throw new Error(`[Immer] ${msg}`);
@@ -13373,12 +13311,12 @@ obis.registerPlugins([
     };
   }
   arrayTraps.deleteProperty = function(state, prop) {
-    if (isNaN(parseInt(prop)))
+    if (false)
       die(13);
     return arrayTraps.set.call(this, state, prop, void 0);
   };
   arrayTraps.set = function(state, prop, value) {
-    if (prop !== "length" && isNaN(parseInt(prop)))
+    if (false)
       die(14);
     return objectTraps.set.call(this, state[0], prop, value, state[0]);
   };
