@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+23rd September 2026
+
+- Dependency bumps, security fixes
+
 11th November 2025
 
 - Feature: Add Balance, Sort Code, and raw Account Number to CSV output. Thanks to @prisonblues in issue [#15](https://github.com/shuckster/OBIS/issues/15)
